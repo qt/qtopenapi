@@ -1,0 +1,67 @@
+{{>licenseInfo}}
+#ifndef {{prefix}}_OBJECT_H
+#define {{prefix}}_OBJECT_H
+
+#include <QtCore/qjsondocument.h>
+#include <QtCore/qjsonobject.h>
+#include <QtCore/qstring.h>
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
+class {{prefix}}Object {
+public:
+    {{prefix}}Object() {}
+
+    {{prefix}}Object(const QString &jsonString) {
+        fromJson(jsonString);
+    }
+
+    virtual ~{{prefix}}Object() {}
+
+    virtual QJsonObject asJsonObject() const {
+        return m_jObj;
+    }
+
+    virtual QString asJson() const {
+        QJsonDocument doc(m_jObj);
+        return doc.toJson(QJsonDocument::Compact);
+    }
+
+    virtual void fromJson(const QString &jsonString) {
+        QJsonDocument doc = QJsonDocument::fromJson(jsonString.toUtf8());
+        m_jObj = doc.object();
+    }
+
+    virtual void fromJsonObject(const QJsonObject &json) {
+        m_jObj = json;
+    }
+
+    virtual bool isSet() const {
+        return false;
+    }
+
+    virtual bool isValid() const {
+        return true;
+    }
+
+private:
+    QJsonObject m_jObj;
+};
+
+inline bool operator==(const {{prefix}}Object& left, const {{prefix}}Object& right) {
+    return (left.asJsonObject() == right.asJsonObject());
+}
+
+inline size_t qHash(const {{prefix}}Object& obj, uint seed = 0) noexcept {
+    return qHash(obj.asJsonObject(), seed);
+}
+
+{{#cppNamespaceDeclarations}}
+} // namespace {{this}}
+{{/cppNamespaceDeclarations}}
+
+Q_DECLARE_METATYPE({{#cppNamespaceDeclarations}}{{this}}::{{/cppNamespaceDeclarations}}{{prefix}}Object)
+
+#endif // {{prefix}}_OBJECT_H

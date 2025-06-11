@@ -1,0 +1,232 @@
+{{>licenseInfo}}
+#ifndef {{prefix}}_BASEAPI_H
+#define {{prefix}}_BASEAPI_H
+
+#include "{{prefix}}Helpers.h"
+#include "{{prefix}}HttpRequest.h"
+#include "{{prefix}}ServerConfiguration.h"
+
+#include <QtCore/qobject.h>
+#include <QtCore/qmap.h>
+#include <QtCore/qstringlist.h>
+
+#include <QtNetwork/qhttpheaders.h>{{#enableQmlCode}}
+#include <QtQmlIntegration/qqmlintegration.h>{{/enableQmlCode}}
+#if QT_CONFIG(ssl)
+#include <QtNetwork/qsslconfiguration.h>
+#endif // ssl
+
+#include <memory>
+#include <optional>
+
+class QNetworkAccessManager;
+class QNetworkReply;
+class QNetworkRequestFactory;
+class QRestAccessManager;
+
+/*! is a list of typed data. */
+#define {{prefix}}_VA_LIST(...) __VA_ARGS__
+/**
+* \def {{prefix}}_ADD_EMPTY_OPERATION_IMPL(OPERATION, DEPRECATED)
+* Add an OPERATION with no input arguments and without any additional datatype content
+* responded by the server. The expected OPERATION response is HTTP code.
+*
+* See ./doc/html/index.html for operations implementation details.
+*
+* @param[in] OPERATION - the API name that will be added by this macro.
+* @param[in] DEPRECATED - sets Q_DECL_DEPRECATED if operation is deprecated.
+**/
+#define {{prefix}}_ADD_EMPTY_OPERATION_IMPL(OPERATION, DEPRECATED)                      \
+DEPRECATED{{#makeOperationsVirtual}} virtual {{/makeOperationsVirtual}}void OPERATION() \
+{                                                                                       \
+    OPERATION##WithDataImpl(nullptr, nullptr);                                          \
+}                                                                                       \
+protected:                                                                              \
+{{#makeOperationsVirtual}}virtual{{/makeOperationsVirtual}}                             \
+void OPERATION##WithDataImpl(const QObject *context, QtPrivate::QSlotObjectBase *slot); \
+void OPERATION##Callback(const QRestReply &reply);                                      \
+public:                                                                                 \
+template <typename Functor, if_compatible_callback<Functor> = true>                     \
+DEPRECATED void OPERATION(const ContextTypeForFunctor<Functor> *context, Functor &&callback)       \
+{                                                                                                  \
+    OPERATION##WithDataImpl(context,                                                               \
+    QtPrivate::makeCallableObject<{{prefix}}EmptyCallbackReply>(std::forward<Functor>(callback))); \
+}                                                                                                  \
+
+/**
+* \def {{prefix}}_ADD_NO_PARAMS_OPERATION_WITH_RESPONSE_IMPL(OPERATION, RESPONSE, DEPRECATED)
+* Add an OPERATION with no input arguments, but with RESPONSE datatypes responded by the server.
+*
+* See ./doc/html/index.html for operations implementation details.
+*
+* @param[in] OPERATION - the API name that will be added by this macro.
+* @param[in] RESPONSE  - the list objects that the server provides as a response to the OPERATION call.
+* @param[in] DEPRECATED - sets Q_DECL_DEPRECATED if operation is deprecated.
+**/
+#define {{prefix}}_ADD_NO_PARAMS_OPERATION_WITH_RESPONSE_IMPL(OPERATION, RESPONSE, DEPRECATED)       \
+DEPRECATED{{#makeOperationsVirtual}} virtual {{/makeOperationsVirtual}}void OPERATION()              \
+{                                                                                                    \
+    OPERATION##WithDataImpl(nullptr, nullptr);                                                       \
+}                                                                                                    \
+protected:                                                                                           \
+using OPERATION##CallbackReply = void(*)(QRestReply &, {{prefix}}_VA_LIST RESPONSE &);               \
+template <typename Functor>                                                                          \
+using OPERATION##_compatible_callback =                                                              \
+std::enable_if_t<QtPrivate::AreFunctionsCompatible<OPERATION##CallbackReply, Functor>::value, bool>; \
+{{#makeOperationsVirtual}}virtual{{/makeOperationsVirtual}}                                    \
+void OPERATION##WithDataImpl(const QObject *context, QtPrivate::QSlotObjectBase *slot);        \
+void OPERATION##Callback(const QRestReply &reply);                                             \
+public:                                                                                        \
+template <typename Functor, OPERATION##_compatible_callback<Functor> = true>                   \
+DEPRECATED void OPERATION(const ContextTypeForFunctor<Functor> *context, Functor &&callback)   \
+{                                                                                              \
+    OPERATION##WithDataImpl(context,                                                           \
+    QtPrivate::makeCallableObject<OPERATION##CallbackReply>(std::forward<Functor>(callback))); \
+}                                                                                              \
+
+/**
+* \def {{prefix}}_ADD_OPERATION_IMPL(OPERATION, PARAMS, ARGS, RESPONSE, DEPRECATED)
+* Add an OPERATION with input parameters PARAMS and arguments ARGS and with RESPONSE datatypes
+* responded by the server.
+*
+* See ./doc/html/index.html for operations implementation details.
+*
+* @param[in] OPERATION - the API name that will be added by this macro.
+* @param[in] PARAMS    - the list of OPERATION data types.
+* @param[in] ARGS      - the list of OPERATION arguments.
+* @param[in] RESPONSE  - the list objects that the server provides as a response to the OPERATION call.
+* @param[in] DEPRECATED - sets Q_DECL_DEPRECATED if operation is deprecated.
+**/
+#define {{prefix}}_ADD_OPERATION_IMPL(OPERATION, PARAMS, ARGS, RESPONSE, DEPRECATED)      \
+DEPRECATED{{#makeOperationsVirtual}} virtual {{/makeOperationsVirtual}}void OPERATION({{prefix}}_VA_LIST PARAMS) \
+{                                                                                         \
+    OPERATION##WithDataImpl({{prefix}}_VA_LIST ARGS, nullptr, nullptr);                   \
+}                                                                                         \
+protected:                                                                                \
+{{#makeOperationsVirtual}}virtual{{/makeOperationsVirtual}}                               \
+void OPERATION##WithDataImpl({{prefix}}_VA_LIST PARAMS, const QObject *context = nullptr, \
+                            QtPrivate::QSlotObjectBase *slot = nullptr);                  \
+void OPERATION##Callback(const QRestReply &reply);                                        \
+using OPERATION##CallbackReply = void(*)(QRestReply &, {{prefix}}_VA_LIST RESPONSE &);               \
+template <typename Functor>                                                                          \
+using OPERATION##_compatible_callback =                                                              \
+std::enable_if_t<QtPrivate::AreFunctionsCompatible<OPERATION##CallbackReply, Functor>::value, bool>; \
+public:                                                                                              \
+template <typename Functor, OPERATION##_compatible_callback<Functor> = true>                         \
+DEPRECATED void OPERATION({{prefix}}_VA_LIST PARAMS, const ContextTypeForFunctor<Functor> *context = nullptr,   \
+                    Functor &&callback = [](QRestReply &, {{prefix}}_VA_LIST RESPONSE &){})          \
+{                                                                                                    \
+    OPERATION##WithDataImpl({{prefix}}_VA_LIST ARGS, context,                                        \
+    QtPrivate::makeCallableObject<OPERATION##CallbackReply>(std::forward<Functor>(callback)));       \
+}                                                                                                    \
+
+/**
+* \def {{prefix}}_ADD_OPERATION_WITH_NO_RESPONSE_IMPL(OPERATION, PARAMS, ARGS, DEPRECATED)
+* Add an OPERATION with input arguments ARGS, but without any additional datatype content
+* responded by the server. The expected OPERATION response is HTTP code.
+*
+* See ./doc/html/index.html for operations implementation details.
+*
+* @param[in] OPERATION - the API name that will be added by this macro.
+* @param[in] PARAMS    - the list of OPERATION data types.
+* @param[in] ARGS      - the list of OPERATION arguments.
+* @param[in] DEPRECATED - sets Q_DECL_DEPRECATED if operation is deprecated.
+**/
+#define {{prefix}}_ADD_OPERATION_WITH_NO_RESPONSE_IMPL(OPERATION, PARAMS, ARGS, DEPRECATED)                      \
+DEPRECATED{{#makeOperationsVirtual}} virtual {{/makeOperationsVirtual}}void OPERATION({{prefix}}_VA_LIST PARAMS) \
+{                                                                                         \
+    OPERATION##WithDataImpl({{prefix}}_VA_LIST ARGS, nullptr, nullptr);                   \
+}                                                                                         \
+protected:                                                                                \
+{{#makeOperationsVirtual}}virtual{{/makeOperationsVirtual}}                               \
+void OPERATION##WithDataImpl({{prefix}}_VA_LIST PARAMS, const QObject *context = nullptr, \
+                            QtPrivate::QSlotObjectBase *slot = nullptr);                  \
+void OPERATION##Callback(const QRestReply &reply);                                        \
+public:                                                                                   \
+template <typename Functor, if_compatible_callback<Functor> = true>                       \
+DEPRECATED void OPERATION({{prefix}}_VA_LIST PARAMS, const ContextTypeForFunctor<Functor> *context = nullptr, \
+                    Functor &&callback = [](QRestReply &){})                              \
+{                                                                                         \
+    OPERATION##WithDataImpl({{prefix}}_VA_LIST ARGS, context,                             \
+    QtPrivate::makeCallableObject<{{prefix}}EmptyCallbackReply>(std::forward<Functor>(callback))); \
+}                                                                                                  \
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
+class {{prefix}}BaseApi : public QObject {
+    Q_OBJECT{{#enableQmlCode}}
+    QML_ELEMENT{{/enableQmlCode}}
+public:
+    using ServerError = {{prefix}}ServerVariable::ServerError;
+    Q_ENUM(ServerError)
+
+    {{prefix}}BaseApi(QObject *parent = nullptr);
+    virtual ~{{prefix}}BaseApi();
+{{#enableQmlCode}}public Q_SLOTS:{{/enableQmlCode}}
+    ServerError setDefaultServerValue(int serverIndex,const QString &operation, const QString &variable,const QString &val);
+    ServerError setServerIndex(const QString &operation, int serverIndex);
+    void setApiKey(const QString &apiKeyName, const QString &apiKey);
+    void setBearerToken(const QString &token);
+    void setUsername(const QString &username);
+    void setPassword(const QString &password);
+    void setTimeOut(std::chrono::milliseconds timeOut);
+#if QT_CONFIG(ssl)
+    void setSslConfiguration(QSslConfiguration config);
+#endif // ssl
+    void setWorkingDirectory(const QString &path);
+    void setNetworkAccessResources(std::shared_ptr<QNetworkAccessManager> manager, std::shared_ptr<QRestAccessManager> ram);
+    void setNetworkRequestFactory(std::shared_ptr<QNetworkRequestFactory> factory);
+    std::optional<int> addServerConfiguration(const QString &operation, const QUrl &url, const QString &description = "", const QMap<QString, {{prefix}}ServerVariable> &variables = QMap<QString, {{prefix}}ServerVariable>());
+    ServerError setNewServerForAllOperations(const QUrl &url, const QString &description = "", const QMap<QString, {{prefix}}ServerVariable> &variables =  QMap<QString, {{prefix}}ServerVariable>());
+    ServerError setNewServer(const QString &operation, const QUrl &url, const QString &description = "", const QMap<QString, {{prefix}}ServerVariable> &variables =  QMap<QString, {{prefix}}ServerVariable>());
+    void setHeader(QHttpHeaders::WellKnownHeader key, QAnyStringView value);
+    void setHeader(QAnyStringView key, QAnyStringView value);
+    void enableRequestCompression();
+    void enableResponseCompression();
+    QString getParamStylePrefix(const QString &style);
+    QString getParamStyleSuffix(const QString &style);
+    QString getParamStyleDelimiter(const QString &style, const QString &name, bool isExplode);
+    QString errorString(ServerError error) const;
+
+Q_SIGNALS:
+    void abortRequest();
+    void allPendingRequestsCompleted();
+
+protected:
+    QNetworkReply *execute({{prefix}}HttpRequestInput &input, QNetworkRequest &request, QByteArray &requestContent);
+
+protected:
+    struct {{prefix}}CallerInfo {
+        const QObject *contextObject = nullptr;
+        QtPrivate::QSlotObjectBase *slot = nullptr;
+    };
+    using {{prefix}}EmptyCallbackReply = void(*)(QRestReply&);
+    template <typename Functor>
+    using ContextTypeForFunctor = typename QtPrivate::ContextTypeForFunctor<Functor>::ContextType;
+    template <typename Functor>
+    using if_compatible_callback = std::enable_if_t<QtPrivate::AreFunctionsCompatible<{{prefix}}EmptyCallbackReply, Functor>::value, bool>;
+
+    QMap<QString, int> m_serverIndices;
+    QMap<QString, QList<{{prefix}}ServerConfiguration>> m_serverConfigs;
+    QMap<QString, QString> m_apiKeys;
+    QMap<QNetworkReply *, {{prefix}}CallerInfo> m_callerData;
+    QString m_bearerToken;
+    QString m_username;
+    QString m_password;
+    QString m_workingDirectory;
+    // Networking API
+    std::shared_ptr<QNetworkAccessManager> m_manager;
+    std::shared_ptr<QRestAccessManager> m_restManager;
+    std::shared_ptr<QNetworkRequestFactory> m_networkFactory;
+    bool m_isResponseCompressionEnabled;
+    bool m_isRequestCompressionEnabled;
+    std::shared_ptr<{{prefix}}HttpRequestInput> m_latestInput;
+};
+
+{{#cppNamespaceDeclarations}}
+} // namespace {{this}}
+{{/cppNamespaceDeclarations}}
+#endif
+

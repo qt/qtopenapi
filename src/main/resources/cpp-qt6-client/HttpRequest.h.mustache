@@ -1,0 +1,73 @@
+{{>licenseInfo}}
+/**
+ * Based on http://www.creativepulse.gr/en/blog/2014/restful-api-requests-using-qt-cpp-for-linux-mac-osx-ms-windows
+ * By Alex Stylianos
+ *
+ **/
+
+#ifndef {{prefix}}_HTTPREQUESTWORKER_H
+#define {{prefix}}_HTTPREQUESTWORKER_H
+
+#include "{{prefix}}HttpFileElement.h"
+
+#include <QtCore/qmap.h>
+#include <QtCore/qstring.h>
+
+#include <QtNetwork/qrestreply.h>
+#include <QtNetwork/qhttpheaders.h>
+
+#include <memory>
+
+class QNetworkRequestFactory;
+class QRestAccessManager;
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
+enum {{prefix}}HttpRequestVarLayout {
+    NOT_SET,
+    ADDRESS,
+    URL_ENCODED,
+    MULTIPART
+};
+
+class {{prefix}}HttpRequestInput {
+public:
+    QString m_urlStr;
+    QString m_httpMethod;
+    {{prefix}}HttpRequestVarLayout m_varLayout;
+    QMap<QString, QString> m_vars;
+    QHttpHeaders m_headers;
+    QList<{{prefix}}HttpFileElement> m_files;
+    QByteArray m_requestBody;
+
+    {{prefix}}HttpRequestInput();
+    {{prefix}}HttpRequestInput(const QString &vUrlStr, const QString &vHttpMethod);
+    {{prefix}}HttpRequestInput({{prefix}}HttpRequestInput &other);
+    void initialize();
+    void addVar(const QString &key, const QString &value);
+    void addFile(const QString &variableName, const QString &localFilename, const QString &requestFilename, const QString &mimeType);
+    void setHeaders(const QHttpHeaders &newHeaders);
+};
+
+namespace {{prefix}}HttpRequestWorker {
+    QString httpAttributeEncode(const QString &attributeName, const QString &input);
+    {{prefix}}HttpFileElement getHttpFileElement(const QMap<QString, {{prefix}}HttpFileElement> &files, const QString &fieldname = QStringLiteral(""));
+    QByteArray *getMultiPartField(const QMap<QString, QByteArray *> &multiPartFields, const QString &fieldname = QStringLiteral(""));
+    QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray &requestContent, std::shared_ptr<QNetworkRequestFactory> factory, bool responseCompressionEnabled, bool requestCompressionEnabled);
+    QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<QString, {{prefix}}HttpFileElement> *files = nullptr);
+
+    enum {{prefix}}CompressionType{
+        Zlib,
+        Gzip
+    };
+    QByteArray decompress(const QByteArray& data);
+    QByteArray compress(const QByteArray& input, int level, {{prefix}}CompressionType compressType);
+} // namespace {{prefix}}HttpRequestWorker
+
+{{#cppNamespaceDeclarations}}
+} // namespace {{this}}
+{{/cppNamespaceDeclarations}}
+
+#endif // {{prefix}}_HTTPREQUESTWORKER_H

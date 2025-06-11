@@ -1,0 +1,245 @@
+// Copyright (C) 2025 The Qt Company Ltd.
+// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
+
+#include "../client/OAIUserApi.h"
+
+#include <QtCore/qdebug.h>
+#include <QtTest/qtest.h>
+
+using namespace Qt::StringLiterals;
+
+namespace OpenAPI {
+
+const int REPLY_OK = 200;
+
+class UserApiTests : public QObject {
+    Q_OBJECT
+
+    OAIUser createRandomUser();
+
+private Q_SLOTS:
+    void createUserTest();
+    void createInQueryMapTest();
+    void createUsersWithArrayInputTest();
+    void createUsersWithListInputTest();
+    void deleteUserTest();
+    void getUserByNameTest();
+    void loginUserTest();
+    void logoutUserTest_data();
+    void logoutUserTest();
+    void updateUserTest();
+};
+
+OAIUser UserApiTests::createRandomUser() {
+    OAIUser user;
+    user.setId(QDateTime::currentMSecsSinceEpoch());
+    user.setEmail("Jane.Doe@openapitools.io");
+    user.setFirstName("Jane");
+    user.setLastName("Doe");
+    user.setPhone("123456789");
+    user.setUsername("janedoe");
+    user.setPassword("secretPassword");
+    user.setUserStatus(static_cast<int>(rand()));
+    return user;
+}
+
+void UserApiTests::createUserTest() {
+    OAIUserApi api;
+    bool userCreated = false;
+    api.createUser(createRandomUser(), this, [&](QRestReply &reply) {
+        if (!(userCreated = reply.isSuccess()))
+            qDebug() << "Error happened while issuing request : " << reply.errorString();
+        QCOMPARE(reply.httpStatus(), REPLY_OK);
+    });
+    QTRY_COMPARE_EQ_WITH_TIMEOUT(userCreated, true, 14000);
+}
+
+void UserApiTests::createInQueryMapTest()
+{
+    OAIUserApi api;
+    bool usersCreated = false;
+    int status = static_cast<int>(rand());
+    api.createInQueryMap({{"Ivan", QString::number(status)}}, this, [&](QRestReply &reply) {
+        if (!(usersCreated = reply.isSuccess()))
+            qDebug() << "Error happened while issuing request : " << reply.errorString();
+        QCOMPARE(reply.httpStatus(), REPLY_OK);
+    });
+    QTRY_COMPARE_EQ_WITH_TIMEOUT(usersCreated, true, 14000);
+
+    bool userFetched = false;
+    api.getUserByName({{"Ivan", status}}, this, [&](QRestReply &reply, OAIUser summary) {
+        if (!(userFetched = reply.isSuccess()))
+            qWarning() << "Error happened while issuing request : " << reply.errorString();
+        QCOMPARE(reply.httpStatus(), REPLY_OK);
+        QCOMPARE(summary.getUsername(), "Ivan");
+        QCOMPARE(summary.getUserStatus(), status);
+    });
+    QTRY_COMPARE_EQ_WITH_TIMEOUT(userFetched, true, 14000);
+}
+
+void UserApiTests::createUsersWithArrayInputTest() {
+    OAIUserApi api;
+    bool usersCreated = false;
+    QList<OAIUser> users;
+    users.append(createRandomUser());
+    users.append(createRandomUser());
+    users.append(createRandomUser());
+    api.createUsersWithArrayInput(users, this, [&](QRestReply &reply) {
+        if (!(usersCreated = reply.isSuccess()))
+            qDebug() << "Error happened while issuing request : " << reply.errorString();
+        QCOMPARE(reply.httpStatus(), REPLY_OK);
+    });
+    QTRY_COMPARE_EQ_WITH_TIMEOUT(usersCreated, true, 14000);
+}
+
+void UserApiTests::createUsersWithListInputTest() {
+    OAIUserApi api;
+    bool usersCreated = false;
+    QList<OAIUser> users;
+    auto johndoe = createRandomUser();
+    johndoe.setUsername("johndoe");
+    auto rambo = createRandomUser();
+    rambo.setUsername("rambo");
+    users.append(johndoe);
+    users.append(rambo);
+    users.append(createRandomUser());
+    api.createUsersWithListInput(users, this, [&](QRestReply &reply) {
+        if (!(usersCreated = reply.isSuccess()))
+            qDebug() << "Error happened while issuing request : " << reply.errorString();
+        QCOMPARE(reply.httpStatus(), REPLY_OK);
+    });
+    QTRY_COMPARE_EQ_WITH_TIMEOUT(usersCreated, true, 14000);
+}
+
+void UserApiTests::deleteUserTest() {
+    OAIUserApi api;
+    bool operationStatus = false;
+    auto stallone = createRandomUser();
+
+    stallone.setUsername("sylvester");
+    api.createUser(stallone, this, [&](QRestReply &reply) {
+        if (!(operationStatus = reply.isSuccess()))
+            qDebug() << "Error happened while issuing request : " << reply.errorString();
+        QCOMPARE(reply.httpStatus(), REPLY_OK);
+    });
+    QTRY_COMPARE_EQ_WITH_TIMEOUT(operationStatus, true, 14000);
+
+    operationStatus = false;
+    api.deleteUser(stallone, this, [&](QRestReply &reply) {
+        if (!(operationStatus = reply.isSuccess()))
+            qDebug() << "Error happened while issuing request : " << reply.errorString();
+        QCOMPARE(reply.httpStatus(), REPLY_OK);
+    });
+    QTRY_COMPARE_EQ_WITH_TIMEOUT(operationStatus, true, 14000);
+}
+
+void UserApiTests::getUserByNameTest() {
+    OAIUserApi api;
+    bool userFetched = false;
+    auto mrSmith = createRandomUser();
+
+    mrSmith.setUsername("mrSmith");
+    api.createUser(mrSmith, this, [&](QRestReply &reply) {
+        if (!(userFetched = reply.isSuccess()))
+            qDebug() << "Error happened while issuing request : " << reply.errorString();
+        QCOMPARE(reply.httpStatus(), REPLY_OK);
+    });
+    QTRY_COMPARE_EQ_WITH_TIMEOUT(userFetched, true, 14000);
+
+    userFetched = false;
+    api.getUserByName({{mrSmith.getUsername(), mrSmith.getUserStatus()}}, this, [&](QRestReply &reply, OAIUser summary) {
+        if (!(userFetched = reply.isSuccess()))
+            qWarning() << "Error happened while issuing request : " << reply.errorString();
+        QCOMPARE(reply.httpStatus(), REPLY_OK);
+        QCOMPARE(summary.asJson(), mrSmith.asJson());
+    });
+    QTRY_COMPARE_EQ_WITH_TIMEOUT(userFetched, true, 14000);
+}
+
+void UserApiTests::loginUserTest() {
+    OAIUserApi api;
+    bool userLogged = false;
+    QString expectedString;
+
+    connect(&api, &OAIUserApi::loginUserFinished, [&](QString summary) {
+        userLogged = true;
+        expectedString = summary;
+    });
+    connect(&api, &OAIUserApi::loginUserErrorOccurred, [&](QNetworkReply::NetworkError, const QString &errorStr) {
+        userLogged = false;
+        qDebug() << "Error happened while issuing request : " << errorStr;
+    });
+
+    QString user_name = "johndoe";
+
+    api.loginUser(user_name);
+    QTRY_COMPARE_EQ_WITH_TIMEOUT(userLogged, true, 14000);
+    QCOMPARE(expectedString, "johndoe"); // Password was not set; only username is returned
+
+    userLogged = false;
+    api.loginUser(user_name, OptionalParam<QString>(OptionalParam<QString>::IsNull));
+    QTRY_COMPARE_EQ_WITH_TIMEOUT(userLogged, true, 14000);
+    QCOMPARE(expectedString, "johndoenull"); // Password is explicitly marked as null via OptionalParam::IsNull; usernmae + "null" is returned.
+
+    userLogged = false;
+    api.loginUser(OptionalParam<QString>(), QString("123456789"_L1));
+    QTRY_COMPARE_EQ_WITH_TIMEOUT(userLogged, true, 14000);
+    QCOMPARE(expectedString, "123456789"); // Username is empty; only password is returned.
+
+    userLogged = false;
+    api.loginUser(user_name, OpenAPI::OptionalParam<QString>("123456789"));
+    QTRY_COMPARE_EQ_WITH_TIMEOUT(userLogged, true, 14000);
+    QCOMPARE(expectedString, "johndoe123456789"); // Username and password are non-empty; both are returned concatenated.
+}
+
+void UserApiTests::logoutUserTest_data()
+{
+    QTest::addColumn<QJsonValue>("jsonValue");
+    QTest::newRow("QJsonValue(string)") << QJsonValue("johndoe");
+    QTest::newRow("QJsonValue(int)")    << QJsonValue(100);
+    QTest::newRow("QJsonValue(array)")  << QJsonValue({ 1, 2.2, QString("Strange")});
+    QTest::newRow("QJsonValue(object)") << QJsonValue(createRandomUser().asJsonObject());
+    QTest::newRow("QJsonValue()")       << QJsonValue();
+}
+
+void UserApiTests::logoutUserTest()
+{
+    QFETCH(QJsonValue, jsonValue);
+    OAIUserApi api;
+    bool userLoggedOut = false;
+    api.logoutUser(jsonValue, this, [&](QRestReply &reply) {
+        if (!(userLoggedOut = reply.isSuccess()))
+            qDebug() << "Error happened while issuing request : " << reply.errorString();
+        QCOMPARE(reply.httpStatus(), REPLY_OK);
+    });
+    QTRY_COMPARE_EQ_WITH_TIMEOUT(userLoggedOut, true, 14000);
+}
+
+void UserApiTests::updateUserTest() {
+    OAIUserApi api;
+    bool operationStatus = false;
+    auto grumpy = createRandomUser();
+
+    grumpy.setUsername("MrGrump");
+    api.createUser(grumpy, this, [&](QRestReply &reply) {
+        if (!(operationStatus = reply.isSuccess()))
+            qDebug() << "Error happened while issuing request : " << reply.errorString();
+        QCOMPARE(reply.httpStatus(), REPLY_OK);
+    });
+    QTRY_COMPARE_EQ_WITH_TIMEOUT(operationStatus, true, 14000);
+
+    operationStatus = false;
+    grumpy.setFirstName("Stephan");
+    grumpy.setLastName("Newman");
+    api.updateUser("MrGrump", grumpy, this, [&](QRestReply &reply, OAIUser &summary) {
+        if (!(operationStatus = reply.isSuccess()))
+            qDebug() << "Error happened while issuing request : " << reply.errorString();
+        QCOMPARE(reply.httpStatus(), REPLY_OK);
+        QCOMPARE(summary.asJson(), grumpy.asJson());
+    });
+    QTRY_COMPARE_EQ_WITH_TIMEOUT(operationStatus, true, 14000);
+}
+} // OpenAPI
+
+QTEST_MAIN(OpenAPI::UserApiTests)
+#include "UserApiTests.moc"
