@@ -20,13 +20,15 @@
 #include <QtCore/qmap.h>
 #include <QtCore/qstring.h>
 
-#include <QtNetwork/qrestreply.h>
 #include <QtNetwork/qhttpheaders.h>
+#include <QtNetwork/qrestreply.h>
 
 #include <memory>
 
+QT_BEGIN_NAMESPACE
 class QNetworkRequestFactory;
 class QRestAccessManager;
+QT_END_NAMESPACE
 
 namespace OpenAPI {
 

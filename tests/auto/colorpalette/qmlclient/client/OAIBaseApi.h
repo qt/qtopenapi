@@ -13,8 +13,8 @@
 #include "OAIHttpRequest.h"
 #include "OAIServerConfiguration.h"
 
-#include <QtCore/qobject.h>
 #include <QtCore/qmap.h>
+#include <QtCore/qobject.h>
 #include <QtCore/qstringlist.h>
 
 #include <QtNetwork/qhttpheaders.h>
@@ -26,10 +26,12 @@
 #include <memory>
 #include <optional>
 
+QT_BEGIN_NAMESPACE
 class QNetworkAccessManager;
 class QNetworkReply;
 class QNetworkRequestFactory;
 class QRestAccessManager;
+QT_END_NAMESPACE
 
 /*! is a list of typed data. */
 #define OAI_VA_LIST(...) __VA_ARGS__
