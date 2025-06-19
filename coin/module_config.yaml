@@ -1,0 +1,67 @@
+version: 2
+accept_configuration:
+  condition: property
+  property: features
+  not_contains_value: Disable
+
+instructions:
+  LicenseCheck:
+  - type: Group
+    instructions:
+      - !include "{{qt/qtbase}}/run_license_check.yaml"
+    enable_if:
+      condition: property
+      property: features
+      contains_value: LicenseCheckV2
+
+  Build:
+    - type: ExecuteCommand
+      command: "{{.SourceDir}}/coin/build-openapi-generator-linux.sh"
+      maxTimeInSeconds: 12000
+      maxTimeBetweenOutput: 1200
+      userMessageOnFailure: >
+        Failed to download project data on Linux.
+      enable_if:
+          condition: property
+          property: host.os
+          equals_value: Linux
+
+    - type: ExecuteCommand
+      command: "{{.SourceDir}}/coin/build-openapi-generator-macos.sh"
+      maxTimeInSeconds: 12000
+      maxTimeBetweenOutput: 1200
+      userMessageOnFailure: >
+        Failed to download project data on macOS.
+      enable_if:
+          condition: property
+          property: host.os
+          equals_value: MacOS
+
+  Test:
+    - type: ExecuteCommand
+      command: "{{.SourceDir}}/coin/run-openapi-generator-linux-tests.sh"
+      maxTimeInSeconds: 12000
+      maxTimeBetweenOutput: 1200
+      userMessageOnFailure: >
+        Failed to download project data on Linux.
+      enable_if:
+        condition: and
+        conditions:
+          - condition: property
+            property: host.os
+            equals_value: Linux
+          - condition: property
+            property: features
+            not_contains_value: LicenseCheckV2
+
+    - type: ExecuteCommand
+      command: "{{.SourceDir}}/coin/run-openapi-generator-macos-tests.sh"
+      maxTimeInSeconds: 12000
+      maxTimeBetweenOutput: 1200
+      userMessageOnFailure: >
+        Failed to download project data on macOS.
+      enable_if:
+          condition: property
+          property: host.os
+          equals_value: MacOS
+
