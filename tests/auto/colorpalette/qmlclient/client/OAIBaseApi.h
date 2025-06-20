@@ -78,7 +78,7 @@ DEPRECATED virtual void OPERATION()              \
     OPERATION##WithDataImpl(nullptr, nullptr);                                                       \
 }                                                                                                    \
 protected:                                                                                           \
-using OPERATION##CallbackReply = void(*)(QRestReply &, OAI_VA_LIST RESPONSE &);               \
+using OPERATION##CallbackReply = void(*)(const QRestReply &, OAI_VA_LIST RESPONSE);           \
 template <typename Functor>                                                                          \
 using OPERATION##_compatible_callback =                                                              \
 std::enable_if_t<QtPrivate::AreFunctionsCompatible<OPERATION##CallbackReply, Functor>::value, bool>; \
@@ -116,14 +116,14 @@ virtual                               \
 void OPERATION##WithDataImpl(OAI_VA_LIST PARAMS, const QObject *context = nullptr, \
                             QtPrivate::QSlotObjectBase *slot = nullptr);                  \
 void OPERATION##Callback(const QRestReply &reply);                                        \
-using OPERATION##CallbackReply = void(*)(QRestReply &, OAI_VA_LIST RESPONSE &);               \
+using OPERATION##CallbackReply = void(*)(const QRestReply &, OAI_VA_LIST RESPONSE);           \
 template <typename Functor>                                                                          \
 using OPERATION##_compatible_callback =                                                              \
 std::enable_if_t<QtPrivate::AreFunctionsCompatible<OPERATION##CallbackReply, Functor>::value, bool>; \
 public:                                                                                              \
 template <typename Functor, OPERATION##_compatible_callback<Functor> = true>                         \
 DEPRECATED void OPERATION(OAI_VA_LIST PARAMS, const ContextTypeForFunctor<Functor> *context = nullptr,   \
-                    Functor &&callback = [](QRestReply &, OAI_VA_LIST RESPONSE &){})          \
+                    Functor &&callback = [](const QRestReply &, OAI_VA_LIST RESPONSE){})      \
 {                                                                                                    \
     OPERATION##WithDataImpl(OAI_VA_LIST ARGS, context,                                        \
     QtPrivate::makeCallableObject<OPERATION##CallbackReply>(std::forward<Functor>(callback)));       \
@@ -154,7 +154,7 @@ void OPERATION##Callback(const QRestReply &reply);                              
 public:                                                                                   \
 template <typename Functor, if_compatible_callback<Functor> = true>                       \
 DEPRECATED void OPERATION(OAI_VA_LIST PARAMS, const ContextTypeForFunctor<Functor> *context = nullptr, \
-                    Functor &&callback = [](QRestReply &){})                              \
+                    Functor &&callback = [](const QRestReply &){})                              \
 {                                                                                         \
     OPERATION##WithDataImpl(OAI_VA_LIST ARGS, context,                             \
     QtPrivate::makeCallableObject<OAIEmptyCallbackReply>(std::forward<Functor>(callback))); \

@@ -29,7 +29,7 @@ public:
     * \internal
     * The auto-generated API:
     * void registerPost(const ::OpenAPI::OptionalParam<OAITestOperation_request> &oAITestOperationRequest);
-    * void registerPost(const ::OpenAPI::OptionalParam<OAITestOperation_request> &oAITestOperationRequest, QObject *object, [&](QRestReply &reply){});
+    * void registerPost(const ::OpenAPI::OptionalParam<OAITestOperation_request> &oAITestOperationRequest, QObject *object, [&](const QRestReply &reply){});
     * \endinternal
     */
     OAI_ADD_OPERATION_WITH_NO_RESPONSE_IMPL(registerPost, (const ::OpenAPI::OptionalParam<OAITestOperation_request> &oAITestOperationRequest = ::OpenAPI::OptionalParam<OAITestOperation_request>()), (oAITestOperationRequest), /* non-deprecated */)

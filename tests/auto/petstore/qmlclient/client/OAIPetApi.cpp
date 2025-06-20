@@ -79,7 +79,7 @@ void OAIPetApi::initializeServerConfigs()
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    addPet(oAIPet, this, [&](QRestReply &reply, OAIPet &summary) { if (reply.isSuccess()) ... });
+*    addPet(oAIPet, this, [&](const QRestReply &reply, const OAIPet &summary) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,
@@ -191,7 +191,7 @@ void OAIPetApi::addPetCallback(const QRestReply &reply)
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    deletePet(petId, apiKey, this, [&](QRestReply &reply) { if (reply.isSuccess()) ... });
+*    deletePet(petId, apiKey, this, [&](const QRestReply &reply) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,
@@ -312,7 +312,7 @@ void OAIPetApi::deletePetCallback(const QRestReply &reply)
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    findPetsByAgeAndPatience(petData, this, [&](QRestReply &reply, QList<OAIPet> &summary) { if (reply.isSuccess()) ... });
+*    findPetsByAgeAndPatience(petData, this, [&](const QRestReply &reply, const QList<OAIPet> &summary) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,
@@ -444,7 +444,7 @@ void OAIPetApi::findPetsByAgeAndPatienceCallback(const QRestReply &reply)
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    findPetsByStatus(status, this, [&](QRestReply &reply, QList<OAIPet> &summary) { if (reply.isSuccess()) ... });
+*    findPetsByStatus(status, this, [&](const QRestReply &reply, const QList<OAIPet> &summary) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,
@@ -639,7 +639,7 @@ void OAIPetApi::findPetsByStatusCallback(const QRestReply &reply)
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    findPetsByTags(tags, this, [&](QRestReply &reply, QList<OAIPet> &summary) { if (reply.isSuccess()) ... });
+*    findPetsByTags(tags, this, [&](const QRestReply &reply, const QList<OAIPet> &summary) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,
@@ -834,7 +834,7 @@ void OAIPetApi::findPetsByTagsCallback(const QRestReply &reply)
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    findPetsImageById(petId, this, [&](QRestReply &reply, QString &summary) { if (reply.isSuccess()) ... });
+*    findPetsImageById(petId, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,
@@ -949,7 +949,7 @@ void OAIPetApi::findPetsImageByIdCallback(const QRestReply &reply)
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    getJsonFile(petId, this, [&](QRestReply &reply, OAIHttpFileElement &summary) { if (reply.isSuccess()) ... });
+*    getJsonFile(petId, this, [&](const QRestReply &reply, const OAIHttpFileElement &summary) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,
@@ -1063,7 +1063,7 @@ void OAIPetApi::getJsonFileCallback(const QRestReply &reply)
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    getPetById(petId, this, [&](QRestReply &reply, OAIPet &summary) { if (reply.isSuccess()) ... });
+*    getPetById(petId, this, [&](const QRestReply &reply, const OAIPet &summary) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,
@@ -1180,7 +1180,7 @@ void OAIPetApi::getPetByIdCallback(const QRestReply &reply)
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    updatePet(oAIPet, this, [&](QRestReply &reply, OAIPet &summary) { if (reply.isSuccess()) ... });
+*    updatePet(oAIPet, this, [&](const QRestReply &reply, const OAIPet &summary) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,
@@ -1296,7 +1296,7 @@ void OAIPetApi::updatePetCallback(const QRestReply &reply)
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    updatePetWithForm(petId, name, status, this, [&](QRestReply &reply) { if (reply.isSuccess()) ... });
+*    updatePetWithForm(petId, name, status, this, [&](const QRestReply &reply) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,
@@ -1418,7 +1418,7 @@ void OAIPetApi::updatePetWithFormCallback(const QRestReply &reply)
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    uploadFile(petId, additionalMetadata, file, this, [&](QRestReply &reply, OAIApiResponse &summary) { if (reply.isSuccess()) ... });
+*    uploadFile(petId, additionalMetadata, file, this, [&](const QRestReply &reply, const OAIApiResponse &summary) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,

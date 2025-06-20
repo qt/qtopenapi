@@ -71,7 +71,7 @@ void OAIColorsApi::initializeServerConfigs()
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    addColor(oAIColor, this, [&](QRestReply &reply, OAIColor &summary) { if (reply.isSuccess()) ... });
+*    addColor(oAIColor, this, [&](const QRestReply &reply, const OAIColor &summary) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,
@@ -177,7 +177,7 @@ void OAIColorsApi::addColorCallback(const QRestReply &reply)
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    deleteColorById(id, this, [&](QRestReply &reply) { if (reply.isSuccess()) ... });
+*    deleteColorById(id, this, [&](const QRestReply &reply) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,
@@ -287,7 +287,7 @@ void OAIColorsApi::deleteColorByIdCallback(const QRestReply &reply)
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    getColorById(id, this, [&](QRestReply &reply, OAIColor &summary) { if (reply.isSuccess()) ... });
+*    getColorById(id, this, [&](const QRestReply &reply, const OAIColor &summary) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,
@@ -400,7 +400,7 @@ void OAIColorsApi::getColorByIdCallback(const QRestReply &reply)
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    getColors(page, this, [&](QRestReply &reply, OAIColorPage &summary) { if (reply.isSuccess()) ... });
+*    getColors(page, this, [&](const QRestReply &reply, const OAIColorPage &summary) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,
@@ -515,7 +515,7 @@ void OAIColorsApi::getColorsCallback(const QRestReply &reply)
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    updateColorById(id, oAIColor, this, [&](QRestReply &reply, QList<OAIColor> &summary) { if (reply.isSuccess()) ... });
+*    updateColorById(id, oAIColor, this, [&](const QRestReply &reply, const QList<OAIColor> &summary) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,

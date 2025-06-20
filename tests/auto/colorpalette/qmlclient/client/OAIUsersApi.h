@@ -34,25 +34,25 @@ public Q_SLOTS:
     * \internal
     * The auto-generated API:
     * void getUserById(const qint64 &id);
-    * void getUserById(const qint64 &id, QObject *object, [&](QRestReply &reply, OAIUser &summary){});
+    * void getUserById(const qint64 &id, QObject *object, [&](const QRestReply &reply, const OAIUser &summary){});
     * \endinternal
     */
-    OAI_ADD_OPERATION_IMPL(getUserById, (const qint64 &id), (id), (OAIUser), /* non-deprecated */)
+    OAI_ADD_OPERATION_IMPL(getUserById, (const qint64 &id), (id), (const OAIUser &), /* non-deprecated */)
 
     /**
     * \internal
     * The auto-generated API:
     * void getUsersByPage(const ::OpenAPI::OptionalParam<qint32> &page);
-    * void getUsersByPage(const ::OpenAPI::OptionalParam<qint32> &page, QObject *object, [&](QRestReply &reply, OAIUserPage &summary){});
+    * void getUsersByPage(const ::OpenAPI::OptionalParam<qint32> &page, QObject *object, [&](const QRestReply &reply, const OAIUserPage &summary){});
     * \endinternal
     */
-    OAI_ADD_OPERATION_IMPL(getUsersByPage, (const ::OpenAPI::OptionalParam<qint32> &page = ::OpenAPI::OptionalParam<qint32>()), (page), (OAIUserPage), /* non-deprecated */)
+    OAI_ADD_OPERATION_IMPL(getUsersByPage, (const ::OpenAPI::OptionalParam<qint32> &page = ::OpenAPI::OptionalParam<qint32>()), (page), (const OAIUserPage &), /* non-deprecated */)
 
     /**
     * \internal
     * The auto-generated API:
     * void loginUser(const ::OpenAPI::OptionalParam<OAITestOperation_request> &oAITestOperationRequest);
-    * void loginUser(const ::OpenAPI::OptionalParam<OAITestOperation_request> &oAITestOperationRequest, QObject *object, [&](QRestReply &reply){});
+    * void loginUser(const ::OpenAPI::OptionalParam<OAITestOperation_request> &oAITestOperationRequest, QObject *object, [&](const QRestReply &reply){});
     * \endinternal
     */
     OAI_ADD_OPERATION_WITH_NO_RESPONSE_IMPL(loginUser, (const ::OpenAPI::OptionalParam<OAITestOperation_request> &oAITestOperationRequest = ::OpenAPI::OptionalParam<OAITestOperation_request>()), (oAITestOperationRequest), /* non-deprecated */)
@@ -61,7 +61,7 @@ public Q_SLOTS:
     * \internal
     * The auto-generated API:
     * void logoutUser();
-    * void logoutUser(QObject *object, [&](QRestReply &reply){});
+    * void logoutUser(QObject *object, [&](const QRestReply &reply){});
     * \endinternal
     */
     OAI_ADD_EMPTY_OPERATION_IMPL(logoutUser, /* non-deprecated */)
@@ -70,18 +70,18 @@ public Q_SLOTS:
     * \internal
     * The auto-generated API:
     * void updateUser(const qint64 &id, const ::OpenAPI::OptionalParam<OAIUpdateUser_request> &oAIUpdateUserRequest);
-    * void updateUser(const qint64 &id, const ::OpenAPI::OptionalParam<OAIUpdateUser_request> &oAIUpdateUserRequest, QObject *object, [&](QRestReply &reply){});
+    * void updateUser(const qint64 &id, const ::OpenAPI::OptionalParam<OAIUpdateUser_request> &oAIUpdateUserRequest, QObject *object, [&](const QRestReply &reply){});
     * \endinternal
     */
     OAI_ADD_OPERATION_WITH_NO_RESPONSE_IMPL(updateUser, (const qint64 &id, const ::OpenAPI::OptionalParam<OAIUpdateUser_request> &oAIUpdateUserRequest = ::OpenAPI::OptionalParam<OAIUpdateUser_request>()), (id, oAIUpdateUserRequest), /* non-deprecated */)
 
 Q_SIGNALS:
     /** Signal is emitted, if getUserById() request completed successfully. The \a summary contains a serialized server response. */
-    void getUserByIdFinished(OAIUser summary);
+    void getUserByIdFinished(const OAIUser &summary);
     /** Signal is emitted, if getUserById() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void getUserByIdErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if getUsersByPage() request completed successfully. The \a summary contains a serialized server response. */
-    void getUsersByPageFinished(OAIUserPage summary);
+    void getUsersByPageFinished(const OAIUserPage &summary);
     /** Signal is emitted, if getUsersByPage() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void getUsersByPageErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if loginUser() request completed successfully. */

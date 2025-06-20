@@ -30,16 +30,16 @@ public:
     * \internal
     * The auto-generated API:
     * void addColor(const OAIColor &oAIColor);
-    * void addColor(const OAIColor &oAIColor, QObject *object, [&](QRestReply &reply, OAIColor &summary){});
+    * void addColor(const OAIColor &oAIColor, QObject *object, [&](const QRestReply &reply, const OAIColor &summary){});
     * \endinternal
     */
-    OAI_ADD_OPERATION_IMPL(addColor, (const OAIColor &oAIColor), (oAIColor), (OAIColor), /* non-deprecated */)
+    OAI_ADD_OPERATION_IMPL(addColor, (const OAIColor &oAIColor), (oAIColor), (const OAIColor &), /* non-deprecated */)
 
     /**
     * \internal
     * The auto-generated API:
     * void deleteColorById(const qint64 &id);
-    * void deleteColorById(const qint64 &id, QObject *object, [&](QRestReply &reply){});
+    * void deleteColorById(const qint64 &id, QObject *object, [&](const QRestReply &reply){});
     * \endinternal
     */
     OAI_ADD_OPERATION_WITH_NO_RESPONSE_IMPL(deleteColorById, (const qint64 &id), (id), /* non-deprecated */)
@@ -48,32 +48,32 @@ public:
     * \internal
     * The auto-generated API:
     * void getColorById(const qint64 &id);
-    * void getColorById(const qint64 &id, QObject *object, [&](QRestReply &reply, OAIColor &summary){});
+    * void getColorById(const qint64 &id, QObject *object, [&](const QRestReply &reply, const OAIColor &summary){});
     * \endinternal
     */
-    OAI_ADD_OPERATION_IMPL(getColorById, (const qint64 &id), (id), (OAIColor), /* non-deprecated */)
+    OAI_ADD_OPERATION_IMPL(getColorById, (const qint64 &id), (id), (const OAIColor &), /* non-deprecated */)
 
     /**
     * \internal
     * The auto-generated API:
     * void getColors(const ::OpenAPI::OptionalParam<qint32> &page);
-    * void getColors(const ::OpenAPI::OptionalParam<qint32> &page, QObject *object, [&](QRestReply &reply, OAIColorPage &summary){});
+    * void getColors(const ::OpenAPI::OptionalParam<qint32> &page, QObject *object, [&](const QRestReply &reply, const OAIColorPage &summary){});
     * \endinternal
     */
-    OAI_ADD_OPERATION_IMPL(getColors, (const ::OpenAPI::OptionalParam<qint32> &page = ::OpenAPI::OptionalParam<qint32>()), (page), (OAIColorPage), /* non-deprecated */)
+    OAI_ADD_OPERATION_IMPL(getColors, (const ::OpenAPI::OptionalParam<qint32> &page = ::OpenAPI::OptionalParam<qint32>()), (page), (const OAIColorPage &), /* non-deprecated */)
 
     /**
     * \internal
     * The auto-generated API:
     * void updateColorById(const qint64 &id, const OAIColor &oAIColor);
-    * void updateColorById(const qint64 &id, const OAIColor &oAIColor, QObject *object, [&](QRestReply &reply, QList<OAIColor> &summary){});
+    * void updateColorById(const qint64 &id, const OAIColor &oAIColor, QObject *object, [&](const QRestReply &reply, const QList<OAIColor> &summary){});
     * \endinternal
     */
-    OAI_ADD_OPERATION_IMPL(updateColorById, (const qint64 &id, const OAIColor &oAIColor), (id, oAIColor), (QList<OAIColor>), /* non-deprecated */)
+    OAI_ADD_OPERATION_IMPL(updateColorById, (const qint64 &id, const OAIColor &oAIColor), (id, oAIColor), (const QList<OAIColor> &), /* non-deprecated */)
 
 Q_SIGNALS:
     /** Signal is emitted, if addColor() request completed successfully. The \a summary contains a serialized server response. */
-    void addColorFinished(OAIColor summary);
+    void addColorFinished(const OAIColor &summary);
     /** Signal is emitted, if addColor() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void addColorErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if deleteColorById() request completed successfully. */
@@ -81,15 +81,15 @@ Q_SIGNALS:
     /** Signal is emitted, if deleteColorById() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void deleteColorByIdErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if getColorById() request completed successfully. The \a summary contains a serialized server response. */
-    void getColorByIdFinished(OAIColor summary);
+    void getColorByIdFinished(const OAIColor &summary);
     /** Signal is emitted, if getColorById() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void getColorByIdErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if getColors() request completed successfully. The \a summary contains a serialized server response. */
-    void getColorsFinished(OAIColorPage summary);
+    void getColorsFinished(const OAIColorPage &summary);
     /** Signal is emitted, if getColors() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void getColorsErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if updateColorById() request completed successfully. The \a summary contains a serialized server response. */
-    void updateColorByIdFinished(QList<OAIColor> summary);
+    void updateColorByIdFinished(const QList<OAIColor> &summary);
     /** Signal is emitted, if updateColorById() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void updateColorByIdErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
 };

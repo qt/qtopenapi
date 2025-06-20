@@ -161,7 +161,7 @@ void PetApiTests::createAndGetPetTest() {
     mockedApi.setPassword(password);
     mockedApi.setApiKey("api_key","special-key");
     petCreated = false;
-    mockedApi.addPet(pet, this, [&](QRestReply &reply, OAIPet &newPet) {
+    mockedApi.addPet(pet, this, [&](const QRestReply &reply, const OAIPet &newPet) {
         if (!(petCreated = reply.isSuccess())) {
             qWarning() << "Not successful" << reply.errorString();
         } else {
@@ -565,7 +565,7 @@ void PetApiTests::getPatientPetsTest()
 
     // create pet1
     bool operationStatus = false;
-    api.addPet(pet1, nullptr, [&](QRestReply &reply, OAIPet &summary) {
+    api.addPet(pet1, nullptr, [&](const QRestReply &reply, const OAIPet &summary) {
         if (!(operationStatus = reply.isSuccess()))
             qDebug() << "Error happened while issuing request : " << reply.errorString();
 
@@ -577,7 +577,7 @@ void PetApiTests::getPatientPetsTest()
 
     // create pet2
     operationStatus = false;
-    api.addPet(pet2, nullptr, [&](QRestReply &reply, OAIPet &summary) {
+    api.addPet(pet2, nullptr, [&](const QRestReply &reply, const OAIPet &summary) {
         if (!(operationStatus = reply.isSuccess()))
             qDebug() << "Error happened while issuing request : " << reply.errorString();
 
@@ -594,7 +594,7 @@ void PetApiTests::getPatientPetsTest()
     petData.append(pet2.getAge());
     petData.append(pet2.getPatience());
     operationStatus = false;
-    api.findPetsByAgeAndPatience(petData, this, [&](QRestReply &reply, QList<OAIPet> &summary) {
+    api.findPetsByAgeAndPatience(petData, this, [&](const QRestReply &reply, const QList<OAIPet> &summary) {
         if (!(operationStatus = reply.isSuccess()))
             qDebug() << "Error happened while issuing request : " << reply.errorString();
 

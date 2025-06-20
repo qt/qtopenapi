@@ -65,7 +65,7 @@ void OAIStoreApi::initializeServerConfigs()
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    deleteOrder(orderId, this, [&](QRestReply &reply) { if (reply.isSuccess()) ... });
+*    deleteOrder(orderId, this, [&](const QRestReply &reply) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,
@@ -174,7 +174,7 @@ void OAIStoreApi::deleteOrderCallback(const QRestReply &reply)
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    getInventory(this, [&](QRestReply &reply, QMap<QString, qint32> &summary) { if (reply.isSuccess()) ... });
+*    getInventory(this, [&](const QRestReply &reply, const QMap<QString, qint32> &summary) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,
@@ -285,7 +285,7 @@ void OAIStoreApi::getInventoryCallback(const QRestReply &reply)
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    getOrderById(orderId, this, [&](QRestReply &reply, OAIOrder &summary) { if (reply.isSuccess()) ... });
+*    getOrderById(orderId, this, [&](const QRestReply &reply, const OAIOrder &summary) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,
@@ -398,7 +398,7 @@ void OAIStoreApi::getOrderByIdCallback(const QRestReply &reply)
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    placeOrder(oAIOrder, this, [&](QRestReply &reply, OAIOrder &summary) { if (reply.isSuccess()) ... });
+*    placeOrder(oAIOrder, this, [&](const QRestReply &reply, const OAIOrder &summary) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,

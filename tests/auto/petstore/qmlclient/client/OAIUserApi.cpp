@@ -75,7 +75,7 @@ void OAIUserApi::initializeServerConfigs()
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    createInQueryMap(username, this, [&](QRestReply &reply) { if (reply.isSuccess()) ... });
+*    createInQueryMap(username, this, [&](const QRestReply &reply) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,
@@ -195,7 +195,7 @@ void OAIUserApi::createInQueryMapCallback(const QRestReply &reply)
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    createUser(oAIUser, this, [&](QRestReply &reply) { if (reply.isSuccess()) ... });
+*    createUser(oAIUser, this, [&](const QRestReply &reply) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,
@@ -302,7 +302,7 @@ void OAIUserApi::createUserCallback(const QRestReply &reply)
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    createUsersWithArrayInput(oAIUser, this, [&](QRestReply &reply) { if (reply.isSuccess()) ... });
+*    createUsersWithArrayInput(oAIUser, this, [&](const QRestReply &reply) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,
@@ -410,7 +410,7 @@ void OAIUserApi::createUsersWithArrayInputCallback(const QRestReply &reply)
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    createUsersWithListInput(oAIUser, this, [&](QRestReply &reply) { if (reply.isSuccess()) ... });
+*    createUsersWithListInput(oAIUser, this, [&](const QRestReply &reply) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,
@@ -518,7 +518,7 @@ void OAIUserApi::createUsersWithListInputCallback(const QRestReply &reply)
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    deleteUser(username, this, [&](QRestReply &reply) { if (reply.isSuccess()) ... });
+*    deleteUser(username, this, [&](const QRestReply &reply) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,
@@ -642,7 +642,7 @@ void OAIUserApi::deleteUserCallback(const QRestReply &reply)
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    getUserByName(username, this, [&](QRestReply &reply, OAIUser &summary) { if (reply.isSuccess()) ... });
+*    getUserByName(username, this, [&](const QRestReply &reply, const OAIUser &summary) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,
@@ -759,7 +759,7 @@ void OAIUserApi::getUserByNameCallback(const QRestReply &reply)
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    loginUser(username, password, this, [&](QRestReply &reply, QString &summary) { if (reply.isSuccess()) ... });
+*    loginUser(username, password, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,
@@ -903,7 +903,7 @@ void OAIUserApi::loginUserCallback(const QRestReply &reply)
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    logoutUser(username, this, [&](QRestReply &reply) { if (reply.isSuccess()) ... });
+*    logoutUser(username, this, [&](const QRestReply &reply) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,
@@ -1066,7 +1066,7 @@ void OAIUserApi::logoutUserCallback(const QRestReply &reply)
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    updateUser(username, body, this, [&](QRestReply &reply, OAIUser &summary) { if (reply.isSuccess()) ... });
+*    updateUser(username, body, this, [&](const QRestReply &reply, const OAIUser &summary) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,

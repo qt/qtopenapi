@@ -32,7 +32,7 @@ public Q_SLOTS:
     * \internal
     * The auto-generated API:
     * void deleteOrder(const QString &orderId);
-    * void deleteOrder(const QString &orderId, QObject *object, [&](QRestReply &reply){});
+    * void deleteOrder(const QString &orderId, QObject *object, [&](const QRestReply &reply){});
     * \endinternal
     */
     OAI_ADD_OPERATION_WITH_NO_RESPONSE_IMPL(deleteOrder, (const QString &orderId), (orderId), /* non-deprecated */)
@@ -41,28 +41,28 @@ public Q_SLOTS:
     * \internal
     * The auto-generated API:
     * void getInventory();
-    * void getInventory(QObject *object, [&](QRestReply &reply, QMap<QString, qint32> &summary){});
+    * void getInventory(QObject *object, [&](const QRestReply &reply, const QMap<QString, qint32> &summary){});
     * \endinternal
     */
-    OAI_ADD_NO_PARAMS_OPERATION_WITH_RESPONSE_IMPL(getInventory, (QMap<QString, qint32>), /* non-deprecated */)
+    OAI_ADD_NO_PARAMS_OPERATION_WITH_RESPONSE_IMPL(getInventory, (const QMap<QString, qint32> &), /* non-deprecated */)
 
     /**
     * \internal
     * The auto-generated API:
     * void getOrderById(const qint64 &orderId);
-    * void getOrderById(const qint64 &orderId, QObject *object, [&](QRestReply &reply, OAIOrder &summary){});
+    * void getOrderById(const qint64 &orderId, QObject *object, [&](const QRestReply &reply, const OAIOrder &summary){});
     * \endinternal
     */
-    OAI_ADD_OPERATION_IMPL(getOrderById, (const qint64 &orderId), (orderId), (OAIOrder), /* non-deprecated */)
+    OAI_ADD_OPERATION_IMPL(getOrderById, (const qint64 &orderId), (orderId), (const OAIOrder &), /* non-deprecated */)
 
     /**
     * \internal
     * The auto-generated API:
     * void placeOrder(const OAIOrder &oAIOrder);
-    * void placeOrder(const OAIOrder &oAIOrder, QObject *object, [&](QRestReply &reply, OAIOrder &summary){});
+    * void placeOrder(const OAIOrder &oAIOrder, QObject *object, [&](const QRestReply &reply, const OAIOrder &summary){});
     * \endinternal
     */
-    OAI_ADD_OPERATION_IMPL(placeOrder, (const OAIOrder &oAIOrder), (oAIOrder), (OAIOrder), /* non-deprecated */)
+    OAI_ADD_OPERATION_IMPL(placeOrder, (const OAIOrder &oAIOrder), (oAIOrder), (const OAIOrder &), /* non-deprecated */)
 
 Q_SIGNALS:
     /** Signal is emitted, if deleteOrder() request completed successfully. */
@@ -70,15 +70,15 @@ Q_SIGNALS:
     /** Signal is emitted, if deleteOrder() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void deleteOrderErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if getInventory() request completed successfully. The \a summary contains a serialized server response. */
-    void getInventoryFinished(QMap<QString, qint32> summary);
+    void getInventoryFinished(const QMap<QString, qint32> &summary);
     /** Signal is emitted, if getInventory() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void getInventoryErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if getOrderById() request completed successfully. The \a summary contains a serialized server response. */
-    void getOrderByIdFinished(OAIOrder summary);
+    void getOrderByIdFinished(const OAIOrder &summary);
     /** Signal is emitted, if getOrderById() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void getOrderByIdErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if placeOrder() request completed successfully. The \a summary contains a serialized server response. */
-    void placeOrderFinished(OAIOrder summary);
+    void placeOrderFinished(const OAIOrder &summary);
     /** Signal is emitted, if placeOrder() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void placeOrderErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
 };

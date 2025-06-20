@@ -67,7 +67,7 @@ void UserApiTests::createInQueryMapTest()
     QTRY_COMPARE_EQ_WITH_TIMEOUT(usersCreated, true, 14000);
 
     bool userFetched = false;
-    api.getUserByName({{"Ivan", status}}, this, [&](QRestReply &reply, OAIUser summary) {
+    api.getUserByName({{"Ivan", status}}, this, [&](const QRestReply &reply, const OAIUser &summary) {
         if (!(userFetched = reply.isSuccess()))
             qWarning() << "Error happened while issuing request : " << reply.errorString();
         QCOMPARE(reply.httpStatus(), REPLY_OK);
@@ -147,7 +147,7 @@ void UserApiTests::getUserByNameTest() {
     QTRY_COMPARE_EQ_WITH_TIMEOUT(userFetched, true, 14000);
 
     userFetched = false;
-    api.getUserByName({{mrSmith.getUsername(), mrSmith.getUserStatus()}}, this, [&](QRestReply &reply, OAIUser summary) {
+    api.getUserByName({{mrSmith.getUsername(), mrSmith.getUserStatus()}}, this, [&](const QRestReply &reply, const OAIUser &summary) {
         if (!(userFetched = reply.isSuccess()))
             qWarning() << "Error happened while issuing request : " << reply.errorString();
         QCOMPARE(reply.httpStatus(), REPLY_OK);
@@ -161,7 +161,7 @@ void UserApiTests::loginUserTest() {
     bool userLogged = false;
     QString expectedString;
 
-    connect(&api, &OAIUserApi::loginUserFinished, [&](QString summary) {
+    connect(&api, &OAIUserApi::loginUserFinished, [&](const QString &summary) {
         userLogged = true;
         expectedString = summary;
     });
@@ -231,7 +231,7 @@ void UserApiTests::updateUserTest() {
     operationStatus = false;
     grumpy.setFirstName("Stephan");
     grumpy.setLastName("Newman");
-    api.updateUser("MrGrump", grumpy, this, [&](QRestReply &reply, OAIUser &summary) {
+    api.updateUser("MrGrump", grumpy, this, [&](const QRestReply &reply, const OAIUser &summary) {
         if (!(operationStatus = reply.isSuccess()))
             qDebug() << "Error happened while issuing request : " << reply.errorString();
         QCOMPARE(reply.httpStatus(), REPLY_OK);

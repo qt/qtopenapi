@@ -63,7 +63,7 @@ void OAIRegisterApi::initializeServerConfigs()
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    registerPost(oAITestOperationRequest, this, [&](QRestReply &reply) { if (reply.isSuccess()) ... });
+*    registerPost(oAITestOperationRequest, this, [&](const QRestReply &reply) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,

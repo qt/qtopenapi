@@ -2421,7 +2421,7 @@ INCLUDE_FILE_PATTERNS  =
 # recursively expanded use the := operator instead of the = operator.
 # This tag requires that the tag ENABLE_PREPROCESSING is set to YES.
 
-PREDEFINED             = "{{prefix}}_VA_LIST(...)=__VA_ARGS__," \
+PREDEFINED             = "{{prefix}}_VA_LIST(...)=__VA_ARGS__" \
                          "{{prefix}}_ADD_EMPTY_OPERATION_IMPL(name, depretaced)=public: \
                          {{#makeOperationsVirtual}}virtual {{/makeOperationsVirtual}}void name(); \
                          template <typename Functor, if_compatible_callback<Functor>> wtf void name(const ContextTypeForFunctor<Functor> *context, Functor &&callback); \
@@ -2429,7 +2429,7 @@ PREDEFINED             = "{{prefix}}_VA_LIST(...)=__VA_ARGS__," \
                          {{#makeOperationsVirtual}}virtual {{/makeOperationsVirtual}}void name##WithDataImpl(const QObject *context, QtPrivate::QSlotObjectBase *slot); \
                          void name##Callback(const QRestReply &reply);" \
                          "{{prefix}}_ADD_NO_PARAMS_OPERATION_WITH_RESPONSE_IMPL(name, response, depretaced)=protected: \
-                         using name##CallbackReply = void(*)(QRestReply &, {{prefix}}_VA_LIST response &); \
+                         using name##CallbackReply = void(*)(const QRestReply &, {{prefix}}_VA_LIST response); \
                          using name##_compatible_callback =  \
                          std::enable_if_t<QtPrivate::AreFunctionsCompatible<name##CallbackReply, Functor>::value, bool>; \
                          public: \
@@ -2439,20 +2439,20 @@ PREDEFINED             = "{{prefix}}_VA_LIST(...)=__VA_ARGS__," \
                          {{#makeOperationsVirtual}}virtual {{/makeOperationsVirtual}}void name##WithDataImpl(const QObject *context, QtPrivate::QSlotObjectBase *slot); \
                          void name##Callback(const QRestReply &reply);" \
                          "{{prefix}}_ADD_OPERATION_IMPL(name, parameters, args, response, depretaced)=protected: \
-                         using name##CallbackReply = void(*)(QRestReply &, {{prefix}}_VA_LIST response &); \
+                         using name##CallbackReply = void(*)(const QRestReply &, {{prefix}}_VA_LIST response); \
                          using name##_compatible_callback =  \
                          std::enable_if_t<QtPrivate::AreFunctionsCompatible<name##CallbackReply, Functor>::value, bool>; \
                          public: \
                          {{#makeOperationsVirtual}}virtual {{/makeOperationsVirtual}}void name parameters; \
-                         template <typename Functor, name##_compatible_callback<Functor> = true> void name({{prefix}}_VA_LIST parameters const ContextTypeForFunctor<Functor> *context = nullptr, Functor &&callback = [](QRestReply &){}); \
+                         template <typename Functor, name##_compatible_callback<Functor> = true> void name({{prefix}}_VA_LIST parameters, const ContextTypeForFunctor<Functor> *context = nullptr, Functor &&callback = [](const QRestReply &){}); \
                          protected: \
-                         {{#makeOperationsVirtual}}virtual {{/makeOperationsVirtual}}void name##WithDataImpl({{prefix}}_VA_LIST parameters const QObject *context, QtPrivate::QSlotObjectBase *slot); \
+                         {{#makeOperationsVirtual}}virtual {{/makeOperationsVirtual}}void name##WithDataImpl({{prefix}}_VA_LIST parameters, const QObject *context, QtPrivate::QSlotObjectBase *slot); \
                          void name##Callback(const QRestReply &reply);" \
                          "{{prefix}}_ADD_OPERATION_WITH_NO_RESPONSE_IMPL(name, parameters, args, depretaced)=public: \
                          {{#makeOperationsVirtual}}virtual {{/makeOperationsVirtual}}void name parameters; \
-                         template <typename Functor, if_compatible_callback<Functor> > void name({{prefix}}_VA_LIST parameters const ContextTypeForFunctor<Functor> *context = nullptr, Functor &&callback = [](QRestReply &){}); \
+                         template <typename Functor, if_compatible_callback<Functor> > void name({{prefix}}_VA_LIST parameters, const ContextTypeForFunctor<Functor> *context = nullptr, Functor &&callback = [](const QRestReply &){}); \
                          protected: \
-                         {{#makeOperationsVirtual}}virtual {{/makeOperationsVirtual}}void name##WithDataImpl({{prefix}}_VA_LIST parameters const QObject *context, QtPrivate::QSlotObjectBase *slot); \
+                         {{#makeOperationsVirtual}}virtual {{/makeOperationsVirtual}}void name##WithDataImpl({{prefix}}_VA_LIST parameters, const QObject *context, QtPrivate::QSlotObjectBase *slot); \
                          void name##Callback(const QRestReply &reply);"
 
 
@@ -2778,14 +2778,14 @@ INTERACTIVE_SVG        = NO
 # found. If left blank, it is assumed the dot tool can be found in the path.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-DOT_PATH               =
+DOT_PATH               = YES
 
 # The DOTFILE_DIRS tag can be used to specify one or more directories that
 # contain dot files that are included in the documentation (see the \dotfile
 # command).
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-DOTFILE_DIRS           =
+DOTFILE_DIRS           = doc/html/
 
 # You can include diagrams made with dia in doxygen documentation. Doxygen will
 # then run dia to produce the diagram and insert it in the documentation. The

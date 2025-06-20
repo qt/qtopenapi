@@ -31,16 +31,16 @@ public:
     * \internal
     * The auto-generated API:
     * void addPet(const OAIPet &oAIPet);
-    * void addPet(const OAIPet &oAIPet, QObject *object, [&](QRestReply &reply, OAIPet &summary){});
+    * void addPet(const OAIPet &oAIPet, QObject *object, [&](const QRestReply &reply, const OAIPet &summary){});
     * \endinternal
     */
-    OAI_ADD_OPERATION_IMPL(addPet, (const OAIPet &oAIPet), (oAIPet), (OAIPet), /* non-deprecated */)
+    OAI_ADD_OPERATION_IMPL(addPet, (const OAIPet &oAIPet), (oAIPet), (const OAIPet &), /* non-deprecated */)
 
     /**
     * \internal
     * The auto-generated API:
     * void deletePet(const qint64 &petId, const ::OpenAPI::OptionalParam<QString> &apiKey);
-    * void deletePet(const qint64 &petId, const ::OpenAPI::OptionalParam<QString> &apiKey, QObject *object, [&](QRestReply &reply){});
+    * void deletePet(const qint64 &petId, const ::OpenAPI::OptionalParam<QString> &apiKey, QObject *object, [&](const QRestReply &reply){});
     * \endinternal
     */
     OAI_ADD_OPERATION_WITH_NO_RESPONSE_IMPL(deletePet, (const qint64 &petId, const ::OpenAPI::OptionalParam<QString> &apiKey = ::OpenAPI::OptionalParam<QString>()), (petId, apiKey), /* non-deprecated */)
@@ -49,70 +49,70 @@ public:
     * \internal
     * The auto-generated API:
     * void findPetsByAgeAndPatience(const QList<qint32> &petData);
-    * void findPetsByAgeAndPatience(const QList<qint32> &petData, QObject *object, [&](QRestReply &reply, QList<OAIPet> &summary){});
+    * void findPetsByAgeAndPatience(const QList<qint32> &petData, QObject *object, [&](const QRestReply &reply, const QList<OAIPet> &summary){});
     * \endinternal
     */
-    OAI_ADD_OPERATION_IMPL(findPetsByAgeAndPatience, (const QList<qint32> &petData), (petData), (QList<OAIPet>), /* non-deprecated */)
+    OAI_ADD_OPERATION_IMPL(findPetsByAgeAndPatience, (const QList<qint32> &petData), (petData), (const QList<OAIPet> &), /* non-deprecated */)
 
     /**
     * \internal
     * The auto-generated API:
     * void findPetsByStatus(const QList<QString> &status);
-    * void findPetsByStatus(const QList<QString> &status, QObject *object, [&](QRestReply &reply, QList<OAIPet> &summary){});
+    * void findPetsByStatus(const QList<QString> &status, QObject *object, [&](const QRestReply &reply, const QList<OAIPet> &summary){});
     * \endinternal
     */
-    OAI_ADD_OPERATION_IMPL(findPetsByStatus, (const QList<QString> &status), (status), (QList<OAIPet>), /* non-deprecated */)
+    OAI_ADD_OPERATION_IMPL(findPetsByStatus, (const QList<QString> &status), (status), (const QList<OAIPet> &), /* non-deprecated */)
 
     /**
     * \internal
     * The auto-generated API:
     * void findPetsByTags(const QList<QString> &tags);
-    * void findPetsByTags(const QList<QString> &tags, QObject *object, [&](QRestReply &reply, QList<OAIPet> &summary){});
+    * void findPetsByTags(const QList<QString> &tags, QObject *object, [&](const QRestReply &reply, const QList<OAIPet> &summary){});
     * \endinternal
     */
-    OAI_ADD_OPERATION_IMPL(findPetsByTags, (const QList<QString> &tags), (tags), (QList<OAIPet>), Q_DECL_DEPRECATED)
+    OAI_ADD_OPERATION_IMPL(findPetsByTags, (const QList<QString> &tags), (tags), (const QList<OAIPet> &), Q_DECL_DEPRECATED)
 
     /**
     * \internal
     * The auto-generated API:
     * void findPetsImageById(const qint64 &petId);
-    * void findPetsImageById(const qint64 &petId, QObject *object, [&](QRestReply &reply, QString &summary){});
+    * void findPetsImageById(const qint64 &petId, QObject *object, [&](const QRestReply &reply, const QString &summary){});
     * \endinternal
     */
-    OAI_ADD_OPERATION_IMPL(findPetsImageById, (const qint64 &petId), (petId), (QString), /* non-deprecated */)
+    OAI_ADD_OPERATION_IMPL(findPetsImageById, (const qint64 &petId), (petId), (const QString &), /* non-deprecated */)
 
     /**
     * \internal
     * The auto-generated API:
     * void getJsonFile(const qint64 &petId);
-    * void getJsonFile(const qint64 &petId, QObject *object, [&](QRestReply &reply, OAIHttpFileElement &summary){});
+    * void getJsonFile(const qint64 &petId, QObject *object, [&](const QRestReply &reply, const OAIHttpFileElement &summary){});
     * \endinternal
     */
-    OAI_ADD_OPERATION_IMPL(getJsonFile, (const qint64 &petId), (petId), (OAIHttpFileElement), /* non-deprecated */)
+    OAI_ADD_OPERATION_IMPL(getJsonFile, (const qint64 &petId), (petId), (const OAIHttpFileElement &), /* non-deprecated */)
 
     /**
     * \internal
     * The auto-generated API:
     * void getPetById(const qint64 &petId);
-    * void getPetById(const qint64 &petId, QObject *object, [&](QRestReply &reply, OAIPet &summary){});
+    * void getPetById(const qint64 &petId, QObject *object, [&](const QRestReply &reply, const OAIPet &summary){});
     * \endinternal
     */
-    OAI_ADD_OPERATION_IMPL(getPetById, (const qint64 &petId), (petId), (OAIPet), /* non-deprecated */)
+    OAI_ADD_OPERATION_IMPL(getPetById, (const qint64 &petId), (petId), (const OAIPet &), /* non-deprecated */)
 
     /**
     * \internal
     * The auto-generated API:
     * void updatePet(const OAIPet &oAIPet);
-    * void updatePet(const OAIPet &oAIPet, QObject *object, [&](QRestReply &reply, OAIPet &summary){});
+    * void updatePet(const OAIPet &oAIPet, QObject *object, [&](const QRestReply &reply, const OAIPet &summary){});
     * \endinternal
     */
-    OAI_ADD_OPERATION_IMPL(updatePet, (const OAIPet &oAIPet), (oAIPet), (OAIPet), /* non-deprecated */)
+    OAI_ADD_OPERATION_IMPL(updatePet, (const OAIPet &oAIPet), (oAIPet), (const OAIPet &), /* non-deprecated */)
 
     /**
     * \internal
     * The auto-generated API:
     * void updatePetWithForm(const qint64 &petId, const ::OpenAPI::OptionalParam<QString> &name, const ::OpenAPI::OptionalParam<QString> &status);
-    * void updatePetWithForm(const qint64 &petId, const ::OpenAPI::OptionalParam<QString> &name, const ::OpenAPI::OptionalParam<QString> &status, QObject *object, [&](QRestReply &reply){});
+    * void updatePetWithForm(const qint64 &petId, const ::OpenAPI::OptionalParam<QString> &name, const ::OpenAPI::OptionalParam<QString> &status, QObject *object, [&](const QRestReply &reply){});
     * \endinternal
     */
     OAI_ADD_OPERATION_WITH_NO_RESPONSE_IMPL(updatePetWithForm, (const qint64 &petId, const ::OpenAPI::OptionalParam<QString> &name = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<QString> &status = ::OpenAPI::OptionalParam<QString>()), (petId, name, status), /* non-deprecated */)
@@ -121,14 +121,14 @@ public:
     * \internal
     * The auto-generated API:
     * void uploadFile(const qint64 &petId, const ::OpenAPI::OptionalParam<QString> &additionalMetadata, const ::OpenAPI::OptionalParam<OAIHttpFileElement> &file);
-    * void uploadFile(const qint64 &petId, const ::OpenAPI::OptionalParam<QString> &additionalMetadata, const ::OpenAPI::OptionalParam<OAIHttpFileElement> &file, QObject *object, [&](QRestReply &reply, OAIApiResponse &summary){});
+    * void uploadFile(const qint64 &petId, const ::OpenAPI::OptionalParam<QString> &additionalMetadata, const ::OpenAPI::OptionalParam<OAIHttpFileElement> &file, QObject *object, [&](const QRestReply &reply, const OAIApiResponse &summary){});
     * \endinternal
     */
-    OAI_ADD_OPERATION_IMPL(uploadFile, (const qint64 &petId, const ::OpenAPI::OptionalParam<QString> &additionalMetadata = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<OAIHttpFileElement> &file = ::OpenAPI::OptionalParam<OAIHttpFileElement>()), (petId, additionalMetadata, file), (OAIApiResponse), /* non-deprecated */)
+    OAI_ADD_OPERATION_IMPL(uploadFile, (const qint64 &petId, const ::OpenAPI::OptionalParam<QString> &additionalMetadata = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<OAIHttpFileElement> &file = ::OpenAPI::OptionalParam<OAIHttpFileElement>()), (petId, additionalMetadata, file), (const OAIApiResponse &), /* non-deprecated */)
 
 Q_SIGNALS:
     /** Signal is emitted, if addPet() request completed successfully. The \a summary contains a serialized server response. */
-    void addPetFinished(OAIPet summary);
+    void addPetFinished(const OAIPet &summary);
     /** Signal is emitted, if addPet() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void addPetErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if deletePet() request completed successfully. */
@@ -136,31 +136,31 @@ Q_SIGNALS:
     /** Signal is emitted, if deletePet() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void deletePetErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if findPetsByAgeAndPatience() request completed successfully. The \a summary contains a serialized server response. */
-    void findPetsByAgeAndPatienceFinished(QList<OAIPet> summary);
+    void findPetsByAgeAndPatienceFinished(const QList<OAIPet> &summary);
     /** Signal is emitted, if findPetsByAgeAndPatience() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void findPetsByAgeAndPatienceErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if findPetsByStatus() request completed successfully. The \a summary contains a serialized server response. */
-    void findPetsByStatusFinished(QList<OAIPet> summary);
+    void findPetsByStatusFinished(const QList<OAIPet> &summary);
     /** Signal is emitted, if findPetsByStatus() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void findPetsByStatusErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if findPetsByTags() request completed successfully. The \a summary contains a serialized server response. */
-    void findPetsByTagsFinished(QList<OAIPet> summary);
+    void findPetsByTagsFinished(const QList<OAIPet> &summary);
     /** Signal is emitted, if findPetsByTags() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void findPetsByTagsErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if findPetsImageById() request completed successfully. The \a summary contains a serialized server response. */
-    void findPetsImageByIdFinished(QString summary);
+    void findPetsImageByIdFinished(const QString &summary);
     /** Signal is emitted, if findPetsImageById() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void findPetsImageByIdErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if getJsonFile() request completed successfully. The \a summary contains a serialized server response. */
-    void getJsonFileFinished(OAIHttpFileElement summary);
+    void getJsonFileFinished(const OAIHttpFileElement &summary);
     /** Signal is emitted, if getJsonFile() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void getJsonFileErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if getPetById() request completed successfully. The \a summary contains a serialized server response. */
-    void getPetByIdFinished(OAIPet summary);
+    void getPetByIdFinished(const OAIPet &summary);
     /** Signal is emitted, if getPetById() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void getPetByIdErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if updatePet() request completed successfully. The \a summary contains a serialized server response. */
-    void updatePetFinished(OAIPet summary);
+    void updatePetFinished(const OAIPet &summary);
     /** Signal is emitted, if updatePet() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void updatePetErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if updatePetWithForm() request completed successfully. */
@@ -168,7 +168,7 @@ Q_SIGNALS:
     /** Signal is emitted, if updatePetWithForm() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void updatePetWithFormErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if uploadFile() request completed successfully. The \a summary contains a serialized server response. */
-    void uploadFileFinished(OAIApiResponse summary);
+    void uploadFileFinished(const OAIApiResponse &summary);
     /** Signal is emitted, if uploadFile() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void uploadFileErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
 };

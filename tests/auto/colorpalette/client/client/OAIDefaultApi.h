@@ -30,7 +30,7 @@ public:
     * \internal
     * The auto-generated API:
     * void testOperation(const qint32 &pathParam, const ::OpenAPI::OptionalParam<bool> &queryParam0, const ::OpenAPI::OptionalParam<OAITestObject> &queryParam1, const ::OpenAPI::OptionalParam<QList<qint32>> &queryParam2, const ::OpenAPI::OptionalParam<OAITestOperation_request> &oAITestOperationRequest);
-    * void testOperation(const qint32 &pathParam, const ::OpenAPI::OptionalParam<bool> &queryParam0, const ::OpenAPI::OptionalParam<OAITestObject> &queryParam1, const ::OpenAPI::OptionalParam<QList<qint32>> &queryParam2, const ::OpenAPI::OptionalParam<OAITestOperation_request> &oAITestOperationRequest, QObject *object, [&](QRestReply &reply){});
+    * void testOperation(const qint32 &pathParam, const ::OpenAPI::OptionalParam<bool> &queryParam0, const ::OpenAPI::OptionalParam<OAITestObject> &queryParam1, const ::OpenAPI::OptionalParam<QList<qint32>> &queryParam2, const ::OpenAPI::OptionalParam<OAITestOperation_request> &oAITestOperationRequest, QObject *object, [&](const QRestReply &reply){});
     * \endinternal
     */
     OAI_ADD_OPERATION_WITH_NO_RESPONSE_IMPL(testOperation, (const qint32 &pathParam, const ::OpenAPI::OptionalParam<bool> &queryParam0 = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<OAITestObject> &queryParam1 = ::OpenAPI::OptionalParam<OAITestObject>(), const ::OpenAPI::OptionalParam<QList<qint32>> &queryParam2 = ::OpenAPI::OptionalParam<QList<qint32>>(), const ::OpenAPI::OptionalParam<OAITestOperation_request> &oAITestOperationRequest = ::OpenAPI::OptionalParam<OAITestOperation_request>()), (pathParam, queryParam0, queryParam1, queryParam2, oAITestOperationRequest), /* non-deprecated */)

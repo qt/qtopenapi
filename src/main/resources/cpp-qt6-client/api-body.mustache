@@ -82,7 +82,7 @@ void {{classname}}::initializeServerConfigs()
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    {{nickname}}({{#hasParams}}{{#allParams}}{{paramName}}, {{/allParams}}{{/hasParams}}this, [&](QRestReply &reply{{#returnType}}, {{{.}}} &summary{{/returnType}}) { if (reply.isSuccess()) ... });
+*    {{nickname}}({{#hasParams}}{{#allParams}}{{paramName}}, {{/allParams}}{{/hasParams}}this, [&](const QRestReply &reply{{#returnType}}, const {{{.}}} &summary{{/returnType}}) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,

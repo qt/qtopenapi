@@ -32,7 +32,7 @@ void StoreApiTests::placeOrderTest() {
     order.setComplete(false);
     order.setStatus("shipping");
     order.setShipDate(QDateTime::currentDateTime());
-    api.placeOrder(order, this, [&](QRestReply &reply, OAIOrder &respval) {
+    api.placeOrder(order, this, [&](const QRestReply &reply, const OAIOrder &respval) {
         if ((orderPlaced = reply.isSuccess())) {
             QCOMPARE(respval.getShipDate(), TestDate);
         } else {
@@ -46,7 +46,7 @@ void StoreApiTests::getOrderByIdTest() {
     OAIStoreApi api;
     api.setApiKey("api_key_2","testKey");
     bool orderFetched = false;
-    api.getOrderById(500, nullptr, [&](QRestReply &reply, OAIOrder &respval) {
+    api.getOrderById(500, nullptr, [&](const QRestReply &reply, const OAIOrder &respval) {
         if ((orderFetched = reply.isSuccess())) {
             QVERIFY(respval.getPetId() == 10000);
             QVERIFY(respval.getId() == 500);
@@ -61,7 +61,7 @@ void StoreApiTests::getInventoryTest() {
     OAIStoreApi api;
     api.setApiKey("api_key","special-key");
     bool inventoryFetched = false;
-    api.getInventory(this, [&](QRestReply &reply, QMap<QString, qint32> respval) {
+    api.getInventory(this, [&](const QRestReply &reply, const QMap<QString, qint32> &respval) {
         if ((inventoryFetched = reply.isSuccess())) {
             for (const auto &key : respval.keys()) {
                 qDebug() << (key) << " Quantities " << respval.value(key);
@@ -85,7 +85,7 @@ void StoreApiTests::deleteOrderTest()
     order.setComplete(false);
     order.setStatus("shipping");
     order.setShipDate(QDateTime::currentDateTime());
-    api.placeOrder(order, this, [&](QRestReply &reply, OAIOrder &respval) {
+    api.placeOrder(order, this, [&](const QRestReply &reply, const OAIOrder &respval) {
         if ((orderPlaced = reply.isSuccess())) {
             QCOMPARE(respval.getShipDate(), TestDate);
         } else {
@@ -96,7 +96,7 @@ void StoreApiTests::deleteOrderTest()
 
     bool orderDeleted = false;
     // delete existing order
-    api.deleteOrder(QString::number(order.getId()), this, [&](QRestReply &reply) {
+    api.deleteOrder(QString::number(order.getId()), this, [&](const QRestReply &reply) {
         if (!(orderDeleted = reply.isSuccess())) {
             qDebug() << "Error happened while issuing request : " << reply.errorString();
         }
@@ -105,7 +105,7 @@ void StoreApiTests::deleteOrderTest()
 
     orderDeleted = false;
     // try to delete NOT existing order id = 33333
-    api.deleteOrder("33333", this, [&](QRestReply &reply) {
+    api.deleteOrder("33333", this, [&](const QRestReply &reply) {
         if (!(orderDeleted = reply.isSuccess())) {
             qDebug() << "Error happened while issuing request 'deleteOrder(33333)': " << reply.errorString();
         }
@@ -125,7 +125,7 @@ void StoreApiTests::timeoutTest()
 
     OAIStoreApi api;
     bool orderPlaced = false;
-    api.placeOrder(order, this, [&](QRestReply &summary) {
+    api.placeOrder(order, this, [&](const QRestReply &summary) {
         orderPlaced = summary.isSuccess();
     });
     QTRY_COMPARE_EQ_WITH_TIMEOUT(orderPlaced, true, 14000);
@@ -138,7 +138,7 @@ void StoreApiTests::timeoutTest()
     // within the timeout (the server sleeps for 1 sec before sending the response)
     api.setTimeOut(5000ms);
     // try to delete NOT existing order id = 33333
-    api.deleteOrder("33333", this, [&](QRestReply &reply) {
+    api.deleteOrder("33333", this, [&](const QRestReply &reply) {
         if (!(orderDeleted = reply.isSuccess())) {
             qDebug() << "Error happened while issuing request: " << reply.errorString();
         }
@@ -150,7 +150,7 @@ void StoreApiTests::timeoutTest()
     // to response in time (the server sleeps for 1 sec before sending the response)
     api.setTimeOut(100ms);
     // delete existing order
-    api.deleteOrder(QString::number(order.getId()), this, [&](QRestReply &reply) {
+    api.deleteOrder(QString::number(order.getId()), this, [&](const QRestReply &reply) {
         if (!(orderDeleted = reply.isSuccess())) {
             qDebug() << "Error happened while issuing request : " << reply.errorString();
             netError = reply.error();

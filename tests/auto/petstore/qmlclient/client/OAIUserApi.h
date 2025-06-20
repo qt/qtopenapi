@@ -31,7 +31,7 @@ public Q_SLOTS:
     * \internal
     * The auto-generated API:
     * void createInQueryMap(const QMap<QString, QString> &username);
-    * void createInQueryMap(const QMap<QString, QString> &username, QObject *object, [&](QRestReply &reply){});
+    * void createInQueryMap(const QMap<QString, QString> &username, QObject *object, [&](const QRestReply &reply){});
     * \endinternal
     */
     OAI_ADD_OPERATION_WITH_NO_RESPONSE_IMPL(createInQueryMap, (const QMap<QString, QString> &username), (username), /* non-deprecated */)
@@ -40,7 +40,7 @@ public Q_SLOTS:
     * \internal
     * The auto-generated API:
     * void createUser(const OAIUser &oAIUser);
-    * void createUser(const OAIUser &oAIUser, QObject *object, [&](QRestReply &reply){});
+    * void createUser(const OAIUser &oAIUser, QObject *object, [&](const QRestReply &reply){});
     * \endinternal
     */
     OAI_ADD_OPERATION_WITH_NO_RESPONSE_IMPL(createUser, (const OAIUser &oAIUser), (oAIUser), /* non-deprecated */)
@@ -49,7 +49,7 @@ public Q_SLOTS:
     * \internal
     * The auto-generated API:
     * void createUsersWithArrayInput(const QList<OAIUser> &oAIUser);
-    * void createUsersWithArrayInput(const QList<OAIUser> &oAIUser, QObject *object, [&](QRestReply &reply){});
+    * void createUsersWithArrayInput(const QList<OAIUser> &oAIUser, QObject *object, [&](const QRestReply &reply){});
     * \endinternal
     */
     OAI_ADD_OPERATION_WITH_NO_RESPONSE_IMPL(createUsersWithArrayInput, (const QList<OAIUser> &oAIUser), (oAIUser), /* non-deprecated */)
@@ -58,7 +58,7 @@ public Q_SLOTS:
     * \internal
     * The auto-generated API:
     * void createUsersWithListInput(const QList<OAIUser> &oAIUser);
-    * void createUsersWithListInput(const QList<OAIUser> &oAIUser, QObject *object, [&](QRestReply &reply){});
+    * void createUsersWithListInput(const QList<OAIUser> &oAIUser, QObject *object, [&](const QRestReply &reply){});
     * \endinternal
     */
     OAI_ADD_OPERATION_WITH_NO_RESPONSE_IMPL(createUsersWithListInput, (const QList<OAIUser> &oAIUser), (oAIUser), /* non-deprecated */)
@@ -67,7 +67,7 @@ public Q_SLOTS:
     * \internal
     * The auto-generated API:
     * void deleteUser(const OAIUser &username);
-    * void deleteUser(const OAIUser &username, QObject *object, [&](QRestReply &reply){});
+    * void deleteUser(const OAIUser &username, QObject *object, [&](const QRestReply &reply){});
     * \endinternal
     */
     OAI_ADD_OPERATION_WITH_NO_RESPONSE_IMPL(deleteUser, (const OAIUser &username), (username), /* non-deprecated */)
@@ -76,25 +76,25 @@ public Q_SLOTS:
     * \internal
     * The auto-generated API:
     * void getUserByName(const QMap<QString, qint32> &username);
-    * void getUserByName(const QMap<QString, qint32> &username, QObject *object, [&](QRestReply &reply, OAIUser &summary){});
+    * void getUserByName(const QMap<QString, qint32> &username, QObject *object, [&](const QRestReply &reply, const OAIUser &summary){});
     * \endinternal
     */
-    OAI_ADD_OPERATION_IMPL(getUserByName, (const QMap<QString, qint32> &username), (username), (OAIUser), /* non-deprecated */)
+    OAI_ADD_OPERATION_IMPL(getUserByName, (const QMap<QString, qint32> &username), (username), (const OAIUser &), /* non-deprecated */)
 
     /**
     * \internal
     * The auto-generated API:
     * void loginUser(const ::OpenAPI::OptionalParam<QString> &username, const ::OpenAPI::OptionalParam<QString> &password);
-    * void loginUser(const ::OpenAPI::OptionalParam<QString> &username, const ::OpenAPI::OptionalParam<QString> &password, QObject *object, [&](QRestReply &reply, QString &summary){});
+    * void loginUser(const ::OpenAPI::OptionalParam<QString> &username, const ::OpenAPI::OptionalParam<QString> &password, QObject *object, [&](const QRestReply &reply, const QString &summary){});
     * \endinternal
     */
-    OAI_ADD_OPERATION_IMPL(loginUser, (const ::OpenAPI::OptionalParam<QString> &username = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<QString> &password = ::OpenAPI::OptionalParam<QString>()), (username, password), (QString), /* non-deprecated */)
+    OAI_ADD_OPERATION_IMPL(loginUser, (const ::OpenAPI::OptionalParam<QString> &username = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<QString> &password = ::OpenAPI::OptionalParam<QString>()), (username, password), (const QString &), /* non-deprecated */)
 
     /**
     * \internal
     * The auto-generated API:
     * void logoutUser(const QJsonValue &username);
-    * void logoutUser(const QJsonValue &username, QObject *object, [&](QRestReply &reply){});
+    * void logoutUser(const QJsonValue &username, QObject *object, [&](const QRestReply &reply){});
     * \endinternal
     */
     OAI_ADD_OPERATION_WITH_NO_RESPONSE_IMPL(logoutUser, (const QJsonValue &username), (username), /* non-deprecated */)
@@ -103,10 +103,10 @@ public Q_SLOTS:
     * \internal
     * The auto-generated API:
     * void updateUser(const QString &username, const OAIUser &body);
-    * void updateUser(const QString &username, const OAIUser &body, QObject *object, [&](QRestReply &reply, OAIUser &summary){});
+    * void updateUser(const QString &username, const OAIUser &body, QObject *object, [&](const QRestReply &reply, const OAIUser &summary){});
     * \endinternal
     */
-    OAI_ADD_OPERATION_IMPL(updateUser, (const QString &username, const OAIUser &body), (username, body), (OAIUser), /* non-deprecated */)
+    OAI_ADD_OPERATION_IMPL(updateUser, (const QString &username, const OAIUser &body), (username, body), (const OAIUser &), /* non-deprecated */)
 
 Q_SIGNALS:
     /** Signal is emitted, if createInQueryMap() request completed successfully. */
@@ -130,11 +130,11 @@ Q_SIGNALS:
     /** Signal is emitted, if deleteUser() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void deleteUserErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if getUserByName() request completed successfully. The \a summary contains a serialized server response. */
-    void getUserByNameFinished(OAIUser summary);
+    void getUserByNameFinished(const OAIUser &summary);
     /** Signal is emitted, if getUserByName() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void getUserByNameErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if loginUser() request completed successfully. The \a summary contains a serialized server response. */
-    void loginUserFinished(QString summary);
+    void loginUserFinished(const QString &summary);
     /** Signal is emitted, if loginUser() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void loginUserErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if logoutUser() request completed successfully. */
@@ -142,7 +142,7 @@ Q_SIGNALS:
     /** Signal is emitted, if logoutUser() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void logoutUserErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if updateUser() request completed successfully. The \a summary contains a serialized server response. */
-    void updateUserFinished(OAIUser summary);
+    void updateUserFinished(const OAIUser &summary);
     /** Signal is emitted, if updateUser() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void updateUserErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
 };
