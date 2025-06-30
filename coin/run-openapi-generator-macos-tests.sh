@@ -7,6 +7,9 @@ set -e
 # TBD QTBUG-137879: remove dependency to the old Qt5 libs, and refactore current server or implement a new one
 brew install qt@5
 
+# Qt6 generator uses doxygen to provide documentation to the user
+brew install graphviz doxygen
+
 OPENAPI_HOME=/Users/qt/work/playground/qtopenapi
 export CMAKE_PREFIX_PATH="/Users/qt/work/install"
 ARCH_TYPE=$(machine)
@@ -20,6 +23,14 @@ else
     export CPPFLAGS="-I/opt/homebrew/opt/qt@5/include"
     export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"
 fi
+
+function build_doxygen_docs() {
+    # build documentation only for cpp
+    cd $CLIENT_OUTPUT_DIR/client
+    rm -rf doc/html doc/latex
+    doxygen doc/Doxyfile.in
+    cd $OPENAPI_HOME
+}
 
 function run_test() {
     #build and run client test apps
@@ -44,6 +55,7 @@ source build-and-run.bash
 CLIENTFOLDER_NAME=client
 CLIENT_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/petstore/$CLIENTFOLDER_NAME"
 run_test ;
+build_doxygen_docs ;
 
 # build and run petsore qml client
 CLIENTFOLDER_NAME=qmlclient
@@ -56,6 +68,7 @@ CLIENTFOLDER_NAME=client
 CLIENT_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/colorpalette/$CLIENTFOLDER_NAME"
 rm -rf CLIENT_OUTPUT_DIR/client
 run_test ;
+build_doxygen_docs ;
 
 # generate colorpalette qml client
 CLIENTFOLDER_NAME=qmlclient
