@@ -107,17 +107,15 @@ USER_MODE="$2"
 if [[ -z "$USER_MODE" ]]; then
     USER_MODE="petstore" # default
 fi
-# Validate that the value is either "petstore" or "colorpalette"
-if [[ $USER_MODE == "petstore" ]]; then
-    USER_SPEC="$PWD/yaml_files/petstore.yaml"
-    SERVER_OUTPUT_DIR="$PWD/tests/auto/petstore/server"
-    CLIENT_OUTPUT_DIR="$PWD/tests/auto/petstore/$CLIENTFOLDER_NAME"
-elif [[ $USER_MODE == "colorpalette" ]]; then
-    USER_SPEC="$PWD/yaml_files/colorpalette.yaml"
-    SERVER_OUTPUT_DIR="$PWD/tests/auto/colorpalette/server"
-    CLIENT_OUTPUT_DIR="$PWD/tests/auto/colorpalette/$CLIENTFOLDER_NAME"
+# Validate the value
+if [[ -f "$PWD/yaml_files/$USER_MODE.yaml" ]]; then
+    USER_SPEC="$PWD/yaml_files/$USER_MODE.yaml"
+    SERVER_OUTPUT_DIR="$PWD/tests/auto/$USER_MODE/server"
+    CLIENT_OUTPUT_DIR="$PWD/tests/auto/$USER_MODE/$CLIENTFOLDER_NAME"
 else
-    die "Error: user-spec must be either 'petstore' or 'colorpalette'."
+    echo "Available specifications in $PWD/yaml_files:"
+    ls yaml_files/*.yaml 2>/dev/null | xargs -n1 basename | sed 's/^/  /' >&2 #-l "$PWD/yaml_files"
+    die "Error: user-spec does not exist."
 fi
 
 # Choose your log level: debug, info, warn, or error
@@ -131,7 +129,7 @@ fi
 
 function generator_exists() {
     if [ ! -e "$ORIGINAL_GENERATOR_JAR" ]; then
-        echo "File $ORIGINAL_GENERATOR_JAR doesn't exist, please run './generator.sh c'"
+        echo "File $ORIGINAL_GENERATOR_JAR doesn't exist, please run './generator.sh cg'"
         exit 1
     fi
 }
@@ -176,7 +174,7 @@ function run_test() {
 
     # when the client finished testing, let's kill the server ]:->
     killPetServer
-  else #colorpalette
+  else #colorpalette and others
       #build generated code
       cd $CLIENT_OUTPUT_DIR
       rm -rf $CLIENT_OUTPUT_DIR/build
