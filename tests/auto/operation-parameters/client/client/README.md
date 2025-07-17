@@ -28,12 +28,58 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:10203/v2
 ### OAITestApi
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|*simpleExplodeString* | *GET* /path/primitive/simple-explode/{string_parameter} | Simple style with explode set to true for string path parameter..|
+|*deepObjectExplodeObject* | *POST* /query/object/deepObject-explode/deepObjectExplodeObject | deepObject object explode.|
+|*deepObjectNotExplodeObject* | *POST* /query/object/deepObject-not-explode/deepObjectNotExplodeObject | deepObject object not explode.|
+|*formExplodeAnytype* | *POST* /query/anytype/form-explode/formExplodeAnytype | form anytype explode.|
+|*formExplodeArray* | *POST* /query/array/form-explode/formExplodeArray | form array explode.|
+|*formExplodeObject* | *POST* /query/object/form-explode/formExplodeObject | form object explode.|
+|*formExplodeString* | *POST* /query/string/form-explode/formExplodeString | form style with explode set to true for string query parameter..|
+|*formNotExplodeAnytype* | *POST* /query/anytype/form-not-explode/formNotExplodeAnytype | form anytype not explode.|
+|*formNotExplodeArray* | *POST* /query/array/form-not-explode/formNotExplodeArray | form array not explode.|
+|*formNotExplodeObject* | *POST* /query/object/form-not-explode/formNotExplodeObject | form object not explode.|
+|*formNotExplodeString* | *POST* /query/string/form-not-explode/formNotExplodeString | form style with explode set to false for string query parameter..|
+|*labelExplodeAnytype* | *GET* /path/anytype/label-explode/{anytypeParameter} | label anytype explode.|
+|*labelExplodeArray* | *GET* /path/array/label-explode/{arrayParameter} | label array explode.|
+|*labelExplodeObject* | *GET* /path/object/label-explode/{objectParameter} | label object explode.|
+|*labelExplodeString* | *GET* /path/string/label-explode/{stringParameter} | label style with explode set to true for string path parameter..|
+|*labelNotExplodeAnytype* | *GET* /path/anytype/label-not-explode/{anytypeParameter} | label anytype not explode.|
+|*labelNotExplodeArray* | *GET* /path/array/label-not-explode/{arrayParameter} | label array not explode.|
+|*labelNotExplodeObject* | *POST* /path/object/label-not-explode/{objectParameter} | label object not explode.|
+|*labelNotExplodeString* | *GET* /path/string/label-not-explode/{stringParameter} | label style with explode set to false for string path parameter..|
+|*matrixExplodeAnytype* | *GET* /path/anytype/matrix-explode/{anytypeParameter} | matrix anytype explode.|
+|*matrixExplodeArray* | *GET* /path/array/matrix-explode/{arrayParameter} | matrix array explode.|
+|*matrixExplodeObject* | *GET* /path/object/matrix-explode/{objectParameter} | matrix object explode.|
+|*matrixExplodeString* | *GET* /path/string/matrix-explode/{stringParameter} | matrix style with explode set to true for string path parameter..|
+|*matrixNotExplodeAnytype* | *GET* /path/anytype/matrix-not-explode/{anytypeParameter} | matrix anytype not explode.|
+|*matrixNotExplodeArray* | *GET* /path/array/matrix-not-explode/{arrayParameter} | matrix array not explode.|
+|*matrixNotExplodeObject* | *GET* /path/object/matrix-not-explode/{objectParameter} | matrix object not explode.|
+|*matrixNotExplodeString* | *GET* /path/string/matrix-not-explode/{stringParameter} | matrix style with explode set to false for string path parameter..|
+|*pipeDelimitedExplodeAnytype* | *POST* /query/anytype/pipeDelimited-explode/pipeDelimitedExplodeAnytype | pipeDelimited anytype explode.|
+|*pipeDelimitedExplodeArray* | *POST* /query/array/pipeDelimited-explode/pipeDelimitedExplodeArray | pipeDelimited array explode.|
+|*pipeDelimitedExplodeObject* | *POST* /query/object/pipeDelimited-explode/pipeDelimitedExplodeObject | pipeDelimited object explode.|
+|*pipeDelimitedNotExplodeAnytype* | *POST* /query/anytype/pipeDelimited-not-explode/pipeDelimitedNotExplodeAnytype | pipeDelimited anytype not explode.|
+|*pipeDelimitedNotExplodeArray* | *POST* /query/array/pipeDelimited-not-explode/pipeDelimitedNotExplodeArray | pipeDelimited array not explode.|
+|*pipeDelimitedNotExplodeObject* | *POST* /query/object/pipeDelimited-not-explode/pipeDelimitedNotExplodeObject | pipeDelimited object not explode.|
+|*simpleExplodeAnytype* | *GET* /path/anytype/simple-explode/{anytypeParameter} | simple anytype explode.|
+|*simpleExplodeArray* | *GET* /path/array/simple-explode/{arrayParameter} | simple array explode.|
+|*simpleExplodeObject* | *GET* /path/object/simple-explode/{objectParameter} | simple object explode.|
+|*simpleExplodeString* | *GET* /path/string/simple-explode/{stringParameter} | Simple style with explode set to true for string path parameter..|
+|*simpleNotExplodeAnytype* | *GET* /path/anytype/simple-not-explode/{anytypeParameter} | simple anytype not explode.|
+|*simpleNotExplodeArray* | *GET* /path/array/simple-not-explode/{arrayParameter} | simple array not explode.|
+|*simpleNotExplodeObject* | *GET* /path/object/simple-not-explode/{objectParameter} | simple object not explode.|
+|*simpleNotExplodeString* | *GET* /path/string/simple-not-explode/{stringParameter} | Simple style with explode set to false for string path parameter..|
+|*spaceDelimitedExplodeAnytype* | *POST* /query/anytype/spaceDelimited-explode/spaceDelimitedExplodeAnytype | spaceDelimited anytype explode.|
+|*spaceDelimitedExplodeArray* | *POST* /query/array/spaceDelimited-explode/spaceDelimitedExplodeArray | spaceDelimited array explode.|
+|*spaceDelimitedExplodeObject* | *POST* /query/object/spaceDelimited-explode/spaceDelimitedExplodeObject | spaceDelimited object explode.|
+|*spaceDelimitedNotExplodeAnytype* | *POST* /query/anytype/spaceDelimited-not-explode/spaceDelimitedNotExplodeAnytype | spaceDelimited anytype not explode.|
+|*spaceDelimitedNotExplodeArray* | *POST* /query/array/spaceDelimited-not-explode/spaceDelimitedNotExplodeArray | spaceDelimited array not explode.|
+|*spaceDelimitedNotExplodeObject* | *POST* /query/object/spaceDelimited-not-explode/spaceDelimitedNotExplodeObject | spaceDelimited object not explode.|
 
 
 ## What are the Model files for the data structures/objects?
 |Class | Description|
 |------------- | -------------|
+|*OAITestObject* | |
 
 
 main.cpp:
@@ -43,16 +89,16 @@ main.cpp:
 
 int main(int argc, char *argv[]) {
     QCoreApplication a(argc, argv);
-    QString stringParameter;
+    OAITestObject objectParameter;
     OAITestApi apiInstance;
 
 
     /*
-        Handle the 'simpleExplodeString()' operation response directly in the callback.
+        Handle the 'deepObjectExplodeObject()' operation response directly in the callback.
         Note, the callback should always have the 'QRestReply &reply' as first parameter.
         The second and subsequent parameters are defined by the 'response' field of operation in your yaml specification.
     */
-    apiInstance.simpleExplodeString(stringParameter, nullptr, [&](QRestReply &reply, QString summary) {
+    apiInstance.deepObjectExplodeObject(objectParameter, nullptr, [&](QRestReply &reply, QString summary) {
         if (reply.isSuccess())
             qDebug() << "The server response is: " << summary.asJson();
             // Proceed with handling the user logic.
@@ -61,16 +107,16 @@ int main(int argc, char *argv[]) {
     });
 
     /*
-        Or connect to the operation response 'simpleExplodeStringFinished()/simpleExplodeStringErrorOccurred()' signals
-        And call the operation 'simpleExplodeString()'
+        Or connect to the operation response 'deepObjectExplodeObjectFinished()/deepObjectExplodeObjectErrorOccurred()' signals
+        And call the operation 'deepObjectExplodeObject()'
     */
-    connect(&apiInstance, &OAITestApi::simpleExplodeStringFinished, [&](QString summary) {
+    connect(&apiInstance, &OAITestApi::deepObjectExplodeObjectFinished, [&](QString summary) {
                // handling the user logic
            });
-    connect(&apiInstance, &OAITestApi::simpleExplodeStringErrorOccurred, [&](QNetworkReply::NetworkError errorType, const QString &errorStr) {
+    connect(&apiInstance, &OAITestApi::deepObjectExplodeObjectErrorOccurred, [&](QNetworkReply::NetworkError errorType, const QString &errorStr) {
                qWarning() << "There is an error occurred: " << errorType << errorStr;
            });
-    apiInstance.simpleExplodeString(stringParameter);
+    apiInstance.deepObjectExplodeObject(objectParameter);
     return a.exec();
 }
 

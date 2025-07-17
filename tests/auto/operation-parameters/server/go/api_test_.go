@@ -10,15 +10,405 @@
 package openapi
 
 import (
-	"github.com/gin-gonic/gin"
+    "fmt"
+    "net/url"
+
+    "github.com/gin-gonic/gin"
 )
 
 type TestAPI struct {
 }
 
-// Get /v2/path/primitive/simple-explode/:string_parameter
+// Post /v2/query/object/deepObject-explode/deepObjectExplodeObject
+// deepObject object explode
+func (api *TestAPI) DeepObjectExplodeObject(c *gin.Context) {
+    m, err := url.ParseQuery(c.Request.URL.RawQuery)
+    if err != nil || m.Get("objectParameter[name]") == "" || m.Get("objectParameter[status]") == "" {
+        fmt.Println(" ====== QUERY ====== deepObject object explode URI error:", err, m)
+        c.JSON(400, gin.H{"status": c.Request.RequestURI})
+    } else {
+        c.JSON(200, gin.H{"status": c.Request.RequestURI})
+    }
+}
+
+// Post /v2/query/object/deepObject-not-explode/deepObjectNotExplodeObject
+// deepObject object not explode
+func (api *TestAPI) DeepObjectNotExplodeObject(c *gin.Context) {
+    m, err := url.ParseQuery(c.Request.URL.RawQuery)
+    if err != nil || m.Get("objectParameter[name]") == "" || m.Get("objectParameter[status]") == "" {
+        fmt.Println(" ====== QUERY ====== deepObject object explode URI error:", err, m)
+        c.JSON(400, gin.H{"status": c.Request.RequestURI})
+    } else {
+        c.JSON(200, gin.H{"status": c.Request.RequestURI})
+    }
+}
+
+// Post /v2/query/anytype/form-explode/formExplodeAnytype
+// form anytype explode
+func (api *TestAPI) FormExplodeAnytype(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Post /v2/query/array/form-explode/formExplodeArray
+// form array explode
+func (api *TestAPI) FormExplodeArray(c *gin.Context) {
+    m, err := url.ParseQuery(c.Request.URL.RawQuery)
+    if err != nil || m.Get("arrayParameter") == "" {
+        fmt.Println(" ====== QUERY ====== form array explode URI error:", err, m)
+    }
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Post /v2/query/object/form-explode/formExplodeObject
+// form object explode
+func (api *TestAPI) FormExplodeObject(c *gin.Context) {
+    m, err := url.ParseQuery(c.Request.URL.RawQuery)
+    if err != nil || m.Get("name") == "" {
+        fmt.Println(" ====== QUERY ====== form object explode URI error:", err, m)
+    }
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Post /v2/path/string/form-explode/formExplodeString
+// form style with explode set to true for string query parameter.
+func (api *TestAPI) FormExplodeString(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Post /v2/query/anytype/form-not-explode/formNotExplodeAnytype
+// form anytype not explode
+func (api *TestAPI) FormNotExplodeAnytype(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Post /v2/query/array/form-not-explode/formNotExplodeArray
+// form array not explode
+func (api *TestAPI) FormNotExplodeArray(c *gin.Context) {
+    m, err := url.ParseQuery(c.Request.URL.RawQuery)
+    if err != nil || m.Get("arrayParameter") == "" {
+        fmt.Println(" ====== QUERY ====== form array not explode URI error:", err, m)
+    }
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Post /v2/query/object/form-not-explode/formNotExplodeObject
+// form object not explode
+func (api *TestAPI) FormNotExplodeObject(c *gin.Context) {
+    m, err := url.ParseQuery(c.Request.URL.RawQuery)
+    if err != nil || m.Get("objectParameter") == "" {
+        fmt.Println(" ====== QUERY ====== form object not explode URI error:", err, m)
+    }
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Post /v2/query/string/form-not-explode/formNotExplodeString
+// form style with explode set to false for string query parameter.
+func (api *TestAPI) FormNotExplodeString(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Get /v2/path/anytype/label-explode/:anytypeParameter
+// label anytype explode
+func (api *TestAPI) LabelExplodeAnytype(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Get /v2/path/array/label-explode/:arrayParameter
+// label array explode
+func (api *TestAPI) LabelExplodeArray(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Get /v2/path/object/label-explode/:objectParameter
+// label object explode
+func (api *TestAPI) LabelExplodeObject(c *gin.Context) {
+    m, err := url.ParseRequestURI(c.Request.URL.Path)
+    if err != nil {
+        fmt.Println(" ====== PATH ====== label object explode URI error:", err, m)
+        c.JSON(400, gin.H{"status": c.Request.URL.Path})
+    } else {
+        c.JSON(200, gin.H{"status": c.Request.RequestURI})
+    }
+}
+
+// Get /v2/path/string/label-explode/:stringParameter
+// label style with explode set to true for string path parameter.
+func (api *TestAPI) LabelExplodeString(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Get /v2/path/anytype/label-not-explode/:anytypeParameter
+// label anytype not explode
+func (api *TestAPI) LabelNotExplodeAnytype(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Get /v2/path/array/label-not-explode/:arrayParameter
+// label array not explode
+func (api *TestAPI) LabelNotExplodeArray(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Post /v2/path/object/label-not-explode/:objectParameter
+// label object not explode
+func (api *TestAPI) LabelNotExplodeObject(c *gin.Context) {
+    m, err := url.ParseRequestURI(c.Request.URL.Path)
+    if err != nil {
+        fmt.Println(" ====== PATH ====== label object not explode URI error:", err, m)
+        c.JSON(400, gin.H{"status": c.Request.URL.Path})
+    } else {
+        c.JSON(200, gin.H{"status": c.Request.RequestURI})
+    }
+}
+
+// Get /v2/path/string/label-not-explode/:stringParameter
+// label style with explode set to false for string path parameter.
+func (api *TestAPI) LabelNotExplodeString(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Get /v2/path/anytype/matrix-explode/:anytypeParameter
+// matrix anytype explode
+func (api *TestAPI) MatrixExplodeAnytype(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Get /v2/path/array/matrix-explode/:arrayParameter
+// matrix array explode
+func (api *TestAPI) MatrixExplodeArray(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Get /v2/path/object/matrix-explode/:objectParameter
+// matrix object explode
+func (api *TestAPI) MatrixExplodeObject(c *gin.Context) {
+    m, err := url.ParseRequestURI(c.Request.URL.Path)
+    if err != nil {
+        fmt.Println(" ====== PATH ====== object explode URI error:", err, m)
+        c.JSON(400, gin.H{"status": c.Request.URL.Path})
+    } else {
+        c.JSON(200, gin.H{"status": c.Request.RequestURI})
+    }
+}
+
+// Get /v2/path/string/matrix-explode/:stringParameter
+// matrix style with explode set to true for string path parameter.
+func (api *TestAPI) MatrixExplodeString(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Get /v2/path/anytype/matrix-not-explode/:anytypeParameter
+// matrix anytype not explode
+func (api *TestAPI) MatrixNotExplodeAnytype(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Get /v2/path/array/matrix-not-explode/:arrayParameter
+// matrix array not explode
+func (api *TestAPI) MatrixNotExplodeArray(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Get /v2/path/object/matrix-not-explode/:objectParameter
+// matrix object not explode
+func (api *TestAPI) MatrixNotExplodeObject(c *gin.Context) {
+    m, err := url.ParseRequestURI(c.Request.URL.Path)
+    if err != nil {
+        fmt.Println(" ====== PATH ====== matrix object not explode URI error:", err, m)
+        c.JSON(400, gin.H{"status": c.Request.URL.Path})
+    } else {
+        c.JSON(200, gin.H{"status": c.Request.RequestURI})
+    }
+}
+
+// Get /v2/path/string/matrix-not-explode/:stringParameter
+// matrix style with explode set to false for string path parameter.
+func (api *TestAPI) MatrixNotExplodeString(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Post /v2/query/anytype/pipeDelimited-explode/pipeDelimitedExplodeAnytype
+// pipeDelimited anytype explode
+func (api *TestAPI) PipeDelimitedExplodeAnytype(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Post /v2/query/array/pipeDelimited-explode/pipeDelimitedExplodeArray
+// pipeDelimited array explode
+func (api *TestAPI) PipeDelimitedExplodeArray(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Post /v2/query/object/pipeDelimited-explode/pipeDelimitedExplodeObject
+// pipeDelimited object explode
+func (api *TestAPI) PipeDelimitedExplodeObject(c *gin.Context) {
+    m, err := url.ParseQuery(c.Request.URL.RawQuery)
+    if err != nil || m.Get("objectParameter") == "" {
+        fmt.Println(" ====== QUERY ====== pipeDelimited object explode URI error:", err, m)
+        c.JSON(400, gin.H{"status": c.Request.RequestURI})
+    } else {
+        c.JSON(200, gin.H{"status": c.Request.RequestURI})
+    }
+}
+
+// Post /v2/query/anytype/pipeDelimited-not-explode/pipeDelimitedNotExplodeAnytype
+// pipeDelimited anytype not explode
+func (api *TestAPI) PipeDelimitedNotExplodeAnytype(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Post /v2/query/array/pipeDelimited-not-explode/pipeDelimitedNotExplodeArray
+// pipeDelimited array not explode
+func (api *TestAPI) PipeDelimitedNotExplodeArray(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Post /v2/query/object/pipeDelimited-not-explode/pipeDelimitedNotExplodeObject
+// pipeDelimited object not explode
+func (api *TestAPI) PipeDelimitedNotExplodeObject(c *gin.Context) {
+    m, err := url.ParseQuery(c.Request.URL.RawQuery)
+    if err != nil || m.Get("objectParameter") == "" {
+        fmt.Println(" ====== QUERY ====== pipeDelimited object not explode URI error:", err, m)
+        c.JSON(400, gin.H{"status": c.Request.RequestURI})
+    } else {
+        c.JSON(200, gin.H{"status": c.Request.RequestURI})
+    }
+}
+
+// Get /v2/path/anytype/simple-explode/:anytypeParameter
+// simple anytype explode
+func (api *TestAPI) SimpleExplodeAnytype(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Get /v2/path/array/simple-explode/:arrayParameter
+// simple array explode
+func (api *TestAPI) SimpleExplodeArray(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Get /v2/path/object/simple-explode/:objectParameter
+// simple object explode
+func (api *TestAPI) SimpleExplodeObject(c *gin.Context) {
+    m, err := url.ParseRequestURI(c.Request.URL.Path)
+    if err != nil {
+        fmt.Println(" ====== PATH ====== simple object explode URI error:", err, m)
+        c.JSON(400, gin.H{"status": c.Request.URL.Path})
+    } else {
+        c.JSON(200, gin.H{"status": c.Request.RequestURI})
+    }
+}
+
+// Get /v2/path/string/simple-explode/:stringParameter
 // Simple style with explode set to true for string path parameter.
 func (api *TestAPI) SimpleExplodeString(c *gin.Context) {
-	// Your handler implementation
-	c.JSON(200, gin.H{"status": c.Request.RequestURI})
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Get /v2/path/anytype/simple-not-explode/:anytypeParameter
+// simple anytype not explode
+func (api *TestAPI) SimpleNotExplodeAnytype(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Get /v2/path/array/simple-not-explode/:arrayParameter
+// simple array not explode
+func (api *TestAPI) SimpleNotExplodeArray(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Get /v2/path/object/simple-not-explode/:objectParameter
+// simple object not explode
+func (api *TestAPI) SimpleNotExplodeObject(c *gin.Context) {
+    m, err := url.ParseRequestURI(c.Request.URL.Path)
+    if err != nil {
+        fmt.Println(" ====== PATH ====== simple object not explode URI error:", err, m)
+        c.JSON(400, gin.H{"status": c.Request.URL.Path})
+    } else {
+        c.JSON(200, gin.H{"status": c.Request.RequestURI})
+    }
+}
+
+// Get /v2/path/string/simple-not-explode/:stringParameter
+// Simple style with explode set to false for string path parameter.
+func (api *TestAPI) SimpleNotExplodeString(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Post /v2/query/anytype/spaceDelimited-explode/spaceDelimitedExplodeAnytype
+// spaceDelimited anytype explode
+func (api *TestAPI) SpaceDelimitedExplodeAnytype(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Post /v2/query/array/spaceDelimited-explode/spaceDelimitedExplodeArray
+// spaceDelimited array explode
+func (api *TestAPI) SpaceDelimitedExplodeArray(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Post /v2/query/object/spaceDelimited-explode/spaceDelimitedExplodeObject
+// spaceDelimited object explode
+func (api *TestAPI) SpaceDelimitedExplodeObject(c *gin.Context) {
+    m, err := url.ParseQuery(c.Request.URL.RawQuery)
+    if err != nil || m.Get("objectParameter") == "" {
+        fmt.Println(" ====== QUERY ====== spaceDelimited object explode URI error:", err, m)
+        c.JSON(400, gin.H{"status": c.Request.RequestURI})
+    } else {
+        c.JSON(200, gin.H{"status": c.Request.RequestURI})
+    }
+}
+
+// Post /v2/query/anytype/spaceDelimited-not-explode/spaceDelimitedNotExplodeAnytype
+// spaceDelimited anytype not explode
+func (api *TestAPI) SpaceDelimitedNotExplodeAnytype(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Post /v2/query/array/spaceDelimited-not-explode/spaceDelimitedNotExplodeArray
+// spaceDelimited array not explode
+func (api *TestAPI) SpaceDelimitedNotExplodeArray(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Post /v2/query/object/spaceDelimited-not-explode/spaceDelimitedNotExplodeObject
+// spaceDelimited object not explode
+func (api *TestAPI) SpaceDelimitedNotExplodeObject(c *gin.Context) {
+    m, err := url.ParseQuery(c.Request.URL.RawQuery)
+    if err != nil || m.Get("objectParameter") == "" {
+        fmt.Println(" ====== QUERY ====== spaceDelimited object not explode URI error:", err, m)
+        c.JSON(400, gin.H{"status": c.Request.RequestURI})
+    } else {
+        c.JSON(200, gin.H{"status": c.Request.RequestURI})
+    }
 }

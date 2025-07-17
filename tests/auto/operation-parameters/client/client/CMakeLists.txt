@@ -15,6 +15,7 @@ include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
 qt_add_library(${PROJECT_NAME}
+    OAITestObject.h
     OAITestApi.h
     OAIBaseApi.h
     OAIHelpers.h
@@ -24,6 +25,7 @@ qt_add_library(${PROJECT_NAME}
     OAIHttpFileElement.h
     OAIServerConfiguration.h
     OAIServerVariable.h
+    OAITestObject.cpp
     OAITestApi.cpp
     OAIBaseApi.cpp
     OAIHelpers.cpp

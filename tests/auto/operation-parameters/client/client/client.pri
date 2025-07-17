@@ -2,6 +2,7 @@ QT += network
 
 HEADERS += \
 # Models
+    $${PWD}/OAITestObject.h \
 # APIs
     $${PWD}/OAITestApi.h \
 # Others
@@ -15,6 +16,7 @@ HEADERS += \
 
 SOURCES += \
 # Models
+    $${PWD}/OAITestObject.cpp \
 # APIs
     $${PWD}/OAITestApi.cpp \
 # Others

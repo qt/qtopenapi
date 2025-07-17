@@ -40,8 +40,4973 @@ void OAITestApi::initializeServerConfigs()
     QUrl("http://127.0.0.1:10203/v2"),
     "No description provided",
     QMap<QString, OAIServerVariable>()));
+    m_serverConfigs.insert("deepObjectExplodeObject", defaultConf);
+    m_serverIndices.insert("deepObjectExplodeObject", 0);
+    m_serverConfigs.insert("deepObjectNotExplodeObject", defaultConf);
+    m_serverIndices.insert("deepObjectNotExplodeObject", 0);
+    m_serverConfigs.insert("formExplodeAnytype", defaultConf);
+    m_serverIndices.insert("formExplodeAnytype", 0);
+    m_serverConfigs.insert("formExplodeArray", defaultConf);
+    m_serverIndices.insert("formExplodeArray", 0);
+    m_serverConfigs.insert("formExplodeObject", defaultConf);
+    m_serverIndices.insert("formExplodeObject", 0);
+    m_serverConfigs.insert("formExplodeString", defaultConf);
+    m_serverIndices.insert("formExplodeString", 0);
+    m_serverConfigs.insert("formNotExplodeAnytype", defaultConf);
+    m_serverIndices.insert("formNotExplodeAnytype", 0);
+    m_serverConfigs.insert("formNotExplodeArray", defaultConf);
+    m_serverIndices.insert("formNotExplodeArray", 0);
+    m_serverConfigs.insert("formNotExplodeObject", defaultConf);
+    m_serverIndices.insert("formNotExplodeObject", 0);
+    m_serverConfigs.insert("formNotExplodeString", defaultConf);
+    m_serverIndices.insert("formNotExplodeString", 0);
+    m_serverConfigs.insert("labelExplodeAnytype", defaultConf);
+    m_serverIndices.insert("labelExplodeAnytype", 0);
+    m_serverConfigs.insert("labelExplodeArray", defaultConf);
+    m_serverIndices.insert("labelExplodeArray", 0);
+    m_serverConfigs.insert("labelExplodeObject", defaultConf);
+    m_serverIndices.insert("labelExplodeObject", 0);
+    m_serverConfigs.insert("labelExplodeString", defaultConf);
+    m_serverIndices.insert("labelExplodeString", 0);
+    m_serverConfigs.insert("labelNotExplodeAnytype", defaultConf);
+    m_serverIndices.insert("labelNotExplodeAnytype", 0);
+    m_serverConfigs.insert("labelNotExplodeArray", defaultConf);
+    m_serverIndices.insert("labelNotExplodeArray", 0);
+    m_serverConfigs.insert("labelNotExplodeObject", defaultConf);
+    m_serverIndices.insert("labelNotExplodeObject", 0);
+    m_serverConfigs.insert("labelNotExplodeString", defaultConf);
+    m_serverIndices.insert("labelNotExplodeString", 0);
+    m_serverConfigs.insert("matrixExplodeAnytype", defaultConf);
+    m_serverIndices.insert("matrixExplodeAnytype", 0);
+    m_serverConfigs.insert("matrixExplodeArray", defaultConf);
+    m_serverIndices.insert("matrixExplodeArray", 0);
+    m_serverConfigs.insert("matrixExplodeObject", defaultConf);
+    m_serverIndices.insert("matrixExplodeObject", 0);
+    m_serverConfigs.insert("matrixExplodeString", defaultConf);
+    m_serverIndices.insert("matrixExplodeString", 0);
+    m_serverConfigs.insert("matrixNotExplodeAnytype", defaultConf);
+    m_serverIndices.insert("matrixNotExplodeAnytype", 0);
+    m_serverConfigs.insert("matrixNotExplodeArray", defaultConf);
+    m_serverIndices.insert("matrixNotExplodeArray", 0);
+    m_serverConfigs.insert("matrixNotExplodeObject", defaultConf);
+    m_serverIndices.insert("matrixNotExplodeObject", 0);
+    m_serverConfigs.insert("matrixNotExplodeString", defaultConf);
+    m_serverIndices.insert("matrixNotExplodeString", 0);
+    m_serverConfigs.insert("pipeDelimitedExplodeAnytype", defaultConf);
+    m_serverIndices.insert("pipeDelimitedExplodeAnytype", 0);
+    m_serverConfigs.insert("pipeDelimitedExplodeArray", defaultConf);
+    m_serverIndices.insert("pipeDelimitedExplodeArray", 0);
+    m_serverConfigs.insert("pipeDelimitedExplodeObject", defaultConf);
+    m_serverIndices.insert("pipeDelimitedExplodeObject", 0);
+    m_serverConfigs.insert("pipeDelimitedNotExplodeAnytype", defaultConf);
+    m_serverIndices.insert("pipeDelimitedNotExplodeAnytype", 0);
+    m_serverConfigs.insert("pipeDelimitedNotExplodeArray", defaultConf);
+    m_serverIndices.insert("pipeDelimitedNotExplodeArray", 0);
+    m_serverConfigs.insert("pipeDelimitedNotExplodeObject", defaultConf);
+    m_serverIndices.insert("pipeDelimitedNotExplodeObject", 0);
+    m_serverConfigs.insert("simpleExplodeAnytype", defaultConf);
+    m_serverIndices.insert("simpleExplodeAnytype", 0);
+    m_serverConfigs.insert("simpleExplodeArray", defaultConf);
+    m_serverIndices.insert("simpleExplodeArray", 0);
+    m_serverConfigs.insert("simpleExplodeObject", defaultConf);
+    m_serverIndices.insert("simpleExplodeObject", 0);
     m_serverConfigs.insert("simpleExplodeString", defaultConf);
     m_serverIndices.insert("simpleExplodeString", 0);
+    m_serverConfigs.insert("simpleNotExplodeAnytype", defaultConf);
+    m_serverIndices.insert("simpleNotExplodeAnytype", 0);
+    m_serverConfigs.insert("simpleNotExplodeArray", defaultConf);
+    m_serverIndices.insert("simpleNotExplodeArray", 0);
+    m_serverConfigs.insert("simpleNotExplodeObject", defaultConf);
+    m_serverIndices.insert("simpleNotExplodeObject", 0);
+    m_serverConfigs.insert("simpleNotExplodeString", defaultConf);
+    m_serverIndices.insert("simpleNotExplodeString", 0);
+    m_serverConfigs.insert("spaceDelimitedExplodeAnytype", defaultConf);
+    m_serverIndices.insert("spaceDelimitedExplodeAnytype", 0);
+    m_serverConfigs.insert("spaceDelimitedExplodeArray", defaultConf);
+    m_serverIndices.insert("spaceDelimitedExplodeArray", 0);
+    m_serverConfigs.insert("spaceDelimitedExplodeObject", defaultConf);
+    m_serverIndices.insert("spaceDelimitedExplodeObject", 0);
+    m_serverConfigs.insert("spaceDelimitedNotExplodeAnytype", defaultConf);
+    m_serverIndices.insert("spaceDelimitedNotExplodeAnytype", 0);
+    m_serverConfigs.insert("spaceDelimitedNotExplodeArray", defaultConf);
+    m_serverIndices.insert("spaceDelimitedNotExplodeArray", 0);
+    m_serverConfigs.insert("spaceDelimitedNotExplodeObject", defaultConf);
+    m_serverIndices.insert("spaceDelimitedNotExplodeObject", 0);
+}
+
+/**
+* \fn virtual void OAITestApi::deepObjectExplodeObject(const OAITestObject &objectParameter)
+* 'deepObjectExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] objectParameter OAITestObject [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::deepObjectExplodeObject(const OAITestObject &objectParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'deepObjectExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    deepObjectExplodeObject(objectParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual deepObjectExplodeObjectWithDataImpl() in derived class.
+* The virtual deepObjectExplodeObjectWithDataImpl() is being called by the template
+* function.
+
+* @param[in] objectParameter OAITestObject [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::deepObjectExplodeObjectCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by deepObjectExplodeObjectFinished() or
+* being returned as a callback parameter of deepObjectExplodeObject() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::deepObjectExplodeObjectWithDataImpl(const OAITestObject &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the deepObjectExplodeObject() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking deepObjectExplodeObject() operation calls.
+
+* @param[in] objectParameter OAITestObject [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::deepObjectExplodeObjectWithDataImpl(const OAITestObject &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["deepObjectExplodeObject"][m_serverIndices.value("deepObjectExplodeObject")].serverUrl();
+    QString fullPath = "/query/object/deepObject-explode/deepObjectExplodeObject";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
+    queryStyle = "deepObject";
+    if (queryStyle == "")
+        queryStyle = "form";
+    queryPrefix = getParamStylePrefix(queryStyle);
+    querySuffix = getParamStyleSuffix(queryStyle);
+    {
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+        QString paramString = (queryStyle == "form" && true) ?  "" : "objectParameter" + querySuffix;
+        QString assignOperator;
+        if (queryStyle == "form")
+            assignOperator = (true) ? "=" : ",";
+        else if (queryStyle == "deepObject")
+            assignOperator = (true) ? "=" : "none";
+        queryDelimiter = ((queryStyle == "form" || queryStyle == "deepObject") && true) ? "&" : ",";
+        const QJsonObject parameter = objectParameter.asJsonObject();
+        qint32 count = 0;
+        for(const QString& key : parameter.keys()) {
+            if (count > 0)
+                paramString.append(queryDelimiter);
+            paramString.append(::OpenAPI::optionParameterToString(((queryStyle == "form") ? key
+                               : QString("objectParameter") + QString("[") + key + QString("]")), assignOperator, parameter.value(key)));
+            count++;
+        }
+
+
+        fullPath.append(QUrl::toPercentEncoding(paramString));
+
+    }
+    OAIHttpRequestInput input(fullPath, "POST");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            deepObjectExplodeObjectCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit deepObjectExplodeObjectErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::deepObjectExplodeObjectCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit deepObjectExplodeObjectFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::deepObjectNotExplodeObject(const ::OpenAPI::OptionalParam<OAITestObject> &objectParameter = ::OpenAPI::OptionalParam<OAITestObject>())
+* 'deepObjectNotExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] objectParameter OAITestObject [optional]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::deepObjectNotExplodeObject(const ::OpenAPI::OptionalParam<OAITestObject> &objectParameter = ::OpenAPI::OptionalParam<OAITestObject>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'deepObjectNotExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    deepObjectNotExplodeObject(objectParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual deepObjectNotExplodeObjectWithDataImpl() in derived class.
+* The virtual deepObjectNotExplodeObjectWithDataImpl() is being called by the template
+* function.
+
+* @param[in] objectParameter OAITestObject [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::deepObjectNotExplodeObjectCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by deepObjectNotExplodeObjectFinished() or
+* being returned as a callback parameter of deepObjectNotExplodeObject() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::deepObjectNotExplodeObjectWithDataImpl(const ::OpenAPI::OptionalParam<OAITestObject> &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the deepObjectNotExplodeObject() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking deepObjectNotExplodeObject() operation calls.
+
+* @param[in] objectParameter OAITestObject [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::deepObjectNotExplodeObjectWithDataImpl(const ::OpenAPI::OptionalParam<OAITestObject> &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["deepObjectNotExplodeObject"][m_serverIndices.value("deepObjectNotExplodeObject")].serverUrl();
+    QString fullPath = "/query/object/deepObject-not-explode/deepObjectNotExplodeObject";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
+    queryStyle = "deepObject";
+    if (queryStyle == "")
+        queryStyle = "form";
+    queryPrefix = getParamStylePrefix(queryStyle);
+    querySuffix = getParamStyleSuffix(queryStyle);
+    if (objectParameter.hasValue()) {
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+        QString paramString = (queryStyle == "form" && false) ?  "" : "objectParameter" + querySuffix;
+        QString assignOperator;
+        if (queryStyle == "form")
+            assignOperator = (false) ? "=" : ",";
+        else if (queryStyle == "deepObject")
+            assignOperator = (false) ? "=" : "none";
+        queryDelimiter = ((queryStyle == "form" || queryStyle == "deepObject") && false) ? "&" : ",";
+        const QJsonObject parameter = objectParameter.value().asJsonObject();
+        qint32 count = 0;
+        for(const QString& key : parameter.keys()) {
+            if (count > 0)
+                paramString.append(queryDelimiter);
+            paramString.append(::OpenAPI::optionParameterToString(((queryStyle == "form") ? key
+                               : QString("objectParameter") + QString("[") + key + QString("]")), assignOperator, parameter.value(key)));
+            count++;
+        }
+
+
+        fullPath.append(QUrl::toPercentEncoding(paramString));
+
+    }
+    OAIHttpRequestInput input(fullPath, "POST");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            deepObjectNotExplodeObjectCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit deepObjectNotExplodeObjectErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::deepObjectNotExplodeObjectCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit deepObjectNotExplodeObjectFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::formExplodeAnytype(const QJsonValue &anytypeParameter)
+* 'formExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] anytypeParameter QJsonValue [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::formExplodeAnytype(const QJsonValue &anytypeParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'formExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    formExplodeAnytype(anytypeParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual formExplodeAnytypeWithDataImpl() in derived class.
+* The virtual formExplodeAnytypeWithDataImpl() is being called by the template
+* function.
+
+* @param[in] anytypeParameter QJsonValue [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::formExplodeAnytypeCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by formExplodeAnytypeFinished() or
+* being returned as a callback parameter of formExplodeAnytype() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::formExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the formExplodeAnytype() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking formExplodeAnytype() operation calls.
+
+* @param[in] anytypeParameter QJsonValue [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::formExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["formExplodeAnytype"][m_serverIndices.value("formExplodeAnytype")].serverUrl();
+    QString fullPath = "/query/anytype/form-explode/formExplodeAnytype";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
+    queryStyle = "form";
+    if (queryStyle == "")
+        queryStyle = "form";
+    queryPrefix = getParamStylePrefix(queryStyle);
+    querySuffix = getParamStyleSuffix(queryStyle);
+    {
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+        QString paramString = (queryStyle == "form" && true) ?  "" : "anytypeParameter" + querySuffix;
+        QString assignOperator;
+        if (queryStyle == "form")
+            assignOperator = (true) ? "=" : ",";
+        else if (queryStyle == "deepObject")
+            assignOperator = (true) ? "=" : "none";
+        queryDelimiter = ((queryStyle == "form" || queryStyle == "deepObject") && true) ? "&" : ",";
+        
+        switch(anytypeParameter.type()) {
+        case QJsonValue::String:
+        case QJsonValue::Bool:
+        case QJsonValue::Double:
+        {
+            paramString.append(::OpenAPI::toStringValue(anytypeParameter.toVariant()));
+        } break;
+        case QJsonValue::Array:
+        {
+            queryDelimiter = getParamStyleDelimiter(queryStyle, "anytypeParameter", true);
+            QVariantList array = anytypeParameter.toArray().toVariantList();
+            if (array.size() > 0) {
+                paramString = "anytypeParameter" + querySuffix;
+                if (true) {
+                    for (const auto &value: array)
+                        paramString.append(::OpenAPI::toStringValue(value) + queryDelimiter);
+                    paramString.chop(queryDelimiter.size());
+                } else {
+                    paramString.append(::OpenAPI::toStringValue(array, queryDelimiter));
+                }
+            }
+        } break;
+        case QJsonValue::Object:
+        {
+            QVariantMap map = anytypeParameter.toObject().toVariantMap();
+            if (map.size() > 0)
+                paramString.append(::OpenAPI::toStringValue(map, assignOperator, queryDelimiter));
+        } break;
+        case QJsonValue::Null:
+        {
+            paramString.append(QString("anytypeParameter") + assignOperator + QString("null"));
+        } break;
+        case QJsonValue::Undefined:
+        {
+            paramString = "";
+            qWarning() << "Query parameter serialization is not supported for the value: " << anytypeParameter;
+        } break;
+        }
+
+        fullPath.append(QUrl::toPercentEncoding(paramString));
+
+    }
+    OAIHttpRequestInput input(fullPath, "POST");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            formExplodeAnytypeCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit formExplodeAnytypeErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::formExplodeAnytypeCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit formExplodeAnytypeFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::formExplodeArray(const QList<qint32> &arrayParameter)
+* 'formExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] arrayParameter QList<qint32> [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::formExplodeArray(const QList<qint32> &arrayParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'formExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    formExplodeArray(arrayParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual formExplodeArrayWithDataImpl() in derived class.
+* The virtual formExplodeArrayWithDataImpl() is being called by the template
+* function.
+
+* @param[in] arrayParameter QList<qint32> [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::formExplodeArrayCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by formExplodeArrayFinished() or
+* being returned as a callback parameter of formExplodeArray() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::formExplodeArrayWithDataImpl(const QList<qint32> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the formExplodeArray() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking formExplodeArray() operation calls.
+
+* @param[in] arrayParameter QList<qint32> [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::formExplodeArrayWithDataImpl(const QList<qint32> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["formExplodeArray"][m_serverIndices.value("formExplodeArray")].serverUrl();
+    QString fullPath = "/query/array/form-explode/formExplodeArray";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
+    queryStyle = "form";
+    if (queryStyle == "")
+        queryStyle = "form";
+    queryPrefix = getParamStylePrefix(queryStyle);
+    querySuffix = getParamStyleSuffix(queryStyle);
+    {
+
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "arrayParameter", true);
+        if (arrayParameter.size() > 0) {
+            if (QString("multi").indexOf("multi") == 0) {
+                for (qint32 t : arrayParameter) {
+                    if (fullPath.indexOf("?") > 0)
+                        fullPath.append(queryPrefix);
+                    else
+                        fullPath.append("?");
+                    fullPath.append("arrayParameter=").append(::OpenAPI::toStringValue(t));
+                }
+            } else if (QString("multi").indexOf("ssv") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter) {
+                    if (count > 0) {
+                        fullPath.append((true)? queryDelimiter : QUrl::toPercentEncoding(queryDelimiter));
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("multi").indexOf("tsv") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter) {
+                    if (count > 0) {
+                        fullPath.append("\t");
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("multi").indexOf("csv") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("multi").indexOf("pipes") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("multi").indexOf("deepObject") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            }
+        }
+    }
+    OAIHttpRequestInput input(fullPath, "POST");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            formExplodeArrayCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit formExplodeArrayErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::formExplodeArrayCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit formExplodeArrayFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::formExplodeObject(const OAITestObject &objectParameter)
+* 'formExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] objectParameter OAITestObject [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::formExplodeObject(const OAITestObject &objectParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'formExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    formExplodeObject(objectParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual formExplodeObjectWithDataImpl() in derived class.
+* The virtual formExplodeObjectWithDataImpl() is being called by the template
+* function.
+
+* @param[in] objectParameter OAITestObject [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::formExplodeObjectCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by formExplodeObjectFinished() or
+* being returned as a callback parameter of formExplodeObject() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::formExplodeObjectWithDataImpl(const OAITestObject &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the formExplodeObject() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking formExplodeObject() operation calls.
+
+* @param[in] objectParameter OAITestObject [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::formExplodeObjectWithDataImpl(const OAITestObject &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["formExplodeObject"][m_serverIndices.value("formExplodeObject")].serverUrl();
+    QString fullPath = "/query/object/form-explode/formExplodeObject";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
+    queryStyle = "form";
+    if (queryStyle == "")
+        queryStyle = "form";
+    queryPrefix = getParamStylePrefix(queryStyle);
+    querySuffix = getParamStyleSuffix(queryStyle);
+    {
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+        QString paramString = (queryStyle == "form" && true) ?  "" : "objectParameter" + querySuffix;
+        QString assignOperator;
+        if (queryStyle == "form")
+            assignOperator = (true) ? "=" : ",";
+        else if (queryStyle == "deepObject")
+            assignOperator = (true) ? "=" : "none";
+        queryDelimiter = ((queryStyle == "form" || queryStyle == "deepObject") && true) ? "&" : ",";
+        const QJsonObject parameter = objectParameter.asJsonObject();
+        qint32 count = 0;
+        for(const QString& key : parameter.keys()) {
+            if (count > 0)
+                paramString.append(queryDelimiter);
+            paramString.append(::OpenAPI::optionParameterToString(((queryStyle == "form") ? key
+                               : QString("objectParameter") + QString("[") + key + QString("]")), assignOperator, parameter.value(key)));
+            count++;
+        }
+
+
+        fullPath.append(QUrl::toPercentEncoding(paramString));
+
+    }
+    OAIHttpRequestInput input(fullPath, "POST");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            formExplodeObjectCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit formExplodeObjectErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::formExplodeObjectCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit formExplodeObjectFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::formExplodeString(const ::OpenAPI::OptionalParam<QString> &stringParameter = ::OpenAPI::OptionalParam<QString>())
+* 'formExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] stringParameter QString [optional]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::formExplodeString(const ::OpenAPI::OptionalParam<QString> &stringParameter = ::OpenAPI::OptionalParam<QString>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'formExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    formExplodeString(stringParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual formExplodeStringWithDataImpl() in derived class.
+* The virtual formExplodeStringWithDataImpl() is being called by the template
+* function.
+
+* @param[in] stringParameter QString [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::formExplodeStringCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by formExplodeStringFinished() or
+* being returned as a callback parameter of formExplodeString() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::formExplodeStringWithDataImpl(const ::OpenAPI::OptionalParam<QString> &stringParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the formExplodeString() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking formExplodeString() operation calls.
+
+* @param[in] stringParameter QString [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::formExplodeStringWithDataImpl(const ::OpenAPI::OptionalParam<QString> &stringParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["formExplodeString"][m_serverIndices.value("formExplodeString")].serverUrl();
+    QString fullPath = "/query/string/form-explode/formExplodeString";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
+    queryStyle = "form";
+    if (queryStyle == "")
+        queryStyle = "form";
+    queryPrefix = getParamStylePrefix(queryStyle);
+    querySuffix = getParamStyleSuffix(queryStyle);
+    if (stringParameter.hasValue()) {
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+        fullPath.append(QUrl::toPercentEncoding("stringParameter") + querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(stringParameter.value())));
+
+    }
+    OAIHttpRequestInput input(fullPath, "POST");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            formExplodeStringCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit formExplodeStringErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::formExplodeStringCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit formExplodeStringFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::formNotExplodeAnytype(const ::OpenAPI::OptionalParam<QJsonValue> &anytypeParameter = ::OpenAPI::OptionalParam<QJsonValue>())
+* 'formNotExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] anytypeParameter QJsonValue [optional]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::formNotExplodeAnytype(const ::OpenAPI::OptionalParam<QJsonValue> &anytypeParameter = ::OpenAPI::OptionalParam<QJsonValue>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'formNotExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    formNotExplodeAnytype(anytypeParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual formNotExplodeAnytypeWithDataImpl() in derived class.
+* The virtual formNotExplodeAnytypeWithDataImpl() is being called by the template
+* function.
+
+* @param[in] anytypeParameter QJsonValue [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::formNotExplodeAnytypeCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by formNotExplodeAnytypeFinished() or
+* being returned as a callback parameter of formNotExplodeAnytype() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::formNotExplodeAnytypeWithDataImpl(const ::OpenAPI::OptionalParam<QJsonValue> &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the formNotExplodeAnytype() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking formNotExplodeAnytype() operation calls.
+
+* @param[in] anytypeParameter QJsonValue [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::formNotExplodeAnytypeWithDataImpl(const ::OpenAPI::OptionalParam<QJsonValue> &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["formNotExplodeAnytype"][m_serverIndices.value("formNotExplodeAnytype")].serverUrl();
+    QString fullPath = "/query/anytype/form-not-explode/formNotExplodeAnytype";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
+    queryStyle = "form";
+    if (queryStyle == "")
+        queryStyle = "form";
+    queryPrefix = getParamStylePrefix(queryStyle);
+    querySuffix = getParamStyleSuffix(queryStyle);
+    if (anytypeParameter.hasValue()) {
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+        QString paramString = (queryStyle == "form" && false) ?  "" : "anytypeParameter" + querySuffix;
+        QString assignOperator;
+        if (queryStyle == "form")
+            assignOperator = (false) ? "=" : ",";
+        else if (queryStyle == "deepObject")
+            assignOperator = (false) ? "=" : "none";
+        queryDelimiter = ((queryStyle == "form" || queryStyle == "deepObject") && false) ? "&" : ",";
+        
+        switch(anytypeParameter.value().type()) {
+        case QJsonValue::String:
+        case QJsonValue::Bool:
+        case QJsonValue::Double:
+        {
+            paramString.append(::OpenAPI::toStringValue(anytypeParameter.value().toVariant()));
+        } break;
+        case QJsonValue::Array:
+        {
+            queryDelimiter = getParamStyleDelimiter(queryStyle, "anytypeParameter", false);
+            QVariantList array = anytypeParameter.value().toArray().toVariantList();
+            if (array.size() > 0) {
+                paramString = "anytypeParameter" + querySuffix;
+                if (false) {
+                    for (const auto &value: array)
+                        paramString.append(::OpenAPI::toStringValue(value) + queryDelimiter);
+                    paramString.chop(queryDelimiter.size());
+                } else {
+                    paramString.append(::OpenAPI::toStringValue(array, queryDelimiter));
+                }
+            }
+        } break;
+        case QJsonValue::Object:
+        {
+            QVariantMap map = anytypeParameter.value().toObject().toVariantMap();
+            if (map.size() > 0)
+                paramString.append(::OpenAPI::toStringValue(map, assignOperator, queryDelimiter));
+        } break;
+        case QJsonValue::Null:
+        {
+            paramString.append(QString("anytypeParameter") + assignOperator + QString("null"));
+        } break;
+        case QJsonValue::Undefined:
+        {
+            paramString = "";
+            qWarning() << "Query parameter serialization is not supported for the value: " << anytypeParameter.value();
+        } break;
+        }
+
+        fullPath.append(QUrl::toPercentEncoding(paramString));
+
+    }
+    OAIHttpRequestInput input(fullPath, "POST");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            formNotExplodeAnytypeCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit formNotExplodeAnytypeErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::formNotExplodeAnytypeCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit formNotExplodeAnytypeFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::formNotExplodeArray(const ::OpenAPI::OptionalParam<QList<qint32>> &arrayParameter = ::OpenAPI::OptionalParam<QList<qint32>>())
+* 'formNotExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] arrayParameter QList<qint32> [optional]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::formNotExplodeArray(const ::OpenAPI::OptionalParam<QList<qint32>> &arrayParameter = ::OpenAPI::OptionalParam<QList<qint32>>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'formNotExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    formNotExplodeArray(arrayParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual formNotExplodeArrayWithDataImpl() in derived class.
+* The virtual formNotExplodeArrayWithDataImpl() is being called by the template
+* function.
+
+* @param[in] arrayParameter QList<qint32> [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::formNotExplodeArrayCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by formNotExplodeArrayFinished() or
+* being returned as a callback parameter of formNotExplodeArray() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::formNotExplodeArrayWithDataImpl(const ::OpenAPI::OptionalParam<QList<qint32>> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the formNotExplodeArray() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking formNotExplodeArray() operation calls.
+
+* @param[in] arrayParameter QList<qint32> [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::formNotExplodeArrayWithDataImpl(const ::OpenAPI::OptionalParam<QList<qint32>> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["formNotExplodeArray"][m_serverIndices.value("formNotExplodeArray")].serverUrl();
+    QString fullPath = "/query/array/form-not-explode/formNotExplodeArray";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
+    queryStyle = "form";
+    if (queryStyle == "")
+        queryStyle = "form";
+    queryPrefix = getParamStylePrefix(queryStyle);
+    querySuffix = getParamStyleSuffix(queryStyle);
+    if (arrayParameter.hasValue()) {
+
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "arrayParameter", false);
+        if (arrayParameter.value().size() > 0) {
+            if (QString("csv").indexOf("multi") == 0) {
+                for (qint32 t : arrayParameter.value()) {
+                    if (fullPath.indexOf("?") > 0)
+                        fullPath.append(queryPrefix);
+                    else
+                        fullPath.append("?");
+                    fullPath.append("arrayParameter=").append(::OpenAPI::toStringValue(t));
+                }
+            } else if (QString("csv").indexOf("ssv") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter.value()) {
+                    if (count > 0) {
+                        fullPath.append((false)? queryDelimiter : QUrl::toPercentEncoding(queryDelimiter));
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("csv").indexOf("tsv") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter.value()) {
+                    if (count > 0) {
+                        fullPath.append("\t");
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("csv").indexOf("csv") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter.value()) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("csv").indexOf("pipes") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter.value()) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("csv").indexOf("deepObject") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter.value()) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            }
+        }
+    }
+    OAIHttpRequestInput input(fullPath, "POST");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            formNotExplodeArrayCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit formNotExplodeArrayErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::formNotExplodeArrayCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit formNotExplodeArrayFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::formNotExplodeObject(const ::OpenAPI::OptionalParam<OAITestObject> &objectParameter = ::OpenAPI::OptionalParam<OAITestObject>())
+* 'formNotExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] objectParameter OAITestObject [optional]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::formNotExplodeObject(const ::OpenAPI::OptionalParam<OAITestObject> &objectParameter = ::OpenAPI::OptionalParam<OAITestObject>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'formNotExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    formNotExplodeObject(objectParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual formNotExplodeObjectWithDataImpl() in derived class.
+* The virtual formNotExplodeObjectWithDataImpl() is being called by the template
+* function.
+
+* @param[in] objectParameter OAITestObject [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::formNotExplodeObjectCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by formNotExplodeObjectFinished() or
+* being returned as a callback parameter of formNotExplodeObject() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::formNotExplodeObjectWithDataImpl(const ::OpenAPI::OptionalParam<OAITestObject> &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the formNotExplodeObject() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking formNotExplodeObject() operation calls.
+
+* @param[in] objectParameter OAITestObject [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::formNotExplodeObjectWithDataImpl(const ::OpenAPI::OptionalParam<OAITestObject> &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["formNotExplodeObject"][m_serverIndices.value("formNotExplodeObject")].serverUrl();
+    QString fullPath = "/query/object/form-not-explode/formNotExplodeObject";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
+    queryStyle = "form";
+    if (queryStyle == "")
+        queryStyle = "form";
+    queryPrefix = getParamStylePrefix(queryStyle);
+    querySuffix = getParamStyleSuffix(queryStyle);
+    if (objectParameter.hasValue()) {
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+        QString paramString = (queryStyle == "form" && false) ?  "" : "objectParameter" + querySuffix;
+        QString assignOperator;
+        if (queryStyle == "form")
+            assignOperator = (false) ? "=" : ",";
+        else if (queryStyle == "deepObject")
+            assignOperator = (false) ? "=" : "none";
+        queryDelimiter = ((queryStyle == "form" || queryStyle == "deepObject") && false) ? "&" : ",";
+        const QJsonObject parameter = objectParameter.value().asJsonObject();
+        qint32 count = 0;
+        for(const QString& key : parameter.keys()) {
+            if (count > 0)
+                paramString.append(queryDelimiter);
+            paramString.append(::OpenAPI::optionParameterToString(((queryStyle == "form") ? key
+                               : QString("objectParameter") + QString("[") + key + QString("]")), assignOperator, parameter.value(key)));
+            count++;
+        }
+
+
+        fullPath.append(QUrl::toPercentEncoding(paramString));
+
+    }
+    OAIHttpRequestInput input(fullPath, "POST");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            formNotExplodeObjectCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit formNotExplodeObjectErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::formNotExplodeObjectCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit formNotExplodeObjectFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::formNotExplodeString(const ::OpenAPI::OptionalParam<QString> &stringParameter = ::OpenAPI::OptionalParam<QString>())
+* 'formNotExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] stringParameter QString [optional]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::formNotExplodeString(const ::OpenAPI::OptionalParam<QString> &stringParameter = ::OpenAPI::OptionalParam<QString>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'formNotExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    formNotExplodeString(stringParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual formNotExplodeStringWithDataImpl() in derived class.
+* The virtual formNotExplodeStringWithDataImpl() is being called by the template
+* function.
+
+* @param[in] stringParameter QString [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::formNotExplodeStringCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by formNotExplodeStringFinished() or
+* being returned as a callback parameter of formNotExplodeString() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::formNotExplodeStringWithDataImpl(const ::OpenAPI::OptionalParam<QString> &stringParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the formNotExplodeString() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking formNotExplodeString() operation calls.
+
+* @param[in] stringParameter QString [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::formNotExplodeStringWithDataImpl(const ::OpenAPI::OptionalParam<QString> &stringParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["formNotExplodeString"][m_serverIndices.value("formNotExplodeString")].serverUrl();
+    QString fullPath = "/query/string/form-not-explode/formNotExplodeString";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
+    queryStyle = "form";
+    if (queryStyle == "")
+        queryStyle = "form";
+    queryPrefix = getParamStylePrefix(queryStyle);
+    querySuffix = getParamStyleSuffix(queryStyle);
+    if (stringParameter.hasValue()) {
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+        fullPath.append(QUrl::toPercentEncoding("stringParameter") + querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(stringParameter.value())));
+
+    }
+    OAIHttpRequestInput input(fullPath, "POST");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            formNotExplodeStringCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit formNotExplodeStringErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::formNotExplodeStringCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit formNotExplodeStringFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::labelExplodeAnytype(const QJsonValue &anytypeParameter)
+* 'labelExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] anytypeParameter QJsonValue [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::labelExplodeAnytype(const QJsonValue &anytypeParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'labelExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    labelExplodeAnytype(anytypeParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual labelExplodeAnytypeWithDataImpl() in derived class.
+* The virtual labelExplodeAnytypeWithDataImpl() is being called by the template
+* function.
+
+* @param[in] anytypeParameter QJsonValue [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::labelExplodeAnytypeCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by labelExplodeAnytypeFinished() or
+* being returned as a callback parameter of labelExplodeAnytype() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::labelExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the labelExplodeAnytype() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking labelExplodeAnytype() operation calls.
+
+* @param[in] anytypeParameter QJsonValue [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::labelExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["labelExplodeAnytype"][m_serverIndices.value("labelExplodeAnytype")].serverUrl();
+    QString fullPath = "/path/anytype/label-explode/{anytypeParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString anytypeParameterPathParam("{");
+    anytypeParameterPathParam.append("anytypeParameter").append("}");
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "label";
+    if (pathStyle == "")
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "anytypeParameter", true);
+    QString paramString = (pathStyle == "matrix" && !true) ? pathPrefix + "anytypeParameter" + pathSuffix : pathPrefix;
+    const QString assignOperator = (true) ? "=" : ",";
+    
+    switch(anytypeParameter.type()) {
+    case QJsonValue::String:
+    case QJsonValue::Bool:
+    case QJsonValue::Double:
+    {
+        paramString = (pathStyle == "matrix") ? pathPrefix + "anytypeParameter" + pathSuffix : pathPrefix;
+        paramString.append(::OpenAPI::toStringValue(anytypeParameter.toVariant()));
+    } break;
+    case QJsonValue::Array:
+    {
+        const QVariantList array = anytypeParameter.toArray().toVariantList();
+        if (array.size() > 0) {
+            paramString = (pathStyle == "matrix") ? pathPrefix + "anytypeParameter" + pathSuffix : pathPrefix;
+            if (true) {
+                for (const auto &value: array)
+                    paramString.append(::OpenAPI::toStringValue(value) + pathDelimiter);
+                paramString.chop(pathDelimiter.size());
+            } else {
+                paramString.append(::OpenAPI::toStringValue(array, pathDelimiter));
+            }
+        }
+    } break;
+    case QJsonValue::Object:
+    {
+        pathDelimiter = (pathStyle == "matrix" && true) ? ";" : getParamStyleDelimiter(pathStyle, "anytypeParameter", true);
+        QVariantMap map = anytypeParameter.toObject().toVariantMap();
+        if (map.size() > 0)
+            paramString.append(::OpenAPI::toStringValue(map, assignOperator, pathDelimiter));
+    } break;
+    case QJsonValue::Null: // path cannot be optional
+    case QJsonValue::Undefined:
+    {
+        paramString = "";
+        qWarning() << "Path parameter serialization is not supported for the value: " << anytypeParameter;
+    } break;
+    }
+    fullPath.replace(anytypeParameterPathParam, QUrl::toPercentEncoding(paramString));
+
+    OAIHttpRequestInput input(fullPath, "GET");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            labelExplodeAnytypeCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit labelExplodeAnytypeErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::labelExplodeAnytypeCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit labelExplodeAnytypeFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::labelExplodeArray(const QList<qint32> &arrayParameter)
+* 'labelExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] arrayParameter QList<qint32> [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::labelExplodeArray(const QList<qint32> &arrayParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'labelExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    labelExplodeArray(arrayParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual labelExplodeArrayWithDataImpl() in derived class.
+* The virtual labelExplodeArrayWithDataImpl() is being called by the template
+* function.
+
+* @param[in] arrayParameter QList<qint32> [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::labelExplodeArrayCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by labelExplodeArrayFinished() or
+* being returned as a callback parameter of labelExplodeArray() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::labelExplodeArrayWithDataImpl(const QList<qint32> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the labelExplodeArray() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking labelExplodeArray() operation calls.
+
+* @param[in] arrayParameter QList<qint32> [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::labelExplodeArrayWithDataImpl(const QList<qint32> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["labelExplodeArray"][m_serverIndices.value("labelExplodeArray")].serverUrl();
+    QString fullPath = "/path/array/label-explode/{arrayParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString arrayParameterPathParam("{");
+    arrayParameterPathParam.append("arrayParameter").append("}");
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "label";
+    if (pathStyle == "")
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "arrayParameter", true);
+
+    if (arrayParameter.size() > 0) {
+        QString paramString = (pathStyle == "matrix") ? pathPrefix + "arrayParameter" + pathSuffix : pathPrefix;
+        qint32 count = 0;
+        for (qint32 t : arrayParameter) {
+            if (count > 0) {
+                fullPath.append(pathDelimiter);
+            }
+            fullPath.append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(t)));
+            count++;
+        }
+        fullPath.replace(arrayParameterPathParam, paramString);
+    }
+
+    OAIHttpRequestInput input(fullPath, "GET");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            labelExplodeArrayCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit labelExplodeArrayErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::labelExplodeArrayCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit labelExplodeArrayFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::labelExplodeObject(const OAITestObject &objectParameter)
+* 'labelExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] objectParameter OAITestObject [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::labelExplodeObject(const OAITestObject &objectParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'labelExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    labelExplodeObject(objectParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual labelExplodeObjectWithDataImpl() in derived class.
+* The virtual labelExplodeObjectWithDataImpl() is being called by the template
+* function.
+
+* @param[in] objectParameter OAITestObject [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::labelExplodeObjectCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by labelExplodeObjectFinished() or
+* being returned as a callback parameter of labelExplodeObject() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::labelExplodeObjectWithDataImpl(const OAITestObject &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the labelExplodeObject() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking labelExplodeObject() operation calls.
+
+* @param[in] objectParameter OAITestObject [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::labelExplodeObjectWithDataImpl(const OAITestObject &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["labelExplodeObject"][m_serverIndices.value("labelExplodeObject")].serverUrl();
+    QString fullPath = "/path/object/label-explode/{objectParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString objectParameterPathParam("{");
+    objectParameterPathParam.append("objectParameter").append("}");
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "label";
+    if (pathStyle == "")
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "objectParameter", true);
+    QString paramString = (pathStyle == "matrix" && !true) ? pathPrefix + "objectParameter" + pathSuffix : pathPrefix;
+    const QString assignOperator = (true) ? "=" : ",";
+    const QJsonObject parameter = objectParameter.asJsonObject();
+    qint32 count = 0;
+    for(const QString& key : parameter.keys()) {
+        if (count > 0) {
+            pathDelimiter = (pathStyle == "matrix" && true) ? ";" : getParamStyleDelimiter(pathStyle, key, true);
+            paramString.append(pathDelimiter);
+        }
+        paramString.append(::OpenAPI::parameterToString(key, assignOperator, parameter.value(key)));
+        count++;
+    }
+    fullPath.replace(objectParameterPathParam, QUrl::toPercentEncoding(paramString));
+
+    OAIHttpRequestInput input(fullPath, "GET");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            labelExplodeObjectCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit labelExplodeObjectErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::labelExplodeObjectCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit labelExplodeObjectFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::labelExplodeString(const QString &stringParameter)
+* 'labelExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] stringParameter QString [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::labelExplodeString(const QString &stringParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'labelExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    labelExplodeString(stringParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual labelExplodeStringWithDataImpl() in derived class.
+* The virtual labelExplodeStringWithDataImpl() is being called by the template
+* function.
+
+* @param[in] stringParameter QString [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::labelExplodeStringCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by labelExplodeStringFinished() or
+* being returned as a callback parameter of labelExplodeString() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::labelExplodeStringWithDataImpl(const QString &stringParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the labelExplodeString() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking labelExplodeString() operation calls.
+
+* @param[in] stringParameter QString [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::labelExplodeStringWithDataImpl(const QString &stringParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["labelExplodeString"][m_serverIndices.value("labelExplodeString")].serverUrl();
+    QString fullPath = "/path/string/label-explode/{stringParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString stringParameterPathParam("{");
+    stringParameterPathParam.append("stringParameter").append("}");
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "label";
+    if (pathStyle == "")
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "stringParameter", true);
+
+    QString paramString = (pathStyle == "matrix") ? pathPrefix + "stringParameter" + pathSuffix : pathPrefix;
+    fullPath.replace(stringParameterPathParam, QUrl::toPercentEncoding(paramString + ::OpenAPI::toStringValue(stringParameter)));
+
+    OAIHttpRequestInput input(fullPath, "GET");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            labelExplodeStringCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit labelExplodeStringErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::labelExplodeStringCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit labelExplodeStringFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::labelNotExplodeAnytype(const QJsonValue &anytypeParameter)
+* 'labelNotExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] anytypeParameter QJsonValue [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::labelNotExplodeAnytype(const QJsonValue &anytypeParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'labelNotExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    labelNotExplodeAnytype(anytypeParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual labelNotExplodeAnytypeWithDataImpl() in derived class.
+* The virtual labelNotExplodeAnytypeWithDataImpl() is being called by the template
+* function.
+
+* @param[in] anytypeParameter QJsonValue [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::labelNotExplodeAnytypeCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by labelNotExplodeAnytypeFinished() or
+* being returned as a callback parameter of labelNotExplodeAnytype() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::labelNotExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the labelNotExplodeAnytype() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking labelNotExplodeAnytype() operation calls.
+
+* @param[in] anytypeParameter QJsonValue [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::labelNotExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["labelNotExplodeAnytype"][m_serverIndices.value("labelNotExplodeAnytype")].serverUrl();
+    QString fullPath = "/path/anytype/label-not-explode/{anytypeParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString anytypeParameterPathParam("{");
+    anytypeParameterPathParam.append("anytypeParameter").append("}");
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "label";
+    if (pathStyle == "")
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "anytypeParameter", false);
+    QString paramString = (pathStyle == "matrix" && !false) ? pathPrefix + "anytypeParameter" + pathSuffix : pathPrefix;
+    const QString assignOperator = (false) ? "=" : ",";
+    
+    switch(anytypeParameter.type()) {
+    case QJsonValue::String:
+    case QJsonValue::Bool:
+    case QJsonValue::Double:
+    {
+        paramString = (pathStyle == "matrix") ? pathPrefix + "anytypeParameter" + pathSuffix : pathPrefix;
+        paramString.append(::OpenAPI::toStringValue(anytypeParameter.toVariant()));
+    } break;
+    case QJsonValue::Array:
+    {
+        const QVariantList array = anytypeParameter.toArray().toVariantList();
+        if (array.size() > 0) {
+            paramString = (pathStyle == "matrix") ? pathPrefix + "anytypeParameter" + pathSuffix : pathPrefix;
+            if (false) {
+                for (const auto &value: array)
+                    paramString.append(::OpenAPI::toStringValue(value) + pathDelimiter);
+                paramString.chop(pathDelimiter.size());
+            } else {
+                paramString.append(::OpenAPI::toStringValue(array, pathDelimiter));
+            }
+        }
+    } break;
+    case QJsonValue::Object:
+    {
+        pathDelimiter = (pathStyle == "matrix" && false) ? ";" : getParamStyleDelimiter(pathStyle, "anytypeParameter", false);
+        QVariantMap map = anytypeParameter.toObject().toVariantMap();
+        if (map.size() > 0)
+            paramString.append(::OpenAPI::toStringValue(map, assignOperator, pathDelimiter));
+    } break;
+    case QJsonValue::Null: // path cannot be optional
+    case QJsonValue::Undefined:
+    {
+        paramString = "";
+        qWarning() << "Path parameter serialization is not supported for the value: " << anytypeParameter;
+    } break;
+    }
+    fullPath.replace(anytypeParameterPathParam, QUrl::toPercentEncoding(paramString));
+
+    OAIHttpRequestInput input(fullPath, "GET");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            labelNotExplodeAnytypeCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit labelNotExplodeAnytypeErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::labelNotExplodeAnytypeCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit labelNotExplodeAnytypeFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::labelNotExplodeArray(const QList<qint32> &arrayParameter)
+* 'labelNotExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] arrayParameter QList<qint32> [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::labelNotExplodeArray(const QList<qint32> &arrayParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'labelNotExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    labelNotExplodeArray(arrayParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual labelNotExplodeArrayWithDataImpl() in derived class.
+* The virtual labelNotExplodeArrayWithDataImpl() is being called by the template
+* function.
+
+* @param[in] arrayParameter QList<qint32> [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::labelNotExplodeArrayCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by labelNotExplodeArrayFinished() or
+* being returned as a callback parameter of labelNotExplodeArray() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::labelNotExplodeArrayWithDataImpl(const QList<qint32> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the labelNotExplodeArray() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking labelNotExplodeArray() operation calls.
+
+* @param[in] arrayParameter QList<qint32> [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::labelNotExplodeArrayWithDataImpl(const QList<qint32> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["labelNotExplodeArray"][m_serverIndices.value("labelNotExplodeArray")].serverUrl();
+    QString fullPath = "/path/array/label-not-explode/{arrayParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString arrayParameterPathParam("{");
+    arrayParameterPathParam.append("arrayParameter").append("}");
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "label";
+    if (pathStyle == "")
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "arrayParameter", false);
+
+    if (arrayParameter.size() > 0) {
+        QString paramString = (pathStyle == "matrix") ? pathPrefix + "arrayParameter" + pathSuffix : pathPrefix;
+        qint32 count = 0;
+        for (qint32 t : arrayParameter) {
+            if (count > 0) {
+                fullPath.append(pathDelimiter);
+            }
+            fullPath.append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(t)));
+            count++;
+        }
+        fullPath.replace(arrayParameterPathParam, paramString);
+    }
+
+    OAIHttpRequestInput input(fullPath, "GET");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            labelNotExplodeArrayCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit labelNotExplodeArrayErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::labelNotExplodeArrayCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit labelNotExplodeArrayFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::labelNotExplodeObject(const OAITestObject &objectParameter)
+* 'labelNotExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] objectParameter OAITestObject [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::labelNotExplodeObject(const OAITestObject &objectParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'labelNotExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    labelNotExplodeObject(objectParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual labelNotExplodeObjectWithDataImpl() in derived class.
+* The virtual labelNotExplodeObjectWithDataImpl() is being called by the template
+* function.
+
+* @param[in] objectParameter OAITestObject [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::labelNotExplodeObjectCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by labelNotExplodeObjectFinished() or
+* being returned as a callback parameter of labelNotExplodeObject() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::labelNotExplodeObjectWithDataImpl(const OAITestObject &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the labelNotExplodeObject() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking labelNotExplodeObject() operation calls.
+
+* @param[in] objectParameter OAITestObject [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::labelNotExplodeObjectWithDataImpl(const OAITestObject &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["labelNotExplodeObject"][m_serverIndices.value("labelNotExplodeObject")].serverUrl();
+    QString fullPath = "/path/object/label-not-explode/{objectParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString objectParameterPathParam("{");
+    objectParameterPathParam.append("objectParameter").append("}");
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "label";
+    if (pathStyle == "")
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "objectParameter", false);
+    QString paramString = (pathStyle == "matrix" && !false) ? pathPrefix + "objectParameter" + pathSuffix : pathPrefix;
+    const QString assignOperator = (false) ? "=" : ",";
+    const QJsonObject parameter = objectParameter.asJsonObject();
+    qint32 count = 0;
+    for(const QString& key : parameter.keys()) {
+        if (count > 0) {
+            pathDelimiter = (pathStyle == "matrix" && false) ? ";" : getParamStyleDelimiter(pathStyle, key, false);
+            paramString.append(pathDelimiter);
+        }
+        paramString.append(::OpenAPI::parameterToString(key, assignOperator, parameter.value(key)));
+        count++;
+    }
+    fullPath.replace(objectParameterPathParam, QUrl::toPercentEncoding(paramString));
+
+    OAIHttpRequestInput input(fullPath, "POST");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            labelNotExplodeObjectCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit labelNotExplodeObjectErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::labelNotExplodeObjectCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit labelNotExplodeObjectFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::labelNotExplodeString(const QString &stringParameter)
+* 'labelNotExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] stringParameter QString [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::labelNotExplodeString(const QString &stringParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'labelNotExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    labelNotExplodeString(stringParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual labelNotExplodeStringWithDataImpl() in derived class.
+* The virtual labelNotExplodeStringWithDataImpl() is being called by the template
+* function.
+
+* @param[in] stringParameter QString [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::labelNotExplodeStringCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by labelNotExplodeStringFinished() or
+* being returned as a callback parameter of labelNotExplodeString() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::labelNotExplodeStringWithDataImpl(const QString &stringParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the labelNotExplodeString() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking labelNotExplodeString() operation calls.
+
+* @param[in] stringParameter QString [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::labelNotExplodeStringWithDataImpl(const QString &stringParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["labelNotExplodeString"][m_serverIndices.value("labelNotExplodeString")].serverUrl();
+    QString fullPath = "/path/string/label-not-explode/{stringParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString stringParameterPathParam("{");
+    stringParameterPathParam.append("stringParameter").append("}");
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "label";
+    if (pathStyle == "")
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "stringParameter", false);
+
+    QString paramString = (pathStyle == "matrix") ? pathPrefix + "stringParameter" + pathSuffix : pathPrefix;
+    fullPath.replace(stringParameterPathParam, QUrl::toPercentEncoding(paramString + ::OpenAPI::toStringValue(stringParameter)));
+
+    OAIHttpRequestInput input(fullPath, "GET");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            labelNotExplodeStringCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit labelNotExplodeStringErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::labelNotExplodeStringCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit labelNotExplodeStringFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::matrixExplodeAnytype(const QJsonValue &anytypeParameter)
+* 'matrixExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] anytypeParameter QJsonValue [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::matrixExplodeAnytype(const QJsonValue &anytypeParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'matrixExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    matrixExplodeAnytype(anytypeParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual matrixExplodeAnytypeWithDataImpl() in derived class.
+* The virtual matrixExplodeAnytypeWithDataImpl() is being called by the template
+* function.
+
+* @param[in] anytypeParameter QJsonValue [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::matrixExplodeAnytypeCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by matrixExplodeAnytypeFinished() or
+* being returned as a callback parameter of matrixExplodeAnytype() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::matrixExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the matrixExplodeAnytype() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking matrixExplodeAnytype() operation calls.
+
+* @param[in] anytypeParameter QJsonValue [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::matrixExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["matrixExplodeAnytype"][m_serverIndices.value("matrixExplodeAnytype")].serverUrl();
+    QString fullPath = "/path/anytype/matrix-explode/{anytypeParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString anytypeParameterPathParam("{");
+    anytypeParameterPathParam.append("anytypeParameter").append("}");
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "matrix";
+    if (pathStyle == "")
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "anytypeParameter", true);
+    QString paramString = (pathStyle == "matrix" && !true) ? pathPrefix + "anytypeParameter" + pathSuffix : pathPrefix;
+    const QString assignOperator = (true) ? "=" : ",";
+    
+    switch(anytypeParameter.type()) {
+    case QJsonValue::String:
+    case QJsonValue::Bool:
+    case QJsonValue::Double:
+    {
+        paramString = (pathStyle == "matrix") ? pathPrefix + "anytypeParameter" + pathSuffix : pathPrefix;
+        paramString.append(::OpenAPI::toStringValue(anytypeParameter.toVariant()));
+    } break;
+    case QJsonValue::Array:
+    {
+        const QVariantList array = anytypeParameter.toArray().toVariantList();
+        if (array.size() > 0) {
+            paramString = (pathStyle == "matrix") ? pathPrefix + "anytypeParameter" + pathSuffix : pathPrefix;
+            if (true) {
+                for (const auto &value: array)
+                    paramString.append(::OpenAPI::toStringValue(value) + pathDelimiter);
+                paramString.chop(pathDelimiter.size());
+            } else {
+                paramString.append(::OpenAPI::toStringValue(array, pathDelimiter));
+            }
+        }
+    } break;
+    case QJsonValue::Object:
+    {
+        pathDelimiter = (pathStyle == "matrix" && true) ? ";" : getParamStyleDelimiter(pathStyle, "anytypeParameter", true);
+        QVariantMap map = anytypeParameter.toObject().toVariantMap();
+        if (map.size() > 0)
+            paramString.append(::OpenAPI::toStringValue(map, assignOperator, pathDelimiter));
+    } break;
+    case QJsonValue::Null: // path cannot be optional
+    case QJsonValue::Undefined:
+    {
+        paramString = "";
+        qWarning() << "Path parameter serialization is not supported for the value: " << anytypeParameter;
+    } break;
+    }
+    fullPath.replace(anytypeParameterPathParam, QUrl::toPercentEncoding(paramString));
+
+    OAIHttpRequestInput input(fullPath, "GET");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            matrixExplodeAnytypeCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit matrixExplodeAnytypeErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::matrixExplodeAnytypeCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit matrixExplodeAnytypeFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::matrixExplodeArray(const QList<qint32> &arrayParameter)
+* 'matrixExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] arrayParameter QList<qint32> [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::matrixExplodeArray(const QList<qint32> &arrayParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'matrixExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    matrixExplodeArray(arrayParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual matrixExplodeArrayWithDataImpl() in derived class.
+* The virtual matrixExplodeArrayWithDataImpl() is being called by the template
+* function.
+
+* @param[in] arrayParameter QList<qint32> [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::matrixExplodeArrayCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by matrixExplodeArrayFinished() or
+* being returned as a callback parameter of matrixExplodeArray() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::matrixExplodeArrayWithDataImpl(const QList<qint32> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the matrixExplodeArray() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking matrixExplodeArray() operation calls.
+
+* @param[in] arrayParameter QList<qint32> [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::matrixExplodeArrayWithDataImpl(const QList<qint32> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["matrixExplodeArray"][m_serverIndices.value("matrixExplodeArray")].serverUrl();
+    QString fullPath = "/path/array/matrix-explode/{arrayParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString arrayParameterPathParam("{");
+    arrayParameterPathParam.append("arrayParameter").append("}");
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "matrix";
+    if (pathStyle == "")
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "arrayParameter", true);
+
+    if (arrayParameter.size() > 0) {
+        QString paramString = (pathStyle == "matrix") ? pathPrefix + "arrayParameter" + pathSuffix : pathPrefix;
+        qint32 count = 0;
+        for (qint32 t : arrayParameter) {
+            if (count > 0) {
+                fullPath.append(pathDelimiter);
+            }
+            fullPath.append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(t)));
+            count++;
+        }
+        fullPath.replace(arrayParameterPathParam, paramString);
+    }
+
+    OAIHttpRequestInput input(fullPath, "GET");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            matrixExplodeArrayCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit matrixExplodeArrayErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::matrixExplodeArrayCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit matrixExplodeArrayFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::matrixExplodeObject(const OAITestObject &objectParameter)
+* 'matrixExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] objectParameter OAITestObject [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::matrixExplodeObject(const OAITestObject &objectParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'matrixExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    matrixExplodeObject(objectParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual matrixExplodeObjectWithDataImpl() in derived class.
+* The virtual matrixExplodeObjectWithDataImpl() is being called by the template
+* function.
+
+* @param[in] objectParameter OAITestObject [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::matrixExplodeObjectCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by matrixExplodeObjectFinished() or
+* being returned as a callback parameter of matrixExplodeObject() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::matrixExplodeObjectWithDataImpl(const OAITestObject &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the matrixExplodeObject() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking matrixExplodeObject() operation calls.
+
+* @param[in] objectParameter OAITestObject [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::matrixExplodeObjectWithDataImpl(const OAITestObject &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["matrixExplodeObject"][m_serverIndices.value("matrixExplodeObject")].serverUrl();
+    QString fullPath = "/path/object/matrix-explode/{objectParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString objectParameterPathParam("{");
+    objectParameterPathParam.append("objectParameter").append("}");
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "matrix";
+    if (pathStyle == "")
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "objectParameter", true);
+    QString paramString = (pathStyle == "matrix" && !true) ? pathPrefix + "objectParameter" + pathSuffix : pathPrefix;
+    const QString assignOperator = (true) ? "=" : ",";
+    const QJsonObject parameter = objectParameter.asJsonObject();
+    qint32 count = 0;
+    for(const QString& key : parameter.keys()) {
+        if (count > 0) {
+            pathDelimiter = (pathStyle == "matrix" && true) ? ";" : getParamStyleDelimiter(pathStyle, key, true);
+            paramString.append(pathDelimiter);
+        }
+        paramString.append(::OpenAPI::parameterToString(key, assignOperator, parameter.value(key)));
+        count++;
+    }
+    fullPath.replace(objectParameterPathParam, QUrl::toPercentEncoding(paramString));
+
+    OAIHttpRequestInput input(fullPath, "GET");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            matrixExplodeObjectCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit matrixExplodeObjectErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::matrixExplodeObjectCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit matrixExplodeObjectFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::matrixExplodeString(const QString &stringParameter)
+* 'matrixExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] stringParameter QString [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::matrixExplodeString(const QString &stringParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'matrixExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    matrixExplodeString(stringParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual matrixExplodeStringWithDataImpl() in derived class.
+* The virtual matrixExplodeStringWithDataImpl() is being called by the template
+* function.
+
+* @param[in] stringParameter QString [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::matrixExplodeStringCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by matrixExplodeStringFinished() or
+* being returned as a callback parameter of matrixExplodeString() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::matrixExplodeStringWithDataImpl(const QString &stringParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the matrixExplodeString() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking matrixExplodeString() operation calls.
+
+* @param[in] stringParameter QString [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::matrixExplodeStringWithDataImpl(const QString &stringParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["matrixExplodeString"][m_serverIndices.value("matrixExplodeString")].serverUrl();
+    QString fullPath = "/path/string/matrix-explode/{stringParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString stringParameterPathParam("{");
+    stringParameterPathParam.append("stringParameter").append("}");
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "matrix";
+    if (pathStyle == "")
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "stringParameter", true);
+
+    QString paramString = (pathStyle == "matrix") ? pathPrefix + "stringParameter" + pathSuffix : pathPrefix;
+    fullPath.replace(stringParameterPathParam, QUrl::toPercentEncoding(paramString + ::OpenAPI::toStringValue(stringParameter)));
+
+    OAIHttpRequestInput input(fullPath, "GET");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            matrixExplodeStringCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit matrixExplodeStringErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::matrixExplodeStringCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit matrixExplodeStringFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::matrixNotExplodeAnytype(const QJsonValue &anytypeParameter)
+* 'matrixNotExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] anytypeParameter QJsonValue [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::matrixNotExplodeAnytype(const QJsonValue &anytypeParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'matrixNotExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    matrixNotExplodeAnytype(anytypeParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual matrixNotExplodeAnytypeWithDataImpl() in derived class.
+* The virtual matrixNotExplodeAnytypeWithDataImpl() is being called by the template
+* function.
+
+* @param[in] anytypeParameter QJsonValue [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::matrixNotExplodeAnytypeCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by matrixNotExplodeAnytypeFinished() or
+* being returned as a callback parameter of matrixNotExplodeAnytype() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::matrixNotExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the matrixNotExplodeAnytype() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking matrixNotExplodeAnytype() operation calls.
+
+* @param[in] anytypeParameter QJsonValue [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::matrixNotExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["matrixNotExplodeAnytype"][m_serverIndices.value("matrixNotExplodeAnytype")].serverUrl();
+    QString fullPath = "/path/anytype/matrix-not-explode/{anytypeParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString anytypeParameterPathParam("{");
+    anytypeParameterPathParam.append("anytypeParameter").append("}");
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "matrix";
+    if (pathStyle == "")
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "anytypeParameter", false);
+    QString paramString = (pathStyle == "matrix" && !false) ? pathPrefix + "anytypeParameter" + pathSuffix : pathPrefix;
+    const QString assignOperator = (false) ? "=" : ",";
+    
+    switch(anytypeParameter.type()) {
+    case QJsonValue::String:
+    case QJsonValue::Bool:
+    case QJsonValue::Double:
+    {
+        paramString = (pathStyle == "matrix") ? pathPrefix + "anytypeParameter" + pathSuffix : pathPrefix;
+        paramString.append(::OpenAPI::toStringValue(anytypeParameter.toVariant()));
+    } break;
+    case QJsonValue::Array:
+    {
+        const QVariantList array = anytypeParameter.toArray().toVariantList();
+        if (array.size() > 0) {
+            paramString = (pathStyle == "matrix") ? pathPrefix + "anytypeParameter" + pathSuffix : pathPrefix;
+            if (false) {
+                for (const auto &value: array)
+                    paramString.append(::OpenAPI::toStringValue(value) + pathDelimiter);
+                paramString.chop(pathDelimiter.size());
+            } else {
+                paramString.append(::OpenAPI::toStringValue(array, pathDelimiter));
+            }
+        }
+    } break;
+    case QJsonValue::Object:
+    {
+        pathDelimiter = (pathStyle == "matrix" && false) ? ";" : getParamStyleDelimiter(pathStyle, "anytypeParameter", false);
+        QVariantMap map = anytypeParameter.toObject().toVariantMap();
+        if (map.size() > 0)
+            paramString.append(::OpenAPI::toStringValue(map, assignOperator, pathDelimiter));
+    } break;
+    case QJsonValue::Null: // path cannot be optional
+    case QJsonValue::Undefined:
+    {
+        paramString = "";
+        qWarning() << "Path parameter serialization is not supported for the value: " << anytypeParameter;
+    } break;
+    }
+    fullPath.replace(anytypeParameterPathParam, QUrl::toPercentEncoding(paramString));
+
+    OAIHttpRequestInput input(fullPath, "GET");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            matrixNotExplodeAnytypeCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit matrixNotExplodeAnytypeErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::matrixNotExplodeAnytypeCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit matrixNotExplodeAnytypeFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::matrixNotExplodeArray(const QList<qint32> &arrayParameter)
+* 'matrixNotExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] arrayParameter QList<qint32> [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::matrixNotExplodeArray(const QList<qint32> &arrayParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'matrixNotExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    matrixNotExplodeArray(arrayParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual matrixNotExplodeArrayWithDataImpl() in derived class.
+* The virtual matrixNotExplodeArrayWithDataImpl() is being called by the template
+* function.
+
+* @param[in] arrayParameter QList<qint32> [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::matrixNotExplodeArrayCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by matrixNotExplodeArrayFinished() or
+* being returned as a callback parameter of matrixNotExplodeArray() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::matrixNotExplodeArrayWithDataImpl(const QList<qint32> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the matrixNotExplodeArray() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking matrixNotExplodeArray() operation calls.
+
+* @param[in] arrayParameter QList<qint32> [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::matrixNotExplodeArrayWithDataImpl(const QList<qint32> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["matrixNotExplodeArray"][m_serverIndices.value("matrixNotExplodeArray")].serverUrl();
+    QString fullPath = "/path/array/matrix-not-explode/{arrayParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString arrayParameterPathParam("{");
+    arrayParameterPathParam.append("arrayParameter").append("}");
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "matrix";
+    if (pathStyle == "")
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "arrayParameter", false);
+
+    if (arrayParameter.size() > 0) {
+        QString paramString = (pathStyle == "matrix") ? pathPrefix + "arrayParameter" + pathSuffix : pathPrefix;
+        qint32 count = 0;
+        for (qint32 t : arrayParameter) {
+            if (count > 0) {
+                fullPath.append(pathDelimiter);
+            }
+            fullPath.append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(t)));
+            count++;
+        }
+        fullPath.replace(arrayParameterPathParam, paramString);
+    }
+
+    OAIHttpRequestInput input(fullPath, "GET");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            matrixNotExplodeArrayCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit matrixNotExplodeArrayErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::matrixNotExplodeArrayCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit matrixNotExplodeArrayFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::matrixNotExplodeObject(const OAITestObject &objectParameter)
+* 'matrixNotExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] objectParameter OAITestObject [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::matrixNotExplodeObject(const OAITestObject &objectParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'matrixNotExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    matrixNotExplodeObject(objectParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual matrixNotExplodeObjectWithDataImpl() in derived class.
+* The virtual matrixNotExplodeObjectWithDataImpl() is being called by the template
+* function.
+
+* @param[in] objectParameter OAITestObject [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::matrixNotExplodeObjectCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by matrixNotExplodeObjectFinished() or
+* being returned as a callback parameter of matrixNotExplodeObject() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::matrixNotExplodeObjectWithDataImpl(const OAITestObject &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the matrixNotExplodeObject() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking matrixNotExplodeObject() operation calls.
+
+* @param[in] objectParameter OAITestObject [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::matrixNotExplodeObjectWithDataImpl(const OAITestObject &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["matrixNotExplodeObject"][m_serverIndices.value("matrixNotExplodeObject")].serverUrl();
+    QString fullPath = "/path/object/matrix-not-explode/{objectParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString objectParameterPathParam("{");
+    objectParameterPathParam.append("objectParameter").append("}");
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "matrix";
+    if (pathStyle == "")
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "objectParameter", false);
+    QString paramString = (pathStyle == "matrix" && !false) ? pathPrefix + "objectParameter" + pathSuffix : pathPrefix;
+    const QString assignOperator = (false) ? "=" : ",";
+    const QJsonObject parameter = objectParameter.asJsonObject();
+    qint32 count = 0;
+    for(const QString& key : parameter.keys()) {
+        if (count > 0) {
+            pathDelimiter = (pathStyle == "matrix" && false) ? ";" : getParamStyleDelimiter(pathStyle, key, false);
+            paramString.append(pathDelimiter);
+        }
+        paramString.append(::OpenAPI::parameterToString(key, assignOperator, parameter.value(key)));
+        count++;
+    }
+    fullPath.replace(objectParameterPathParam, QUrl::toPercentEncoding(paramString));
+
+    OAIHttpRequestInput input(fullPath, "GET");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            matrixNotExplodeObjectCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit matrixNotExplodeObjectErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::matrixNotExplodeObjectCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit matrixNotExplodeObjectFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::matrixNotExplodeString(const QString &stringParameter)
+* 'matrixNotExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] stringParameter QString [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::matrixNotExplodeString(const QString &stringParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'matrixNotExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    matrixNotExplodeString(stringParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual matrixNotExplodeStringWithDataImpl() in derived class.
+* The virtual matrixNotExplodeStringWithDataImpl() is being called by the template
+* function.
+
+* @param[in] stringParameter QString [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::matrixNotExplodeStringCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by matrixNotExplodeStringFinished() or
+* being returned as a callback parameter of matrixNotExplodeString() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::matrixNotExplodeStringWithDataImpl(const QString &stringParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the matrixNotExplodeString() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking matrixNotExplodeString() operation calls.
+
+* @param[in] stringParameter QString [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::matrixNotExplodeStringWithDataImpl(const QString &stringParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["matrixNotExplodeString"][m_serverIndices.value("matrixNotExplodeString")].serverUrl();
+    QString fullPath = "/path/string/matrix-not-explode/{stringParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString stringParameterPathParam("{");
+    stringParameterPathParam.append("stringParameter").append("}");
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "matrix";
+    if (pathStyle == "")
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "stringParameter", false);
+
+    QString paramString = (pathStyle == "matrix") ? pathPrefix + "stringParameter" + pathSuffix : pathPrefix;
+    fullPath.replace(stringParameterPathParam, QUrl::toPercentEncoding(paramString + ::OpenAPI::toStringValue(stringParameter)));
+
+    OAIHttpRequestInput input(fullPath, "GET");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            matrixNotExplodeStringCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit matrixNotExplodeStringErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::matrixNotExplodeStringCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit matrixNotExplodeStringFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::pipeDelimitedExplodeAnytype(const QJsonValue &anytypeParameter)
+* 'pipeDelimitedExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] anytypeParameter QJsonValue [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::pipeDelimitedExplodeAnytype(const QJsonValue &anytypeParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'pipeDelimitedExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    pipeDelimitedExplodeAnytype(anytypeParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual pipeDelimitedExplodeAnytypeWithDataImpl() in derived class.
+* The virtual pipeDelimitedExplodeAnytypeWithDataImpl() is being called by the template
+* function.
+
+* @param[in] anytypeParameter QJsonValue [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::pipeDelimitedExplodeAnytypeCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by pipeDelimitedExplodeAnytypeFinished() or
+* being returned as a callback parameter of pipeDelimitedExplodeAnytype() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::pipeDelimitedExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the pipeDelimitedExplodeAnytype() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking pipeDelimitedExplodeAnytype() operation calls.
+
+* @param[in] anytypeParameter QJsonValue [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::pipeDelimitedExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["pipeDelimitedExplodeAnytype"][m_serverIndices.value("pipeDelimitedExplodeAnytype")].serverUrl();
+    QString fullPath = "/query/anytype/pipeDelimited-explode/pipeDelimitedExplodeAnytype";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
+    queryStyle = "pipeDelimited";
+    if (queryStyle == "")
+        queryStyle = "form";
+    queryPrefix = getParamStylePrefix(queryStyle);
+    querySuffix = getParamStyleSuffix(queryStyle);
+    {
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+        QString paramString = (queryStyle == "form" && true) ?  "" : "anytypeParameter" + querySuffix;
+        QString assignOperator;
+        if (queryStyle == "form")
+            assignOperator = (true) ? "=" : ",";
+        else if (queryStyle == "deepObject")
+            assignOperator = (true) ? "=" : "none";
+        queryDelimiter = ((queryStyle == "form" || queryStyle == "deepObject") && true) ? "&" : ",";
+        
+        switch(anytypeParameter.type()) {
+        case QJsonValue::String:
+        case QJsonValue::Bool:
+        case QJsonValue::Double:
+        {
+            paramString.append(::OpenAPI::toStringValue(anytypeParameter.toVariant()));
+        } break;
+        case QJsonValue::Array:
+        {
+            queryDelimiter = getParamStyleDelimiter(queryStyle, "anytypeParameter", true);
+            QVariantList array = anytypeParameter.toArray().toVariantList();
+            if (array.size() > 0) {
+                paramString = "anytypeParameter" + querySuffix;
+                if (true) {
+                    for (const auto &value: array)
+                        paramString.append(::OpenAPI::toStringValue(value) + queryDelimiter);
+                    paramString.chop(queryDelimiter.size());
+                } else {
+                    paramString.append(::OpenAPI::toStringValue(array, queryDelimiter));
+                }
+            }
+        } break;
+        case QJsonValue::Object:
+        {
+            QVariantMap map = anytypeParameter.toObject().toVariantMap();
+            if (map.size() > 0)
+                paramString.append(::OpenAPI::toStringValue(map, assignOperator, queryDelimiter));
+        } break;
+        case QJsonValue::Null:
+        {
+            paramString.append(QString("anytypeParameter") + assignOperator + QString("null"));
+        } break;
+        case QJsonValue::Undefined:
+        {
+            paramString = "";
+            qWarning() << "Query parameter serialization is not supported for the value: " << anytypeParameter;
+        } break;
+        }
+
+        fullPath.append(QUrl::toPercentEncoding(paramString));
+
+    }
+    OAIHttpRequestInput input(fullPath, "POST");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            pipeDelimitedExplodeAnytypeCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit pipeDelimitedExplodeAnytypeErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::pipeDelimitedExplodeAnytypeCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit pipeDelimitedExplodeAnytypeFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::pipeDelimitedExplodeArray(const QList<qint32> &arrayParameter)
+* 'pipeDelimitedExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] arrayParameter QList<qint32> [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::pipeDelimitedExplodeArray(const QList<qint32> &arrayParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'pipeDelimitedExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    pipeDelimitedExplodeArray(arrayParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual pipeDelimitedExplodeArrayWithDataImpl() in derived class.
+* The virtual pipeDelimitedExplodeArrayWithDataImpl() is being called by the template
+* function.
+
+* @param[in] arrayParameter QList<qint32> [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::pipeDelimitedExplodeArrayCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by pipeDelimitedExplodeArrayFinished() or
+* being returned as a callback parameter of pipeDelimitedExplodeArray() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::pipeDelimitedExplodeArrayWithDataImpl(const QList<qint32> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the pipeDelimitedExplodeArray() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking pipeDelimitedExplodeArray() operation calls.
+
+* @param[in] arrayParameter QList<qint32> [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::pipeDelimitedExplodeArrayWithDataImpl(const QList<qint32> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["pipeDelimitedExplodeArray"][m_serverIndices.value("pipeDelimitedExplodeArray")].serverUrl();
+    QString fullPath = "/query/array/pipeDelimited-explode/pipeDelimitedExplodeArray";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
+    queryStyle = "pipeDelimited";
+    if (queryStyle == "")
+        queryStyle = "form";
+    queryPrefix = getParamStylePrefix(queryStyle);
+    querySuffix = getParamStyleSuffix(queryStyle);
+    {
+
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "arrayParameter", true);
+        if (arrayParameter.size() > 0) {
+            if (QString("pipes").indexOf("multi") == 0) {
+                for (qint32 t : arrayParameter) {
+                    if (fullPath.indexOf("?") > 0)
+                        fullPath.append(queryPrefix);
+                    else
+                        fullPath.append("?");
+                    fullPath.append("arrayParameter=").append(::OpenAPI::toStringValue(t));
+                }
+            } else if (QString("pipes").indexOf("ssv") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter) {
+                    if (count > 0) {
+                        fullPath.append((true)? queryDelimiter : QUrl::toPercentEncoding(queryDelimiter));
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("pipes").indexOf("tsv") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter) {
+                    if (count > 0) {
+                        fullPath.append("\t");
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("pipes").indexOf("csv") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("pipes").indexOf("pipes") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("pipes").indexOf("deepObject") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            }
+        }
+    }
+    OAIHttpRequestInput input(fullPath, "POST");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            pipeDelimitedExplodeArrayCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit pipeDelimitedExplodeArrayErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::pipeDelimitedExplodeArrayCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit pipeDelimitedExplodeArrayFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::pipeDelimitedExplodeObject(const OAITestObject &objectParameter)
+* 'pipeDelimitedExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] objectParameter OAITestObject [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::pipeDelimitedExplodeObject(const OAITestObject &objectParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'pipeDelimitedExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    pipeDelimitedExplodeObject(objectParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual pipeDelimitedExplodeObjectWithDataImpl() in derived class.
+* The virtual pipeDelimitedExplodeObjectWithDataImpl() is being called by the template
+* function.
+
+* @param[in] objectParameter OAITestObject [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::pipeDelimitedExplodeObjectCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by pipeDelimitedExplodeObjectFinished() or
+* being returned as a callback parameter of pipeDelimitedExplodeObject() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::pipeDelimitedExplodeObjectWithDataImpl(const OAITestObject &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the pipeDelimitedExplodeObject() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking pipeDelimitedExplodeObject() operation calls.
+
+* @param[in] objectParameter OAITestObject [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::pipeDelimitedExplodeObjectWithDataImpl(const OAITestObject &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["pipeDelimitedExplodeObject"][m_serverIndices.value("pipeDelimitedExplodeObject")].serverUrl();
+    QString fullPath = "/query/object/pipeDelimited-explode/pipeDelimitedExplodeObject";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
+    queryStyle = "pipeDelimited";
+    if (queryStyle == "")
+        queryStyle = "form";
+    queryPrefix = getParamStylePrefix(queryStyle);
+    querySuffix = getParamStyleSuffix(queryStyle);
+    {
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+        QString paramString = (queryStyle == "form" && true) ?  "" : "objectParameter" + querySuffix;
+        QString assignOperator;
+        if (queryStyle == "form")
+            assignOperator = (true) ? "=" : ",";
+        else if (queryStyle == "deepObject")
+            assignOperator = (true) ? "=" : "none";
+        queryDelimiter = ((queryStyle == "form" || queryStyle == "deepObject") && true) ? "&" : ",";
+        const QJsonObject parameter = objectParameter.asJsonObject();
+        qint32 count = 0;
+        for(const QString& key : parameter.keys()) {
+            if (count > 0)
+                paramString.append(queryDelimiter);
+            paramString.append(::OpenAPI::optionParameterToString(((queryStyle == "form") ? key
+                               : QString("objectParameter") + QString("[") + key + QString("]")), assignOperator, parameter.value(key)));
+            count++;
+        }
+
+
+        fullPath.append(QUrl::toPercentEncoding(paramString));
+
+    }
+    OAIHttpRequestInput input(fullPath, "POST");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            pipeDelimitedExplodeObjectCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit pipeDelimitedExplodeObjectErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::pipeDelimitedExplodeObjectCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit pipeDelimitedExplodeObjectFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::pipeDelimitedNotExplodeAnytype(const ::OpenAPI::OptionalParam<QJsonValue> &anytypeParameter = ::OpenAPI::OptionalParam<QJsonValue>())
+* 'pipeDelimitedNotExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] anytypeParameter QJsonValue [optional]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::pipeDelimitedNotExplodeAnytype(const ::OpenAPI::OptionalParam<QJsonValue> &anytypeParameter = ::OpenAPI::OptionalParam<QJsonValue>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'pipeDelimitedNotExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    pipeDelimitedNotExplodeAnytype(anytypeParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual pipeDelimitedNotExplodeAnytypeWithDataImpl() in derived class.
+* The virtual pipeDelimitedNotExplodeAnytypeWithDataImpl() is being called by the template
+* function.
+
+* @param[in] anytypeParameter QJsonValue [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::pipeDelimitedNotExplodeAnytypeCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by pipeDelimitedNotExplodeAnytypeFinished() or
+* being returned as a callback parameter of pipeDelimitedNotExplodeAnytype() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::pipeDelimitedNotExplodeAnytypeWithDataImpl(const ::OpenAPI::OptionalParam<QJsonValue> &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the pipeDelimitedNotExplodeAnytype() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking pipeDelimitedNotExplodeAnytype() operation calls.
+
+* @param[in] anytypeParameter QJsonValue [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::pipeDelimitedNotExplodeAnytypeWithDataImpl(const ::OpenAPI::OptionalParam<QJsonValue> &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["pipeDelimitedNotExplodeAnytype"][m_serverIndices.value("pipeDelimitedNotExplodeAnytype")].serverUrl();
+    QString fullPath = "/query/anytype/pipeDelimited-not-explode/pipeDelimitedNotExplodeAnytype";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
+    queryStyle = "pipeDelimited";
+    if (queryStyle == "")
+        queryStyle = "form";
+    queryPrefix = getParamStylePrefix(queryStyle);
+    querySuffix = getParamStyleSuffix(queryStyle);
+    if (anytypeParameter.hasValue()) {
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+        QString paramString = (queryStyle == "form" && false) ?  "" : "anytypeParameter" + querySuffix;
+        QString assignOperator;
+        if (queryStyle == "form")
+            assignOperator = (false) ? "=" : ",";
+        else if (queryStyle == "deepObject")
+            assignOperator = (false) ? "=" : "none";
+        queryDelimiter = ((queryStyle == "form" || queryStyle == "deepObject") && false) ? "&" : ",";
+        
+        switch(anytypeParameter.value().type()) {
+        case QJsonValue::String:
+        case QJsonValue::Bool:
+        case QJsonValue::Double:
+        {
+            paramString.append(::OpenAPI::toStringValue(anytypeParameter.value().toVariant()));
+        } break;
+        case QJsonValue::Array:
+        {
+            queryDelimiter = getParamStyleDelimiter(queryStyle, "anytypeParameter", false);
+            QVariantList array = anytypeParameter.value().toArray().toVariantList();
+            if (array.size() > 0) {
+                paramString = "anytypeParameter" + querySuffix;
+                if (false) {
+                    for (const auto &value: array)
+                        paramString.append(::OpenAPI::toStringValue(value) + queryDelimiter);
+                    paramString.chop(queryDelimiter.size());
+                } else {
+                    paramString.append(::OpenAPI::toStringValue(array, queryDelimiter));
+                }
+            }
+        } break;
+        case QJsonValue::Object:
+        {
+            QVariantMap map = anytypeParameter.value().toObject().toVariantMap();
+            if (map.size() > 0)
+                paramString.append(::OpenAPI::toStringValue(map, assignOperator, queryDelimiter));
+        } break;
+        case QJsonValue::Null:
+        {
+            paramString.append(QString("anytypeParameter") + assignOperator + QString("null"));
+        } break;
+        case QJsonValue::Undefined:
+        {
+            paramString = "";
+            qWarning() << "Query parameter serialization is not supported for the value: " << anytypeParameter.value();
+        } break;
+        }
+
+        fullPath.append(QUrl::toPercentEncoding(paramString));
+
+    }
+    OAIHttpRequestInput input(fullPath, "POST");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            pipeDelimitedNotExplodeAnytypeCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit pipeDelimitedNotExplodeAnytypeErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::pipeDelimitedNotExplodeAnytypeCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit pipeDelimitedNotExplodeAnytypeFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::pipeDelimitedNotExplodeArray(const ::OpenAPI::OptionalParam<QList<qint32>> &arrayParameter = ::OpenAPI::OptionalParam<QList<qint32>>())
+* 'pipeDelimitedNotExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] arrayParameter QList<qint32> [optional]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::pipeDelimitedNotExplodeArray(const ::OpenAPI::OptionalParam<QList<qint32>> &arrayParameter = ::OpenAPI::OptionalParam<QList<qint32>>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'pipeDelimitedNotExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    pipeDelimitedNotExplodeArray(arrayParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual pipeDelimitedNotExplodeArrayWithDataImpl() in derived class.
+* The virtual pipeDelimitedNotExplodeArrayWithDataImpl() is being called by the template
+* function.
+
+* @param[in] arrayParameter QList<qint32> [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::pipeDelimitedNotExplodeArrayCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by pipeDelimitedNotExplodeArrayFinished() or
+* being returned as a callback parameter of pipeDelimitedNotExplodeArray() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::pipeDelimitedNotExplodeArrayWithDataImpl(const ::OpenAPI::OptionalParam<QList<qint32>> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the pipeDelimitedNotExplodeArray() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking pipeDelimitedNotExplodeArray() operation calls.
+
+* @param[in] arrayParameter QList<qint32> [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::pipeDelimitedNotExplodeArrayWithDataImpl(const ::OpenAPI::OptionalParam<QList<qint32>> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["pipeDelimitedNotExplodeArray"][m_serverIndices.value("pipeDelimitedNotExplodeArray")].serverUrl();
+    QString fullPath = "/query/array/pipeDelimited-not-explode/pipeDelimitedNotExplodeArray";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
+    queryStyle = "pipeDelimited";
+    if (queryStyle == "")
+        queryStyle = "form";
+    queryPrefix = getParamStylePrefix(queryStyle);
+    querySuffix = getParamStyleSuffix(queryStyle);
+    if (arrayParameter.hasValue()) {
+
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "arrayParameter", false);
+        if (arrayParameter.value().size() > 0) {
+            if (QString("pipes").indexOf("multi") == 0) {
+                for (qint32 t : arrayParameter.value()) {
+                    if (fullPath.indexOf("?") > 0)
+                        fullPath.append(queryPrefix);
+                    else
+                        fullPath.append("?");
+                    fullPath.append("arrayParameter=").append(::OpenAPI::toStringValue(t));
+                }
+            } else if (QString("pipes").indexOf("ssv") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter.value()) {
+                    if (count > 0) {
+                        fullPath.append((false)? queryDelimiter : QUrl::toPercentEncoding(queryDelimiter));
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("pipes").indexOf("tsv") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter.value()) {
+                    if (count > 0) {
+                        fullPath.append("\t");
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("pipes").indexOf("csv") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter.value()) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("pipes").indexOf("pipes") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter.value()) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("pipes").indexOf("deepObject") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter.value()) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            }
+        }
+    }
+    OAIHttpRequestInput input(fullPath, "POST");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            pipeDelimitedNotExplodeArrayCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit pipeDelimitedNotExplodeArrayErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::pipeDelimitedNotExplodeArrayCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit pipeDelimitedNotExplodeArrayFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::pipeDelimitedNotExplodeObject(const ::OpenAPI::OptionalParam<OAITestObject> &objectParameter = ::OpenAPI::OptionalParam<OAITestObject>())
+* 'pipeDelimitedNotExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] objectParameter OAITestObject [optional]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::pipeDelimitedNotExplodeObject(const ::OpenAPI::OptionalParam<OAITestObject> &objectParameter = ::OpenAPI::OptionalParam<OAITestObject>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'pipeDelimitedNotExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    pipeDelimitedNotExplodeObject(objectParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual pipeDelimitedNotExplodeObjectWithDataImpl() in derived class.
+* The virtual pipeDelimitedNotExplodeObjectWithDataImpl() is being called by the template
+* function.
+
+* @param[in] objectParameter OAITestObject [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::pipeDelimitedNotExplodeObjectCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by pipeDelimitedNotExplodeObjectFinished() or
+* being returned as a callback parameter of pipeDelimitedNotExplodeObject() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::pipeDelimitedNotExplodeObjectWithDataImpl(const ::OpenAPI::OptionalParam<OAITestObject> &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the pipeDelimitedNotExplodeObject() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking pipeDelimitedNotExplodeObject() operation calls.
+
+* @param[in] objectParameter OAITestObject [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::pipeDelimitedNotExplodeObjectWithDataImpl(const ::OpenAPI::OptionalParam<OAITestObject> &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["pipeDelimitedNotExplodeObject"][m_serverIndices.value("pipeDelimitedNotExplodeObject")].serverUrl();
+    QString fullPath = "/query/object/pipeDelimited-not-explode/pipeDelimitedNotExplodeObject";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
+    queryStyle = "pipeDelimited";
+    if (queryStyle == "")
+        queryStyle = "form";
+    queryPrefix = getParamStylePrefix(queryStyle);
+    querySuffix = getParamStyleSuffix(queryStyle);
+    if (objectParameter.hasValue()) {
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+        QString paramString = (queryStyle == "form" && false) ?  "" : "objectParameter" + querySuffix;
+        QString assignOperator;
+        if (queryStyle == "form")
+            assignOperator = (false) ? "=" : ",";
+        else if (queryStyle == "deepObject")
+            assignOperator = (false) ? "=" : "none";
+        queryDelimiter = ((queryStyle == "form" || queryStyle == "deepObject") && false) ? "&" : ",";
+        const QJsonObject parameter = objectParameter.value().asJsonObject();
+        qint32 count = 0;
+        for(const QString& key : parameter.keys()) {
+            if (count > 0)
+                paramString.append(queryDelimiter);
+            paramString.append(::OpenAPI::optionParameterToString(((queryStyle == "form") ? key
+                               : QString("objectParameter") + QString("[") + key + QString("]")), assignOperator, parameter.value(key)));
+            count++;
+        }
+
+
+        fullPath.append(QUrl::toPercentEncoding(paramString));
+
+    }
+    OAIHttpRequestInput input(fullPath, "POST");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            pipeDelimitedNotExplodeObjectCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit pipeDelimitedNotExplodeObjectErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::pipeDelimitedNotExplodeObjectCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit pipeDelimitedNotExplodeObjectFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::simpleExplodeAnytype(const QJsonValue &anytypeParameter)
+* 'simpleExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] anytypeParameter QJsonValue [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::simpleExplodeAnytype(const QJsonValue &anytypeParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'simpleExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    simpleExplodeAnytype(anytypeParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual simpleExplodeAnytypeWithDataImpl() in derived class.
+* The virtual simpleExplodeAnytypeWithDataImpl() is being called by the template
+* function.
+
+* @param[in] anytypeParameter QJsonValue [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::simpleExplodeAnytypeCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by simpleExplodeAnytypeFinished() or
+* being returned as a callback parameter of simpleExplodeAnytype() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::simpleExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the simpleExplodeAnytype() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking simpleExplodeAnytype() operation calls.
+
+* @param[in] anytypeParameter QJsonValue [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::simpleExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["simpleExplodeAnytype"][m_serverIndices.value("simpleExplodeAnytype")].serverUrl();
+    QString fullPath = "/path/anytype/simple-explode/{anytypeParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString anytypeParameterPathParam("{");
+    anytypeParameterPathParam.append("anytypeParameter").append("}");
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "simple";
+    if (pathStyle == "")
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "anytypeParameter", true);
+    QString paramString = (pathStyle == "matrix" && !true) ? pathPrefix + "anytypeParameter" + pathSuffix : pathPrefix;
+    const QString assignOperator = (true) ? "=" : ",";
+    
+    switch(anytypeParameter.type()) {
+    case QJsonValue::String:
+    case QJsonValue::Bool:
+    case QJsonValue::Double:
+    {
+        paramString = (pathStyle == "matrix") ? pathPrefix + "anytypeParameter" + pathSuffix : pathPrefix;
+        paramString.append(::OpenAPI::toStringValue(anytypeParameter.toVariant()));
+    } break;
+    case QJsonValue::Array:
+    {
+        const QVariantList array = anytypeParameter.toArray().toVariantList();
+        if (array.size() > 0) {
+            paramString = (pathStyle == "matrix") ? pathPrefix + "anytypeParameter" + pathSuffix : pathPrefix;
+            if (true) {
+                for (const auto &value: array)
+                    paramString.append(::OpenAPI::toStringValue(value) + pathDelimiter);
+                paramString.chop(pathDelimiter.size());
+            } else {
+                paramString.append(::OpenAPI::toStringValue(array, pathDelimiter));
+            }
+        }
+    } break;
+    case QJsonValue::Object:
+    {
+        pathDelimiter = (pathStyle == "matrix" && true) ? ";" : getParamStyleDelimiter(pathStyle, "anytypeParameter", true);
+        QVariantMap map = anytypeParameter.toObject().toVariantMap();
+        if (map.size() > 0)
+            paramString.append(::OpenAPI::toStringValue(map, assignOperator, pathDelimiter));
+    } break;
+    case QJsonValue::Null: // path cannot be optional
+    case QJsonValue::Undefined:
+    {
+        paramString = "";
+        qWarning() << "Path parameter serialization is not supported for the value: " << anytypeParameter;
+    } break;
+    }
+    fullPath.replace(anytypeParameterPathParam, QUrl::toPercentEncoding(paramString));
+
+    OAIHttpRequestInput input(fullPath, "GET");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            simpleExplodeAnytypeCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit simpleExplodeAnytypeErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::simpleExplodeAnytypeCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit simpleExplodeAnytypeFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::simpleExplodeArray(const QList<qint32> &arrayParameter)
+* 'simpleExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] arrayParameter QList<qint32> [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::simpleExplodeArray(const QList<qint32> &arrayParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'simpleExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    simpleExplodeArray(arrayParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual simpleExplodeArrayWithDataImpl() in derived class.
+* The virtual simpleExplodeArrayWithDataImpl() is being called by the template
+* function.
+
+* @param[in] arrayParameter QList<qint32> [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::simpleExplodeArrayCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by simpleExplodeArrayFinished() or
+* being returned as a callback parameter of simpleExplodeArray() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::simpleExplodeArrayWithDataImpl(const QList<qint32> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the simpleExplodeArray() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking simpleExplodeArray() operation calls.
+
+* @param[in] arrayParameter QList<qint32> [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::simpleExplodeArrayWithDataImpl(const QList<qint32> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["simpleExplodeArray"][m_serverIndices.value("simpleExplodeArray")].serverUrl();
+    QString fullPath = "/path/array/simple-explode/{arrayParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString arrayParameterPathParam("{");
+    arrayParameterPathParam.append("arrayParameter").append("}");
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "simple";
+    if (pathStyle == "")
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "arrayParameter", true);
+
+    if (arrayParameter.size() > 0) {
+        QString paramString = (pathStyle == "matrix") ? pathPrefix + "arrayParameter" + pathSuffix : pathPrefix;
+        qint32 count = 0;
+        for (qint32 t : arrayParameter) {
+            if (count > 0) {
+                fullPath.append(pathDelimiter);
+            }
+            fullPath.append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(t)));
+            count++;
+        }
+        fullPath.replace(arrayParameterPathParam, paramString);
+    }
+
+    OAIHttpRequestInput input(fullPath, "GET");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            simpleExplodeArrayCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit simpleExplodeArrayErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::simpleExplodeArrayCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit simpleExplodeArrayFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::simpleExplodeObject(const OAITestObject &objectParameter)
+* 'simpleExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] objectParameter OAITestObject [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::simpleExplodeObject(const OAITestObject &objectParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'simpleExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    simpleExplodeObject(objectParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual simpleExplodeObjectWithDataImpl() in derived class.
+* The virtual simpleExplodeObjectWithDataImpl() is being called by the template
+* function.
+
+* @param[in] objectParameter OAITestObject [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::simpleExplodeObjectCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by simpleExplodeObjectFinished() or
+* being returned as a callback parameter of simpleExplodeObject() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::simpleExplodeObjectWithDataImpl(const OAITestObject &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the simpleExplodeObject() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking simpleExplodeObject() operation calls.
+
+* @param[in] objectParameter OAITestObject [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::simpleExplodeObjectWithDataImpl(const OAITestObject &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["simpleExplodeObject"][m_serverIndices.value("simpleExplodeObject")].serverUrl();
+    QString fullPath = "/path/object/simple-explode/{objectParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString objectParameterPathParam("{");
+    objectParameterPathParam.append("objectParameter").append("}");
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "simple";
+    if (pathStyle == "")
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "objectParameter", true);
+    QString paramString = (pathStyle == "matrix" && !true) ? pathPrefix + "objectParameter" + pathSuffix : pathPrefix;
+    const QString assignOperator = (true) ? "=" : ",";
+    const QJsonObject parameter = objectParameter.asJsonObject();
+    qint32 count = 0;
+    for(const QString& key : parameter.keys()) {
+        if (count > 0) {
+            pathDelimiter = (pathStyle == "matrix" && true) ? ";" : getParamStyleDelimiter(pathStyle, key, true);
+            paramString.append(pathDelimiter);
+        }
+        paramString.append(::OpenAPI::parameterToString(key, assignOperator, parameter.value(key)));
+        count++;
+    }
+    fullPath.replace(objectParameterPathParam, QUrl::toPercentEncoding(paramString));
+
+    OAIHttpRequestInput input(fullPath, "GET");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            simpleExplodeObjectCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit simpleExplodeObjectErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::simpleExplodeObjectCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit simpleExplodeObjectFinished(output);
 }
 
 /**
@@ -93,19 +5058,19 @@ void OAITestApi::initializeServerConfigs()
 void OAITestApi::simpleExplodeStringWithDataImpl(const QString &stringParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
 {
     const QUrl serverUrl = m_serverConfigs["simpleExplodeString"][m_serverIndices.value("simpleExplodeString")].serverUrl();
-    QString fullPath = "/path/primitive/simple-explode/{string_parameter}";
+    QString fullPath = "/path/string/simple-explode/{stringParameter}";
     m_networkFactory->setBaseUrl(serverUrl);
     QString stringParameterPathParam("{");
-    stringParameterPathParam.append("string_parameter").append("}");
+    stringParameterPathParam.append("stringParameter").append("}");
     QString pathPrefix, pathSuffix, pathDelimiter;
     QString pathStyle = "simple";
     if (pathStyle == "")
         pathStyle = "simple";
     pathPrefix = getParamStylePrefix(pathStyle);
     pathSuffix = getParamStyleSuffix(pathStyle);
-    pathDelimiter = getParamStyleDelimiter(pathStyle, "string_parameter", true);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "stringParameter", true);
 
-    QString paramString = (pathStyle == "matrix") ? pathPrefix + "string_parameter" + pathSuffix : pathPrefix;
+    QString paramString = (pathStyle == "matrix") ? pathPrefix + "stringParameter" + pathSuffix : pathPrefix;
     fullPath.replace(stringParameterPathParam, QUrl::toPercentEncoding(paramString + ::OpenAPI::toStringValue(stringParameter)));
 
     OAIHttpRequestInput input(fullPath, "GET");
@@ -156,6 +5121,1483 @@ void OAITestApi::simpleExplodeStringCallback(const QRestReply &reply)
         callerInfo.slot->call(context, argv);
     }
     emit simpleExplodeStringFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::simpleNotExplodeAnytype(const QJsonValue &anytypeParameter)
+* 'simpleNotExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] anytypeParameter QJsonValue [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::simpleNotExplodeAnytype(const QJsonValue &anytypeParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'simpleNotExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    simpleNotExplodeAnytype(anytypeParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual simpleNotExplodeAnytypeWithDataImpl() in derived class.
+* The virtual simpleNotExplodeAnytypeWithDataImpl() is being called by the template
+* function.
+
+* @param[in] anytypeParameter QJsonValue [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::simpleNotExplodeAnytypeCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by simpleNotExplodeAnytypeFinished() or
+* being returned as a callback parameter of simpleNotExplodeAnytype() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::simpleNotExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the simpleNotExplodeAnytype() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking simpleNotExplodeAnytype() operation calls.
+
+* @param[in] anytypeParameter QJsonValue [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::simpleNotExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["simpleNotExplodeAnytype"][m_serverIndices.value("simpleNotExplodeAnytype")].serverUrl();
+    QString fullPath = "/path/anytype/simple-not-explode/{anytypeParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString anytypeParameterPathParam("{");
+    anytypeParameterPathParam.append("anytypeParameter").append("}");
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "simple";
+    if (pathStyle == "")
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "anytypeParameter", false);
+    QString paramString = (pathStyle == "matrix" && !false) ? pathPrefix + "anytypeParameter" + pathSuffix : pathPrefix;
+    const QString assignOperator = (false) ? "=" : ",";
+    
+    switch(anytypeParameter.type()) {
+    case QJsonValue::String:
+    case QJsonValue::Bool:
+    case QJsonValue::Double:
+    {
+        paramString = (pathStyle == "matrix") ? pathPrefix + "anytypeParameter" + pathSuffix : pathPrefix;
+        paramString.append(::OpenAPI::toStringValue(anytypeParameter.toVariant()));
+    } break;
+    case QJsonValue::Array:
+    {
+        const QVariantList array = anytypeParameter.toArray().toVariantList();
+        if (array.size() > 0) {
+            paramString = (pathStyle == "matrix") ? pathPrefix + "anytypeParameter" + pathSuffix : pathPrefix;
+            if (false) {
+                for (const auto &value: array)
+                    paramString.append(::OpenAPI::toStringValue(value) + pathDelimiter);
+                paramString.chop(pathDelimiter.size());
+            } else {
+                paramString.append(::OpenAPI::toStringValue(array, pathDelimiter));
+            }
+        }
+    } break;
+    case QJsonValue::Object:
+    {
+        pathDelimiter = (pathStyle == "matrix" && false) ? ";" : getParamStyleDelimiter(pathStyle, "anytypeParameter", false);
+        QVariantMap map = anytypeParameter.toObject().toVariantMap();
+        if (map.size() > 0)
+            paramString.append(::OpenAPI::toStringValue(map, assignOperator, pathDelimiter));
+    } break;
+    case QJsonValue::Null: // path cannot be optional
+    case QJsonValue::Undefined:
+    {
+        paramString = "";
+        qWarning() << "Path parameter serialization is not supported for the value: " << anytypeParameter;
+    } break;
+    }
+    fullPath.replace(anytypeParameterPathParam, QUrl::toPercentEncoding(paramString));
+
+    OAIHttpRequestInput input(fullPath, "GET");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            simpleNotExplodeAnytypeCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit simpleNotExplodeAnytypeErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::simpleNotExplodeAnytypeCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit simpleNotExplodeAnytypeFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::simpleNotExplodeArray(const QList<qint32> &arrayParameter)
+* 'simpleNotExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] arrayParameter QList<qint32> [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::simpleNotExplodeArray(const QList<qint32> &arrayParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'simpleNotExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    simpleNotExplodeArray(arrayParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual simpleNotExplodeArrayWithDataImpl() in derived class.
+* The virtual simpleNotExplodeArrayWithDataImpl() is being called by the template
+* function.
+
+* @param[in] arrayParameter QList<qint32> [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::simpleNotExplodeArrayCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by simpleNotExplodeArrayFinished() or
+* being returned as a callback parameter of simpleNotExplodeArray() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::simpleNotExplodeArrayWithDataImpl(const QList<qint32> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the simpleNotExplodeArray() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking simpleNotExplodeArray() operation calls.
+
+* @param[in] arrayParameter QList<qint32> [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::simpleNotExplodeArrayWithDataImpl(const QList<qint32> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["simpleNotExplodeArray"][m_serverIndices.value("simpleNotExplodeArray")].serverUrl();
+    QString fullPath = "/path/array/simple-not-explode/{arrayParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString arrayParameterPathParam("{");
+    arrayParameterPathParam.append("arrayParameter").append("}");
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "simple";
+    if (pathStyle == "")
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "arrayParameter", false);
+
+    if (arrayParameter.size() > 0) {
+        QString paramString = (pathStyle == "matrix") ? pathPrefix + "arrayParameter" + pathSuffix : pathPrefix;
+        qint32 count = 0;
+        for (qint32 t : arrayParameter) {
+            if (count > 0) {
+                fullPath.append(pathDelimiter);
+            }
+            fullPath.append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(t)));
+            count++;
+        }
+        fullPath.replace(arrayParameterPathParam, paramString);
+    }
+
+    OAIHttpRequestInput input(fullPath, "GET");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            simpleNotExplodeArrayCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit simpleNotExplodeArrayErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::simpleNotExplodeArrayCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit simpleNotExplodeArrayFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::simpleNotExplodeObject(const OAITestObject &objectParameter)
+* 'simpleNotExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] objectParameter OAITestObject [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::simpleNotExplodeObject(const OAITestObject &objectParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'simpleNotExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    simpleNotExplodeObject(objectParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual simpleNotExplodeObjectWithDataImpl() in derived class.
+* The virtual simpleNotExplodeObjectWithDataImpl() is being called by the template
+* function.
+
+* @param[in] objectParameter OAITestObject [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::simpleNotExplodeObjectCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by simpleNotExplodeObjectFinished() or
+* being returned as a callback parameter of simpleNotExplodeObject() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::simpleNotExplodeObjectWithDataImpl(const OAITestObject &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the simpleNotExplodeObject() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking simpleNotExplodeObject() operation calls.
+
+* @param[in] objectParameter OAITestObject [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::simpleNotExplodeObjectWithDataImpl(const OAITestObject &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["simpleNotExplodeObject"][m_serverIndices.value("simpleNotExplodeObject")].serverUrl();
+    QString fullPath = "/path/object/simple-not-explode/{objectParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString objectParameterPathParam("{");
+    objectParameterPathParam.append("objectParameter").append("}");
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "simple";
+    if (pathStyle == "")
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "objectParameter", false);
+    QString paramString = (pathStyle == "matrix" && !false) ? pathPrefix + "objectParameter" + pathSuffix : pathPrefix;
+    const QString assignOperator = (false) ? "=" : ",";
+    const QJsonObject parameter = objectParameter.asJsonObject();
+    qint32 count = 0;
+    for(const QString& key : parameter.keys()) {
+        if (count > 0) {
+            pathDelimiter = (pathStyle == "matrix" && false) ? ";" : getParamStyleDelimiter(pathStyle, key, false);
+            paramString.append(pathDelimiter);
+        }
+        paramString.append(::OpenAPI::parameterToString(key, assignOperator, parameter.value(key)));
+        count++;
+    }
+    fullPath.replace(objectParameterPathParam, QUrl::toPercentEncoding(paramString));
+
+    OAIHttpRequestInput input(fullPath, "GET");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            simpleNotExplodeObjectCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit simpleNotExplodeObjectErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::simpleNotExplodeObjectCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit simpleNotExplodeObjectFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::simpleNotExplodeString(const QString &stringParameter)
+* 'simpleNotExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] stringParameter QString [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::simpleNotExplodeString(const QString &stringParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'simpleNotExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    simpleNotExplodeString(stringParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual simpleNotExplodeStringWithDataImpl() in derived class.
+* The virtual simpleNotExplodeStringWithDataImpl() is being called by the template
+* function.
+
+* @param[in] stringParameter QString [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::simpleNotExplodeStringCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by simpleNotExplodeStringFinished() or
+* being returned as a callback parameter of simpleNotExplodeString() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::simpleNotExplodeStringWithDataImpl(const QString &stringParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the simpleNotExplodeString() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking simpleNotExplodeString() operation calls.
+
+* @param[in] stringParameter QString [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::simpleNotExplodeStringWithDataImpl(const QString &stringParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["simpleNotExplodeString"][m_serverIndices.value("simpleNotExplodeString")].serverUrl();
+    QString fullPath = "/path/string/simple-not-explode/{stringParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString stringParameterPathParam("{");
+    stringParameterPathParam.append("stringParameter").append("}");
+    QString pathPrefix, pathSuffix, pathDelimiter;
+    QString pathStyle = "simple";
+    if (pathStyle == "")
+        pathStyle = "simple";
+    pathPrefix = getParamStylePrefix(pathStyle);
+    pathSuffix = getParamStyleSuffix(pathStyle);
+    pathDelimiter = getParamStyleDelimiter(pathStyle, "stringParameter", false);
+
+    QString paramString = (pathStyle == "matrix") ? pathPrefix + "stringParameter" + pathSuffix : pathPrefix;
+    fullPath.replace(stringParameterPathParam, QUrl::toPercentEncoding(paramString + ::OpenAPI::toStringValue(stringParameter)));
+
+    OAIHttpRequestInput input(fullPath, "GET");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            simpleNotExplodeStringCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit simpleNotExplodeStringErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::simpleNotExplodeStringCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit simpleNotExplodeStringFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::spaceDelimitedExplodeAnytype(const QJsonValue &anytypeParameter)
+* 'spaceDelimitedExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] anytypeParameter QJsonValue [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::spaceDelimitedExplodeAnytype(const QJsonValue &anytypeParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'spaceDelimitedExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    spaceDelimitedExplodeAnytype(anytypeParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual spaceDelimitedExplodeAnytypeWithDataImpl() in derived class.
+* The virtual spaceDelimitedExplodeAnytypeWithDataImpl() is being called by the template
+* function.
+
+* @param[in] anytypeParameter QJsonValue [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::spaceDelimitedExplodeAnytypeCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by spaceDelimitedExplodeAnytypeFinished() or
+* being returned as a callback parameter of spaceDelimitedExplodeAnytype() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::spaceDelimitedExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the spaceDelimitedExplodeAnytype() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking spaceDelimitedExplodeAnytype() operation calls.
+
+* @param[in] anytypeParameter QJsonValue [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::spaceDelimitedExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["spaceDelimitedExplodeAnytype"][m_serverIndices.value("spaceDelimitedExplodeAnytype")].serverUrl();
+    QString fullPath = "/query/anytype/spaceDelimited-explode/spaceDelimitedExplodeAnytype";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
+    queryStyle = "spaceDelimited";
+    if (queryStyle == "")
+        queryStyle = "form";
+    queryPrefix = getParamStylePrefix(queryStyle);
+    querySuffix = getParamStyleSuffix(queryStyle);
+    {
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+        QString paramString = (queryStyle == "form" && true) ?  "" : "anytypeParameter" + querySuffix;
+        QString assignOperator;
+        if (queryStyle == "form")
+            assignOperator = (true) ? "=" : ",";
+        else if (queryStyle == "deepObject")
+            assignOperator = (true) ? "=" : "none";
+        queryDelimiter = ((queryStyle == "form" || queryStyle == "deepObject") && true) ? "&" : ",";
+        
+        switch(anytypeParameter.type()) {
+        case QJsonValue::String:
+        case QJsonValue::Bool:
+        case QJsonValue::Double:
+        {
+            paramString.append(::OpenAPI::toStringValue(anytypeParameter.toVariant()));
+        } break;
+        case QJsonValue::Array:
+        {
+            queryDelimiter = getParamStyleDelimiter(queryStyle, "anytypeParameter", true);
+            QVariantList array = anytypeParameter.toArray().toVariantList();
+            if (array.size() > 0) {
+                paramString = "anytypeParameter" + querySuffix;
+                if (true) {
+                    for (const auto &value: array)
+                        paramString.append(::OpenAPI::toStringValue(value) + queryDelimiter);
+                    paramString.chop(queryDelimiter.size());
+                } else {
+                    paramString.append(::OpenAPI::toStringValue(array, queryDelimiter));
+                }
+            }
+        } break;
+        case QJsonValue::Object:
+        {
+            QVariantMap map = anytypeParameter.toObject().toVariantMap();
+            if (map.size() > 0)
+                paramString.append(::OpenAPI::toStringValue(map, assignOperator, queryDelimiter));
+        } break;
+        case QJsonValue::Null:
+        {
+            paramString.append(QString("anytypeParameter") + assignOperator + QString("null"));
+        } break;
+        case QJsonValue::Undefined:
+        {
+            paramString = "";
+            qWarning() << "Query parameter serialization is not supported for the value: " << anytypeParameter;
+        } break;
+        }
+
+        fullPath.append(QUrl::toPercentEncoding(paramString));
+
+    }
+    OAIHttpRequestInput input(fullPath, "POST");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            spaceDelimitedExplodeAnytypeCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit spaceDelimitedExplodeAnytypeErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::spaceDelimitedExplodeAnytypeCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit spaceDelimitedExplodeAnytypeFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::spaceDelimitedExplodeArray(const QList<qint32> &arrayParameter)
+* 'spaceDelimitedExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] arrayParameter QList<qint32> [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::spaceDelimitedExplodeArray(const QList<qint32> &arrayParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'spaceDelimitedExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    spaceDelimitedExplodeArray(arrayParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual spaceDelimitedExplodeArrayWithDataImpl() in derived class.
+* The virtual spaceDelimitedExplodeArrayWithDataImpl() is being called by the template
+* function.
+
+* @param[in] arrayParameter QList<qint32> [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::spaceDelimitedExplodeArrayCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by spaceDelimitedExplodeArrayFinished() or
+* being returned as a callback parameter of spaceDelimitedExplodeArray() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::spaceDelimitedExplodeArrayWithDataImpl(const QList<qint32> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the spaceDelimitedExplodeArray() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking spaceDelimitedExplodeArray() operation calls.
+
+* @param[in] arrayParameter QList<qint32> [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::spaceDelimitedExplodeArrayWithDataImpl(const QList<qint32> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["spaceDelimitedExplodeArray"][m_serverIndices.value("spaceDelimitedExplodeArray")].serverUrl();
+    QString fullPath = "/query/array/spaceDelimited-explode/spaceDelimitedExplodeArray";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
+    queryStyle = "spaceDelimited";
+    if (queryStyle == "")
+        queryStyle = "form";
+    queryPrefix = getParamStylePrefix(queryStyle);
+    querySuffix = getParamStyleSuffix(queryStyle);
+    {
+
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "arrayParameter", true);
+        if (arrayParameter.size() > 0) {
+            if (QString("ssv").indexOf("multi") == 0) {
+                for (qint32 t : arrayParameter) {
+                    if (fullPath.indexOf("?") > 0)
+                        fullPath.append(queryPrefix);
+                    else
+                        fullPath.append("?");
+                    fullPath.append("arrayParameter=").append(::OpenAPI::toStringValue(t));
+                }
+            } else if (QString("ssv").indexOf("ssv") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter) {
+                    if (count > 0) {
+                        fullPath.append((true)? queryDelimiter : QUrl::toPercentEncoding(queryDelimiter));
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("ssv").indexOf("tsv") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter) {
+                    if (count > 0) {
+                        fullPath.append("\t");
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("ssv").indexOf("csv") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("ssv").indexOf("pipes") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("ssv").indexOf("deepObject") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            }
+        }
+    }
+    OAIHttpRequestInput input(fullPath, "POST");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            spaceDelimitedExplodeArrayCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit spaceDelimitedExplodeArrayErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::spaceDelimitedExplodeArrayCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit spaceDelimitedExplodeArrayFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::spaceDelimitedExplodeObject(const OAITestObject &objectParameter)
+* 'spaceDelimitedExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] objectParameter OAITestObject [required]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::spaceDelimitedExplodeObject(const OAITestObject &objectParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'spaceDelimitedExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    spaceDelimitedExplodeObject(objectParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual spaceDelimitedExplodeObjectWithDataImpl() in derived class.
+* The virtual spaceDelimitedExplodeObjectWithDataImpl() is being called by the template
+* function.
+
+* @param[in] objectParameter OAITestObject [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::spaceDelimitedExplodeObjectCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by spaceDelimitedExplodeObjectFinished() or
+* being returned as a callback parameter of spaceDelimitedExplodeObject() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::spaceDelimitedExplodeObjectWithDataImpl(const OAITestObject &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the spaceDelimitedExplodeObject() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking spaceDelimitedExplodeObject() operation calls.
+
+* @param[in] objectParameter OAITestObject [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::spaceDelimitedExplodeObjectWithDataImpl(const OAITestObject &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["spaceDelimitedExplodeObject"][m_serverIndices.value("spaceDelimitedExplodeObject")].serverUrl();
+    QString fullPath = "/query/object/spaceDelimited-explode/spaceDelimitedExplodeObject";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
+    queryStyle = "spaceDelimited";
+    if (queryStyle == "")
+        queryStyle = "form";
+    queryPrefix = getParamStylePrefix(queryStyle);
+    querySuffix = getParamStyleSuffix(queryStyle);
+    {
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+        QString paramString = (queryStyle == "form" && true) ?  "" : "objectParameter" + querySuffix;
+        QString assignOperator;
+        if (queryStyle == "form")
+            assignOperator = (true) ? "=" : ",";
+        else if (queryStyle == "deepObject")
+            assignOperator = (true) ? "=" : "none";
+        queryDelimiter = ((queryStyle == "form" || queryStyle == "deepObject") && true) ? "&" : ",";
+        const QJsonObject parameter = objectParameter.asJsonObject();
+        qint32 count = 0;
+        for(const QString& key : parameter.keys()) {
+            if (count > 0)
+                paramString.append(queryDelimiter);
+            paramString.append(::OpenAPI::optionParameterToString(((queryStyle == "form") ? key
+                               : QString("objectParameter") + QString("[") + key + QString("]")), assignOperator, parameter.value(key)));
+            count++;
+        }
+
+
+        fullPath.append(QUrl::toPercentEncoding(paramString));
+
+    }
+    OAIHttpRequestInput input(fullPath, "POST");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            spaceDelimitedExplodeObjectCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit spaceDelimitedExplodeObjectErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::spaceDelimitedExplodeObjectCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit spaceDelimitedExplodeObjectFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::spaceDelimitedNotExplodeAnytype(const ::OpenAPI::OptionalParam<QJsonValue> &anytypeParameter = ::OpenAPI::OptionalParam<QJsonValue>())
+* 'spaceDelimitedNotExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] anytypeParameter QJsonValue [optional]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::spaceDelimitedNotExplodeAnytype(const ::OpenAPI::OptionalParam<QJsonValue> &anytypeParameter = ::OpenAPI::OptionalParam<QJsonValue>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'spaceDelimitedNotExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    spaceDelimitedNotExplodeAnytype(anytypeParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual spaceDelimitedNotExplodeAnytypeWithDataImpl() in derived class.
+* The virtual spaceDelimitedNotExplodeAnytypeWithDataImpl() is being called by the template
+* function.
+
+* @param[in] anytypeParameter QJsonValue [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::spaceDelimitedNotExplodeAnytypeCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by spaceDelimitedNotExplodeAnytypeFinished() or
+* being returned as a callback parameter of spaceDelimitedNotExplodeAnytype() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::spaceDelimitedNotExplodeAnytypeWithDataImpl(const ::OpenAPI::OptionalParam<QJsonValue> &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the spaceDelimitedNotExplodeAnytype() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking spaceDelimitedNotExplodeAnytype() operation calls.
+
+* @param[in] anytypeParameter QJsonValue [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::spaceDelimitedNotExplodeAnytypeWithDataImpl(const ::OpenAPI::OptionalParam<QJsonValue> &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["spaceDelimitedNotExplodeAnytype"][m_serverIndices.value("spaceDelimitedNotExplodeAnytype")].serverUrl();
+    QString fullPath = "/query/anytype/spaceDelimited-not-explode/spaceDelimitedNotExplodeAnytype";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
+    queryStyle = "spaceDelimited";
+    if (queryStyle == "")
+        queryStyle = "form";
+    queryPrefix = getParamStylePrefix(queryStyle);
+    querySuffix = getParamStyleSuffix(queryStyle);
+    if (anytypeParameter.hasValue()) {
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+        QString paramString = (queryStyle == "form" && false) ?  "" : "anytypeParameter" + querySuffix;
+        QString assignOperator;
+        if (queryStyle == "form")
+            assignOperator = (false) ? "=" : ",";
+        else if (queryStyle == "deepObject")
+            assignOperator = (false) ? "=" : "none";
+        queryDelimiter = ((queryStyle == "form" || queryStyle == "deepObject") && false) ? "&" : ",";
+        
+        switch(anytypeParameter.value().type()) {
+        case QJsonValue::String:
+        case QJsonValue::Bool:
+        case QJsonValue::Double:
+        {
+            paramString.append(::OpenAPI::toStringValue(anytypeParameter.value().toVariant()));
+        } break;
+        case QJsonValue::Array:
+        {
+            queryDelimiter = getParamStyleDelimiter(queryStyle, "anytypeParameter", false);
+            QVariantList array = anytypeParameter.value().toArray().toVariantList();
+            if (array.size() > 0) {
+                paramString = "anytypeParameter" + querySuffix;
+                if (false) {
+                    for (const auto &value: array)
+                        paramString.append(::OpenAPI::toStringValue(value) + queryDelimiter);
+                    paramString.chop(queryDelimiter.size());
+                } else {
+                    paramString.append(::OpenAPI::toStringValue(array, queryDelimiter));
+                }
+            }
+        } break;
+        case QJsonValue::Object:
+        {
+            QVariantMap map = anytypeParameter.value().toObject().toVariantMap();
+            if (map.size() > 0)
+                paramString.append(::OpenAPI::toStringValue(map, assignOperator, queryDelimiter));
+        } break;
+        case QJsonValue::Null:
+        {
+            paramString.append(QString("anytypeParameter") + assignOperator + QString("null"));
+        } break;
+        case QJsonValue::Undefined:
+        {
+            paramString = "";
+            qWarning() << "Query parameter serialization is not supported for the value: " << anytypeParameter.value();
+        } break;
+        }
+
+        fullPath.append(QUrl::toPercentEncoding(paramString));
+
+    }
+    OAIHttpRequestInput input(fullPath, "POST");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            spaceDelimitedNotExplodeAnytypeCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit spaceDelimitedNotExplodeAnytypeErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::spaceDelimitedNotExplodeAnytypeCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit spaceDelimitedNotExplodeAnytypeFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::spaceDelimitedNotExplodeArray(const ::OpenAPI::OptionalParam<QList<qint32>> &arrayParameter = ::OpenAPI::OptionalParam<QList<qint32>>())
+* 'spaceDelimitedNotExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] arrayParameter QList<qint32> [optional]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::spaceDelimitedNotExplodeArray(const ::OpenAPI::OptionalParam<QList<qint32>> &arrayParameter = ::OpenAPI::OptionalParam<QList<qint32>>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'spaceDelimitedNotExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    spaceDelimitedNotExplodeArray(arrayParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual spaceDelimitedNotExplodeArrayWithDataImpl() in derived class.
+* The virtual spaceDelimitedNotExplodeArrayWithDataImpl() is being called by the template
+* function.
+
+* @param[in] arrayParameter QList<qint32> [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::spaceDelimitedNotExplodeArrayCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by spaceDelimitedNotExplodeArrayFinished() or
+* being returned as a callback parameter of spaceDelimitedNotExplodeArray() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::spaceDelimitedNotExplodeArrayWithDataImpl(const ::OpenAPI::OptionalParam<QList<qint32>> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the spaceDelimitedNotExplodeArray() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking spaceDelimitedNotExplodeArray() operation calls.
+
+* @param[in] arrayParameter QList<qint32> [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::spaceDelimitedNotExplodeArrayWithDataImpl(const ::OpenAPI::OptionalParam<QList<qint32>> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["spaceDelimitedNotExplodeArray"][m_serverIndices.value("spaceDelimitedNotExplodeArray")].serverUrl();
+    QString fullPath = "/query/array/spaceDelimited-not-explode/spaceDelimitedNotExplodeArray";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
+    queryStyle = "spaceDelimited";
+    if (queryStyle == "")
+        queryStyle = "form";
+    queryPrefix = getParamStylePrefix(queryStyle);
+    querySuffix = getParamStyleSuffix(queryStyle);
+    if (arrayParameter.hasValue()) {
+
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "arrayParameter", false);
+        if (arrayParameter.value().size() > 0) {
+            if (QString("ssv").indexOf("multi") == 0) {
+                for (qint32 t : arrayParameter.value()) {
+                    if (fullPath.indexOf("?") > 0)
+                        fullPath.append(queryPrefix);
+                    else
+                        fullPath.append("?");
+                    fullPath.append("arrayParameter=").append(::OpenAPI::toStringValue(t));
+                }
+            } else if (QString("ssv").indexOf("ssv") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter.value()) {
+                    if (count > 0) {
+                        fullPath.append((false)? queryDelimiter : QUrl::toPercentEncoding(queryDelimiter));
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("ssv").indexOf("tsv") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter.value()) {
+                    if (count > 0) {
+                        fullPath.append("\t");
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("ssv").indexOf("csv") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter.value()) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("ssv").indexOf("pipes") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter.value()) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            } else if (QString("ssv").indexOf("deepObject") == 0) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?").append(queryPrefix).append("arrayParameter").append(querySuffix);
+                qint32 count = 0;
+                for (qint32 t : arrayParameter.value()) {
+                    if (count > 0) {
+                        fullPath.append(queryDelimiter);
+                    }
+                    fullPath.append(::OpenAPI::toStringValue(t));
+                    count++;
+                }
+            }
+        }
+    }
+    OAIHttpRequestInput input(fullPath, "POST");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            spaceDelimitedNotExplodeArrayCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit spaceDelimitedNotExplodeArrayErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::spaceDelimitedNotExplodeArrayCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit spaceDelimitedNotExplodeArrayFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::spaceDelimitedNotExplodeObject(const ::OpenAPI::OptionalParam<OAITestObject> &objectParameter = ::OpenAPI::OptionalParam<OAITestObject>())
+* 'spaceDelimitedNotExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] objectParameter OAITestObject [optional]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::spaceDelimitedNotExplodeObject(const ::OpenAPI::OptionalParam<OAITestObject> &objectParameter = ::OpenAPI::OptionalParam<OAITestObject>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'spaceDelimitedNotExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    spaceDelimitedNotExplodeObject(objectParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual spaceDelimitedNotExplodeObjectWithDataImpl() in derived class.
+* The virtual spaceDelimitedNotExplodeObjectWithDataImpl() is being called by the template
+* function.
+
+* @param[in] objectParameter OAITestObject [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::spaceDelimitedNotExplodeObjectCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by spaceDelimitedNotExplodeObjectFinished() or
+* being returned as a callback parameter of spaceDelimitedNotExplodeObject() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::spaceDelimitedNotExplodeObjectWithDataImpl(const ::OpenAPI::OptionalParam<OAITestObject> &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the spaceDelimitedNotExplodeObject() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking spaceDelimitedNotExplodeObject() operation calls.
+
+* @param[in] objectParameter OAITestObject [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::spaceDelimitedNotExplodeObjectWithDataImpl(const ::OpenAPI::OptionalParam<OAITestObject> &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["spaceDelimitedNotExplodeObject"][m_serverIndices.value("spaceDelimitedNotExplodeObject")].serverUrl();
+    QString fullPath = "/query/object/spaceDelimited-not-explode/spaceDelimitedNotExplodeObject";
+    m_networkFactory->setBaseUrl(serverUrl);
+    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
+    queryStyle = "spaceDelimited";
+    if (queryStyle == "")
+        queryStyle = "form";
+    queryPrefix = getParamStylePrefix(queryStyle);
+    querySuffix = getParamStyleSuffix(queryStyle);
+    if (objectParameter.hasValue()) {
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+        QString paramString = (queryStyle == "form" && false) ?  "" : "objectParameter" + querySuffix;
+        QString assignOperator;
+        if (queryStyle == "form")
+            assignOperator = (false) ? "=" : ",";
+        else if (queryStyle == "deepObject")
+            assignOperator = (false) ? "=" : "none";
+        queryDelimiter = ((queryStyle == "form" || queryStyle == "deepObject") && false) ? "&" : ",";
+        const QJsonObject parameter = objectParameter.value().asJsonObject();
+        qint32 count = 0;
+        for(const QString& key : parameter.keys()) {
+            if (count > 0)
+                paramString.append(queryDelimiter);
+            paramString.append(::OpenAPI::optionParameterToString(((queryStyle == "form") ? key
+                               : QString("objectParameter") + QString("[") + key + QString("]")), assignOperator, parameter.value(key)));
+            count++;
+        }
+
+
+        fullPath.append(QUrl::toPercentEncoding(paramString));
+
+    }
+    OAIHttpRequestInput input(fullPath, "POST");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            spaceDelimitedNotExplodeObjectCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit spaceDelimitedNotExplodeObjectErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::spaceDelimitedNotExplodeObjectCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        disconnect(netReply, nullptr, nullptr, nullptr);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit spaceDelimitedNotExplodeObjectFinished(output);
 }
 
 } // namespace OpenAPI

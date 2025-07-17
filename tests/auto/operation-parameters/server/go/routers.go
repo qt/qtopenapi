@@ -10,69 +10,339 @@
 package openapi
 
 import (
-	"net/http"
+    "net/http"
 
-	"github.com/gin-gonic/gin"
+    "github.com/gin-gonic/gin"
 )
 
 // Route is the information for every URI.
 type Route struct {
-	// Name is the name of this Route.
-	Name		string
-	// Method is the string for the HTTP method. ex) GET, POST etc..
-	Method		string
-	// Pattern is the pattern of the URI.
-	Pattern	 	string
-	// HandlerFunc is the handler function of this route.
-	HandlerFunc	gin.HandlerFunc
+    // Name is the name of this Route.
+    Name		string
+    // Method is the string for the HTTP method. ex) GET, POST etc..
+    Method		string
+    // Pattern is the pattern of the URI.
+    Pattern	 	string
+    // HandlerFunc is the handler function of this route.
+    HandlerFunc	gin.HandlerFunc
 }
 
 // NewRouter returns a new router.
 func NewRouter(handleFunctions ApiHandleFunctions) *gin.Engine {
-	return NewRouterWithGinEngine(gin.Default(), handleFunctions)
+    return NewRouterWithGinEngine(gin.Default(), handleFunctions)
 }
 
 // NewRouter add routes to existing gin engine.
 func NewRouterWithGinEngine(router *gin.Engine, handleFunctions ApiHandleFunctions) *gin.Engine {
-	for _, route := range getRoutes(handleFunctions) {
-		if route.HandlerFunc == nil {
-			route.HandlerFunc = DefaultHandleFunc
-		}
-		switch route.Method {
-		case http.MethodGet:
-			router.GET(route.Pattern, route.HandlerFunc)
-		case http.MethodPost:
-			router.POST(route.Pattern, route.HandlerFunc)
-		case http.MethodPut:
-			router.PUT(route.Pattern, route.HandlerFunc)
-		case http.MethodPatch:
-			router.PATCH(route.Pattern, route.HandlerFunc)
-		case http.MethodDelete:
-			router.DELETE(route.Pattern, route.HandlerFunc)
-		}
-	}
+    for _, route := range getRoutes(handleFunctions) {
+        if route.HandlerFunc == nil {
+            route.HandlerFunc = DefaultHandleFunc
+        }
+        switch route.Method {
+        case http.MethodGet:
+            router.GET(route.Pattern, route.HandlerFunc)
+        case http.MethodPost:
+            router.POST(route.Pattern, route.HandlerFunc)
+        case http.MethodPut:
+            router.PUT(route.Pattern, route.HandlerFunc)
+        case http.MethodPatch:
+            router.PATCH(route.Pattern, route.HandlerFunc)
+        case http.MethodDelete:
+            router.DELETE(route.Pattern, route.HandlerFunc)
+        }
+    }
 
-	return router
+    return router
 }
 
 // Default handler for not yet implemented routes
 func DefaultHandleFunc(c *gin.Context) {
-	c.String(http.StatusNotImplemented, "501 not implemented")
+    c.String(http.StatusNotImplemented, "501 not implemented")
 }
 
 type ApiHandleFunctions struct {
 
-	// Routes for the TestAPI part of the API
-	TestAPI TestAPI
+    // Routes for the TestAPI part of the API
+    TestAPI TestAPI
 }
 
 func getRoutes(handleFunctions ApiHandleFunctions) []Route {
-	return []Route{ 
-		{
-			"SimpleExplodeString",
-			http.MethodGet,
-			"/v2/path/primitive/simple-explode/:string_parameter",
-			handleFunctions.TestAPI.SimpleExplodeString,
-		},
-	}
+    return []Route{
+        {
+            "DeepObjectExplodeObject",
+            http.MethodPost,
+            "/v2/query/object/deepObject-explode/deepObjectExplodeObject",
+            handleFunctions.TestAPI.DeepObjectExplodeObject,
+        },
+        {
+            "DeepObjectNotExplodeObject",
+            http.MethodPost,
+            "/v2/query/object/deepObject-not-explode/deepObjectNotExplodeObject",
+            handleFunctions.TestAPI.DeepObjectNotExplodeObject,
+        },
+        {
+            "FormExplodeAnytype",
+            http.MethodPost,
+            "/v2/query/anytype/form-explode/formExplodeAnytype",
+            handleFunctions.TestAPI.FormExplodeAnytype,
+        },
+        {
+            "FormExplodeArray",
+            http.MethodPost,
+            "/v2/query/array/form-explode/formExplodeArray",
+            handleFunctions.TestAPI.FormExplodeArray,
+        },
+        {
+            "FormExplodeObject",
+            http.MethodPost,
+            "/v2/query/object/form-explode/formExplodeObject",
+            handleFunctions.TestAPI.FormExplodeObject,
+        },
+        {
+            "FormExplodeString",
+            http.MethodPost,
+            "/v2/query/string/form-explode/formExplodeString",
+            handleFunctions.TestAPI.FormExplodeString,
+        },
+        {
+            "FormNotExplodeAnytype",
+            http.MethodPost,
+            "/v2/query/anytype/form-not-explode/formNotExplodeAnytype",
+            handleFunctions.TestAPI.FormNotExplodeAnytype,
+        },
+        {
+            "FormNotExplodeArray",
+            http.MethodPost,
+            "/v2/query/array/form-not-explode/formNotExplodeArray",
+            handleFunctions.TestAPI.FormNotExplodeArray,
+        },
+        {
+            "FormNotExplodeObject",
+            http.MethodPost,
+            "/v2/query/object/form-not-explode/formNotExplodeObject",
+            handleFunctions.TestAPI.FormNotExplodeObject,
+        },
+        {
+            "FormNotExplodeString",
+            http.MethodPost,
+            "/v2/query/string/form-not-explode/formNotExplodeString",
+            handleFunctions.TestAPI.FormNotExplodeString,
+        },
+        {
+            "LabelExplodeAnytype",
+            http.MethodGet,
+            "/v2/path/anytype/label-explode/:anytypeParameter",
+            handleFunctions.TestAPI.LabelExplodeAnytype,
+        },
+        {
+            "LabelExplodeArray",
+            http.MethodGet,
+            "/v2/path/array/label-explode/:arrayParameter",
+            handleFunctions.TestAPI.LabelExplodeArray,
+        },
+        {
+            "LabelExplodeObject",
+            http.MethodGet,
+            "/v2/path/object/label-explode/:objectParameter",
+            handleFunctions.TestAPI.LabelExplodeObject,
+        },
+        {
+            "LabelExplodeString",
+            http.MethodGet,
+            "/v2/path/string/label-explode/:stringParameter",
+            handleFunctions.TestAPI.LabelExplodeString,
+        },
+        {
+            "LabelNotExplodeAnytype",
+            http.MethodGet,
+            "/v2/path/anytype/label-not-explode/:anytypeParameter",
+            handleFunctions.TestAPI.LabelNotExplodeAnytype,
+        },
+        {
+            "LabelNotExplodeArray",
+            http.MethodGet,
+            "/v2/path/array/label-not-explode/:arrayParameter",
+            handleFunctions.TestAPI.LabelNotExplodeArray,
+        },
+        {
+            "LabelNotExplodeObject",
+            http.MethodPost,
+            "/v2/path/object/label-not-explode/:objectParameter",
+            handleFunctions.TestAPI.LabelNotExplodeObject,
+        },
+        {
+            "LabelNotExplodeString",
+            http.MethodGet,
+            "/v2/path/string/label-not-explode/:stringParameter",
+            handleFunctions.TestAPI.LabelNotExplodeString,
+        },
+        {
+            "MatrixExplodeAnytype",
+            http.MethodGet,
+            "/v2/path/anytype/matrix-explode/:anytypeParameter",
+            handleFunctions.TestAPI.MatrixExplodeAnytype,
+        },
+        {
+            "MatrixExplodeArray",
+            http.MethodGet,
+            "/v2/path/array/matrix-explode/:arrayParameter",
+            handleFunctions.TestAPI.MatrixExplodeArray,
+        },
+        {
+            "MatrixExplodeObject",
+            http.MethodGet,
+            "/v2/path/object/matrix-explode/:objectParameter",
+            handleFunctions.TestAPI.MatrixExplodeObject,
+        },
+        {
+            "MatrixExplodeString",
+            http.MethodGet,
+            "/v2/path/string/matrix-explode/:stringParameter",
+            handleFunctions.TestAPI.MatrixExplodeString,
+        },
+        {
+            "MatrixNotExplodeAnytype",
+            http.MethodGet,
+            "/v2/path/anytype/matrix-not-explode/:anytypeParameter",
+            handleFunctions.TestAPI.MatrixNotExplodeAnytype,
+        },
+        {
+            "MatrixNotExplodeArray",
+            http.MethodGet,
+            "/v2/path/array/matrix-not-explode/:arrayParameter",
+            handleFunctions.TestAPI.MatrixNotExplodeArray,
+        },
+        {
+            "MatrixNotExplodeObject",
+            http.MethodGet,
+            "/v2/path/object/matrix-not-explode/:objectParameter",
+            handleFunctions.TestAPI.MatrixNotExplodeObject,
+        },
+        {
+            "MatrixNotExplodeString",
+            http.MethodGet,
+            "/v2/path/string/matrix-not-explode/:stringParameter",
+            handleFunctions.TestAPI.MatrixNotExplodeString,
+        },
+        {
+            "PipeDelimitedExplodeAnytype",
+            http.MethodPost,
+            "/v2/query/anytype/pipeDelimited-explode/pipeDelimitedExplodeAnytype",
+            handleFunctions.TestAPI.PipeDelimitedExplodeAnytype,
+        },
+        {
+            "PipeDelimitedExplodeArray",
+            http.MethodPost,
+            "/v2/query/array/pipeDelimited-explode/pipeDelimitedExplodeArray",
+            handleFunctions.TestAPI.PipeDelimitedExplodeArray,
+        },
+        {
+            "PipeDelimitedExplodeObject",
+            http.MethodPost,
+            "/v2/query/object/pipeDelimited-explode/pipeDelimitedExplodeObject",
+            handleFunctions.TestAPI.PipeDelimitedExplodeObject,
+        },
+        {
+            "PipeDelimitedNotExplodeAnytype",
+            http.MethodPost,
+            "/v2/query/anytype/pipeDelimited-not-explode/pipeDelimitedNotExplodeAnytype",
+            handleFunctions.TestAPI.PipeDelimitedNotExplodeAnytype,
+        },
+        {
+            "PipeDelimitedNotExplodeArray",
+            http.MethodPost,
+            "/v2/query/array/pipeDelimited-not-explode/pipeDelimitedNotExplodeArray",
+            handleFunctions.TestAPI.PipeDelimitedNotExplodeArray,
+        },
+        {
+            "PipeDelimitedNotExplodeObject",
+            http.MethodPost,
+            "/v2/query/object/pipeDelimited-not-explode/pipeDelimitedNotExplodeObject",
+            handleFunctions.TestAPI.PipeDelimitedNotExplodeObject,
+        },
+        {
+            "SimpleExplodeAnytype",
+            http.MethodGet,
+            "/v2/path/anytype/simple-explode/:anytypeParameter",
+            handleFunctions.TestAPI.SimpleExplodeAnytype,
+        },
+        {
+            "SimpleExplodeArray",
+            http.MethodGet,
+            "/v2/path/array/simple-explode/:arrayParameter",
+            handleFunctions.TestAPI.SimpleExplodeArray,
+        },
+        {
+            "SimpleExplodeObject",
+            http.MethodGet,
+            "/v2/path/object/simple-explode/:objectParameter",
+            handleFunctions.TestAPI.SimpleExplodeObject,
+        },
+        {
+            "SimpleExplodeString",
+            http.MethodGet,
+            "/v2/path/string/simple-explode/:stringParameter",
+            handleFunctions.TestAPI.SimpleExplodeString,
+        },
+        {
+            "SimpleNotExplodeAnytype",
+            http.MethodGet,
+            "/v2/path/anytype/simple-not-explode/:anytypeParameter",
+            handleFunctions.TestAPI.SimpleNotExplodeAnytype,
+        },
+        {
+            "SimpleNotExplodeArray",
+            http.MethodGet,
+            "/v2/path/array/simple-not-explode/:arrayParameter",
+            handleFunctions.TestAPI.SimpleNotExplodeArray,
+        },
+        {
+            "SimpleNotExplodeObject",
+            http.MethodGet,
+            "/v2/path/object/simple-not-explode/:objectParameter",
+            handleFunctions.TestAPI.SimpleNotExplodeObject,
+        },
+        {
+            "SimpleNotExplodeString",
+            http.MethodGet,
+            "/v2/path/string/simple-not-explode/:stringParameter",
+            handleFunctions.TestAPI.SimpleNotExplodeString,
+        },
+        {
+            "SpaceDelimitedExplodeAnytype",
+            http.MethodPost,
+            "/v2/query/anytype/spaceDelimited-explode/spaceDelimitedExplodeAnytype",
+            handleFunctions.TestAPI.SpaceDelimitedExplodeAnytype,
+        },
+        {
+            "SpaceDelimitedExplodeArray",
+            http.MethodPost,
+            "/v2/query/array/spaceDelimited-explode/spaceDelimitedExplodeArray",
+            handleFunctions.TestAPI.SpaceDelimitedExplodeArray,
+        },
+        {
+            "SpaceDelimitedExplodeObject",
+            http.MethodPost,
+            "/v2/query/object/spaceDelimited-explode/spaceDelimitedExplodeObject",
+            handleFunctions.TestAPI.SpaceDelimitedExplodeObject,
+        },
+        {
+            "SpaceDelimitedNotExplodeAnytype",
+            http.MethodPost,
+            "/v2/query/anytype/spaceDelimited-not-explode/spaceDelimitedNotExplodeAnytype",
+            handleFunctions.TestAPI.SpaceDelimitedNotExplodeAnytype,
+        },
+        {
+            "SpaceDelimitedNotExplodeArray",
+            http.MethodPost,
+            "/v2/query/array/spaceDelimited-not-explode/spaceDelimitedNotExplodeArray",
+            handleFunctions.TestAPI.SpaceDelimitedNotExplodeArray,
+        },
+        {
+            "SpaceDelimitedNotExplodeObject",
+            http.MethodPost,
+            "/v2/query/object/spaceDelimited-not-explode/spaceDelimitedNotExplodeObject",
+            handleFunctions.TestAPI.SpaceDelimitedNotExplodeObject,
+        },
+    }
 }
