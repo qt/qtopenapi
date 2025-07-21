@@ -394,15 +394,6 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{/queryParams}}
     {{prefix}}HttpRequestInput input(fullPath, "{{httpMethod}}");
 {{#formParams}}
-{{#first}}
-    QString formPrefix,formSuffix, formDelimiter;
-    QString formStyle = "{{style}}";
-    if (formStyle == "")
-        formStyle = "form";
-    formPrefix = getParamStylePrefix(formStyle);
-    formSuffix = getParamStyleSuffix(formStyle);
-    formDelimiter = getParamStyleDelimiter(formStyle, "{{baseName}}", {{isExplode}});
-    {{/first}}
     {{^required}}if ({{paramName}}.hasValue()) {{/required}}{
 {{^isFile}}
         input.addVar("{{baseName}}", ::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value(){{/required}}));
