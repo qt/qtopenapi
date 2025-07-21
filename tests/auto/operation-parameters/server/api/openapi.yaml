@@ -1,0 +1,35 @@
+openapi: 3.1.0
+info:
+  description: |
+    This specification is intended for testing purposes. It demonstrates a wide range of combinations of the `style` and `explode` attributes for parameters in various locations: query, path, header, and cookie. The goal is to verify correct path and parameter generation for each case.
+  title: Operation Parameters Test
+  version: 1.0.0
+servers:
+- url: http://127.0.0.1:10203/v2
+tags:
+- description: test operations
+  name: test
+paths:
+  /path/primitive/simple-explode/{string_parameter}:
+    get:
+      operationId: simpleExplodeString
+      parameters:
+      - explode: true
+        in: path
+        name: string_parameter
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+      summary: Simple style with explode set to true for string path parameter.
+      tags:
+      - test
+components:
+  schemas: {}

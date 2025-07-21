@@ -8,6 +8,12 @@ set -e
 sudo apt-get -y install qtbase5-dev qtbase5-dev-tools
 # Qt6 generator uses doxygen to provide documentation to the user
 sudo apt-get -y install doxygen graphviz
+# operation-parameters test server uses Go
+sudo apt-get -y install golang
+# Fetch missing Go dependencies (only works if run from within a Go module)
+if [ -f "go.mod" ]; then
+    go mod tidy
+fi
 OPENAPI_HOME=/home/qt/work/playground/qtopenapi
 export CMAKE_PREFIX_PATH="/home/qt/work/install"
 
@@ -18,9 +24,9 @@ function run_test() {
     source build-and-test.bash
 }
 
-function killPetServer() {
+function killTestServer() {
     # when the client finished testing, let's kill server ]:->
-    exit_pid=$(pidof cpp-qt-qhttpengine-server)
+    exit_pid=$(pidof $SERVER_NAME)
     echo "Now kill the server by pid:" $exit_pid
     kill -9 $exit_pid
 }
@@ -32,8 +38,9 @@ function build_doxygen_docs() {
     doxygen doc/Doxyfile.in
     cd $OPENAPI_HOME
 }
-# build and run server app
+# build and run petstore cpp server app
 SERVER_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/petstore/server"
+SERVER_NAME="cpp-qt-qhttpengine-server"
 cd $SERVER_OUTPUT_DIR
 rm -rf $SERVER_OUTPUT_DIR/build
 source build-and-run.bash
@@ -47,7 +54,7 @@ build_doxygen_docs ;
 CLIENTFOLDER_NAME=qmlclient
 CLIENT_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/petstore/$CLIENTFOLDER_NAME"
 run_test ;
-killPetServer ;
+killTestServer ;
 
 # generate colorpalette cpp client
 CLIENTFOLDER_NAME=client
@@ -62,3 +69,15 @@ CLIENT_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/colorpalette/$CLIENTFOLDER_NAME"
 rm -rf CLIENT_OUTPUT_DIR/client
 run_test ;
 
+# Build and run the operation-parameters Go server app
+SERVER_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/operation-parameters/server"
+cd "$SERVER_OUTPUT_DIR"
+source build-and-run.bash
+
+# Build and run operation-parameters cpp client
+CLIENTFOLDER_NAME=client
+CLIENT_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/operation-parameters/$CLIENTFOLDER_NAME"
+SERVER_NAME="server-app"
+run_test ;
+killTestServer ;
+build_doxygen_docs ;

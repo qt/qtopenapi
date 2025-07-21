@@ -118,6 +118,14 @@ else
     die "Error: user-spec does not exist."
 fi
 
+if [[ $MODE == "qmltest" && $USER_MODE == "operation-parameters" ]]; then
+  echo "Skipping: 'qmltest' is not applicable for 'operation-parameters'."
+  exit 1
+elif [[ $MODE == "qmldoc" && $USER_MODE == "operation-parameters" ]]; then
+  echo "Skipping: 'qmldoc' is not applicable for 'operation-parameters'."
+  exit 1
+fi
+
 # Choose your log level: debug, info, warn, or error
 LOG_LEVEL=${3:-INFO}  # Default to INFO if not provided
 LOGBACK_XML_PATH="$PWD/logback.xml"
@@ -151,15 +159,24 @@ function generate() {
     --additional-properties=enableQmlCode=$QML_ADDITIONAL_PROPERTIES
 }
 
+####################################
+### SET THE SERVER NAME MANUALLY ###
+####################################
+if [[ $USER_MODE == "petstore" ]]; then
+    SERVER_NAME="cpp-qt-qhttpengine-server"
+elif [[ $USER_MODE == "operation-parameters" ]]; then
+    SERVER_NAME="server-app"
+fi
+
 function killPetServer() {
     # when the client finished testing, let's kill server ]:->
-    exit_pid=$(pidof cpp-qt-qhttpengine-server)
+    exit_pid=$(pidof $SERVER_NAME)
     echo "Now kill the server by pid:" $exit_pid
     kill -9 $exit_pid
 }
 
 function run_test() {
-  if [[ $USER_MODE == "petstore" ]]; then
+  if [[ $USER_MODE == "petstore" || $USER_MODE == "operation-parameters" ]]; then
     #may need to clean up from previous execution
     killPetServer
     # build and run server app
@@ -220,6 +237,12 @@ if [[ $JAVA_HOME == "" ]]; then
    echo "'JAVA_HOME' need to be set!"
    echo -e "\n"
    exit 1
+fi
+
+# Ensure Go is installed
+if ! command -v go >/dev/null; then
+    echo "'go' is not installed."
+    exit 1
 fi
 
 case "$MODE" in
