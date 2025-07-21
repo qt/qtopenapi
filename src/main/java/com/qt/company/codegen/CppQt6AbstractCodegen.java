@@ -1,6 +1,7 @@
 // Copyright (C) –2025 OpenAPI Generator contributors.
 // Copyright (C) 2025 The Qt Company Ltd.
 // SPDX-License-Identifier: Apache-2.0
+// Qt-Security score:critical reason:data-parser
 
 package com.qt.company.codegen;
 
