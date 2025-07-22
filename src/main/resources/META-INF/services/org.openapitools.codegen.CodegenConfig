@@ -1,2 +1,2 @@
-com.qt.company.codegen.CppQt6ClientGenerator
+org.qtproject.qt.codegen.CppQt6ClientGenerator
 

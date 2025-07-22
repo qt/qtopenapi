@@ -1,13 +1,13 @@
 // Copyright (C) 2025 The Qt Company Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
-package com.qt.company.codegen;
+package org.qtproject.qt.codegen;
 
 import org.junit.jupiter.api.Test;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.config.CodegenConfigurator;
-import com.qt.company.codegen.CppQt6ClientGenerator;
+import org.qtproject.qt.codegen.CppQt6ClientGenerator;
 
 /***
  * This test allows you to easily launch your code generation software under a debugger.

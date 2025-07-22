@@ -20,7 +20,6 @@ PATH=$PATH:$OPENAPI_HOME/openapi_client_generators
 mvn clean
 mvn package
 
-CLASSDIR="src/main/java/com/qt/company/codegen/"
 OPENAPI_CLI="openapi_client_generators/openapi-generator-cli-7.12.0.jar"
 OPENAPI_CLI_ENTRYPOINT_CLASS="org.openapitools.codegen.OpenAPIGenerator"
 ORIGINAL_GENERATOR="cpp-qt6-client"

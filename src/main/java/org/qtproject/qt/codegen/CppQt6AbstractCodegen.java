@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // Qt-Security score:critical reason:data-parser
 
-package com.qt.company.codegen;
+package org.qtproject.qt.codegen;
 
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;

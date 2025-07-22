@@ -55,8 +55,8 @@ To see more ways of getting started with OpenAPI, check the [installation instru
 |-- src
 |--- main
 |---- java
-|----- com.qt.company.codegen.CppQt6AbstractCodegen.java // java interface class, that has initial Qt6 type mapping
-|----- com.qt.company.codegen.CppQt6ClientGenerator.java // main generator class
+|----- org.qtproject.qt.codegen.CppQt6AbstractCodegen.java // java interface class, that has initial Qt6 type mapping
+|----- org.qtproject.qt.codegen.CppQt6ClientGenerator.java // main generator class
 |---- resources
 |----- cpp-qt6-client // *.mustache template files
 |----- META-INF
@@ -64,7 +64,7 @@ To see more ways of getting started with OpenAPI, check the [installation instru
 |------- org.openapitools.codegen.CodegenConfig
 |--- test
 |---- java
-|----- com.qt.company.codegen.CppQt6ClientGeneratorTest.java // Java Unit Tests. It checks the generator can be launched(need to be extended in future)
+|----- org.qtproject.qt.codegen.CppQt6ClientGeneratorTest.java // Java Unit Tests. It checks the generator can be launched(need to be extended in future)
 |- tests   // C++ test apppications
 |-- auto
 |--- colorpalette

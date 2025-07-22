@@ -60,7 +60,6 @@ mvn_exists()
 }
 
 MODE="$1"
-CLASSDIR="src/main/java/com/qt/company/codegen/"
 OPENAPI_CLI="openapi_client_generators/openapi-generator-cli-7.12.0.jar"
 OPENAPI_CLI_ENTRYPOINT_CLASS="org.openapitools.codegen.OpenAPIGenerator"
 ORIGINAL_GENERATOR="cpp-qt6-client"
@@ -86,7 +85,6 @@ function openapi_generator_download() {
   fi
   #### Check downloads
   [[ -f "$OPENAPI_CLI" ]] || usage "Error: openapi-generator-cli.jar does not exist: " \""$OPENAPI_CLI"\"
-  [[ -f "$CLASSDIR/CppQt6ClientGenerator.java" ]] || usage "Error: the java file does not exist in: " "$CLASSDIR"
 }
 
 function compile() {

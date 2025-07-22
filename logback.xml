@@ -15,7 +15,7 @@
   <logger name="org.openapitools" level="${log.level:-info}" additivity="false">
         <appender-ref ref="STDOUT" />
   </logger>
-  <logger name="com.qt.company.codegen" level="${log.level:-info}" additivity="false">
+  <logger name="org.qtproject.qt.codegen" level="${log.level:-info}" additivity="false">
         <appender-ref ref="STDOUT" />
   </logger>
   <root level="error">
