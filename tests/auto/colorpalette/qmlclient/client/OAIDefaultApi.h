@@ -42,6 +42,9 @@ Q_SIGNALS:
     void testOperationFinished();
     /** Signal is emitted, if testOperation() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void testOperationErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+
+protected:
+    QString m_testOperationPath;
 };
 
 } // namespace OpenAPI

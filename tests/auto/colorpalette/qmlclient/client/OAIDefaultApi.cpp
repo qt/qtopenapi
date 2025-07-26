@@ -111,155 +111,110 @@ void OAIDefaultApi::testOperationWithDataImpl(const qint32 &pathParam, const ::O
     const QUrl serverUrl = m_serverConfigs["testOperation"][m_serverIndices.value("testOperation")].serverUrl();
     QString fullPath = "/test/{path_param}";
     m_networkFactory->setBaseUrl(serverUrl);
-    QString pathParamPathParam("{");
-    pathParamPathParam.append("path_param").append("}");
-    QString pathPrefix, pathSuffix, pathDelimiter;
-    QString pathStyle = "simple";
-    if (pathStyle == "")
-        pathStyle = "simple";
-    pathPrefix = getParamStylePrefix(pathStyle);
-    pathSuffix = getParamStyleSuffix(pathStyle);
-    pathDelimiter = getParamStyleDelimiter(pathStyle, "path_param", false);
+    {
+        QString pathParamPathParam = QString("{%1}").arg("path_param");
+        QString pathStyle = "simple";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"path_param"_s, false, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
 
-    QString paramString = (pathStyle == "matrix") ? pathPrefix + "path_param" + pathSuffix : pathPrefix;
-    fullPath.replace(pathParamPathParam, QUrl::toPercentEncoding(paramString + ::OpenAPI::toStringValue(pathParam)));
-    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
-    queryStyle = "form";
-    if (queryStyle == "")
-        queryStyle = "form";
-    queryPrefix = getParamStylePrefix(queryStyle);
-    querySuffix = getParamStyleSuffix(queryStyle);
-    if (queryParam0.hasValue()) {
-        if (fullPath.indexOf("?") > 0)
-            fullPath.append(queryPrefix);
-        else
-            fullPath.append("?");
-        fullPath.append(QUrl::toPercentEncoding("query_param0") + querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(queryParam0.value())));
-
+        paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(pathParam));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(pathParamPathParam, paramString);
     }
-    queryStyle = "form";
-    if (queryStyle == "")
-        queryStyle = "form";
-    queryPrefix = getParamStylePrefix(queryStyle);
-    querySuffix = getParamStyleSuffix(queryStyle);
-    if (queryParam1.hasValue()) {
-        if (fullPath.indexOf("?") > 0)
+    int queryParamCounter = 0;
+    {
+        [[maybe_unused]] QString paramString;
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"query_param0"_s, true, (!true && !false));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!true && !false));
+        paramString = querySuffix;
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        else
-            fullPath.append("?");
-        QString paramString = (queryStyle == "form" && true) ?  "" : "query_param1" + querySuffix;
-        QString assignOperator;
-        if (queryStyle == "form")
-            assignOperator = (true) ? "=" : ",";
-        else if (queryStyle == "deepObject")
-            assignOperator = (true) ? "=" : "none";
-        queryDelimiter = ((queryStyle == "form" || queryStyle == "deepObject") && true) ? "&" : ",";
-        const QJsonObject parameter = queryParam1.value().asJsonObject();
-        qint32 count = 0;
-        for(const QString& key : parameter.keys()) {
-            if (count > 0)
-                paramString.append(queryDelimiter);
-            paramString.append(::OpenAPI::optionParameterToString(((queryStyle == "form") ? key
-                               : QString("query_param1") + QString("[") + key + QString("]")), assignOperator, parameter.value(key)));
-            count++;
+        if (queryParamCounter > 0)
+            fullPath.append("&");
+        if (queryParam0.hasValue()) {
+
+            fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(queryParam0.value())));
+            queryParamCounter++;
         }
-
-
-        fullPath.append(QUrl::toPercentEncoding(paramString));
-
-    } else if (queryParam1.isNull()) {
-        if (fullPath.indexOf("?") > 0)
-            fullPath.append(queryPrefix);
-        else
-            fullPath.append("?");
-
-        fullPath.append(QUrl::toPercentEncoding("query_param1")).append(querySuffix).append(QUrl::toPercentEncoding(QString("null")));
     }
-    queryStyle = "form";
-    if (queryStyle == "")
-        queryStyle = "form";
-    queryPrefix = getParamStylePrefix(queryStyle);
-    querySuffix = getParamStyleSuffix(queryStyle);
-    if (queryParam2.hasValue()) {
+    {
+        [[maybe_unused]] QString paramString;
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"query_param1"_s, true, (!false && !false));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!false && !false));
+        paramString = querySuffix;
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
+            fullPath.append(queryPrefix);
+        if (queryParamCounter > 0)
+            fullPath.append("&");
+        if (queryParam1.hasValue()) {
 
-        queryDelimiter = getParamStyleDelimiter(queryStyle, "query_param2", true);
-        if (queryParam2.value().size() > 0) {
-            if (QString("multi").indexOf("multi") == 0) {
-                for (qint32 t : queryParam2.value()) {
-                    if (fullPath.indexOf("?") > 0)
-                        fullPath.append(queryPrefix);
-                    else
-                        fullPath.append("?");
-                    fullPath.append("query_param2=").append(::OpenAPI::toStringValue(t));
+            const QJsonObject parameter = queryParam1.value().asJsonObject();
+            if (queryStyle == "deepObject") {
+                qint32 index = 0;
+                if (parameter.isEmpty())
+                    qWarning() << "Serialized QJsonValue::Object is empty!";
+                for (const QString& key : parameter.keys()) {
+                    if (index > 0)
+                        paramString.append(queryDelimiter);
+                    paramString.append(::OpenAPI::optionParameterToString(QString("query_param1") + QString("[") + key + QString("]"), queryAssignOperator, parameter.value(key)));
+                    index++;
                 }
-            } else if (QString("multi").indexOf("ssv") == 0) {
-                if (fullPath.indexOf("?") > 0)
-                    fullPath.append("&");
-                else
-                    fullPath.append("?").append(queryPrefix).append("query_param2").append(querySuffix);
-                qint32 count = 0;
-                for (qint32 t : queryParam2.value()) {
-                    if (count > 0) {
-                        fullPath.append((true)? queryDelimiter : QUrl::toPercentEncoding(queryDelimiter));
-                    }
-                    fullPath.append(::OpenAPI::toStringValue(t));
-                    count++;
-                }
-            } else if (QString("multi").indexOf("tsv") == 0) {
-                if (fullPath.indexOf("?") > 0)
-                    fullPath.append("&");
-                else
-                    fullPath.append("?").append(queryPrefix).append("query_param2").append(querySuffix);
-                qint32 count = 0;
-                for (qint32 t : queryParam2.value()) {
-                    if (count > 0) {
-                        fullPath.append("\t");
-                    }
-                    fullPath.append(::OpenAPI::toStringValue(t));
-                    count++;
-                }
-            } else if (QString("multi").indexOf("csv") == 0) {
-                if (fullPath.indexOf("?") > 0)
-                    fullPath.append("&");
-                else
-                    fullPath.append("?").append(queryPrefix).append("query_param2").append(querySuffix);
-                qint32 count = 0;
-                for (qint32 t : queryParam2.value()) {
-                    if (count > 0) {
-                        fullPath.append(queryDelimiter);
-                    }
-                    fullPath.append(::OpenAPI::toStringValue(t));
-                    count++;
-                }
-            } else if (QString("multi").indexOf("pipes") == 0) {
-                if (fullPath.indexOf("?") > 0)
-                    fullPath.append("&");
-                else
-                    fullPath.append("?").append(queryPrefix).append("query_param2").append(querySuffix);
-                qint32 count = 0;
-                for (qint32 t : queryParam2.value()) {
-                    if (count > 0) {
-                        fullPath.append(queryDelimiter);
-                    }
-                    fullPath.append(::OpenAPI::toStringValue(t));
-                    count++;
-                }
-            } else if (QString("multi").indexOf("deepObject") == 0) {
-                if (fullPath.indexOf("?") > 0)
-                    fullPath.append("&");
-                else
-                    fullPath.append("?").append(queryPrefix).append("query_param2").append(querySuffix);
-                qint32 count = 0;
-                for (qint32 t : queryParam2.value()) {
-                    if (count > 0) {
-                        fullPath.append(queryDelimiter);
-                    }
-                    fullPath.append(::OpenAPI::toStringValue(t));
-                    count++;
-                }
+            } else {
+                paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, true, querySuffix, queryAssignOperator, queryDelimiter);
             }
+            // style=form && explode=true && non-object => 'query_param1' isn't used in serialization
+            // style=form && explode=true && empty object => need to be 'query_param1='
+            // see https://spec.openapis.org/oas/v3.1.1.html#style-values
+            if (parameter.isEmpty() && queryStyle == "form")
+                paramString = u"query_param1="_s;
+            fullPath.append(paramString);
+
+            queryParamCounter++;
+        } else if (queryParam1.isNull()) {
+            fullPath.append(querySuffix).append(QString("null"));
+            queryParamCounter++;
         }
     }
+    {
+        [[maybe_unused]] QString paramString;
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"query_param2"_s, true, (!false && !true));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!false && !true));
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
+            fullPath.append(queryPrefix);
+        if (queryParamCounter > 0)
+            fullPath.append("&");
+        if (queryParam2.hasValue()) {
+
+            fullPath.append(serializeArrayValue(queryParam2.value(), queryStyle, true, querySuffix, queryDelimiter));
+            queryParamCounter++;
+        }
+    }
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
     if (oAITestOperationRequest.hasValue()) {
 

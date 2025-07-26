@@ -283,6 +283,8 @@ QNetworkRequest getNetworkRequest(OAIHttpRequestInput &input, QByteArray &reques
         }
     }
     QNetworkRequest request = factory->createRequest(input.m_urlStr);
+    // TBD: Remove the line below after merging the fix QTBUG-138878
+    request.setUrl(factory->baseUrl().toString() + input.m_urlStr);
     if (request.header(QNetworkRequest::UserAgentHeader).isNull())
         request.setHeader(QNetworkRequest::UserAgentHeader, "OpenAPI-Generator/1.0.0/cpp-qt");
 

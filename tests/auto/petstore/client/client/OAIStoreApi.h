@@ -79,6 +79,9 @@ Q_SIGNALS:
     void placeOrderFinished(const OAIOrder &summary);
     /** Signal is emitted, if placeOrder() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void placeOrderErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+
+protected:
+    QString m_testOperationPath;
 };
 
 } // namespace OpenAPI

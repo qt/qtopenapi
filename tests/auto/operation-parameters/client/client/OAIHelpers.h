@@ -81,7 +81,7 @@ template <typename T>
 QString toStringValue(const QList<T> &val, QAnyStringView delimiter = ",") {
     QString strArray;
     for (const auto &item : val) {
-        strArray.append(toStringValue(item)) + delimiter.toString();
+        strArray.append(QUrl::toPercentEncoding(toStringValue(item))) + delimiter.toString();
     }
     if (val.count() > 0) {
         strArray.chop(delimiter.size());
@@ -93,7 +93,7 @@ template <typename T>
 QString toStringValue(const QSet<T> &val) {
     QString strArray;
     for (const auto &item : val) {
-        strArray.append(toStringValue(item) + ",");
+        strArray.append(QUrl::toPercentEncoding(toStringValue(item)) + ",");
     }
     if (val.count() > 0) {
         strArray.chop(1);
@@ -105,7 +105,7 @@ template <typename T>
 QString toStringValue(const QMap<QString, T> &val, QAnyStringView keyValueDelimiter = ",", QAnyStringView itemDelimiter = ",") {
     QString strArray;
     for (auto item = val.cbegin(), end = val.cend(); item != end; ++item) {
-        strArray.append(item.key() + keyValueDelimiter.toString() + toStringValue(item.value()) + itemDelimiter.toString());
+        strArray.append(QUrl::toPercentEncoding(item.key()) + keyValueDelimiter.toString() + QUrl::toPercentEncoding(toStringValue(item.value())) + itemDelimiter.toString());
     }
     if (val.count() > 0) {
         strArray.chop(itemDelimiter.size());

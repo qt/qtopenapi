@@ -39,6 +39,9 @@ Q_SIGNALS:
     void registerPostFinished();
     /** Signal is emitted, if registerPost() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void registerPostErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+
+protected:
+    QString m_testOperationPath;
 };
 
 } // namespace OpenAPI

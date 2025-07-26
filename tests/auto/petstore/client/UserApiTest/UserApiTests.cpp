@@ -197,9 +197,10 @@ void UserApiTests::logoutUserTest_data()
     QTest::addColumn<QJsonValue>("jsonValue");
     QTest::newRow("QJsonValue(string)") << QJsonValue("johndoe");
     QTest::newRow("QJsonValue(int)")    << QJsonValue(100);
-    QTest::newRow("QJsonValue(array)")  << QJsonValue({ 1, 2.2, QString("Strange")});
+    QTest::newRow("QJsonValue(array)")  << QJsonValue({1, 2.2, QString("Strange")});
     QTest::newRow("QJsonValue(object)") << QJsonValue(createRandomUser().asJsonObject());
     QTest::newRow("QJsonValue()")       << QJsonValue();
+    QTest::newRow("QJsonValue(Null)")   << QJsonValue(QJsonValue::Null);
 }
 
 void UserApiTests::logoutUserTest()
@@ -235,7 +236,7 @@ void UserApiTests::updateUserTest() {
         if (!(operationStatus = reply.isSuccess()))
             qDebug() << "Error happened while issuing request : " << reply.errorString();
         QCOMPARE(reply.httpStatus(), REPLY_OK);
-        QCOMPARE(summary.asJson(), grumpy.asJson());
+        QCOMPARE(QUrl::fromPercentEncoding(summary.asJson().toUtf8()), grumpy.asJson());
     });
     QTRY_COMPARE_EQ_WITH_TIMEOUT(operationStatus, true, 14000);
 }

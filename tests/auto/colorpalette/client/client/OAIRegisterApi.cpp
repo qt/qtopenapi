@@ -100,6 +100,8 @@ void OAIRegisterApi::registerPostWithDataImpl(const ::OpenAPI::OptionalParam<OAI
     QString fullPath = "/register";
     m_networkFactory->setBaseUrl(serverUrl);
 
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
     if (oAITestOperationRequest.hasValue()) {
 

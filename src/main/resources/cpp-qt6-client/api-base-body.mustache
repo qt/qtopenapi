@@ -208,6 +208,7 @@ void {{prefix}}BaseApi::enableResponseCompression()
     m_isResponseCompressionEnabled = true;
 }
 
+// Param prefix - the first parameter related symbol in a serialization string.
 QString {{prefix}}BaseApi::getParamStylePrefix(const QString &style)
 {
     if (style == "matrix") {
@@ -215,62 +216,80 @@ QString {{prefix}}BaseApi::getParamStylePrefix(const QString &style)
     } else if (style == "label") {
         return ".";
     } else if (style == "form") {
-        return "&";
+        return "?";
     } else if (style == "simple") {
         return "";
     } else if (style == "spaceDelimited") {
-        return "&";
+        return "?";
     } else if (style == "pipeDelimited") {
-        return "&";
-    } else {
-        return "none";
+        return "?";
+    } else if (style == "deepObject") {
+        return "?";
     }
+    Q_UNREACHABLE_RETURN(QString());
 }
 
-QString {{prefix}}BaseApi::getParamStyleSuffix(const QString &style)
+QString {{prefix}}BaseApi::getParamStyleSuffix(const QString &style, const QString &name, bool isExplode, bool isObject)
 {
     if (style == "matrix") {
-        return "=";
+        // for undefined cases "=" will be deleted on serialization.
+        return (isExplode && isObject) ? "" : QUrl::toPercentEncoding(name) + "=";
     } else if (style == "label") {
         return "";
     } else if (style == "form") {
-        return "=";
+        return (isExplode && isObject) ? "" : QUrl::toPercentEncoding(name) + "=";
     } else if (style == "simple") {
         return "";
     } else if (style == "spaceDelimited") {
-        return "=";
+        return QUrl::toPercentEncoding(name) + "=";
     } else if (style == "pipeDelimited") {
-        return "=";
-    } else {
-        return "none";
+        return QUrl::toPercentEncoding(name) + "=";
+    } else if (style == "deepObject") {
+        return "";
     }
+    Q_UNREACHABLE_RETURN(QString());
 }
 
-QString {{prefix}}BaseApi::getParamStyleDelimiter(const QString &style, const QString &name, bool isExplode)
+QString {{prefix}}BaseApi::getParamStyleDelimiter(const QString &style, bool isExplode)
 {
     if (style == "matrix") {
-        return (isExplode) ? ";" + name + "=" : ",";
-
+        return (isExplode) ? ";" : ",";
     } else if (style == "label") {
         return (isExplode) ? "." : ",";
-
     } else if (style == "form") {
-        return (isExplode) ? "&" + name + "=" : ",";
-
+        return (isExplode) ? "&" : ",";
     } else if (style == "simple") {
         return ",";
     } else if (style == "spaceDelimited") {
-        return (isExplode) ? "&" + name + "=" : " ";
-
+        return QUrl::toPercentEncoding(" ");
     } else if (style == "pipeDelimited") {
-        return (isExplode) ? "&" + name + "=" : "|";
-
+        return QUrl::toPercentEncoding("|");
     } else if (style == "deepObject") {
-        return (isExplode) ? "&" : "none";
-
-    } else {
-        return "none";
+        return "&";
     }
+    Q_UNREACHABLE_RETURN(QString());
+}
+
+QString {{prefix}}BaseApi::getParamStyleAssignOperator(const QString &style, bool isExplode, bool isObject)
+{
+    if (!isObject)
+        return "";
+    if (style == "matrix") {
+        return (isExplode) ? "=" : ",";
+    } else if (style == "label") {
+        return (isExplode) ? "=" : ",";
+    } else if (style == "form") {
+        return (isExplode) ? "=" : ",";
+    } else if (style == "simple") {
+        return (isExplode) ? "=" : ",";
+    } else if (style == "spaceDelimited") {
+        return QUrl::toPercentEncoding(" ");
+    } else if (style == "pipeDelimited") {
+        return QUrl::toPercentEncoding("|");
+    } else if (style == "deepObject") {
+        return "=";
+    }
+    Q_UNREACHABLE_RETURN(QString());
 }
 
 QString {{prefix}}BaseApi::errorString(ServerError error) const
@@ -308,6 +327,41 @@ QNetworkReply *{{prefix}}BaseApi::execute({{prefix}}HttpRequestInput &input, QNe
     }
 
     return reply;
+}
+
+QString {{prefix}}BaseApi::serializeJsonValue(const QJsonValue &value, const QString style, bool isExplode, const QString &suffix, const QString &assignOperator, const QString &delimiter)
+{
+    QString paramString;
+    switch(value.type()) {
+    case QJsonValue::String:
+    case QJsonValue::Bool:
+    case QJsonValue::Double:
+    {
+        paramString = suffix;
+        paramString.append(QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue(value.toVariant())));
+    } break;
+    case QJsonValue::Array:
+    {
+        const QVariantList array = value.toArray().toVariantList();
+        paramString = serializeArrayValue(array, style, isExplode, suffix, delimiter);
+    } break;
+    case QJsonValue::Object:
+    {
+        paramString = suffix;
+        QVariantMap map = value.toObject().toVariantMap();
+        if (map.size() > 0)
+            paramString.append(::{{cppNamespace}}::toStringValue(map, assignOperator, delimiter));
+        else
+            qWarning() << "Serialized QJsonValue::Object is empty!";
+    } break;
+    case QJsonValue::Null:
+    case QJsonValue::Undefined:
+    {
+        paramString = suffix;
+        qWarning() << "Path parameter serialization is not supported for the value: " << value;
+    } break;
+    }
+    return paramString;
 }
 
 {{#cppNamespaceDeclarations}}

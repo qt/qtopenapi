@@ -171,6 +171,9 @@ Q_SIGNALS:
     void uploadFileFinished(const OAIApiResponse &summary);
     /** Signal is emitted, if uploadFile() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void uploadFileErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+
+protected:
+    QString m_testOperationPath;
 };
 
 } // namespace OpenAPI

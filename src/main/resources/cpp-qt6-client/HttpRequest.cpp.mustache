@@ -278,6 +278,8 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
         }
     }
     QNetworkRequest request = factory->createRequest(input.m_urlStr);
+    // TBD: Remove the line below after merging the fix QTBUG-138878
+    request.setUrl(factory->baseUrl().toString() + input.m_urlStr);
     if (request.header(QNetworkRequest::UserAgentHeader).isNull())
         request.setHeader(QNetworkRequest::UserAgentHeader, "{{httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{apiVersion}}/cpp-qt{{/httpUserAgent}}");
 

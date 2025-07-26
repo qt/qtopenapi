@@ -16,6 +16,7 @@
             qWarning() << "Error happened while issuing request : " << reply.errorString(); \
         QCOMPARE(getStatusString(summary), EXPECTED_STRING);                            \
     });                                                                                 \
+    QCOMPARE("/v2" + m_testOperationPath, EXPECTED_STRING);                             \
     QTRY_COMPARE_EQ(done, true);                                                        \
 }                                                                                       \
 
@@ -110,8 +111,6 @@ void OperationParameters::pathStringParameters()
     QFETCH(QString, expectedLabelNotExplode);
     QFETCH(QString, expectedMatrixExplode);
     QFETCH(QString, expectedMatrixNotExplode);
-
-    QSKIP("Will be fixed in the followup commit", "QTBUG-138564");
 
     // style=simple, explode=true, type=string
     CALL_TEST_OPERATION(simpleExplodeString, stringValue, expectedSimpleExplode);
@@ -240,7 +239,6 @@ void OperationParameters::pathAnyTypeParameters()
     QFETCH(QString, expectedMatrixExplode);
     QFETCH(QString, expectedMatrixNotExplode);
 
-    QSKIP("Will be fixed in the followup commit", "QTBUG-138564");
     // style=simple, explode=true, type=AnyType
     CALL_TEST_OPERATION(simpleExplodeAnytype, jsonValue, expectedSimpleExplode);
 
@@ -310,8 +308,6 @@ void OperationParameters::pathObjectParameters()
     QFETCH(QString, expectedMatrixExplode);
     QFETCH(QString, expectedMatrixNotExplode);
 
-    QSKIP("Will be fixed in the followup commit", "QTBUG-138564");
-
     // style=simple, explode=true, type=object
     CALL_TEST_OPERATION(simpleExplodeObject, objectValue, expectedSimpleExplode);
 
@@ -343,8 +339,6 @@ void OperationParameters::queryParameters()
     // style=form, explode=false, type=array
     CALL_TEST_OPERATION(formNotExplodeArray, QList<int>({1, 2, -9, 90}),
                         "/v2/query/array/form-not-explode/formNotExplodeArray?arrayParameter=1,2,-9,90");
-
-    QSKIP("Will be fixed in the followup commit", "QTBUG-138564");
 
     // Only style=FORM supports primitive types (string, int, double, float)
     // style=form, explode=true, type=string
@@ -456,8 +450,6 @@ void OperationParameters::queryAnyTypeParameters()
     QFETCH(QString, expectedFormExplode);
     QFETCH(QString, expectedFormNotExplode);
 
-    QSKIP("Will be fixed in the followup commit", "QTBUG-138564");
-
     // style=form, explode=true, type=anytype
     CALL_TEST_OPERATION(formExplodeAnytype, jsonValue, expectedFormExplode);
     // style=form, explode=false, type=anytype
@@ -472,7 +464,6 @@ void OperationParameters::queryAnyTypeParameters()
 **/
 void OperationParameters::queryNACombinations()
 {
-    QSKIP("Will be fixed in the followup commit", "QTBUG-138564");
     // style=spaceDelimited, explode=true, type=array
     CALL_TEST_OPERATION(spaceDelimitedExplodeArray, QList<int>({-90, 0, 0, 2, 87867}),
                         "/v2/query/array/spaceDelimited-explode/spaceDelimitedExplodeArray?arrayParameter=-90%200%200%202%2087867");
@@ -524,14 +515,11 @@ void OperationParameters::pathAndQueryUndefined()
     // style=form, explode=false, type=string
     CALL_TEST_OPERATION(formNotExplodeString, emptyLine, "/v2/query/string/form-not-explode/formNotExplodeString?stringParameter=");
 
-    QSKIP("Will be fixed in the followup commit", "QTBUG-138564");
     // style=matrix, explode=true, type=string
     CALL_TEST_OPERATION(matrixExplodeString, emptyLine, "/v2/path/string/matrix-explode/;stringParameter");
 
     // style=matrix, explode=false, type=string
     CALL_TEST_OPERATION(matrixNotExplodeString, emptyLine, "/v2/path/string/matrix-not-explode/;stringParameter");
-
-    QSKIP("Will be fixed in the followup commit", "QTBUG-138564");
 
     // style=matrix, explode=true, type=AnyType(NULL)
     CALL_TEST_OPERATION(matrixExplodeAnytype, nullJson, "/v2/path/anytype/matrix-explode/;anytypeParameter");

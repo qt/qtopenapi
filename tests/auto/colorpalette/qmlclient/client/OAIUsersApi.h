@@ -96,6 +96,9 @@ Q_SIGNALS:
     void updateUserFinished();
     /** Signal is emitted, if updateUser() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void updateUserErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+
+protected:
+    QString m_testOperationPath;
 };
 
 } // namespace OpenAPI

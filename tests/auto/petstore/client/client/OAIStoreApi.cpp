@@ -101,19 +101,28 @@ void OAIStoreApi::deleteOrderWithDataImpl(const QString &orderId, const QObject 
     const QUrl serverUrl = m_serverConfigs["deleteOrder"][m_serverIndices.value("deleteOrder")].serverUrl();
     QString fullPath = "/store/order/{orderId}";
     m_networkFactory->setBaseUrl(serverUrl);
-    QString orderIdPathParam("{");
-    orderIdPathParam.append("orderId").append("}");
-    QString pathPrefix, pathSuffix, pathDelimiter;
-    QString pathStyle = "simple";
-    if (pathStyle == "")
-        pathStyle = "simple";
-    pathPrefix = getParamStylePrefix(pathStyle);
-    pathSuffix = getParamStyleSuffix(pathStyle);
-    pathDelimiter = getParamStyleDelimiter(pathStyle, "orderId", false);
+    {
+        QString orderIdPathParam = QString("{%1}").arg("orderId");
+        QString pathStyle = "simple";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"orderId"_s, false, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
 
-    QString paramString = (pathStyle == "matrix") ? pathPrefix + "orderId" + pathSuffix : pathPrefix;
-    fullPath.replace(orderIdPathParam, QUrl::toPercentEncoding(paramString + ::OpenAPI::toStringValue(orderId)));
+        paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(orderId));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(orderIdPathParam, paramString);
+    }
 
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "DELETE");
     QByteArray requestContent;
     QNetworkRequest request
@@ -213,6 +222,8 @@ void OAIStoreApi::getInventoryWithDataImpl(const QObject *context, QtPrivate::QS
     }
     
 
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
     QByteArray requestContent;
     QNetworkRequest request
@@ -321,19 +332,28 @@ void OAIStoreApi::getOrderByIdWithDataImpl(const qint64 &orderId, const QObject 
     const QUrl serverUrl = m_serverConfigs["getOrderById"][m_serverIndices.value("getOrderById")].serverUrl();
     QString fullPath = "/store/order/{orderId}";
     m_networkFactory->setBaseUrl(serverUrl);
-    QString orderIdPathParam("{");
-    orderIdPathParam.append("orderId").append("}");
-    QString pathPrefix, pathSuffix, pathDelimiter;
-    QString pathStyle = "simple";
-    if (pathStyle == "")
-        pathStyle = "simple";
-    pathPrefix = getParamStylePrefix(pathStyle);
-    pathSuffix = getParamStyleSuffix(pathStyle);
-    pathDelimiter = getParamStyleDelimiter(pathStyle, "orderId", false);
+    {
+        QString orderIdPathParam = QString("{%1}").arg("orderId");
+        QString pathStyle = "simple";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"orderId"_s, false, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
 
-    QString paramString = (pathStyle == "matrix") ? pathPrefix + "orderId" + pathSuffix : pathPrefix;
-    fullPath.replace(orderIdPathParam, QUrl::toPercentEncoding(paramString + ::OpenAPI::toStringValue(orderId)));
+        paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(orderId));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(orderIdPathParam, paramString);
+    }
 
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
     QByteArray requestContent;
     QNetworkRequest request
@@ -435,6 +455,8 @@ void OAIStoreApi::placeOrderWithDataImpl(const OAIOrder &oAIOrder, const QObject
     QString fullPath = "/store/order";
     m_networkFactory->setBaseUrl(serverUrl);
 
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
     {
 

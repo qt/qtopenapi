@@ -107,19 +107,28 @@ void OAIUsersApi::getUserByIdWithDataImpl(const qint64 &id, const QObject *conte
     const QUrl serverUrl = m_serverConfigs["getUserById"][m_serverIndices.value("getUserById")].serverUrl();
     QString fullPath = "/users/{id}";
     m_networkFactory->setBaseUrl(serverUrl);
-    QString idPathParam("{");
-    idPathParam.append("id").append("}");
-    QString pathPrefix, pathSuffix, pathDelimiter;
-    QString pathStyle = "simple";
-    if (pathStyle == "")
-        pathStyle = "simple";
-    pathPrefix = getParamStylePrefix(pathStyle);
-    pathSuffix = getParamStyleSuffix(pathStyle);
-    pathDelimiter = getParamStyleDelimiter(pathStyle, "id", false);
+    {
+        QString idPathParam = QString("{%1}").arg("id");
+        QString pathStyle = "simple";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"id"_s, false, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
 
-    QString paramString = (pathStyle == "matrix") ? pathPrefix + "id" + pathSuffix : pathPrefix;
-    fullPath.replace(idPathParam, QUrl::toPercentEncoding(paramString + ::OpenAPI::toStringValue(id)));
+        paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(id));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(idPathParam, paramString);
+    }
 
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
     QByteArray requestContent;
     QNetworkRequest request
@@ -220,27 +229,32 @@ void OAIUsersApi::getUsersByPageWithDataImpl(const ::OpenAPI::OptionalParam<qint
     const QUrl serverUrl = m_serverConfigs["getUsersByPage"][m_serverIndices.value("getUsersByPage")].serverUrl();
     QString fullPath = "/users";
     m_networkFactory->setBaseUrl(serverUrl);
-    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
-    queryStyle = "form";
-    if (queryStyle == "")
-        queryStyle = "form";
-    queryPrefix = getParamStylePrefix(queryStyle);
-    querySuffix = getParamStyleSuffix(queryStyle);
-    if (page.hasValue()) {
-        if (fullPath.indexOf("?") > 0)
+    int queryParamCounter = 0;
+    {
+        [[maybe_unused]] QString paramString;
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"page"_s, true, (!true && !false));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!true && !false));
+        paramString = querySuffix;
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        else
-            fullPath.append("?");
-        fullPath.append(QUrl::toPercentEncoding("page") + querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(page.value())));
+        if (queryParamCounter > 0)
+            fullPath.append("&");
+        if (page.hasValue()) {
 
-    } else if (page.isNull()) {
-        if (fullPath.indexOf("?") > 0)
-            fullPath.append(queryPrefix);
-        else
-            fullPath.append("?");
-
-        fullPath.append(QUrl::toPercentEncoding("page")).append(querySuffix).append(QUrl::toPercentEncoding(QString("null")));
+            fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(page.value())));
+            queryParamCounter++;
+        } else if (page.isNull()) {
+            fullPath.append(querySuffix).append(QString("null"));
+            queryParamCounter++;
+        }
     }
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
     QByteArray requestContent;
     QNetworkRequest request
@@ -342,6 +356,8 @@ void OAIUsersApi::loginUserWithDataImpl(const ::OpenAPI::OptionalParam<OAITestOp
     QString fullPath = "/login";
     m_networkFactory->setBaseUrl(serverUrl);
 
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
     if (oAITestOperationRequest.hasValue()) {
 
@@ -444,6 +460,8 @@ void OAIUsersApi::logoutUserWithDataImpl(const QObject *context, QtPrivate::QSlo
     QString fullPath = "/logout";
     m_networkFactory->setBaseUrl(serverUrl);
 
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
     QByteArray requestContent;
     QNetworkRequest request
@@ -544,19 +562,28 @@ void OAIUsersApi::updateUserWithDataImpl(const qint64 &id, const ::OpenAPI::Opti
     const QUrl serverUrl = m_serverConfigs["updateUser"][m_serverIndices.value("updateUser")].serverUrl();
     QString fullPath = "/users/{id}";
     m_networkFactory->setBaseUrl(serverUrl);
-    QString idPathParam("{");
-    idPathParam.append("id").append("}");
-    QString pathPrefix, pathSuffix, pathDelimiter;
-    QString pathStyle = "simple";
-    if (pathStyle == "")
-        pathStyle = "simple";
-    pathPrefix = getParamStylePrefix(pathStyle);
-    pathSuffix = getParamStyleSuffix(pathStyle);
-    pathDelimiter = getParamStyleDelimiter(pathStyle, "id", false);
+    {
+        QString idPathParam = QString("{%1}").arg("id");
+        QString pathStyle = "simple";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"id"_s, false, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
 
-    QString paramString = (pathStyle == "matrix") ? pathPrefix + "id" + pathSuffix : pathPrefix;
-    fullPath.replace(idPathParam, QUrl::toPercentEncoding(paramString + ::OpenAPI::toStringValue(id)));
+        paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(id));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(idPathParam, paramString);
+    }
 
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "PATCH");
     if (oAIUpdateUserRequest.hasValue()) {
 

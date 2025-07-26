@@ -71,6 +71,7 @@ if [[ $MODE == "qmltest" ]] || [[ $MODE == "qmldoc" ]] || [[ $MODE == "qmlcg" ]]
 else
   CLIENTFOLDER_NAME=client
 fi
+PROJECT_ROOT=$PWD
 
 function openapi_generator_download() {
   #### Download openapi installation
@@ -112,7 +113,7 @@ if [[ -f "$PWD/yaml_files/$USER_MODE.yaml" ]]; then
     CLIENT_OUTPUT_DIR="$PWD/tests/auto/$USER_MODE/$CLIENTFOLDER_NAME"
 else
     echo "Available specifications in $PWD/yaml_files:"
-    ls yaml_files/*.yaml 2>/dev/null | xargs -n1 basename | sed 's/^/  /' >&2 #-l "$PWD/yaml_files"
+    ls yaml_files/*.yaml 2>/dev/null | xargs -n1 basename | sed 's/^/  /' >&2
     die "Error: user-spec does not exist."
 fi
 
@@ -176,7 +177,7 @@ function killPetServer() {
 function run_test() {
   if [[ $USER_MODE == "petstore" || $USER_MODE == "operation-parameters" ]]; then
     #may need to clean up from previous execution
-    killPetServer
+
     # build and run server app
     cd $SERVER_OUTPUT_DIR
     rm -rf $SERVER_OUTPUT_DIR/build
@@ -197,6 +198,7 @@ function run_test() {
       rm -rf $CLIENT_OUTPUT_DIR/libQt6OpenAPIClient_module.so
       source build-and-test.bash
   fi
+  cd $PROJECT_ROOT
 }
 
 function doxygen_compile() {
@@ -208,6 +210,45 @@ function doxygen_compile() {
 function list() {
     generator_exists ;
     java -classpath $PWD:$OPENAPI_CLI:$ORIGINAL_GENERATOR_JAR $OPENAPI_CLI_ENTRYPOINT_CLASS config-help -g $ORIGINAL_GENERATOR
+}
+
+function set_paths() {
+    # Validate the value
+    if [[ -f "$PWD/yaml_files/$USER_MODE.yaml" ]]; then
+        USER_SPEC="$PWD/yaml_files/$USER_MODE.yaml"
+        SERVER_OUTPUT_DIR="$PWD/tests/auto/$USER_MODE/server"
+        CLIENT_OUTPUT_DIR="$PWD/tests/auto/$USER_MODE/$CLIENTFOLDER_NAME"
+    else
+        echo "Available specifications in $PWD/yaml_files:"
+        ls yaml_files/*.yaml 2>/dev/null | xargs -n1 basename | sed 's/^/  /' >&2
+       die "Error: user-spec does not exist."
+    fi
+}
+
+# usefull to re-genarate all clients by 1 command
+function run_all() {
+    QML_ADDITIONAL_PROPERTIES=false
+    CLIENTFOLDER_NAME=client
+    USER_MODE="petstore"
+    set_paths && compile && generate && run_test
+
+    QML_ADDITIONAL_PROPERTIES=true
+    CLIENTFOLDER_NAME=qmlclient
+    set_paths && compile && generate && run_test
+
+    QML_ADDITIONAL_PROPERTIES=false
+    CLIENTFOLDER_NAME=client
+    USER_MODE="colorpalette"
+    set_paths && compile && generate && run_test
+
+    QML_ADDITIONAL_PROPERTIES=true
+    CLIENTFOLDER_NAME=qmlclient
+    set_paths && compile && generate && run_test
+
+    QML_ADDITIONAL_PROPERTIES=false
+    CLIENTFOLDER_NAME=client
+    USER_MODE="operation-parameters"
+    set_paths && compile && generate && run_test
 }
 
 ####################################
@@ -251,6 +292,7 @@ case "$MODE" in
     qmldoc) compile && generate && doxygen_compile ;;
     qmltest) compile && generate && run_test ;;
     test) compile && generate && run_test ;;
+    all) run_all ;;
     *) usage "Error: mode \"$MODE\" is not recognized." ;;
 esac
 

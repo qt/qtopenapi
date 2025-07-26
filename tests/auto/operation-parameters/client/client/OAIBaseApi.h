@@ -191,8 +191,9 @@ public:
     void enableRequestCompression();
     void enableResponseCompression();
     QString getParamStylePrefix(const QString &style);
-    QString getParamStyleSuffix(const QString &style);
-    QString getParamStyleDelimiter(const QString &style, const QString &name, bool isExplode);
+    QString getParamStyleSuffix(const QString &style, const QString &name, bool isExplode, bool isObject);
+    QString getParamStyleDelimiter(const QString &style, bool isExplode);
+    QString getParamStyleAssignOperator(const QString &style, bool isExplode, bool isObject);
     QString errorString(ServerError error) const;
 
 Q_SIGNALS:
@@ -201,6 +202,24 @@ Q_SIGNALS:
 
 protected:
     QNetworkReply *execute(OAIHttpRequestInput &input, QNetworkRequest &request, QByteArray &requestContent);
+    QString serializeJsonValue(const QJsonValue &value, const QString style, bool isExplode, const QString &suffix, const QString &assignOperator, const QString &delimiter);
+    template<typename T>
+    QString serializeArrayValue(const QList<T> &value,  const QString &style, bool isExplode, const QString &suffixName, const QString &delimiter)
+    {
+        QString paramString = suffixName;
+        qint32 index = 0;
+        if (value.size() == 0)
+            qWarning() << "serializeArrayValue: array is empty!";
+        for (const T &t : value) {
+            if (index > 0)
+                paramString.append(delimiter);
+            if ((style == "matrix" || style == "form") && isExplode && index > 0)
+                paramString.append(suffixName);
+            paramString.append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(t)));
+            index++;
+        }
+        return paramString;
+    }
 
 protected:
     struct OAICallerInfo {

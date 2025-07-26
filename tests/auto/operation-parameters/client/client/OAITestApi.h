@@ -624,6 +624,9 @@ Q_SIGNALS:
     void spaceDelimitedNotExplodeObjectFinished(const QString &summary);
     /** Signal is emitted, if spaceDelimitedNotExplodeObject() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void spaceDelimitedNotExplodeObjectErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+
+protected:
+    QString m_testOperationPath;
 };
 
 } // namespace OpenAPI

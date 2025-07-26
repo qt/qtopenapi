@@ -225,14 +225,8 @@ void OAIUserApiRequest::updateUserRequest(const QString& usernamestr){
     auto queryBody = socket->queryString();
     OAIUser body;
     QJsonObject object = body.asJsonObject();
-
-    for (auto i = queryBody.cbegin(), end = queryBody.cend(); i != end; ++i) {
-        QUrlQuery url(QUrl::fromPercentEncoding(i.key().toLatin1()));
-        QPair<QString, QString> pair;
-        foreach (pair, url.queryItems()) {
-            object.insert(pair.first, pair.second);
-        }
-    }
+    for (auto i = queryBody.cbegin(), end = queryBody.cend(); i != end; ++i)
+        object.insert(i.key(), i.value());
 
     body.fromJsonObject(object);
     Q_EMIT updateUser(username, body);

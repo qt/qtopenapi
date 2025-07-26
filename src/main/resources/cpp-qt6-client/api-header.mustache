@@ -37,6 +37,9 @@ Q_SIGNALS:{{#operations}}{{#operation}}
     void {{nickname}}Progress(qint64 bytesReceived, qint64 bytesTotal);{{/addDownloadProgress}}
     /** Signal is emitted, if {{nickname}}() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void {{nickname}}ErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);{{/operation}}{{/operations}}
+
+protected:
+    QString m_testOperationPath;
 };
 
 {{#cppNamespaceDeclarations}}

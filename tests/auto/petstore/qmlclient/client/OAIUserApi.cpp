@@ -111,29 +111,30 @@ void OAIUserApi::createInQueryMapWithDataImpl(const QMap<QString, QString> &user
     const QUrl serverUrl = m_serverConfigs["createInQueryMap"][m_serverIndices.value("createInQueryMap")].serverUrl();
     QString fullPath = "/user/createInQueryMap";
     m_networkFactory->setBaseUrl(serverUrl);
-    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
-    queryStyle = "form";
-    if (queryStyle == "")
-        queryStyle = "form";
-    queryPrefix = getParamStylePrefix(queryStyle);
-    querySuffix = getParamStyleSuffix(queryStyle);
+    int queryParamCounter = 0;
     {
-        if (fullPath.indexOf("?") > 0)
+        [[maybe_unused]] QString paramString;
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"username"_s, true, (!false && !false));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!false && !false));
+        paramString = querySuffix;
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        else
-            fullPath.append("?");
-        QString paramString = (queryStyle == "form" && true) ?  "" : "username" + querySuffix;
-        QString assignOperator;
-        if (queryStyle == "form")
-            assignOperator = (true) ? "=" : ",";
-        else if (queryStyle == "deepObject")
-            assignOperator = (true) ? "=" : "none";
-        queryDelimiter = ((queryStyle == "form" || queryStyle == "deepObject") && true) ? "&" : ",";
-        
-        paramString.append(::OpenAPI::toStringValue(username, assignOperator, queryDelimiter));
-        fullPath.append(QUrl::toPercentEncoding(paramString));
+        if (queryParamCounter > 0)
+            fullPath.append("&");
+        {
 
+            paramString.append(::OpenAPI::toStringValue(username, queryAssignOperator, queryDelimiter));
+            fullPath.append(paramString);
+            queryParamCounter++;
+        }
     }
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
     QByteArray requestContent;
     QNetworkRequest request
@@ -236,6 +237,8 @@ void OAIUserApi::createUserWithDataImpl(const OAIUser &oAIUser, const QObject *c
     }
     
 
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
     {
 
@@ -343,6 +346,8 @@ void OAIUserApi::createUsersWithArrayInputWithDataImpl(const QList<OAIUser> &oAI
     }
     
 
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
     {
 
@@ -451,6 +456,8 @@ void OAIUserApi::createUsersWithListInputWithDataImpl(const QList<OAIUser> &oAIU
     }
     
 
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
     {
 
@@ -558,29 +565,29 @@ void OAIUserApi::deleteUserWithDataImpl(const OAIUser &username, const QObject *
         setHeader("api_key"_L1, QAnyStringView(m_apiKeys.find("api_key"_L1).value()));
     }
     
-    QString usernamePathParam("{");
-    usernamePathParam.append("username").append("}");
-    QString pathPrefix, pathSuffix, pathDelimiter;
-    QString pathStyle = "simple";
-    if (pathStyle == "")
-        pathStyle = "simple";
-    pathPrefix = getParamStylePrefix(pathStyle);
-    pathSuffix = getParamStyleSuffix(pathStyle);
-    pathDelimiter = getParamStyleDelimiter(pathStyle, "username", false);
-    QString paramString = (pathStyle == "matrix" && !false) ? pathPrefix + "username" + pathSuffix : pathPrefix;
-    const QString assignOperator = (false) ? "=" : ",";
-    const QJsonObject parameter = username.asJsonObject();
-    qint32 count = 0;
-    for(const QString& key : parameter.keys()) {
-        if (count > 0) {
-            pathDelimiter = (pathStyle == "matrix" && false) ? ";" : getParamStyleDelimiter(pathStyle, key, false);
-            paramString.append(pathDelimiter);
-        }
-        paramString.append(::OpenAPI::parameterToString(key, assignOperator, parameter.value(key)));
-        count++;
-    }
-    fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(paramString));
+    {
+        QString usernamePathParam = QString("{%1}").arg("username");
+        QString pathStyle = "simple";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"username"_s, false, (!false && !false));
+        QString paramString = pathPrefix + pathSuffix;
 
+        paramString = pathPrefix + serializeJsonValue(QJsonValue(username.asJsonObject()), pathStyle, false, pathSuffix, assignOperator, pathDelimiter);
+
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(usernamePathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "DELETE");
     QByteArray requestContent;
     QNetworkRequest request
@@ -678,22 +685,28 @@ void OAIUserApi::getUserByNameWithDataImpl(const QMap<QString, qint32> &username
     const QUrl serverUrl = m_serverConfigs["getUserByName"][m_serverIndices.value("getUserByName")].serverUrl();
     QString fullPath = "/user/{username}";
     m_networkFactory->setBaseUrl(serverUrl);
-    QString usernamePathParam("{");
-    usernamePathParam.append("username").append("}");
-    QString pathPrefix, pathSuffix, pathDelimiter;
-    QString pathStyle = "simple";
-    if (pathStyle == "")
-        pathStyle = "simple";
-    pathPrefix = getParamStylePrefix(pathStyle);
-    pathSuffix = getParamStyleSuffix(pathStyle);
-    pathDelimiter = getParamStyleDelimiter(pathStyle, "username", false);
-    QString paramString = (pathStyle == "matrix" && !false) ? pathPrefix + "username" + pathSuffix : pathPrefix;
-    const QString assignOperator = (false) ? "=" : ",";
-    
-    pathDelimiter = (pathStyle == "matrix" && false) ? ";" : getParamStyleDelimiter(pathStyle, "username", false);
-    paramString.append(::OpenAPI::toStringValue(username, assignOperator, pathDelimiter));
-    fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(paramString));
+    {
+        QString usernamePathParam = QString("{%1}").arg("username");
+        QString pathStyle = "simple";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"username"_s, false, (!false && !false));
+        QString paramString = pathPrefix + pathSuffix;
 
+        paramString.append(::OpenAPI::toStringValue(username, assignOperator, pathDelimiter));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(usernamePathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
     QByteArray requestContent;
     QNetworkRequest request
@@ -797,47 +810,55 @@ void OAIUserApi::loginUserWithDataImpl(const ::OpenAPI::OptionalParam<QString> &
     const QUrl serverUrl = m_serverConfigs["loginUser"][m_serverIndices.value("loginUser")].serverUrl();
     QString fullPath = "/user/login";
     m_networkFactory->setBaseUrl(serverUrl);
-    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
-    queryStyle = "form";
-    if (queryStyle == "")
-        queryStyle = "form";
-    queryPrefix = getParamStylePrefix(queryStyle);
-    querySuffix = getParamStyleSuffix(queryStyle);
-    if (username.hasValue()) {
-        if (fullPath.indexOf("?") > 0)
+    int queryParamCounter = 0;
+    {
+        [[maybe_unused]] QString paramString;
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"username"_s, true, (!true && !false));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!true && !false));
+        paramString = querySuffix;
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        else
-            fullPath.append("?");
-        fullPath.append(QUrl::toPercentEncoding("username") + querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(username.value())));
+        if (queryParamCounter > 0)
+            fullPath.append("&");
+        if (username.hasValue()) {
 
-    } else if (username.isNull()) {
-        if (fullPath.indexOf("?") > 0)
-            fullPath.append(queryPrefix);
-        else
-            fullPath.append("?");
-
-        fullPath.append(QUrl::toPercentEncoding("username")).append(querySuffix).append(QUrl::toPercentEncoding(QString("null")));
+            fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(username.value())));
+            queryParamCounter++;
+        } else if (username.isNull()) {
+            fullPath.append(querySuffix).append(QString("null"));
+            queryParamCounter++;
+        }
     }
-    queryStyle = "form";
-    if (queryStyle == "")
-        queryStyle = "form";
-    queryPrefix = getParamStylePrefix(queryStyle);
-    querySuffix = getParamStyleSuffix(queryStyle);
-    if (password.hasValue()) {
-        if (fullPath.indexOf("?") > 0)
+    {
+        [[maybe_unused]] QString paramString;
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"password"_s, true, (!true && !false));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!true && !false));
+        paramString = querySuffix;
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        else
-            fullPath.append("?");
-        fullPath.append(QUrl::toPercentEncoding("password") + querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(password.value())));
+        if (queryParamCounter > 0)
+            fullPath.append("&");
+        if (password.hasValue()) {
 
-    } else if (password.isNull()) {
-        if (fullPath.indexOf("?") > 0)
-            fullPath.append(queryPrefix);
-        else
-            fullPath.append("?");
-
-        fullPath.append(QUrl::toPercentEncoding("password")).append(querySuffix).append(QUrl::toPercentEncoding(QString("null")));
+            fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(password.value())));
+            queryParamCounter++;
+        } else if (password.isNull()) {
+            fullPath.append(querySuffix).append(QString("null"));
+            queryParamCounter++;
+        }
     }
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
     QByteArray requestContent;
     QNetworkRequest request
@@ -943,67 +964,29 @@ void OAIUserApi::logoutUserWithDataImpl(const QJsonValue &username, const QObjec
         setHeader("api_key"_L1, QAnyStringView(m_apiKeys.find("api_key"_L1).value()));
     }
     
-    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
-    queryStyle = "form";
-    if (queryStyle == "")
-        queryStyle = "form";
-    queryPrefix = getParamStylePrefix(queryStyle);
-    querySuffix = getParamStyleSuffix(queryStyle);
+    int queryParamCounter = 0;
     {
-        if (fullPath.indexOf("?") > 0)
+        [[maybe_unused]] QString paramString;
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"username"_s, true, username.type() == QJsonValue::Object);
+        const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, username.type() == QJsonValue::Object);
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        else
-            fullPath.append("?");
-        QString paramString = (queryStyle == "form" && true) ?  "" : "username" + querySuffix;
-        QString assignOperator;
-        if (queryStyle == "form")
-            assignOperator = (true) ? "=" : ",";
-        else if (queryStyle == "deepObject")
-            assignOperator = (true) ? "=" : "none";
-        queryDelimiter = ((queryStyle == "form" || queryStyle == "deepObject") && true) ? "&" : ",";
-        
-        switch(username.type()) {
-        case QJsonValue::String:
-        case QJsonValue::Bool:
-        case QJsonValue::Double:
+        if (queryParamCounter > 0)
+            fullPath.append("&");
         {
-            paramString.append(::OpenAPI::toStringValue(username.toVariant()));
-        } break;
-        case QJsonValue::Array:
-        {
-            queryDelimiter = getParamStyleDelimiter(queryStyle, "username", true);
-            QVariantList array = username.toArray().toVariantList();
-            if (array.size() > 0) {
-                paramString = "username" + querySuffix;
-                if (true) {
-                    for (const auto &value: array)
-                        paramString.append(::OpenAPI::toStringValue(value) + queryDelimiter);
-                    paramString.chop(queryDelimiter.size());
-                } else {
-                    paramString.append(::OpenAPI::toStringValue(array, queryDelimiter));
-                }
-            }
-        } break;
-        case QJsonValue::Object:
-        {
-            QVariantMap map = username.toObject().toVariantMap();
-            if (map.size() > 0)
-                paramString.append(::OpenAPI::toStringValue(map, assignOperator, queryDelimiter));
-        } break;
-        case QJsonValue::Null:
-        {
-            paramString.append(QString("username") + assignOperator + QString("null"));
-        } break;
-        case QJsonValue::Undefined:
-        {
-            paramString = "";
-            qWarning() << "Query parameter serialization is not supported for the value: " << username;
-        } break;
+            paramString = serializeJsonValue(username, queryStyle, true, querySuffix, queryAssignOperator, queryDelimiter);
+            fullPath.append(paramString);
+
+            queryParamCounter++;
         }
-
-        fullPath.append(QUrl::toPercentEncoding(paramString));
-
     }
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
     QByteArray requestContent;
     QNetworkRequest request
@@ -1108,50 +1091,68 @@ void OAIUserApi::updateUserWithDataImpl(const QString &username, const OAIUser &
         setHeader("api_key"_L1, QAnyStringView(m_apiKeys.find("api_key"_L1).value()));
     }
     
-    QString usernamePathParam("{");
-    usernamePathParam.append("username").append("}");
-    QString pathPrefix, pathSuffix, pathDelimiter;
-    QString pathStyle = "simple";
-    if (pathStyle == "")
-        pathStyle = "simple";
-    pathPrefix = getParamStylePrefix(pathStyle);
-    pathSuffix = getParamStyleSuffix(pathStyle);
-    pathDelimiter = getParamStyleDelimiter(pathStyle, "username", false);
-
-    QString paramString = (pathStyle == "matrix") ? pathPrefix + "username" + pathSuffix : pathPrefix;
-    fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(paramString + ::OpenAPI::toStringValue(username)));
-    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
-    queryStyle = "form";
-    if (queryStyle == "")
-        queryStyle = "form";
-    queryPrefix = getParamStylePrefix(queryStyle);
-    querySuffix = getParamStyleSuffix(queryStyle);
     {
-        if (fullPath.indexOf("?") > 0)
-            fullPath.append(queryPrefix);
-        else
-            fullPath.append("?");
-        QString paramString = (queryStyle == "form" && true) ?  "" : "body" + querySuffix;
-        QString assignOperator;
-        if (queryStyle == "form")
-            assignOperator = (true) ? "=" : ",";
-        else if (queryStyle == "deepObject")
-            assignOperator = (true) ? "=" : "none";
-        queryDelimiter = ((queryStyle == "form" || queryStyle == "deepObject") && true) ? "&" : ",";
-        const QJsonObject parameter = body.asJsonObject();
-        qint32 count = 0;
-        for(const QString& key : parameter.keys()) {
-            if (count > 0)
-                paramString.append(queryDelimiter);
-            paramString.append(::OpenAPI::optionParameterToString(((queryStyle == "form") ? key
-                               : QString("body") + QString("[") + key + QString("]")), assignOperator, parameter.value(key)));
-            count++;
-        }
+        QString usernamePathParam = QString("{%1}").arg("username");
+        QString pathStyle = "simple";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"username"_s, false, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
 
-
-        fullPath.append(QUrl::toPercentEncoding(paramString));
-
+        paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(username));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(usernamePathParam, paramString);
     }
+    int queryParamCounter = 0;
+    {
+        [[maybe_unused]] QString paramString;
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"body"_s, true, (!false && !false));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!false && !false));
+        paramString = querySuffix;
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
+            fullPath.append(queryPrefix);
+        if (queryParamCounter > 0)
+            fullPath.append("&");
+        {
+
+            const QJsonObject parameter = body.asJsonObject();
+            if (queryStyle == "deepObject") {
+                qint32 index = 0;
+                if (parameter.isEmpty())
+                    qWarning() << "Serialized QJsonValue::Object is empty!";
+                for (const QString& key : parameter.keys()) {
+                    if (index > 0)
+                        paramString.append(queryDelimiter);
+                    paramString.append(::OpenAPI::optionParameterToString(QString("body") + QString("[") + key + QString("]"), queryAssignOperator, parameter.value(key)));
+                    index++;
+                }
+            } else {
+                paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, true, querySuffix, queryAssignOperator, queryDelimiter);
+            }
+            // style=form && explode=true && non-object => 'body' isn't used in serialization
+            // style=form && explode=true && empty object => need to be 'body='
+            // see https://spec.openapis.org/oas/v3.1.1.html#style-values
+            if (parameter.isEmpty() && queryStyle == "form")
+                paramString = u"body="_s;
+            fullPath.append(paramString);
+
+            queryParamCounter++;
+        }
+    }
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "PUT");
     QByteArray requestContent;
     QNetworkRequest request

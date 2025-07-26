@@ -35,19 +35,13 @@ void OAIUserApiHandler::createInQueryMap(QMap<QString, QString> username) {
     if( reqObj != nullptr )
     {
         bool created = false;
-        if (username.size() > 0) {
-            for (auto iter = username.cbegin(), end = username.cend(); iter != end; ++iter) {
-                const QUrlQuery url(QUrl::fromPercentEncoding(iter.key().toLatin1()));
-                const QList<QPair<QString, QString>> pair = url.queryItems();
-                if (pair.size() == 1) {
-                    OAIUser user;
-                    user.setUsername(pair.at(0).first);
-                    user.setFirstName(pair.at(0).first);
-                    user.setUserStatus(QVariant(pair.at(0).second).toInt());
-                    m_users.insert(pair.at(0).first, user);
-                    created = true;
-                }
-            }
+        for (auto i = username.cbegin(), end = username.cend(); i != end; ++i) {
+            OAIUser user;
+            user.setUsername(i.key());
+            user.setFirstName(i.key());
+            user.setUserStatus(QVariant(i.value()).toInt());
+            created = true;
+            m_users.insert(i.key(), user);
         }
         reqObj->createInQueryMapResponse(created);
     }

@@ -92,6 +92,9 @@ Q_SIGNALS:
     void updateColorByIdFinished(const QList<OAIColor> &summary);
     /** Signal is emitted, if updateColorById() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void updateColorByIdErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+
+protected:
+    QString m_testOperationPath;
 };
 
 } // namespace OpenAPI

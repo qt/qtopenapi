@@ -121,6 +121,8 @@ void OAIPetApi::addPetWithDataImpl(const OAIPet &oAIPet, const QObject *context,
         setHeader(QHttpHeaders::WellKnownHeader::Authorization, QAnyStringView("Basic "_L1 + b64.toBase64()));
     }
 
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
     {
 
@@ -232,19 +234,28 @@ void OAIPetApi::deletePetWithDataImpl(const qint64 &petId, const ::OpenAPI::Opti
     if (!m_bearerToken.isEmpty())
         setHeader(QHttpHeaders::WellKnownHeader::Authorization, QAnyStringView("Bearer "_L1 + m_bearerToken));
     
-    QString petIdPathParam("{");
-    petIdPathParam.append("petId").append("}");
-    QString pathPrefix, pathSuffix, pathDelimiter;
-    QString pathStyle = "simple";
-    if (pathStyle == "")
-        pathStyle = "simple";
-    pathPrefix = getParamStylePrefix(pathStyle);
-    pathSuffix = getParamStyleSuffix(pathStyle);
-    pathDelimiter = getParamStyleDelimiter(pathStyle, "petId", false);
+    {
+        QString petIdPathParam = QString("{%1}").arg("petId");
+        QString pathStyle = "simple";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"petId"_s, false, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
 
-    QString paramString = (pathStyle == "matrix") ? pathPrefix + "petId" + pathSuffix : pathPrefix;
-    fullPath.replace(petIdPathParam, QUrl::toPercentEncoding(paramString + ::OpenAPI::toStringValue(petId)));
+        paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(petId));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(petIdPathParam, paramString);
+    }
 
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "DELETE");
     if (apiKey.hasValue()) {
         if (!::OpenAPI::toStringValue(apiKey.value()).isEmpty()) {
@@ -348,29 +359,28 @@ void OAIPetApi::findPetsByAgeAndPatienceWithDataImpl(const QList<qint32> &petDat
     const QUrl serverUrl = m_serverConfigs["findPetsByAgeAndPatience"][m_serverIndices.value("findPetsByAgeAndPatience")].serverUrl();
     QString fullPath = "/pet/findPetsByAgeAndPatience/{petData}";
     m_networkFactory->setBaseUrl(serverUrl);
-    QString petDataPathParam("{");
-    petDataPathParam.append("petData").append("}");
-    QString pathPrefix, pathSuffix, pathDelimiter;
-    QString pathStyle = "simple";
-    if (pathStyle == "")
-        pathStyle = "simple";
-    pathPrefix = getParamStylePrefix(pathStyle);
-    pathSuffix = getParamStyleSuffix(pathStyle);
-    pathDelimiter = getParamStyleDelimiter(pathStyle, "petData", false);
+    {
+        QString petDataPathParam = QString("{%1}").arg("petData");
+        QString pathStyle = "simple";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !true));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"petData"_s, false, (!false && !true));
+        QString paramString = pathPrefix + pathSuffix;
 
-    if (petData.size() > 0) {
-        QString paramString = (pathStyle == "matrix") ? pathPrefix + "petData" + pathSuffix : pathPrefix;
-        qint32 count = 0;
-        for (qint32 t : petData) {
-            if (count > 0) {
-                fullPath.append(pathDelimiter);
-            }
-            fullPath.append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(t)));
-            count++;
-        }
+        paramString = pathPrefix + serializeArrayValue(petData, pathStyle, false, pathSuffix, pathDelimiter);
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
         fullPath.replace(petDataPathParam, paramString);
     }
 
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
     QByteArray requestContent;
     QNetworkRequest request
@@ -480,92 +490,28 @@ void OAIPetApi::findPetsByStatusWithDataImpl(const QList<QString> &status, const
     const QUrl serverUrl = m_serverConfigs["findPetsByStatus"][m_serverIndices.value("findPetsByStatus")].serverUrl();
     QString fullPath = "/pet/findByStatus";
     m_networkFactory->setBaseUrl(serverUrl);
-    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
-    queryStyle = "form";
-    if (queryStyle == "")
-        queryStyle = "form";
-    queryPrefix = getParamStylePrefix(queryStyle);
-    querySuffix = getParamStyleSuffix(queryStyle);
+    int queryParamCounter = 0;
     {
+        [[maybe_unused]] QString paramString;
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"status"_s, false, (!false && !true));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, (!false && !true));
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
+            fullPath.append(queryPrefix);
+        if (queryParamCounter > 0)
+            fullPath.append("&");
+        {
 
-        queryDelimiter = getParamStyleDelimiter(queryStyle, "status", false);
-        if (status.size() > 0) {
-            if (QString("csv").indexOf("multi") == 0) {
-                for (QString t : status) {
-                    if (fullPath.indexOf("?") > 0)
-                        fullPath.append(queryPrefix);
-                    else
-                        fullPath.append("?");
-                    fullPath.append("status=").append(::OpenAPI::toStringValue(t));
-                }
-            } else if (QString("csv").indexOf("ssv") == 0) {
-                if (fullPath.indexOf("?") > 0)
-                    fullPath.append("&");
-                else
-                    fullPath.append("?").append(queryPrefix).append("status").append(querySuffix);
-                qint32 count = 0;
-                for (QString t : status) {
-                    if (count > 0) {
-                        fullPath.append((false)? queryDelimiter : QUrl::toPercentEncoding(queryDelimiter));
-                    }
-                    fullPath.append(::OpenAPI::toStringValue(t));
-                    count++;
-                }
-            } else if (QString("csv").indexOf("tsv") == 0) {
-                if (fullPath.indexOf("?") > 0)
-                    fullPath.append("&");
-                else
-                    fullPath.append("?").append(queryPrefix).append("status").append(querySuffix);
-                qint32 count = 0;
-                for (QString t : status) {
-                    if (count > 0) {
-                        fullPath.append("\t");
-                    }
-                    fullPath.append(::OpenAPI::toStringValue(t));
-                    count++;
-                }
-            } else if (QString("csv").indexOf("csv") == 0) {
-                if (fullPath.indexOf("?") > 0)
-                    fullPath.append("&");
-                else
-                    fullPath.append("?").append(queryPrefix).append("status").append(querySuffix);
-                qint32 count = 0;
-                for (QString t : status) {
-                    if (count > 0) {
-                        fullPath.append(queryDelimiter);
-                    }
-                    fullPath.append(::OpenAPI::toStringValue(t));
-                    count++;
-                }
-            } else if (QString("csv").indexOf("pipes") == 0) {
-                if (fullPath.indexOf("?") > 0)
-                    fullPath.append("&");
-                else
-                    fullPath.append("?").append(queryPrefix).append("status").append(querySuffix);
-                qint32 count = 0;
-                for (QString t : status) {
-                    if (count > 0) {
-                        fullPath.append(queryDelimiter);
-                    }
-                    fullPath.append(::OpenAPI::toStringValue(t));
-                    count++;
-                }
-            } else if (QString("csv").indexOf("deepObject") == 0) {
-                if (fullPath.indexOf("?") > 0)
-                    fullPath.append("&");
-                else
-                    fullPath.append("?").append(queryPrefix).append("status").append(querySuffix);
-                qint32 count = 0;
-                for (QString t : status) {
-                    if (count > 0) {
-                        fullPath.append(queryDelimiter);
-                    }
-                    fullPath.append(::OpenAPI::toStringValue(t));
-                    count++;
-                }
-            }
+            fullPath.append(serializeArrayValue(status, queryStyle, false, querySuffix, queryDelimiter));
+            queryParamCounter++;
         }
     }
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
     QByteArray requestContent;
     QNetworkRequest request
@@ -675,92 +621,28 @@ void OAIPetApi::findPetsByTagsWithDataImpl(const QList<QString> &tags, const QOb
     const QUrl serverUrl = m_serverConfigs["findPetsByTags"][m_serverIndices.value("findPetsByTags")].serverUrl();
     QString fullPath = "/pet/findByTags";
     m_networkFactory->setBaseUrl(serverUrl);
-    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
-    queryStyle = "form";
-    if (queryStyle == "")
-        queryStyle = "form";
-    queryPrefix = getParamStylePrefix(queryStyle);
-    querySuffix = getParamStyleSuffix(queryStyle);
+    int queryParamCounter = 0;
     {
+        [[maybe_unused]] QString paramString;
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"tags"_s, false, (!false && !true));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, (!false && !true));
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
+            fullPath.append(queryPrefix);
+        if (queryParamCounter > 0)
+            fullPath.append("&");
+        {
 
-        queryDelimiter = getParamStyleDelimiter(queryStyle, "tags", false);
-        if (tags.size() > 0) {
-            if (QString("csv").indexOf("multi") == 0) {
-                for (QString t : tags) {
-                    if (fullPath.indexOf("?") > 0)
-                        fullPath.append(queryPrefix);
-                    else
-                        fullPath.append("?");
-                    fullPath.append("tags=").append(::OpenAPI::toStringValue(t));
-                }
-            } else if (QString("csv").indexOf("ssv") == 0) {
-                if (fullPath.indexOf("?") > 0)
-                    fullPath.append("&");
-                else
-                    fullPath.append("?").append(queryPrefix).append("tags").append(querySuffix);
-                qint32 count = 0;
-                for (QString t : tags) {
-                    if (count > 0) {
-                        fullPath.append((false)? queryDelimiter : QUrl::toPercentEncoding(queryDelimiter));
-                    }
-                    fullPath.append(::OpenAPI::toStringValue(t));
-                    count++;
-                }
-            } else if (QString("csv").indexOf("tsv") == 0) {
-                if (fullPath.indexOf("?") > 0)
-                    fullPath.append("&");
-                else
-                    fullPath.append("?").append(queryPrefix).append("tags").append(querySuffix);
-                qint32 count = 0;
-                for (QString t : tags) {
-                    if (count > 0) {
-                        fullPath.append("\t");
-                    }
-                    fullPath.append(::OpenAPI::toStringValue(t));
-                    count++;
-                }
-            } else if (QString("csv").indexOf("csv") == 0) {
-                if (fullPath.indexOf("?") > 0)
-                    fullPath.append("&");
-                else
-                    fullPath.append("?").append(queryPrefix).append("tags").append(querySuffix);
-                qint32 count = 0;
-                for (QString t : tags) {
-                    if (count > 0) {
-                        fullPath.append(queryDelimiter);
-                    }
-                    fullPath.append(::OpenAPI::toStringValue(t));
-                    count++;
-                }
-            } else if (QString("csv").indexOf("pipes") == 0) {
-                if (fullPath.indexOf("?") > 0)
-                    fullPath.append("&");
-                else
-                    fullPath.append("?").append(queryPrefix).append("tags").append(querySuffix);
-                qint32 count = 0;
-                for (QString t : tags) {
-                    if (count > 0) {
-                        fullPath.append(queryDelimiter);
-                    }
-                    fullPath.append(::OpenAPI::toStringValue(t));
-                    count++;
-                }
-            } else if (QString("csv").indexOf("deepObject") == 0) {
-                if (fullPath.indexOf("?") > 0)
-                    fullPath.append("&");
-                else
-                    fullPath.append("?").append(queryPrefix).append("tags").append(querySuffix);
-                qint32 count = 0;
-                for (QString t : tags) {
-                    if (count > 0) {
-                        fullPath.append(queryDelimiter);
-                    }
-                    fullPath.append(::OpenAPI::toStringValue(t));
-                    count++;
-                }
-            }
+            fullPath.append(serializeArrayValue(tags, queryStyle, false, querySuffix, queryDelimiter));
+            queryParamCounter++;
         }
     }
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
     QByteArray requestContent;
     QNetworkRequest request
@@ -870,20 +752,29 @@ void OAIPetApi::findPetsImageByIdWithDataImpl(const qint64 &petId, const QObject
     const QUrl serverUrl = m_serverConfigs["findPetsImageById"][m_serverIndices.value("findPetsImageById")].serverUrl();
     QString fullPath = "/pet/findPetsImageById";
     m_networkFactory->setBaseUrl(serverUrl);
-    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
-    queryStyle = "form";
-    if (queryStyle == "")
-        queryStyle = "form";
-    queryPrefix = getParamStylePrefix(queryStyle);
-    querySuffix = getParamStyleSuffix(queryStyle);
+    int queryParamCounter = 0;
     {
-        if (fullPath.indexOf("?") > 0)
+        [[maybe_unused]] QString paramString;
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"petId"_s, true, (!true && !false));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!true && !false));
+        paramString = querySuffix;
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        else
-            fullPath.append("?");
-        fullPath.append(QUrl::toPercentEncoding("petId") + querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(petId)));
+        if (queryParamCounter > 0)
+            fullPath.append("&");
+        {
 
+            fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(petId)));
+            queryParamCounter++;
+        }
     }
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
     QByteArray requestContent;
     QNetworkRequest request
@@ -985,19 +876,28 @@ void OAIPetApi::getJsonFileWithDataImpl(const qint64 &petId, const QObject *cont
     const QUrl serverUrl = m_serverConfigs["getJsonFile"][m_serverIndices.value("getJsonFile")].serverUrl();
     QString fullPath = "/pet/{petId}/uploadImage";
     m_networkFactory->setBaseUrl(serverUrl);
-    QString petIdPathParam("{");
-    petIdPathParam.append("petId").append("}");
-    QString pathPrefix, pathSuffix, pathDelimiter;
-    QString pathStyle = "simple";
-    if (pathStyle == "")
-        pathStyle = "simple";
-    pathPrefix = getParamStylePrefix(pathStyle);
-    pathSuffix = getParamStyleSuffix(pathStyle);
-    pathDelimiter = getParamStyleDelimiter(pathStyle, "petId", false);
+    {
+        QString petIdPathParam = QString("{%1}").arg("petId");
+        QString pathStyle = "simple";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"petId"_s, false, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
 
-    QString paramString = (pathStyle == "matrix") ? pathPrefix + "petId" + pathSuffix : pathPrefix;
-    fullPath.replace(petIdPathParam, QUrl::toPercentEncoding(paramString + ::OpenAPI::toStringValue(petId)));
+        paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(petId));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(petIdPathParam, paramString);
+    }
 
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
     QByteArray requestContent;
     QNetworkRequest request
@@ -1103,19 +1003,28 @@ void OAIPetApi::getPetByIdWithDataImpl(const qint64 &petId, const QObject *conte
         setHeader("api_key"_L1, QAnyStringView(m_apiKeys.find("api_key"_L1).value()));
     }
     
-    QString petIdPathParam("{");
-    petIdPathParam.append("petId").append("}");
-    QString pathPrefix, pathSuffix, pathDelimiter;
-    QString pathStyle = "simple";
-    if (pathStyle == "")
-        pathStyle = "simple";
-    pathPrefix = getParamStylePrefix(pathStyle);
-    pathSuffix = getParamStyleSuffix(pathStyle);
-    pathDelimiter = getParamStyleDelimiter(pathStyle, "petId", false);
+    {
+        QString petIdPathParam = QString("{%1}").arg("petId");
+        QString pathStyle = "simple";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"petId"_s, false, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
 
-    QString paramString = (pathStyle == "matrix") ? pathPrefix + "petId" + pathSuffix : pathPrefix;
-    fullPath.replace(petIdPathParam, QUrl::toPercentEncoding(paramString + ::OpenAPI::toStringValue(petId)));
+        paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(petId));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(petIdPathParam, paramString);
+    }
 
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
     QByteArray requestContent;
     QNetworkRequest request
@@ -1225,6 +1134,8 @@ void OAIPetApi::updatePetWithDataImpl(const OAIPet &oAIPet, const QObject *conte
     }
     
 
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "PUT");
     {
 
@@ -1336,19 +1247,28 @@ void OAIPetApi::updatePetWithFormWithDataImpl(const qint64 &petId, const ::OpenA
     const QUrl serverUrl = m_serverConfigs["updatePetWithForm"][m_serverIndices.value("updatePetWithForm")].serverUrl();
     QString fullPath = "/pet/{petId}";
     m_networkFactory->setBaseUrl(serverUrl);
-    QString petIdPathParam("{");
-    petIdPathParam.append("petId").append("}");
-    QString pathPrefix, pathSuffix, pathDelimiter;
-    QString pathStyle = "simple";
-    if (pathStyle == "")
-        pathStyle = "simple";
-    pathPrefix = getParamStylePrefix(pathStyle);
-    pathSuffix = getParamStyleSuffix(pathStyle);
-    pathDelimiter = getParamStyleDelimiter(pathStyle, "petId", false);
+    {
+        QString petIdPathParam = QString("{%1}").arg("petId");
+        QString pathStyle = "simple";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"petId"_s, false, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
 
-    QString paramString = (pathStyle == "matrix") ? pathPrefix + "petId" + pathSuffix : pathPrefix;
-    fullPath.replace(petIdPathParam, QUrl::toPercentEncoding(paramString + ::OpenAPI::toStringValue(petId)));
+        paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(petId));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(petIdPathParam, paramString);
+    }
 
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
     if (name.hasValue()) {
         input.addVar("name", ::OpenAPI::toStringValue(name.value()));
@@ -1458,19 +1378,28 @@ void OAIPetApi::uploadFileWithDataImpl(const qint64 &petId, const ::OpenAPI::Opt
     const QUrl serverUrl = m_serverConfigs["uploadFile"][m_serverIndices.value("uploadFile")].serverUrl();
     QString fullPath = "/pet/{petId}/uploadImage";
     m_networkFactory->setBaseUrl(serverUrl);
-    QString petIdPathParam("{");
-    petIdPathParam.append("petId").append("}");
-    QString pathPrefix, pathSuffix, pathDelimiter;
-    QString pathStyle = "simple";
-    if (pathStyle == "")
-        pathStyle = "simple";
-    pathPrefix = getParamStylePrefix(pathStyle);
-    pathSuffix = getParamStyleSuffix(pathStyle);
-    pathDelimiter = getParamStyleDelimiter(pathStyle, "petId", false);
+    {
+        QString petIdPathParam = QString("{%1}").arg("petId");
+        QString pathStyle = "simple";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"petId"_s, false, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
 
-    QString paramString = (pathStyle == "matrix") ? pathPrefix + "petId" + pathSuffix : pathPrefix;
-    fullPath.replace(petIdPathParam, QUrl::toPercentEncoding(paramString + ::OpenAPI::toStringValue(petId)));
+        paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(petId));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(petIdPathParam, paramString);
+    }
 
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
     if (additionalMetadata.hasValue()) {
         input.addVar("additionalMetadata", ::OpenAPI::toStringValue(additionalMetadata.value()));
