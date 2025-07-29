@@ -95,3 +95,15 @@ CLIENTFOLDER_NAME=client
 CLIENT_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/operation-parameters/$CLIENTFOLDER_NAME"
 run_test ;
 killTestServer ;
+
+# Build and run the openapi2.0 Go server app
+SERVER_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/openapi2.0/server"
+SERVER_NAME="backport-server-app"
+cd "$SERVER_OUTPUT_DIR"
+source build-and-run.bash
+
+# Build and run openapi2.0 cpp client
+CLIENTFOLDER_NAME=client
+CLIENT_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/openapi2.0/$CLIENTFOLDER_NAME"
+run_test ;
+killTestServer ;

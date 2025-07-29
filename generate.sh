@@ -131,6 +131,13 @@ fi
 # Set paths based on user_mode
 set_paths
 
+if [[ $MODE == "qmltest" || $MODE == "qmldoc" ]]; then
+    if [[ $USER_MODE == "operation-parameters" || $USER_MODE == "openapi2.0" ]]; then
+        echo "Skipping: $MODE is not applicable for $USER_MODE."
+        exit 1
+    fi
+fi
+
 # Choose your log level: debug, info, warn, or error
 LOG_LEVEL=${3:-INFO}  # Default to INFO if not provided
 LOGBACK_XML_PATH="$PWD/logback.xml"
@@ -139,6 +146,19 @@ if [[  ${3} != ""  && ${3} != "debug" && ${3} != "info" && ${3} != "warn" && ${3
     die "The log level \"$3\" is not recognized. Please, use: debug, info, warn, or error."
 fi
 
+####################################
+### SET THE SERVER NAME MANUALLY ###
+####################################
+if [[ $USER_MODE == "petstore" ]]; then
+    SERVER_NAME="cpp-qt-qhttpengine-server"
+elif [[ $USER_MODE == "operation-parameters" ]]; then
+    SERVER_NAME="server-app"
+elif [[ $USER_MODE == "openapi2.0" ]]; then
+    SERVER_NAME="backport-server-app"
+fi
+
+#may need to clean up from previous execution
+killServer
 
 function generator_exists() {
     if [ ! -e "$ORIGINAL_GENERATOR_JAR" ]; then
@@ -164,16 +184,7 @@ function generate() {
     --additional-properties=enableQmlCode=$QML_ADDITIONAL_PROPERTIES
 }
 
-####################################
-### SET THE SERVER NAME MANUALLY ###
-####################################
-if [[ $USER_MODE == "petstore" ]]; then
-    SERVER_NAME="cpp-qt-qhttpengine-server"
-elif [[ $USER_MODE == "operation-parameters" ]]; then
-    SERVER_NAME="server-app"
-fi
-
-function killPetServer() {
+function killServer() {
     # when the client finished testing, let's kill server ]:->
     exit_pid=$(pidof $SERVER_NAME)
     echo "Now kill the server by pid:" $exit_pid
@@ -181,9 +192,14 @@ function killPetServer() {
 }
 
 function run_test() {
-    if [[ $USER_MODE == "petstore" || $USER_MODE == "operation-parameters" ]]; then
-        #may need to clean up from previous execution
-
+    if [[ $USER_MODE == "colorpalette" ]]; then
+        #build generated code
+        cd $CLIENT_OUTPUT_DIR
+        rm -rf $CLIENT_OUTPUT_DIR/build
+        # TODO delete here and in .gitignore after colorpalette client app will be added
+        rm -rf $CLIENT_OUTPUT_DIR/libQt6OpenAPIClient_module.so
+        source build-and-test.bash
+    else
         # build and run server app
         cd $SERVER_OUTPUT_DIR
         rm -rf $SERVER_OUTPUT_DIR/build
@@ -195,14 +211,7 @@ function run_test() {
         source build-and-test.bash
 
         # when the client finished testing, let's kill the server ]:->
-        killPetServer
-    else #colorpalette and others
-        #build generated code
-        cd $CLIENT_OUTPUT_DIR
-        rm -rf $CLIENT_OUTPUT_DIR/build
-        # TODO delete here and in .gitignore after colorpalette client app will be added
-        rm -rf $CLIENT_OUTPUT_DIR/libQt6OpenAPIClient_module.so
-        source build-and-test.bash
+        killServer
     fi
     cd $PROJECT_ROOT
 }
@@ -241,6 +250,13 @@ function run_all() {
     QML_ADDITIONAL_PROPERTIES=false
     CLIENTFOLDER_NAME=client
     USER_MODE="operation-parameters"
+    SERVER_NAME="server-app"
+    set_paths && compile && generate && run_test
+
+    QML_ADDITIONAL_PROPERTIES=false
+    CLIENTFOLDER_NAME=client
+    USER_MODE="openapi2.0"
+    SERVER_NAME="backport-server-app"
     set_paths && compile && generate && run_test
 }
 

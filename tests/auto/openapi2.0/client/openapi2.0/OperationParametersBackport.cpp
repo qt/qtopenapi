@@ -1,0 +1,85 @@
+// Copyright (C) 2025 The Qt Company Ltd.
+// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
+
+#include "../client/OAIFakeApi.h"
+
+#include <QtCore/qobject.h>
+#include <QtNetwork/qnetworkrequestfactory.h>
+#include <QtNetwork/qrestaccessmanager.h>
+#include <QtTest/qtest.h>
+
+namespace OpenAPI {
+
+QString getStatusString(const QString &summary)
+{
+    QJsonDocument doc = QJsonDocument::fromJson(summary.toUtf8());
+    if (!doc.isNull() && doc.isObject()) {
+        QJsonObject obj = doc.object();
+        return obj.value("status").toString();
+    }
+    return QString();
+}
+
+class OperationParametersBackport : public OAIFakeApi {
+    Q_OBJECT
+
+private Q_SLOTS:
+    void testCollectionFormats();
+};
+
+void OperationParametersBackport::testCollectionFormats()
+{
+    QList<QString> pipe, ioutil, http, url, context;
+
+    for (auto i = 0; i < 3; i++)
+        pipe.append("pipe" + QString::number(i));
+
+    for (auto i = 0; i < 3; i++)
+        ioutil.append("ioutil" + QString::number(i));
+
+    for (auto i = 0; i < 3; i++)
+        http.append("http" + QString::number(i));
+
+    for (auto i = 0; i < 3; i++)
+        url.append("url" + QString::number(i));
+
+    for (auto i = 0; i < 3; i++)
+        context.append("context" + QString::number(i));
+
+    // NOTE: the CORE generator always returns 'collectionFormat=csv' for
+    // 'collectionFormat: tsv', because there is no direct mapping
+    // with the latest OpenApi versions.
+    // The Qt6 client generator uses style=form for 'collectionFormat: tsv' case.
+    bool done = false;
+    testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, this, [&](const QRestReply &reply, const QString &summary) {
+        if ((done = reply.isSuccess())) {
+            QString expected("/v2/fake/test-query-parameters?pipe=pipe0%7Cpipe1%7Cpipe2&ioutil=ioutil0,ioutil1,ioutil2&http=http0%20http1%20http2&url=url0,url1,url2&multiContext=context0&multiContext=context1&multiContext=context2");
+            QCOMPARE("/v2" + m_testOperationPath, expected);
+            QCOMPARE(getStatusString(summary), expected);
+        } else {
+            qWarning() << "testQueryParameterCollectionFormat Error: " << reply.errorString();
+        }
+    });
+    QTRY_COMPARE_EQ(done, true);
+
+    // NOTE: the CORE generator always returns 'collectionFormat=csv' for all PATH parameters,
+    // no matter what we specify in the yaml file.
+    // So the Qt6 client generator uses style=simple for all of them.
+    done = false;
+    testPathParameterCollectionFormat(pipe, ioutil, http, url, context, this, [&](const QRestReply &reply, const QString &summary) {
+        if ((done = reply.isSuccess())) {
+            QString expected("/v2/fake/test-path-parameters/pipe0,pipe1,pipe2/ioutil0,ioutil1,ioutil2/http0,http1,http2/url0,url1,url2/context0,context1,context2");
+            QCOMPARE("/v2" + m_testOperationPath, expected);
+            QCOMPARE(getStatusString(summary), expected);
+        } else {
+            qWarning() << "testPathParameterCollectionFormat Error: " << reply.errorString();
+        }
+
+    });
+    QTRY_COMPARE_EQ(done, true);
+}
+
+} // OpenAPI
+
+QTEST_MAIN(OpenAPI::OperationParametersBackport)
+#include "OperationParametersBackport.moc"
