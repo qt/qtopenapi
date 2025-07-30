@@ -84,7 +84,7 @@ QString OAIOrder::asJson() const
 {
     QJsonObject obj = this->asJsonObject();
     QJsonDocument doc(obj);
-    QByteArray bytes = doc.toJson();
+    QByteArray bytes = doc.toJson(QJsonDocument::Compact);
     return QString(bytes);
 }
 

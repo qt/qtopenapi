@@ -95,7 +95,7 @@ bool OAIHttpFileElement::fromJsonValue(const QJsonValue &jval)
         file.remove();
     }
     result = file.open(QIODevice::WriteOnly);
-    file.write(QJsonDocument(jval.toObject()).toJson());
+    file.write(QJsonDocument(jval.toObject()).toJson(QJsonDocument::Compact));
     file.close();
     if (!result) {
         qDebug() << "Error creating file " << m_localFilename;
