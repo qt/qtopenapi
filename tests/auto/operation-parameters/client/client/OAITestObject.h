@@ -26,6 +26,7 @@ class OAITestObject : public OAIObject {
 
     Q_PROPERTY(QString getName READ getName WRITE setName)
     Q_PROPERTY(QString getStatus READ getStatus WRITE setStatus)
+    Q_PROPERTY(qint32 getAge READ getAge WRITE setAge)
 public:
     OAITestObject();
     OAITestObject(const QString &json);
@@ -46,6 +47,11 @@ public:
     bool isStatusSet() const;
     bool isStatusValid() const;
 
+    qint32 getAge() const;
+    void setAge(const qint32 &age);
+    bool isAgeSet() const;
+    bool isAgeValid() const;
+
     virtual bool isSet() const override;
     virtual bool isValid() const override;
 
@@ -59,6 +65,10 @@ private:
     QString m_status;
     bool m_statusIsSet;
     bool m_statusIsValid;
+
+    qint32 m_age;
+    bool m_ageIsSet;
+    bool m_ageIsValid;
 };
 
 } // namespace OpenAPI

@@ -36,6 +36,9 @@ void OAITestObject::initializeModel()
 
     m_statusIsSet = false;
     m_statusIsValid = false;
+
+    m_ageIsSet = false;
+    m_ageIsValid = false;
 }
 
 void OAITestObject::fromJson(const QString &jsonString)
@@ -54,6 +57,9 @@ void OAITestObject::fromJsonObject(const QJsonObject &json)
 
     m_statusIsValid = ::OpenAPI::fromJsonValue(m_status, json[QString("status")]);
     m_statusIsSet = !json[QString("status")].isNull() && m_statusIsValid;
+
+    m_ageIsValid = ::OpenAPI::fromJsonValue(m_age, json[QString("age")]);
+    m_ageIsSet = !json[QString("age")].isNull() && m_ageIsValid;
 }
 
 QString OAITestObject::asJson() const
@@ -72,6 +78,9 @@ QJsonObject OAITestObject::asJsonObject() const
     }
     if (m_statusIsSet) {
         obj.insert(QString("status"), ::OpenAPI::toJsonValue(m_status));
+    }
+    if (m_ageIsSet) {
+        obj.insert(QString("age"), ::OpenAPI::toJsonValue(m_age));
     }
     return obj;
 }
@@ -116,6 +125,26 @@ bool OAITestObject::isStatusValid() const
     return m_statusIsValid;
 }
 
+qint32 OAITestObject::getAge() const
+{
+    return m_age;
+}
+void OAITestObject::setAge(const qint32 &age)
+{
+    m_age = age;
+    m_ageIsSet = true;
+}
+
+bool OAITestObject::isAgeSet() const
+{
+    return m_ageIsSet;
+}
+
+bool OAITestObject::isAgeValid() const
+{
+    return m_ageIsValid;
+}
+
 bool OAITestObject::isSet() const
 {
     bool isObjectUpdated = false;
@@ -126,6 +155,11 @@ bool OAITestObject::isSet() const
         }
 
         if (m_statusIsSet) {
+            isObjectUpdated = true;
+            break;
+        }
+
+        if (m_ageIsSet) {
             isObjectUpdated = true;
             break;
         }

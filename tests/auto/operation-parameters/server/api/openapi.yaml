@@ -1000,6 +1000,72 @@ paths:
       summary: deepObject object not explode
       tags:
       - test
+  /query/strings/form-explode/formExplodeStringOptions:
+    post:
+      operationId: formExplodeStringOptions
+      parameters:
+      - explode: true
+        in: query
+        name: stringParameterA
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: stringParameterB
+        required: true
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: stringParameterC
+        required: false
+        schema:
+          nullable: true
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+      summary: "style-form, explode=true"
+      tags:
+      - test
+  /query/strings/form-explode/formExplodeDifferentOptions:
+    post:
+      operationId: formExplodeDifferentOptions
+      parameters:
+      - explode: true
+        in: query
+        name: objectParameter
+        required: false
+        schema:
+          $ref: "#/components/schemas/TestObject"
+        style: form
+      - explode: true
+        in: query
+        name: stringParameterB
+        required: true
+        schema:
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+      summary: "style-form, explode=true"
+      tags:
+      - test
 components:
   schemas:
     TestObject:
@@ -1010,3 +1076,7 @@ components:
         status:
           description: Updated status
           type: string
+        age:
+          description: age number
+          format: int32
+          type: integer

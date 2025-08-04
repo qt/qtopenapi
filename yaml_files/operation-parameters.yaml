@@ -949,6 +949,64 @@ paths:
             application/json:
               schema:
                 type: string
+  /query/strings/form-explode/formExplodeStringOptions:
+    post:
+      tags: [test]
+      operationId: formExplodeStringOptions
+      summary: style-form, explode=true
+      parameters:
+        - name: stringParameterA
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: [string, 'null']
+        - name: stringParameterB
+          in: query
+          style: form
+          explode: true
+          required: true
+          schema:
+            type: [string, 'null']
+        - name: stringParameterC
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: [integer, 'null']
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /query/strings/form-explode/formExplodeDifferentOptions:
+    post:
+      tags: [test]
+      operationId: formExplodeDifferentOptions
+      summary: style-form, explode=true
+      parameters:
+        - name: objectParameter
+          in: query
+          style: form
+          explode: true
+          schema:
+            $ref: '#/components/schemas/TestObject'
+        - name: stringParameterB
+          in: query
+          style: form
+          explode: true
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
 components:
   schemas:
     TestObject:
@@ -959,3 +1017,7 @@ components:
         status:
           description: Updated status
           type: string
+        age:
+          description: age number
+          type: integer
+          format: int32

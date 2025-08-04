@@ -179,7 +179,7 @@ void UserApiTests::loginUserTest() {
     userLogged = false;
     api.loginUser(user_name, OptionalParam<QString>(OptionalParam<QString>::IsNull));
     QTRY_COMPARE_EQ_WITH_TIMEOUT(userLogged, true, 14000);
-    QCOMPARE(expectedString, "johndoenull"); // Password is explicitly marked as null via OptionalParam::IsNull; usernmae + "null" is returned.
+    QCOMPARE(expectedString, "johndoe"); // Password is explicitly marked as null via OptionalParam::IsNull; username is returned.
 
     userLogged = false;
     api.loginUser(OptionalParam<QString>(), QString("123456789"_L1));

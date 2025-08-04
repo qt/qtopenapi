@@ -64,6 +64,15 @@ public:
     /**
     * \internal
     * The auto-generated API:
+    * void formExplodeDifferentOptions(const qint32 &stringParameterB, const ::OpenAPI::OptionalParam<OAITestObject> &objectParameter);
+    * void formExplodeDifferentOptions(const qint32 &stringParameterB, const ::OpenAPI::OptionalParam<OAITestObject> &objectParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    OAI_ADD_OPERATION_IMPL(formExplodeDifferentOptions, (const qint32 &stringParameterB, const ::OpenAPI::OptionalParam<OAITestObject> &objectParameter = ::OpenAPI::OptionalParam<OAITestObject>()), (stringParameterB, objectParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
     * void formExplodeObject(const OAITestObject &objectParameter);
     * void formExplodeObject(const OAITestObject &objectParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
     * \endinternal
@@ -78,6 +87,15 @@ public:
     * \endinternal
     */
     OAI_ADD_OPERATION_IMPL(formExplodeString, (const ::OpenAPI::OptionalParam<QString> &stringParameter = ::OpenAPI::OptionalParam<QString>()), (stringParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void formExplodeStringOptions(const QString &stringParameterB, const ::OpenAPI::OptionalParam<QString> &stringParameterA, const ::OpenAPI::OptionalParam<qint32> &stringParameterC);
+    * void formExplodeStringOptions(const QString &stringParameterB, const ::OpenAPI::OptionalParam<QString> &stringParameterA, const ::OpenAPI::OptionalParam<qint32> &stringParameterC, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    OAI_ADD_OPERATION_IMPL(formExplodeStringOptions, (const QString &stringParameterB, const ::OpenAPI::OptionalParam<QString> &stringParameterA = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<qint32> &stringParameterC = ::OpenAPI::OptionalParam<qint32>()), (stringParameterB, stringParameterA, stringParameterC), (const QString &), /* non-deprecated */)
 
     /**
     * \internal
@@ -456,6 +474,10 @@ Q_SIGNALS:
     void formExplodeArrayFinished(const QString &summary);
     /** Signal is emitted, if formExplodeArray() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void formExplodeArrayErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if formExplodeDifferentOptions() request completed successfully. The \a summary contains a serialized server response. */
+    void formExplodeDifferentOptionsFinished(const QString &summary);
+    /** Signal is emitted, if formExplodeDifferentOptions() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void formExplodeDifferentOptionsErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if formExplodeObject() request completed successfully. The \a summary contains a serialized server response. */
     void formExplodeObjectFinished(const QString &summary);
     /** Signal is emitted, if formExplodeObject() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
@@ -464,6 +486,10 @@ Q_SIGNALS:
     void formExplodeStringFinished(const QString &summary);
     /** Signal is emitted, if formExplodeString() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void formExplodeStringErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if formExplodeStringOptions() request completed successfully. The \a summary contains a serialized server response. */
+    void formExplodeStringOptionsFinished(const QString &summary);
+    /** Signal is emitted, if formExplodeStringOptions() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void formExplodeStringOptionsErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if formNotExplodeAnytype() request completed successfully. The \a summary contains a serialized server response. */
     void formNotExplodeAnytypeFinished(const QString &summary);
     /** Signal is emitted, if formNotExplodeAnytype() request completed with an error. \a errorType and \a errorStr contain an information about the error. */

@@ -469,9 +469,9 @@ void OAIColorsApi::getColorsWithDataImpl(const ::OpenAPI::OptionalParam<qint32> 
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         if (page.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(page.value())));
             queryParamCounter++;

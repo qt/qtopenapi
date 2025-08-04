@@ -60,6 +60,16 @@ func (api *TestAPI) FormExplodeArray(c *gin.Context) {
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
+// Post /v2/query/strings/form-explode/formExplodeDifferentOptions
+// style-form, explode=true
+func (api *TestAPI) FormExplodeDifferentOptions(c *gin.Context) {
+    m, err := url.ParseQuery(c.Request.URL.RawQuery)
+    if err != nil {
+        fmt.Println(" ====== formExplodeDifferentOptions ====== query parsing error:", err, m)
+    }
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
 // Post /v2/query/object/form-explode/formExplodeObject
 // form object explode
 func (api *TestAPI) FormExplodeObject(c *gin.Context) {
@@ -74,6 +84,12 @@ func (api *TestAPI) FormExplodeObject(c *gin.Context) {
 // form style with explode set to true for string query parameter.
 func (api *TestAPI) FormExplodeString(c *gin.Context) {
     // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Post /v2/query/strings/form-explode/formExplodeStringOptions
+// style-form, explode=true
+func (api *TestAPI) FormExplodeStringOptions(c *gin.Context) {
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 

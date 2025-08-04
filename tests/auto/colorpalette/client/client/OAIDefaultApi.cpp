@@ -143,9 +143,9 @@ void OAIDefaultApi::testOperationWithDataImpl(const qint32 &pathParam, const ::O
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         if (queryParam0.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(queryParam0.value())));
             queryParamCounter++;
@@ -163,9 +163,9 @@ void OAIDefaultApi::testOperationWithDataImpl(const qint32 &pathParam, const ::O
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         if (queryParam1.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             const QJsonObject parameter = queryParam1.value().asJsonObject();
             if (queryStyle == "deepObject") {
@@ -184,13 +184,21 @@ void OAIDefaultApi::testOperationWithDataImpl(const qint32 &pathParam, const ::O
             // style=form && explode=true && non-object => 'query_param1' isn't used in serialization
             // style=form && explode=true && empty object => need to be 'query_param1='
             // see https://spec.openapis.org/oas/v3.1.1.html#style-values
-            if (parameter.isEmpty() && queryStyle == "form")
+            if (paramString.isEmpty() && queryStyle == "form")
                 paramString = u"query_param1="_s;
             fullPath.append(paramString);
 
             queryParamCounter++;
         } else if (queryParam1.isNull()) {
-            fullPath.append(querySuffix).append(QString("null"));
+            if (queryParamCounter > 0)
+                fullPath.append("&");
+            // style=form && explode=true && non-object => 'query_param1' isn't used in serialization
+            // style=form && explode=true && empty object => need to be 'query_param1='
+            // see https://spec.openapis.org/oas/v3.1.1.html#style-values
+            if (queryStyle == "form")
+                fullPath.append(u"query_param1="_s);
+            else
+                fullPath.append(querySuffix);
             queryParamCounter++;
         }
     }
@@ -205,9 +213,9 @@ void OAIDefaultApi::testOperationWithDataImpl(const qint32 &pathParam, const ::O
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!false && !true));
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         if (queryParam2.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             fullPath.append(serializeArrayValue(queryParam2.value(), queryStyle, true, querySuffix, queryDelimiter));
             queryParamCounter++;

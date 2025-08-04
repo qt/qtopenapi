@@ -93,6 +93,12 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
             handleFunctions.TestAPI.FormExplodeArray,
         },
         {
+            "FormExplodeDifferentOptions",
+            http.MethodPost,
+            "/v2/query/strings/form-explode/formExplodeDifferentOptions",
+            handleFunctions.TestAPI.FormExplodeDifferentOptions,
+        },
+        {
             "FormExplodeObject",
             http.MethodPost,
             "/v2/query/object/form-explode/formExplodeObject",
@@ -103,6 +109,12 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
             http.MethodPost,
             "/v2/query/string/form-explode/formExplodeString",
             handleFunctions.TestAPI.FormExplodeString,
+        },
+        {
+            "FormExplodeStringOptions",
+            http.MethodPost,
+            "/v2/query/strings/form-explode/formExplodeStringOptions",
+            handleFunctions.TestAPI.FormExplodeStringOptions,
         },
         {
             "FormNotExplodeAnytype",

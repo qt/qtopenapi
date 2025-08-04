@@ -16,4 +16,7 @@ type TestObject struct {
 
     // Updated status
     Status string `json:"status,omitempty"`
+
+    // age number
+    Age int32 `json:"age,omitempty"`
 }

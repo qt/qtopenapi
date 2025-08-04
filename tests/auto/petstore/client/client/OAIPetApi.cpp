@@ -502,9 +502,9 @@ void OAIPetApi::findPetsByStatusWithDataImpl(const QList<QString> &status, const
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, (!false && !true));
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             fullPath.append(serializeArrayValue(status, queryStyle, false, querySuffix, queryDelimiter));
             queryParamCounter++;
@@ -633,9 +633,9 @@ void OAIPetApi::findPetsByTagsWithDataImpl(const QList<QString> &tags, const QOb
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, (!false && !true));
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             fullPath.append(serializeArrayValue(tags, queryStyle, false, querySuffix, queryDelimiter));
             queryParamCounter++;
@@ -765,9 +765,9 @@ void OAIPetApi::findPetsImageByIdWithDataImpl(const qint64 &petId, const QObject
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(petId)));
             queryParamCounter++;

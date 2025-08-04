@@ -124,9 +124,9 @@ void OAIUserApi::createInQueryMapWithDataImpl(const QMap<QString, QString> &user
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             paramString.append(::OpenAPI::toStringValue(username, queryAssignOperator, queryDelimiter));
             fullPath.append(paramString);
@@ -823,14 +823,22 @@ void OAIUserApi::loginUserWithDataImpl(const ::OpenAPI::OptionalParam<QString> &
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         if (username.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(username.value())));
             queryParamCounter++;
         } else if (username.isNull()) {
-            fullPath.append(querySuffix).append(QString("null"));
+            if (queryParamCounter > 0)
+                fullPath.append("&");
+            // style=form && explode=true && non-object => 'username' isn't used in serialization
+            // style=form && explode=true && empty object => need to be 'username='
+            // see https://spec.openapis.org/oas/v3.1.1.html#style-values
+            if (queryStyle == "form")
+                fullPath.append(u"username="_s);
+            else
+                fullPath.append(querySuffix);
             queryParamCounter++;
         }
     }
@@ -846,14 +854,22 @@ void OAIUserApi::loginUserWithDataImpl(const ::OpenAPI::OptionalParam<QString> &
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         if (password.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(password.value())));
             queryParamCounter++;
         } else if (password.isNull()) {
-            fullPath.append(querySuffix).append(QString("null"));
+            if (queryParamCounter > 0)
+                fullPath.append("&");
+            // style=form && explode=true && non-object => 'password' isn't used in serialization
+            // style=form && explode=true && empty object => need to be 'password='
+            // see https://spec.openapis.org/oas/v3.1.1.html#style-values
+            if (queryStyle == "form")
+                fullPath.append(u"password="_s);
+            else
+                fullPath.append(querySuffix);
             queryParamCounter++;
         }
     }
@@ -976,9 +992,9 @@ void OAIUserApi::logoutUserWithDataImpl(const QJsonValue &username, const QObjec
         const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, username.type() == QJsonValue::Object);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
             paramString = serializeJsonValue(username, queryStyle, true, querySuffix, queryAssignOperator, queryDelimiter);
             fullPath.append(paramString);
 
@@ -1123,9 +1139,9 @@ void OAIUserApi::updateUserWithDataImpl(const QString &username, const OAIUser &
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             const QJsonObject parameter = body.asJsonObject();
             if (queryStyle == "deepObject") {
@@ -1144,7 +1160,7 @@ void OAIUserApi::updateUserWithDataImpl(const QString &username, const OAIUser &
             // style=form && explode=true && non-object => 'body' isn't used in serialization
             // style=form && explode=true && empty object => need to be 'body='
             // see https://spec.openapis.org/oas/v3.1.1.html#style-values
-            if (parameter.isEmpty() && queryStyle == "form")
+            if (paramString.isEmpty() && queryStyle == "form")
                 paramString = u"body="_s;
             fullPath.append(paramString);
 

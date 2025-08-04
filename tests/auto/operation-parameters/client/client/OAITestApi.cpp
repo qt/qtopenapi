@@ -48,10 +48,14 @@ void OAITestApi::initializeServerConfigs()
     m_serverIndices.insert("formExplodeAnytype", 0);
     m_serverConfigs.insert("formExplodeArray", defaultConf);
     m_serverIndices.insert("formExplodeArray", 0);
+    m_serverConfigs.insert("formExplodeDifferentOptions", defaultConf);
+    m_serverIndices.insert("formExplodeDifferentOptions", 0);
     m_serverConfigs.insert("formExplodeObject", defaultConf);
     m_serverIndices.insert("formExplodeObject", 0);
     m_serverConfigs.insert("formExplodeString", defaultConf);
     m_serverIndices.insert("formExplodeString", 0);
+    m_serverConfigs.insert("formExplodeStringOptions", defaultConf);
+    m_serverIndices.insert("formExplodeStringOptions", 0);
     m_serverConfigs.insert("formNotExplodeAnytype", defaultConf);
     m_serverIndices.insert("formNotExplodeAnytype", 0);
     m_serverConfigs.insert("formNotExplodeArray", defaultConf);
@@ -198,9 +202,9 @@ void OAITestApi::deepObjectExplodeObjectWithDataImpl(const OAITestObject &object
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             const QJsonObject parameter = objectParameter.asJsonObject();
             if (queryStyle == "deepObject") {
@@ -219,7 +223,7 @@ void OAITestApi::deepObjectExplodeObjectWithDataImpl(const OAITestObject &object
             // style=form && explode=true && non-object => 'objectParameter' isn't used in serialization
             // style=form && explode=true && empty object => need to be 'objectParameter='
             // see https://spec.openapis.org/oas/v3.1.1.html#style-values
-            if (parameter.isEmpty() && queryStyle == "form")
+            if (paramString.isEmpty() && queryStyle == "form")
                 paramString = u"objectParameter="_s;
             fullPath.append(paramString);
 
@@ -342,9 +346,9 @@ void OAITestApi::deepObjectNotExplodeObjectWithDataImpl(const ::OpenAPI::Optiona
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         if (objectParameter.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             const QJsonObject parameter = objectParameter.value().asJsonObject();
             if (queryStyle == "deepObject") {
@@ -363,7 +367,7 @@ void OAITestApi::deepObjectNotExplodeObjectWithDataImpl(const ::OpenAPI::Optiona
             // style=form && explode=true && non-object => 'objectParameter' isn't used in serialization
             // style=form && explode=true && empty object => need to be 'objectParameter='
             // see https://spec.openapis.org/oas/v3.1.1.html#style-values
-            if (parameter.isEmpty() && queryStyle == "form")
+            if (paramString.isEmpty() && queryStyle == "form")
                 paramString = u"objectParameter="_s;
             fullPath.append(paramString);
 
@@ -485,9 +489,9 @@ void OAITestApi::formExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParamet
         const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, anytypeParameter.type() == QJsonValue::Object);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
             paramString = serializeJsonValue(anytypeParameter, queryStyle, true, querySuffix, queryAssignOperator, queryDelimiter);
             fullPath.append(paramString);
 
@@ -609,9 +613,9 @@ void OAITestApi::formExplodeArrayWithDataImpl(const QList<qint32> &arrayParamete
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!false && !true));
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             fullPath.append(serializeArrayValue(arrayParameter, queryStyle, true, querySuffix, queryDelimiter));
             queryParamCounter++;
@@ -667,6 +671,173 @@ void OAITestApi::formExplodeArrayCallback(const QRestReply &reply)
         callerInfo.slot->call(context, argv);
     }
     emit formExplodeArrayFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::formExplodeDifferentOptions(const qint32 &stringParameterB, const ::OpenAPI::OptionalParam<OAITestObject> &objectParameter = ::OpenAPI::OptionalParam<OAITestObject>())
+* 'formExplodeDifferentOptions' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] stringParameterB qint32 [required]
+* @param[in] objectParameter OAITestObject [optional]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::formExplodeDifferentOptions(const qint32 &stringParameterB, const ::OpenAPI::OptionalParam<OAITestObject> &objectParameter = ::OpenAPI::OptionalParam<OAITestObject>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'formExplodeDifferentOptions' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    formExplodeDifferentOptions(stringParameterB, objectParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual formExplodeDifferentOptionsWithDataImpl() in derived class.
+* The virtual formExplodeDifferentOptionsWithDataImpl() is being called by the template
+* function.
+
+* @param[in] stringParameterB qint32 [required]
+* @param[in] objectParameter OAITestObject [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::formExplodeDifferentOptionsCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by formExplodeDifferentOptionsFinished() or
+* being returned as a callback parameter of formExplodeDifferentOptions() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::formExplodeDifferentOptionsWithDataImpl(const qint32 &stringParameterB, const ::OpenAPI::OptionalParam<OAITestObject> &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the formExplodeDifferentOptions() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking formExplodeDifferentOptions() operation calls.
+
+* @param[in] stringParameterB qint32 [required]
+* @param[in] objectParameter OAITestObject [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::formExplodeDifferentOptionsWithDataImpl(const qint32 &stringParameterB, const ::OpenAPI::OptionalParam<OAITestObject> &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["formExplodeDifferentOptions"][m_serverIndices.value("formExplodeDifferentOptions")].serverUrl();
+    QString fullPath = "/query/strings/form-explode/formExplodeDifferentOptions";
+    m_networkFactory->setBaseUrl(serverUrl);
+    int queryParamCounter = 0;
+    {
+        [[maybe_unused]] QString paramString;
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"objectParameter"_s, true, (!false && !false));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!false && !false));
+        paramString = querySuffix;
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
+            fullPath.append(queryPrefix);
+        if (objectParameter.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
+
+            const QJsonObject parameter = objectParameter.value().asJsonObject();
+            if (queryStyle == "deepObject") {
+                qint32 index = 0;
+                if (parameter.isEmpty())
+                    qWarning() << "Serialized QJsonValue::Object is empty!";
+                for (const QString& key : parameter.keys()) {
+                    if (index > 0)
+                        paramString.append(queryDelimiter);
+                    paramString.append(::OpenAPI::optionParameterToString(QString("objectParameter") + QString("[") + key + QString("]"), queryAssignOperator, parameter.value(key)));
+                    index++;
+                }
+            } else {
+                paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, true, querySuffix, queryAssignOperator, queryDelimiter);
+            }
+            // style=form && explode=true && non-object => 'objectParameter' isn't used in serialization
+            // style=form && explode=true && empty object => need to be 'objectParameter='
+            // see https://spec.openapis.org/oas/v3.1.1.html#style-values
+            if (paramString.isEmpty() && queryStyle == "form")
+                paramString = u"objectParameter="_s;
+            fullPath.append(paramString);
+
+            queryParamCounter++;
+        }
+    }
+    {
+        [[maybe_unused]] QString paramString;
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"stringParameterB"_s, true, (!true && !false));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!true && !false));
+        paramString = querySuffix;
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
+            fullPath.append(queryPrefix);
+        {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
+
+            fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(stringParameterB)));
+            queryParamCounter++;
+        }
+    }
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    OAIHttpRequestInput input(fullPath, "POST");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            formExplodeDifferentOptionsCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit formExplodeDifferentOptionsErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::formExplodeDifferentOptionsCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit formExplodeDifferentOptionsFinished(output);
 }
 
 /**
@@ -733,9 +904,9 @@ void OAITestApi::formExplodeObjectWithDataImpl(const OAITestObject &objectParame
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             const QJsonObject parameter = objectParameter.asJsonObject();
             if (queryStyle == "deepObject") {
@@ -754,7 +925,7 @@ void OAITestApi::formExplodeObjectWithDataImpl(const OAITestObject &objectParame
             // style=form && explode=true && non-object => 'objectParameter' isn't used in serialization
             // style=form && explode=true && empty object => need to be 'objectParameter='
             // see https://spec.openapis.org/oas/v3.1.1.html#style-values
-            if (parameter.isEmpty() && queryStyle == "form")
+            if (paramString.isEmpty() && queryStyle == "form")
                 paramString = u"objectParameter="_s;
             fullPath.append(paramString);
 
@@ -877,9 +1048,9 @@ void OAITestApi::formExplodeStringWithDataImpl(const ::OpenAPI::OptionalParam<QS
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         if (stringParameter.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(stringParameter.value())));
             queryParamCounter++;
@@ -935,6 +1106,198 @@ void OAITestApi::formExplodeStringCallback(const QRestReply &reply)
         callerInfo.slot->call(context, argv);
     }
     emit formExplodeStringFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::formExplodeStringOptions(const QString &stringParameterB, const ::OpenAPI::OptionalParam<QString> &stringParameterA = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<qint32> &stringParameterC = ::OpenAPI::OptionalParam<qint32>())
+* 'formExplodeStringOptions' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] stringParameterB QString [required]
+* @param[in] stringParameterA QString [optional]
+* @param[in] stringParameterC qint32 [optional]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::formExplodeStringOptions(const QString &stringParameterB, const ::OpenAPI::OptionalParam<QString> &stringParameterA = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<qint32> &stringParameterC = ::OpenAPI::OptionalParam<qint32>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'formExplodeStringOptions' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    formExplodeStringOptions(stringParameterB, stringParameterA, stringParameterC, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual formExplodeStringOptionsWithDataImpl() in derived class.
+* The virtual formExplodeStringOptionsWithDataImpl() is being called by the template
+* function.
+
+* @param[in] stringParameterB QString [required]
+* @param[in] stringParameterA QString [optional]
+* @param[in] stringParameterC qint32 [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::formExplodeStringOptionsCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by formExplodeStringOptionsFinished() or
+* being returned as a callback parameter of formExplodeStringOptions() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::formExplodeStringOptionsWithDataImpl(const QString &stringParameterB, const ::OpenAPI::OptionalParam<QString> &stringParameterA, const ::OpenAPI::OptionalParam<qint32> &stringParameterC, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the formExplodeStringOptions() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking formExplodeStringOptions() operation calls.
+
+* @param[in] stringParameterB QString [required]
+* @param[in] stringParameterA QString [optional]
+* @param[in] stringParameterC qint32 [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::formExplodeStringOptionsWithDataImpl(const QString &stringParameterB, const ::OpenAPI::OptionalParam<QString> &stringParameterA, const ::OpenAPI::OptionalParam<qint32> &stringParameterC, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["formExplodeStringOptions"][m_serverIndices.value("formExplodeStringOptions")].serverUrl();
+    QString fullPath = "/query/strings/form-explode/formExplodeStringOptions";
+    m_networkFactory->setBaseUrl(serverUrl);
+    int queryParamCounter = 0;
+    {
+        [[maybe_unused]] QString paramString;
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"stringParameterA"_s, true, (!true && !false));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!true && !false));
+        paramString = querySuffix;
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
+            fullPath.append(queryPrefix);
+        if (stringParameterA.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
+
+            fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(stringParameterA.value())));
+            queryParamCounter++;
+        } else if (stringParameterA.isNull()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
+            // style=form && explode=true && non-object => 'stringParameterA' isn't used in serialization
+            // style=form && explode=true && empty object => need to be 'stringParameterA='
+            // see https://spec.openapis.org/oas/v3.1.1.html#style-values
+            if (queryStyle == "form")
+                fullPath.append(u"stringParameterA="_s);
+            else
+                fullPath.append(querySuffix);
+            queryParamCounter++;
+        }
+    }
+    {
+        [[maybe_unused]] QString paramString;
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"stringParameterB"_s, true, (!true && !false));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!true && !false));
+        paramString = querySuffix;
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
+            fullPath.append(queryPrefix);
+        {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
+
+            fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(stringParameterB)));
+            queryParamCounter++;
+        }
+    }
+    {
+        [[maybe_unused]] QString paramString;
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"stringParameterC"_s, true, (!true && !false));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!true && !false));
+        paramString = querySuffix;
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
+            fullPath.append(queryPrefix);
+        if (stringParameterC.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
+
+            fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(stringParameterC.value())));
+            queryParamCounter++;
+        } else if (stringParameterC.isNull()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
+            // style=form && explode=true && non-object => 'stringParameterC' isn't used in serialization
+            // style=form && explode=true && empty object => need to be 'stringParameterC='
+            // see https://spec.openapis.org/oas/v3.1.1.html#style-values
+            if (queryStyle == "form")
+                fullPath.append(u"stringParameterC="_s);
+            else
+                fullPath.append(querySuffix);
+            queryParamCounter++;
+        }
+    }
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    OAIHttpRequestInput input(fullPath, "POST");
+    QByteArray requestContent;
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            formExplodeStringOptionsCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit formExplodeStringOptionsErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::formExplodeStringOptionsCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit formExplodeStringOptionsFinished(output);
 }
 
 /**
@@ -1000,9 +1363,9 @@ void OAITestApi::formNotExplodeAnytypeWithDataImpl(const ::OpenAPI::OptionalPara
         const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, anytypeParameter.value().type() == QJsonValue::Object);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         if (anytypeParameter.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
             paramString = serializeJsonValue(anytypeParameter.value(), queryStyle, false, querySuffix, queryAssignOperator, queryDelimiter);
             fullPath.append(paramString);
 
@@ -1124,9 +1487,9 @@ void OAITestApi::formNotExplodeArrayWithDataImpl(const ::OpenAPI::OptionalParam<
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, (!false && !true));
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         if (arrayParameter.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             fullPath.append(serializeArrayValue(arrayParameter.value(), queryStyle, false, querySuffix, queryDelimiter));
             queryParamCounter++;
@@ -1248,9 +1611,9 @@ void OAITestApi::formNotExplodeObjectWithDataImpl(const ::OpenAPI::OptionalParam
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         if (objectParameter.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             const QJsonObject parameter = objectParameter.value().asJsonObject();
             if (queryStyle == "deepObject") {
@@ -1269,7 +1632,7 @@ void OAITestApi::formNotExplodeObjectWithDataImpl(const ::OpenAPI::OptionalParam
             // style=form && explode=true && non-object => 'objectParameter' isn't used in serialization
             // style=form && explode=true && empty object => need to be 'objectParameter='
             // see https://spec.openapis.org/oas/v3.1.1.html#style-values
-            if (parameter.isEmpty() && queryStyle == "form")
+            if (paramString.isEmpty() && queryStyle == "form")
                 paramString = u"objectParameter="_s;
             fullPath.append(paramString);
 
@@ -1392,9 +1755,9 @@ void OAITestApi::formNotExplodeStringWithDataImpl(const ::OpenAPI::OptionalParam
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         if (stringParameter.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(stringParameter.value())));
             queryParamCounter++;
@@ -3483,9 +3846,9 @@ void OAITestApi::pipeDelimitedExplodeAnytypeWithDataImpl(const QJsonValue &anyty
         const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, anytypeParameter.type() == QJsonValue::Object);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
             paramString = serializeJsonValue(anytypeParameter, queryStyle, true, querySuffix, queryAssignOperator, queryDelimiter);
             fullPath.append(paramString);
 
@@ -3607,9 +3970,9 @@ void OAITestApi::pipeDelimitedExplodeArrayWithDataImpl(const QList<qint32> &arra
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!false && !true));
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             fullPath.append(serializeArrayValue(arrayParameter, queryStyle, true, querySuffix, queryDelimiter));
             queryParamCounter++;
@@ -3731,9 +4094,9 @@ void OAITestApi::pipeDelimitedExplodeObjectWithDataImpl(const OAITestObject &obj
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             const QJsonObject parameter = objectParameter.asJsonObject();
             if (queryStyle == "deepObject") {
@@ -3752,7 +4115,7 @@ void OAITestApi::pipeDelimitedExplodeObjectWithDataImpl(const OAITestObject &obj
             // style=form && explode=true && non-object => 'objectParameter' isn't used in serialization
             // style=form && explode=true && empty object => need to be 'objectParameter='
             // see https://spec.openapis.org/oas/v3.1.1.html#style-values
-            if (parameter.isEmpty() && queryStyle == "form")
+            if (paramString.isEmpty() && queryStyle == "form")
                 paramString = u"objectParameter="_s;
             fullPath.append(paramString);
 
@@ -3874,9 +4237,9 @@ void OAITestApi::pipeDelimitedNotExplodeAnytypeWithDataImpl(const ::OpenAPI::Opt
         const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, anytypeParameter.value().type() == QJsonValue::Object);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         if (anytypeParameter.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
             paramString = serializeJsonValue(anytypeParameter.value(), queryStyle, false, querySuffix, queryAssignOperator, queryDelimiter);
             fullPath.append(paramString);
 
@@ -3998,9 +4361,9 @@ void OAITestApi::pipeDelimitedNotExplodeArrayWithDataImpl(const ::OpenAPI::Optio
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, (!false && !true));
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         if (arrayParameter.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             fullPath.append(serializeArrayValue(arrayParameter.value(), queryStyle, false, querySuffix, queryDelimiter));
             queryParamCounter++;
@@ -4122,9 +4485,9 @@ void OAITestApi::pipeDelimitedNotExplodeObjectWithDataImpl(const ::OpenAPI::Opti
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         if (objectParameter.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             const QJsonObject parameter = objectParameter.value().asJsonObject();
             if (queryStyle == "deepObject") {
@@ -4143,7 +4506,7 @@ void OAITestApi::pipeDelimitedNotExplodeObjectWithDataImpl(const ::OpenAPI::Opti
             // style=form && explode=true && non-object => 'objectParameter' isn't used in serialization
             // style=form && explode=true && empty object => need to be 'objectParameter='
             // see https://spec.openapis.org/oas/v3.1.1.html#style-values
-            if (parameter.isEmpty() && queryStyle == "form")
+            if (paramString.isEmpty() && queryStyle == "form")
                 paramString = u"objectParameter="_s;
             fullPath.append(paramString);
 
@@ -5249,9 +5612,9 @@ void OAITestApi::spaceDelimitedExplodeAnytypeWithDataImpl(const QJsonValue &anyt
         const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, anytypeParameter.type() == QJsonValue::Object);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
             paramString = serializeJsonValue(anytypeParameter, queryStyle, true, querySuffix, queryAssignOperator, queryDelimiter);
             fullPath.append(paramString);
 
@@ -5373,9 +5736,9 @@ void OAITestApi::spaceDelimitedExplodeArrayWithDataImpl(const QList<qint32> &arr
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!false && !true));
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             fullPath.append(serializeArrayValue(arrayParameter, queryStyle, true, querySuffix, queryDelimiter));
             queryParamCounter++;
@@ -5497,9 +5860,9 @@ void OAITestApi::spaceDelimitedExplodeObjectWithDataImpl(const OAITestObject &ob
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             const QJsonObject parameter = objectParameter.asJsonObject();
             if (queryStyle == "deepObject") {
@@ -5518,7 +5881,7 @@ void OAITestApi::spaceDelimitedExplodeObjectWithDataImpl(const OAITestObject &ob
             // style=form && explode=true && non-object => 'objectParameter' isn't used in serialization
             // style=form && explode=true && empty object => need to be 'objectParameter='
             // see https://spec.openapis.org/oas/v3.1.1.html#style-values
-            if (parameter.isEmpty() && queryStyle == "form")
+            if (paramString.isEmpty() && queryStyle == "form")
                 paramString = u"objectParameter="_s;
             fullPath.append(paramString);
 
@@ -5640,9 +6003,9 @@ void OAITestApi::spaceDelimitedNotExplodeAnytypeWithDataImpl(const ::OpenAPI::Op
         const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, anytypeParameter.value().type() == QJsonValue::Object);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         if (anytypeParameter.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
             paramString = serializeJsonValue(anytypeParameter.value(), queryStyle, false, querySuffix, queryAssignOperator, queryDelimiter);
             fullPath.append(paramString);
 
@@ -5764,9 +6127,9 @@ void OAITestApi::spaceDelimitedNotExplodeArrayWithDataImpl(const ::OpenAPI::Opti
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, (!false && !true));
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         if (arrayParameter.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             fullPath.append(serializeArrayValue(arrayParameter.value(), queryStyle, false, querySuffix, queryDelimiter));
             queryParamCounter++;
@@ -5888,9 +6251,9 @@ void OAITestApi::spaceDelimitedNotExplodeObjectWithDataImpl(const ::OpenAPI::Opt
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         if (objectParameter.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             const QJsonObject parameter = objectParameter.value().asJsonObject();
             if (queryStyle == "deepObject") {
@@ -5909,7 +6272,7 @@ void OAITestApi::spaceDelimitedNotExplodeObjectWithDataImpl(const ::OpenAPI::Opt
             // style=form && explode=true && non-object => 'objectParameter' isn't used in serialization
             // style=form && explode=true && empty object => need to be 'objectParameter='
             // see https://spec.openapis.org/oas/v3.1.1.html#style-values
-            if (parameter.isEmpty() && queryStyle == "form")
+            if (paramString.isEmpty() && queryStyle == "form")
                 paramString = u"objectParameter="_s;
             fullPath.append(paramString);
 

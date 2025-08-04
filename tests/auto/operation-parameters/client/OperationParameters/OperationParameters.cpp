@@ -60,6 +60,7 @@ private Q_SLOTS:
     void queryAnyTypeParameters();
     void queryNACombinations();
     void pathAndQueryUndefined();
+    void severalQueryParametersPerOPeration();
 };
 
 // The latest implementation is done based on this information:
@@ -610,6 +611,130 @@ void OperationParameters::pathAndQueryUndefined()
 
     // style=label, explode=false, type=AnyType(emptyJson)
     CALL_NOT_FOUND_TEST_OPERATION(labelNotExplodeAnytype, emptyJson);
+}
+
+void OperationParameters::severalQueryParametersPerOPeration()
+{
+    QString aParam("First param");
+    QString bParam("second param");
+    qint32 cParam = -3499;
+    QString expectedResult;
+    bool done = false;
+
+    connect(this, &OperationParameters::formExplodeStringOptionsFinished,
+            [&](const QString &summary) {
+                done = true;
+                QCOMPARE(getStatusString(summary), expectedResult);
+            });
+    connect(this, &OperationParameters::formExplodeStringOptionsErrorOccurred,
+            [&](QNetworkReply::NetworkError, const QString &) {
+                done = false;
+            });
+
+    expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterA=First%20param&stringParameterB=second%20param&stringParameterC=-3499";
+    formExplodeStringOptions(bParam, ::OpenAPI::OptionalParam<QString>(aParam),
+                             ::OpenAPI::OptionalParam<qint32>(cParam));
+    QCOMPARE("/v2" + m_testOperationPath, expectedResult);
+    QTRY_COMPARE_EQ(done, true);
+
+    // NOTE: Empty optional parameters are being
+    // excluded from the resulting URL!
+    done = false;
+    expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterA=First%20param&stringParameterB=second%20param";
+    formExplodeStringOptions(bParam, aParam);
+    QCOMPARE("/v2" + m_testOperationPath, expectedResult);
+    QTRY_COMPARE_EQ(done, true);
+
+    done = false;
+    expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterB=second%20param";
+    formExplodeStringOptions(bParam);
+    QCOMPARE("/v2" + m_testOperationPath, expectedResult);
+    QTRY_COMPARE_EQ(done, true);
+
+    // NOTE: OpenAPI::OptionalParam<T>() is equal to EMPTY optional parameter
+    // The value will be excluded from the url
+    done = false;
+    expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterB=";
+    formExplodeStringOptions("");
+    QCOMPARE("/v2" + m_testOperationPath, expectedResult);
+    QTRY_COMPARE_EQ(done, true);
+
+    done = false;
+    expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterB=";
+    formExplodeStringOptions("", ::OpenAPI::OptionalParam<QString>());
+    QCOMPARE("/v2" + m_testOperationPath, expectedResult);
+    QTRY_COMPARE_EQ(done, true);
+
+    done = false;
+    expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterB=";
+    formExplodeStringOptions("", ::OpenAPI::OptionalParam<QString>(), ::OpenAPI::OptionalParam<qint32>());
+    QCOMPARE("/v2" + m_testOperationPath, expectedResult);
+    QTRY_COMPARE_EQ(done, true);
+
+    // NOTE: NULL != Empty! optional(Null) is being serialized like
+    // 'undefined' column here: https://spec.openapis.org/oas/v3.1.1.html#style-examples
+    done = false;
+    expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterA=&stringParameterB=";
+    formExplodeStringOptions("", ::OpenAPI::OptionalParam<QString>(OptionalParam<QString>::IsNull));
+    QCOMPARE("/v2" + m_testOperationPath, expectedResult);
+    QTRY_COMPARE_EQ(done, true);
+
+    done = false;
+    expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterA=&stringParameterB=&stringParameterC=";
+    formExplodeStringOptions("", OptionalParam<QString>(OptionalParam<QString>::IsNull), OptionalParam<qint32>(OptionalParam<qint32>::IsNull));
+    QCOMPARE("/v2" + m_testOperationPath, expectedResult);
+    QTRY_COMPARE_EQ(done, true);
+
+    done = false;
+    expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterA=&stringParameterB=";
+    formExplodeStringOptions("", OptionalParam<QString>(OptionalParam<QString>::IsNull), OptionalParam<qint32>());
+    QCOMPARE("/v2" + m_testOperationPath, expectedResult);
+    QTRY_COMPARE_EQ(done, true);
+
+    // NOTE: Empty string != empty parameter. It is being serialized like
+    // 'undefined' column here: https://spec.openapis.org/oas/v3.1.1.html#style-examples
+    done = false;
+    expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterA=&stringParameterB=&stringParameterC=";
+    formExplodeStringOptions("", ::OpenAPI::OptionalParam<QString>(""), ::OpenAPI::OptionalParam<qint32>(OptionalParam<qint32>::IsNull));
+    QCOMPARE("/v2" + m_testOperationPath, expectedResult);
+    QTRY_COMPARE_EQ(done, true);
+
+    done = false;
+    expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterA=%20end%21&stringParameterB=The&stringParameterC=100";
+    formExplodeStringOptions("The", ::OpenAPI::OptionalParam<QString>(" end!"), ::OpenAPI::OptionalParam<qint32>(100));
+    QCOMPARE("/v2" + m_testOperationPath, expectedResult);
+    QTRY_COMPARE_EQ(done, true);
+
+    done = false;
+    OAITestObject testObject;
+    testObject.setName("John");
+    testObject.setStatus("Sleepy");
+    testObject.setAge(12);
+    formExplodeDifferentOptions(50, ::OpenAPI::OptionalParam<OAITestObject>(testObject),
+                                this, [&](const QRestReply &reply, const QString &summary) {
+                                    done = reply.isSuccess();
+                                    QCOMPARE(getStatusString(summary), "/v2/query/strings/form-explode/formExplodeDifferentOptions?age=12&name=John&status=Sleepy&stringParameterB=50");
+                                });
+
+    QTRY_COMPARE_EQ(done, true);
+
+    done = false;
+    formExplodeDifferentOptions(50, ::OpenAPI::OptionalParam<OAITestObject>(),
+                                this, [&](const QRestReply &reply, const QString &summary) {
+                                    done = reply.isSuccess();
+                                    QCOMPARE(getStatusString(summary), "/v2/query/strings/form-explode/formExplodeDifferentOptions?stringParameterB=50");
+                                });
+    QTRY_COMPARE_EQ(done, true);
+
+    // NOTE: Parameter is not nullable in yaml file, so it's being excluded
+    // from the serialization, even if Null is passed as a 2d argument.
+    done = false;
+    formExplodeDifferentOptions(50, ::OpenAPI::OptionalParam<OAITestObject>(OptionalParam<OAITestObject>::IsNull), this,
+                                [&](const QRestReply &reply, const QString &summary) {
+                                    done = reply.isSuccess();
+                                    QCOMPARE(getStatusString(summary), "/v2/query/strings/form-explode/formExplodeDifferentOptions?stringParameterB=50");
+                                });
+    QTRY_COMPARE_EQ(done, true);
 }
 
 } // OpenAPI

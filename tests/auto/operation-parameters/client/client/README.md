@@ -32,8 +32,10 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:10203/v2
 |*deepObjectNotExplodeObject* | *POST* /query/object/deepObject-not-explode/deepObjectNotExplodeObject | deepObject object not explode.|
 |*formExplodeAnytype* | *POST* /query/anytype/form-explode/formExplodeAnytype | form anytype explode.|
 |*formExplodeArray* | *POST* /query/array/form-explode/formExplodeArray | form array explode.|
+|*formExplodeDifferentOptions* | *POST* /query/strings/form-explode/formExplodeDifferentOptions | style-form, explode=true.|
 |*formExplodeObject* | *POST* /query/object/form-explode/formExplodeObject | form object explode.|
 |*formExplodeString* | *POST* /query/string/form-explode/formExplodeString | form style with explode set to true for string query parameter..|
+|*formExplodeStringOptions* | *POST* /query/strings/form-explode/formExplodeStringOptions | style-form, explode=true.|
 |*formNotExplodeAnytype* | *POST* /query/anytype/form-not-explode/formNotExplodeAnytype | form anytype not explode.|
 |*formNotExplodeArray* | *POST* /query/array/form-not-explode/formNotExplodeArray | form array not explode.|
 |*formNotExplodeObject* | *POST* /query/object/form-not-explode/formNotExplodeObject | form object not explode.|

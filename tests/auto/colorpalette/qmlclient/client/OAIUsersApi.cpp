@@ -242,14 +242,22 @@ void OAIUsersApi::getUsersByPageWithDataImpl(const ::OpenAPI::OptionalParam<qint
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
-        if (queryParamCounter > 0)
-            fullPath.append("&");
         if (page.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
 
             fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(page.value())));
             queryParamCounter++;
         } else if (page.isNull()) {
-            fullPath.append(querySuffix).append(QString("null"));
+            if (queryParamCounter > 0)
+                fullPath.append("&");
+            // style=form && explode=true && non-object => 'page' isn't used in serialization
+            // style=form && explode=true && empty object => need to be 'page='
+            // see https://spec.openapis.org/oas/v3.1.1.html#style-values
+            if (queryStyle == "form")
+                fullPath.append(u"page="_s);
+            else
+                fullPath.append(querySuffix);
             queryParamCounter++;
         }
     }
