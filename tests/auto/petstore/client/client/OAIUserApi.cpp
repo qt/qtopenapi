@@ -166,7 +166,7 @@ void OAIUserApi::createInQueryMapCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -275,7 +275,7 @@ void OAIUserApi::createUserCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -385,7 +385,7 @@ void OAIUserApi::createUsersWithArrayInputCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -495,7 +495,7 @@ void OAIUserApi::createUsersWithListInputCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -619,7 +619,7 @@ void OAIUserApi::deleteUserCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -739,7 +739,7 @@ void OAIUserApi::getUserByNameCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -891,7 +891,7 @@ void OAIUserApi::loginUserCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -1018,7 +1018,7 @@ void OAIUserApi::logoutUserCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -1185,7 +1185,7 @@ void OAIUserApi::updateUserCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 

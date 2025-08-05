@@ -260,7 +260,7 @@ void OAITestApi::deepObjectExplodeObjectCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -404,7 +404,7 @@ void OAITestApi::deepObjectNotExplodeObjectCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -528,7 +528,7 @@ void OAITestApi::formExplodeAnytypeCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -651,7 +651,7 @@ void OAITestApi::formExplodeArrayCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -795,7 +795,7 @@ void OAITestApi::formExplodeObjectCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -919,7 +919,7 @@ void OAITestApi::formExplodeStringCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -1043,7 +1043,7 @@ void OAITestApi::formNotExplodeAnytypeCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -1166,7 +1166,7 @@ void OAITestApi::formNotExplodeArrayCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -1310,7 +1310,7 @@ void OAITestApi::formNotExplodeObjectCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -1434,7 +1434,7 @@ void OAITestApi::formNotExplodeStringCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -1556,7 +1556,7 @@ void OAITestApi::labelExplodeAnytypeCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -1679,7 +1679,7 @@ void OAITestApi::labelExplodeArrayCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -1803,7 +1803,7 @@ void OAITestApi::labelExplodeObjectCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -1926,7 +1926,7 @@ void OAITestApi::labelExplodeStringCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -2048,7 +2048,7 @@ void OAITestApi::labelNotExplodeAnytypeCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -2171,7 +2171,7 @@ void OAITestApi::labelNotExplodeArrayCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -2295,7 +2295,7 @@ void OAITestApi::labelNotExplodeObjectCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -2418,7 +2418,7 @@ void OAITestApi::labelNotExplodeStringCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -2540,7 +2540,7 @@ void OAITestApi::matrixExplodeAnytypeCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -2663,7 +2663,7 @@ void OAITestApi::matrixExplodeArrayCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -2787,7 +2787,7 @@ void OAITestApi::matrixExplodeObjectCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -2910,7 +2910,7 @@ void OAITestApi::matrixExplodeStringCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -3032,7 +3032,7 @@ void OAITestApi::matrixNotExplodeAnytypeCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -3155,7 +3155,7 @@ void OAITestApi::matrixNotExplodeArrayCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -3279,7 +3279,7 @@ void OAITestApi::matrixNotExplodeObjectCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -3402,7 +3402,7 @@ void OAITestApi::matrixNotExplodeStringCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -3526,7 +3526,7 @@ void OAITestApi::pipeDelimitedExplodeAnytypeCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -3649,7 +3649,7 @@ void OAITestApi::pipeDelimitedExplodeArrayCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -3793,7 +3793,7 @@ void OAITestApi::pipeDelimitedExplodeObjectCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -3917,7 +3917,7 @@ void OAITestApi::pipeDelimitedNotExplodeAnytypeCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -4040,7 +4040,7 @@ void OAITestApi::pipeDelimitedNotExplodeArrayCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -4184,7 +4184,7 @@ void OAITestApi::pipeDelimitedNotExplodeObjectCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -4306,7 +4306,7 @@ void OAITestApi::simpleExplodeAnytypeCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -4429,7 +4429,7 @@ void OAITestApi::simpleExplodeArrayCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -4553,7 +4553,7 @@ void OAITestApi::simpleExplodeObjectCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -4676,7 +4676,7 @@ void OAITestApi::simpleExplodeStringCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -4798,7 +4798,7 @@ void OAITestApi::simpleNotExplodeAnytypeCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -4921,7 +4921,7 @@ void OAITestApi::simpleNotExplodeArrayCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -5045,7 +5045,7 @@ void OAITestApi::simpleNotExplodeObjectCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -5168,7 +5168,7 @@ void OAITestApi::simpleNotExplodeStringCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -5292,7 +5292,7 @@ void OAITestApi::spaceDelimitedExplodeAnytypeCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -5415,7 +5415,7 @@ void OAITestApi::spaceDelimitedExplodeArrayCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -5559,7 +5559,7 @@ void OAITestApi::spaceDelimitedExplodeObjectCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -5683,7 +5683,7 @@ void OAITestApi::spaceDelimitedNotExplodeAnytypeCallback(const QRestReply &reply
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -5806,7 +5806,7 @@ void OAITestApi::spaceDelimitedNotExplodeArrayCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -5950,7 +5950,7 @@ void OAITestApi::spaceDelimitedNotExplodeObjectCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 

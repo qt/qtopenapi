@@ -161,7 +161,7 @@ void OAIUsersApi::getUserByIdCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -287,7 +287,7 @@ void OAIUsersApi::getUsersByPageCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -396,7 +396,7 @@ void OAIUsersApi::loginUserCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -493,7 +493,7 @@ void OAIUsersApi::logoutUserCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -620,7 +620,7 @@ void OAIUsersApi::updateUserCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 

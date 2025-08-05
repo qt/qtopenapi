@@ -154,7 +154,7 @@ void OAIStoreApi::deleteOrderCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -256,7 +256,7 @@ void OAIStoreApi::getInventoryCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -386,7 +386,7 @@ void OAIStoreApi::getOrderByIdCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -494,7 +494,7 @@ void OAIStoreApi::placeOrderCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 

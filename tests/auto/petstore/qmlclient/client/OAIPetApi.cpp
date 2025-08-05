@@ -160,7 +160,7 @@ void OAIPetApi::addPetCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -293,7 +293,7 @@ void OAIPetApi::deletePetCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -413,7 +413,7 @@ void OAIPetApi::findPetsByAgeAndPatienceCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -544,7 +544,7 @@ void OAIPetApi::findPetsByStatusCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -675,7 +675,7 @@ void OAIPetApi::findPetsByTagsCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -807,7 +807,7 @@ void OAIPetApi::findPetsImageByIdCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -930,7 +930,7 @@ void OAIPetApi::getJsonFileCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -1057,7 +1057,7 @@ void OAIPetApi::getPetByIdCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -1173,7 +1173,7 @@ void OAIPetApi::updatePetCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -1306,7 +1306,7 @@ void OAIPetApi::updatePetWithFormCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
@@ -1438,7 +1438,7 @@ void OAIPetApi::uploadFileCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
-        disconnect(netReply, nullptr, nullptr, nullptr);
+        netReply->disconnect(this);
     if (!reply.isSuccess())
         return;
 
