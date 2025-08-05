@@ -164,7 +164,8 @@ public:
     using ServerError = {{prefix}}ServerVariable::ServerError;
     Q_ENUM(ServerError)
 
-    {{prefix}}BaseApi(QObject *parent = nullptr);
+    {{prefix}}BaseApi() : {{prefix}}BaseApi(nullptr) {}
+    explicit {{prefix}}BaseApi(QObject *parent);
     ~{{prefix}}BaseApi() override;
 {{#enableQmlCode}}public Q_SLOTS:{{/enableQmlCode}}
     ServerError setDefaultServerValue(int serverIndex,const QString &operation, const QString &variable,const QString &val);

@@ -21,7 +21,8 @@ namespace OpenAPI {
 class OAIColorsApi : public OAIBaseApi {
     Q_OBJECT
 public:
-    OAIColorsApi(QObject *parent = nullptr);
+    OAIColorsApi() : OAIColorsApi(nullptr) {}
+    explicit OAIColorsApi(QObject *parent);
     ~OAIColorsApi() override;
 
     void initializeServerConfigs();

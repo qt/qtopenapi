@@ -23,7 +23,8 @@ namespace OpenAPI {
 class OAIUsersApi : public OAIBaseApi {
     Q_OBJECT
 public:
-    OAIUsersApi(QObject *parent = nullptr);
+    OAIUsersApi() : OAIUsersApi(nullptr) {}
+    explicit OAIUsersApi(QObject *parent);
     ~OAIUsersApi() override;
 
     void initializeServerConfigs();

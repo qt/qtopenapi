@@ -20,7 +20,8 @@ namespace OpenAPI {
 class OAITestApi : public OAIBaseApi {
     Q_OBJECT
 public:
-    OAITestApi(QObject *parent = nullptr);
+    OAITestApi() : OAITestApi(nullptr) {}
+    explicit OAITestApi(QObject *parent);
     ~OAITestApi() override;
 
     void initializeServerConfigs();

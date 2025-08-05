@@ -22,7 +22,8 @@ class OAIRegisterApi : public OAIBaseApi {
     Q_OBJECT
     QML_ELEMENT
 public:
-    OAIRegisterApi(QObject *parent = nullptr);
+    OAIRegisterApi() : OAIRegisterApi(nullptr) {}
+    explicit OAIRegisterApi(QObject *parent);
     ~OAIRegisterApi() override;
 
     void initializeServerConfigs();

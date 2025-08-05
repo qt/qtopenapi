@@ -23,7 +23,8 @@ class OAIColorsApi : public OAIBaseApi {
     Q_OBJECT
     QML_ELEMENT
 public:
-    OAIColorsApi(QObject *parent = nullptr);
+    OAIColorsApi() : OAIColorsApi(nullptr) {}
+    explicit OAIColorsApi(QObject *parent);
     ~OAIColorsApi() override;
 
     void initializeServerConfigs();

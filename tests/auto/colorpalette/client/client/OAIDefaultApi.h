@@ -21,7 +21,8 @@ namespace OpenAPI {
 class OAIDefaultApi : public OAIBaseApi {
     Q_OBJECT
 public:
-    OAIDefaultApi(QObject *parent = nullptr);
+    OAIDefaultApi() : OAIDefaultApi(nullptr) {}
+    explicit OAIDefaultApi(QObject *parent);
     ~OAIDefaultApi() override;
 
     void initializeServerConfigs();

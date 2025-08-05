@@ -23,7 +23,8 @@ class OAIStoreApi : public OAIBaseApi {
     Q_OBJECT
     QML_ELEMENT
 public:
-    OAIStoreApi(QObject *parent = nullptr);
+    OAIStoreApi() : OAIStoreApi(nullptr) {}
+    explicit OAIStoreApi(QObject *parent);
     ~OAIStoreApi() override;
 
     void initializeServerConfigs();

@@ -22,7 +22,8 @@ namespace OpenAPI {
 class OAIPetApi : public OAIBaseApi {
     Q_OBJECT
 public:
-    OAIPetApi(QObject *parent = nullptr);
+    OAIPetApi() : OAIPetApi(nullptr) {}
+    explicit OAIPetApi(QObject *parent);
     ~OAIPetApi() override;
 
     void initializeServerConfigs();

@@ -167,7 +167,8 @@ public:
     using ServerError = OAIServerVariable::ServerError;
     Q_ENUM(ServerError)
 
-    OAIBaseApi(QObject *parent = nullptr);
+    OAIBaseApi() : OAIBaseApi(nullptr) {}
+    explicit OAIBaseApi(QObject *parent);
     ~OAIBaseApi() override;
 
     ServerError setDefaultServerValue(int serverIndex,const QString &operation, const QString &variable,const QString &val);

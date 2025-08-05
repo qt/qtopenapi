@@ -24,7 +24,8 @@ class OAIPetApi : public OAIBaseApi {
     Q_OBJECT
     QML_ELEMENT
 public:
-    OAIPetApi(QObject *parent = nullptr);
+    OAIPetApi() : OAIPetApi(nullptr) {}
+    explicit OAIPetApi(QObject *parent);
     ~OAIPetApi() override;
 
     void initializeServerConfigs();

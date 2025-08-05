@@ -20,7 +20,8 @@ namespace OpenAPI {
 class OAIRegisterApi : public OAIBaseApi {
     Q_OBJECT
 public:
-    OAIRegisterApi(QObject *parent = nullptr);
+    OAIRegisterApi() : OAIRegisterApi(nullptr) {}
+    explicit OAIRegisterApi(QObject *parent);
     ~OAIRegisterApi() override;
 
     void initializeServerConfigs();

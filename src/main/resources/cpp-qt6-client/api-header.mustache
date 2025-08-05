@@ -17,7 +17,8 @@ class {{classname}} : public {{prefix}}BaseApi {
     Q_OBJECT{{#enableQmlCode}}
     QML_ELEMENT{{/enableQmlCode}}
 public:
-    {{classname}}(QObject *parent = nullptr);
+    {{classname}}() : {{classname}}(nullptr) {}
+    explicit {{classname}}(QObject *parent);
     ~{{classname}}() override;
 
     void initializeServerConfigs();

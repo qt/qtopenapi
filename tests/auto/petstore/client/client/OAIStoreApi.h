@@ -21,7 +21,8 @@ namespace OpenAPI {
 class OAIStoreApi : public OAIBaseApi {
     Q_OBJECT
 public:
-    OAIStoreApi(QObject *parent = nullptr);
+    OAIStoreApi() : OAIStoreApi(nullptr) {}
+    explicit OAIStoreApi(QObject *parent);
     ~OAIStoreApi() override;
 
     void initializeServerConfigs();

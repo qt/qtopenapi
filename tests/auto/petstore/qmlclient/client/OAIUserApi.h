@@ -22,7 +22,8 @@ class OAIUserApi : public OAIBaseApi {
     Q_OBJECT
     QML_ELEMENT
 public:
-    OAIUserApi(QObject *parent = nullptr);
+    OAIUserApi() : OAIUserApi(nullptr) {}
+    explicit OAIUserApi(QObject *parent);
     ~OAIUserApi() override;
 
     void initializeServerConfigs();
