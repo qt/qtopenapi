@@ -2,7 +2,7 @@
 # Copyright (C) 2025 The Qt Company Ltd.
 # SPDX-License-Identifier: LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only
 
-usage() {
+function usage() {
     cat <<EOF >&2
 Usage: generate [cgl]
 
@@ -43,20 +43,19 @@ EOF
     die "$@"
 }
 
-warn () {
+function warn() {
     RED='\033[1;31m'
     NC='\033[0m'
     echo -e "${RED}$@${NC}" >&2
 }
 
-die() {
+function die() {
     warn "$@"
     exit 1
 }
 
-mvn_exists()
-{
-   mvn -v "$1" >/dev/null 2>&1
+function mvn_exists() {
+    mvn -v "$1" >/dev/null 2>&1
 }
 
 MODE="$1"
@@ -66,46 +65,47 @@ ORIGINAL_GENERATOR="cpp-qt6-client"
 ORIGINAL_GENERATOR_JAR="$PWD/target/cpp-qt6-client-openapi-generator-1.0.0.jar"
 QML_ADDITIONAL_PROPERTIES=false
 if [[ $MODE == "qmltest" ]] || [[ $MODE == "qmldoc" ]] || [[ $MODE == "qmlcg" ]];then
-  QML_ADDITIONAL_PROPERTIES=true
-  CLIENTFOLDER_NAME=qmlclient
+    QML_ADDITIONAL_PROPERTIES=true
+    CLIENTFOLDER_NAME=qmlclient
 else
-  CLIENTFOLDER_NAME=client
+    CLIENTFOLDER_NAME=client
 fi
 PROJECT_ROOT=$PWD
 
 function openapi_generator_download() {
-  #### Download openapi installation
-  if [[ ! -f "$OPENAPI_CLI" ]]; then
-    mkdir -p $PWD/openapi_client_generators
-    curl https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/bin/utils/openapi-generator-cli.sh > $PWD/openapi_client_generators/openapi-generator-cli
-    chmod u+x $PWD/openapi_client_generators/openapi-generator-cli
+    #### Download openapi installation
+    if [[ ! -f "$OPENAPI_CLI" ]]; then
+        mkdir -p $PWD/openapi_client_generators
+        curl https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/bin/utils/openapi-generator-cli.sh > $PWD/openapi_client_generators/openapi-generator-cli
+        chmod u+x $PWD/openapi_client_generators/openapi-generator-cli
 
-    #### Here version should be updated manually
-    wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.12.0/openapi-generator-cli-7.12.0.jar -O $PWD/openapi_client_generators/openapi-generator-cli-7.12.0.jar
-    export PATH=$PATH:$PWD/openapi_client_generators
-  fi
-  #### Check downloads
-  [[ -f "$OPENAPI_CLI" ]] || usage "Error: openapi-generator-cli.jar does not exist: " \""$OPENAPI_CLI"\"
+        #### Here version should be updated manually
+        wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.12.0/openapi-generator-cli-7.12.0.jar -O $PWD/openapi_client_generators/openapi-generator-cli-7.12.0.jar
+        export PATH=$PATH:$PWD/openapi_client_generators
+    fi
+    #### Check downloads
+    [[ -f "$OPENAPI_CLI" ]] || usage "Error: openapi-generator-cli.jar does not exist: " \""$OPENAPI_CLI"\"
 }
 
 function compile() {
-   if mvn_exists bash; then
-     echo 'Running "mvn package" command.'
-  else
-    echo 'Your system does not have mvn. Please, try "sudo apt install maven -y" or set "JAVA_HOME" variable.'
-  fi
-  # download openapi generator
-  openapi_generator_download ;
-  # Clean previous build result
-  mvn clean
-  # Compile
-  mvn package
+    if mvn_exists bash; then
+        echo 'Running "mvn package" command.'
+    else
+        echo 'Your system does not have mvn. Please, try "sudo apt install maven -y" or set "JAVA_HOME" variable.'
+    fi
+    # download openapi generator
+    openapi_generator_download ;
+    # Clean previous build result
+    mvn clean
+    # Compile
+    mvn package
 }
 
 USER_MODE="$2"
 if [[ -z "$USER_MODE" ]]; then
     USER_MODE="petstore" # default
 fi
+
 # Validate the value
 if [[ -f "$PWD/yaml_files/$USER_MODE.yaml" ]]; then
     USER_SPEC="$PWD/yaml_files/$USER_MODE.yaml"
@@ -118,11 +118,11 @@ else
 fi
 
 if [[ $MODE == "qmltest" && $USER_MODE == "operation-parameters" ]]; then
-  echo "Skipping: 'qmltest' is not applicable for 'operation-parameters'."
-  exit 1
+    echo "Skipping: 'qmltest' is not applicable for 'operation-parameters'."
+    exit 1
 elif [[ $MODE == "qmldoc" && $USER_MODE == "operation-parameters" ]]; then
-  echo "Skipping: 'qmldoc' is not applicable for 'operation-parameters'."
-  exit 1
+    echo "Skipping: 'qmldoc' is not applicable for 'operation-parameters'."
+    exit 1
 fi
 
 # Choose your log level: debug, info, warn, or error
@@ -175,30 +175,30 @@ function killPetServer() {
 }
 
 function run_test() {
-  if [[ $USER_MODE == "petstore" || $USER_MODE == "operation-parameters" ]]; then
-    #may need to clean up from previous execution
+    if [[ $USER_MODE == "petstore" || $USER_MODE == "operation-parameters" ]]; then
+        #may need to clean up from previous execution
 
-    # build and run server app
-    cd $SERVER_OUTPUT_DIR
-    rm -rf $SERVER_OUTPUT_DIR/build
-    source build-and-run.bash
+        # build and run server app
+        cd $SERVER_OUTPUT_DIR
+        rm -rf $SERVER_OUTPUT_DIR/build
+        source build-and-run.bash
 
-    #build and run client test apps
-    cd $CLIENT_OUTPUT_DIR/
-    rm -rf $CLIENT_OUTPUT_DIR/build
-    source build-and-test.bash
+        #build and run client test apps
+        cd $CLIENT_OUTPUT_DIR/
+        rm -rf $CLIENT_OUTPUT_DIR/build
+        source build-and-test.bash
 
-    # when the client finished testing, let's kill the server ]:->
-    killPetServer
-  else #colorpalette and others
-      #build generated code
-      cd $CLIENT_OUTPUT_DIR
-      rm -rf $CLIENT_OUTPUT_DIR/build
-      # TODO delete here and in .gitignore after colorpalette client app will be added
-      rm -rf $CLIENT_OUTPUT_DIR/libQt6OpenAPIClient_module.so
-      source build-and-test.bash
-  fi
-  cd $PROJECT_ROOT
+        # when the client finished testing, let's kill the server ]:->
+        killPetServer
+    else #colorpalette and others
+        #build generated code
+        cd $CLIENT_OUTPUT_DIR
+        rm -rf $CLIENT_OUTPUT_DIR/build
+        # TODO delete here and in .gitignore after colorpalette client app will be added
+        rm -rf $CLIENT_OUTPUT_DIR/libQt6OpenAPIClient_module.so
+        source build-and-test.bash
+    fi
+    cd $PROJECT_ROOT
 }
 
 function doxygen_compile() {
@@ -221,7 +221,7 @@ function set_paths() {
     else
         echo "Available specifications in $PWD/yaml_files:"
         ls yaml_files/*.yaml 2>/dev/null | xargs -n1 basename | sed 's/^/  /' >&2
-       die "Error: user-spec does not exist."
+        die "Error: user-spec does not exist."
     fi
 }
 
@@ -256,8 +256,8 @@ function run_all() {
 ####################################
 #export CMAKE_PREFIX_PATH=""
 if [ ! -d $CMAKE_PREFIX_PATH ];then
-echo "Please, set 'CMAKE_PREFIX_PATH' path."
-exit 1
+    echo "Please, set 'CMAKE_PREFIX_PATH' path."
+    exit 1
 fi
 if [[ $CMAKE_PREFIX_PATH == "" ]]; then
     echo -e "\n"
@@ -269,8 +269,8 @@ else
 fi
 #JAVA_HOME="/usr/lib/jvm/java-21-openjdk-amd64"
 if [ ! -d $JAVA_HOME ];then
-echo "Please, set 'JAVA_HOME' path."
-exit 1
+    echo "Please, set 'JAVA_HOME' path."
+    exit 1
 fi
 if [[ $JAVA_HOME == "" ]]; then
    echo "'JAVA_HOME' need to be set!"
