@@ -101,22 +101,25 @@ function compile() {
     mvn package
 }
 
+function set_paths() {
+    # Validate the value
+    if [[ -f "$PWD/yaml_files/$USER_MODE.yaml" ]]; then
+        USER_SPEC="$PWD/yaml_files/$USER_MODE.yaml"
+        SERVER_OUTPUT_DIR="$PWD/tests/auto/$USER_MODE/server"
+        CLIENT_OUTPUT_DIR="$PWD/tests/auto/$USER_MODE/$CLIENTFOLDER_NAME"
+    else
+        echo "Available specifications in $PWD/yaml_files:"
+        ls yaml_files/*.yaml 2>/dev/null | xargs -n1 basename | sed 's/^/  /' >&2
+        die "Error: user-spec does not exist."
+    fi
+}
+
 USER_MODE="$2"
 if [[ -z "$USER_MODE" ]]; then
     USER_MODE="petstore" # default
 fi
 
-# Validate the value
-if [[ -f "$PWD/yaml_files/$USER_MODE.yaml" ]]; then
-    USER_SPEC="$PWD/yaml_files/$USER_MODE.yaml"
-    SERVER_OUTPUT_DIR="$PWD/tests/auto/$USER_MODE/server"
-    CLIENT_OUTPUT_DIR="$PWD/tests/auto/$USER_MODE/$CLIENTFOLDER_NAME"
-else
-    echo "Available specifications in $PWD/yaml_files:"
-    ls yaml_files/*.yaml 2>/dev/null | xargs -n1 basename | sed 's/^/  /' >&2
-    die "Error: user-spec does not exist."
-fi
-
+# Check for invalid mode vs user_mode combinations
 if [[ $MODE == "qmltest" && $USER_MODE == "operation-parameters" ]]; then
     echo "Skipping: 'qmltest' is not applicable for 'operation-parameters'."
     exit 1
@@ -124,6 +127,9 @@ elif [[ $MODE == "qmldoc" && $USER_MODE == "operation-parameters" ]]; then
     echo "Skipping: 'qmldoc' is not applicable for 'operation-parameters'."
     exit 1
 fi
+
+# Set paths based on user_mode
+set_paths
 
 # Choose your log level: debug, info, warn, or error
 LOG_LEVEL=${3:-INFO}  # Default to INFO if not provided
@@ -210,19 +216,6 @@ function doxygen_compile() {
 function list() {
     generator_exists ;
     java -classpath $PWD:$OPENAPI_CLI:$ORIGINAL_GENERATOR_JAR $OPENAPI_CLI_ENTRYPOINT_CLASS config-help -g $ORIGINAL_GENERATOR
-}
-
-function set_paths() {
-    # Validate the value
-    if [[ -f "$PWD/yaml_files/$USER_MODE.yaml" ]]; then
-        USER_SPEC="$PWD/yaml_files/$USER_MODE.yaml"
-        SERVER_OUTPUT_DIR="$PWD/tests/auto/$USER_MODE/server"
-        CLIENT_OUTPUT_DIR="$PWD/tests/auto/$USER_MODE/$CLIENTFOLDER_NAME"
-    else
-        echo "Available specifications in $PWD/yaml_files:"
-        ls yaml_files/*.yaml 2>/dev/null | xargs -n1 basename | sed 's/^/  /' >&2
-        die "Error: user-spec does not exist."
-    fi
 }
 
 # usefull to re-genarate all clients by 1 command
