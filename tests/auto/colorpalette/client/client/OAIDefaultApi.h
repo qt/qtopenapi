@@ -22,7 +22,7 @@ class OAIDefaultApi : public OAIBaseApi {
     Q_OBJECT
 public:
     OAIDefaultApi(QObject *parent = nullptr);
-    virtual ~OAIDefaultApi();
+    ~OAIDefaultApi() override;
 
     void initializeServerConfigs();
 public:

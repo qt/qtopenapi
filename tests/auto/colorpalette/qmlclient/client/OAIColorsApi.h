@@ -24,7 +24,7 @@ class OAIColorsApi : public OAIBaseApi {
     QML_ELEMENT
 public:
     OAIColorsApi(QObject *parent = nullptr);
-    virtual ~OAIColorsApi();
+    ~OAIColorsApi() override;
 
     void initializeServerConfigs();
 public Q_SLOTS:

@@ -23,7 +23,7 @@ class OAIRegisterApi : public OAIBaseApi {
     QML_ELEMENT
 public:
     OAIRegisterApi(QObject *parent = nullptr);
-    virtual ~OAIRegisterApi();
+    ~OAIRegisterApi() override;
 
     void initializeServerConfigs();
 public Q_SLOTS:

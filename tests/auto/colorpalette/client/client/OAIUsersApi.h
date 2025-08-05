@@ -24,7 +24,7 @@ class OAIUsersApi : public OAIBaseApi {
     Q_OBJECT
 public:
     OAIUsersApi(QObject *parent = nullptr);
-    virtual ~OAIUsersApi();
+    ~OAIUsersApi() override;
 
     void initializeServerConfigs();
 public:

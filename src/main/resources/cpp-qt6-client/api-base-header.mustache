@@ -165,7 +165,7 @@ public:
     Q_ENUM(ServerError)
 
     {{prefix}}BaseApi(QObject *parent = nullptr);
-    virtual ~{{prefix}}BaseApi();
+    ~{{prefix}}BaseApi() override;
 {{#enableQmlCode}}public Q_SLOTS:{{/enableQmlCode}}
     ServerError setDefaultServerValue(int serverIndex,const QString &operation, const QString &variable,const QString &val);
     ServerError setServerIndex(const QString &operation, int serverIndex);

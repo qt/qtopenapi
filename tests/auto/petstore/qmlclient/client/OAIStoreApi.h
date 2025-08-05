@@ -24,7 +24,7 @@ class OAIStoreApi : public OAIBaseApi {
     QML_ELEMENT
 public:
     OAIStoreApi(QObject *parent = nullptr);
-    virtual ~OAIStoreApi();
+    ~OAIStoreApi() override;
 
     void initializeServerConfigs();
 public Q_SLOTS:

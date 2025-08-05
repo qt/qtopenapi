@@ -24,7 +24,7 @@ class OAIDefaultApi : public OAIBaseApi {
     QML_ELEMENT
 public:
     OAIDefaultApi(QObject *parent = nullptr);
-    virtual ~OAIDefaultApi();
+    ~OAIDefaultApi() override;
 
     void initializeServerConfigs();
 public Q_SLOTS:

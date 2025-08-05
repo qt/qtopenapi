@@ -22,7 +22,7 @@ class OAIColorsApi : public OAIBaseApi {
     Q_OBJECT
 public:
     OAIColorsApi(QObject *parent = nullptr);
-    virtual ~OAIColorsApi();
+    ~OAIColorsApi() override;
 
     void initializeServerConfigs();
 public:

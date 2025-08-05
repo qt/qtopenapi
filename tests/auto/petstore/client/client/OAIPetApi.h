@@ -23,7 +23,7 @@ class OAIPetApi : public OAIBaseApi {
     Q_OBJECT
 public:
     OAIPetApi(QObject *parent = nullptr);
-    virtual ~OAIPetApi();
+    ~OAIPetApi() override;
 
     void initializeServerConfigs();
 public:

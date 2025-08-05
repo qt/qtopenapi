@@ -25,7 +25,7 @@ class OAIPetApi : public OAIBaseApi {
     QML_ELEMENT
 public:
     OAIPetApi(QObject *parent = nullptr);
-    virtual ~OAIPetApi();
+    ~OAIPetApi() override;
 
     void initializeServerConfigs();
 public Q_SLOTS:

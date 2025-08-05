@@ -22,7 +22,7 @@ class OAIStoreApi : public OAIBaseApi {
     Q_OBJECT
 public:
     OAIStoreApi(QObject *parent = nullptr);
-    virtual ~OAIStoreApi();
+    ~OAIStoreApi() override;
 
     void initializeServerConfigs();
 public:

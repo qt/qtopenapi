@@ -21,7 +21,7 @@ class OAIRegisterApi : public OAIBaseApi {
     Q_OBJECT
 public:
     OAIRegisterApi(QObject *parent = nullptr);
-    virtual ~OAIRegisterApi();
+    ~OAIRegisterApi() override;
 
     void initializeServerConfigs();
 public:

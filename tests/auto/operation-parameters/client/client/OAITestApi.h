@@ -21,7 +21,7 @@ class OAITestApi : public OAIBaseApi {
     Q_OBJECT
 public:
     OAITestApi(QObject *parent = nullptr);
-    virtual ~OAITestApi();
+    ~OAITestApi() override;
 
     void initializeServerConfigs();
 public:

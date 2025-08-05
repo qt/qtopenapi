@@ -168,7 +168,7 @@ public:
     Q_ENUM(ServerError)
 
     OAIBaseApi(QObject *parent = nullptr);
-    virtual ~OAIBaseApi();
+    ~OAIBaseApi() override;
 
     ServerError setDefaultServerValue(int serverIndex,const QString &operation, const QString &variable,const QString &val);
     ServerError setServerIndex(const QString &operation, int serverIndex);
