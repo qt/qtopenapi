@@ -31,7 +31,7 @@ bool setDateTimeFormat(const QString &format);
 bool setDateTimeFormat(const Qt::DateFormat &format);
 
 template <typename T>
-QString toStringValue(const QList<T> &val);
+QString toStringValue(const QList<T> &val, QAnyStringView delimiter = ",");
 
 template <typename T>
 QString toStringValue(const QSet<T> &val);
@@ -78,7 +78,7 @@ QString toStringValue(const OAIEnum &value);
 QString toStringValue(const OAIHttpFileElement &value);
 
 template <typename T>
-QString toStringValue(const QList<T> &val, QAnyStringView delimiter = ",") {
+QString toStringValue(const QList<T> &val, QAnyStringView delimiter) {
     QString strArray;
     for (const auto &item : val)
         strArray.append(QUrl::toPercentEncoding(toStringValue(item))) + delimiter.toString();
