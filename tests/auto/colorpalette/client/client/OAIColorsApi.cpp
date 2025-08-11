@@ -225,7 +225,6 @@ void OAIColorsApi::deleteColorByIdWithDataImpl(const qint64 &id, const QObject *
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"id"_s, false, (!true && !false));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(id));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -344,7 +343,6 @@ void OAIColorsApi::getColorByIdWithDataImpl(const qint64 &id, const QObject *con
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"id"_s, false, (!true && !false));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(id));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -472,7 +470,6 @@ void OAIColorsApi::getColorsWithDataImpl(const ::OpenAPI::OptionalParam<qint32> 
         if (page.hasValue()) {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(page.value())));
             queryParamCounter++;
         }
@@ -592,7 +589,6 @@ void OAIColorsApi::updateColorByIdWithDataImpl(const qint64 &id, const OAIColor 
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"id"_s, false, (!true && !false));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(id));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.

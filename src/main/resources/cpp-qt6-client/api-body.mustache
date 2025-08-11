@@ -158,9 +158,9 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"{{baseName}}"_s, {{isExplode}}, {{paramName}}.type() == QJsonValue::Object);
         QString paramString = pathPrefix + serializeJsonValue({{paramName}}, pathStyle, {{isExplode}}, pathSuffix, assignOperator, pathDelimiter);
 {{/isAnyType}}
-{{^isArray}}{{^isPrimitiveType}}{{^isAnyType}}{{^isMap}}
+{{#isModel}}
         paramString = pathPrefix + serializeJsonValue(QJsonValue({{paramName}}.asJsonObject()), pathStyle, {{isExplode}}, pathSuffix, assignOperator, pathDelimiter);
-{{/isMap}}{{/isAnyType}}{{/isPrimitiveType}}{{/isArray}}
+{{/isModel}}
 {{#isMap}}
         paramString.append(::{{cppNamespace}}::toStringValue({{paramName}}, assignOperator, pathDelimiter));
 {{/isMap}}
@@ -208,7 +208,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
             paramString = serializeJsonValue({{paramName}}{{^required}}.value(){{/required}}, queryStyle, {{isExplode}}, querySuffix, queryAssignOperator, queryDelimiter);
             fullPath.append(paramString);
 {{/isAnyType}}
-{{^isArray}}{{^isPrimitiveType}}{{^isAnyType}}{{^isMap}}
+{{#isModel}}
             const QJsonObject parameter = {{paramName}}{{^required}}.value(){{/required}}.asJsonObject();
             if (queryStyle == "deepObject") {
                 qint32 index = 0;
@@ -229,7 +229,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
             if (paramString.isEmpty() && queryStyle == "form")
                 paramString = u"{{baseName}}="_s;
             fullPath.append(paramString);
-{{/isMap}}{{/isAnyType}}{{/isPrimitiveType}}{{/isArray}}
+{{/isModel}}
 {{#isMap}}
             paramString.append(::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value(){{/required}}, queryAssignOperator, queryDelimiter));
             fullPath.append(paramString);

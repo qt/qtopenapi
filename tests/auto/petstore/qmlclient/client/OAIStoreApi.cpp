@@ -111,7 +111,6 @@ void OAIStoreApi::deleteOrderWithDataImpl(const QString &orderId, const QObject 
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"orderId"_s, false, (!true && !false));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(orderId));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -342,7 +341,6 @@ void OAIStoreApi::getOrderByIdWithDataImpl(const qint64 &orderId, const QObject 
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"orderId"_s, false, (!true && !false));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(orderId));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.

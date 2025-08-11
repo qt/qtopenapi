@@ -205,7 +205,6 @@ void OAITestApi::deepObjectExplodeObjectWithDataImpl(const OAITestObject &object
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             const QJsonObject parameter = objectParameter.asJsonObject();
             if (queryStyle == "deepObject") {
                 qint32 index = 0;
@@ -226,7 +225,6 @@ void OAITestApi::deepObjectExplodeObjectWithDataImpl(const OAITestObject &object
             if (paramString.isEmpty() && queryStyle == "form")
                 paramString = u"objectParameter="_s;
             fullPath.append(paramString);
-
             queryParamCounter++;
         }
     }
@@ -349,7 +347,6 @@ void OAITestApi::deepObjectNotExplodeObjectWithDataImpl(const ::OpenAPI::Optiona
         if (objectParameter.hasValue()) {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             const QJsonObject parameter = objectParameter.value().asJsonObject();
             if (queryStyle == "deepObject") {
                 qint32 index = 0;
@@ -370,7 +367,6 @@ void OAITestApi::deepObjectNotExplodeObjectWithDataImpl(const ::OpenAPI::Optiona
             if (paramString.isEmpty() && queryStyle == "form")
                 paramString = u"objectParameter="_s;
             fullPath.append(paramString);
-
             queryParamCounter++;
         }
     }
@@ -494,7 +490,6 @@ void OAITestApi::formExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParamet
                 fullPath.append("&");
             paramString = serializeJsonValue(anytypeParameter, queryStyle, true, querySuffix, queryAssignOperator, queryDelimiter);
             fullPath.append(paramString);
-
             queryParamCounter++;
         }
     }
@@ -616,7 +611,6 @@ void OAITestApi::formExplodeArrayWithDataImpl(const QList<qint32> &arrayParamete
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             fullPath.append(serializeArrayValue(arrayParameter, queryStyle, true, querySuffix, queryDelimiter));
             queryParamCounter++;
         }
@@ -743,7 +737,6 @@ void OAITestApi::formExplodeDifferentOptionsWithDataImpl(const qint32 &stringPar
         if (objectParameter.hasValue()) {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             const QJsonObject parameter = objectParameter.value().asJsonObject();
             if (queryStyle == "deepObject") {
                 qint32 index = 0;
@@ -764,7 +757,6 @@ void OAITestApi::formExplodeDifferentOptionsWithDataImpl(const qint32 &stringPar
             if (paramString.isEmpty() && queryStyle == "form")
                 paramString = u"objectParameter="_s;
             fullPath.append(paramString);
-
             queryParamCounter++;
         }
     }
@@ -783,7 +775,6 @@ void OAITestApi::formExplodeDifferentOptionsWithDataImpl(const qint32 &stringPar
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(stringParameterB)));
             queryParamCounter++;
         }
@@ -907,7 +898,6 @@ void OAITestApi::formExplodeObjectWithDataImpl(const OAITestObject &objectParame
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             const QJsonObject parameter = objectParameter.asJsonObject();
             if (queryStyle == "deepObject") {
                 qint32 index = 0;
@@ -928,7 +918,6 @@ void OAITestApi::formExplodeObjectWithDataImpl(const OAITestObject &objectParame
             if (paramString.isEmpty() && queryStyle == "form")
                 paramString = u"objectParameter="_s;
             fullPath.append(paramString);
-
             queryParamCounter++;
         }
     }
@@ -1051,7 +1040,6 @@ void OAITestApi::formExplodeStringWithDataImpl(const ::OpenAPI::OptionalParam<QS
         if (stringParameter.hasValue()) {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(stringParameter.value())));
             queryParamCounter++;
         }
@@ -1181,7 +1169,6 @@ void OAITestApi::formExplodeStringOptionsWithDataImpl(const QString &stringParam
         if (stringParameterA.hasValue()) {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(stringParameterA.value())));
             queryParamCounter++;
         } else if (stringParameterA.isNull()) {
@@ -1212,7 +1199,6 @@ void OAITestApi::formExplodeStringOptionsWithDataImpl(const QString &stringParam
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(stringParameterB)));
             queryParamCounter++;
         }
@@ -1232,7 +1218,6 @@ void OAITestApi::formExplodeStringOptionsWithDataImpl(const QString &stringParam
         if (stringParameterC.hasValue()) {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(stringParameterC.value())));
             queryParamCounter++;
         } else if (stringParameterC.isNull()) {
@@ -1368,7 +1353,6 @@ void OAITestApi::formNotExplodeAnytypeWithDataImpl(const ::OpenAPI::OptionalPara
                 fullPath.append("&");
             paramString = serializeJsonValue(anytypeParameter.value(), queryStyle, false, querySuffix, queryAssignOperator, queryDelimiter);
             fullPath.append(paramString);
-
             queryParamCounter++;
         }
     }
@@ -1490,7 +1474,6 @@ void OAITestApi::formNotExplodeArrayWithDataImpl(const ::OpenAPI::OptionalParam<
         if (arrayParameter.hasValue()) {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             fullPath.append(serializeArrayValue(arrayParameter.value(), queryStyle, false, querySuffix, queryDelimiter));
             queryParamCounter++;
         }
@@ -1614,7 +1597,6 @@ void OAITestApi::formNotExplodeObjectWithDataImpl(const ::OpenAPI::OptionalParam
         if (objectParameter.hasValue()) {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             const QJsonObject parameter = objectParameter.value().asJsonObject();
             if (queryStyle == "deepObject") {
                 qint32 index = 0;
@@ -1635,7 +1617,6 @@ void OAITestApi::formNotExplodeObjectWithDataImpl(const ::OpenAPI::OptionalParam
             if (paramString.isEmpty() && queryStyle == "form")
                 paramString = u"objectParameter="_s;
             fullPath.append(paramString);
-
             queryParamCounter++;
         }
     }
@@ -1758,7 +1739,6 @@ void OAITestApi::formNotExplodeStringWithDataImpl(const ::OpenAPI::OptionalParam
         if (stringParameter.hasValue()) {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(stringParameter.value())));
             queryParamCounter++;
         }
@@ -1876,7 +1856,6 @@ void OAITestApi::labelExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParame
         const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, anytypeParameter.type() == QJsonValue::Object);
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"anytypeParameter"_s, true, anytypeParameter.type() == QJsonValue::Object);
         QString paramString = pathPrefix + serializeJsonValue(anytypeParameter, pathStyle, true, pathSuffix, assignOperator, pathDelimiter);
-
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -1998,7 +1977,6 @@ void OAITestApi::labelExplodeArrayWithDataImpl(const QList<qint32> &arrayParamet
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, (!false && !true));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"arrayParameter"_s, true, (!false && !true));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString = pathPrefix + serializeArrayValue(arrayParameter, pathStyle, true, pathSuffix, pathDelimiter);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -2121,9 +2099,7 @@ void OAITestApi::labelExplodeObjectWithDataImpl(const OAITestObject &objectParam
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, (!false && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"objectParameter"_s, true, (!false && !false));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString = pathPrefix + serializeJsonValue(QJsonValue(objectParameter.asJsonObject()), pathStyle, true, pathSuffix, assignOperator, pathDelimiter);
-
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -2245,7 +2221,6 @@ void OAITestApi::labelExplodeStringWithDataImpl(const QString &stringParameter, 
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, (!true && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"stringParameter"_s, true, (!true && !false));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(stringParameter));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -2368,7 +2343,6 @@ void OAITestApi::labelNotExplodeAnytypeWithDataImpl(const QJsonValue &anytypePar
         const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, anytypeParameter.type() == QJsonValue::Object);
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"anytypeParameter"_s, false, anytypeParameter.type() == QJsonValue::Object);
         QString paramString = pathPrefix + serializeJsonValue(anytypeParameter, pathStyle, false, pathSuffix, assignOperator, pathDelimiter);
-
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -2490,7 +2464,6 @@ void OAITestApi::labelNotExplodeArrayWithDataImpl(const QList<qint32> &arrayPara
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !true));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"arrayParameter"_s, false, (!false && !true));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString = pathPrefix + serializeArrayValue(arrayParameter, pathStyle, false, pathSuffix, pathDelimiter);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -2613,9 +2586,7 @@ void OAITestApi::labelNotExplodeObjectWithDataImpl(const OAITestObject &objectPa
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"objectParameter"_s, false, (!false && !false));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString = pathPrefix + serializeJsonValue(QJsonValue(objectParameter.asJsonObject()), pathStyle, false, pathSuffix, assignOperator, pathDelimiter);
-
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -2737,7 +2708,6 @@ void OAITestApi::labelNotExplodeStringWithDataImpl(const QString &stringParamete
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"stringParameter"_s, false, (!true && !false));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(stringParameter));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -2860,7 +2830,6 @@ void OAITestApi::matrixExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParam
         const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, anytypeParameter.type() == QJsonValue::Object);
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"anytypeParameter"_s, true, anytypeParameter.type() == QJsonValue::Object);
         QString paramString = pathPrefix + serializeJsonValue(anytypeParameter, pathStyle, true, pathSuffix, assignOperator, pathDelimiter);
-
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -2982,7 +2951,6 @@ void OAITestApi::matrixExplodeArrayWithDataImpl(const QList<qint32> &arrayParame
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, (!false && !true));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"arrayParameter"_s, true, (!false && !true));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString = pathPrefix + serializeArrayValue(arrayParameter, pathStyle, true, pathSuffix, pathDelimiter);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -3105,9 +3073,7 @@ void OAITestApi::matrixExplodeObjectWithDataImpl(const OAITestObject &objectPara
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, (!false && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"objectParameter"_s, true, (!false && !false));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString = pathPrefix + serializeJsonValue(QJsonValue(objectParameter.asJsonObject()), pathStyle, true, pathSuffix, assignOperator, pathDelimiter);
-
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -3229,7 +3195,6 @@ void OAITestApi::matrixExplodeStringWithDataImpl(const QString &stringParameter,
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, (!true && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"stringParameter"_s, true, (!true && !false));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(stringParameter));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -3352,7 +3317,6 @@ void OAITestApi::matrixNotExplodeAnytypeWithDataImpl(const QJsonValue &anytypePa
         const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, anytypeParameter.type() == QJsonValue::Object);
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"anytypeParameter"_s, false, anytypeParameter.type() == QJsonValue::Object);
         QString paramString = pathPrefix + serializeJsonValue(anytypeParameter, pathStyle, false, pathSuffix, assignOperator, pathDelimiter);
-
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -3474,7 +3438,6 @@ void OAITestApi::matrixNotExplodeArrayWithDataImpl(const QList<qint32> &arrayPar
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !true));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"arrayParameter"_s, false, (!false && !true));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString = pathPrefix + serializeArrayValue(arrayParameter, pathStyle, false, pathSuffix, pathDelimiter);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -3597,9 +3560,7 @@ void OAITestApi::matrixNotExplodeObjectWithDataImpl(const OAITestObject &objectP
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"objectParameter"_s, false, (!false && !false));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString = pathPrefix + serializeJsonValue(QJsonValue(objectParameter.asJsonObject()), pathStyle, false, pathSuffix, assignOperator, pathDelimiter);
-
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -3721,7 +3682,6 @@ void OAITestApi::matrixNotExplodeStringWithDataImpl(const QString &stringParamet
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"stringParameter"_s, false, (!true && !false));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(stringParameter));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -3851,7 +3811,6 @@ void OAITestApi::pipeDelimitedExplodeAnytypeWithDataImpl(const QJsonValue &anyty
                 fullPath.append("&");
             paramString = serializeJsonValue(anytypeParameter, queryStyle, true, querySuffix, queryAssignOperator, queryDelimiter);
             fullPath.append(paramString);
-
             queryParamCounter++;
         }
     }
@@ -3973,7 +3932,6 @@ void OAITestApi::pipeDelimitedExplodeArrayWithDataImpl(const QList<qint32> &arra
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             fullPath.append(serializeArrayValue(arrayParameter, queryStyle, true, querySuffix, queryDelimiter));
             queryParamCounter++;
         }
@@ -4097,7 +4055,6 @@ void OAITestApi::pipeDelimitedExplodeObjectWithDataImpl(const OAITestObject &obj
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             const QJsonObject parameter = objectParameter.asJsonObject();
             if (queryStyle == "deepObject") {
                 qint32 index = 0;
@@ -4118,7 +4075,6 @@ void OAITestApi::pipeDelimitedExplodeObjectWithDataImpl(const OAITestObject &obj
             if (paramString.isEmpty() && queryStyle == "form")
                 paramString = u"objectParameter="_s;
             fullPath.append(paramString);
-
             queryParamCounter++;
         }
     }
@@ -4242,7 +4198,6 @@ void OAITestApi::pipeDelimitedNotExplodeAnytypeWithDataImpl(const ::OpenAPI::Opt
                 fullPath.append("&");
             paramString = serializeJsonValue(anytypeParameter.value(), queryStyle, false, querySuffix, queryAssignOperator, queryDelimiter);
             fullPath.append(paramString);
-
             queryParamCounter++;
         }
     }
@@ -4364,7 +4319,6 @@ void OAITestApi::pipeDelimitedNotExplodeArrayWithDataImpl(const ::OpenAPI::Optio
         if (arrayParameter.hasValue()) {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             fullPath.append(serializeArrayValue(arrayParameter.value(), queryStyle, false, querySuffix, queryDelimiter));
             queryParamCounter++;
         }
@@ -4488,7 +4442,6 @@ void OAITestApi::pipeDelimitedNotExplodeObjectWithDataImpl(const ::OpenAPI::Opti
         if (objectParameter.hasValue()) {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             const QJsonObject parameter = objectParameter.value().asJsonObject();
             if (queryStyle == "deepObject") {
                 qint32 index = 0;
@@ -4509,7 +4462,6 @@ void OAITestApi::pipeDelimitedNotExplodeObjectWithDataImpl(const ::OpenAPI::Opti
             if (paramString.isEmpty() && queryStyle == "form")
                 paramString = u"objectParameter="_s;
             fullPath.append(paramString);
-
             queryParamCounter++;
         }
     }
@@ -4626,7 +4578,6 @@ void OAITestApi::simpleExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParam
         const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, anytypeParameter.type() == QJsonValue::Object);
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"anytypeParameter"_s, true, anytypeParameter.type() == QJsonValue::Object);
         QString paramString = pathPrefix + serializeJsonValue(anytypeParameter, pathStyle, true, pathSuffix, assignOperator, pathDelimiter);
-
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -4748,7 +4699,6 @@ void OAITestApi::simpleExplodeArrayWithDataImpl(const QList<qint32> &arrayParame
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, (!false && !true));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"arrayParameter"_s, true, (!false && !true));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString = pathPrefix + serializeArrayValue(arrayParameter, pathStyle, true, pathSuffix, pathDelimiter);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -4871,9 +4821,7 @@ void OAITestApi::simpleExplodeObjectWithDataImpl(const OAITestObject &objectPara
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, (!false && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"objectParameter"_s, true, (!false && !false));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString = pathPrefix + serializeJsonValue(QJsonValue(objectParameter.asJsonObject()), pathStyle, true, pathSuffix, assignOperator, pathDelimiter);
-
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -4995,7 +4943,6 @@ void OAITestApi::simpleExplodeStringWithDataImpl(const QString &stringParameter,
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, (!true && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"stringParameter"_s, true, (!true && !false));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(stringParameter));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -5118,7 +5065,6 @@ void OAITestApi::simpleNotExplodeAnytypeWithDataImpl(const QJsonValue &anytypePa
         const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, anytypeParameter.type() == QJsonValue::Object);
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"anytypeParameter"_s, false, anytypeParameter.type() == QJsonValue::Object);
         QString paramString = pathPrefix + serializeJsonValue(anytypeParameter, pathStyle, false, pathSuffix, assignOperator, pathDelimiter);
-
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -5240,7 +5186,6 @@ void OAITestApi::simpleNotExplodeArrayWithDataImpl(const QList<qint32> &arrayPar
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !true));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"arrayParameter"_s, false, (!false && !true));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString = pathPrefix + serializeArrayValue(arrayParameter, pathStyle, false, pathSuffix, pathDelimiter);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -5363,9 +5308,7 @@ void OAITestApi::simpleNotExplodeObjectWithDataImpl(const OAITestObject &objectP
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"objectParameter"_s, false, (!false && !false));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString = pathPrefix + serializeJsonValue(QJsonValue(objectParameter.asJsonObject()), pathStyle, false, pathSuffix, assignOperator, pathDelimiter);
-
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -5487,7 +5430,6 @@ void OAITestApi::simpleNotExplodeStringWithDataImpl(const QString &stringParamet
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"stringParameter"_s, false, (!true && !false));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(stringParameter));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -5617,7 +5559,6 @@ void OAITestApi::spaceDelimitedExplodeAnytypeWithDataImpl(const QJsonValue &anyt
                 fullPath.append("&");
             paramString = serializeJsonValue(anytypeParameter, queryStyle, true, querySuffix, queryAssignOperator, queryDelimiter);
             fullPath.append(paramString);
-
             queryParamCounter++;
         }
     }
@@ -5739,7 +5680,6 @@ void OAITestApi::spaceDelimitedExplodeArrayWithDataImpl(const QList<qint32> &arr
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             fullPath.append(serializeArrayValue(arrayParameter, queryStyle, true, querySuffix, queryDelimiter));
             queryParamCounter++;
         }
@@ -5863,7 +5803,6 @@ void OAITestApi::spaceDelimitedExplodeObjectWithDataImpl(const OAITestObject &ob
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             const QJsonObject parameter = objectParameter.asJsonObject();
             if (queryStyle == "deepObject") {
                 qint32 index = 0;
@@ -5884,7 +5823,6 @@ void OAITestApi::spaceDelimitedExplodeObjectWithDataImpl(const OAITestObject &ob
             if (paramString.isEmpty() && queryStyle == "form")
                 paramString = u"objectParameter="_s;
             fullPath.append(paramString);
-
             queryParamCounter++;
         }
     }
@@ -6008,7 +5946,6 @@ void OAITestApi::spaceDelimitedNotExplodeAnytypeWithDataImpl(const ::OpenAPI::Op
                 fullPath.append("&");
             paramString = serializeJsonValue(anytypeParameter.value(), queryStyle, false, querySuffix, queryAssignOperator, queryDelimiter);
             fullPath.append(paramString);
-
             queryParamCounter++;
         }
     }
@@ -6130,7 +6067,6 @@ void OAITestApi::spaceDelimitedNotExplodeArrayWithDataImpl(const ::OpenAPI::Opti
         if (arrayParameter.hasValue()) {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             fullPath.append(serializeArrayValue(arrayParameter.value(), queryStyle, false, querySuffix, queryDelimiter));
             queryParamCounter++;
         }
@@ -6254,7 +6190,6 @@ void OAITestApi::spaceDelimitedNotExplodeObjectWithDataImpl(const ::OpenAPI::Opt
         if (objectParameter.hasValue()) {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             const QJsonObject parameter = objectParameter.value().asJsonObject();
             if (queryStyle == "deepObject") {
                 qint32 index = 0;
@@ -6275,7 +6210,6 @@ void OAITestApi::spaceDelimitedNotExplodeObjectWithDataImpl(const ::OpenAPI::Opt
             if (paramString.isEmpty() && queryStyle == "form")
                 paramString = u"objectParameter="_s;
             fullPath.append(paramString);
-
             queryParamCounter++;
         }
     }

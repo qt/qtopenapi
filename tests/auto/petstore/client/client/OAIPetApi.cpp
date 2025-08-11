@@ -244,7 +244,6 @@ void OAIPetApi::deletePetWithDataImpl(const qint64 &petId, const ::OpenAPI::Opti
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"petId"_s, false, (!true && !false));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(petId));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -369,7 +368,6 @@ void OAIPetApi::findPetsByAgeAndPatienceWithDataImpl(const QList<qint32> &petDat
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !true));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"petData"_s, false, (!false && !true));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString = pathPrefix + serializeArrayValue(petData, pathStyle, false, pathSuffix, pathDelimiter);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -505,7 +503,6 @@ void OAIPetApi::findPetsByStatusWithDataImpl(const QList<QString> &status, const
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             fullPath.append(serializeArrayValue(status, queryStyle, false, querySuffix, queryDelimiter));
             queryParamCounter++;
         }
@@ -636,7 +633,6 @@ void OAIPetApi::findPetsByTagsWithDataImpl(const QList<QString> &tags, const QOb
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             fullPath.append(serializeArrayValue(tags, queryStyle, false, querySuffix, queryDelimiter));
             queryParamCounter++;
         }
@@ -768,7 +764,6 @@ void OAIPetApi::findPetsImageByIdWithDataImpl(const qint64 &petId, const QObject
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(petId)));
             queryParamCounter++;
         }
@@ -886,7 +881,6 @@ void OAIPetApi::getJsonFileWithDataImpl(const qint64 &petId, const QObject *cont
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"petId"_s, false, (!true && !false));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(petId));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -1013,7 +1007,6 @@ void OAIPetApi::getPetByIdWithDataImpl(const qint64 &petId, const QObject *conte
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"petId"_s, false, (!true && !false));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(petId));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -1257,7 +1250,6 @@ void OAIPetApi::updatePetWithFormWithDataImpl(const qint64 &petId, const ::OpenA
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"petId"_s, false, (!true && !false));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(petId));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -1388,7 +1380,6 @@ void OAIPetApi::uploadFileWithDataImpl(const qint64 &petId, const ::OpenAPI::Opt
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"petId"_s, false, (!true && !false));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(petId));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.

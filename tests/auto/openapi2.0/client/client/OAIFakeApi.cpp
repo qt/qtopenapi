@@ -119,7 +119,6 @@ void OAIFakeApi::testPathParameterCollectionFormatWithDataImpl(const QList<QStri
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !true));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"pipeId"_s, false, (!false && !true));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString = pathPrefix + serializeArrayValue(pipeId, pathStyle, false, pathSuffix, pathDelimiter);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -138,7 +137,6 @@ void OAIFakeApi::testPathParameterCollectionFormatWithDataImpl(const QList<QStri
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !true));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"ioutilId"_s, false, (!false && !true));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString = pathPrefix + serializeArrayValue(ioutilId, pathStyle, false, pathSuffix, pathDelimiter);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -157,7 +155,6 @@ void OAIFakeApi::testPathParameterCollectionFormatWithDataImpl(const QList<QStri
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !true));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"httpId"_s, false, (!false && !true));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString = pathPrefix + serializeArrayValue(httpId, pathStyle, false, pathSuffix, pathDelimiter);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -176,7 +173,6 @@ void OAIFakeApi::testPathParameterCollectionFormatWithDataImpl(const QList<QStri
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !true));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"urlId"_s, false, (!false && !true));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString = pathPrefix + serializeArrayValue(urlId, pathStyle, false, pathSuffix, pathDelimiter);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -195,7 +191,6 @@ void OAIFakeApi::testPathParameterCollectionFormatWithDataImpl(const QList<QStri
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !true));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"multiContextId"_s, false, (!false && !true));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString = pathPrefix + serializeArrayValue(multiContextId, pathStyle, false, pathSuffix, pathDelimiter);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -335,7 +330,6 @@ void OAIFakeApi::testQueryParameterCollectionFormatWithDataImpl(const QList<QStr
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             fullPath.append(serializeArrayValue(pipe, queryStyle, false, querySuffix, queryDelimiter));
             queryParamCounter++;
         }
@@ -354,7 +348,6 @@ void OAIFakeApi::testQueryParameterCollectionFormatWithDataImpl(const QList<QStr
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             fullPath.append(serializeArrayValue(ioutil, queryStyle, false, querySuffix, queryDelimiter));
             queryParamCounter++;
         }
@@ -373,7 +366,6 @@ void OAIFakeApi::testQueryParameterCollectionFormatWithDataImpl(const QList<QStr
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             fullPath.append(serializeArrayValue(http, queryStyle, false, querySuffix, queryDelimiter));
             queryParamCounter++;
         }
@@ -392,7 +384,6 @@ void OAIFakeApi::testQueryParameterCollectionFormatWithDataImpl(const QList<QStr
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             fullPath.append(serializeArrayValue(url, queryStyle, false, querySuffix, queryDelimiter));
             queryParamCounter++;
         }
@@ -411,7 +402,6 @@ void OAIFakeApi::testQueryParameterCollectionFormatWithDataImpl(const QList<QStr
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             fullPath.append(serializeArrayValue(multiContext, queryStyle, true, querySuffix, queryDelimiter));
             queryParamCounter++;
         }

@@ -121,7 +121,6 @@ void OAIDefaultApi::testOperationWithDataImpl(const qint32 &pathParam, const ::O
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"path_param"_s, false, (!true && !false));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(pathParam));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -146,7 +145,6 @@ void OAIDefaultApi::testOperationWithDataImpl(const qint32 &pathParam, const ::O
         if (queryParam0.hasValue()) {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(queryParam0.value())));
             queryParamCounter++;
         }
@@ -166,7 +164,6 @@ void OAIDefaultApi::testOperationWithDataImpl(const qint32 &pathParam, const ::O
         if (queryParam1.hasValue()) {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             const QJsonObject parameter = queryParam1.value().asJsonObject();
             if (queryStyle == "deepObject") {
                 qint32 index = 0;
@@ -187,7 +184,6 @@ void OAIDefaultApi::testOperationWithDataImpl(const qint32 &pathParam, const ::O
             if (paramString.isEmpty() && queryStyle == "form")
                 paramString = u"query_param1="_s;
             fullPath.append(paramString);
-
             queryParamCounter++;
         } else if (queryParam1.isNull()) {
             if (queryParamCounter > 0)
@@ -216,7 +212,6 @@ void OAIDefaultApi::testOperationWithDataImpl(const qint32 &pathParam, const ::O
         if (queryParam2.hasValue()) {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             fullPath.append(serializeArrayValue(queryParam2.value(), queryStyle, true, querySuffix, queryDelimiter));
             queryParamCounter++;
         }

@@ -127,7 +127,6 @@ void OAIUserApi::createInQueryMapWithDataImpl(const QMap<QString, QString> &user
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             paramString.append(::OpenAPI::toStringValue(username, queryAssignOperator, queryDelimiter));
             fullPath.append(paramString);
             queryParamCounter++;
@@ -575,9 +574,7 @@ void OAIUserApi::deleteUserWithDataImpl(const OAIUser &username, const QObject *
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"username"_s, false, (!false && !false));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString = pathPrefix + serializeJsonValue(QJsonValue(username.asJsonObject()), pathStyle, false, pathSuffix, assignOperator, pathDelimiter);
-
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -695,7 +692,6 @@ void OAIUserApi::getUserByNameWithDataImpl(const QMap<QString, qint32> &username
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"username"_s, false, (!false && !false));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString.append(::OpenAPI::toStringValue(username, assignOperator, pathDelimiter));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -826,7 +822,6 @@ void OAIUserApi::loginUserWithDataImpl(const ::OpenAPI::OptionalParam<QString> &
         if (username.hasValue()) {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(username.value())));
             queryParamCounter++;
         } else if (username.isNull()) {
@@ -857,7 +852,6 @@ void OAIUserApi::loginUserWithDataImpl(const ::OpenAPI::OptionalParam<QString> &
         if (password.hasValue()) {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(password.value())));
             queryParamCounter++;
         } else if (password.isNull()) {
@@ -997,7 +991,6 @@ void OAIUserApi::logoutUserWithDataImpl(const QJsonValue &username, const QObjec
                 fullPath.append("&");
             paramString = serializeJsonValue(username, queryStyle, true, querySuffix, queryAssignOperator, queryDelimiter);
             fullPath.append(paramString);
-
             queryParamCounter++;
         }
     }
@@ -1117,7 +1110,6 @@ void OAIUserApi::updateUserWithDataImpl(const QString &username, const OAIUser &
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"username"_s, false, (!true && !false));
         QString paramString = pathPrefix + pathSuffix;
-
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(username));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -1142,7 +1134,6 @@ void OAIUserApi::updateUserWithDataImpl(const QString &username, const OAIUser &
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-
             const QJsonObject parameter = body.asJsonObject();
             if (queryStyle == "deepObject") {
                 qint32 index = 0;
@@ -1163,7 +1154,6 @@ void OAIUserApi::updateUserWithDataImpl(const QString &username, const OAIUser &
             if (paramString.isEmpty() && queryStyle == "form")
                 paramString = u"body="_s;
             fullPath.append(paramString);
-
             queryParamCounter++;
         }
     }
