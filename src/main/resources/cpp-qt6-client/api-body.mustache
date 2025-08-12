@@ -388,7 +388,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{/cookieParams}}
     QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = {{prefix}}HttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
