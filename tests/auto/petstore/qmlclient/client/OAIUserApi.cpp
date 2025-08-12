@@ -351,7 +351,7 @@ void OAIUserApi::createUsersWithArrayInputWithDataImpl(const QList<OAIUser> &oAI
     {
 
         QJsonDocument doc(::OpenAPI::toJsonValue(oAIUser).toArray());
-        QByteArray bytes = doc.toJson();
+        QByteArray bytes = doc.toJson(QJsonDocument::Compact);
         input.m_requestBody.append(bytes);
     }
     QByteArray requestContent;
@@ -461,7 +461,7 @@ void OAIUserApi::createUsersWithListInputWithDataImpl(const QList<OAIUser> &oAIU
     {
 
         QJsonDocument doc(::OpenAPI::toJsonValue(oAIUser).toArray());
-        QByteArray bytes = doc.toJson();
+        QByteArray bytes = doc.toJson(QJsonDocument::Compact);
         input.m_requestBody.append(bytes);
     }
     QByteArray requestContent;
