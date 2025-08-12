@@ -125,7 +125,6 @@ void OAIPetApi::addPetWithDataImpl(const OAIPet &oAIPet, const QObject *context,
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
     {
-
         QByteArray output = oAIPet.asJson().toUtf8();
         input.m_requestBody.append(output);
     }
@@ -1131,7 +1130,6 @@ void OAIPetApi::updatePetWithDataImpl(const OAIPet &oAIPet, const QObject *conte
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "PUT");
     {
-
         QByteArray output = oAIPet.asJson().toUtf8();
         input.m_requestBody.append(output);
     }

@@ -240,7 +240,6 @@ void OAIUserApi::createUserWithDataImpl(const OAIUser &oAIUser, const QObject *c
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
     {
-
         QByteArray output = oAIUser.asJson().toUtf8();
         input.m_requestBody.append(output);
     }
@@ -349,7 +348,6 @@ void OAIUserApi::createUsersWithArrayInputWithDataImpl(const QList<OAIUser> &oAI
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
     {
-
         QJsonDocument doc(::OpenAPI::toJsonValue(oAIUser).toArray());
         QByteArray bytes = doc.toJson(QJsonDocument::Compact);
         input.m_requestBody.append(bytes);
@@ -459,7 +457,6 @@ void OAIUserApi::createUsersWithListInputWithDataImpl(const QList<OAIUser> &oAIU
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
     {
-
         QJsonDocument doc(::OpenAPI::toJsonValue(oAIUser).toArray());
         QByteArray bytes = doc.toJson(QJsonDocument::Compact);
         input.m_requestBody.append(bytes);

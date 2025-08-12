@@ -220,7 +220,6 @@ void OAIDefaultApi::testOperationWithDataImpl(const qint32 &pathParam, const ::O
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
     if (oAITestOperationRequest.hasValue()) {
-
         QByteArray output = oAITestOperationRequest.value().asJson().toUtf8();
         input.m_requestBody.append(output);
     } else if (oAITestOperationRequest.isNull()) {

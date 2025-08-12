@@ -366,7 +366,6 @@ void OAIUsersApi::loginUserWithDataImpl(const ::OpenAPI::OptionalParam<OAITestOp
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
     if (oAITestOperationRequest.hasValue()) {
-
         QByteArray output = oAITestOperationRequest.value().asJson().toUtf8();
         input.m_requestBody.append(output);
     } else if (oAITestOperationRequest.isNull()) {
@@ -591,7 +590,6 @@ void OAIUsersApi::updateUserWithDataImpl(const qint64 &id, const ::OpenAPI::Opti
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "PATCH");
     if (oAIUpdateUserRequest.hasValue()) {
-
         QByteArray output = oAIUpdateUserRequest.value().asJson().toUtf8();
         input.m_requestBody.append(output);
     }

@@ -112,7 +112,6 @@ void OAIColorsApi::addColorWithDataImpl(const OAIColor &oAIColor, const QObject 
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
     {
-
         QByteArray output = oAIColor.asJson().toUtf8();
         input.m_requestBody.append(output);
     }
@@ -602,7 +601,6 @@ void OAIColorsApi::updateColorByIdWithDataImpl(const qint64 &id, const OAIColor 
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "PUT");
     {
-
         QByteArray output = oAIColor.asJson().toUtf8();
         input.m_requestBody.append(output);
     }

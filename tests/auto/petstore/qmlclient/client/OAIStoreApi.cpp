@@ -457,7 +457,6 @@ void OAIStoreApi::placeOrderWithDataImpl(const OAIOrder &oAIOrder, const QObject
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
     {
-
         QByteArray output = oAIOrder.asJson().toUtf8();
         input.m_requestBody.append(output);
     }

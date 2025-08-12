@@ -270,13 +270,35 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{/formParams}}
 {{#bodyParams}}
     {{^required}}if ({{paramName}}.hasValue()) {{/required}}{
-{{#isContainer}}{{#isArray}}
-        QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}{{^required}}.value(){{/required}}).toArray());{{/isArray}}{{#isMap}}
-        QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}{{^required}}.value(){{/required}}).toObject());{{/isMap}}
+{{#isContainer}}
+{{#isArray}}
+        QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}{{^required}}.value(){{/required}}).toArray());
+{{/isArray}}
+{{#isMap}}
+        QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}{{^required}}.value(){{/required}}).toObject());
+{{/isMap}}
         QByteArray bytes = doc.toJson(QJsonDocument::Compact);
         input.m_requestBody.append(bytes);
-{{/isContainer}}{{^isContainer}}
-        {{#isString}}QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.toUtf8();{{/isString}}{{#isByteArray}}QByteArray output({{paramName}}{{^required}}.value(){{/required}});{{/isByteArray}}{{#isNumeric}}QByteArray output = QByteArray::number({{paramName}}{{^required}}.value(){{/required}});{{/isNumeric}}{{^isString}}{{^isByteArray}}{{^isFile}}{{^isNumeric}}QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.asJson().toUtf8();{{/isNumeric}}{{/isFile}}{{/isByteArray}}{{/isString}}{{#isFile}}{{#hasConsumes}}input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, {{#consumes}}{{^-first}}, {{/-first}}"{{{mediaType}}}"_L1{{/consumes}});{{/hasConsumes}}QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.asByteArray();{{/isFile}}
+{{/isContainer}}
+{{^isContainer}}
+{{#isString}}
+        QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.toUtf8();
+{{/isString}}
+{{#isByteArray}}
+        QByteArray output({{paramName}}{{^required}}.value(){{/required}});
+{{/isByteArray}}
+{{#isNumeric}}
+        QByteArray output = QByteArray::number({{paramName}}{{^required}}.value(){{/required}});
+{{/isNumeric}}
+{{#isModel}}
+        QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.asJson().toUtf8();
+{{/isModel}}
+{{#isFile}}
+{{#hasConsumes}}
+        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, {{#consumes}}{{^-first}}, {{/-first}}"{{{mediaType}}}"_L1{{/consumes}});
+{{/hasConsumes}}
+        QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.asByteArray();
+{{/isFile}}
         input.m_requestBody.append(output);
 {{/isContainer}}
     }{{^required}}{{#isNullable}} else if ({{paramName}}.isNull()) {
