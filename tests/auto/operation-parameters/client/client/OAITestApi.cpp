@@ -231,11 +231,10 @@ void OAITestApi::deepObjectExplodeObjectWithDataImpl(const OAITestObject &object
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -373,11 +372,10 @@ void OAITestApi::deepObjectNotExplodeObjectWithDataImpl(const ::OpenAPI::Optiona
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -496,11 +494,10 @@ void OAITestApi::formExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParamet
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -618,11 +615,10 @@ void OAITestApi::formExplodeArrayWithDataImpl(const QList<qint32> &arrayParamete
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -782,11 +778,10 @@ void OAITestApi::formExplodeDifferentOptionsWithDataImpl(const qint32 &stringPar
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -924,11 +919,10 @@ void OAITestApi::formExplodeObjectWithDataImpl(const OAITestObject &objectParame
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -1047,11 +1041,10 @@ void OAITestApi::formExplodeStringWithDataImpl(const ::OpenAPI::OptionalParam<QS
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -1236,11 +1229,10 @@ void OAITestApi::formExplodeStringOptionsWithDataImpl(const QString &stringParam
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -1359,11 +1351,10 @@ void OAITestApi::formNotExplodeAnytypeWithDataImpl(const ::OpenAPI::OptionalPara
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -1481,11 +1472,10 @@ void OAITestApi::formNotExplodeArrayWithDataImpl(const ::OpenAPI::OptionalParam<
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -1623,11 +1613,10 @@ void OAITestApi::formNotExplodeObjectWithDataImpl(const ::OpenAPI::OptionalParam
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -1746,11 +1735,10 @@ void OAITestApi::formNotExplodeStringWithDataImpl(const ::OpenAPI::OptionalParam
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -1867,11 +1855,10 @@ void OAITestApi::labelExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParame
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -1989,11 +1976,10 @@ void OAITestApi::labelExplodeArrayWithDataImpl(const QList<qint32> &arrayParamet
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -2111,11 +2097,10 @@ void OAITestApi::labelExplodeObjectWithDataImpl(const OAITestObject &objectParam
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -2233,11 +2218,10 @@ void OAITestApi::labelExplodeStringWithDataImpl(const QString &stringParameter, 
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -2354,11 +2338,10 @@ void OAITestApi::labelNotExplodeAnytypeWithDataImpl(const QJsonValue &anytypePar
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -2476,11 +2459,10 @@ void OAITestApi::labelNotExplodeArrayWithDataImpl(const QList<qint32> &arrayPara
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -2598,11 +2580,10 @@ void OAITestApi::labelNotExplodeObjectWithDataImpl(const OAITestObject &objectPa
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -2720,11 +2701,10 @@ void OAITestApi::labelNotExplodeStringWithDataImpl(const QString &stringParamete
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -2841,11 +2821,10 @@ void OAITestApi::matrixExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParam
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -2963,11 +2942,10 @@ void OAITestApi::matrixExplodeArrayWithDataImpl(const QList<qint32> &arrayParame
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -3085,11 +3063,10 @@ void OAITestApi::matrixExplodeObjectWithDataImpl(const OAITestObject &objectPara
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -3207,11 +3184,10 @@ void OAITestApi::matrixExplodeStringWithDataImpl(const QString &stringParameter,
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -3328,11 +3304,10 @@ void OAITestApi::matrixNotExplodeAnytypeWithDataImpl(const QJsonValue &anytypePa
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -3450,11 +3425,10 @@ void OAITestApi::matrixNotExplodeArrayWithDataImpl(const QList<qint32> &arrayPar
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -3572,11 +3546,10 @@ void OAITestApi::matrixNotExplodeObjectWithDataImpl(const OAITestObject &objectP
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -3694,11 +3667,10 @@ void OAITestApi::matrixNotExplodeStringWithDataImpl(const QString &stringParamet
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -3817,11 +3789,10 @@ void OAITestApi::pipeDelimitedExplodeAnytypeWithDataImpl(const QJsonValue &anyty
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -3939,11 +3910,10 @@ void OAITestApi::pipeDelimitedExplodeArrayWithDataImpl(const QList<qint32> &arra
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -4081,11 +4051,10 @@ void OAITestApi::pipeDelimitedExplodeObjectWithDataImpl(const OAITestObject &obj
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -4204,11 +4173,10 @@ void OAITestApi::pipeDelimitedNotExplodeAnytypeWithDataImpl(const ::OpenAPI::Opt
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -4326,11 +4294,10 @@ void OAITestApi::pipeDelimitedNotExplodeArrayWithDataImpl(const ::OpenAPI::Optio
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -4468,11 +4435,10 @@ void OAITestApi::pipeDelimitedNotExplodeObjectWithDataImpl(const ::OpenAPI::Opti
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -4589,11 +4555,10 @@ void OAITestApi::simpleExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParam
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -4711,11 +4676,10 @@ void OAITestApi::simpleExplodeArrayWithDataImpl(const QList<qint32> &arrayParame
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -4833,11 +4797,10 @@ void OAITestApi::simpleExplodeObjectWithDataImpl(const OAITestObject &objectPara
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -4955,11 +4918,10 @@ void OAITestApi::simpleExplodeStringWithDataImpl(const QString &stringParameter,
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -5076,11 +5038,10 @@ void OAITestApi::simpleNotExplodeAnytypeWithDataImpl(const QJsonValue &anytypePa
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -5198,11 +5159,10 @@ void OAITestApi::simpleNotExplodeArrayWithDataImpl(const QList<qint32> &arrayPar
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -5320,11 +5280,10 @@ void OAITestApi::simpleNotExplodeObjectWithDataImpl(const OAITestObject &objectP
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -5442,11 +5401,10 @@ void OAITestApi::simpleNotExplodeStringWithDataImpl(const QString &stringParamet
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -5565,11 +5523,10 @@ void OAITestApi::spaceDelimitedExplodeAnytypeWithDataImpl(const QJsonValue &anyt
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -5687,11 +5644,10 @@ void OAITestApi::spaceDelimitedExplodeArrayWithDataImpl(const QList<qint32> &arr
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -5829,11 +5785,10 @@ void OAITestApi::spaceDelimitedExplodeObjectWithDataImpl(const OAITestObject &ob
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -5952,11 +5907,10 @@ void OAITestApi::spaceDelimitedNotExplodeAnytypeWithDataImpl(const ::OpenAPI::Op
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -6074,11 +6028,10 @@ void OAITestApi::spaceDelimitedNotExplodeArrayWithDataImpl(const ::OpenAPI::Opti
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -6216,11 +6169,10 @@ void OAITestApi::spaceDelimitedNotExplodeObjectWithDataImpl(const ::OpenAPI::Opt
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});

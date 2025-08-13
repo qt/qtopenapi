@@ -1,0 +1,212 @@
+openapi: 3.1.1
+info:
+  description: |
+    This specification is intended for testing purposes. It demonstrates a wide range of content types for requestBody. The goal is to verify correct url for each case.
+  title: Operation Parameters Test
+  version: 1.0.0
+servers:
+- url: http://127.0.0.1:10209/v2
+tags:
+- description: test operations
+  name: test
+paths:
+  /reqBody/appjson/string/postApplicationJsonString:
+    post:
+      operationId: postApplicationJsonString
+      requestBody:
+        content:
+          application/json:
+            schema:
+              nullable: true
+              type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+      summary: "Get request-body, application-json, string"
+      tags:
+      - test
+  /reqBody/appjson/bool/postApplicationJsonBool:
+    post:
+      operationId: postApplicationJsonBool
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: boolean
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+      summary: "Post request-body, application-json, boolean"
+      tags:
+      - test
+  /reqBody/appjson/integer/postApplicationJsonInt:
+    post:
+      operationId: postApplicationJsonInt
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+      summary: "Post request-body, application-json, integer"
+      tags:
+      - test
+  /reqBody/appjson/array/postApplicationJsonArray:
+    post:
+      operationId: postApplicationJsonArray
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: "#/components/schemas/User"
+              type: array
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+      summary: "Put request-body, application-json, array"
+      tags:
+      - test
+  /reqBody/appjson/object/postApplicationJsonMap:
+    post:
+      operationId: postApplicationJsonMap
+      requestBody:
+        content:
+          application/json:
+            schema:
+              additionalProperties:
+                $ref: "#/components/schemas/User"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+      summary: "Post request-body, application-json, map of object"
+      tags:
+      - test
+  /reqBody/appjson/object/postApplicationJsonObject:
+    post:
+      operationId: postApplicationJsonObject
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+      summary: "Post request-body, application-json, object"
+      tags:
+      - test
+  /reqBody/appjson/object/postApplicationJsonSeveralObjects:
+    post:
+      operationId: postApplicationJsonSeveralObjects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/postApplicationJsonSeveralObjects_request"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+      summary: "Post request-body, application-json, object"
+      tags:
+      - test
+  /reqBody/octetstream/binaryType:
+    post:
+      description: Test body parameter
+      operationId: binaryType
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              format: binary
+              type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+      summary: Test body parameter
+      tags:
+      - test
+  /reqBody/string/postPlainTextType:
+    post:
+      operationId: postPlainTextType
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+      summary: "Post a simple text, like a user input"
+      tags:
+      - test
+components:
+  schemas:
+    User:
+      example:
+        name: name
+        age: 0
+        status: status
+      properties:
+        name:
+          description: User name
+          type: string
+        status:
+          description: User status
+          type: string
+        age:
+          description: User age
+          format: int32
+          type: integer
+    postApplicationJsonSeveralObjects_request:
+      properties:
+        uuid:
+          format: uuid
+          type: string
+        user:
+          $ref: "#/components/schemas/User"

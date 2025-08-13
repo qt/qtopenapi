@@ -15,6 +15,7 @@ tests/auto/*/server/Dockerfile
 tests/auto/*/server/go/README.md
 tests/auto/operation-parameters/server/server-app
 tests/auto/openapi2.0/server/backport-server-app
+tests/auto/mediatype/server/mediatype-server-app
 tests/auto/colorpalette/qmlclient/client/build/
 tests/auto/*/client/client/doc/html/
 tests/auto/*/client/client/doc/latex/

@@ -125,14 +125,14 @@ void OAIPetApi::addPetWithDataImpl(const OAIPet &oAIPet, const QObject *context,
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
     {
+        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QByteArray output = oAIPet.asJson().toUtf8();
         input.m_requestBody.append(output);
     }
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -261,11 +261,10 @@ void OAIPetApi::deletePetWithDataImpl(const qint64 &petId, const ::OpenAPI::Opti
             input.m_headers.replaceOrAppend("api_key"_L1, paramValue);
         }
     }
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -379,11 +378,10 @@ void OAIPetApi::findPetsByAgeAndPatienceWithDataImpl(const QList<qint32> &petDat
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -509,11 +507,10 @@ void OAIPetApi::findPetsByStatusWithDataImpl(const QList<QString> &status, const
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -639,11 +636,10 @@ void OAIPetApi::findPetsByTagsWithDataImpl(const QList<QString> &tags, const QOb
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -770,11 +766,10 @@ void OAIPetApi::findPetsImageByIdWithDataImpl(const qint64 &petId, const QObject
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -892,11 +887,10 @@ void OAIPetApi::getJsonFileWithDataImpl(const qint64 &petId, const QObject *cont
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -1018,11 +1012,10 @@ void OAIPetApi::getPetByIdWithDataImpl(const qint64 &petId, const QObject *conte
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -1130,14 +1123,14 @@ void OAIPetApi::updatePetWithDataImpl(const OAIPet &oAIPet, const QObject *conte
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "PUT");
     {
+        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QByteArray output = oAIPet.asJson().toUtf8();
         input.m_requestBody.append(output);
     }
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -1266,11 +1259,10 @@ void OAIPetApi::updatePetWithFormWithDataImpl(const qint64 &petId, const ::OpenA
     if (status.hasValue()) {
         input.addVar("status", ::OpenAPI::toStringValue(status.value()));
     }
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -1396,11 +1388,10 @@ void OAIPetApi::uploadFileWithDataImpl(const qint64 &petId, const ::OpenAPI::Opt
     if (file.hasValue()) {
         input.addFile("file", file.value().m_localFilename, file.value().m_requestFilename, file.value().m_mimeType);
     }
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});

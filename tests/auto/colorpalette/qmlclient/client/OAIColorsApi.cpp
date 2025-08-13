@@ -112,14 +112,14 @@ void OAIColorsApi::addColorWithDataImpl(const OAIColor &oAIColor, const QObject 
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
     {
+        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QByteArray output = oAIColor.asJson().toUtf8();
         input.m_requestBody.append(output);
     }
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -236,11 +236,10 @@ void OAIColorsApi::deleteColorByIdWithDataImpl(const qint64 &id, const QObject *
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "DELETE");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -354,11 +353,10 @@ void OAIColorsApi::getColorByIdWithDataImpl(const qint64 &id, const QObject *con
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -476,11 +474,10 @@ void OAIColorsApi::getColorsWithDataImpl(const ::OpenAPI::OptionalParam<qint32> 
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -601,14 +598,14 @@ void OAIColorsApi::updateColorByIdWithDataImpl(const qint64 &id, const OAIColor 
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "PUT");
     {
+        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QByteArray output = oAIColor.asJson().toUtf8();
         input.m_requestBody.append(output);
     }
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});

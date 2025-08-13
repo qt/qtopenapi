@@ -135,11 +135,10 @@ void OAIUserApi::createInQueryMapWithDataImpl(const QMap<QString, QString> &user
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -240,14 +239,14 @@ void OAIUserApi::createUserWithDataImpl(const OAIUser &oAIUser, const QObject *c
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
     {
+        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QByteArray output = oAIUser.asJson().toUtf8();
         input.m_requestBody.append(output);
     }
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -348,15 +347,15 @@ void OAIUserApi::createUsersWithArrayInputWithDataImpl(const QList<OAIUser> &oAI
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
     {
+        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QJsonDocument doc(::OpenAPI::toJsonValue(oAIUser).toArray());
         QByteArray bytes = doc.toJson(QJsonDocument::Compact);
         input.m_requestBody.append(bytes);
     }
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -457,15 +456,15 @@ void OAIUserApi::createUsersWithListInputWithDataImpl(const QList<OAIUser> &oAIU
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
     {
+        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QJsonDocument doc(::OpenAPI::toJsonValue(oAIUser).toArray());
         QByteArray bytes = doc.toJson(QJsonDocument::Compact);
         input.m_requestBody.append(bytes);
     }
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -583,11 +582,10 @@ void OAIUserApi::deleteUserWithDataImpl(const OAIUser &username, const QObject *
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "DELETE");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -701,11 +699,10 @@ void OAIUserApi::getUserByNameWithDataImpl(const QMap<QString, qint32> &username
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -867,11 +864,10 @@ void OAIUserApi::loginUserWithDataImpl(const ::OpenAPI::OptionalParam<QString> &
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -994,11 +990,10 @@ void OAIUserApi::logoutUserWithDataImpl(const QJsonValue &username, const QObjec
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -1157,11 +1152,10 @@ void OAIUserApi::updateUserWithDataImpl(const QString &username, const OAIUser &
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "PUT");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});

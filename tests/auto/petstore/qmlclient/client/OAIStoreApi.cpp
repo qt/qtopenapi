@@ -123,11 +123,10 @@ void OAIStoreApi::deleteOrderWithDataImpl(const QString &orderId, const QObject 
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "DELETE");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -224,11 +223,10 @@ void OAIStoreApi::getInventoryWithDataImpl(const QObject *context, QtPrivate::QS
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -353,11 +351,10 @@ void OAIStoreApi::getOrderByIdWithDataImpl(const qint64 &orderId, const QObject 
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "GET");
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});
@@ -457,14 +454,14 @@ void OAIStoreApi::placeOrderWithDataImpl(const OAIOrder &oAIOrder, const QObject
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
     {
+        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QByteArray output = oAIOrder.asJson().toUtf8();
         input.m_requestBody.append(output);
     }
-    QByteArray requestContent;
     QNetworkRequest request
-        = OAIHttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, requestContent);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, OAICallerInfo{context, slot});

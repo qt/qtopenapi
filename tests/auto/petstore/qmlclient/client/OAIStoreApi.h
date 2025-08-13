@@ -85,6 +85,7 @@ Q_SIGNALS:
 
 protected:
     QString m_testOperationPath;
+    QByteArray m_requestContent;
 };
 
 } // namespace OpenAPI

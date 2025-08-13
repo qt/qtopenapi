@@ -155,6 +155,8 @@ elif [[ $USER_MODE == "operation-parameters" ]]; then
     SERVER_NAME="server-app"
 elif [[ $USER_MODE == "openapi2.0" ]]; then
     SERVER_NAME="backport-server-app"
+elif [[ $USER_MODE == "mediatype" ]]; then
+    SERVER_NAME="mediatype-server-app"
 fi
 
 #may need to clean up from previous execution
@@ -257,6 +259,12 @@ function run_all() {
     CLIENTFOLDER_NAME=client
     USER_MODE="openapi2.0"
     SERVER_NAME="backport-server-app"
+    set_paths && compile && generate && run_test
+
+    QML_ADDITIONAL_PROPERTIES=false
+    CLIENTFOLDER_NAME=client
+    USER_MODE="mediatype"
+    SERVER_NAME="mediatype-server-app"
     set_paths && compile && generate && run_test
 }
 
