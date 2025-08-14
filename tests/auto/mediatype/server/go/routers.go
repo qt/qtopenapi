@@ -122,5 +122,23 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
 			"/v2/reqBody/string/postPlainTextType",
 			handleFunctions.TestAPI.PostPlainTextType,
 		},
+		{
+			"PostUrlEncodedFields",
+			http.MethodPost,
+			"/v2/reqBody/urlencoded/postUrlEncodedFields",
+			handleFunctions.TestAPI.PostUrlEncodedFields,
+		},
+		{
+			"PostUrlEncodedNestedObject",
+			http.MethodPost,
+			"/v2/reqBody/urlencoded/postUrlEncodedNestedObject",
+			handleFunctions.TestAPI.PostUrlEncodedNestedObject,
+		},
+		{
+			"PostUrlEncodedObject",
+			http.MethodPost,
+			"/v2/reqBody/urlencoded/postUrlEncodedObject",
+			handleFunctions.TestAPI.PostUrlEncodedObject,
+		},
 	}
 }

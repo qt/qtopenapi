@@ -86,9 +86,9 @@ func (api *TestAPI) PostApplicationJsonInt(c *gin.Context) {
 }
 
 // Post /v2/reqBody/appjson/object/postApplicationJsonMap
-// Post request-body, application-json, map of object 
+// Post request-body, application-json, map of object
 func (api *TestAPI) PostApplicationJsonMap(c *gin.Context) {
-        var requestBody any
+	var requestBody any
 	if err := c.BindJSON(&requestBody); err != nil {
 		fmt.Println("Error of reading json!", err)
 	}
@@ -155,4 +155,38 @@ func (api *TestAPI) PostPlainTextType(c *gin.Context) {
 
 	plainText := string(bodyBytes)
 	c.JSON(http.StatusOK, gin.H{"status": plainText, "header": c.Request.Header})
+}
+
+// Post /v2/reqBody/urlencoded/postUrlEncodedFields
+// post Url Encoded simple key-value pairs
+func (api *TestAPI) PostUrlEncodedFields(c *gin.Context) {
+	visits := c.PostFormArray("visits")
+	name := c.PostForm("name")
+	status := c.PostForm("status")
+	availability := c.PostForm("availability")
+	data := c.PostForm("mapfield")
+	// var parsed map[string]User
+	// json.Unmarshal([]byte(data), &parsed)
+	fmt.Println(" ***********PostUrlEncodedFields******** visits = ", visits, "availability = ", availability, "name = ", name, "status = ", status, "mapfield = ", data)
+
+	c.JSON(http.StatusOK, gin.H{"visits": visits, "name": name, "status": status, "availability": availability, "mapfield": data, "header": c.Request.Header})
+}
+
+// Post /v2/reqBody/urlencoded/postUrlEncodedObject
+// post Url Encoded simple key-value pairs
+func (api *TestAPI) PostUrlEncodedObject(c *gin.Context) {
+	username := c.PostForm("name")
+	userstatus := c.PostForm("status")
+	userage := c.PostForm("age")
+
+	c.JSON(http.StatusOK, gin.H{"username": username, "status": userstatus, "age": userage, "header": c.Request.Header})
+}
+
+// Post /v2/reqBody/urlencoded/postUrlEncodedNestedObject
+// post Url Encoded simple key-value pairs
+func (api *TestAPI) PostUrlEncodedNestedObject(c *gin.Context) {
+	username := c.PostForm("user")
+	userstatus := c.PostForm("comment")
+
+	c.JSON(http.StatusOK, gin.H{"user": username, "comment": userstatus, "header": c.Request.Header})
 }

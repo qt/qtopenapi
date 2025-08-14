@@ -258,13 +258,65 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     {{prefix}}HttpRequestInput input(fullPath, "{{httpMethod}}");
+{{#hasFormParams}}
+    [[maybe_unused]] QString contentType;
+{{#consumes}}
+{{#-first}}
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "{{{mediaType}}}"_L1);
+{{/-first}}
+{{/consumes}}
+{{#isMultipart}}
+    input.addVarLayout(MULTIPART);
+{{/isMultipart}}
+{{^isMultipart}}
+    input.addVarLayout(URL_ENCODED);
+{{/isMultipart}}
+{{/hasFormParams}}
 {{#formParams}}
     {{^required}}if ({{paramName}}.hasValue()) {{/required}}{
-{{^isFile}}
-        input.addVar("{{baseName}}", ::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value(){{/required}}));
-{{/isFile}}
+{{#consumes}}
+{{#contentType}}
+        contentType = u"{{contentType}}"_s;
+        input.addFieldHeaders(u"{{baseName}}"_s, contentType);
+{{/contentType}}
+{{/consumes}}
 {{#isFile}}
         input.addFile("{{baseName}}", {{paramName}}{{^required}}.value(){{/required}}.m_localFilename, {{paramName}}{{^required}}.value(){{/required}}.m_requestFilename, {{paramName}}{{^required}}.value(){{/required}}.m_mimeType);
+{{/isFile}}
+{{^isFile}}
+{{#isContainer}}
+        // if contentType is explicitly specified as json,
+        // or if it is not specified and the elements of the
+        // array are non-primitive, also serialize as a json-object
+{{#isArray}}
+        using VT = std::decay_t<decltype({{paramName}}{{^required}}.value(){{/required}})>::value_type;
+        if (contentType == "application/json"_L1
+            || (contentType.isEmpty() && !isPrimitiveMediaType<VT>)) {
+            input.addQueryItem(u"{{baseName}}"_s, ::{{cppNamespace}}::convertJsonValueToString(::{{cppNamespace}}::toJsonValue({{paramName}}{{^required}}.value(){{/required}})));
+        } else {
+            // if none of the above - serialize according to the content type of items
+            for (const auto &item : {{paramName}}{{^required}}.value(){{/required}}) {
+                input.addQueryItem(u"{{baseName}}"_s, ::{{cppNamespace}}::serializeMediaTypeContentField(contentType, item));
+            }
+        }
+{{/isArray}}
+{{#isMap}}
+        using MapType = std::decay_t<decltype({{paramName}}{{^required}}.value(){{/required}})>;
+        using VT = typename MapType::mapped_type;
+        if (contentType == "application/json"_L1
+            || (contentType.isEmpty() && !isPrimitiveMediaType<VT>)) {
+            input.addQueryItem(u"{{baseName}}"_s, ::{{cppNamespace}}::convertJsonValueToString(::{{cppNamespace}}::toJsonValue({{paramName}}{{^required}}.value(){{/required}})));
+        } else {
+            // if none of the above - serialize according to the content type of items
+            for (const auto &[key, value] : {{paramName}}{{^required}}.value(){{/required}}.asKeyValueRange()) {
+                input.addQueryItem(key, ::{{cppNamespace}}::serializeMediaTypeContentField(contentType, value));
+            }
+        }
+{{/isMap}}
+{{/isContainer}}
+{{^isContainer}}
+        input.addQueryItem(u"{{baseName}}"_s, ::{{cppNamespace}}::serializeMediaTypeContentField(contentType, {{paramName}}{{^required}}.value(){{/required}}));
+{{/isContainer}}
 {{/isFile}}
     }
 {{/formParams}}

@@ -37,6 +37,9 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:10209/v2
 |*postApplicationJsonSeveralObjects* | *POST* /reqBody/appjson/object/postApplicationJsonSeveralObjects | Post request-body, application-json, object.|
 |*postApplicationJsonString* | *POST* /reqBody/appjson/string/postApplicationJsonString | Get request-body, application-json, string.|
 |*postPlainTextType* | *POST* /reqBody/string/postPlainTextType | Post a simple text, like a user input.|
+|*postUrlEncodedFields* | *POST* /reqBody/urlencoded/postUrlEncodedFields | post Url Encoded simple key-value pairs.|
+|*postUrlEncodedNestedObject* | *POST* /reqBody/urlencoded/postUrlEncodedNestedObject | post Url Encoded simple key-value pairs.|
+|*postUrlEncodedObject* | *POST* /reqBody/urlencoded/postUrlEncodedObject | post Url Encoded simple key-value pairs.|
 
 
 ## What are the Model files for the data structures/objects?

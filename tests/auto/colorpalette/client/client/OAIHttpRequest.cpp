@@ -22,6 +22,17 @@
 
 namespace OpenAPI {
 
+// Internal url encoding helper function
+QString toFormUrlEncoding(const QString &input)
+{
+    // Space ( ) → replaced with +
+    // Unsafe or non-alphanumeric characters → percent-encoded (%XX)
+    // Alphanumeric characters (a–z, A–Z, 0–9) → left as-is
+    // The following characters are always percent-encoded in x-www-form-urlencoded:
+    // "!" / "$" / "&" / "'" / "(" / ")" / "*" / "+" / "," / ";" / "="
+    return QUrl::toPercentEncoding(input).replace("%20", "+");
+}
+
 OAIHttpRequestInput::OAIHttpRequestInput()
 {
     initialize();
@@ -46,15 +57,21 @@ OAIHttpRequestInput::OAIHttpRequestInput(OAIHttpRequestInput &other)
     m_urlStr = other.m_urlStr;
     m_httpMethod = other.m_httpMethod;
     m_varLayout = other.m_varLayout;
-    m_vars = other.m_vars;
+    m_fieldHeaders = other.m_fieldHeaders;
     m_headers = other.m_headers;
     m_files = other.m_files;
     m_requestBody = other.m_requestBody;
+    m_queryItem = other.m_queryItem;
 }
 
-void OAIHttpRequestInput::addVar(const QString &key, const QString &value)
+void OAIHttpRequestInput::addQueryItem(const QString &key, const QString &value)
 {
-    m_vars[key] = value;
+    m_queryItem.addQueryItem(toFormUrlEncoding(key), toFormUrlEncoding(value));
+}
+
+void OAIHttpRequestInput::addFieldHeaders(const QString &key, const QString &value)
+{
+    m_fieldHeaders[key] = value;
 }
 
 void OAIHttpRequestInput::addFile(const QString &variableName, const QString &localFilename, const QString &requestFilename, const QString &mimeType)
@@ -65,6 +82,11 @@ void OAIHttpRequestInput::addFile(const QString &variableName, const QString &lo
     file.m_requestFilename = requestFilename;
     file.m_mimeType = mimeType;
     m_files.append(file);
+}
+
+void OAIHttpRequestInput::addVarLayout(OAIHttpRequestVarLayout layout)
+{
+    m_varLayout = layout;
 }
 
 void OAIHttpRequestInput::setHeaders(const QHttpHeaders &newHeaders)
@@ -147,36 +169,19 @@ QNetworkRequest getNetworkRequest(OAIHttpRequestInput &input, QByteArray &reques
     requestContent = "";
     bool isFormData = false;
 
-    // decide on the variable layout
-    if (input.m_files.length() > 0) {
-        input.m_varLayout = MULTIPART;
-    }
     if (input.m_varLayout == NOT_SET) {
         input.m_varLayout = input.m_httpMethod == "GET" || input.m_httpMethod == "HEAD" ? ADDRESS : URL_ENCODED;
     }
-
     // prepare request content
     QString boundary = "";
     if (input.m_varLayout == ADDRESS || input.m_varLayout == URL_ENCODED) {
         // variable layout is ADDRESS or URL_ENCODED
-
-        if (input.m_vars.count() > 0) {
-            bool first = true;
-            isFormData = true;
-            for (QString key : input.m_vars.keys()) {
-                if (!first) {
-                    requestContent.append("&");
-                }
-                first = false;
-
-                requestContent.append(QUrl::toPercentEncoding(key));
-                requestContent.append("=");
-                requestContent.append(QUrl::toPercentEncoding(input.m_vars.value(key)));
-            }
-
+        if (!input.m_queryItem.isEmpty()) {
             if (input.m_varLayout == ADDRESS) {
-                input.m_urlStr += "?" + requestContent;
-                requestContent = "";
+                input.m_urlStr += "?";
+                input.m_urlStr += input.m_queryItem.toString(QUrl::FullyEncoded).toUtf8();
+            } else {
+                requestContent = input.m_queryItem.toString(QUrl::FullyEncoded).toUtf8();
             }
         }
     } else {
@@ -187,8 +192,9 @@ QNetworkRequest getNetworkRequest(OAIHttpRequestInput &input, QByteArray &reques
         QString boundaryDelimiter = "--";
         const QString newLine = "\r\n";
 
+        const QList<std::pair<QString, QString>> vars = input.m_queryItem.queryItems(QUrl::FullyEncoded);
         // add variables
-        for (const QString &key : input.m_vars.keys()) {
+        for (const std::pair<QString, QString> &item : vars) {
             // add boundary
             requestContent.append(boundaryDelimiter.toUtf8());
             requestContent.append(boundary.toUtf8());
@@ -196,7 +202,7 @@ QNetworkRequest getNetworkRequest(OAIHttpRequestInput &input, QByteArray &reques
 
             // add header
             requestContent.append("Content-Disposition: form-data; ");
-            requestContent.append(httpAttributeEncode("name", key).toUtf8());
+            requestContent.append(httpAttributeEncode("name", item.first).toUtf8());
             requestContent.append(newLine.toUtf8());
             requestContent.append("Content-Type: text/plain");
             requestContent.append(newLine.toUtf8());
@@ -205,7 +211,7 @@ QNetworkRequest getNetworkRequest(OAIHttpRequestInput &input, QByteArray &reques
             requestContent.append(newLine.toUtf8());
 
             // add variable content
-            requestContent.append(input.m_vars.value(key).toUtf8());
+            requestContent.append(item.second.toUtf8());
             requestContent.append(newLine.toUtf8());
         }
 

@@ -185,6 +185,63 @@ paths:
       summary: "Post a simple text, like a user input"
       tags:
       - test
+  /reqBody/urlencoded/postUrlEncodedFields:
+    post:
+      operationId: postUrlEncodedFields
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/postUrlEncodedFields_request"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+      summary: post Url Encoded simple key-value pairs
+      tags:
+      - test
+  /reqBody/urlencoded/postUrlEncodedNestedObject:
+    post:
+      operationId: postUrlEncodedNestedObject
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/postUrlEncodedNestedObject_request"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+      summary: post Url Encoded simple key-value pairs
+      tags:
+      - test
+  /reqBody/urlencoded/postUrlEncodedObject:
+    post:
+      operationId: postUrlEncodedObject
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/User"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+      summary: post Url Encoded simple key-value pairs
+      tags:
+      - test
 components:
   schemas:
     User:
@@ -210,3 +267,24 @@ components:
           type: string
         user:
           $ref: "#/components/schemas/User"
+    postUrlEncodedFields_request:
+      properties:
+        name:
+          type: string
+        status:
+          type: integer
+        availability:
+          type: boolean
+        visits:
+          items:
+            type: string
+          type: array
+        mapfield:
+          additionalProperties:
+            $ref: "#/components/schemas/User"
+    postUrlEncodedNestedObject_request:
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+        comment:
+          type: string

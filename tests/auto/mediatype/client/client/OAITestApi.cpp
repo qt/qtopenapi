@@ -58,6 +58,12 @@ void OAITestApi::initializeServerConfigs()
     m_serverIndices.insert("postApplicationJsonString", 0);
     m_serverConfigs.insert("postPlainTextType", defaultConf);
     m_serverIndices.insert("postPlainTextType", 0);
+    m_serverConfigs.insert("postUrlEncodedFields", defaultConf);
+    m_serverIndices.insert("postUrlEncodedFields", 0);
+    m_serverConfigs.insert("postUrlEncodedNestedObject", defaultConf);
+    m_serverIndices.insert("postUrlEncodedNestedObject", 0);
+    m_serverConfigs.insert("postUrlEncodedObject", defaultConf);
+    m_serverIndices.insert("postUrlEncodedObject", 0);
 }
 
 /**
@@ -1034,6 +1040,400 @@ void OAITestApi::postPlainTextTypeCallback(const QRestReply &reply)
         callerInfo.slot->call(context, argv);
     }
     emit postPlainTextTypeFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::postUrlEncodedFields(const ::OpenAPI::OptionalParam<QString> &name = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<qint32> &status = ::OpenAPI::OptionalParam<qint32>(), const ::OpenAPI::OptionalParam<bool> &availability = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<QList<QString>> &visits = ::OpenAPI::OptionalParam<QList<QString>>(), const ::OpenAPI::OptionalParam<QMap<QString, OAIUser>> &mapfield = ::OpenAPI::OptionalParam<QMap<QString, OAIUser>>())
+* 'postUrlEncodedFields' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] name QString [optional]
+* @param[in] status qint32 [optional]
+* @param[in] availability bool [optional]
+* @param[in] visits QList<QString> [optional]
+* @param[in] mapfield QMap<QString, OAIUser> [optional]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::postUrlEncodedFields(const ::OpenAPI::OptionalParam<QString> &name = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<qint32> &status = ::OpenAPI::OptionalParam<qint32>(), const ::OpenAPI::OptionalParam<bool> &availability = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<QList<QString>> &visits = ::OpenAPI::OptionalParam<QList<QString>>(), const ::OpenAPI::OptionalParam<QMap<QString, OAIUser>> &mapfield = ::OpenAPI::OptionalParam<QMap<QString, OAIUser>>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'postUrlEncodedFields' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    postUrlEncodedFields(name, status, availability, visits, mapfield, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual postUrlEncodedFieldsWithDataImpl() in derived class.
+* The virtual postUrlEncodedFieldsWithDataImpl() is being called by the template
+* function.
+
+* @param[in] name QString [optional]
+* @param[in] status qint32 [optional]
+* @param[in] availability bool [optional]
+* @param[in] visits QList<QString> [optional]
+* @param[in] mapfield QMap<QString, OAIUser> [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::postUrlEncodedFieldsCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by postUrlEncodedFieldsFinished() or
+* being returned as a callback parameter of postUrlEncodedFields() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::postUrlEncodedFieldsWithDataImpl(const ::OpenAPI::OptionalParam<QString> &name, const ::OpenAPI::OptionalParam<qint32> &status, const ::OpenAPI::OptionalParam<bool> &availability, const ::OpenAPI::OptionalParam<QList<QString>> &visits, const ::OpenAPI::OptionalParam<QMap<QString, OAIUser>> &mapfield, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the postUrlEncodedFields() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking postUrlEncodedFields() operation calls.
+
+* @param[in] name QString [optional]
+* @param[in] status qint32 [optional]
+* @param[in] availability bool [optional]
+* @param[in] visits QList<QString> [optional]
+* @param[in] mapfield QMap<QString, OAIUser> [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::postUrlEncodedFieldsWithDataImpl(const ::OpenAPI::OptionalParam<QString> &name, const ::OpenAPI::OptionalParam<qint32> &status, const ::OpenAPI::OptionalParam<bool> &availability, const ::OpenAPI::OptionalParam<QList<QString>> &visits, const ::OpenAPI::OptionalParam<QMap<QString, OAIUser>> &mapfield, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["postUrlEncodedFields"][m_serverIndices.value("postUrlEncodedFields")].serverUrl();
+    QString fullPath = "/reqBody/urlencoded/postUrlEncodedFields";
+    m_networkFactory->setBaseUrl(serverUrl);
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    OAIHttpRequestInput input(fullPath, "POST");
+    [[maybe_unused]] QString contentType;
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/x-www-form-urlencoded"_L1);
+    input.addVarLayout(URL_ENCODED);
+    if (name.hasValue()) {
+        input.addQueryItem(u"name"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, name.value()));
+    }
+    if (status.hasValue()) {
+        input.addQueryItem(u"status"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, status.value()));
+    }
+    if (availability.hasValue()) {
+        input.addQueryItem(u"availability"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, availability.value()));
+    }
+    if (visits.hasValue()) {
+        // if contentType is explicitly specified as json,
+        // or if it is not specified and the elements of the
+        // array are non-primitive, also serialize as a json-object
+        using VT = std::decay_t<decltype(visits.value())>::value_type;
+        if (contentType == "application/json"_L1
+            || (contentType.isEmpty() && !isPrimitiveMediaType<VT>)) {
+            input.addQueryItem(u"visits"_s, ::OpenAPI::convertJsonValueToString(::OpenAPI::toJsonValue(visits.value())));
+        } else {
+            // if none of the above - serialize according to the content type of items
+            for (const auto &item : visits.value()) {
+                input.addQueryItem(u"visits"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, item));
+            }
+        }
+    }
+    if (mapfield.hasValue()) {
+        // if contentType is explicitly specified as json,
+        // or if it is not specified and the elements of the
+        // array are non-primitive, also serialize as a json-object
+        using MapType = std::decay_t<decltype(mapfield.value())>;
+        using VT = typename MapType::mapped_type;
+        if (contentType == "application/json"_L1
+            || (contentType.isEmpty() && !isPrimitiveMediaType<VT>)) {
+            input.addQueryItem(u"mapfield"_s, ::OpenAPI::convertJsonValueToString(::OpenAPI::toJsonValue(mapfield.value())));
+        } else {
+            // if none of the above - serialize according to the content type of items
+            for (const auto &[key, value] : mapfield.value().asKeyValueRange()) {
+                input.addQueryItem(key, ::OpenAPI::serializeMediaTypeContentField(contentType, value));
+            }
+        }
+    }
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            postUrlEncodedFieldsCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit postUrlEncodedFieldsErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::postUrlEncodedFieldsCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit postUrlEncodedFieldsFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::postUrlEncodedNestedObject(const ::OpenAPI::OptionalParam<OAIUser> &user = ::OpenAPI::OptionalParam<OAIUser>(), const ::OpenAPI::OptionalParam<QString> &comment = ::OpenAPI::OptionalParam<QString>())
+* 'postUrlEncodedNestedObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] user OAIUser [optional]
+* @param[in] comment QString [optional]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::postUrlEncodedNestedObject(const ::OpenAPI::OptionalParam<OAIUser> &user = ::OpenAPI::OptionalParam<OAIUser>(), const ::OpenAPI::OptionalParam<QString> &comment = ::OpenAPI::OptionalParam<QString>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'postUrlEncodedNestedObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    postUrlEncodedNestedObject(user, comment, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual postUrlEncodedNestedObjectWithDataImpl() in derived class.
+* The virtual postUrlEncodedNestedObjectWithDataImpl() is being called by the template
+* function.
+
+* @param[in] user OAIUser [optional]
+* @param[in] comment QString [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::postUrlEncodedNestedObjectCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by postUrlEncodedNestedObjectFinished() or
+* being returned as a callback parameter of postUrlEncodedNestedObject() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::postUrlEncodedNestedObjectWithDataImpl(const ::OpenAPI::OptionalParam<OAIUser> &user, const ::OpenAPI::OptionalParam<QString> &comment, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the postUrlEncodedNestedObject() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking postUrlEncodedNestedObject() operation calls.
+
+* @param[in] user OAIUser [optional]
+* @param[in] comment QString [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::postUrlEncodedNestedObjectWithDataImpl(const ::OpenAPI::OptionalParam<OAIUser> &user, const ::OpenAPI::OptionalParam<QString> &comment, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["postUrlEncodedNestedObject"][m_serverIndices.value("postUrlEncodedNestedObject")].serverUrl();
+    QString fullPath = "/reqBody/urlencoded/postUrlEncodedNestedObject";
+    m_networkFactory->setBaseUrl(serverUrl);
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    OAIHttpRequestInput input(fullPath, "POST");
+    [[maybe_unused]] QString contentType;
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/x-www-form-urlencoded"_L1);
+    input.addVarLayout(URL_ENCODED);
+    if (user.hasValue()) {
+        input.addQueryItem(u"user"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, user.value()));
+    }
+    if (comment.hasValue()) {
+        input.addQueryItem(u"comment"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, comment.value()));
+    }
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            postUrlEncodedNestedObjectCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit postUrlEncodedNestedObjectErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::postUrlEncodedNestedObjectCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit postUrlEncodedNestedObjectFinished(output);
+}
+
+/**
+* \fn virtual void OAITestApi::postUrlEncodedObject(const ::OpenAPI::OptionalParam<QString> &name = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<QString> &status = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<qint32> &age = ::OpenAPI::OptionalParam<qint32>())
+* 'postUrlEncodedObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] name QString [optional]
+* @param[in] status QString [optional]
+* @param[in] age qint32 [optional]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::postUrlEncodedObject(const ::OpenAPI::OptionalParam<QString> &name = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<QString> &status = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<qint32> &age = ::OpenAPI::OptionalParam<qint32>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'postUrlEncodedObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    postUrlEncodedObject(name, status, age, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual postUrlEncodedObjectWithDataImpl() in derived class.
+* The virtual postUrlEncodedObjectWithDataImpl() is being called by the template
+* function.
+
+* @param[in] name QString [optional]
+* @param[in] status QString [optional]
+* @param[in] age qint32 [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::postUrlEncodedObjectCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by postUrlEncodedObjectFinished() or
+* being returned as a callback parameter of postUrlEncodedObject() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::postUrlEncodedObjectWithDataImpl(const ::OpenAPI::OptionalParam<QString> &name, const ::OpenAPI::OptionalParam<QString> &status, const ::OpenAPI::OptionalParam<qint32> &age, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the postUrlEncodedObject() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking postUrlEncodedObject() operation calls.
+
+* @param[in] name QString [optional]
+* @param[in] status QString [optional]
+* @param[in] age qint32 [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::postUrlEncodedObjectWithDataImpl(const ::OpenAPI::OptionalParam<QString> &name, const ::OpenAPI::OptionalParam<QString> &status, const ::OpenAPI::OptionalParam<qint32> &age, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["postUrlEncodedObject"][m_serverIndices.value("postUrlEncodedObject")].serverUrl();
+    QString fullPath = "/reqBody/urlencoded/postUrlEncodedObject";
+    m_networkFactory->setBaseUrl(serverUrl);
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    OAIHttpRequestInput input(fullPath, "POST");
+    [[maybe_unused]] QString contentType;
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/x-www-form-urlencoded"_L1);
+    input.addVarLayout(URL_ENCODED);
+    if (name.hasValue()) {
+        input.addQueryItem(u"name"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, name.value()));
+    }
+    if (status.hasValue()) {
+        input.addQueryItem(u"status"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, status.value()));
+    }
+    if (age.hasValue()) {
+        input.addQueryItem(u"age"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, age.value()));
+    }
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            postUrlEncodedObjectCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit postUrlEncodedObjectErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::postUrlEncodedObjectCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit postUrlEncodedObjectFinished(output);
 }
 
 } // namespace OpenAPI

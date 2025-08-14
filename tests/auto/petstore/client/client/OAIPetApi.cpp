@@ -1253,11 +1253,14 @@ void OAIPetApi::updatePetWithFormWithDataImpl(const qint64 &petId, const ::OpenA
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
+    [[maybe_unused]] QString contentType;
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/x-www-form-urlencoded"_L1);
+    input.addVarLayout(URL_ENCODED);
     if (name.hasValue()) {
-        input.addVar("name", ::OpenAPI::toStringValue(name.value()));
+        input.addQueryItem(u"name"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, name.value()));
     }
     if (status.hasValue()) {
-        input.addVar("status", ::OpenAPI::toStringValue(status.value()));
+        input.addQueryItem(u"status"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, status.value()));
     }
     QNetworkRequest request
         = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -1382,8 +1385,11 @@ void OAIPetApi::uploadFileWithDataImpl(const qint64 &petId, const ::OpenAPI::Opt
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
+    [[maybe_unused]] QString contentType;
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "multipart/form-data"_L1);
+    input.addVarLayout(MULTIPART);
     if (additionalMetadata.hasValue()) {
-        input.addVar("additionalMetadata", ::OpenAPI::toStringValue(additionalMetadata.value()));
+        input.addQueryItem(u"additionalMetadata"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, additionalMetadata.value()));
     }
     if (file.hasValue()) {
         input.addFile("file", file.value().m_localFilename, file.value().m_requestFilename, file.value().m_mimeType);

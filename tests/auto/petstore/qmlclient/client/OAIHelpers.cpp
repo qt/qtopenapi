@@ -491,6 +491,29 @@ bool fromJsonValue(QJsonValue &value, const QJsonValue &jval)
     return true;
 }
 
+// Specialization for QString
+bool isPrimitiveType(const QString&)
+{
+    return true;
+}
+
+// Specialization for QByteArray
+bool isPrimitiveType(const QByteArray&)
+{
+    return true;
+}
+
+QString convertJsonValueToString(const QJsonValue &jsonValue)
+{
+    if (jsonValue.isArray()) {
+        return QJsonDocument(jsonValue.toArray()).toJson(QJsonDocument::Compact);
+    }
+    if (jsonValue.isObject()) {
+        return QJsonDocument(jsonValue.toObject()).toJson(QJsonDocument::Compact);
+    }
+    return jsonValue.toVariant().toString();
+}
+
 QString parameterToString(const QString &key, const QString &assignOperator, const QJsonValue &jval)
 {
     QString paramString;

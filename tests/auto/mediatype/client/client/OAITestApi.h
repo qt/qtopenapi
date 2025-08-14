@@ -110,6 +110,33 @@ public:
     */
     OAI_ADD_OPERATION_IMPL(postPlainTextType, (const QString &body), (body), (const QString &), /* non-deprecated */)
 
+    /**
+    * \internal
+    * The auto-generated API:
+    * void postUrlEncodedFields(const ::OpenAPI::OptionalParam<QString> &name, const ::OpenAPI::OptionalParam<qint32> &status, const ::OpenAPI::OptionalParam<bool> &availability, const ::OpenAPI::OptionalParam<QList<QString>> &visits, const ::OpenAPI::OptionalParam<QMap<QString, OAIUser>> &mapfield);
+    * void postUrlEncodedFields(const ::OpenAPI::OptionalParam<QString> &name, const ::OpenAPI::OptionalParam<qint32> &status, const ::OpenAPI::OptionalParam<bool> &availability, const ::OpenAPI::OptionalParam<QList<QString>> &visits, const ::OpenAPI::OptionalParam<QMap<QString, OAIUser>> &mapfield, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    OAI_ADD_OPERATION_IMPL(postUrlEncodedFields, (const ::OpenAPI::OptionalParam<QString> &name = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<qint32> &status = ::OpenAPI::OptionalParam<qint32>(), const ::OpenAPI::OptionalParam<bool> &availability = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<QList<QString>> &visits = ::OpenAPI::OptionalParam<QList<QString>>(), const ::OpenAPI::OptionalParam<QMap<QString, OAIUser>> &mapfield = ::OpenAPI::OptionalParam<QMap<QString, OAIUser>>()), (name, status, availability, visits, mapfield), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void postUrlEncodedNestedObject(const ::OpenAPI::OptionalParam<OAIUser> &user, const ::OpenAPI::OptionalParam<QString> &comment);
+    * void postUrlEncodedNestedObject(const ::OpenAPI::OptionalParam<OAIUser> &user, const ::OpenAPI::OptionalParam<QString> &comment, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    OAI_ADD_OPERATION_IMPL(postUrlEncodedNestedObject, (const ::OpenAPI::OptionalParam<OAIUser> &user = ::OpenAPI::OptionalParam<OAIUser>(), const ::OpenAPI::OptionalParam<QString> &comment = ::OpenAPI::OptionalParam<QString>()), (user, comment), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void postUrlEncodedObject(const ::OpenAPI::OptionalParam<QString> &name, const ::OpenAPI::OptionalParam<QString> &status, const ::OpenAPI::OptionalParam<qint32> &age);
+    * void postUrlEncodedObject(const ::OpenAPI::OptionalParam<QString> &name, const ::OpenAPI::OptionalParam<QString> &status, const ::OpenAPI::OptionalParam<qint32> &age, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    OAI_ADD_OPERATION_IMPL(postUrlEncodedObject, (const ::OpenAPI::OptionalParam<QString> &name = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<QString> &status = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<qint32> &age = ::OpenAPI::OptionalParam<qint32>()), (name, status, age), (const QString &), /* non-deprecated */)
+
 Q_SIGNALS:
     /** Signal is emitted, if binaryType() request completed successfully. The \a summary contains a serialized server response. */
     void binaryTypeFinished(const QString &summary);
@@ -147,6 +174,18 @@ Q_SIGNALS:
     void postPlainTextTypeFinished(const QString &summary);
     /** Signal is emitted, if postPlainTextType() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void postPlainTextTypeErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if postUrlEncodedFields() request completed successfully. The \a summary contains a serialized server response. */
+    void postUrlEncodedFieldsFinished(const QString &summary);
+    /** Signal is emitted, if postUrlEncodedFields() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void postUrlEncodedFieldsErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if postUrlEncodedNestedObject() request completed successfully. The \a summary contains a serialized server response. */
+    void postUrlEncodedNestedObjectFinished(const QString &summary);
+    /** Signal is emitted, if postUrlEncodedNestedObject() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void postUrlEncodedNestedObjectErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if postUrlEncodedObject() request completed successfully. The \a summary contains a serialized server response. */
+    void postUrlEncodedObjectFinished(const QString &summary);
+    /** Signal is emitted, if postUrlEncodedObject() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void postUrlEncodedObjectErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
 
 protected:
     QString m_testOperationPath;

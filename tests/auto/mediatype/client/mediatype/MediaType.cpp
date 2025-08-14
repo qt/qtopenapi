@@ -11,6 +11,18 @@
 
 namespace OpenAPI {
 
+QString fromFormUrlEncoding(const QString &input)
+{
+    // Revert (+) -> to ( )
+    // Unsafe or non-alphanumeric characters → percent-encoded (%XX)
+    // Alphanumeric characters (a–z, A–Z, 0–9) → left as-is
+    // The following characters are always percent-encoded in x-www-form-urlencoded:
+    // "!" / "$" / "&" / "'" / "(" / ")" "*" / "+" / "," / ";" / "="
+    QString result(input);
+    result = result.replace("+", " ");
+    return QUrl::fromPercentEncoding(result.toUtf8());
+}
+
 QJsonValue getJsonValue(const QString &summary, const QString &key = "status")
 {
     QJsonDocument doc = QJsonDocument::fromJson(summary.toUtf8());
@@ -53,6 +65,7 @@ private Q_SLOTS:
     void testPlainText_data();
     void testPlainText();
     void testOctetStream();
+    void testUrlEncodedType();
 };
 
 // MEDIA TYPE `application/json`
@@ -253,6 +266,93 @@ void MediaType::testOctetStream()
     QTRY_COMPARE_EQ(done, true);
 }
 
+// MEDIA TYPE `application/x-www-form-urlencoded`
+// NOTE: the application/x-www-form-urlencoded type is being serialized
+// as style=form, explode=true into simple key-value pairs composed by '&' and encoded.
+//
+// Each value from pairs of application/x-www-form-urlencoded can
+// be treated based on rules, which depend on value's DATA type.
+// The rules are defined here: see https://spec.openapis.org/oas/v3.1.1.html#common-fixed-fields-0
+// See example of serialization + encoding here:
+// https://spec.openapis.org/oas/v3.1.1.html#example-url-encoded-form-with-json-values
+void MediaType::testUrlEncodedType()
+{
+    bool done = false;
+    OAIUser user;
+    user.setName("Lazy Cat");
+    user.setStatus("Sleeping Beeping *+,;=!$&'()");
+    user.setAge(101);
+    QList<QString> days = {"Monday", "Sunday", "*+,;=!$&'()"};
+    QMap<QString, OAIUser> userMap;
+    userMap.insert("PET", user);
+    postUrlEncodedFields(::OpenAPI::OptionalParam<QString>("John *+,;=!$&'()"),
+                         ::OpenAPI::OptionalParam<qint32>(98665),
+                         ::OpenAPI::OptionalParam<bool>(true),
+                         ::OpenAPI::OptionalParam<QList<QString>>(days),
+                         ::OpenAPI::OptionalParam<QMap<QString, OAIUser>>(userMap),
+                         this, [&](const QRestReply &reply, const QString &summary) {
+        if (!(done = reply.isSuccess()))
+            qWarning() << "ERROR: " << reply.errorString() << reply.error();
+        QCOMPARE(getJsonValue(summary).toVariant().toInt(), 98665);
+        QCOMPARE(getJsonValue(summary, "name").toString(), "John *+,;=!$&'()");
+        QCOMPARE(getJsonValue(summary, "availability").toVariant().toBool(), true);
+        QCOMPARE(getHeaderValue(summary), "application/x-www-form-urlencoded");
+        OAIUser receivedUser;
+        receivedUser.fromJsonObject(getJsonValue(getJsonValue(summary, "mapfield").toString(), "PET").toObject());
+        QCOMPARE(receivedUser, user);
+        QJsonArray array = getJsonValue(summary, "visits").toArray();
+        for (qsizetype i = 0; i < array.size(); i++) {
+            const QString day = array.at(i).toString();
+            QVERIFY(days.contains(day));
+        }
+    });
+    QCOMPARE(m_requestContent,
+             "name=John+%2A%2B%2C%3B%3D%21%24%26%27%28%29&status=98665&availability=true&visits=Monday&visits=Sunday&visits=%2A%2B%2C%3B%3D%21%24%26%27%28%29&mapfield=%7B%22PET%22%3A%7B%22age%22%3A101%2C%22name%22%3A%22Lazy+Cat%22%2C%22status%22%3A%22Sleeping+Beeping+%2A%2B%2C%3B%3D%21%24%26%27%28%29%22%7D%7D");
+    QCOMPARE(fromFormUrlEncoding(m_requestContent),
+             "name=John *+,;=!$&'()&status=98665&availability=true&visits=Monday&visits=Sunday&visits=*+,;=!$&'()&mapfield={\"PET\":{\"age\":101,\"name\":\"Lazy Cat\",\"status\":\"Sleeping Beeping *+,;=!$&'()\"}}");
+    QTRY_COMPARE_EQ(done, true);
+
+    done = false;
+    // NOTE: - 'user' field is being serialized as application/json.
+    // NOTE: - 'comment' field is being serialized as text/plain.
+    // Each field of application/x-www-form-urlencoded object are
+    // being treated based on rules, which depend on a field DATA type. See example:
+    // https://spec.openapis.org/oas/v3.1.1.html#example-url-encoded-form-with-json-values
+    OAIUser enUrlUser;
+    enUrlUser.setName("Tatiana");
+    enUrlUser.setStatus("is working");
+    enUrlUser.setAge(100);
+    postUrlEncodedNestedObject(enUrlUser, ::OpenAPI::OptionalParam<QString>("Test String "),
+                               this, [&](const QRestReply &reply, const QString &summary) {
+        if (!(done = reply.isSuccess()))
+            qWarning() << "ERROR: " << reply.errorString() << reply.error();
+        OAIUser received;
+        received.fromJson(getJsonValue(summary, "user").toString());
+        QCOMPARE(received, enUrlUser);
+        QCOMPARE(getJsonValue(summary, "comment").toString(), "Test String ");
+        QCOMPARE(getHeaderValue(summary), "application/x-www-form-urlencoded");
+    });
+    QCOMPARE(m_requestContent, "user=%7B%22age%22%3A100%2C%22name%22%3A%22Tatiana%22%2C%22status%22%3A%22is+working%22%7D&comment=Test+String+");
+    QCOMPARE(fromFormUrlEncoding(m_requestContent), "user={\"age\":100,\"name\":\"Tatiana\",\"status\":\"is working\"}&comment=Test String ");
+    QTRY_COMPARE_EQ(done, true);
+
+    done = false;
+    postUrlEncodedObject(::OpenAPI::OptionalParam<QString>("User Name 1234 "),
+                         ::OpenAPI::OptionalParam<QString>("Thinking"),
+                         ::OpenAPI::OptionalParam<qint32>(8776513),
+                         this, [&](const QRestReply &reply, const QString &summary) {
+        if (!(done = reply.isSuccess()))
+            qWarning() << "ERROR: " << reply.errorString() << reply.error();
+        QCOMPARE(getJsonValue(summary).toString(), "Thinking");
+        QCOMPARE(getJsonValue(summary, "username").toString(), "User Name 1234 ");
+        QCOMPARE(getJsonValue(summary, "age").toVariant().toInt(), 8776513);
+        QCOMPARE(getHeaderValue(summary), "application/x-www-form-urlencoded");
+    });
+    QCOMPARE(m_requestContent, "name=User+Name+1234+&status=Thinking&age=8776513");
+    QCOMPARE(fromFormUrlEncoding(m_requestContent), "name=User Name 1234 &status=Thinking&age=8776513");
+    QTRY_COMPARE_EQ(done, true);
+
+}
 } // OpenAPI
 
 QTEST_MAIN(OpenAPI::MediaType)

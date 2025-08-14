@@ -259,6 +259,38 @@ bool fromJsonValue(QMap<QString, T> &val, const QJsonValue &jval) {
 QString parameterToString(const QString &key, const QString &assignOperator, const QJsonValue &jval);
 QString optionParameterToString(const QString &key, const QString &assignOperator, const QJsonValue &jval);
 
+// Default impl. covers all numbers + bool
+template <typename T>
+inline constexpr bool isPrimitiveMediaType = std::is_arithmetic<T>::value;
+// Overloads for QString and QBA
+template <>
+inline constexpr bool isPrimitiveMediaType<QString> = true;
+template <>
+inline constexpr bool isPrimitiveMediaType<QByteArray> = true;
+
+QString convertJsonValueToString(const QJsonValue &jsonValue);
+
+// multipart/form-data and application/x-www-form-urlencoded Media types
+// provide possibility to encode each field in a specific way,
+// see: https://spec.openapis.org/oas/v3.1.1.html#encoding-object
+// Openapi SPEC 3.1.1 suggest a Default contentType for each field,
+// see https://spec.openapis.org/oas/v3.1.1.html#common-fixed-fields-0
+// So field serialization now is type dependent.
+template <typename T>
+QString serializeMediaTypeContentField(const QString &contentType, const T &value)
+{
+    if (contentType.isEmpty()) {
+        if constexpr (isPrimitiveMediaType<T>)
+            return ::OpenAPI::toStringValue(value);
+        else
+            return ::OpenAPI::convertJsonValueToString(::OpenAPI::toJsonValue(value));
+    }
+    if (contentType == "application/json")
+        return ::OpenAPI::convertJsonValueToString(::OpenAPI::toJsonValue(value));
+    else
+        return ::OpenAPI::toStringValue(value);
+}
+
 template <typename T>
 class OptionalParam
 {

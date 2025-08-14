@@ -196,6 +196,92 @@ paths:
             application/json:
               schema:
                 type: string
+  /reqBody/urlencoded/postUrlEncodedFields:
+    post:
+      tags:
+        - test
+      summary: post Url Encoded simple key-value pairs
+      operationId: postUrlEncodedFields
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                # default for primitives without a special format is text/plain
+                name:
+                  type: string
+                # default for primitives without a special format is text/plain
+                status:
+                  type: integer
+                # default for primitives without a special format is text/plain
+                availability:
+                  type: boolean
+                # default for array of strings without a special format is text/plain
+                visits:
+                  type: array
+                  items:
+                    type: string
+                # default for a map is `application/json`
+                mapfield:
+                  type: object
+                  additionalProperties:
+                    $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /reqBody/urlencoded/postUrlEncodedNestedObject:
+    post:
+      tags:
+        - test
+      summary: post Url Encoded simple key-value pairs
+      operationId: postUrlEncodedNestedObject
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                # default for object is application/json
+                user:
+                  type: object
+                  $ref: '#/components/schemas/User'
+                # default for primitives without a special format is text/plain
+                comment:
+                  type: string
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /reqBody/urlencoded/postUrlEncodedObject:
+    post:
+      tags:
+        - test
+      summary: post Url Encoded simple key-value pairs
+      operationId: postUrlEncodedObject
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              # default for object is application/json
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
 components:
   schemas:
     User:
