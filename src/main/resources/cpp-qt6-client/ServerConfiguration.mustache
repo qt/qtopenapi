@@ -65,10 +65,10 @@ public:
         return url;
     }
 
-    OAIServerVariable::ServerError setDefaultValue(const QString &variable, const QString &value) {
+    {{prefix}}ServerVariable::ServerError setDefaultValue(const QString &variable, const QString &value) {
       if (m_variables.contains(variable))
         return m_variables[variable].setDefaultValue(value);
-      return OAIServerVariable::ServerError::ServerVariableNotFound;
+      return {{prefix}}ServerVariable::ServerError::ServerVariableNotFound;
     }
 
     QString m_description;
