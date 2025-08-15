@@ -282,6 +282,67 @@ paths:
             application/json:
               schema:
                 type: string
+  /reqBody/multipart/postMultiPartData:
+    post:
+      tags:
+        - test
+      summary: post multi part data
+      operationId: postMultiPartData
+      requestBody:
+        content:
+          # the format is a composition of different formats
+          multipart/form-data:
+            schema:
+              type: object
+              # NOTE the proper way to define required for multipart is use the required list
+              required:
+                - formId
+                - formAddresses
+              properties:
+                formId:
+                  # default for primitives without a special format is text/plain
+                  type: string
+                  format: uuid
+                formIndex:
+                  # default for primitives without a special format is text/plain
+                  type: integer
+                  format: int32
+                formProfileImage:
+                  # default for a string with binary format is `application/octet-stream`
+                  type: string
+                  format: binary
+                formAddresses:
+                  # default for arrays is based on the type in the `items`
+                  # subschema, which is an object, so `application/json`
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/User'
+                formObject:
+                  # default for an object is `application/json`
+                  type: object
+                  properties:
+                    objectId:
+                      type: integer
+                    objectName:
+                      type: string
+                formMap:
+                  # default for a map is `application/json`
+                  type: object
+                  additionalProperties:
+                    $ref: '#/components/schemas/User'
+            encoding:
+              formId:
+                # to test CUSTOM format, it should replace text/plain for formId field.
+                contentType: application/json
+              formMap:
+                contentType: application/json
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
 components:
   schemas:
     User:

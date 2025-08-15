@@ -117,6 +117,12 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
 			handleFunctions.TestAPI.PostApplicationJsonString,
 		},
 		{
+			"PostMultiPartData",
+			http.MethodPost,
+			"/v2/reqBody/multipart/postMultiPartData",
+			handleFunctions.TestAPI.PostMultiPartData,
+		},
+		{
 			"PostPlainTextType",
 			http.MethodPost,
 			"/v2/reqBody/string/postPlainTextType",

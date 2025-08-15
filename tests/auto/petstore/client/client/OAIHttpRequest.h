@@ -29,6 +29,7 @@
 QT_BEGIN_NAMESPACE
 class QNetworkRequestFactory;
 class QRestAccessManager;
+class QHttpMultiPart;
 QT_END_NAMESPACE
 
 namespace OpenAPI {
@@ -45,17 +46,19 @@ public:
     QString m_urlStr;
     QString m_httpMethod;
     OAIHttpRequestVarLayout m_varLayout;
+    QMap<QString, QString> m_vars;
     QMap<QString, QString> m_fieldHeaders;
     QHttpHeaders m_headers;
     QList<OAIHttpFileElement> m_files;
     QByteArray m_requestBody;
     QUrlQuery m_queryItem;
+    std::unique_ptr<QHttpMultiPart> m_multiPart;
 
     OAIHttpRequestInput();
     OAIHttpRequestInput(const QString &vUrlStr, const QString &vHttpMethod);
     OAIHttpRequestInput(OAIHttpRequestInput &other);
     void initialize();
-    void addQueryItem(const QString &key, const QString &value);
+    void addVar(const QString &key, const QString &value);
     void addFieldHeaders(const QString &key, const QString &value);
     void addFile(const QString &variableName, const QString &localFilename, const QString &requestFilename, const QString &mimeType);
     void addVarLayout(OAIHttpRequestVarLayout layout);

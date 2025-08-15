@@ -12,6 +12,7 @@
 #include <QtCore/qanystringview.h>
 #include <QtCore/qjsonarray.h>
 #include <QtCore/qjsondocument.h>
+#include <QtNetwork/qhttpmultipart.h>
 #include <QtNetwork/qnetworkaccessmanager.h>
 #include <QtNetwork/qnetworkreply.h>
 #include <QtNetwork/qnetworkrequestfactory.h>
@@ -1253,14 +1254,17 @@ void OAIPetApi::updatePetWithFormWithDataImpl(const qint64 &petId, const ::OpenA
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    [[maybe_unused]] QString contentType;
     input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/x-www-form-urlencoded"_L1);
     input.addVarLayout(URL_ENCODED);
     if (name.hasValue()) {
-        input.addQueryItem(u"name"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, name.value()));
+        QString contentType;
+        input.addFieldHeaders(u"name"_s, addContentField(contentType, name.value()));
+        input.addVar(u"name"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, name.value()));
     }
     if (status.hasValue()) {
-        input.addQueryItem(u"status"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, status.value()));
+        QString contentType;
+        input.addFieldHeaders(u"status"_s, addContentField(contentType, status.value()));
+        input.addVar(u"status"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, status.value()));
     }
     QNetworkRequest request
         = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -1385,14 +1389,16 @@ void OAIPetApi::uploadFileWithDataImpl(const qint64 &petId, const ::OpenAPI::Opt
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    [[maybe_unused]] QString contentType;
     input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "multipart/form-data"_L1);
     input.addVarLayout(MULTIPART);
     if (additionalMetadata.hasValue()) {
-        input.addQueryItem(u"additionalMetadata"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, additionalMetadata.value()));
+        QString contentType;
+        input.addFieldHeaders(u"additionalMetadata"_s, addContentField(contentType, additionalMetadata.value()));
+        input.addVar(u"additionalMetadata"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, additionalMetadata.value()));
     }
     if (file.hasValue()) {
-        input.addFile("file", file.value().m_localFilename, file.value().m_requestFilename, file.value().m_mimeType);
+        QString contentType;
+        input.addFile("file", file.value().m_localFilename, file.value().m_requestFilename, contentType);
     }
     QNetworkRequest request
         = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,

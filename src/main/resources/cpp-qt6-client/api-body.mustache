@@ -5,6 +5,7 @@
 #include <QtCore/qanystringview.h>
 #include <QtCore/qjsonarray.h>
 #include <QtCore/qjsondocument.h>
+#include <QtNetwork/qhttpmultipart.h>
 #include <QtNetwork/qnetworkaccessmanager.h>
 #include <QtNetwork/qnetworkreply.h>
 #include <QtNetwork/qnetworkrequestfactory.h>
@@ -259,7 +260,6 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
     m_testOperationPath = fullPath;
     {{prefix}}HttpRequestInput input(fullPath, "{{httpMethod}}");
 {{#hasFormParams}}
-    [[maybe_unused]] QString contentType;
 {{#consumes}}
 {{#-first}}
     input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "{{{mediaType}}}"_L1);
@@ -274,14 +274,14 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{/hasFormParams}}
 {{#formParams}}
     {{^required}}if ({{paramName}}.hasValue()) {{/required}}{
+        QString contentType;
 {{#consumes}}
 {{#contentType}}
         contentType = u"{{contentType}}"_s;
-        input.addFieldHeaders(u"{{baseName}}"_s, contentType);
 {{/contentType}}
 {{/consumes}}
 {{#isFile}}
-        input.addFile("{{baseName}}", {{paramName}}{{^required}}.value(){{/required}}.m_localFilename, {{paramName}}{{^required}}.value(){{/required}}.m_requestFilename, {{paramName}}{{^required}}.value(){{/required}}.m_mimeType);
+        input.addFile("{{baseName}}", {{paramName}}{{^required}}.value(){{/required}}.m_localFilename, {{paramName}}{{^required}}.value(){{/required}}.m_requestFilename, contentType);
 {{/isFile}}
 {{^isFile}}
 {{#isContainer}}
@@ -292,12 +292,14 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         using VT = std::decay_t<decltype({{paramName}}{{^required}}.value(){{/required}})>::value_type;
         if (contentType == "application/json"_L1
             || (contentType.isEmpty() && !isPrimitiveMediaType<VT>)) {
-            input.addQueryItem(u"{{baseName}}"_s, ::{{cppNamespace}}::convertJsonValueToString(::{{cppNamespace}}::toJsonValue({{paramName}}{{^required}}.value(){{/required}})));
+            input.addFieldHeaders(u"{{baseName}}"_s, "application/json");
+            input.addVar(u"{{baseName}}"_s, ::{{cppNamespace}}::convertJsonValueToString(::{{cppNamespace}}::toJsonValue({{paramName}}{{^required}}.value(){{/required}})));
         } else {
             // if none of the above - serialize according to the content type of items
             for (const auto &item : {{paramName}}{{^required}}.value(){{/required}}) {
-                input.addQueryItem(u"{{baseName}}"_s, ::{{cppNamespace}}::serializeMediaTypeContentField(contentType, item));
+                input.addVar(u"{{baseName}}"_s, ::{{cppNamespace}}::serializeMediaTypeContentField(contentType, item));
             }
+            input.addFieldHeaders(u"{{baseName}}"_s, "text/plain");
         }
 {{/isArray}}
 {{#isMap}}
@@ -305,17 +307,20 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         using VT = typename MapType::mapped_type;
         if (contentType == "application/json"_L1
             || (contentType.isEmpty() && !isPrimitiveMediaType<VT>)) {
-            input.addQueryItem(u"{{baseName}}"_s, ::{{cppNamespace}}::convertJsonValueToString(::{{cppNamespace}}::toJsonValue({{paramName}}{{^required}}.value(){{/required}})));
+            input.addFieldHeaders(u"{{baseName}}"_s, "application/json");
+            input.addVar(u"{{baseName}}"_s, ::{{cppNamespace}}::convertJsonValueToString(::{{cppNamespace}}::toJsonValue({{paramName}}{{^required}}.value(){{/required}})));
         } else {
             // if none of the above - serialize according to the content type of items
             for (const auto &[key, value] : {{paramName}}{{^required}}.value(){{/required}}.asKeyValueRange()) {
-                input.addQueryItem(key, ::{{cppNamespace}}::serializeMediaTypeContentField(contentType, value));
+                input.addVar(key, ::{{cppNamespace}}::serializeMediaTypeContentField(contentType, value));
             }
+            input.addFieldHeaders(u"{{baseName}}"_s, "text/plain");
         }
 {{/isMap}}
 {{/isContainer}}
 {{^isContainer}}
-        input.addQueryItem(u"{{baseName}}"_s, ::{{cppNamespace}}::serializeMediaTypeContentField(contentType, {{paramName}}{{^required}}.value(){{/required}}));
+        input.addFieldHeaders(u"{{baseName}}"_s, addContentField(contentType, {{paramName}}{{^required}}.value(){{/required}}));
+        input.addVar(u"{{baseName}}"_s, ::{{cppNamespace}}::serializeMediaTypeContentField(contentType, {{paramName}}{{^required}}.value(){{/required}}));
 {{/isContainer}}
 {{/isFile}}
     }

@@ -15,6 +15,8 @@
 #include <QtCore/qurl.h>
 #include <QtCore/quuid.h>
 #include <QtCore/QtGlobal>
+#include <QtNetwork/qformdatabuilder.h>
+#include <QtNetwork/qhttpmultipart.h>
 #include <QtNetwork/qnetworkaccessmanager.h>
 #include <QtNetwork/qnetworkrequestfactory.h>
 #include <QtNetwork/qrestaccessmanager.h>
@@ -50,6 +52,7 @@ void OAIHttpRequestInput::initialize()
     m_varLayout = NOT_SET;
     m_urlStr = "";
     m_httpMethod = "GET";
+    m_multiPart.reset();
 }
 
 OAIHttpRequestInput::OAIHttpRequestInput(OAIHttpRequestInput &other)
@@ -57,6 +60,7 @@ OAIHttpRequestInput::OAIHttpRequestInput(OAIHttpRequestInput &other)
     m_urlStr = other.m_urlStr;
     m_httpMethod = other.m_httpMethod;
     m_varLayout = other.m_varLayout;
+    m_vars = other.m_vars;
     m_fieldHeaders = other.m_fieldHeaders;
     m_headers = other.m_headers;
     m_files = other.m_files;
@@ -64,9 +68,12 @@ OAIHttpRequestInput::OAIHttpRequestInput(OAIHttpRequestInput &other)
     m_queryItem = other.m_queryItem;
 }
 
-void OAIHttpRequestInput::addQueryItem(const QString &key, const QString &value)
+void OAIHttpRequestInput::addVar(const QString &key, const QString &value)
 {
-    m_queryItem.addQueryItem(toFormUrlEncoding(key), toFormUrlEncoding(value));
+    if (m_varLayout == URL_ENCODED)
+        m_queryItem.addQueryItem(toFormUrlEncoding(key), toFormUrlEncoding(value));
+    else
+        m_vars[key] = value;
 }
 
 void OAIHttpRequestInput::addFieldHeaders(const QString &key, const QString &value)
@@ -173,7 +180,6 @@ QNetworkRequest getNetworkRequest(OAIHttpRequestInput &input, QByteArray &reques
         input.m_varLayout = input.m_httpMethod == "GET" || input.m_httpMethod == "HEAD" ? ADDRESS : URL_ENCODED;
     }
     // prepare request content
-    QString boundary = "";
     if (input.m_varLayout == ADDRESS || input.m_varLayout == URL_ENCODED) {
         // variable layout is ADDRESS or URL_ENCODED
         if (!input.m_queryItem.isEmpty()) {
@@ -185,40 +191,22 @@ QNetworkRequest getNetworkRequest(OAIHttpRequestInput &input, QByteArray &reques
             }
         }
     } else {
-        // variable layout is MULTIPART
-        boundary = QString("__-----------------------%1%2")
-                            .arg(QDateTime::currentDateTime().toSecsSinceEpoch())
-                            .arg(randomGenerator.generate());
-        QString boundaryDelimiter = "--";
-        const QString newLine = "\r\n";
-
-        const QList<std::pair<QString, QString>> vars = input.m_queryItem.queryItems(QUrl::FullyEncoded);
+        QFormDataBuilder builder;
         // add variables
-        for (const std::pair<QString, QString> &item : vars) {
-            // add boundary
-            requestContent.append(boundaryDelimiter.toUtf8());
-            requestContent.append(boundary.toUtf8());
-            requestContent.append(newLine.toUtf8());
-
-            // add header
-            requestContent.append("Content-Disposition: form-data; ");
-            requestContent.append(httpAttributeEncode("name", item.first).toUtf8());
-            requestContent.append(newLine.toUtf8());
-            requestContent.append("Content-Type: text/plain");
-            requestContent.append(newLine.toUtf8());
-
-            // add header to body splitter
-            requestContent.append(newLine.toUtf8());
-
-            // add variable content
-            requestContent.append(item.second.toUtf8());
-            requestContent.append(newLine.toUtf8());
+        for (const QString &key : input.m_vars.keys()) {
+            auto part = builder.part(key);
+            const QByteArray value = input.m_vars.value(key).toUtf8();
+            if (input.m_fieldHeaders.contains(key)) {
+                part.setBody(value, QString(), input.m_fieldHeaders[key]);
+            } else {
+                part.setBody(value);
+            }
         }
 
         // add files
+        QList<QFile *> addedFiles;
         for (QList<OAIHttpFileElement>::iterator fileInfo = input.m_files.begin(); fileInfo != input.m_files.end(); fileInfo++) {
             QFileInfo fi(fileInfo->m_localFilename);
-
             // ensure necessary variables are available
             if (fileInfo->m_localFilename == nullptr
                 || fileInfo->m_localFilename.isEmpty()
@@ -230,13 +218,11 @@ QNetworkRequest getNetworkRequest(OAIHttpRequestInput &input, QByteArray &reques
                 // silent abort for the current file
                 continue;
             }
-
-            QFile file(fileInfo->m_localFilename);
-            if (!file.open(QIODevice::ReadOnly)) {
-                // silent abort for the current file
+            QFile *file = new QFile(fileInfo->m_localFilename);
+            if (!file->open(QIODevice::ReadOnly)) {
+                qWarning() << "Cannot open the file: " << fileInfo->m_localFilename;
                 continue;
             }
-
             // ensure filename for the request
             if (fileInfo->m_requestFilename == nullptr || fileInfo->m_requestFilename.isEmpty()) {
                 fileInfo->m_requestFilename = fi.fileName();
@@ -244,40 +230,17 @@ QNetworkRequest getNetworkRequest(OAIHttpRequestInput &input, QByteArray &reques
                     fileInfo->m_requestFilename = "file";
                 }
             }
-
-            // add boundary
-            requestContent.append(boundaryDelimiter.toUtf8());
-            requestContent.append(boundary.toUtf8());
-            requestContent.append(newLine.toUtf8());
-
-            // add header
-            requestContent.append(
-                QString("Content-Disposition: form-data; %1; %2").arg(httpAttributeEncode("name", fileInfo->m_variableName), httpAttributeEncode("filename", fileInfo->m_requestFilename)).toUtf8());
-            requestContent.append(newLine.toUtf8());
-
-            if (fileInfo->m_mimeType != nullptr && !fileInfo->m_mimeType.isEmpty()) {
-                requestContent.append("Content-Type: ");
-                requestContent.append(fileInfo->m_mimeType.toUtf8());
-                requestContent.append(newLine.toUtf8());
-            }
-
-            requestContent.append("Content-Transfer-Encoding: binary");
-            requestContent.append(newLine.toUtf8());
-
-            // add header to body splitter
-            requestContent.append(newLine.toUtf8());
-
-            // add file content
-            requestContent.append(file.readAll());
-            requestContent.append(newLine.toUtf8());
-
-            file.close();
+            auto part = builder.part(fileInfo->m_variableName);
+            part.setBodyDevice(file, fileInfo->m_localFilename, fileInfo->m_mimeType.isEmpty() ? QString("application/octet-stream") : fileInfo->m_mimeType);
+            addedFiles.append(file);
         }
-
-        // add end of body
-        requestContent.append(boundaryDelimiter.toUtf8());
-        requestContent.append(boundary.toUtf8());
-        requestContent.append(boundaryDelimiter.toUtf8());
+        // Build the multipart object
+        input.m_multiPart = builder.buildMultiPart();
+        // Need to take care about opened files
+        for (QFile *file: addedFiles) {
+            if (file)
+                file->setParent(input.m_multiPart.get()); // we cannot delete the file now, so delete it with the multiPart
+        }
     }
 
     if (input.m_requestBody.size() > 0) {
@@ -306,8 +269,6 @@ QNetworkRequest getNetworkRequest(OAIHttpRequestInput &input, QByteArray &reques
         }
     } else if (input.m_varLayout == URL_ENCODED) {
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-    } else if (input.m_varLayout == MULTIPART) {
-        request.setHeader(QNetworkRequest::ContentTypeHeader, "multipart/form-data; boundary=" + boundary);
     }
 
     if (responseCompressionEnabled) {

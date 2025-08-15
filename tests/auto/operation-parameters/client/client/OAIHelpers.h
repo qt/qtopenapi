@@ -292,6 +292,18 @@ QString serializeMediaTypeContentField(const QString &contentType, const T &valu
 }
 
 template <typename T>
+QString addContentField(const QString &contentType, const T &value)
+{
+    if (contentType.isEmpty()) {
+        if constexpr (isPrimitiveMediaType<T>)
+            return QString("text/plain");
+        else
+            return QString("application/json");
+    }
+    return contentType;
+}
+
+template <typename T>
 class OptionalParam
 {
 public:

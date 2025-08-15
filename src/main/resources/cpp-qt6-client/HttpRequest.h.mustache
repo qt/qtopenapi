@@ -22,6 +22,7 @@
 QT_BEGIN_NAMESPACE
 class QNetworkRequestFactory;
 class QRestAccessManager;
+class QHttpMultiPart;
 QT_END_NAMESPACE
 
 {{#cppNamespaceDeclarations}}
@@ -40,17 +41,19 @@ public:
     QString m_urlStr;
     QString m_httpMethod;
     {{prefix}}HttpRequestVarLayout m_varLayout;
+    QMap<QString, QString> m_vars;
     QMap<QString, QString> m_fieldHeaders;
     QHttpHeaders m_headers;
     QList<{{prefix}}HttpFileElement> m_files;
     QByteArray m_requestBody;
     QUrlQuery m_queryItem;
+    std::unique_ptr<QHttpMultiPart> m_multiPart;
 
     {{prefix}}HttpRequestInput();
     {{prefix}}HttpRequestInput(const QString &vUrlStr, const QString &vHttpMethod);
     {{prefix}}HttpRequestInput({{prefix}}HttpRequestInput &other);
     void initialize();
-    void addQueryItem(const QString &key, const QString &value);
+    void addVar(const QString &key, const QString &value);
     void addFieldHeaders(const QString &key, const QString &value);
     void addFile(const QString &variableName, const QString &localFilename, const QString &requestFilename, const QString &mimeType);
     void addVarLayout({{prefix}}HttpRequestVarLayout layout);

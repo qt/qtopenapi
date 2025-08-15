@@ -14,6 +14,7 @@
 
 #include "OAIHttpFileElement.h"
 #include "OAIPostApplicationJsonSeveralObjects_request.h"
+#include "OAIPostMultiPartData_request_formObject.h"
 #include "OAIUser.h"
 #include <QMap>
 #include <QString>
@@ -104,6 +105,15 @@ public:
     /**
     * \internal
     * The auto-generated API:
+    * void postMultiPartData(const QString &formId, const QList<OAIUser> &formAddresses, const ::OpenAPI::OptionalParam<qint32> &formIndex, const ::OpenAPI::OptionalParam<OAIHttpFileElement> &formProfileImage, const ::OpenAPI::OptionalParam<OAIPostMultiPartData_request_formObject> &formObject, const ::OpenAPI::OptionalParam<QMap<QString, OAIUser>> &formMap);
+    * void postMultiPartData(const QString &formId, const QList<OAIUser> &formAddresses, const ::OpenAPI::OptionalParam<qint32> &formIndex, const ::OpenAPI::OptionalParam<OAIHttpFileElement> &formProfileImage, const ::OpenAPI::OptionalParam<OAIPostMultiPartData_request_formObject> &formObject, const ::OpenAPI::OptionalParam<QMap<QString, OAIUser>> &formMap, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    OAI_ADD_OPERATION_IMPL(postMultiPartData, (const QString &formId, const QList<OAIUser> &formAddresses, const ::OpenAPI::OptionalParam<qint32> &formIndex = ::OpenAPI::OptionalParam<qint32>(), const ::OpenAPI::OptionalParam<OAIHttpFileElement> &formProfileImage = ::OpenAPI::OptionalParam<OAIHttpFileElement>(), const ::OpenAPI::OptionalParam<OAIPostMultiPartData_request_formObject> &formObject = ::OpenAPI::OptionalParam<OAIPostMultiPartData_request_formObject>(), const ::OpenAPI::OptionalParam<QMap<QString, OAIUser>> &formMap = ::OpenAPI::OptionalParam<QMap<QString, OAIUser>>()), (formId, formAddresses, formIndex, formProfileImage, formObject, formMap), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
     * void postPlainTextType(const QString &body);
     * void postPlainTextType(const QString &body, QObject *object, [&](const QRestReply &reply, const QString &summary){});
     * \endinternal
@@ -170,6 +180,10 @@ Q_SIGNALS:
     void postApplicationJsonStringFinished(const QString &summary);
     /** Signal is emitted, if postApplicationJsonString() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void postApplicationJsonStringErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if postMultiPartData() request completed successfully. The \a summary contains a serialized server response. */
+    void postMultiPartDataFinished(const QString &summary);
+    /** Signal is emitted, if postMultiPartData() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void postMultiPartDataErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if postPlainTextType() request completed successfully. The \a summary contains a serialized server response. */
     void postPlainTextTypeFinished(const QString &summary);
     /** Signal is emitted, if postPlainTextType() request completed with an error. \a errorType and \a errorStr contain an information about the error. */

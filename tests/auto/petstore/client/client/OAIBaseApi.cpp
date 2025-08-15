@@ -12,6 +12,7 @@
 #include <QtCore/QDir>
 #include <QtCore/qjsonarray.h>
 #include <QtCore/qjsondocument.h>
+#include <QtNetwork/qhttpmultipart.h>
 #include <QtNetwork/qnetworkaccessmanager.h>
 #include <QtNetwork/qnetworkrequestfactory.h>
 #include <QtNetwork/qrestaccessmanager.h>
@@ -316,21 +317,30 @@ QString OAIBaseApi::errorString(ServerError error) const
 
 QNetworkReply *OAIBaseApi::execute(OAIHttpRequestInput &input, QNetworkRequest &request, QByteArray &requestContent)
 {
+    bool isMultiPartMode = (input.m_multiPart.get() && input.m_varLayout == OAIHttpRequestVarLayout::MULTIPART);
     QNetworkReply *reply = nullptr;
     if (input.m_httpMethod == "GET") {
         reply = m_restManager->get(request);
     } else if (input.m_httpMethod == "POST") {
-        reply = m_restManager->post(request, requestContent);
+        if (isMultiPartMode)
+            reply = m_restManager->post(request, input.m_multiPart.release());
+        else
+            reply = m_restManager->post(request, requestContent);
     } else if (input.m_httpMethod == "PUT") {
-        reply = m_restManager->put(request, requestContent);
+        if (isMultiPartMode)
+            reply = m_restManager->put(request, input.m_multiPart.release());
+        else
+            reply = m_restManager->put(request, requestContent);
     } else if (input.m_httpMethod == "HEAD") {
         reply = m_restManager->head(request);
     } else if (input.m_httpMethod == "DELETE") {
         reply = m_restManager->deleteResource(request);
     } else {
-        reply = m_restManager->sendCustomRequest(request, input.m_httpMethod.toLatin1(), requestContent);
+        if (isMultiPartMode)
+            reply = m_restManager->sendCustomRequest(request, input.m_httpMethod.toLatin1(), input.m_multiPart.release());
+        else
+            reply = m_restManager->sendCustomRequest(request, input.m_httpMethod.toLatin1(), requestContent);
     }
-
     return reply;
 }
 

@@ -66,6 +66,7 @@ private Q_SLOTS:
     void testPlainText();
     void testOctetStream();
     void testUrlEncodedType();
+    void testFormMediaTypes();
 };
 
 // MEDIA TYPE `application/json`
@@ -353,6 +354,70 @@ void MediaType::testUrlEncodedType()
     QTRY_COMPARE_EQ(done, true);
 
 }
+
+// Main idea of multipart/form-data is an each field are being serialized
+// and encoded differentlly, depending on content + encoding + data type combinations.
+//
+// Below is an example of Basic Multi-part form, see:
+// https://spec.openapis.org/oas/v3.1.1.html#example-basic-multipart-form
+// The example uses DEFAULT content types for form-fields.
+// By default, content type depends on the DATA type of the field.
+// See the table of default types under this chapter (column 'Default MediaType'):
+// https://spec.openapis.org/oas/v3.1.1.html#common-fixed-fields-0
+void MediaType::testFormMediaTypes()
+{
+    bool done = false;
+    OAIUser user1, user2;
+    user1.setName("User_1");
+    user1.setStatus("Awaik");
+    user1.setAge(10);
+    user2.setName("User_2");
+    user2.setStatus("Sleeping");
+    user2.setAge(11);
+
+    OAIPostMultiPartData_request_formObject object;
+    object.setObjectId(-99);
+    object.setObjectName("AnObject 123");
+
+    QList<OAIUser> multiList = {user1, user2};
+    QMap<QString, OAIUser> map;
+    map.insert("TEXT", user1);
+
+    OAIHttpFileElement formFile;
+    formFile.setFileName(":/file-for-uploading.txt");
+    formFile.setRequestFileName(":/file-for-uploading.txt");
+
+    // 'formId'           - has a string type with uuid format, so it's being treated as 'plain/text'.
+    //                      However we set custom `application/json` for this parameter in yaml file.
+    // 'formAddresses'    - default type for arrays is based on the type in the `items` subschema.
+    //                      Here it's an Object, so it is being treated as `application/json`.
+    // 'formIndex'        - has a simple integer type, so it's being treated as 'plain/text'.
+    // 'formProfileImage' - has a string type with binary format, so it's being treated as `application/octet-stream`.
+    // 'formObject'       - default type for an Object is `application/json`.
+    // 'formMap'          - default type for a Map is `application/json`.
+    // NOTE: 'formId' and 'formAddresses' are declared as required in YAML file.
+    postMultiPartData(QString("\"f81d4fae-7dec-11d0-a765-00a0c91e6bf6\""), // json string
+                      multiList,
+                      ::OpenAPI::OptionalParam<qint32>(100),
+                      ::OpenAPI::OptionalParam<OAIHttpFileElement>(formFile),
+                      ::OpenAPI::OptionalParam<OAIPostMultiPartData_request_formObject>(object),
+                      ::OpenAPI::OptionalParam<QMap<QString, OAIUser>>(map),
+                      this, [&](const QRestReply &reply, const QString &summary){
+        if (!(done = reply.isSuccess()))
+            qWarning() << "ERROR: " << reply.errorString() << reply.error();
+        QCOMPARE(getJsonValue(summary, "formId").toString(), "\"f81d4fae-7dec-11d0-a765-00a0c91e6bf6\"");
+        QJsonArray array = getJsonValue(summary, "formAddresses").toArray();
+        QVERIFY(array.size() > 0);
+        QCOMPARE(array.at(0).toString(), "[{\"age\":10,\"name\":\"User_1\",\"status\":\"Awaik\"},{\"age\":11,\"name\":\"User_2\",\"status\":\"Sleeping\"}]");
+        QCOMPARE(getJsonValue(summary, "formIndex").toVariant().toInt(), 100);
+        QCOMPARE(getJsonValue(summary, "formObject").toString(), "{\"objectId\":-99,\"objectName\":\"AnObject 123\"}");
+        QCOMPARE(getJsonValue(summary, "formMap").toString(), "{\"TEXT\":{\"age\":10,\"name\":\"User_1\",\"status\":\"Awaik\"}}");
+        QCOMPARE(getJsonValue(summary, "formProfileImage").toString() , "Hello world!\n");
+        QVERIFY(getHeaderValue(summary).contains("multipart/form-data; boundary="));
+    });
+    QTRY_COMPARE_EQ(done, true);
+}
+
 } // OpenAPI
 
 QTEST_MAIN(OpenAPI::MediaType)

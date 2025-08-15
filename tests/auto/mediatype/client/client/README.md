@@ -36,6 +36,7 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:10209/v2
 |*postApplicationJsonObject* | *POST* /reqBody/appjson/object/postApplicationJsonObject | Post request-body, application-json, object.|
 |*postApplicationJsonSeveralObjects* | *POST* /reqBody/appjson/object/postApplicationJsonSeveralObjects | Post request-body, application-json, object.|
 |*postApplicationJsonString* | *POST* /reqBody/appjson/string/postApplicationJsonString | Get request-body, application-json, string.|
+|*postMultiPartData* | *POST* /reqBody/multipart/postMultiPartData | post multi part data.|
 |*postPlainTextType* | *POST* /reqBody/string/postPlainTextType | Post a simple text, like a user input.|
 |*postUrlEncodedFields* | *POST* /reqBody/urlencoded/postUrlEncodedFields | post Url Encoded simple key-value pairs.|
 |*postUrlEncodedNestedObject* | *POST* /reqBody/urlencoded/postUrlEncodedNestedObject | post Url Encoded simple key-value pairs.|
@@ -46,6 +47,7 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:10209/v2
 |Class | Description|
 |------------- | -------------|
 |*OAIPostApplicationJsonSeveralObjects_request* | |
+|*OAIPostMultiPartData_request_formObject* | |
 |*OAIUser* | |
 
 

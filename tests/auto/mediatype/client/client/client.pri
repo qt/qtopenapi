@@ -3,6 +3,7 @@ QT += network
 HEADERS += \
 # Models
     $${PWD}/OAIPostApplicationJsonSeveralObjects_request.h \
+    $${PWD}/OAIPostMultiPartData_request_formObject.h \
     $${PWD}/OAIUser.h \
 # APIs
     $${PWD}/OAITestApi.h \
@@ -18,6 +19,7 @@ HEADERS += \
 SOURCES += \
 # Models
     $${PWD}/OAIPostApplicationJsonSeveralObjects_request.cpp \
+    $${PWD}/OAIPostMultiPartData_request_formObject.cpp \
     $${PWD}/OAIUser.cpp \
 # APIs
     $${PWD}/OAITestApi.cpp \

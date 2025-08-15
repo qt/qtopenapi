@@ -12,6 +12,7 @@
 #include <QtCore/qanystringview.h>
 #include <QtCore/qjsonarray.h>
 #include <QtCore/qjsondocument.h>
+#include <QtNetwork/qhttpmultipart.h>
 #include <QtNetwork/qnetworkaccessmanager.h>
 #include <QtNetwork/qnetworkreply.h>
 #include <QtNetwork/qnetworkrequestfactory.h>
@@ -56,6 +57,8 @@ void OAITestApi::initializeServerConfigs()
     m_serverIndices.insert("postApplicationJsonSeveralObjects", 0);
     m_serverConfigs.insert("postApplicationJsonString", defaultConf);
     m_serverIndices.insert("postApplicationJsonString", 0);
+    m_serverConfigs.insert("postMultiPartData", defaultConf);
+    m_serverIndices.insert("postMultiPartData", 0);
     m_serverConfigs.insert("postPlainTextType", defaultConf);
     m_serverIndices.insert("postPlainTextType", 0);
     m_serverConfigs.insert("postUrlEncodedFields", defaultConf);
@@ -935,6 +938,184 @@ void OAITestApi::postApplicationJsonStringCallback(const QRestReply &reply)
 }
 
 /**
+* \fn virtual void OAITestApi::postMultiPartData(const QString &formId, const QList<OAIUser> &formAddresses, const ::OpenAPI::OptionalParam<qint32> &formIndex = ::OpenAPI::OptionalParam<qint32>(), const ::OpenAPI::OptionalParam<OAIHttpFileElement> &formProfileImage = ::OpenAPI::OptionalParam<OAIHttpFileElement>(), const ::OpenAPI::OptionalParam<OAIPostMultiPartData_request_formObject> &formObject = ::OpenAPI::OptionalParam<OAIPostMultiPartData_request_formObject>(), const ::OpenAPI::OptionalParam<QMap<QString, OAIUser>> &formMap = ::OpenAPI::OptionalParam<QMap<QString, OAIUser>>())
+* 'postMultiPartData' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] formId QString [required]
+* @param[in] formAddresses QList<OAIUser> [required]
+* @param[in] formIndex qint32 [optional]
+* @param[in] formProfileImage OAIHttpFileElement [optional]
+* @param[in] formObject OAIPostMultiPartData_request_formObject [optional]
+* @param[in] formMap QMap<QString, OAIUser> [optional]
+*/
+
+/**
+* \fn template < Functor, > void OAITestApi::postMultiPartData(const QString &formId, const QList<OAIUser> &formAddresses, const ::OpenAPI::OptionalParam<qint32> &formIndex = ::OpenAPI::OptionalParam<qint32>(), const ::OpenAPI::OptionalParam<OAIHttpFileElement> &formProfileImage = ::OpenAPI::OptionalParam<OAIHttpFileElement>(), const ::OpenAPI::OptionalParam<OAIPostMultiPartData_request_formObject> &formObject = ::OpenAPI::OptionalParam<OAIPostMultiPartData_request_formObject>(), const ::OpenAPI::OptionalParam<QMap<QString, OAIUser>> &formMap = ::OpenAPI::OptionalParam<QMap<QString, OAIUser>>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'postMultiPartData' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    postMultiPartData(formId, formAddresses, formIndex, formProfileImage, formObject, formMap, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual postMultiPartDataWithDataImpl() in derived class.
+* The virtual postMultiPartDataWithDataImpl() is being called by the template
+* function.
+
+* @param[in] formId QString [required]
+* @param[in] formAddresses QList<OAIUser> [required]
+* @param[in] formIndex qint32 [optional]
+* @param[in] formProfileImage OAIHttpFileElement [optional]
+* @param[in] formObject OAIPostMultiPartData_request_formObject [optional]
+* @param[in] formMap QMap<QString, OAIUser> [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void OAITestApi::postMultiPartDataCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by postMultiPartDataFinished() or
+* being returned as a callback parameter of postMultiPartData() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void OAITestApi::postMultiPartDataWithDataImpl(const QString &formId, const QList<OAIUser> &formAddresses, const ::OpenAPI::OptionalParam<qint32> &formIndex, const ::OpenAPI::OptionalParam<OAIHttpFileElement> &formProfileImage, const ::OpenAPI::OptionalParam<OAIPostMultiPartData_request_formObject> &formObject, const ::OpenAPI::OptionalParam<QMap<QString, OAIUser>> &formMap, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the postMultiPartData() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking postMultiPartData() operation calls.
+
+* @param[in] formId QString [required]
+* @param[in] formAddresses QList<OAIUser> [required]
+* @param[in] formIndex qint32 [optional]
+* @param[in] formProfileImage OAIHttpFileElement [optional]
+* @param[in] formObject OAIPostMultiPartData_request_formObject [optional]
+* @param[in] formMap QMap<QString, OAIUser> [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void OAITestApi::postMultiPartDataWithDataImpl(const QString &formId, const QList<OAIUser> &formAddresses, const ::OpenAPI::OptionalParam<qint32> &formIndex, const ::OpenAPI::OptionalParam<OAIHttpFileElement> &formProfileImage, const ::OpenAPI::OptionalParam<OAIPostMultiPartData_request_formObject> &formObject, const ::OpenAPI::OptionalParam<QMap<QString, OAIUser>> &formMap, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["postMultiPartData"][m_serverIndices.value("postMultiPartData")].serverUrl();
+    QString fullPath = "/reqBody/multipart/postMultiPartData";
+    m_networkFactory->setBaseUrl(serverUrl);
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    OAIHttpRequestInput input(fullPath, "POST");
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "multipart/form-data"_L1);
+    input.addVarLayout(MULTIPART);
+    {
+        QString contentType;
+        contentType = u"application/json"_s;
+        input.addFieldHeaders(u"formId"_s, addContentField(contentType, formId));
+        input.addVar(u"formId"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, formId));
+    }
+    if (formIndex.hasValue()) {
+        QString contentType;
+        input.addFieldHeaders(u"formIndex"_s, addContentField(contentType, formIndex.value()));
+        input.addVar(u"formIndex"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, formIndex.value()));
+    }
+    if (formProfileImage.hasValue()) {
+        QString contentType;
+        input.addFile("formProfileImage", formProfileImage.value().m_localFilename, formProfileImage.value().m_requestFilename, contentType);
+    }
+    {
+        QString contentType;
+        // if contentType is explicitly specified as json,
+        // or if it is not specified and the elements of the
+        // array are non-primitive, also serialize as a json-object
+        using VT = std::decay_t<decltype(formAddresses)>::value_type;
+        if (contentType == "application/json"_L1
+            || (contentType.isEmpty() && !isPrimitiveMediaType<VT>)) {
+            input.addFieldHeaders(u"formAddresses"_s, "application/json");
+            input.addVar(u"formAddresses"_s, ::OpenAPI::convertJsonValueToString(::OpenAPI::toJsonValue(formAddresses)));
+        } else {
+            // if none of the above - serialize according to the content type of items
+            for (const auto &item : formAddresses) {
+                input.addVar(u"formAddresses"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, item));
+            }
+            input.addFieldHeaders(u"formAddresses"_s, "text/plain");
+        }
+    }
+    if (formObject.hasValue()) {
+        QString contentType;
+        input.addFieldHeaders(u"formObject"_s, addContentField(contentType, formObject.value()));
+        input.addVar(u"formObject"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, formObject.value()));
+    }
+    if (formMap.hasValue()) {
+        QString contentType;
+        contentType = u"application/json"_s;
+        // if contentType is explicitly specified as json,
+        // or if it is not specified and the elements of the
+        // array are non-primitive, also serialize as a json-object
+        using MapType = std::decay_t<decltype(formMap.value())>;
+        using VT = typename MapType::mapped_type;
+        if (contentType == "application/json"_L1
+            || (contentType.isEmpty() && !isPrimitiveMediaType<VT>)) {
+            input.addFieldHeaders(u"formMap"_s, "application/json");
+            input.addVar(u"formMap"_s, ::OpenAPI::convertJsonValueToString(::OpenAPI::toJsonValue(formMap.value())));
+        } else {
+            // if none of the above - serialize according to the content type of items
+            for (const auto &[key, value] : formMap.value().asKeyValueRange()) {
+                input.addVar(key, ::OpenAPI::serializeMediaTypeContentField(contentType, value));
+            }
+            input.addFieldHeaders(u"formMap"_s, "text/plain");
+        }
+    }
+    QNetworkRequest request
+        = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, OAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            postMultiPartDataCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit postMultiPartDataErrorOccurred(reply->error(), reply->errorString());
+                OAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void OAITestApi::postMultiPartDataCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    ::OpenAPI::fromStringValue(response, output);
+    // Check if callback is provided
+    OAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit postMultiPartDataFinished(output);
+}
+
+/**
 * \fn virtual void OAITestApi::postPlainTextType(const QString &body)
 * 'postPlainTextType' operation sends the request to a server.
 * The request parameters are defined by a specification file.
@@ -1109,34 +1290,43 @@ void OAITestApi::postUrlEncodedFieldsWithDataImpl(const ::OpenAPI::OptionalParam
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    [[maybe_unused]] QString contentType;
     input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/x-www-form-urlencoded"_L1);
     input.addVarLayout(URL_ENCODED);
     if (name.hasValue()) {
-        input.addQueryItem(u"name"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, name.value()));
+        QString contentType;
+        input.addFieldHeaders(u"name"_s, addContentField(contentType, name.value()));
+        input.addVar(u"name"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, name.value()));
     }
     if (status.hasValue()) {
-        input.addQueryItem(u"status"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, status.value()));
+        QString contentType;
+        input.addFieldHeaders(u"status"_s, addContentField(contentType, status.value()));
+        input.addVar(u"status"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, status.value()));
     }
     if (availability.hasValue()) {
-        input.addQueryItem(u"availability"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, availability.value()));
+        QString contentType;
+        input.addFieldHeaders(u"availability"_s, addContentField(contentType, availability.value()));
+        input.addVar(u"availability"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, availability.value()));
     }
     if (visits.hasValue()) {
+        QString contentType;
         // if contentType is explicitly specified as json,
         // or if it is not specified and the elements of the
         // array are non-primitive, also serialize as a json-object
         using VT = std::decay_t<decltype(visits.value())>::value_type;
         if (contentType == "application/json"_L1
             || (contentType.isEmpty() && !isPrimitiveMediaType<VT>)) {
-            input.addQueryItem(u"visits"_s, ::OpenAPI::convertJsonValueToString(::OpenAPI::toJsonValue(visits.value())));
+            input.addFieldHeaders(u"visits"_s, "application/json");
+            input.addVar(u"visits"_s, ::OpenAPI::convertJsonValueToString(::OpenAPI::toJsonValue(visits.value())));
         } else {
             // if none of the above - serialize according to the content type of items
             for (const auto &item : visits.value()) {
-                input.addQueryItem(u"visits"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, item));
+                input.addVar(u"visits"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, item));
             }
+            input.addFieldHeaders(u"visits"_s, "text/plain");
         }
     }
     if (mapfield.hasValue()) {
+        QString contentType;
         // if contentType is explicitly specified as json,
         // or if it is not specified and the elements of the
         // array are non-primitive, also serialize as a json-object
@@ -1144,12 +1334,14 @@ void OAITestApi::postUrlEncodedFieldsWithDataImpl(const ::OpenAPI::OptionalParam
         using VT = typename MapType::mapped_type;
         if (contentType == "application/json"_L1
             || (contentType.isEmpty() && !isPrimitiveMediaType<VT>)) {
-            input.addQueryItem(u"mapfield"_s, ::OpenAPI::convertJsonValueToString(::OpenAPI::toJsonValue(mapfield.value())));
+            input.addFieldHeaders(u"mapfield"_s, "application/json");
+            input.addVar(u"mapfield"_s, ::OpenAPI::convertJsonValueToString(::OpenAPI::toJsonValue(mapfield.value())));
         } else {
             // if none of the above - serialize according to the content type of items
             for (const auto &[key, value] : mapfield.value().asKeyValueRange()) {
-                input.addQueryItem(key, ::OpenAPI::serializeMediaTypeContentField(contentType, value));
+                input.addVar(key, ::OpenAPI::serializeMediaTypeContentField(contentType, value));
             }
+            input.addFieldHeaders(u"mapfield"_s, "text/plain");
         }
     }
     QNetworkRequest request
@@ -1258,14 +1450,17 @@ void OAITestApi::postUrlEncodedNestedObjectWithDataImpl(const ::OpenAPI::Optiona
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    [[maybe_unused]] QString contentType;
     input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/x-www-form-urlencoded"_L1);
     input.addVarLayout(URL_ENCODED);
     if (user.hasValue()) {
-        input.addQueryItem(u"user"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, user.value()));
+        QString contentType;
+        input.addFieldHeaders(u"user"_s, addContentField(contentType, user.value()));
+        input.addVar(u"user"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, user.value()));
     }
     if (comment.hasValue()) {
-        input.addQueryItem(u"comment"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, comment.value()));
+        QString contentType;
+        input.addFieldHeaders(u"comment"_s, addContentField(contentType, comment.value()));
+        input.addVar(u"comment"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, comment.value()));
     }
     QNetworkRequest request
         = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -1376,17 +1571,22 @@ void OAITestApi::postUrlEncodedObjectWithDataImpl(const ::OpenAPI::OptionalParam
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
-    [[maybe_unused]] QString contentType;
     input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/x-www-form-urlencoded"_L1);
     input.addVarLayout(URL_ENCODED);
     if (name.hasValue()) {
-        input.addQueryItem(u"name"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, name.value()));
+        QString contentType;
+        input.addFieldHeaders(u"name"_s, addContentField(contentType, name.value()));
+        input.addVar(u"name"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, name.value()));
     }
     if (status.hasValue()) {
-        input.addQueryItem(u"status"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, status.value()));
+        QString contentType;
+        input.addFieldHeaders(u"status"_s, addContentField(contentType, status.value()));
+        input.addVar(u"status"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, status.value()));
     }
     if (age.hasValue()) {
-        input.addQueryItem(u"age"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, age.value()));
+        QString contentType;
+        input.addFieldHeaders(u"age"_s, addContentField(contentType, age.value()));
+        input.addVar(u"age"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, age.value()));
     }
     QNetworkRequest request
         = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,

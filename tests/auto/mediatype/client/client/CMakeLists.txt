@@ -16,6 +16,7 @@ include(CMakePackageConfigHelpers)
 
 qt_add_library(${PROJECT_NAME}
     OAIPostApplicationJsonSeveralObjects_request.h
+    OAIPostMultiPartData_request_formObject.h
     OAIUser.h
     OAITestApi.h
     OAIBaseApi.h
@@ -27,6 +28,7 @@ qt_add_library(${PROJECT_NAME}
     OAIServerConfiguration.h
     OAIServerVariable.h
     OAIPostApplicationJsonSeveralObjects_request.cpp
+    OAIPostMultiPartData_request_formObject.cpp
     OAIUser.cpp
     OAITestApi.cpp
     OAIBaseApi.cpp

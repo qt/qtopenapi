@@ -242,6 +242,31 @@ paths:
       summary: post Url Encoded simple key-value pairs
       tags:
       - test
+  /reqBody/multipart/postMultiPartData:
+    post:
+      operationId: postMultiPartData
+      requestBody:
+        content:
+          multipart/form-data:
+            encoding:
+              formId:
+                contentType: application/json
+                style: form
+              formMap:
+                contentType: application/json
+                style: form
+            schema:
+              $ref: "#/components/schemas/postMultiPartData_request"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+      summary: post multi part data
+      tags:
+      - test
 components:
   schemas:
     User:
@@ -288,3 +313,32 @@ components:
           $ref: "#/components/schemas/User"
         comment:
           type: string
+    postMultiPartData_request_formObject:
+      properties:
+        objectId:
+          type: integer
+        objectName:
+          type: string
+    postMultiPartData_request:
+      properties:
+        formId:
+          format: uuid
+          type: string
+        formIndex:
+          format: int32
+          type: integer
+        formProfileImage:
+          format: binary
+          type: string
+        formAddresses:
+          items:
+            $ref: "#/components/schemas/User"
+          type: array
+        formObject:
+          $ref: "#/components/schemas/postMultiPartData_request_formObject"
+        formMap:
+          additionalProperties:
+            $ref: "#/components/schemas/User"
+      required:
+      - formAddresses
+      - formId

@@ -190,3 +190,34 @@ func (api *TestAPI) PostUrlEncodedNestedObject(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"user": username, "comment": userstatus, "header": c.Request.Header})
 }
+
+// Post /v2/reqBody/multipart/postMultiPartData
+// post multi part data
+func (api *TestAPI) PostMultiPartData(c *gin.Context) {
+	id := c.PostForm("formId")
+	index := c.PostForm("formIndex")
+	users := c.PostFormArray("formAddresses")
+	userObject := c.PostForm("formObject")
+	userMap := c.PostForm("formMap")
+
+	//Get the file from the form input
+	file, _, err := c.Request.FormFile("formProfileImage")
+	if err != nil {
+		fmt.Println("Error of reading formProfileImage: ", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to get file"})
+		return
+	}
+	defer file.Close()
+
+	// Read binary data
+	fileData, err := io.ReadAll(file)
+	if err != nil {
+		fmt.Println("Error of reading bynary data: ", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to read file"})
+		return
+	}
+
+	fileContent := string(fileData)
+	c.JSON(http.StatusOK, gin.H{"formId": id, "formAddresses": users, "formIndex": index,
+		"formObject": userObject, "formMap": userMap, "formProfileImage": fileContent, "header": c.Request.Header})
+}
