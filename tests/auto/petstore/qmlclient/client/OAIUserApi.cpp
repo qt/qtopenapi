@@ -128,7 +128,19 @@ void OAIUserApi::createInQueryMapWithDataImpl(const QMap<QString, QString> &user
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-            paramString.append(::OpenAPI::toStringValue(username, queryAssignOperator, queryDelimiter));
+            if (queryStyle == "deepObject"_L1) {
+                qsizetype index = 0;
+                if (username.isEmpty())
+                    qWarning() << "Map is empty!";
+                for (const auto &[key, value] : username.asKeyValueRange()) {
+                    if (index > 0)
+                        paramString.append(queryDelimiter);
+                    paramString.append(::OpenAPI::optionParameterToString(u"username[%1]"_s.arg(key), queryAssignOperator, value));
+                    index++;
+                }
+            } else {
+                paramString.append(::OpenAPI::toStringValue(username, queryAssignOperator, queryDelimiter));
+            }
             fullPath.append(paramString);
             queryParamCounter++;
         }

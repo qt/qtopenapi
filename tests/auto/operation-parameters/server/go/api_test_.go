@@ -23,6 +23,13 @@ import (
 type TestAPI struct {
 }
 
+// Post /v2/query/map/model-mapping/deepObject-explode/deepObjectExplodeMap
+// deepObject style with explode=true for query map parameter of model values.
+func (api *TestAPI) DeepObjectExplodeModelMap(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
 // Post /v2/query/object/deepObject-explode/deepObjectExplodeObject
 // deepObject object explode
 func (api *TestAPI) DeepObjectExplodeObject(c *gin.Context) {
@@ -33,6 +40,13 @@ func (api *TestAPI) DeepObjectExplodeObject(c *gin.Context) {
     } else {
         c.JSON(200, gin.H{"status": c.Request.RequestURI})
     }
+}
+
+// Post /v2/query/map/string-mapping/deepObject-explode/deepObjectExplodeMap
+// deepObject style with explode=true for query map parameter of string values.
+func (api *TestAPI) DeepObjectExplodeStringMap(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Post /v2/query/object/deepObject-not-explode/deepObjectNotExplodeObject
@@ -137,6 +151,13 @@ func (api *TestAPI) FormExplodeInt(c *gin.Context) {
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
+// Post /v2/query/map/model-mapping/form-explode/formExplodeMap
+// Form style with explode=true for query map parameter of model values.
+func (api *TestAPI) FormExplodeModelMap(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
 // Post /v2/query/object/form-explode/formExplodeObject
 // form object explode
 func (api *TestAPI) FormExplodeObject(c *gin.Context) {
@@ -157,6 +178,13 @@ func (api *TestAPI) FormExplodeString(c *gin.Context) {
 // Post /v2/query/strings/form-explode/formExplodeStringOptions
 // style-form, explode=true
 func (api *TestAPI) FormExplodeStringOptions(c *gin.Context) {
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Post /v2/query/map/string-mapping/form-explode/formExplodeMap
+// Form style with explode=true for query map parameter of string values.
+func (api *TestAPI) FormExplodeStringMap(c *gin.Context) {
+    // Your handler implementation
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
@@ -240,6 +268,13 @@ func (api *TestAPI) FormNotExplodeInt(c *gin.Context) {
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
+// Post /v2/query/map/model-mapping/form-not-explode/formNotExplodeMap
+// Form style with explode=false for query map parameter of model values.
+func (api *TestAPI) FormNotExplodeModelMap(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
 // Post /v2/query/object/form-not-explode/formNotExplodeObject
 // form object not explode
 func (api *TestAPI) FormNotExplodeObject(c *gin.Context) {
@@ -253,6 +288,13 @@ func (api *TestAPI) FormNotExplodeObject(c *gin.Context) {
 // Post /v2/query/string/form-not-explode/formNotExplodeString
 // form style with explode set to false for string query parameter.
 func (api *TestAPI) FormNotExplodeString(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Post /v2/query/map/string-mapping/form-not-explode/formNotExplodeMap
+// Form style with explode=false for query map parameter of string values.
+func (api *TestAPI) FormNotExplodeStringMap(c *gin.Context) {
     // Your handler implementation
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
@@ -337,6 +379,13 @@ func (api *TestAPI) LabelExplodeInt(c *gin.Context) {
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
+// Post /v2/path/map/model-mapping/label-explode/:mapParameter
+// label style with explode=true for path map parameter of model values.
+func (api *TestAPI) LabelExplodeModelMap(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
 // Get /v2/path/object/label-explode/:objectParameter
 // label object explode
 func (api *TestAPI) LabelExplodeObject(c *gin.Context) {
@@ -352,6 +401,13 @@ func (api *TestAPI) LabelExplodeObject(c *gin.Context) {
 // Get /v2/path/string/label-explode/:stringParameter
 // label style with explode set to true for string path parameter.
 func (api *TestAPI) LabelExplodeString(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Post /v2/path/map/string-mapping/label-explode/:mapParameter
+// label style with explode=true for path map parameter of string values.
+func (api *TestAPI) LabelExplodeStringMap(c *gin.Context) {
     // Your handler implementation
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
@@ -436,6 +492,13 @@ func (api *TestAPI) LabelNotExplodeInt(c *gin.Context) {
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
+// Post /v2/path/map/model-mapping/label-not-explode/:mapParameter
+// label style with explode=false for path map parameter of model values.
+func (api *TestAPI) LabelNotExplodeModelMap(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
 // Post /v2/path/object/label-not-explode/:objectParameter
 // label object not explode
 func (api *TestAPI) LabelNotExplodeObject(c *gin.Context) {
@@ -451,6 +514,13 @@ func (api *TestAPI) LabelNotExplodeObject(c *gin.Context) {
 // Get /v2/path/string/label-not-explode/:stringParameter
 // label style with explode set to false for string path parameter.
 func (api *TestAPI) LabelNotExplodeString(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Post /v2/path/map/string-mapping/label-not-explode/:mapParameter
+// label style with explode=false for path map parameter of string values.
+func (api *TestAPI) LabelNotExplodeStringMap(c *gin.Context) {
     // Your handler implementation
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
@@ -534,6 +604,13 @@ func (api *TestAPI) MatrixExplodeInt(c *gin.Context) {
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
+// Post /v2/path/map/model-mapping/matrix-explode/:mapParameter
+// matrix style with explode=true for path map parameter of model values.
+func (api *TestAPI) MatrixExplodeModelMap(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
 // Get /v2/path/object/matrix-explode/:objectParameter
 // matrix object explode
 func (api *TestAPI) MatrixExplodeObject(c *gin.Context) {
@@ -549,6 +626,13 @@ func (api *TestAPI) MatrixExplodeObject(c *gin.Context) {
 // Get /v2/path/string/matrix-explode/:stringParameter
 // matrix style with explode set to true for string path parameter.
 func (api *TestAPI) MatrixExplodeString(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Post /v2/path/map/string-mapping/matrix-explode/:mapParameter
+// matrix style with explode=true for path map parameter of string values.
+func (api *TestAPI) MatrixExplodeStringMap(c *gin.Context) {
     // Your handler implementation
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
@@ -632,6 +716,12 @@ func (api *TestAPI) MatrixNotExplodeInt(c *gin.Context) {
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
+// Post /v2/path/map/model-mapping/matrix-not-explode/:mapParameter
+// matrix style with explode=false for path map parameter of model values.
+func (api *TestAPI) MatrixNotExplodeModelMap(c *gin.Context) {
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
 // Get /v2/path/object/matrix-not-explode/:objectParameter
 // matrix object not explode
 func (api *TestAPI) MatrixNotExplodeObject(c *gin.Context) {
@@ -648,6 +738,12 @@ func (api *TestAPI) MatrixNotExplodeObject(c *gin.Context) {
 // matrix style with explode set to false for string path parameter.
 func (api *TestAPI) MatrixNotExplodeString(c *gin.Context) {
     // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Post /v2/path/map/string-mapping/matrix-not-explode/:mapParameter
+// matrix style with explode=false for path map parameter of string values.
+func (api *TestAPI) MatrixNotExplodeStringMap(c *gin.Context) {
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
@@ -691,6 +787,13 @@ func (api *TestAPI) PipeDelimitedNotExplodeArray(c *gin.Context) {
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
+// Post /v2/query/map/model-mapping/pipeDelimited-not-explode/pipeDelimitedNotExplodeMap
+// pipeDelimited style with explode=false for query map parameter of model values.
+func (api *TestAPI) PipeDelimitedNotExplodeModelMap(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
 // Post /v2/query/object/pipeDelimited-not-explode/pipeDelimitedNotExplodeObject
 // pipeDelimited object not explode
 func (api *TestAPI) PipeDelimitedNotExplodeObject(c *gin.Context) {
@@ -701,6 +804,13 @@ func (api *TestAPI) PipeDelimitedNotExplodeObject(c *gin.Context) {
     } else {
         c.JSON(200, gin.H{"status": c.Request.RequestURI})
     }
+}
+
+// Post /v2/query/map/string-mapping/pipeDelimited-not-explode/pipeDelimitedNotExplodeMap
+// pipeDelimited style with explode=false for query map parameter of string values.
+func (api *TestAPI) PipeDelimitedNotExplodeStringMap(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Get /v2/path/anytype/simple-explode/:anytypeParameter
@@ -780,6 +890,13 @@ func (api *TestAPI) SimpleExplodeInt(c *gin.Context) {
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
+// Post /v2/path/map/model-mapping/simple-explode/:mapParameter
+// simple style with explode=true for path map parameter of model values.
+func (api *TestAPI) SimpleExplodeModelMap(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
 // Get /v2/path/object/simple-explode/:objectParameter
 // simple object explode
 func (api *TestAPI) SimpleExplodeObject(c *gin.Context) {
@@ -795,6 +912,13 @@ func (api *TestAPI) SimpleExplodeObject(c *gin.Context) {
 // Get /v2/path/string/simple-explode/:stringParameter
 // Simple style with explode set to true for string path parameter.
 func (api *TestAPI) SimpleExplodeString(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Post /v2/path/map/string-mapping/simple-explode/:mapParameter
+// simple style with explode=true for path map parameter of string values.
+func (api *TestAPI) SimpleExplodeStringMap(c *gin.Context) {
     // Your handler implementation
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
@@ -876,6 +1000,13 @@ func (api *TestAPI) SimpleNotExplodeInt(c *gin.Context) {
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
+// Post /v2/path/map/model-mapping/simple-not-explode/:mapParameter
+// simple style with explode=false for path map parameter of model values.
+func (api *TestAPI) SimpleNotExplodeModelMap(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
 // Get /v2/path/object/simple-not-explode/:objectParameter
 // simple object not explode
 func (api *TestAPI) SimpleNotExplodeObject(c *gin.Context) {
@@ -891,6 +1022,13 @@ func (api *TestAPI) SimpleNotExplodeObject(c *gin.Context) {
 // Get /v2/path/string/simple-not-explode/:stringParameter
 // Simple style with explode set to false for string path parameter.
 func (api *TestAPI) SimpleNotExplodeString(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Post /v2/path/map/string-mapping/simple-not-explode/:mapParameter
+// simple style with explode=false for path map parameter of string values.
+func (api *TestAPI) SimpleNotExplodeStringMap(c *gin.Context) {
     // Your handler implementation
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
@@ -935,6 +1073,13 @@ func (api *TestAPI) SpaceDelimitedNotExplodeArray(c *gin.Context) {
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
+// Post /v2/query/map/model-mapping/spaceDelimited-not-explode/spaceDelimitedNotExplodeMap
+// spaceDelimited style with explode=false for query map parameter of model values.
+func (api *TestAPI) SpaceDelimitedNotExplodeModelMap(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
 // Post /v2/query/object/spaceDelimited-not-explode/spaceDelimitedNotExplodeObject
 // spaceDelimited object not explode
 func (api *TestAPI) SpaceDelimitedNotExplodeObject(c *gin.Context) {
@@ -945,4 +1090,11 @@ func (api *TestAPI) SpaceDelimitedNotExplodeObject(c *gin.Context) {
     } else {
         c.JSON(200, gin.H{"status": c.Request.RequestURI})
     }
+}
+
+// Post /v2/query/map/string-mapping/spaceDelimited-not-explode/spaceDelimitedNotExplodeMap
+// spaceDelimited style with explode=false for query map parameter of string values.
+func (api *TestAPI) SpaceDelimitedNotExplodeStringMap(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }

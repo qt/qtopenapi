@@ -22,6 +22,17 @@ using namespace Qt::StringLiterals;
     QTRY_COMPARE_EQ(done, true);                                                        \
 }                                                                                       \
 
+#define CALL_NO_EXPECTED_RESULT_TEST_OPERATION(OPERATION, PARAM)                       \
+{                                                                                      \
+    bool done = false;                                                                 \
+    OPERATION(PARAM, this, [&](const QRestReply &reply, const QString &summary) {      \
+        Q_UNUSED(summary)                                                              \
+        done = reply.isSuccess();                                                      \
+        QCOMPARE(reply.httpStatus(), 200);                                             \
+    });                                                                                \
+    QTRY_COMPARE_EQ(done, true);                                                       \
+}                                                                                      \
+
 #define CALL_NOT_FOUND_TEST_OPERATION(OPERATION, PARAM)                                 \
     CALL_FAIL_TEST_OPERATION(OPERATION, PARAM, QString, 404, "404 page not found"_L1)   \
 
@@ -84,6 +95,9 @@ private Q_SLOTS:
     void pathAnyTypeParameters();
     void pathObjectParameters_data();
     void pathObjectParameters();
+    void pathStringMapParameters_data();
+    void pathStringMapParameters();
+    void pathModelMapParameters();
     void queryParameters();
     void queryAnyTypeParameters_data();
     void queryAnyTypeParameters();
@@ -541,6 +555,132 @@ void OperationParameters::pathObjectParameters()
     CALL_TEST_OPERATION(matrixNotExplodeObject, objectValue, expectedMatrixNotExplode);
 }
 
+void OperationParameters::pathStringMapParameters_data()
+{
+    QMap<QString, QString> stringMap;
+    const QString val1 = "str1 *+,;=!$&'()"_L1;
+    stringMap["key1"_L1] = val1;
+    const QString key2 = "key2 *+,;=!$&'()"_L1;
+    stringMap[key2] = "str2"_L1;
+
+    QTest::addColumn<QMap<QString, QString>>("mapValue");
+    QTest::addColumn<QString>("expectedSimpleExplode");
+    QTest::addColumn<QString>("expectedSimpleNotExplode");
+    QTest::addColumn<QString>("expectedLabelExplode");
+    QTest::addColumn<QString>("expectedLabelNotExplode");
+    QTest::addColumn<QString>("expectedMatrixExplode");
+    QTest::addColumn<QString>("expectedMatrixNotExplode");
+
+    QString urlEncodedVal1 = QUrl::toPercentEncoding(val1);
+    QString urlEncodedKey2 = QUrl::toPercentEncoding(key2);
+
+    QTest::newRow("QMap<QString, QString>")
+        << stringMap
+        << "/v2/path/map/string-mapping/simple-explode/key1="_L1 + urlEncodedVal1 + ","_L1 +
+               urlEncodedKey2 + "=str2"_L1
+        << "/v2/path/map/string-mapping/simple-not-explode/key1,"_L1 + urlEncodedVal1 + ","_L1 +
+               urlEncodedKey2 + ",str2"_L1
+        << "/v2/path/map/string-mapping/label-explode/.key1="_L1 + urlEncodedVal1 + "."_L1 +
+               urlEncodedKey2 + "=str2"_L1
+        << "/v2/path/map/string-mapping/label-not-explode/.key1,"_L1 + urlEncodedVal1 + ","_L1 +
+               urlEncodedKey2 + ",str2"_L1
+        << "/v2/path/map/string-mapping/matrix-explode/;key1="_L1 + urlEncodedVal1 + ";"_L1 +
+               urlEncodedKey2 + "=str2"_L1
+        << "/v2/path/map/string-mapping/matrix-not-explode/;mapParameter=key1,"_L1 + urlEncodedVal1
+               + ","_L1 + urlEncodedKey2 + ",str2"_L1;
+
+    stringMap.remove(key2);
+
+    stringMap["key1"_L1] = "str1"_L1;
+    stringMap["* +key2"_L1] = "str2"_L1;
+    urlEncodedKey2 = QUrl::toPercentEncoding("* +key2"_L1);
+
+    // With QMap, the items are always sorted by key. Therefore, we can notice an order change.
+    QTest::newRow("QMap<QString, QString> order change")
+        << stringMap
+        << "/v2/path/map/string-mapping/simple-explode/"_L1 + urlEncodedKey2 + "=str2,key1=str1"_L1
+        << "/v2/path/map/string-mapping/simple-not-explode/"_L1 + urlEncodedKey2 +
+               ",str2,key1,str1"_L1
+        << "/v2/path/map/string-mapping/label-explode/."_L1 + urlEncodedKey2 + "=str2.key1=str1"_L1
+        << "/v2/path/map/string-mapping/label-not-explode/."_L1 + urlEncodedKey2
+               + ",str2,key1,str1"_L1
+        << "/v2/path/map/string-mapping/matrix-explode/;"_L1 + urlEncodedKey2 + "=str2;key1=str1"_L1
+        << "/v2/path/map/string-mapping/matrix-not-explode/;mapParameter="_L1 + urlEncodedKey2 +
+               ",str2,key1,str1"_L1;
+}
+
+void OperationParameters::pathStringMapParameters()
+{
+    using StringMap = QMap<QString, QString>;
+    QFETCH(StringMap, mapValue);
+    QFETCH(QString, expectedSimpleExplode);
+    QFETCH(QString, expectedSimpleNotExplode);
+    QFETCH(QString, expectedLabelExplode);
+    QFETCH(QString, expectedLabelNotExplode);
+    QFETCH(QString, expectedMatrixExplode);
+    QFETCH(QString, expectedMatrixNotExplode);
+
+    // style=simple, explode=true, type=object
+    CALL_TEST_OPERATION(simpleExplodeStringMap, mapValue, expectedSimpleExplode);
+
+    // style=simple, explode=false, type=object
+    CALL_TEST_OPERATION(simpleNotExplodeStringMap, mapValue, expectedSimpleNotExplode);
+
+    // style=label, explode=true, type=object
+    CALL_TEST_OPERATION(labelExplodeStringMap, mapValue, expectedLabelExplode);
+
+    // style=label, explode=false, type=object
+    CALL_TEST_OPERATION(labelNotExplodeStringMap, mapValue, expectedLabelNotExplode);
+
+    // style=matrix, explode=true, type=object
+    CALL_TEST_OPERATION(matrixExplodeStringMap, mapValue, expectedMatrixExplode);
+
+    // style=matrix, explode=false, type=object
+    CALL_TEST_OPERATION(matrixNotExplodeStringMap, mapValue, expectedMatrixNotExplode);
+}
+
+// In OpenAPI terminology, a string to model mapping refers to a map with string keys and object values.
+void OperationParameters::pathModelMapParameters()
+{
+    QMap<QString, QtOAITestObject> mapValue;
+    QtOAITestObject obj1;
+    obj1.setName("Azer"_L1);
+    obj1.setStatus("Ready"_L1);
+    mapValue["key1"_L1] = obj1;
+    QtOAITestObject obj2;
+    obj2.setName("Celine"_L1);
+    obj2.setStatus("Present"_L1);
+    mapValue["key2"_L1] = obj2;
+
+    const char* warningMsg = "Serialization of complex array or object properties in path or query "
+                             "parameters is undefined. The generated result will not conform to "
+                             "the OpenAPI standard.";
+
+    // style=simple, explode=true, type=map with object values
+    QTest::ignoreMessage(QtWarningMsg, warningMsg);
+    CALL_NO_EXPECTED_RESULT_TEST_OPERATION(simpleExplodeModelMap, mapValue);
+
+    // style=simple, explode=false, type=map with object values
+    QTest::ignoreMessage(QtWarningMsg, warningMsg);
+    CALL_NO_EXPECTED_RESULT_TEST_OPERATION(simpleNotExplodeModelMap, mapValue);
+
+    // style=label, explode=true, type=map with object values
+    QTest::ignoreMessage(QtWarningMsg, warningMsg);
+    CALL_NO_EXPECTED_RESULT_TEST_OPERATION(labelExplodeModelMap, mapValue);
+
+    // style=label, explode=false, type=map with object values
+    QTest::ignoreMessage(QtWarningMsg, warningMsg);
+    CALL_NO_EXPECTED_RESULT_TEST_OPERATION(labelNotExplodeModelMap, mapValue);
+
+    // style=matrix, explode=true, type=map with object values
+    QTest::ignoreMessage(QtWarningMsg, warningMsg);
+    CALL_NO_EXPECTED_RESULT_TEST_OPERATION(matrixExplodeModelMap, mapValue);
+
+    // style=matrix, explode=false, type=map with object values
+    QTest::ignoreMessage(QtWarningMsg, warningMsg);
+    CALL_NO_EXPECTED_RESULT_TEST_OPERATION(matrixNotExplodeModelMap, mapValue);
+}
+
 // The latest implementation is done based on this information:
 // Here is standard 3.1.1 https://spec.openapis.org/oas/v3.1.1.html#style-values
 // NOTE! We add data-driven test-cases for queries later with adding new operations in the OP.yaml.
@@ -617,6 +757,45 @@ void OperationParameters::queryParameters()
     CALL_TEST_OPERATION(formNotExplodeObject, formObj,
                         "/v2/query/object/form-not-explode/formNotExplodeObject?objectParameter=name,TestName%2B123,status,Awake");
 
+    // style=form, explode=true, type=map with string values
+    QMap<QString, QString> formStringMap;
+    const QString val1 = "str1 *+,;=!$&'()"_L1;
+    const QString key2 = "key2 *+,;=!$&'()"_L1;
+    formStringMap["key1"_L1] = val1;
+    formStringMap[key2] = "str2"_L1;
+    QString urlEncodedVal1 = QUrl::toPercentEncoding(val1);
+    QString urlEncodedKey2 = QUrl::toPercentEncoding(key2);
+    CALL_TEST_OPERATION(formExplodeStringMap, formStringMap,
+                        "/v2/query/map/string-mapping/form-explode/formExplodeMap?"
+                        "key1="_L1 + urlEncodedVal1 + "&"_L1 + urlEncodedKey2 + "=str2");
+
+    // style=form, explode=false, type=map with string values
+    CALL_TEST_OPERATION(formNotExplodeStringMap, formStringMap,
+                        "/v2/query/map/string-mapping/form-not-explode/formNotExplodeMap?"
+                        "mapParameter=key1,"_L1 + urlEncodedVal1 + ","_L1 + urlEncodedKey2 + ",str2");
+
+    QMap<QString, QtOAITestObject> mapValue;
+    QtOAITestObject obj1;
+    obj1.setName("Azer"_L1);
+    obj1.setStatus("Ready"_L1);
+    mapValue["key1"_L1] = obj1;
+    QtOAITestObject obj2;
+    obj2.setName("Celine"_L1);
+    obj2.setStatus("Present"_L1);
+    mapValue["key2"_L1] = obj2;
+
+    const char* warningMsg = "Serialization of complex array or object properties in path or query "
+                             "parameters is undefined. The generated result will not conform to "
+                             "the OpenAPI standard.";
+
+    // style=form, explode=true, type=map with object values
+    QTest::ignoreMessage(QtWarningMsg, warningMsg);
+    CALL_NO_EXPECTED_RESULT_TEST_OPERATION(formExplodeModelMap, mapValue);
+
+    // style=form, explode=false, type=map with object values
+    QTest::ignoreMessage(QtWarningMsg, warningMsg);
+    CALL_NO_EXPECTED_RESULT_TEST_OPERATION(formNotExplodeModelMap, mapValue);
+
     // style=spaceDelimited, explode=false, type=array
     CALL_TEST_OPERATION(spaceDelimitedNotExplodeArray, QList<int>({1, 2, -9, 90}),
                         "/v2/query/array/spaceDelimited-not-explode/spaceDelimitedNotExplodeArray?arrayParameter=1%202%20-9%2090");
@@ -627,6 +806,19 @@ void OperationParameters::queryParameters()
     spaceDelimitedObj.setStatus("Awake!");
     CALL_TEST_OPERATION(spaceDelimitedNotExplodeObject, spaceDelimitedObj,
                         "/v2/query/object/spaceDelimited-not-explode/spaceDelimitedNotExplodeObject?objectParameter=name%20TestName%20123%20%2A%2B%2C%3B%3D%21%24%26%27%28%29%20status%20Awake%21");
+
+    // style=spaceDelimited, explode=false, type=map with string values
+    QMap<QString, QString> spaceDelimitedStringMap;
+    spaceDelimitedStringMap["key1"_L1] = val1;
+    spaceDelimitedStringMap[key2] = "str2"_L1;
+    CALL_TEST_OPERATION(spaceDelimitedNotExplodeStringMap, spaceDelimitedStringMap,
+                        "/v2/query/map/string-mapping/spaceDelimited-not-explode/"
+                        "spaceDelimitedNotExplodeMap?mapParameter="
+                        "key1%20"_L1 + urlEncodedVal1 + "%20"_L1 + urlEncodedKey2 + "%20str2"_L1);
+
+    // style=spaceDelimited, explode=false, with object values
+    QTest::ignoreMessage(QtWarningMsg, warningMsg);
+    CALL_NO_EXPECTED_RESULT_TEST_OPERATION(spaceDelimitedNotExplodeModelMap, mapValue);
 
     // Primitives are not defined for spaceDelimited and pipeDelimited, so anytype=array or anytype-object are not possible
     // style=spaceDelimited, explode=false, type=anytype array
@@ -648,6 +840,19 @@ void OperationParameters::queryParameters()
     CALL_TEST_OPERATION(pipeDelimitedNotExplodeObject, pipeDelimitedObj,
                         "/v2/query/object/pipeDelimited-not-explode/pipeDelimitedNotExplodeObject?objectParameter=name%7CpipeDelimited%3DTestName%7Cstatus%7CpipeDelimited-Sleeping%20%2A%2B%2C%3B%3D%21%24%26%27%28%29");
 
+    // style=pipeDelimited, explode=false, type=map with string values
+    QMap<QString, QString> pipeDelimitedStringMap;
+    pipeDelimitedStringMap["key1"_L1] = val1;
+    pipeDelimitedStringMap[key2] = "str2"_L1;
+    CALL_TEST_OPERATION(pipeDelimitedNotExplodeStringMap, pipeDelimitedStringMap,
+                        "/v2/query/map/string-mapping/pipeDelimited-not-explode/"
+                        "pipeDelimitedNotExplodeMap?mapParameter="
+                        "key1%7C"_L1 + urlEncodedVal1 + "%7C"_L1 + urlEncodedKey2 + "%7Cstr2"_L1);
+
+    // style=pipeDelimited, explode=false, with object values
+    QTest::ignoreMessage(QtWarningMsg, warningMsg);
+    CALL_NO_EXPECTED_RESULT_TEST_OPERATION(pipeDelimitedNotExplodeModelMap, mapValue);
+
     // style=pipeDelimited, explode=false, type=anytype array
     CALL_TEST_OPERATION(pipeDelimitedNotExplodeAnytype, QJsonValue({ 1, 2.2, QString("Strange *+,;=!$&'()")}),
                         "/v2/query/anytype/pipeDelimited-not-explode/pipeDelimitedNotExplodeAnytype?anytypeParameter=1%7C2.2%7CStrange%20%2A%2B%2C%3B%3D%21%24%26%27%28%29");
@@ -662,6 +867,19 @@ void OperationParameters::queryParameters()
     deepObjectObj.setStatus("deepObject-Sleeping");
     CALL_TEST_OPERATION(deepObjectExplodeObject, deepObjectObj,
                         "/v2/query/object/deepObject-explode/deepObjectExplodeObject?objectParameter%5Bname%5D=deepObject%20%2A%2B%2C%3B%3D%21%24%26%27%28%29-TestName&objectParameter%5Bstatus%5D=deepObject-Sleeping");
+
+    // style=deepObject, explode=true, type=map with string values
+    QMap<QString, QString> deepObjectStringMap;
+    deepObjectStringMap["key1"_L1] = val1;
+    deepObjectStringMap[key2] = "str2"_L1;
+    CALL_TEST_OPERATION(deepObjectExplodeStringMap, deepObjectStringMap,
+                        "/v2/query/map/string-mapping/deepObject-explode/deepObjectExplodeMap?"
+                        "mapParameter%5Bkey1%5D="_L1 + urlEncodedVal1 + "&"
+                        "mapParameter%5B"_L1 + urlEncodedKey2 + "%5D=str2"_L1);
+
+    // style=deepObject, explode=false, with object values
+    QTest::ignoreMessage(QtWarningMsg, warningMsg);
+    CALL_NO_EXPECTED_RESULT_TEST_OPERATION(deepObjectExplodeModelMap, mapValue);
 }
 
 void OperationParameters::queryAnyTypeParameters_data()

@@ -69,10 +69,22 @@ type ApiHandleFunctions struct {
 func getRoutes(handleFunctions ApiHandleFunctions) []Route {
     return []Route{
         {
+            "DeepObjectExplodeModelMap",
+            http.MethodPost,
+            "/v2/query/map/model-mapping/deepObject-explode/deepObjectExplodeMap",
+            handleFunctions.TestAPI.DeepObjectExplodeModelMap,
+        },
+        {
             "DeepObjectExplodeObject",
             http.MethodPost,
             "/v2/query/object/deepObject-explode/deepObjectExplodeObject",
             handleFunctions.TestAPI.DeepObjectExplodeObject,
+        },
+        {
+            "DeepObjectExplodeStringMap",
+            http.MethodPost,
+            "/v2/query/map/string-mapping/deepObject-explode/deepObjectExplodeMap",
+            handleFunctions.TestAPI.DeepObjectExplodeStringMap,
         },
         {
             "DeepObjectNotExplodeObject",
@@ -117,6 +129,12 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
             handleFunctions.TestAPI.FormExplodeInt,
         },
         {
+            "FormExplodeModelMap",
+            http.MethodPost,
+            "/v2/query/map/model-mapping/form-explode/formExplodeMap",
+            handleFunctions.TestAPI.FormExplodeModelMap,
+        },
+        {
             "FormExplodeObject",
             http.MethodPost,
             "/v2/query/object/form-explode/formExplodeObject",
@@ -127,6 +145,12 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
             http.MethodPost,
             "/v2/query/string/form-explode/formExplodeString",
             handleFunctions.TestAPI.FormExplodeString,
+        },
+        {
+            "FormExplodeStringMap",
+            http.MethodPost,
+            "/v2/query/map/string-mapping/form-explode/formExplodeMap",
+            handleFunctions.TestAPI.FormExplodeStringMap,
         },
         {
             "FormExplodeStringOptions",
@@ -165,6 +189,12 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
             handleFunctions.TestAPI.FormNotExplodeInt,
         },
         {
+            "FormNotExplodeModelMap",
+            http.MethodPost,
+            "/v2/query/map/model-mapping/form-not-explode/formNotExplodeMap",
+            handleFunctions.TestAPI.FormNotExplodeModelMap,
+        },
+        {
             "FormNotExplodeObject",
             http.MethodPost,
             "/v2/query/object/form-not-explode/formNotExplodeObject",
@@ -175,6 +205,12 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
             http.MethodPost,
             "/v2/query/string/form-not-explode/formNotExplodeString",
             handleFunctions.TestAPI.FormNotExplodeString,
+        },
+        {
+            "FormNotExplodeStringMap",
+            http.MethodPost,
+            "/v2/query/map/string-mapping/form-not-explode/formNotExplodeMap",
+            handleFunctions.TestAPI.FormNotExplodeStringMap,
         },
         {
             "LabelExplodeAnytype",
@@ -207,6 +243,12 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
             handleFunctions.TestAPI.LabelExplodeInt,
         },
         {
+            "LabelExplodeModelMap",
+            http.MethodPost,
+            "/v2/path/map/model-mapping/label-explode/:mapParameter",
+            handleFunctions.TestAPI.LabelExplodeModelMap,
+        },
+        {
             "LabelExplodeObject",
             http.MethodGet,
             "/v2/path/object/label-explode/:objectParameter",
@@ -217,6 +259,12 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
             http.MethodGet,
             "/v2/path/string/label-explode/:stringParameter",
             handleFunctions.TestAPI.LabelExplodeString,
+        },
+        {
+            "LabelExplodeStringMap",
+            http.MethodPost,
+            "/v2/path/map/string-mapping/label-explode/:mapParameter",
+            handleFunctions.TestAPI.LabelExplodeStringMap,
         },
         {
             "LabelNotExplodeAnytype",
@@ -249,6 +297,12 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
             handleFunctions.TestAPI.LabelNotExplodeInt,
         },
         {
+            "LabelNotExplodeModelMap",
+            http.MethodPost,
+            "/v2/path/map/model-mapping/label-not-explode/:mapParameter",
+            handleFunctions.TestAPI.LabelNotExplodeModelMap,
+        },
+        {
             "LabelNotExplodeObject",
             http.MethodPost,
             "/v2/path/object/label-not-explode/:objectParameter",
@@ -259,6 +313,12 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
             http.MethodGet,
             "/v2/path/string/label-not-explode/:stringParameter",
             handleFunctions.TestAPI.LabelNotExplodeString,
+        },
+        {
+            "LabelNotExplodeStringMap",
+            http.MethodPost,
+            "/v2/path/map/string-mapping/label-not-explode/:mapParameter",
+            handleFunctions.TestAPI.LabelNotExplodeStringMap,
         },
         {
             "MatrixExplodeAnytype",
@@ -291,6 +351,12 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
             handleFunctions.TestAPI.MatrixExplodeInt,
         },
         {
+            "MatrixExplodeModelMap",
+            http.MethodPost,
+            "/v2/path/map/model-mapping/matrix-explode/:mapParameter",
+            handleFunctions.TestAPI.MatrixExplodeModelMap,
+        },
+        {
             "MatrixExplodeObject",
             http.MethodGet,
             "/v2/path/object/matrix-explode/:objectParameter",
@@ -301,6 +367,12 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
             http.MethodGet,
             "/v2/path/string/matrix-explode/:stringParameter",
             handleFunctions.TestAPI.MatrixExplodeString,
+        },
+        {
+            "MatrixExplodeStringMap",
+            http.MethodPost,
+            "/v2/path/map/string-mapping/matrix-explode/:mapParameter",
+            handleFunctions.TestAPI.MatrixExplodeStringMap,
         },
         {
             "MatrixNotExplodeAnytype",
@@ -333,6 +405,12 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
             handleFunctions.TestAPI.MatrixNotExplodeInt,
         },
         {
+            "MatrixNotExplodeModelMap",
+            http.MethodPost,
+            "/v2/path/map/model-mapping/matrix-not-explode/:mapParameter",
+            handleFunctions.TestAPI.MatrixNotExplodeModelMap,
+        },
+        {
             "MatrixNotExplodeObject",
             http.MethodGet,
             "/v2/path/object/matrix-not-explode/:objectParameter",
@@ -343,6 +421,12 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
             http.MethodGet,
             "/v2/path/string/matrix-not-explode/:stringParameter",
             handleFunctions.TestAPI.MatrixNotExplodeString,
+        },
+        {
+            "MatrixNotExplodeStringMap",
+            http.MethodPost,
+            "/v2/path/map/string-mapping/matrix-not-explode/:mapParameter",
+            handleFunctions.TestAPI.MatrixNotExplodeStringMap,
         },
         {
             "PipeDelimitedExplodeAnytype",
@@ -375,10 +459,22 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
             handleFunctions.TestAPI.PipeDelimitedNotExplodeArray,
         },
         {
+            "PipeDelimitedNotExplodeModelMap",
+            http.MethodPost,
+            "/v2/query/map/model-mapping/pipeDelimited-not-explode/pipeDelimitedNotExplodeMap",
+            handleFunctions.TestAPI.PipeDelimitedNotExplodeModelMap,
+        },
+        {
             "PipeDelimitedNotExplodeObject",
             http.MethodPost,
             "/v2/query/object/pipeDelimited-not-explode/pipeDelimitedNotExplodeObject",
             handleFunctions.TestAPI.PipeDelimitedNotExplodeObject,
+        },
+        {
+            "PipeDelimitedNotExplodeStringMap",
+            http.MethodPost,
+            "/v2/query/map/string-mapping/pipeDelimited-not-explode/pipeDelimitedNotExplodeMap",
+            handleFunctions.TestAPI.PipeDelimitedNotExplodeStringMap,
         },
         {
             "SimpleExplodeAnytype",
@@ -411,6 +507,12 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
             handleFunctions.TestAPI.SimpleExplodeInt,
         },
         {
+            "SimpleExplodeModelMap",
+            http.MethodPost,
+            "/v2/path/map/model-mapping/simple-explode/:mapParameter",
+            handleFunctions.TestAPI.SimpleExplodeModelMap,
+        },
+        {
             "SimpleExplodeObject",
             http.MethodGet,
             "/v2/path/object/simple-explode/:objectParameter",
@@ -421,6 +523,12 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
             http.MethodGet,
             "/v2/path/string/simple-explode/:stringParameter",
             handleFunctions.TestAPI.SimpleExplodeString,
+        },
+        {
+            "SimpleExplodeStringMap",
+            http.MethodPost,
+            "/v2/path/map/string-mapping/simple-explode/:mapParameter",
+            handleFunctions.TestAPI.SimpleExplodeStringMap,
         },
         {
             "SimpleNotExplodeAnytype",
@@ -453,6 +561,12 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
             handleFunctions.TestAPI.SimpleNotExplodeInt,
         },
         {
+            "SimpleNotExplodeModelMap",
+            http.MethodPost,
+            "/v2/path/map/model-mapping/simple-not-explode/:mapParameter",
+            handleFunctions.TestAPI.SimpleNotExplodeModelMap,
+        },
+        {
             "SimpleNotExplodeObject",
             http.MethodGet,
             "/v2/path/object/simple-not-explode/:objectParameter",
@@ -463,6 +577,12 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
             http.MethodGet,
             "/v2/path/string/simple-not-explode/:stringParameter",
             handleFunctions.TestAPI.SimpleNotExplodeString,
+        },
+        {
+            "SimpleNotExplodeStringMap",
+            http.MethodPost,
+            "/v2/path/map/string-mapping/simple-not-explode/:mapParameter",
+            handleFunctions.TestAPI.SimpleNotExplodeStringMap,
         },
         {
             "SpaceDelimitedExplodeAnytype",
@@ -495,10 +615,22 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
             handleFunctions.TestAPI.SpaceDelimitedNotExplodeArray,
         },
         {
+            "SpaceDelimitedNotExplodeModelMap",
+            http.MethodPost,
+            "/v2/query/map/model-mapping/spaceDelimited-not-explode/spaceDelimitedNotExplodeMap",
+            handleFunctions.TestAPI.SpaceDelimitedNotExplodeModelMap,
+        },
+        {
             "SpaceDelimitedNotExplodeObject",
             http.MethodPost,
             "/v2/query/object/spaceDelimited-not-explode/spaceDelimitedNotExplodeObject",
             handleFunctions.TestAPI.SpaceDelimitedNotExplodeObject,
+        },
+        {
+            "SpaceDelimitedNotExplodeStringMap",
+            http.MethodPost,
+            "/v2/query/map/string-mapping/spaceDelimited-not-explode/spaceDelimitedNotExplodeMap",
+            handleFunctions.TestAPI.SpaceDelimitedNotExplodeStringMap,
         },
     }
 }

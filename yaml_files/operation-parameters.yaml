@@ -331,6 +331,94 @@ paths:
             application/json:
               schema:
                 type: string
+  /path/map/string-mapping/simple-explode/{mapParameter}:
+    post:
+      tags: [test]
+      operationId: simpleExplodeStringMap
+      summary: "simple style with explode=true for path map parameter of string values."
+      parameters:
+        - name: mapParameter
+          in: path
+          required: true
+          style: simple
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /path/map/string-mapping/simple-not-explode/{mapParameter}:
+    post:
+      tags: [test]
+      operationId: simpleNotExplodeStringMap
+      summary: "simple style with explode=false for path map parameter of string values."
+      parameters:
+        - name: mapParameter
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /path/map/model-mapping/simple-explode/{mapParameter}:
+    post:
+      tags: [test]
+      operationId: simpleExplodeModelMap
+      summary: "simple style with explode=true for path map parameter of model values."
+      parameters:
+        - name: mapParameter
+          in: path
+          required: true
+          style: simple
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/TestObject'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /path/map/model-mapping/simple-not-explode/{mapParameter}:
+    post:
+      tags: [test]
+      operationId: simpleNotExplodeModelMap
+      summary: "simple style with explode=false for path map parameter of model values."
+      parameters:
+        - name: mapParameter
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/TestObject'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
   /path/string/matrix-explode/{stringParameter}:
     get:
       tags: [test]
@@ -638,6 +726,94 @@ paths:
           explode: false
           schema:
             $ref: '#/components/schemas/TestObject'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /path/map/string-mapping/matrix-explode/{mapParameter}:
+    post:
+      tags: [test]
+      operationId: matrixExplodeStringMap
+      summary: "matrix style with explode=true for path map parameter of string values."
+      parameters:
+        - name: mapParameter
+          in: path
+          required: true
+          style: matrix
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /path/map/string-mapping/matrix-not-explode/{mapParameter}:
+    post:
+      tags: [test]
+      operationId: matrixNotExplodeStringMap
+      summary: "matrix style with explode=false for path map parameter of string values."
+      parameters:
+        - name: mapParameter
+          in: path
+          required: true
+          style: matrix
+          explode: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /path/map/model-mapping/matrix-explode/{mapParameter}:
+    post:
+      tags: [test]
+      operationId: matrixExplodeModelMap
+      summary: "matrix style with explode=true for path map parameter of model values."
+      parameters:
+        - name: mapParameter
+          in: path
+          required: true
+          style: matrix
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/TestObject'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /path/map/model-mapping/matrix-not-explode/{mapParameter}:
+    post:
+      tags: [test]
+      operationId: matrixNotExplodeModelMap
+      summary: "matrix style with explode=false for path map parameter of model values."
+      parameters:
+        - name: mapParameter
+          in: path
+          required: true
+          style: matrix
+          explode: false
+          schema:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/TestObject'
       responses:
         '200':
           description: OK
@@ -959,6 +1135,94 @@ paths:
             application/json:
               schema:
                 type: string
+  /path/map/string-mapping/label-explode/{mapParameter}:
+    post:
+      tags: [test]
+      operationId: labelExplodeStringMap
+      summary: "label style with explode=true for path map parameter of string values."
+      parameters:
+        - name: mapParameter
+          in: path
+          required: true
+          style: label
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /path/map/string-mapping/label-not-explode/{mapParameter}:
+    post:
+      tags: [test]
+      operationId: labelNotExplodeStringMap
+      summary: "label style with explode=false for path map parameter of string values."
+      parameters:
+        - name: mapParameter
+          in: path
+          required: true
+          style: label
+          explode: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /path/map/model-mapping/label-explode/{mapParameter}:
+    post:
+      tags: [test]
+      operationId: labelExplodeModelMap
+      summary: "label style with explode=true for path map parameter of model values."
+      parameters:
+        - name: mapParameter
+          in: path
+          required: true
+          style: label
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/TestObject'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /path/map/model-mapping/label-not-explode/{mapParameter}:
+    post:
+      tags: [test]
+      operationId: labelNotExplodeModelMap
+      summary: "label style with explode=false for path map parameter of model values."
+      parameters:
+        - name: mapParameter
+          in: path
+          required: true
+          style: label
+          explode: false
+          schema:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/TestObject'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
   /query/string/form-explode/formExplodeString:
     post:
       tags: [test]
@@ -1262,6 +1526,92 @@ paths:
             application/json:
               schema:
                 type: string
+  /query/map/string-mapping/form-explode/formExplodeMap:
+    post:
+      tags: [test]
+      operationId: formExplodeStringMap
+      summary: "Form style with explode=true for query map parameter of string values."
+      parameters:
+        - name: mapParameter
+          in: query
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /query/map/string-mapping/form-not-explode/formNotExplodeMap:
+    post:
+      tags: [test]
+      operationId: formNotExplodeStringMap
+      summary: "Form style with explode=false for query map parameter of string values."
+      parameters:
+        - name: mapParameter
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /query/map/model-mapping/form-explode/formExplodeMap:
+    post:
+      tags: [test]
+      operationId: formExplodeModelMap
+      summary: "Form style with explode=true for query map parameter of model values."
+      parameters:
+        - name: mapParameter
+          in: query
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/TestObject'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /query/map/model-mapping/form-not-explode/formNotExplodeMap:
+    post:
+      tags: [test]
+      operationId: formNotExplodeModelMap
+      summary: "Form style with explode=false for query map parameter of model values."
+      parameters:
+        - name: mapParameter
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/TestObject'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
   /query/anytype/spaceDelimited-explode/spaceDelimitedExplodeAnytype:
     post:
       tags: [test]
@@ -1376,6 +1726,48 @@ paths:
           explode: false
           schema:
             $ref: '#/components/schemas/TestObject'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /query/map/string-mapping/spaceDelimited-not-explode/spaceDelimitedNotExplodeMap:
+    post:
+      tags: [test]
+      operationId: spaceDelimitedNotExplodeStringMap
+      summary: "spaceDelimited style with explode=false for query map parameter of string values."
+      parameters:
+        - name: mapParameter
+          in: query
+          style: spaceDelimited
+          explode: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /query/map/model-mapping/spaceDelimited-not-explode/spaceDelimitedNotExplodeMap:
+    post:
+      tags: [test]
+      operationId: spaceDelimitedNotExplodeModelMap
+      summary: "spaceDelimited style with explode=false for query map parameter of model values."
+      parameters:
+        - name: mapParameter
+          in: query
+          style: spaceDelimited
+          explode: false
+          schema:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/TestObject'
       responses:
         '200':
           description: OK
@@ -1504,6 +1896,48 @@ paths:
             application/json:
               schema:
                 type: string
+  /query/map/string-mapping/pipeDelimited-not-explode/pipeDelimitedNotExplodeMap:
+    post:
+      tags: [test]
+      operationId: pipeDelimitedNotExplodeStringMap
+      summary: "pipeDelimited style with explode=false for query map parameter of string values."
+      parameters:
+        - name: mapParameter
+          in: query
+          style: pipeDelimited
+          explode: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /query/map/model-mapping/pipeDelimited-not-explode/pipeDelimitedNotExplodeMap:
+    post:
+      tags: [test]
+      operationId: pipeDelimitedNotExplodeModelMap
+      summary: "pipeDelimited style with explode=false for query map parameter of model values."
+      parameters:
+        - name: mapParameter
+          in: query
+          style: pipeDelimited
+          explode: false
+          schema:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/TestObject'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
   /query/object/deepObject-explode/deepObjectExplodeObject:
     post:
       tags: [test]
@@ -1594,6 +2028,50 @@ paths:
           required: true
           schema:
             type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /query/map/string-mapping/deepObject-explode/deepObjectExplodeMap:
+    post:
+      tags: [test]
+      operationId: deepObjectExplodeStringMap
+      summary: "deepObject style with explode=true for query map parameter of string values."
+      parameters:
+        - name: mapParameter
+          in: query
+          required: true
+          style: deepObject
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /query/map/model-mapping/deepObject-explode/deepObjectExplodeMap:
+    post:
+      tags: [test]
+      operationId: deepObjectExplodeModelMap
+      summary: "deepObject style with explode=true for query map parameter of model values."
+      parameters:
+        - name: mapParameter
+          in: query
+          required: true
+          style: deepObject
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/TestObject'
       responses:
         '200':
           description: OK

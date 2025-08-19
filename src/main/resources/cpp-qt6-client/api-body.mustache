@@ -163,6 +163,13 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         paramString = pathPrefix + serializeJsonValue(QJsonValue({{paramName}}.asJsonObject()), pathStyle, {{isExplode}}, pathSuffix, assignOperator, pathDelimiter);
 {{/isModel}}
 {{#isMap}}
+{{#additionalProperties.isModel}}
+{{^content}}
+        qWarning() << "Serialization of complex array or object properties in path or query "
+                      "parameters is undefined. The generated result will not conform to the "
+                      "OpenAPI standard.";
+{{/content}}
+{{/additionalProperties.isModel}}
         paramString.append(::{{cppNamespace}}::toStringValue({{paramName}}, assignOperator, pathDelimiter));
 {{/isMap}}
 {{#isPrimitiveType}}
@@ -232,7 +239,26 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
             fullPath.append(paramString);
 {{/isModel}}
 {{#isMap}}
-            paramString.append(::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value(){{/required}}, queryAssignOperator, queryDelimiter));
+{{#additionalProperties.isModel}}
+{{^content}}
+            qWarning() << "Serialization of complex array or object properties in path or query "
+                          "parameters is undefined. The generated result will not conform to the"
+                          " OpenAPI standard.";
+{{/content}}
+{{/additionalProperties.isModel}}
+            if (queryStyle == "deepObject"_L1) {
+                qsizetype index = 0;
+                if ({{paramName}}{{^required}}.value(){{/required}}.isEmpty())
+                    qWarning() << "Map is empty!";
+                for (const auto &[key, value] : {{paramName}}{{^required}}.value(){{/required}}.asKeyValueRange()) {
+                    if (index > 0)
+                        paramString.append(queryDelimiter);
+                    paramString.append(::{{cppNamespace}}::optionParameterToString(u"{{baseName}}[%1]"_s.arg(key), queryAssignOperator, value{{#additionalProperties.isModel}}.asJsonObject(){{/additionalProperties.isModel}}));
+                    index++;
+                }
+            } else {
+                paramString.append(::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value(){{/required}}, queryAssignOperator, queryDelimiter));
+            }
             fullPath.append(paramString);
 {{/isMap}}
 {{#isPrimitiveType}}
