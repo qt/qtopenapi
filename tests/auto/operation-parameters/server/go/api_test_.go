@@ -11,7 +11,11 @@ package openapi
 
 import (
     "fmt"
+    "math"
+    "net/http"
     "net/url"
+    "strconv"
+    "strings"
 
     "github.com/gin-gonic/gin"
 )
@@ -70,6 +74,69 @@ func (api *TestAPI) FormExplodeDifferentOptions(c *gin.Context) {
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
+// Post /v2/query/double/form-explode/formExplodeDouble
+// Form style with explode set to true for double query parameter.
+func (api *TestAPI) FormExplodeDouble(c *gin.Context) {
+    doubleParam := c.Query("doubleParameter")
+    if doubleParam == "" {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "missing doubleParameter"})
+        return
+    }
+
+    f64, err := strconv.ParseFloat(doubleParam, 64)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid doubleParameter"})
+        return
+    }
+
+    resp := DoubleResponse{
+        StringValue: c.Request.RequestURI,
+        Value: f64,
+    }
+
+    c.JSON(http.StatusOK, resp)
+}
+
+// Post /v2/query/float/form-explode/formExplodeFloat
+// Form style with explode set to true for float query parameter.
+func (api *TestAPI) FormExplodeFloat(c *gin.Context) {
+    floatParam := c.Query("floatParameter")
+    if floatParam == "" {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "missing floatParameter"})
+        return
+    }
+
+    f64, err := strconv.ParseFloat(floatParam, 32)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid floatParameter"})
+        return
+    }
+
+    f32 := float32(f64)
+
+    // JSON does not support Inf and NaN values. Therefore, we cannot return these
+    // values as FloatResponse.Value. Instead, set the FloatResponse value to 0.
+    // We anyway do not need to compare them with the expected value.
+    // The RequestURI is enough for tests.
+    if math.IsNaN(f64) || math.IsInf(f64, 0) {
+        f32 = 0.0
+    }
+
+    resp := FloatResponse{
+        StringValue: c.Request.RequestURI,
+        Value: f32,
+    }
+
+    c.JSON(http.StatusOK, resp)
+}
+
+// Post /v2/query/int/form-explode/formExplodeInt
+// Form style with explode set to true for integer query parameter.
+func (api *TestAPI) FormExplodeInt(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
 // Post /v2/query/object/form-explode/formExplodeObject
 // form object explode
 func (api *TestAPI) FormExplodeObject(c *gin.Context) {
@@ -110,6 +177,69 @@ func (api *TestAPI) FormNotExplodeArray(c *gin.Context) {
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
+// Post /v2/query/double/form-not-explode/formNotExplodeDouble
+// Form style with explode set to false for double query parameter.
+func (api *TestAPI) FormNotExplodeDouble(c *gin.Context) {
+    doubleParam := c.Query("doubleParameter")
+    if doubleParam == "" {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "missing doubleParameter"})
+        return
+    }
+
+    f64, err := strconv.ParseFloat(doubleParam, 64)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid doubleParameter"})
+        return
+    }
+
+    resp := DoubleResponse{
+        StringValue: c.Request.RequestURI,
+        Value: f64,
+    }
+
+    c.JSON(http.StatusOK, resp)
+}
+
+// Post /v2/query/float/form-not-explode/formNotExplodeFloat
+// Form style with explode set to false for float query parameter.
+func (api *TestAPI) FormNotExplodeFloat(c *gin.Context) {
+    floatParam := c.Query("floatParameter")
+    if floatParam == "" {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "missing floatParameter"})
+        return
+    }
+
+    f64, err := strconv.ParseFloat(floatParam, 32)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid floatParameter"})
+        return
+    }
+
+    f32 := float32(f64)
+
+    // JSON does not support Inf and NaN values. Therefore, we cannot return these
+    // values as FloatResponse.Value. Instead, set the FloatResponse value to 0.
+    // We anyway do not need to compare them with the expected value.
+    // The RequestURI is enough for tests.
+    if math.IsNaN(f64) || math.IsInf(f64, 0) {
+        f32 = 0.0
+    }
+
+    resp := FloatResponse{
+        StringValue: c.Request.RequestURI,
+        Value: f32,
+    }
+
+    c.JSON(http.StatusOK, resp)
+}
+
+// Post /v2/query/int/form-not-explode/formNotExplodeInt
+// Form style with explode set to false for integer query parameter.
+func (api *TestAPI) FormNotExplodeInt(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
 // Post /v2/query/object/form-not-explode/formNotExplodeObject
 // form object not explode
 func (api *TestAPI) FormNotExplodeObject(c *gin.Context) {
@@ -137,6 +267,72 @@ func (api *TestAPI) LabelExplodeAnytype(c *gin.Context) {
 // Get /v2/path/array/label-explode/:arrayParameter
 // label array explode
 func (api *TestAPI) LabelExplodeArray(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Get /v2/path/double/label-explode/:doubleParameter
+// Label style with explode set to true for double path parameter.
+func (api *TestAPI) LabelExplodeDouble(c *gin.Context) {
+    doubleParam := c.Param("doubleParameter")
+    if doubleParam == "" {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "missing doubleParameter"})
+        return
+    }
+
+    doubleParam = strings.TrimPrefix(doubleParam, ".")
+
+    f64, err := strconv.ParseFloat(doubleParam, 64)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid doubleParameter"})
+        return
+    }
+
+    resp := DoubleResponse{
+        StringValue: c.Request.RequestURI,
+        Value: f64,
+    }
+
+    c.JSON(http.StatusOK, resp)
+}
+
+// Get /v2/path/float/label-explode/:floatParameter
+// Label style with explode set to true for float path parameter.
+func (api *TestAPI) LabelExplodeFloat(c *gin.Context) {
+    floatParam := c.Param("floatParameter")
+    if floatParam == "" {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "missing floatParameter"})
+        return
+    }
+    floatParam = strings.TrimPrefix(floatParam, ".")
+
+    f64, err := strconv.ParseFloat(floatParam, 32)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid floatParameter"})
+        return
+    }
+
+    f32 := float32(f64)
+
+    // JSON does not support Inf and NaN values. Therefore, we cannot return these
+    // values as FloatResponse.Value. Instead, set the FloatResponse value to 0.
+    // We anyway do not need to compare them with the expected value.
+    // The RequestURI is enough for tests.
+    if math.IsNaN(f64) || math.IsInf(f64, 0) {
+        f32 = 0.0
+    }
+
+    resp := FloatResponse{
+        StringValue: c.Request.RequestURI,
+        Value: f32,
+    }
+
+    c.JSON(http.StatusOK, resp)
+}
+
+// Get /v2/path/int/label-explode/:intParameter
+// Label style with explode set to true for integer path parameter.
+func (api *TestAPI) LabelExplodeInt(c *gin.Context) {
     // Your handler implementation
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
@@ -174,6 +370,72 @@ func (api *TestAPI) LabelNotExplodeArray(c *gin.Context) {
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
+// Get /v2/path/double/label-not-explode/:doubleParameter
+// Label style with explode set to false for double path parameter.
+func (api *TestAPI) LabelNotExplodeDouble(c *gin.Context) {
+    doubleParam := c.Param("doubleParameter")
+    if doubleParam == "" {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "missing doubleParameter"})
+        return
+    }
+
+    doubleParam = strings.TrimPrefix(doubleParam, ".")
+
+    f64, err := strconv.ParseFloat(doubleParam, 64)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid doubleParameter"})
+        return
+    }
+
+    resp := DoubleResponse{
+        StringValue: c.Request.RequestURI,
+        Value: f64,
+    }
+
+    c.JSON(http.StatusOK, resp)
+}
+
+// Get /v2/path/float/label-not-explode/:floatParameter
+// Label style with explode set to false for float path parameter.
+func (api *TestAPI) LabelNotExplodeFloat(c *gin.Context) {
+    floatParam := c.Param("floatParameter")
+    if floatParam == "" {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "missing floatParameter"})
+        return
+    }
+    floatParam = strings.TrimPrefix(floatParam, ".")
+
+    f64, err := strconv.ParseFloat(floatParam, 32)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid floatParameter"})
+        return
+    }
+
+    f32 := float32(f64)
+
+    // JSON does not support Inf and NaN values. Therefore, we cannot return these
+    // values as FloatResponse.Value. Instead, set the FloatResponse value to 0.
+    // We anyway do not need to compare them with the expected value.
+    // The RequestURI is enough for tests.
+    if math.IsNaN(f64) || math.IsInf(f64, 0) {
+        f32 = 0.0
+    }
+
+    resp := FloatResponse{
+        StringValue: c.Request.RequestURI,
+        Value: f32,
+    }
+
+    c.JSON(http.StatusOK, resp)
+}
+
+// Get /v2/path/int/label-not-explode/:intParameter
+// Label style with explode set to false for integer path parameter.
+func (api *TestAPI) LabelNotExplodeInt(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
 // Post /v2/path/object/label-not-explode/:objectParameter
 // label object not explode
 func (api *TestAPI) LabelNotExplodeObject(c *gin.Context) {
@@ -207,6 +469,71 @@ func (api *TestAPI) MatrixExplodeArray(c *gin.Context) {
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
+// Get /v2/path/double/matrix-explode/:doubleParameter
+// Matrix style with explode set to true for double path parameter.
+func (api *TestAPI) MatrixExplodeDouble(c *gin.Context) {
+    doubleParam := c.Param("doubleParameter")
+    if doubleParam == "" {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "missing doubleParameter"})
+        return
+    }
+    doubleParam = strings.TrimPrefix(doubleParam, ";doubleParameter=")
+
+    f64, err := strconv.ParseFloat(doubleParam, 64)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid doubleParameter"})
+        return
+    }
+
+    resp := DoubleResponse{
+        StringValue: c.Request.RequestURI,
+        Value: f64,
+    }
+
+    c.JSON(http.StatusOK, resp)
+}
+
+// Get /v2/path/float/matrix-explode/:floatParameter
+// Matrix style with explode set to true for float path parameter.
+func (api *TestAPI) MatrixExplodeFloat(c *gin.Context) {
+    floatParam := c.Param("floatParameter")
+    if floatParam == "" {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "missing floatParameter"})
+        return
+    }
+    floatParam = strings.TrimPrefix(floatParam, ";floatParameter=")
+
+    f64, err := strconv.ParseFloat(floatParam, 32)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid floatParameter"})
+        return
+    }
+
+    f32 := float32(f64)
+
+    // JSON does not support Inf and NaN values. Therefore, we cannot return these
+    // values as FloatResponse.Value. Instead, set the FloatResponse value to 0.
+    // We anyway do not need to compare them with the expected value.
+    // The RequestURI is enough for tests.
+    if math.IsNaN(f64) || math.IsInf(f64, 0) {
+        f32 = 0.0
+    }
+
+    resp := FloatResponse{
+        StringValue: c.Request.RequestURI,
+        Value: f32,
+    }
+
+    c.JSON(http.StatusOK, resp)
+}
+
+// Get /v2/path/int/matrix-explode/:intParameter
+// Matrix style with explode set to true for integer path parameter.
+func (api *TestAPI) MatrixExplodeInt(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
 // Get /v2/path/object/matrix-explode/:objectParameter
 // matrix object explode
 func (api *TestAPI) MatrixExplodeObject(c *gin.Context) {
@@ -236,6 +563,71 @@ func (api *TestAPI) MatrixNotExplodeAnytype(c *gin.Context) {
 // Get /v2/path/array/matrix-not-explode/:arrayParameter
 // matrix array not explode
 func (api *TestAPI) MatrixNotExplodeArray(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Get /v2/path/double/matrix-not-explode/:doubleParameter
+// Matrix style with explode set to false for double path parameter.
+func (api *TestAPI) MatrixNotExplodeDouble(c *gin.Context) {
+    doubleParam := c.Param("doubleParameter")
+    if doubleParam == "" {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "missing doubleParameter"})
+        return
+    }
+    doubleParam = strings.TrimPrefix(doubleParam, ";doubleParameter=")
+
+    f64, err := strconv.ParseFloat(doubleParam, 64)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid doubleParameter"})
+        return
+    }
+
+    resp := DoubleResponse{
+        StringValue: c.Request.RequestURI,
+        Value: f64,
+    }
+
+    c.JSON(http.StatusOK, resp)
+}
+
+// Get /v2/path/float/matrix-not-explode/:floatParameter
+// Matrix style with explode set to false for float path parameter.
+func (api *TestAPI) MatrixNotExplodeFloat(c *gin.Context) {
+    floatParam := c.Param("floatParameter")
+    if floatParam == "" {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "missing floatParameter"})
+        return
+    }
+    floatParam = strings.TrimPrefix(floatParam, ";floatParameter=")
+
+    f64, err := strconv.ParseFloat(floatParam, 32)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid floatParameter"})
+        return
+    }
+
+    f32 := float32(f64)
+
+    // JSON does not support Inf and NaN values. Therefore, we cannot return these
+    // values as FloatResponse.Value. Instead, set the FloatResponse value to 0.
+    // We anyway do not need to compare them with the expected value.
+    // The RequestURI is enough for tests.
+    if math.IsNaN(f64) || math.IsInf(f64, 0) {
+        f32 = 0.0
+    }
+
+    resp := FloatResponse{
+        StringValue: c.Request.RequestURI,
+        Value: f32,
+    }
+
+    c.JSON(http.StatusOK, resp)
+}
+
+// Get /v2/path/int/matrix-not-explode/:intParameter
+// Matrix style with explode set to false for integer path parameter.
+func (api *TestAPI) MatrixNotExplodeInt(c *gin.Context) {
     // Your handler implementation
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
@@ -325,6 +717,69 @@ func (api *TestAPI) SimpleExplodeArray(c *gin.Context) {
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
+// Get /v2/path/double/simple-explode/:doubleParameter
+// Simple style with explode set to true for double path parameter.
+func (api *TestAPI) SimpleExplodeDouble(c *gin.Context) {
+    doubleParam := c.Param("doubleParameter")
+    if doubleParam == "" {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "missing doubleParameter"})
+        return
+    }
+
+    f64, err := strconv.ParseFloat(doubleParam, 64)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid doubleParameter"})
+        return
+    }
+
+    resp := DoubleResponse{
+        StringValue: c.Request.RequestURI,
+        Value: f64,
+    }
+
+    c.JSON(http.StatusOK, resp)
+}
+
+// Get /v2/path/float/simple-explode/:floatParameter
+// Simple style with explode set to true for float path parameter.
+func (api *TestAPI) SimpleExplodeFloat(c *gin.Context) {
+    floatParam := c.Param("floatParameter")
+    if floatParam == "" {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "missing floatParameter"})
+        return
+    }
+
+    f64, err := strconv.ParseFloat(floatParam, 32)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid floatParameter"})
+        return
+    }
+
+    f32 := float32(f64)
+
+    // JSON does not support Inf and NaN values. Therefore, we cannot return these
+    // values as FloatResponse.Value. Instead, set the FloatResponse value to 0.
+    // We anyway do not need to compare them with the expected value.
+    // The RequestURI is enough for tests.
+    if math.IsNaN(f64) || math.IsInf(f64, 0) {
+        f32 = 0.0
+    }
+
+    resp := FloatResponse{
+        StringValue: c.Request.RequestURI,
+        Value: f32,
+    }
+
+    c.JSON(http.StatusOK, resp)
+}
+
+// Get /v2/path/int/simple-explode/:intParameter
+// Simple style with explode set to true for integer path parameter.
+func (api *TestAPI) SimpleExplodeInt(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
 // Get /v2/path/object/simple-explode/:objectParameter
 // simple object explode
 func (api *TestAPI) SimpleExplodeObject(c *gin.Context) {
@@ -354,6 +809,69 @@ func (api *TestAPI) SimpleNotExplodeAnytype(c *gin.Context) {
 // Get /v2/path/array/simple-not-explode/:arrayParameter
 // simple array not explode
 func (api *TestAPI) SimpleNotExplodeArray(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Get /v2/path/double/simple-not-explode/:doubleParameter
+// Simple style with explode set to false for double path parameter.
+func (api *TestAPI) SimpleNotExplodeDouble(c *gin.Context) {
+    doubleParam := c.Param("doubleParameter")
+    if doubleParam == "" {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "missing doubleParameter"})
+        return
+    }
+
+    f64, err := strconv.ParseFloat(doubleParam, 64)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid doubleParameter"})
+        return
+    }
+
+    resp := DoubleResponse{
+        StringValue: c.Request.RequestURI,
+        Value: f64,
+    }
+
+    c.JSON(http.StatusOK, resp)
+}
+
+// Get /v2/path/float/simple-not-explode/:floatParameter
+// Simple style with explode set to false for float path parameter.
+func (api *TestAPI) SimpleNotExplodeFloat(c *gin.Context) {
+    floatParam := c.Param("floatParameter")
+    if floatParam == "" {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "missing floatParameter"})
+        return
+    }
+
+    f64, err := strconv.ParseFloat(floatParam, 32)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid floatParameter"})
+        return
+    }
+
+    f32 := float32(f64)
+
+    // JSON does not support Inf and NaN values. Therefore, we cannot return these
+    // values as FloatResponse.Value. Instead, set the FloatResponse value to 0.
+    // We anyway do not need to compare them with the expected value.
+    // The RequestURI is enough for tests.
+    if math.IsNaN(f64) || math.IsInf(f64, 0) {
+        f32 = 0.0
+    }
+
+    resp := FloatResponse{
+        StringValue: c.Request.RequestURI,
+        Value: f32,
+    }
+
+    c.JSON(http.StatusOK, resp)
+}
+
+// Get /v2/path/int/simple-not-explode/:intParameter
+// Simple style with explode set to false for string path parameter.
+func (api *TestAPI) SimpleNotExplodeInt(c *gin.Context) {
     // Your handler implementation
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }

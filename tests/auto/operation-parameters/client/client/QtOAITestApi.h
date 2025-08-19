@@ -13,6 +13,8 @@
 #include <QtNetwork/qrestreply.h>
 
 #include <QString>
+#include "QtOAIDoubleResponse.h"
+#include "QtOAIFloatResponse.h"
 #include "QtOAITestObject.h"
 
 namespace QtOpenAPI {
@@ -74,6 +76,33 @@ public:
     /**
     * \internal
     * The auto-generated API:
+    * void formExplodeDouble(const ::QtOpenAPI::OptionalParam<double> &doubleParameter);
+    * void formExplodeDouble(const ::QtOpenAPI::OptionalParam<double> &doubleParameter, QObject *object, [&](const QRestReply &reply, const QtOAIDoubleResponse &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(formExplodeDouble, (const ::QtOpenAPI::OptionalParam<double> &doubleParameter = ::QtOpenAPI::OptionalParam<double>()), (doubleParameter), (const QtOAIDoubleResponse &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void formExplodeFloat(const ::QtOpenAPI::OptionalParam<float> &floatParameter);
+    * void formExplodeFloat(const ::QtOpenAPI::OptionalParam<float> &floatParameter, QObject *object, [&](const QRestReply &reply, const QtOAIFloatResponse &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(formExplodeFloat, (const ::QtOpenAPI::OptionalParam<float> &floatParameter = ::QtOpenAPI::OptionalParam<float>()), (floatParameter), (const QtOAIFloatResponse &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void formExplodeInt(const ::QtOpenAPI::OptionalParam<qint64> &intParameter);
+    * void formExplodeInt(const ::QtOpenAPI::OptionalParam<qint64> &intParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(formExplodeInt, (const ::QtOpenAPI::OptionalParam<qint64> &intParameter = ::QtOpenAPI::OptionalParam<qint64>()), (intParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
     * void formExplodeObject(const QtOAITestObject &objectParameter);
     * void formExplodeObject(const QtOAITestObject &objectParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
     * \endinternal
@@ -119,6 +148,33 @@ public:
     /**
     * \internal
     * The auto-generated API:
+    * void formNotExplodeDouble(const ::QtOpenAPI::OptionalParam<double> &doubleParameter);
+    * void formNotExplodeDouble(const ::QtOpenAPI::OptionalParam<double> &doubleParameter, QObject *object, [&](const QRestReply &reply, const QtOAIDoubleResponse &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(formNotExplodeDouble, (const ::QtOpenAPI::OptionalParam<double> &doubleParameter = ::QtOpenAPI::OptionalParam<double>()), (doubleParameter), (const QtOAIDoubleResponse &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void formNotExplodeFloat(const ::QtOpenAPI::OptionalParam<float> &floatParameter);
+    * void formNotExplodeFloat(const ::QtOpenAPI::OptionalParam<float> &floatParameter, QObject *object, [&](const QRestReply &reply, const QtOAIFloatResponse &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(formNotExplodeFloat, (const ::QtOpenAPI::OptionalParam<float> &floatParameter = ::QtOpenAPI::OptionalParam<float>()), (floatParameter), (const QtOAIFloatResponse &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void formNotExplodeInt(const ::QtOpenAPI::OptionalParam<qint64> &intParameter);
+    * void formNotExplodeInt(const ::QtOpenAPI::OptionalParam<qint64> &intParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(formNotExplodeInt, (const ::QtOpenAPI::OptionalParam<qint64> &intParameter = ::QtOpenAPI::OptionalParam<qint64>()), (intParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
     * void formNotExplodeObject(const ::QtOpenAPI::OptionalParam<QtOAITestObject> &objectParameter);
     * void formNotExplodeObject(const ::QtOpenAPI::OptionalParam<QtOAITestObject> &objectParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
     * \endinternal
@@ -151,6 +207,33 @@ public:
     * \endinternal
     */
     QtOAI_ADD_OPERATION_IMPL(labelExplodeArray, (const QList<qint32> &arrayParameter), (arrayParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void labelExplodeDouble(const double &doubleParameter);
+    * void labelExplodeDouble(const double &doubleParameter, QObject *object, [&](const QRestReply &reply, const QtOAIDoubleResponse &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(labelExplodeDouble, (const double &doubleParameter), (doubleParameter), (const QtOAIDoubleResponse &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void labelExplodeFloat(const float &floatParameter);
+    * void labelExplodeFloat(const float &floatParameter, QObject *object, [&](const QRestReply &reply, const QtOAIFloatResponse &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(labelExplodeFloat, (const float &floatParameter), (floatParameter), (const QtOAIFloatResponse &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void labelExplodeInt(const qint64 &intParameter);
+    * void labelExplodeInt(const qint64 &intParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(labelExplodeInt, (const qint64 &intParameter), (intParameter), (const QString &), /* non-deprecated */)
 
     /**
     * \internal
@@ -191,6 +274,33 @@ public:
     /**
     * \internal
     * The auto-generated API:
+    * void labelNotExplodeDouble(const double &doubleParameter);
+    * void labelNotExplodeDouble(const double &doubleParameter, QObject *object, [&](const QRestReply &reply, const QtOAIDoubleResponse &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(labelNotExplodeDouble, (const double &doubleParameter), (doubleParameter), (const QtOAIDoubleResponse &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void labelNotExplodeFloat(const float &floatParameter);
+    * void labelNotExplodeFloat(const float &floatParameter, QObject *object, [&](const QRestReply &reply, const QtOAIFloatResponse &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(labelNotExplodeFloat, (const float &floatParameter), (floatParameter), (const QtOAIFloatResponse &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void labelNotExplodeInt(const qint64 &intParameter);
+    * void labelNotExplodeInt(const qint64 &intParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(labelNotExplodeInt, (const qint64 &intParameter), (intParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
     * void labelNotExplodeObject(const QtOAITestObject &objectParameter);
     * void labelNotExplodeObject(const QtOAITestObject &objectParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
     * \endinternal
@@ -227,6 +337,33 @@ public:
     /**
     * \internal
     * The auto-generated API:
+    * void matrixExplodeDouble(const double &doubleParameter);
+    * void matrixExplodeDouble(const double &doubleParameter, QObject *object, [&](const QRestReply &reply, const QtOAIDoubleResponse &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(matrixExplodeDouble, (const double &doubleParameter), (doubleParameter), (const QtOAIDoubleResponse &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void matrixExplodeFloat(const float &floatParameter);
+    * void matrixExplodeFloat(const float &floatParameter, QObject *object, [&](const QRestReply &reply, const QtOAIFloatResponse &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(matrixExplodeFloat, (const float &floatParameter), (floatParameter), (const QtOAIFloatResponse &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void matrixExplodeInt(const qint64 &intParameter);
+    * void matrixExplodeInt(const qint64 &intParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(matrixExplodeInt, (const qint64 &intParameter), (intParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
     * void matrixExplodeObject(const QtOAITestObject &objectParameter);
     * void matrixExplodeObject(const QtOAITestObject &objectParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
     * \endinternal
@@ -259,6 +396,33 @@ public:
     * \endinternal
     */
     QtOAI_ADD_OPERATION_IMPL(matrixNotExplodeArray, (const QList<qint32> &arrayParameter), (arrayParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void matrixNotExplodeDouble(const double &doubleParameter);
+    * void matrixNotExplodeDouble(const double &doubleParameter, QObject *object, [&](const QRestReply &reply, const QtOAIDoubleResponse &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(matrixNotExplodeDouble, (const double &doubleParameter), (doubleParameter), (const QtOAIDoubleResponse &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void matrixNotExplodeFloat(const float &floatParameter);
+    * void matrixNotExplodeFloat(const float &floatParameter, QObject *object, [&](const QRestReply &reply, const QtOAIFloatResponse &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(matrixNotExplodeFloat, (const float &floatParameter), (floatParameter), (const QtOAIFloatResponse &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void matrixNotExplodeInt(const qint64 &intParameter);
+    * void matrixNotExplodeInt(const qint64 &intParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(matrixNotExplodeInt, (const qint64 &intParameter), (intParameter), (const QString &), /* non-deprecated */)
 
     /**
     * \internal
@@ -353,6 +517,33 @@ public:
     /**
     * \internal
     * The auto-generated API:
+    * void simpleExplodeDouble(const double &doubleParameter);
+    * void simpleExplodeDouble(const double &doubleParameter, QObject *object, [&](const QRestReply &reply, const QtOAIDoubleResponse &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(simpleExplodeDouble, (const double &doubleParameter), (doubleParameter), (const QtOAIDoubleResponse &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void simpleExplodeFloat(const float &floatParameter);
+    * void simpleExplodeFloat(const float &floatParameter, QObject *object, [&](const QRestReply &reply, const QtOAIFloatResponse &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(simpleExplodeFloat, (const float &floatParameter), (floatParameter), (const QtOAIFloatResponse &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void simpleExplodeInt(const qint64 &intParameter);
+    * void simpleExplodeInt(const qint64 &intParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(simpleExplodeInt, (const qint64 &intParameter), (intParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
     * void simpleExplodeObject(const QtOAITestObject &objectParameter);
     * void simpleExplodeObject(const QtOAITestObject &objectParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
     * \endinternal
@@ -385,6 +576,33 @@ public:
     * \endinternal
     */
     QtOAI_ADD_OPERATION_IMPL(simpleNotExplodeArray, (const QList<qint32> &arrayParameter), (arrayParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void simpleNotExplodeDouble(const double &doubleParameter);
+    * void simpleNotExplodeDouble(const double &doubleParameter, QObject *object, [&](const QRestReply &reply, const QtOAIDoubleResponse &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(simpleNotExplodeDouble, (const double &doubleParameter), (doubleParameter), (const QtOAIDoubleResponse &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void simpleNotExplodeFloat(const float &floatParameter);
+    * void simpleNotExplodeFloat(const float &floatParameter, QObject *object, [&](const QRestReply &reply, const QtOAIFloatResponse &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(simpleNotExplodeFloat, (const float &floatParameter), (floatParameter), (const QtOAIFloatResponse &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void simpleNotExplodeInt(const qint64 &intParameter);
+    * void simpleNotExplodeInt(const qint64 &intParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(simpleNotExplodeInt, (const qint64 &intParameter), (intParameter), (const QString &), /* non-deprecated */)
 
     /**
     * \internal
@@ -479,6 +697,18 @@ Q_SIGNALS:
     void formExplodeDifferentOptionsFinished(const QString &summary);
     /** Signal is emitted, if formExplodeDifferentOptions() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void formExplodeDifferentOptionsErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if formExplodeDouble() request completed successfully. The \a summary contains a serialized server response. */
+    void formExplodeDoubleFinished(const QtOAIDoubleResponse &summary);
+    /** Signal is emitted, if formExplodeDouble() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void formExplodeDoubleErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if formExplodeFloat() request completed successfully. The \a summary contains a serialized server response. */
+    void formExplodeFloatFinished(const QtOAIFloatResponse &summary);
+    /** Signal is emitted, if formExplodeFloat() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void formExplodeFloatErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if formExplodeInt() request completed successfully. The \a summary contains a serialized server response. */
+    void formExplodeIntFinished(const QString &summary);
+    /** Signal is emitted, if formExplodeInt() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void formExplodeIntErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if formExplodeObject() request completed successfully. The \a summary contains a serialized server response. */
     void formExplodeObjectFinished(const QString &summary);
     /** Signal is emitted, if formExplodeObject() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
@@ -499,6 +729,18 @@ Q_SIGNALS:
     void formNotExplodeArrayFinished(const QString &summary);
     /** Signal is emitted, if formNotExplodeArray() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void formNotExplodeArrayErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if formNotExplodeDouble() request completed successfully. The \a summary contains a serialized server response. */
+    void formNotExplodeDoubleFinished(const QtOAIDoubleResponse &summary);
+    /** Signal is emitted, if formNotExplodeDouble() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void formNotExplodeDoubleErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if formNotExplodeFloat() request completed successfully. The \a summary contains a serialized server response. */
+    void formNotExplodeFloatFinished(const QtOAIFloatResponse &summary);
+    /** Signal is emitted, if formNotExplodeFloat() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void formNotExplodeFloatErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if formNotExplodeInt() request completed successfully. The \a summary contains a serialized server response. */
+    void formNotExplodeIntFinished(const QString &summary);
+    /** Signal is emitted, if formNotExplodeInt() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void formNotExplodeIntErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if formNotExplodeObject() request completed successfully. The \a summary contains a serialized server response. */
     void formNotExplodeObjectFinished(const QString &summary);
     /** Signal is emitted, if formNotExplodeObject() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
@@ -515,6 +757,18 @@ Q_SIGNALS:
     void labelExplodeArrayFinished(const QString &summary);
     /** Signal is emitted, if labelExplodeArray() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void labelExplodeArrayErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if labelExplodeDouble() request completed successfully. The \a summary contains a serialized server response. */
+    void labelExplodeDoubleFinished(const QtOAIDoubleResponse &summary);
+    /** Signal is emitted, if labelExplodeDouble() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void labelExplodeDoubleErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if labelExplodeFloat() request completed successfully. The \a summary contains a serialized server response. */
+    void labelExplodeFloatFinished(const QtOAIFloatResponse &summary);
+    /** Signal is emitted, if labelExplodeFloat() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void labelExplodeFloatErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if labelExplodeInt() request completed successfully. The \a summary contains a serialized server response. */
+    void labelExplodeIntFinished(const QString &summary);
+    /** Signal is emitted, if labelExplodeInt() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void labelExplodeIntErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if labelExplodeObject() request completed successfully. The \a summary contains a serialized server response. */
     void labelExplodeObjectFinished(const QString &summary);
     /** Signal is emitted, if labelExplodeObject() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
@@ -531,6 +785,18 @@ Q_SIGNALS:
     void labelNotExplodeArrayFinished(const QString &summary);
     /** Signal is emitted, if labelNotExplodeArray() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void labelNotExplodeArrayErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if labelNotExplodeDouble() request completed successfully. The \a summary contains a serialized server response. */
+    void labelNotExplodeDoubleFinished(const QtOAIDoubleResponse &summary);
+    /** Signal is emitted, if labelNotExplodeDouble() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void labelNotExplodeDoubleErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if labelNotExplodeFloat() request completed successfully. The \a summary contains a serialized server response. */
+    void labelNotExplodeFloatFinished(const QtOAIFloatResponse &summary);
+    /** Signal is emitted, if labelNotExplodeFloat() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void labelNotExplodeFloatErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if labelNotExplodeInt() request completed successfully. The \a summary contains a serialized server response. */
+    void labelNotExplodeIntFinished(const QString &summary);
+    /** Signal is emitted, if labelNotExplodeInt() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void labelNotExplodeIntErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if labelNotExplodeObject() request completed successfully. The \a summary contains a serialized server response. */
     void labelNotExplodeObjectFinished(const QString &summary);
     /** Signal is emitted, if labelNotExplodeObject() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
@@ -547,6 +813,18 @@ Q_SIGNALS:
     void matrixExplodeArrayFinished(const QString &summary);
     /** Signal is emitted, if matrixExplodeArray() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void matrixExplodeArrayErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if matrixExplodeDouble() request completed successfully. The \a summary contains a serialized server response. */
+    void matrixExplodeDoubleFinished(const QtOAIDoubleResponse &summary);
+    /** Signal is emitted, if matrixExplodeDouble() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void matrixExplodeDoubleErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if matrixExplodeFloat() request completed successfully. The \a summary contains a serialized server response. */
+    void matrixExplodeFloatFinished(const QtOAIFloatResponse &summary);
+    /** Signal is emitted, if matrixExplodeFloat() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void matrixExplodeFloatErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if matrixExplodeInt() request completed successfully. The \a summary contains a serialized server response. */
+    void matrixExplodeIntFinished(const QString &summary);
+    /** Signal is emitted, if matrixExplodeInt() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void matrixExplodeIntErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if matrixExplodeObject() request completed successfully. The \a summary contains a serialized server response. */
     void matrixExplodeObjectFinished(const QString &summary);
     /** Signal is emitted, if matrixExplodeObject() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
@@ -563,6 +841,18 @@ Q_SIGNALS:
     void matrixNotExplodeArrayFinished(const QString &summary);
     /** Signal is emitted, if matrixNotExplodeArray() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void matrixNotExplodeArrayErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if matrixNotExplodeDouble() request completed successfully. The \a summary contains a serialized server response. */
+    void matrixNotExplodeDoubleFinished(const QtOAIDoubleResponse &summary);
+    /** Signal is emitted, if matrixNotExplodeDouble() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void matrixNotExplodeDoubleErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if matrixNotExplodeFloat() request completed successfully. The \a summary contains a serialized server response. */
+    void matrixNotExplodeFloatFinished(const QtOAIFloatResponse &summary);
+    /** Signal is emitted, if matrixNotExplodeFloat() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void matrixNotExplodeFloatErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if matrixNotExplodeInt() request completed successfully. The \a summary contains a serialized server response. */
+    void matrixNotExplodeIntFinished(const QString &summary);
+    /** Signal is emitted, if matrixNotExplodeInt() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void matrixNotExplodeIntErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if matrixNotExplodeObject() request completed successfully. The \a summary contains a serialized server response. */
     void matrixNotExplodeObjectFinished(const QString &summary);
     /** Signal is emitted, if matrixNotExplodeObject() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
@@ -603,6 +893,18 @@ Q_SIGNALS:
     void simpleExplodeArrayFinished(const QString &summary);
     /** Signal is emitted, if simpleExplodeArray() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void simpleExplodeArrayErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if simpleExplodeDouble() request completed successfully. The \a summary contains a serialized server response. */
+    void simpleExplodeDoubleFinished(const QtOAIDoubleResponse &summary);
+    /** Signal is emitted, if simpleExplodeDouble() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void simpleExplodeDoubleErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if simpleExplodeFloat() request completed successfully. The \a summary contains a serialized server response. */
+    void simpleExplodeFloatFinished(const QtOAIFloatResponse &summary);
+    /** Signal is emitted, if simpleExplodeFloat() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void simpleExplodeFloatErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if simpleExplodeInt() request completed successfully. The \a summary contains a serialized server response. */
+    void simpleExplodeIntFinished(const QString &summary);
+    /** Signal is emitted, if simpleExplodeInt() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void simpleExplodeIntErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if simpleExplodeObject() request completed successfully. The \a summary contains a serialized server response. */
     void simpleExplodeObjectFinished(const QString &summary);
     /** Signal is emitted, if simpleExplodeObject() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
@@ -619,6 +921,18 @@ Q_SIGNALS:
     void simpleNotExplodeArrayFinished(const QString &summary);
     /** Signal is emitted, if simpleNotExplodeArray() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void simpleNotExplodeArrayErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if simpleNotExplodeDouble() request completed successfully. The \a summary contains a serialized server response. */
+    void simpleNotExplodeDoubleFinished(const QtOAIDoubleResponse &summary);
+    /** Signal is emitted, if simpleNotExplodeDouble() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void simpleNotExplodeDoubleErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if simpleNotExplodeFloat() request completed successfully. The \a summary contains a serialized server response. */
+    void simpleNotExplodeFloatFinished(const QtOAIFloatResponse &summary);
+    /** Signal is emitted, if simpleNotExplodeFloat() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void simpleNotExplodeFloatErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if simpleNotExplodeInt() request completed successfully. The \a summary contains a serialized server response. */
+    void simpleNotExplodeIntFinished(const QString &summary);
+    /** Signal is emitted, if simpleNotExplodeInt() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void simpleNotExplodeIntErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if simpleNotExplodeObject() request completed successfully. The \a summary contains a serialized server response. */
     void simpleNotExplodeObjectFinished(const QString &summary);
     /** Signal is emitted, if simpleNotExplodeObject() request completed with an error. \a errorType and \a errorStr contain an information about the error. */

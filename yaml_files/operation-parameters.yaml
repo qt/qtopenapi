@@ -57,6 +57,156 @@ paths:
             application/json:
               schema:
                 type: string
+  /path/int/simple-explode/{intParameter}:
+    get:
+      tags: [test]
+      operationId: simpleExplodeInt
+      summary: Simple style with explode set to true for integer path parameter.
+      parameters:
+        - name: intParameter
+          in: path
+          required: true
+          style: simple
+          explode: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /path/int/simple-not-explode/{intParameter}:
+    get:
+      tags: [test]
+      operationId: simpleNotExplodeInt
+      summary: Simple style with explode set to false for integer path parameter.
+      parameters:
+        - name: intParameter
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /path/float/simple-explode/{floatParameter}:
+    get:
+      tags: [test]
+      operationId: simpleExplodeFloat
+      summary: Simple style with explode set to true for float path parameter.
+      parameters:
+        - name: floatParameter
+          in: path
+          required: true
+          style: simple
+          explode: true
+          schema:
+            type: number
+            format: float
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FloatResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+  /path/float/simple-not-explode/{floatParameter}:
+    get:
+      tags: [test]
+      operationId: simpleNotExplodeFloat
+      summary: Simple style with explode set to false for float path parameter.
+      parameters:
+        - name: floatParameter
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: number
+            format: float
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FloatResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+  /path/double/simple-explode/{doubleParameter}:
+    get:
+      tags: [test]
+      operationId: simpleExplodeDouble
+      summary: Simple style with explode set to true for double path parameter.
+      parameters:
+        - name: doubleParameter
+          in: path
+          required: true
+          style: simple
+          explode: true
+          schema:
+            type: number
+            format: double
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DoubleResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+  /path/double/simple-not-explode/{doubleParameter}:
+    get:
+      tags: [test]
+      operationId: simpleNotExplodeDouble
+      summary: Simple style with explode set to false for double path parameter.
+      parameters:
+        - name: doubleParameter
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: number
+            format: double
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DoubleResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
   /path/anytype/simple-explode/{anytypeParameter}:
     get:
       tags: [test]
@@ -217,6 +367,156 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /path/int/matrix-explode/{intParameter}:
+    get:
+      tags: [test]
+      operationId: matrixExplodeInt
+      summary: Matrix style with explode set to true for integer path parameter.
+      parameters:
+        - name: intParameter
+          in: path
+          required: true
+          style: matrix
+          explode: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /path/int/matrix-not-explode/{intParameter}:
+    get:
+      tags: [test]
+      operationId: matrixNotExplodeInt
+      summary: Matrix style with explode set to false for integer path parameter.
+      parameters:
+        - name: intParameter
+          in: path
+          required: true
+          style: matrix
+          explode: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /path/float/matrix-explode/{floatParameter}:
+    get:
+      tags: [test]
+      operationId: matrixExplodeFloat
+      summary: Matrix style with explode set to true for float path parameter.
+      parameters:
+        - name: floatParameter
+          in: path
+          required: true
+          style: matrix
+          explode: true
+          schema:
+            type: number
+            format: float
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FloatResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+  /path/float/matrix-not-explode/{floatParameter}:
+    get:
+      tags: [test]
+      operationId: matrixNotExplodeFloat
+      summary: Matrix style with explode set to false for float path parameter.
+      parameters:
+        - name: floatParameter
+          in: path
+          required: true
+          style: matrix
+          explode: false
+          schema:
+            type: number
+            format: float
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FloatResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+  /path/double/matrix-explode/{doubleParameter}:
+    get:
+      tags: [test]
+      operationId: matrixExplodeDouble
+      summary: Matrix style with explode set to true for double path parameter.
+      parameters:
+        - name: doubleParameter
+          in: path
+          required: true
+          style: matrix
+          explode: true
+          schema:
+            type: number
+            format: double
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DoubleResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+  /path/double/matrix-not-explode/{doubleParameter}:
+    get:
+      tags: [test]
+      operationId: matrixNotExplodeDouble
+      summary: Matrix style with explode set to false for double path parameter.
+      parameters:
+        - name: doubleParameter
+          in: path
+          required: true
+          style: matrix
+          explode: false
+          schema:
+            type: number
+            format: double
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DoubleResponse'
+        '400':
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -385,6 +685,156 @@ paths:
             application/json:
               schema:
                 type: string
+  /path/int/label-explode/{intParameter}:
+    get:
+      tags: [test]
+      operationId: labelExplodeInt
+      summary: Label style with explode set to true for integer path parameter.
+      parameters:
+        - name: intParameter
+          in: path
+          required: true
+          style: label
+          explode: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /path/int/label-not-explode/{intParameter}:
+    get:
+      tags: [test]
+      operationId: labelNotExplodeInt
+      summary: Label style with explode set to false for integer path parameter.
+      parameters:
+        - name: intParameter
+          in: path
+          required: true
+          style: label
+          explode: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /path/float/label-explode/{floatParameter}:
+    get:
+      tags: [test]
+      operationId: labelExplodeFloat
+      summary: Label style with explode set to true for float path parameter.
+      parameters:
+        - name: floatParameter
+          in: path
+          required: true
+          style: label
+          explode: true
+          schema:
+            type: number
+            format: float
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FloatResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+  /path/float/label-not-explode/{floatParameter}:
+    get:
+      tags: [test]
+      operationId: labelNotExplodeFloat
+      summary: Label style with explode set to false for float path parameter.
+      parameters:
+        - name: floatParameter
+          in: path
+          required: true
+          style: label
+          explode: false
+          schema:
+            type: number
+            format: float
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FloatResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+  /path/double/label-explode/{doubleParameter}:
+    get:
+      tags: [test]
+      operationId: labelExplodeDouble
+      summary: Label style with explode set to true for double path parameter.
+      parameters:
+        - name: doubleParameter
+          in: path
+          required: true
+          style: label
+          explode: true
+          schema:
+            type: number
+            format: double
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DoubleResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+  /path/double/label-not-explode/{doubleParameter}:
+    get:
+      tags: [test]
+      operationId: labelNotExplodeDouble
+      summary: Label style with explode set to false for double path parameter.
+      parameters:
+        - name: doubleParameter
+          in: path
+          required: true
+          style: label
+          explode: false
+          schema:
+            type: number
+            format: double
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DoubleResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
   /path/anytype/label-explode/{anytypeParameter}:
     get:
       tags: [test]
@@ -543,6 +993,150 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /query/int/form-explode/formExplodeInt:
+    post:
+      tags: [test]
+      operationId: formExplodeInt
+      summary: Form style with explode set to true for integer query parameter.
+      parameters:
+        - name: intParameter
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /query/int/form-not-explode/formNotExplodeInt:
+    post:
+      tags: [test]
+      operationId: formNotExplodeInt
+      summary: Form style with explode set to false for integer query parameter.
+      parameters:
+        - name: intParameter
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /query/float/form-explode/formExplodeFloat:
+    post:
+      tags: [test]
+      operationId: formExplodeFloat
+      summary: Form style with explode set to true for float query parameter.
+      parameters:
+        - name: floatParameter
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: number
+            format: float
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FloatResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+  /query/float/form-not-explode/formNotExplodeFloat:
+    post:
+      tags: [test]
+      operationId: formNotExplodeFloat
+      summary: Form style with explode set to false for float query parameter.
+      parameters:
+        - name: floatParameter
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: number
+            format: float
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FloatResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+  /query/double/form-explode/formExplodeDouble:
+    post:
+      tags: [test]
+      operationId: formExplodeDouble
+      summary: Form style with explode set to true for double query parameter.
+      parameters:
+        - name: doubleParameter
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: number
+            format: double
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DoubleResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+  /query/double/form-not-explode/formNotExplodeDouble:
+    post:
+      tags: [test]
+      operationId: formNotExplodeDouble
+      summary: Form style with explode set to false for double query parameter.
+      parameters:
+        - name: doubleParameter
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: number
+            format: double
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DoubleResponse'
+        '400':
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -1021,3 +1615,19 @@ components:
           description: age number
           type: integer
           format: int32
+    FloatResponse:
+      type: object
+      properties:
+        stringValue:
+          type: string
+        value:
+          type: number
+          format: float
+    DoubleResponse:
+      type: object
+      properties:
+        stringValue:
+          type: string
+        value:
+          type: number
+          format: double

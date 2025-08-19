@@ -51,6 +51,12 @@ void QtOAITestApi::initializeServerConfigs()
     m_serverIndices.insert("formExplodeArray", 0);
     m_serverConfigs.insert("formExplodeDifferentOptions", defaultConf);
     m_serverIndices.insert("formExplodeDifferentOptions", 0);
+    m_serverConfigs.insert("formExplodeDouble", defaultConf);
+    m_serverIndices.insert("formExplodeDouble", 0);
+    m_serverConfigs.insert("formExplodeFloat", defaultConf);
+    m_serverIndices.insert("formExplodeFloat", 0);
+    m_serverConfigs.insert("formExplodeInt", defaultConf);
+    m_serverIndices.insert("formExplodeInt", 0);
     m_serverConfigs.insert("formExplodeObject", defaultConf);
     m_serverIndices.insert("formExplodeObject", 0);
     m_serverConfigs.insert("formExplodeString", defaultConf);
@@ -61,6 +67,12 @@ void QtOAITestApi::initializeServerConfigs()
     m_serverIndices.insert("formNotExplodeAnytype", 0);
     m_serverConfigs.insert("formNotExplodeArray", defaultConf);
     m_serverIndices.insert("formNotExplodeArray", 0);
+    m_serverConfigs.insert("formNotExplodeDouble", defaultConf);
+    m_serverIndices.insert("formNotExplodeDouble", 0);
+    m_serverConfigs.insert("formNotExplodeFloat", defaultConf);
+    m_serverIndices.insert("formNotExplodeFloat", 0);
+    m_serverConfigs.insert("formNotExplodeInt", defaultConf);
+    m_serverIndices.insert("formNotExplodeInt", 0);
     m_serverConfigs.insert("formNotExplodeObject", defaultConf);
     m_serverIndices.insert("formNotExplodeObject", 0);
     m_serverConfigs.insert("formNotExplodeString", defaultConf);
@@ -69,6 +81,12 @@ void QtOAITestApi::initializeServerConfigs()
     m_serverIndices.insert("labelExplodeAnytype", 0);
     m_serverConfigs.insert("labelExplodeArray", defaultConf);
     m_serverIndices.insert("labelExplodeArray", 0);
+    m_serverConfigs.insert("labelExplodeDouble", defaultConf);
+    m_serverIndices.insert("labelExplodeDouble", 0);
+    m_serverConfigs.insert("labelExplodeFloat", defaultConf);
+    m_serverIndices.insert("labelExplodeFloat", 0);
+    m_serverConfigs.insert("labelExplodeInt", defaultConf);
+    m_serverIndices.insert("labelExplodeInt", 0);
     m_serverConfigs.insert("labelExplodeObject", defaultConf);
     m_serverIndices.insert("labelExplodeObject", 0);
     m_serverConfigs.insert("labelExplodeString", defaultConf);
@@ -77,6 +95,12 @@ void QtOAITestApi::initializeServerConfigs()
     m_serverIndices.insert("labelNotExplodeAnytype", 0);
     m_serverConfigs.insert("labelNotExplodeArray", defaultConf);
     m_serverIndices.insert("labelNotExplodeArray", 0);
+    m_serverConfigs.insert("labelNotExplodeDouble", defaultConf);
+    m_serverIndices.insert("labelNotExplodeDouble", 0);
+    m_serverConfigs.insert("labelNotExplodeFloat", defaultConf);
+    m_serverIndices.insert("labelNotExplodeFloat", 0);
+    m_serverConfigs.insert("labelNotExplodeInt", defaultConf);
+    m_serverIndices.insert("labelNotExplodeInt", 0);
     m_serverConfigs.insert("labelNotExplodeObject", defaultConf);
     m_serverIndices.insert("labelNotExplodeObject", 0);
     m_serverConfigs.insert("labelNotExplodeString", defaultConf);
@@ -85,6 +109,12 @@ void QtOAITestApi::initializeServerConfigs()
     m_serverIndices.insert("matrixExplodeAnytype", 0);
     m_serverConfigs.insert("matrixExplodeArray", defaultConf);
     m_serverIndices.insert("matrixExplodeArray", 0);
+    m_serverConfigs.insert("matrixExplodeDouble", defaultConf);
+    m_serverIndices.insert("matrixExplodeDouble", 0);
+    m_serverConfigs.insert("matrixExplodeFloat", defaultConf);
+    m_serverIndices.insert("matrixExplodeFloat", 0);
+    m_serverConfigs.insert("matrixExplodeInt", defaultConf);
+    m_serverIndices.insert("matrixExplodeInt", 0);
     m_serverConfigs.insert("matrixExplodeObject", defaultConf);
     m_serverIndices.insert("matrixExplodeObject", 0);
     m_serverConfigs.insert("matrixExplodeString", defaultConf);
@@ -93,6 +123,12 @@ void QtOAITestApi::initializeServerConfigs()
     m_serverIndices.insert("matrixNotExplodeAnytype", 0);
     m_serverConfigs.insert("matrixNotExplodeArray", defaultConf);
     m_serverIndices.insert("matrixNotExplodeArray", 0);
+    m_serverConfigs.insert("matrixNotExplodeDouble", defaultConf);
+    m_serverIndices.insert("matrixNotExplodeDouble", 0);
+    m_serverConfigs.insert("matrixNotExplodeFloat", defaultConf);
+    m_serverIndices.insert("matrixNotExplodeFloat", 0);
+    m_serverConfigs.insert("matrixNotExplodeInt", defaultConf);
+    m_serverIndices.insert("matrixNotExplodeInt", 0);
     m_serverConfigs.insert("matrixNotExplodeObject", defaultConf);
     m_serverIndices.insert("matrixNotExplodeObject", 0);
     m_serverConfigs.insert("matrixNotExplodeString", defaultConf);
@@ -113,6 +149,12 @@ void QtOAITestApi::initializeServerConfigs()
     m_serverIndices.insert("simpleExplodeAnytype", 0);
     m_serverConfigs.insert("simpleExplodeArray", defaultConf);
     m_serverIndices.insert("simpleExplodeArray", 0);
+    m_serverConfigs.insert("simpleExplodeDouble", defaultConf);
+    m_serverIndices.insert("simpleExplodeDouble", 0);
+    m_serverConfigs.insert("simpleExplodeFloat", defaultConf);
+    m_serverIndices.insert("simpleExplodeFloat", 0);
+    m_serverConfigs.insert("simpleExplodeInt", defaultConf);
+    m_serverIndices.insert("simpleExplodeInt", 0);
     m_serverConfigs.insert("simpleExplodeObject", defaultConf);
     m_serverIndices.insert("simpleExplodeObject", 0);
     m_serverConfigs.insert("simpleExplodeString", defaultConf);
@@ -121,6 +163,12 @@ void QtOAITestApi::initializeServerConfigs()
     m_serverIndices.insert("simpleNotExplodeAnytype", 0);
     m_serverConfigs.insert("simpleNotExplodeArray", defaultConf);
     m_serverIndices.insert("simpleNotExplodeArray", 0);
+    m_serverConfigs.insert("simpleNotExplodeDouble", defaultConf);
+    m_serverIndices.insert("simpleNotExplodeDouble", 0);
+    m_serverConfigs.insert("simpleNotExplodeFloat", defaultConf);
+    m_serverIndices.insert("simpleNotExplodeFloat", 0);
+    m_serverConfigs.insert("simpleNotExplodeInt", defaultConf);
+    m_serverIndices.insert("simpleNotExplodeInt", 0);
     m_serverConfigs.insert("simpleNotExplodeObject", defaultConf);
     m_serverIndices.insert("simpleNotExplodeObject", 0);
     m_serverConfigs.insert("simpleNotExplodeString", defaultConf);
@@ -838,6 +886,372 @@ void QtOAITestApi::formExplodeDifferentOptionsCallback(const QRestReply &reply)
 }
 
 /**
+* \fn virtual void QtOAITestApi::formExplodeDouble(const ::QtOpenAPI::OptionalParam<double> &doubleParameter = ::QtOpenAPI::OptionalParam<double>())
+* 'formExplodeDouble' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] doubleParameter double [optional]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::formExplodeDouble(const ::QtOpenAPI::OptionalParam<double> &doubleParameter = ::QtOpenAPI::OptionalParam<double>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'formExplodeDouble' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    formExplodeDouble(doubleParameter, this, [&](const QRestReply &reply, const QtOAIDoubleResponse &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual formExplodeDoubleWithDataImpl() in derived class.
+* The virtual formExplodeDoubleWithDataImpl() is being called by the template
+* function.
+
+* @param[in] doubleParameter double [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::formExplodeDoubleCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by formExplodeDoubleFinished() or
+* being returned as a callback parameter of formExplodeDouble() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::formExplodeDoubleWithDataImpl(const ::QtOpenAPI::OptionalParam<double> &doubleParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the formExplodeDouble() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking formExplodeDouble() operation calls.
+
+* @param[in] doubleParameter double [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::formExplodeDoubleWithDataImpl(const ::QtOpenAPI::OptionalParam<double> &doubleParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["formExplodeDouble"][m_serverIndices.value("formExplodeDouble")].serverUrl();
+    QString fullPath = "/query/double/form-explode/formExplodeDouble";
+    m_networkFactory->setBaseUrl(serverUrl);
+    int queryParamCounter = 0;
+    {
+        [[maybe_unused]] QString paramString;
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"doubleParameter"_s, true, (!true && !false));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!true && !false));
+        paramString = querySuffix;
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
+            fullPath.append(queryPrefix);
+        if (doubleParameter.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
+            fullPath.append(querySuffix + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(doubleParameter.value())));
+            queryParamCounter++;
+        }
+    }
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            formExplodeDoubleCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit formExplodeDoubleErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QtOAIDoubleResponse empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::formExplodeDoubleCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QtOAIDoubleResponse output(response);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit formExplodeDoubleFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::formExplodeFloat(const ::QtOpenAPI::OptionalParam<float> &floatParameter = ::QtOpenAPI::OptionalParam<float>())
+* 'formExplodeFloat' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] floatParameter float [optional]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::formExplodeFloat(const ::QtOpenAPI::OptionalParam<float> &floatParameter = ::QtOpenAPI::OptionalParam<float>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'formExplodeFloat' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    formExplodeFloat(floatParameter, this, [&](const QRestReply &reply, const QtOAIFloatResponse &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual formExplodeFloatWithDataImpl() in derived class.
+* The virtual formExplodeFloatWithDataImpl() is being called by the template
+* function.
+
+* @param[in] floatParameter float [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::formExplodeFloatCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by formExplodeFloatFinished() or
+* being returned as a callback parameter of formExplodeFloat() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::formExplodeFloatWithDataImpl(const ::QtOpenAPI::OptionalParam<float> &floatParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the formExplodeFloat() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking formExplodeFloat() operation calls.
+
+* @param[in] floatParameter float [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::formExplodeFloatWithDataImpl(const ::QtOpenAPI::OptionalParam<float> &floatParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["formExplodeFloat"][m_serverIndices.value("formExplodeFloat")].serverUrl();
+    QString fullPath = "/query/float/form-explode/formExplodeFloat";
+    m_networkFactory->setBaseUrl(serverUrl);
+    int queryParamCounter = 0;
+    {
+        [[maybe_unused]] QString paramString;
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"floatParameter"_s, true, (!true && !false));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!true && !false));
+        paramString = querySuffix;
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
+            fullPath.append(queryPrefix);
+        if (floatParameter.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
+            fullPath.append(querySuffix + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(floatParameter.value())));
+            queryParamCounter++;
+        }
+    }
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            formExplodeFloatCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit formExplodeFloatErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QtOAIFloatResponse empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::formExplodeFloatCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QtOAIFloatResponse output(response);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit formExplodeFloatFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::formExplodeInt(const ::QtOpenAPI::OptionalParam<qint64> &intParameter = ::QtOpenAPI::OptionalParam<qint64>())
+* 'formExplodeInt' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] intParameter qint64 [optional]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::formExplodeInt(const ::QtOpenAPI::OptionalParam<qint64> &intParameter = ::QtOpenAPI::OptionalParam<qint64>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'formExplodeInt' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    formExplodeInt(intParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual formExplodeIntWithDataImpl() in derived class.
+* The virtual formExplodeIntWithDataImpl() is being called by the template
+* function.
+
+* @param[in] intParameter qint64 [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::formExplodeIntCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by formExplodeIntFinished() or
+* being returned as a callback parameter of formExplodeInt() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::formExplodeIntWithDataImpl(const ::QtOpenAPI::OptionalParam<qint64> &intParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the formExplodeInt() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking formExplodeInt() operation calls.
+
+* @param[in] intParameter qint64 [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::formExplodeIntWithDataImpl(const ::QtOpenAPI::OptionalParam<qint64> &intParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["formExplodeInt"][m_serverIndices.value("formExplodeInt")].serverUrl();
+    QString fullPath = "/query/int/form-explode/formExplodeInt";
+    m_networkFactory->setBaseUrl(serverUrl);
+    int queryParamCounter = 0;
+    {
+        [[maybe_unused]] QString paramString;
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"intParameter"_s, true, (!true && !false));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!true && !false));
+        paramString = querySuffix;
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
+            fullPath.append(queryPrefix);
+        if (intParameter.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
+            fullPath.append(querySuffix + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(intParameter.value())));
+            queryParamCounter++;
+        }
+    }
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            formExplodeIntCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit formExplodeIntErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::formExplodeIntCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit formExplodeIntFinished(output);
+}
+
+/**
 * \fn virtual void QtOAITestApi::formExplodeObject(const QtOAITestObject &objectParameter)
 * 'formExplodeObject' operation sends the request to a server.
 * The request parameters are defined by a specification file.
@@ -1542,6 +1956,372 @@ void QtOAITestApi::formNotExplodeArrayCallback(const QRestReply &reply)
 }
 
 /**
+* \fn virtual void QtOAITestApi::formNotExplodeDouble(const ::QtOpenAPI::OptionalParam<double> &doubleParameter = ::QtOpenAPI::OptionalParam<double>())
+* 'formNotExplodeDouble' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] doubleParameter double [optional]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::formNotExplodeDouble(const ::QtOpenAPI::OptionalParam<double> &doubleParameter = ::QtOpenAPI::OptionalParam<double>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'formNotExplodeDouble' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    formNotExplodeDouble(doubleParameter, this, [&](const QRestReply &reply, const QtOAIDoubleResponse &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual formNotExplodeDoubleWithDataImpl() in derived class.
+* The virtual formNotExplodeDoubleWithDataImpl() is being called by the template
+* function.
+
+* @param[in] doubleParameter double [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::formNotExplodeDoubleCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by formNotExplodeDoubleFinished() or
+* being returned as a callback parameter of formNotExplodeDouble() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::formNotExplodeDoubleWithDataImpl(const ::QtOpenAPI::OptionalParam<double> &doubleParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the formNotExplodeDouble() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking formNotExplodeDouble() operation calls.
+
+* @param[in] doubleParameter double [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::formNotExplodeDoubleWithDataImpl(const ::QtOpenAPI::OptionalParam<double> &doubleParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["formNotExplodeDouble"][m_serverIndices.value("formNotExplodeDouble")].serverUrl();
+    QString fullPath = "/query/double/form-not-explode/formNotExplodeDouble";
+    m_networkFactory->setBaseUrl(serverUrl);
+    int queryParamCounter = 0;
+    {
+        [[maybe_unused]] QString paramString;
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"doubleParameter"_s, false, (!true && !false));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, (!true && !false));
+        paramString = querySuffix;
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
+            fullPath.append(queryPrefix);
+        if (doubleParameter.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
+            fullPath.append(querySuffix + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(doubleParameter.value())));
+            queryParamCounter++;
+        }
+    }
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            formNotExplodeDoubleCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit formNotExplodeDoubleErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QtOAIDoubleResponse empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::formNotExplodeDoubleCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QtOAIDoubleResponse output(response);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit formNotExplodeDoubleFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::formNotExplodeFloat(const ::QtOpenAPI::OptionalParam<float> &floatParameter = ::QtOpenAPI::OptionalParam<float>())
+* 'formNotExplodeFloat' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] floatParameter float [optional]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::formNotExplodeFloat(const ::QtOpenAPI::OptionalParam<float> &floatParameter = ::QtOpenAPI::OptionalParam<float>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'formNotExplodeFloat' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    formNotExplodeFloat(floatParameter, this, [&](const QRestReply &reply, const QtOAIFloatResponse &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual formNotExplodeFloatWithDataImpl() in derived class.
+* The virtual formNotExplodeFloatWithDataImpl() is being called by the template
+* function.
+
+* @param[in] floatParameter float [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::formNotExplodeFloatCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by formNotExplodeFloatFinished() or
+* being returned as a callback parameter of formNotExplodeFloat() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::formNotExplodeFloatWithDataImpl(const ::QtOpenAPI::OptionalParam<float> &floatParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the formNotExplodeFloat() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking formNotExplodeFloat() operation calls.
+
+* @param[in] floatParameter float [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::formNotExplodeFloatWithDataImpl(const ::QtOpenAPI::OptionalParam<float> &floatParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["formNotExplodeFloat"][m_serverIndices.value("formNotExplodeFloat")].serverUrl();
+    QString fullPath = "/query/float/form-not-explode/formNotExplodeFloat";
+    m_networkFactory->setBaseUrl(serverUrl);
+    int queryParamCounter = 0;
+    {
+        [[maybe_unused]] QString paramString;
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"floatParameter"_s, false, (!true && !false));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, (!true && !false));
+        paramString = querySuffix;
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
+            fullPath.append(queryPrefix);
+        if (floatParameter.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
+            fullPath.append(querySuffix + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(floatParameter.value())));
+            queryParamCounter++;
+        }
+    }
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            formNotExplodeFloatCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit formNotExplodeFloatErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QtOAIFloatResponse empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::formNotExplodeFloatCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QtOAIFloatResponse output(response);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit formNotExplodeFloatFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::formNotExplodeInt(const ::QtOpenAPI::OptionalParam<qint64> &intParameter = ::QtOpenAPI::OptionalParam<qint64>())
+* 'formNotExplodeInt' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] intParameter qint64 [optional]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::formNotExplodeInt(const ::QtOpenAPI::OptionalParam<qint64> &intParameter = ::QtOpenAPI::OptionalParam<qint64>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'formNotExplodeInt' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    formNotExplodeInt(intParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual formNotExplodeIntWithDataImpl() in derived class.
+* The virtual formNotExplodeIntWithDataImpl() is being called by the template
+* function.
+
+* @param[in] intParameter qint64 [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::formNotExplodeIntCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by formNotExplodeIntFinished() or
+* being returned as a callback parameter of formNotExplodeInt() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::formNotExplodeIntWithDataImpl(const ::QtOpenAPI::OptionalParam<qint64> &intParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the formNotExplodeInt() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking formNotExplodeInt() operation calls.
+
+* @param[in] intParameter qint64 [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::formNotExplodeIntWithDataImpl(const ::QtOpenAPI::OptionalParam<qint64> &intParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["formNotExplodeInt"][m_serverIndices.value("formNotExplodeInt")].serverUrl();
+    QString fullPath = "/query/int/form-not-explode/formNotExplodeInt";
+    m_networkFactory->setBaseUrl(serverUrl);
+    int queryParamCounter = 0;
+    {
+        [[maybe_unused]] QString paramString;
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"intParameter"_s, false, (!true && !false));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, (!true && !false));
+        paramString = querySuffix;
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
+            fullPath.append(queryPrefix);
+        if (intParameter.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
+            fullPath.append(querySuffix + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(intParameter.value())));
+            queryParamCounter++;
+        }
+    }
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            formNotExplodeIntCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit formNotExplodeIntErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::formNotExplodeIntCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit formNotExplodeIntFinished(output);
+}
+
+/**
 * \fn virtual void QtOAITestApi::formNotExplodeObject(const ::QtOpenAPI::OptionalParam<QtOAITestObject> &objectParameter = ::QtOpenAPI::OptionalParam<QtOAITestObject>())
 * 'formNotExplodeObject' operation sends the request to a server.
 * The request parameters are defined by a specification file.
@@ -2054,6 +2834,369 @@ void QtOAITestApi::labelExplodeArrayCallback(const QRestReply &reply)
 }
 
 /**
+* \fn virtual void QtOAITestApi::labelExplodeDouble(const double &doubleParameter)
+* 'labelExplodeDouble' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] doubleParameter double [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::labelExplodeDouble(const double &doubleParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'labelExplodeDouble' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    labelExplodeDouble(doubleParameter, this, [&](const QRestReply &reply, const QtOAIDoubleResponse &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual labelExplodeDoubleWithDataImpl() in derived class.
+* The virtual labelExplodeDoubleWithDataImpl() is being called by the template
+* function.
+
+* @param[in] doubleParameter double [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::labelExplodeDoubleCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by labelExplodeDoubleFinished() or
+* being returned as a callback parameter of labelExplodeDouble() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::labelExplodeDoubleWithDataImpl(const double &doubleParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the labelExplodeDouble() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking labelExplodeDouble() operation calls.
+
+* @param[in] doubleParameter double [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::labelExplodeDoubleWithDataImpl(const double &doubleParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["labelExplodeDouble"][m_serverIndices.value("labelExplodeDouble")].serverUrl();
+    QString fullPath = "/path/double/label-explode/{doubleParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString doubleParameterPathParam = QString("{%1}").arg("doubleParameter");
+        QString pathStyle = "label";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"doubleParameter"_s, true, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(doubleParameter));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("label") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(doubleParameterPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            labelExplodeDoubleCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit labelExplodeDoubleErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QtOAIDoubleResponse empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::labelExplodeDoubleCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QtOAIDoubleResponse output(response);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit labelExplodeDoubleFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::labelExplodeFloat(const float &floatParameter)
+* 'labelExplodeFloat' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] floatParameter float [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::labelExplodeFloat(const float &floatParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'labelExplodeFloat' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    labelExplodeFloat(floatParameter, this, [&](const QRestReply &reply, const QtOAIFloatResponse &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual labelExplodeFloatWithDataImpl() in derived class.
+* The virtual labelExplodeFloatWithDataImpl() is being called by the template
+* function.
+
+* @param[in] floatParameter float [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::labelExplodeFloatCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by labelExplodeFloatFinished() or
+* being returned as a callback parameter of labelExplodeFloat() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::labelExplodeFloatWithDataImpl(const float &floatParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the labelExplodeFloat() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking labelExplodeFloat() operation calls.
+
+* @param[in] floatParameter float [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::labelExplodeFloatWithDataImpl(const float &floatParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["labelExplodeFloat"][m_serverIndices.value("labelExplodeFloat")].serverUrl();
+    QString fullPath = "/path/float/label-explode/{floatParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString floatParameterPathParam = QString("{%1}").arg("floatParameter");
+        QString pathStyle = "label";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"floatParameter"_s, true, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(floatParameter));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("label") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(floatParameterPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            labelExplodeFloatCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit labelExplodeFloatErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QtOAIFloatResponse empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::labelExplodeFloatCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QtOAIFloatResponse output(response);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit labelExplodeFloatFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::labelExplodeInt(const qint64 &intParameter)
+* 'labelExplodeInt' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] intParameter qint64 [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::labelExplodeInt(const qint64 &intParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'labelExplodeInt' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    labelExplodeInt(intParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual labelExplodeIntWithDataImpl() in derived class.
+* The virtual labelExplodeIntWithDataImpl() is being called by the template
+* function.
+
+* @param[in] intParameter qint64 [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::labelExplodeIntCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by labelExplodeIntFinished() or
+* being returned as a callback parameter of labelExplodeInt() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::labelExplodeIntWithDataImpl(const qint64 &intParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the labelExplodeInt() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking labelExplodeInt() operation calls.
+
+* @param[in] intParameter qint64 [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::labelExplodeIntWithDataImpl(const qint64 &intParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["labelExplodeInt"][m_serverIndices.value("labelExplodeInt")].serverUrl();
+    QString fullPath = "/path/int/label-explode/{intParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString intParameterPathParam = QString("{%1}").arg("intParameter");
+        QString pathStyle = "label";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"intParameter"_s, true, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(intParameter));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("label") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(intParameterPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            labelExplodeIntCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit labelExplodeIntErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::labelExplodeIntCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit labelExplodeIntFinished(output);
+}
+
+/**
 * \fn virtual void QtOAITestApi::labelExplodeObject(const QtOAITestObject &objectParameter)
 * 'labelExplodeObject' operation sends the request to a server.
 * The request parameters are defined by a specification file.
@@ -2542,6 +3685,369 @@ void QtOAITestApi::labelNotExplodeArrayCallback(const QRestReply &reply)
         callerInfo.slot->call(context, argv);
     }
     emit labelNotExplodeArrayFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::labelNotExplodeDouble(const double &doubleParameter)
+* 'labelNotExplodeDouble' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] doubleParameter double [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::labelNotExplodeDouble(const double &doubleParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'labelNotExplodeDouble' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    labelNotExplodeDouble(doubleParameter, this, [&](const QRestReply &reply, const QtOAIDoubleResponse &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual labelNotExplodeDoubleWithDataImpl() in derived class.
+* The virtual labelNotExplodeDoubleWithDataImpl() is being called by the template
+* function.
+
+* @param[in] doubleParameter double [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::labelNotExplodeDoubleCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by labelNotExplodeDoubleFinished() or
+* being returned as a callback parameter of labelNotExplodeDouble() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::labelNotExplodeDoubleWithDataImpl(const double &doubleParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the labelNotExplodeDouble() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking labelNotExplodeDouble() operation calls.
+
+* @param[in] doubleParameter double [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::labelNotExplodeDoubleWithDataImpl(const double &doubleParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["labelNotExplodeDouble"][m_serverIndices.value("labelNotExplodeDouble")].serverUrl();
+    QString fullPath = "/path/double/label-not-explode/{doubleParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString doubleParameterPathParam = QString("{%1}").arg("doubleParameter");
+        QString pathStyle = "label";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"doubleParameter"_s, false, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(doubleParameter));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("label") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(doubleParameterPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            labelNotExplodeDoubleCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit labelNotExplodeDoubleErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QtOAIDoubleResponse empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::labelNotExplodeDoubleCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QtOAIDoubleResponse output(response);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit labelNotExplodeDoubleFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::labelNotExplodeFloat(const float &floatParameter)
+* 'labelNotExplodeFloat' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] floatParameter float [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::labelNotExplodeFloat(const float &floatParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'labelNotExplodeFloat' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    labelNotExplodeFloat(floatParameter, this, [&](const QRestReply &reply, const QtOAIFloatResponse &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual labelNotExplodeFloatWithDataImpl() in derived class.
+* The virtual labelNotExplodeFloatWithDataImpl() is being called by the template
+* function.
+
+* @param[in] floatParameter float [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::labelNotExplodeFloatCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by labelNotExplodeFloatFinished() or
+* being returned as a callback parameter of labelNotExplodeFloat() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::labelNotExplodeFloatWithDataImpl(const float &floatParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the labelNotExplodeFloat() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking labelNotExplodeFloat() operation calls.
+
+* @param[in] floatParameter float [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::labelNotExplodeFloatWithDataImpl(const float &floatParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["labelNotExplodeFloat"][m_serverIndices.value("labelNotExplodeFloat")].serverUrl();
+    QString fullPath = "/path/float/label-not-explode/{floatParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString floatParameterPathParam = QString("{%1}").arg("floatParameter");
+        QString pathStyle = "label";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"floatParameter"_s, false, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(floatParameter));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("label") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(floatParameterPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            labelNotExplodeFloatCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit labelNotExplodeFloatErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QtOAIFloatResponse empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::labelNotExplodeFloatCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QtOAIFloatResponse output(response);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit labelNotExplodeFloatFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::labelNotExplodeInt(const qint64 &intParameter)
+* 'labelNotExplodeInt' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] intParameter qint64 [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::labelNotExplodeInt(const qint64 &intParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'labelNotExplodeInt' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    labelNotExplodeInt(intParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual labelNotExplodeIntWithDataImpl() in derived class.
+* The virtual labelNotExplodeIntWithDataImpl() is being called by the template
+* function.
+
+* @param[in] intParameter qint64 [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::labelNotExplodeIntCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by labelNotExplodeIntFinished() or
+* being returned as a callback parameter of labelNotExplodeInt() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::labelNotExplodeIntWithDataImpl(const qint64 &intParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the labelNotExplodeInt() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking labelNotExplodeInt() operation calls.
+
+* @param[in] intParameter qint64 [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::labelNotExplodeIntWithDataImpl(const qint64 &intParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["labelNotExplodeInt"][m_serverIndices.value("labelNotExplodeInt")].serverUrl();
+    QString fullPath = "/path/int/label-not-explode/{intParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString intParameterPathParam = QString("{%1}").arg("intParameter");
+        QString pathStyle = "label";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"intParameter"_s, false, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(intParameter));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("label") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(intParameterPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            labelNotExplodeIntCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit labelNotExplodeIntErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::labelNotExplodeIntCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit labelNotExplodeIntFinished(output);
 }
 
 /**
@@ -3036,6 +4542,369 @@ void QtOAITestApi::matrixExplodeArrayCallback(const QRestReply &reply)
 }
 
 /**
+* \fn virtual void QtOAITestApi::matrixExplodeDouble(const double &doubleParameter)
+* 'matrixExplodeDouble' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] doubleParameter double [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::matrixExplodeDouble(const double &doubleParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'matrixExplodeDouble' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    matrixExplodeDouble(doubleParameter, this, [&](const QRestReply &reply, const QtOAIDoubleResponse &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual matrixExplodeDoubleWithDataImpl() in derived class.
+* The virtual matrixExplodeDoubleWithDataImpl() is being called by the template
+* function.
+
+* @param[in] doubleParameter double [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::matrixExplodeDoubleCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by matrixExplodeDoubleFinished() or
+* being returned as a callback parameter of matrixExplodeDouble() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::matrixExplodeDoubleWithDataImpl(const double &doubleParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the matrixExplodeDouble() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking matrixExplodeDouble() operation calls.
+
+* @param[in] doubleParameter double [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::matrixExplodeDoubleWithDataImpl(const double &doubleParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["matrixExplodeDouble"][m_serverIndices.value("matrixExplodeDouble")].serverUrl();
+    QString fullPath = "/path/double/matrix-explode/{doubleParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString doubleParameterPathParam = QString("{%1}").arg("doubleParameter");
+        QString pathStyle = "matrix";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"doubleParameter"_s, true, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(doubleParameter));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("matrix") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(doubleParameterPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            matrixExplodeDoubleCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit matrixExplodeDoubleErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QtOAIDoubleResponse empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::matrixExplodeDoubleCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QtOAIDoubleResponse output(response);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit matrixExplodeDoubleFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::matrixExplodeFloat(const float &floatParameter)
+* 'matrixExplodeFloat' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] floatParameter float [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::matrixExplodeFloat(const float &floatParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'matrixExplodeFloat' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    matrixExplodeFloat(floatParameter, this, [&](const QRestReply &reply, const QtOAIFloatResponse &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual matrixExplodeFloatWithDataImpl() in derived class.
+* The virtual matrixExplodeFloatWithDataImpl() is being called by the template
+* function.
+
+* @param[in] floatParameter float [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::matrixExplodeFloatCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by matrixExplodeFloatFinished() or
+* being returned as a callback parameter of matrixExplodeFloat() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::matrixExplodeFloatWithDataImpl(const float &floatParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the matrixExplodeFloat() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking matrixExplodeFloat() operation calls.
+
+* @param[in] floatParameter float [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::matrixExplodeFloatWithDataImpl(const float &floatParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["matrixExplodeFloat"][m_serverIndices.value("matrixExplodeFloat")].serverUrl();
+    QString fullPath = "/path/float/matrix-explode/{floatParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString floatParameterPathParam = QString("{%1}").arg("floatParameter");
+        QString pathStyle = "matrix";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"floatParameter"_s, true, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(floatParameter));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("matrix") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(floatParameterPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            matrixExplodeFloatCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit matrixExplodeFloatErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QtOAIFloatResponse empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::matrixExplodeFloatCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QtOAIFloatResponse output(response);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit matrixExplodeFloatFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::matrixExplodeInt(const qint64 &intParameter)
+* 'matrixExplodeInt' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] intParameter qint64 [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::matrixExplodeInt(const qint64 &intParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'matrixExplodeInt' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    matrixExplodeInt(intParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual matrixExplodeIntWithDataImpl() in derived class.
+* The virtual matrixExplodeIntWithDataImpl() is being called by the template
+* function.
+
+* @param[in] intParameter qint64 [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::matrixExplodeIntCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by matrixExplodeIntFinished() or
+* being returned as a callback parameter of matrixExplodeInt() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::matrixExplodeIntWithDataImpl(const qint64 &intParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the matrixExplodeInt() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking matrixExplodeInt() operation calls.
+
+* @param[in] intParameter qint64 [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::matrixExplodeIntWithDataImpl(const qint64 &intParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["matrixExplodeInt"][m_serverIndices.value("matrixExplodeInt")].serverUrl();
+    QString fullPath = "/path/int/matrix-explode/{intParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString intParameterPathParam = QString("{%1}").arg("intParameter");
+        QString pathStyle = "matrix";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"intParameter"_s, true, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(intParameter));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("matrix") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(intParameterPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            matrixExplodeIntCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit matrixExplodeIntErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::matrixExplodeIntCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit matrixExplodeIntFinished(output);
+}
+
+/**
 * \fn virtual void QtOAITestApi::matrixExplodeObject(const QtOAITestObject &objectParameter)
 * 'matrixExplodeObject' operation sends the request to a server.
 * The request parameters are defined by a specification file.
@@ -3524,6 +5393,369 @@ void QtOAITestApi::matrixNotExplodeArrayCallback(const QRestReply &reply)
         callerInfo.slot->call(context, argv);
     }
     emit matrixNotExplodeArrayFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::matrixNotExplodeDouble(const double &doubleParameter)
+* 'matrixNotExplodeDouble' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] doubleParameter double [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::matrixNotExplodeDouble(const double &doubleParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'matrixNotExplodeDouble' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    matrixNotExplodeDouble(doubleParameter, this, [&](const QRestReply &reply, const QtOAIDoubleResponse &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual matrixNotExplodeDoubleWithDataImpl() in derived class.
+* The virtual matrixNotExplodeDoubleWithDataImpl() is being called by the template
+* function.
+
+* @param[in] doubleParameter double [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::matrixNotExplodeDoubleCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by matrixNotExplodeDoubleFinished() or
+* being returned as a callback parameter of matrixNotExplodeDouble() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::matrixNotExplodeDoubleWithDataImpl(const double &doubleParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the matrixNotExplodeDouble() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking matrixNotExplodeDouble() operation calls.
+
+* @param[in] doubleParameter double [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::matrixNotExplodeDoubleWithDataImpl(const double &doubleParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["matrixNotExplodeDouble"][m_serverIndices.value("matrixNotExplodeDouble")].serverUrl();
+    QString fullPath = "/path/double/matrix-not-explode/{doubleParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString doubleParameterPathParam = QString("{%1}").arg("doubleParameter");
+        QString pathStyle = "matrix";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"doubleParameter"_s, false, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(doubleParameter));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("matrix") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(doubleParameterPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            matrixNotExplodeDoubleCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit matrixNotExplodeDoubleErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QtOAIDoubleResponse empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::matrixNotExplodeDoubleCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QtOAIDoubleResponse output(response);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit matrixNotExplodeDoubleFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::matrixNotExplodeFloat(const float &floatParameter)
+* 'matrixNotExplodeFloat' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] floatParameter float [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::matrixNotExplodeFloat(const float &floatParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'matrixNotExplodeFloat' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    matrixNotExplodeFloat(floatParameter, this, [&](const QRestReply &reply, const QtOAIFloatResponse &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual matrixNotExplodeFloatWithDataImpl() in derived class.
+* The virtual matrixNotExplodeFloatWithDataImpl() is being called by the template
+* function.
+
+* @param[in] floatParameter float [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::matrixNotExplodeFloatCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by matrixNotExplodeFloatFinished() or
+* being returned as a callback parameter of matrixNotExplodeFloat() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::matrixNotExplodeFloatWithDataImpl(const float &floatParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the matrixNotExplodeFloat() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking matrixNotExplodeFloat() operation calls.
+
+* @param[in] floatParameter float [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::matrixNotExplodeFloatWithDataImpl(const float &floatParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["matrixNotExplodeFloat"][m_serverIndices.value("matrixNotExplodeFloat")].serverUrl();
+    QString fullPath = "/path/float/matrix-not-explode/{floatParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString floatParameterPathParam = QString("{%1}").arg("floatParameter");
+        QString pathStyle = "matrix";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"floatParameter"_s, false, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(floatParameter));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("matrix") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(floatParameterPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            matrixNotExplodeFloatCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit matrixNotExplodeFloatErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QtOAIFloatResponse empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::matrixNotExplodeFloatCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QtOAIFloatResponse output(response);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit matrixNotExplodeFloatFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::matrixNotExplodeInt(const qint64 &intParameter)
+* 'matrixNotExplodeInt' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] intParameter qint64 [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::matrixNotExplodeInt(const qint64 &intParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'matrixNotExplodeInt' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    matrixNotExplodeInt(intParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual matrixNotExplodeIntWithDataImpl() in derived class.
+* The virtual matrixNotExplodeIntWithDataImpl() is being called by the template
+* function.
+
+* @param[in] intParameter qint64 [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::matrixNotExplodeIntCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by matrixNotExplodeIntFinished() or
+* being returned as a callback parameter of matrixNotExplodeInt() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::matrixNotExplodeIntWithDataImpl(const qint64 &intParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the matrixNotExplodeInt() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking matrixNotExplodeInt() operation calls.
+
+* @param[in] intParameter qint64 [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::matrixNotExplodeIntWithDataImpl(const qint64 &intParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["matrixNotExplodeInt"][m_serverIndices.value("matrixNotExplodeInt")].serverUrl();
+    QString fullPath = "/path/int/matrix-not-explode/{intParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString intParameterPathParam = QString("{%1}").arg("intParameter");
+        QString pathStyle = "matrix";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"intParameter"_s, false, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(intParameter));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("matrix") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(intParameterPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            matrixNotExplodeIntCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit matrixNotExplodeIntErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::matrixNotExplodeIntCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit matrixNotExplodeIntFinished(output);
 }
 
 /**
@@ -4798,6 +7030,369 @@ void QtOAITestApi::simpleExplodeArrayCallback(const QRestReply &reply)
 }
 
 /**
+* \fn virtual void QtOAITestApi::simpleExplodeDouble(const double &doubleParameter)
+* 'simpleExplodeDouble' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] doubleParameter double [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::simpleExplodeDouble(const double &doubleParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'simpleExplodeDouble' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    simpleExplodeDouble(doubleParameter, this, [&](const QRestReply &reply, const QtOAIDoubleResponse &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual simpleExplodeDoubleWithDataImpl() in derived class.
+* The virtual simpleExplodeDoubleWithDataImpl() is being called by the template
+* function.
+
+* @param[in] doubleParameter double [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::simpleExplodeDoubleCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by simpleExplodeDoubleFinished() or
+* being returned as a callback parameter of simpleExplodeDouble() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::simpleExplodeDoubleWithDataImpl(const double &doubleParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the simpleExplodeDouble() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking simpleExplodeDouble() operation calls.
+
+* @param[in] doubleParameter double [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::simpleExplodeDoubleWithDataImpl(const double &doubleParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["simpleExplodeDouble"][m_serverIndices.value("simpleExplodeDouble")].serverUrl();
+    QString fullPath = "/path/double/simple-explode/{doubleParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString doubleParameterPathParam = QString("{%1}").arg("doubleParameter");
+        QString pathStyle = "simple";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"doubleParameter"_s, true, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(doubleParameter));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(doubleParameterPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            simpleExplodeDoubleCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit simpleExplodeDoubleErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QtOAIDoubleResponse empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::simpleExplodeDoubleCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QtOAIDoubleResponse output(response);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit simpleExplodeDoubleFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::simpleExplodeFloat(const float &floatParameter)
+* 'simpleExplodeFloat' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] floatParameter float [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::simpleExplodeFloat(const float &floatParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'simpleExplodeFloat' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    simpleExplodeFloat(floatParameter, this, [&](const QRestReply &reply, const QtOAIFloatResponse &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual simpleExplodeFloatWithDataImpl() in derived class.
+* The virtual simpleExplodeFloatWithDataImpl() is being called by the template
+* function.
+
+* @param[in] floatParameter float [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::simpleExplodeFloatCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by simpleExplodeFloatFinished() or
+* being returned as a callback parameter of simpleExplodeFloat() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::simpleExplodeFloatWithDataImpl(const float &floatParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the simpleExplodeFloat() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking simpleExplodeFloat() operation calls.
+
+* @param[in] floatParameter float [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::simpleExplodeFloatWithDataImpl(const float &floatParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["simpleExplodeFloat"][m_serverIndices.value("simpleExplodeFloat")].serverUrl();
+    QString fullPath = "/path/float/simple-explode/{floatParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString floatParameterPathParam = QString("{%1}").arg("floatParameter");
+        QString pathStyle = "simple";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"floatParameter"_s, true, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(floatParameter));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(floatParameterPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            simpleExplodeFloatCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit simpleExplodeFloatErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QtOAIFloatResponse empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::simpleExplodeFloatCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QtOAIFloatResponse output(response);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit simpleExplodeFloatFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::simpleExplodeInt(const qint64 &intParameter)
+* 'simpleExplodeInt' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] intParameter qint64 [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::simpleExplodeInt(const qint64 &intParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'simpleExplodeInt' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    simpleExplodeInt(intParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual simpleExplodeIntWithDataImpl() in derived class.
+* The virtual simpleExplodeIntWithDataImpl() is being called by the template
+* function.
+
+* @param[in] intParameter qint64 [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::simpleExplodeIntCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by simpleExplodeIntFinished() or
+* being returned as a callback parameter of simpleExplodeInt() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::simpleExplodeIntWithDataImpl(const qint64 &intParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the simpleExplodeInt() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking simpleExplodeInt() operation calls.
+
+* @param[in] intParameter qint64 [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::simpleExplodeIntWithDataImpl(const qint64 &intParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["simpleExplodeInt"][m_serverIndices.value("simpleExplodeInt")].serverUrl();
+    QString fullPath = "/path/int/simple-explode/{intParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString intParameterPathParam = QString("{%1}").arg("intParameter");
+        QString pathStyle = "simple";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"intParameter"_s, true, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(intParameter));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(intParameterPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            simpleExplodeIntCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit simpleExplodeIntErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::simpleExplodeIntCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit simpleExplodeIntFinished(output);
+}
+
+/**
 * \fn virtual void QtOAITestApi::simpleExplodeObject(const QtOAITestObject &objectParameter)
 * 'simpleExplodeObject' operation sends the request to a server.
 * The request parameters are defined by a specification file.
@@ -5286,6 +7881,369 @@ void QtOAITestApi::simpleNotExplodeArrayCallback(const QRestReply &reply)
         callerInfo.slot->call(context, argv);
     }
     emit simpleNotExplodeArrayFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::simpleNotExplodeDouble(const double &doubleParameter)
+* 'simpleNotExplodeDouble' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] doubleParameter double [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::simpleNotExplodeDouble(const double &doubleParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'simpleNotExplodeDouble' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    simpleNotExplodeDouble(doubleParameter, this, [&](const QRestReply &reply, const QtOAIDoubleResponse &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual simpleNotExplodeDoubleWithDataImpl() in derived class.
+* The virtual simpleNotExplodeDoubleWithDataImpl() is being called by the template
+* function.
+
+* @param[in] doubleParameter double [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::simpleNotExplodeDoubleCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by simpleNotExplodeDoubleFinished() or
+* being returned as a callback parameter of simpleNotExplodeDouble() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::simpleNotExplodeDoubleWithDataImpl(const double &doubleParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the simpleNotExplodeDouble() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking simpleNotExplodeDouble() operation calls.
+
+* @param[in] doubleParameter double [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::simpleNotExplodeDoubleWithDataImpl(const double &doubleParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["simpleNotExplodeDouble"][m_serverIndices.value("simpleNotExplodeDouble")].serverUrl();
+    QString fullPath = "/path/double/simple-not-explode/{doubleParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString doubleParameterPathParam = QString("{%1}").arg("doubleParameter");
+        QString pathStyle = "simple";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"doubleParameter"_s, false, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(doubleParameter));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(doubleParameterPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            simpleNotExplodeDoubleCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit simpleNotExplodeDoubleErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QtOAIDoubleResponse empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::simpleNotExplodeDoubleCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QtOAIDoubleResponse output(response);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit simpleNotExplodeDoubleFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::simpleNotExplodeFloat(const float &floatParameter)
+* 'simpleNotExplodeFloat' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] floatParameter float [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::simpleNotExplodeFloat(const float &floatParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'simpleNotExplodeFloat' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    simpleNotExplodeFloat(floatParameter, this, [&](const QRestReply &reply, const QtOAIFloatResponse &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual simpleNotExplodeFloatWithDataImpl() in derived class.
+* The virtual simpleNotExplodeFloatWithDataImpl() is being called by the template
+* function.
+
+* @param[in] floatParameter float [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::simpleNotExplodeFloatCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by simpleNotExplodeFloatFinished() or
+* being returned as a callback parameter of simpleNotExplodeFloat() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::simpleNotExplodeFloatWithDataImpl(const float &floatParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the simpleNotExplodeFloat() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking simpleNotExplodeFloat() operation calls.
+
+* @param[in] floatParameter float [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::simpleNotExplodeFloatWithDataImpl(const float &floatParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["simpleNotExplodeFloat"][m_serverIndices.value("simpleNotExplodeFloat")].serverUrl();
+    QString fullPath = "/path/float/simple-not-explode/{floatParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString floatParameterPathParam = QString("{%1}").arg("floatParameter");
+        QString pathStyle = "simple";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"floatParameter"_s, false, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(floatParameter));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(floatParameterPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            simpleNotExplodeFloatCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit simpleNotExplodeFloatErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QtOAIFloatResponse empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::simpleNotExplodeFloatCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QtOAIFloatResponse output(response);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit simpleNotExplodeFloatFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::simpleNotExplodeInt(const qint64 &intParameter)
+* 'simpleNotExplodeInt' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] intParameter qint64 [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::simpleNotExplodeInt(const qint64 &intParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'simpleNotExplodeInt' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    simpleNotExplodeInt(intParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual simpleNotExplodeIntWithDataImpl() in derived class.
+* The virtual simpleNotExplodeIntWithDataImpl() is being called by the template
+* function.
+
+* @param[in] intParameter qint64 [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::simpleNotExplodeIntCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by simpleNotExplodeIntFinished() or
+* being returned as a callback parameter of simpleNotExplodeInt() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::simpleNotExplodeIntWithDataImpl(const qint64 &intParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the simpleNotExplodeInt() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking simpleNotExplodeInt() operation calls.
+
+* @param[in] intParameter qint64 [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::simpleNotExplodeIntWithDataImpl(const qint64 &intParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["simpleNotExplodeInt"][m_serverIndices.value("simpleNotExplodeInt")].serverUrl();
+    QString fullPath = "/path/int/simple-not-explode/{intParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString intParameterPathParam = QString("{%1}").arg("intParameter");
+        QString pathStyle = "simple";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"intParameter"_s, false, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(intParameter));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(intParameterPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            simpleNotExplodeIntCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit simpleNotExplodeIntErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::simpleNotExplodeIntCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit simpleNotExplodeIntFinished(output);
 }
 
 /**

@@ -15,6 +15,8 @@ include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
 qt_add_library(${PROJECT_NAME}
+    QtOAIDoubleResponse.h
+    QtOAIFloatResponse.h
     QtOAITestObject.h
     QtOAITestApi.h
     QtOAIBaseApi.h
@@ -25,6 +27,8 @@ qt_add_library(${PROJECT_NAME}
     QtOAIHttpFileElement.h
     QtOAIServerConfiguration.h
     QtOAIServerVariable.h
+    QtOAIDoubleResponse.cpp
+    QtOAIFloatResponse.cpp
     QtOAITestObject.cpp
     QtOAITestApi.cpp
     QtOAIBaseApi.cpp

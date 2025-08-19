@@ -33,27 +33,45 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:10203/v2
 |*formExplodeAnytype* | *POST* /query/anytype/form-explode/formExplodeAnytype | form anytype explode.|
 |*formExplodeArray* | *POST* /query/array/form-explode/formExplodeArray | form array explode.|
 |*formExplodeDifferentOptions* | *POST* /query/strings/form-explode/formExplodeDifferentOptions | style-form, explode=true.|
+|*formExplodeDouble* | *POST* /query/double/form-explode/formExplodeDouble | Form style with explode set to true for double query parameter..|
+|*formExplodeFloat* | *POST* /query/float/form-explode/formExplodeFloat | Form style with explode set to true for float query parameter..|
+|*formExplodeInt* | *POST* /query/int/form-explode/formExplodeInt | Form style with explode set to true for integer query parameter..|
 |*formExplodeObject* | *POST* /query/object/form-explode/formExplodeObject | form object explode.|
 |*formExplodeString* | *POST* /query/string/form-explode/formExplodeString | form style with explode set to true for string query parameter..|
 |*formExplodeStringOptions* | *POST* /query/strings/form-explode/formExplodeStringOptions | style-form, explode=true.|
 |*formNotExplodeAnytype* | *POST* /query/anytype/form-not-explode/formNotExplodeAnytype | form anytype not explode.|
 |*formNotExplodeArray* | *POST* /query/array/form-not-explode/formNotExplodeArray | form array not explode.|
+|*formNotExplodeDouble* | *POST* /query/double/form-not-explode/formNotExplodeDouble | Form style with explode set to false for double query parameter..|
+|*formNotExplodeFloat* | *POST* /query/float/form-not-explode/formNotExplodeFloat | Form style with explode set to false for float query parameter..|
+|*formNotExplodeInt* | *POST* /query/int/form-not-explode/formNotExplodeInt | Form style with explode set to false for integer query parameter..|
 |*formNotExplodeObject* | *POST* /query/object/form-not-explode/formNotExplodeObject | form object not explode.|
 |*formNotExplodeString* | *POST* /query/string/form-not-explode/formNotExplodeString | form style with explode set to false for string query parameter..|
 |*labelExplodeAnytype* | *GET* /path/anytype/label-explode/{anytypeParameter} | label anytype explode.|
 |*labelExplodeArray* | *GET* /path/array/label-explode/{arrayParameter} | label array explode.|
+|*labelExplodeDouble* | *GET* /path/double/label-explode/{doubleParameter} | Label style with explode set to true for double path parameter..|
+|*labelExplodeFloat* | *GET* /path/float/label-explode/{floatParameter} | Label style with explode set to true for float path parameter..|
+|*labelExplodeInt* | *GET* /path/int/label-explode/{intParameter} | Label style with explode set to true for integer path parameter..|
 |*labelExplodeObject* | *GET* /path/object/label-explode/{objectParameter} | label object explode.|
 |*labelExplodeString* | *GET* /path/string/label-explode/{stringParameter} | label style with explode set to true for string path parameter..|
 |*labelNotExplodeAnytype* | *GET* /path/anytype/label-not-explode/{anytypeParameter} | label anytype not explode.|
 |*labelNotExplodeArray* | *GET* /path/array/label-not-explode/{arrayParameter} | label array not explode.|
+|*labelNotExplodeDouble* | *GET* /path/double/label-not-explode/{doubleParameter} | Label style with explode set to false for double path parameter..|
+|*labelNotExplodeFloat* | *GET* /path/float/label-not-explode/{floatParameter} | Label style with explode set to false for float path parameter..|
+|*labelNotExplodeInt* | *GET* /path/int/label-not-explode/{intParameter} | Label style with explode set to false for integer path parameter..|
 |*labelNotExplodeObject* | *POST* /path/object/label-not-explode/{objectParameter} | label object not explode.|
 |*labelNotExplodeString* | *GET* /path/string/label-not-explode/{stringParameter} | label style with explode set to false for string path parameter..|
 |*matrixExplodeAnytype* | *GET* /path/anytype/matrix-explode/{anytypeParameter} | matrix anytype explode.|
 |*matrixExplodeArray* | *GET* /path/array/matrix-explode/{arrayParameter} | matrix array explode.|
+|*matrixExplodeDouble* | *GET* /path/double/matrix-explode/{doubleParameter} | Matrix style with explode set to true for double path parameter..|
+|*matrixExplodeFloat* | *GET* /path/float/matrix-explode/{floatParameter} | Matrix style with explode set to true for float path parameter..|
+|*matrixExplodeInt* | *GET* /path/int/matrix-explode/{intParameter} | Matrix style with explode set to true for integer path parameter..|
 |*matrixExplodeObject* | *GET* /path/object/matrix-explode/{objectParameter} | matrix object explode.|
 |*matrixExplodeString* | *GET* /path/string/matrix-explode/{stringParameter} | matrix style with explode set to true for string path parameter..|
 |*matrixNotExplodeAnytype* | *GET* /path/anytype/matrix-not-explode/{anytypeParameter} | matrix anytype not explode.|
 |*matrixNotExplodeArray* | *GET* /path/array/matrix-not-explode/{arrayParameter} | matrix array not explode.|
+|*matrixNotExplodeDouble* | *GET* /path/double/matrix-not-explode/{doubleParameter} | Matrix style with explode set to false for double path parameter..|
+|*matrixNotExplodeFloat* | *GET* /path/float/matrix-not-explode/{floatParameter} | Matrix style with explode set to false for float path parameter..|
+|*matrixNotExplodeInt* | *GET* /path/int/matrix-not-explode/{intParameter} | Matrix style with explode set to false for integer path parameter..|
 |*matrixNotExplodeObject* | *GET* /path/object/matrix-not-explode/{objectParameter} | matrix object not explode.|
 |*matrixNotExplodeString* | *GET* /path/string/matrix-not-explode/{stringParameter} | matrix style with explode set to false for string path parameter..|
 |*pipeDelimitedExplodeAnytype* | *POST* /query/anytype/pipeDelimited-explode/pipeDelimitedExplodeAnytype | pipeDelimited anytype explode.|
@@ -64,10 +82,16 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:10203/v2
 |*pipeDelimitedNotExplodeObject* | *POST* /query/object/pipeDelimited-not-explode/pipeDelimitedNotExplodeObject | pipeDelimited object not explode.|
 |*simpleExplodeAnytype* | *GET* /path/anytype/simple-explode/{anytypeParameter} | simple anytype explode.|
 |*simpleExplodeArray* | *GET* /path/array/simple-explode/{arrayParameter} | simple array explode.|
+|*simpleExplodeDouble* | *GET* /path/double/simple-explode/{doubleParameter} | Simple style with explode set to true for double path parameter..|
+|*simpleExplodeFloat* | *GET* /path/float/simple-explode/{floatParameter} | Simple style with explode set to true for float path parameter..|
+|*simpleExplodeInt* | *GET* /path/int/simple-explode/{intParameter} | Simple style with explode set to true for integer path parameter..|
 |*simpleExplodeObject* | *GET* /path/object/simple-explode/{objectParameter} | simple object explode.|
 |*simpleExplodeString* | *GET* /path/string/simple-explode/{stringParameter} | Simple style with explode set to true for string path parameter..|
 |*simpleNotExplodeAnytype* | *GET* /path/anytype/simple-not-explode/{anytypeParameter} | simple anytype not explode.|
 |*simpleNotExplodeArray* | *GET* /path/array/simple-not-explode/{arrayParameter} | simple array not explode.|
+|*simpleNotExplodeDouble* | *GET* /path/double/simple-not-explode/{doubleParameter} | Simple style with explode set to false for double path parameter..|
+|*simpleNotExplodeFloat* | *GET* /path/float/simple-not-explode/{floatParameter} | Simple style with explode set to false for float path parameter..|
+|*simpleNotExplodeInt* | *GET* /path/int/simple-not-explode/{intParameter} | Simple style with explode set to false for integer path parameter..|
 |*simpleNotExplodeObject* | *GET* /path/object/simple-not-explode/{objectParameter} | simple object not explode.|
 |*simpleNotExplodeString* | *GET* /path/string/simple-not-explode/{stringParameter} | Simple style with explode set to false for string path parameter..|
 |*spaceDelimitedExplodeAnytype* | *POST* /query/anytype/spaceDelimited-explode/spaceDelimitedExplodeAnytype | spaceDelimited anytype explode.|
@@ -81,6 +105,8 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:10203/v2
 ## What are the Model files for the data structures/objects?
 |Class | Description|
 |------------- | -------------|
+|*QtOAIDoubleResponse* | |
+|*QtOAIFloatResponse* | |
 |*QtOAITestObject* | |
 
 

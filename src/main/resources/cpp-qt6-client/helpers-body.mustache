@@ -131,12 +131,12 @@ QString toStringValue(bool value)
 
 QString toStringValue(float value)
 {
-    return QString::number(static_cast<double>(value));
+    return toStringValue(static_cast<double>(value));
 }
 
 QString toStringValue(double value)
 {
-    return QString::number(value);
+    return QString::number(value, 'g', QLocale::FloatingPointShortest);
 }
 
 QString toStringValue(const {{prefix}}Object &value)
@@ -398,14 +398,14 @@ bool fromStringValue(const QString &inStr, bool &value)
 bool fromStringValue(const QString &inStr, float &value)
 {
     bool ok = false;
-    value = QVariant(inStr).toFloat(&ok);
+    value = inStr.toFloat(&ok);
     return ok;
 }
 
 bool fromStringValue(const QString &inStr, double &value)
 {
     bool ok = false;
-    value = QVariant(inStr).toDouble(&ok);
+    value = inStr.toDouble(&ok);
     return ok;
 }
 
