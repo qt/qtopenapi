@@ -107,6 +107,15 @@ function set_paths() {
         USER_SPEC="$PWD/yaml_files/$USER_MODE.yaml"
         SERVER_OUTPUT_DIR="$PWD/tests/auto/$USER_MODE/server"
         CLIENT_OUTPUT_DIR="$PWD/tests/auto/$USER_MODE/$CLIENTFOLDER_NAME"
+        if [[ $USER_MODE == "petstore" ]]; then
+            SERVER_NAME="cpp-qt-qhttpengine-server"
+        elif [[ $USER_MODE == "operation-parameters" ]]; then
+            SERVER_NAME="server-app"
+        elif [[ $USER_MODE == "openapi2.0" ]]; then
+            SERVER_NAME="backport-server-app"
+        elif [[ $USER_MODE == "mediatype" ]]; then
+            SERVER_NAME="mediatype-server-app"
+        fi
     else
         echo "Available specifications in $PWD/yaml_files:"
         ls yaml_files/*.yaml 2>/dev/null | xargs -n1 basename | sed 's/^/  /' >&2
@@ -119,22 +128,13 @@ if [[ -z "$USER_MODE" ]]; then
     USER_MODE="petstore" # default
 fi
 
-# Check for invalid mode vs user_mode combinations
-if [[ $MODE == "qmltest" && $USER_MODE == "operation-parameters" ]]; then
-    echo "Skipping: 'qmltest' is not applicable for 'operation-parameters'."
-    exit 1
-elif [[ $MODE == "qmldoc" && $USER_MODE == "operation-parameters" ]]; then
-    echo "Skipping: 'qmldoc' is not applicable for 'operation-parameters'."
-    exit 1
-fi
-
 # Set paths based on user_mode
 set_paths
 
+# Check for invalid mode vs user_mode combinations
 if [[ $MODE == "qmltest" || $MODE == "qmldoc" ]]; then
-    if [[ $USER_MODE == "operation-parameters" || $USER_MODE == "openapi2.0" ]]; then
-        echo "Skipping: $MODE is not applicable for $USER_MODE."
-        exit 1
+    if [[ $USER_MODE != "petstore" && $USER_MODE != "colorpalette" ]]; then # only those 2 have qml clients
+        die "Skipping: $MODE is not applicable for $USER_MODE."
     fi
 fi
 
@@ -146,26 +146,9 @@ if [[  ${3} != ""  && ${3} != "debug" && ${3} != "info" && ${3} != "warn" && ${3
     die "The log level \"$3\" is not recognized. Please, use: debug, info, warn, or error."
 fi
 
-####################################
-### SET THE SERVER NAME MANUALLY ###
-####################################
-if [[ $USER_MODE == "petstore" ]]; then
-    SERVER_NAME="cpp-qt-qhttpengine-server"
-elif [[ $USER_MODE == "operation-parameters" ]]; then
-    SERVER_NAME="server-app"
-elif [[ $USER_MODE == "openapi2.0" ]]; then
-    SERVER_NAME="backport-server-app"
-elif [[ $USER_MODE == "mediatype" ]]; then
-    SERVER_NAME="mediatype-server-app"
-fi
-
-#may need to clean up from previous execution
-killServer
-
 function generator_exists() {
     if [ ! -e "$ORIGINAL_GENERATOR_JAR" ]; then
-        echo "File $ORIGINAL_GENERATOR_JAR doesn't exist, please run './generator.sh cg'"
-        exit 1
+        die "File $ORIGINAL_GENERATOR_JAR doesn't exist, please run './generator.sh cg'"
     fi
 }
 
@@ -189,8 +172,10 @@ function generate() {
 function killServer() {
     # when the client finished testing, let's kill server ]:->
     exit_pid=$(pidof $SERVER_NAME)
-    echo "Now kill the server by pid:" $exit_pid
-    kill -9 $exit_pid
+    if [[ $exit_pid != "" ]]; then
+        echo "Now kill the server by pid:" $exit_pid
+        kill -9 $exit_pid
+    fi
 }
 
 function run_test() {
@@ -198,8 +183,6 @@ function run_test() {
         #build generated code
         cd $CLIENT_OUTPUT_DIR
         rm -rf $CLIENT_OUTPUT_DIR/build
-        # TODO delete here and in .gitignore after colorpalette client app will be added
-        rm -rf $CLIENT_OUTPUT_DIR/libQt6OpenAPIClient_module.so
         source build-and-test.bash
     else
         # build and run server app
@@ -252,53 +235,45 @@ function run_all() {
     QML_ADDITIONAL_PROPERTIES=false
     CLIENTFOLDER_NAME=client
     USER_MODE="operation-parameters"
-    SERVER_NAME="server-app"
     set_paths && compile && generate && run_test
 
     QML_ADDITIONAL_PROPERTIES=false
     CLIENTFOLDER_NAME=client
     USER_MODE="openapi2.0"
-    SERVER_NAME="backport-server-app"
     set_paths && compile && generate && run_test
 
     QML_ADDITIONAL_PROPERTIES=false
     CLIENTFOLDER_NAME=client
     USER_MODE="mediatype"
-    SERVER_NAME="mediatype-server-app"
     set_paths && compile && generate && run_test
 }
+
+#may need to clean up from previous execution
+killServer
 
 ####################################
 ### SET THESE VARIABLES MANUALLY ###
 ####################################
 #export CMAKE_PREFIX_PATH=""
 if [ ! -d $CMAKE_PREFIX_PATH ];then
-    echo "Please, set 'CMAKE_PREFIX_PATH' path."
-    exit 1
+    die "Please, set 'CMAKE_PREFIX_PATH' path."
 fi
 if [[ $CMAKE_PREFIX_PATH == "" ]]; then
-    echo -e "\n"
-    echo "Please, export CMAKE_PREFIX_PATH to installed Qt version in generate.sh file!"
-    echo -e "\n"
-    exit 1
+    die "\nPlease, export CMAKE_PREFIX_PATH to installed Qt version in generate.sh file!\n"
 else
     echo "CMAKE_PREFIX_PATH='$CMAKE_PREFIX_PATH' is exported."
 fi
 #JAVA_HOME="/usr/lib/jvm/java-21-openjdk-amd64"
 if [ ! -d $JAVA_HOME ];then
-    echo "Please, set 'JAVA_HOME' path."
-    exit 1
+    die "Please, set 'JAVA_HOME' path."
 fi
 if [[ $JAVA_HOME == "" ]]; then
-   echo "'JAVA_HOME' need to be set!"
-   echo -e "\n"
-   exit 1
+   die "'JAVA_HOME' need to be set!\n"
 fi
 
 # Ensure Go is installed
 if ! command -v go >/dev/null; then
-    echo "'go' is not installed."
-    exit 1
+    die "'go' is not installed."
 fi
 
 case "$MODE" in
