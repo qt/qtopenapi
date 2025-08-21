@@ -409,6 +409,15 @@ public:
     /**
     * \internal
     * The auto-generated API:
+    * void labelStringMatrixArrayNotExplode(const QString &stringParameter, const QList<qint32> &arrayParameter);
+    * void labelStringMatrixArrayNotExplode(const QString &stringParameter, const QList<qint32> &arrayParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(labelStringMatrixArrayNotExplode, (const QString &stringParameter, const QList<qint32> &arrayParameter), (stringParameter, arrayParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
     * void matrixExplodeAnytype(const QJsonValue &anytypeParameter);
     * void matrixExplodeAnytype(const QJsonValue &anytypeParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
     * \endinternal
@@ -720,6 +729,15 @@ public:
     * \endinternal
     */
     QtOAI_ADD_OPERATION_IMPL(simpleExplodeStringMap, (const QMap<QString, QString> &mapParameter), (mapParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void simpleExplodeStrings(const QString &stringParameter1, const QString &stringParameter2);
+    * void simpleExplodeStrings(const QString &stringParameter1, const QString &stringParameter2, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(simpleExplodeStrings, (const QString &stringParameter1, const QString &stringParameter2), (stringParameter1, stringParameter2), (const QString &), /* non-deprecated */)
 
     /**
     * \internal
@@ -1043,6 +1061,10 @@ Q_SIGNALS:
     void labelNotExplodeStringMapFinished(const QString &summary);
     /** Signal is emitted, if labelNotExplodeStringMap() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void labelNotExplodeStringMapErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if labelStringMatrixArrayNotExplode() request completed successfully. The \a summary contains a serialized server response. */
+    void labelStringMatrixArrayNotExplodeFinished(const QString &summary);
+    /** Signal is emitted, if labelStringMatrixArrayNotExplode() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void labelStringMatrixArrayNotExplodeErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if matrixExplodeAnytype() request completed successfully. The \a summary contains a serialized server response. */
     void matrixExplodeAnytypeFinished(const QString &summary);
     /** Signal is emitted, if matrixExplodeAnytype() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
@@ -1183,6 +1205,10 @@ Q_SIGNALS:
     void simpleExplodeStringMapFinished(const QString &summary);
     /** Signal is emitted, if simpleExplodeStringMap() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void simpleExplodeStringMapErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if simpleExplodeStrings() request completed successfully. The \a summary contains a serialized server response. */
+    void simpleExplodeStringsFinished(const QString &summary);
+    /** Signal is emitted, if simpleExplodeStrings() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void simpleExplodeStringsErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if simpleNotExplodeAnytype() request completed successfully. The \a summary contains a serialized server response. */
     void simpleNotExplodeAnytypeFinished(const QString &summary);
     /** Signal is emitted, if simpleNotExplodeAnytype() request completed with an error. \a errorType and \a errorStr contain an information about the error. */

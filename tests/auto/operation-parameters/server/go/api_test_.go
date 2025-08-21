@@ -525,6 +525,13 @@ func (api *TestAPI) LabelNotExplodeStringMap(c *gin.Context) {
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
+// Get /v2/path/string/label-not-explode/array/matrix-not-explode/:stringParameter/:arrayParameter
+// label style with explode set to false for string path parameter and matrix style with explode set to false for array path parameter.
+func (api *TestAPI) LabelStringMatrixArrayNotExplode(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
 // Get /v2/path/anytype/matrix-explode/:anytypeParameter
 // matrix anytype explode
 func (api *TestAPI) MatrixExplodeAnytype(c *gin.Context) {
@@ -919,6 +926,13 @@ func (api *TestAPI) SimpleExplodeString(c *gin.Context) {
 // Post /v2/path/map/string-mapping/simple-explode/:mapParameter
 // simple style with explode=true for path map parameter of string values.
 func (api *TestAPI) SimpleExplodeStringMap(c *gin.Context) {
+    // Your handler implementation
+    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
+// Get /v2/path/strings/simple-explode/:stringParameter1/:stringParameter2
+// Simple style with explode set to true for two string path parameters.
+func (api *TestAPI) SimpleExplodeStrings(c *gin.Context) {
     // Your handler implementation
     c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }

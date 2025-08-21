@@ -70,6 +70,7 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:10203/v2
 |*labelNotExplodeObject* | *POST* /path/object/label-not-explode/{objectParameter} | label object not explode.|
 |*labelNotExplodeString* | *GET* /path/string/label-not-explode/{stringParameter} | label style with explode set to false for string path parameter..|
 |*labelNotExplodeStringMap* | *POST* /path/map/string-mapping/label-not-explode/{mapParameter} | label style with explode=false for path map parameter of string values..|
+|*labelStringMatrixArrayNotExplode* | *GET* /path/string/label-not-explode/array/matrix-not-explode/{stringParameter}/{arrayParameter} | label style with explode set to false for string path parameter and matrix style with explode set to false for array path parameter..|
 |*matrixExplodeAnytype* | *GET* /path/anytype/matrix-explode/{anytypeParameter} | matrix anytype explode.|
 |*matrixExplodeArray* | *GET* /path/array/matrix-explode/{arrayParameter} | matrix array explode.|
 |*matrixExplodeDouble* | *GET* /path/double/matrix-explode/{doubleParameter} | Matrix style with explode set to true for double path parameter..|
@@ -105,6 +106,7 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:10203/v2
 |*simpleExplodeObject* | *GET* /path/object/simple-explode/{objectParameter} | simple object explode.|
 |*simpleExplodeString* | *GET* /path/string/simple-explode/{stringParameter} | Simple style with explode set to true for string path parameter..|
 |*simpleExplodeStringMap* | *POST* /path/map/string-mapping/simple-explode/{mapParameter} | simple style with explode=true for path map parameter of string values..|
+|*simpleExplodeStrings* | *GET* /path/strings/simple-explode/{stringParameter1}/{stringParameter2} | Simple style with explode set to true for two string path parameters..|
 |*simpleNotExplodeAnytype* | *GET* /path/anytype/simple-not-explode/{anytypeParameter} | simple anytype not explode.|
 |*simpleNotExplodeArray* | *GET* /path/array/simple-not-explode/{arrayParameter} | simple array not explode.|
 |*simpleNotExplodeDouble* | *GET* /path/double/simple-not-explode/{doubleParameter} | Simple style with explode set to false for double path parameter..|

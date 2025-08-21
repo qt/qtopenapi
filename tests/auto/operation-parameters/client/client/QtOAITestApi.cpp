@@ -125,6 +125,8 @@ void QtOAITestApi::initializeServerConfigs()
     m_serverIndices.insert("labelNotExplodeString", 0);
     m_serverConfigs.insert("labelNotExplodeStringMap", defaultConf);
     m_serverIndices.insert("labelNotExplodeStringMap", 0);
+    m_serverConfigs.insert("labelStringMatrixArrayNotExplode", defaultConf);
+    m_serverIndices.insert("labelStringMatrixArrayNotExplode", 0);
     m_serverConfigs.insert("matrixExplodeAnytype", defaultConf);
     m_serverIndices.insert("matrixExplodeAnytype", 0);
     m_serverConfigs.insert("matrixExplodeArray", defaultConf);
@@ -195,6 +197,8 @@ void QtOAITestApi::initializeServerConfigs()
     m_serverIndices.insert("simpleExplodeString", 0);
     m_serverConfigs.insert("simpleExplodeStringMap", defaultConf);
     m_serverIndices.insert("simpleExplodeStringMap", 0);
+    m_serverConfigs.insert("simpleExplodeStrings", defaultConf);
+    m_serverIndices.insert("simpleExplodeStrings", 0);
     m_serverConfigs.insert("simpleNotExplodeAnytype", defaultConf);
     m_serverIndices.insert("simpleNotExplodeAnytype", 0);
     m_serverConfigs.insert("simpleNotExplodeArray", defaultConf);
@@ -5670,6 +5674,150 @@ void QtOAITestApi::labelNotExplodeStringMapCallback(const QRestReply &reply)
 }
 
 /**
+* \fn virtual void QtOAITestApi::labelStringMatrixArrayNotExplode(const QString &stringParameter, const QList<qint32> &arrayParameter)
+* 'labelStringMatrixArrayNotExplode' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] stringParameter QString [required]
+* @param[in] arrayParameter QList<qint32> [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::labelStringMatrixArrayNotExplode(const QString &stringParameter, const QList<qint32> &arrayParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'labelStringMatrixArrayNotExplode' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    labelStringMatrixArrayNotExplode(stringParameter, arrayParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual labelStringMatrixArrayNotExplodeWithDataImpl() in derived class.
+* The virtual labelStringMatrixArrayNotExplodeWithDataImpl() is being called by the template
+* function.
+
+* @param[in] stringParameter QString [required]
+* @param[in] arrayParameter QList<qint32> [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::labelStringMatrixArrayNotExplodeCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by labelStringMatrixArrayNotExplodeFinished() or
+* being returned as a callback parameter of labelStringMatrixArrayNotExplode() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::labelStringMatrixArrayNotExplodeWithDataImpl(const QString &stringParameter, const QList<qint32> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the labelStringMatrixArrayNotExplode() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking labelStringMatrixArrayNotExplode() operation calls.
+
+* @param[in] stringParameter QString [required]
+* @param[in] arrayParameter QList<qint32> [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::labelStringMatrixArrayNotExplodeWithDataImpl(const QString &stringParameter, const QList<qint32> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["labelStringMatrixArrayNotExplode"][m_serverIndices.value("labelStringMatrixArrayNotExplode")].serverUrl();
+    QString fullPath = "/path/string/label-not-explode/array/matrix-not-explode/{stringParameter}/{arrayParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString stringParameterPathParam = QString("{%1}").arg("stringParameter");
+        QString pathStyle = "label";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"stringParameter"_s, false, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(stringParameter));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("label") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(stringParameterPathParam, paramString);
+    }
+    {
+        QString arrayParameterPathParam = QString("{%1}").arg("arrayParameter");
+        QString pathStyle = "matrix";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !true));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"arrayParameter"_s, false, (!false && !true));
+        QString paramString = pathPrefix + pathSuffix;
+        paramString = pathPrefix + serializeArrayValue(arrayParameter, pathStyle, false, pathSuffix, pathDelimiter);
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("matrix") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(arrayParameterPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            labelStringMatrixArrayNotExplodeCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit labelStringMatrixArrayNotExplodeErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::labelStringMatrixArrayNotExplodeCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit labelStringMatrixArrayNotExplodeFinished(output);
+}
+
+/**
 * \fn virtual void QtOAITestApi::matrixExplodeAnytype(const QJsonValue &anytypeParameter)
 * 'matrixExplodeAnytype' operation sends the request to a server.
 * The request parameters are defined by a specification file.
@@ -10033,6 +10181,150 @@ void QtOAITestApi::simpleExplodeStringMapCallback(const QRestReply &reply)
         callerInfo.slot->call(context, argv);
     }
     emit simpleExplodeStringMapFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::simpleExplodeStrings(const QString &stringParameter1, const QString &stringParameter2)
+* 'simpleExplodeStrings' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] stringParameter1 QString [required]
+* @param[in] stringParameter2 QString [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::simpleExplodeStrings(const QString &stringParameter1, const QString &stringParameter2, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'simpleExplodeStrings' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    simpleExplodeStrings(stringParameter1, stringParameter2, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual simpleExplodeStringsWithDataImpl() in derived class.
+* The virtual simpleExplodeStringsWithDataImpl() is being called by the template
+* function.
+
+* @param[in] stringParameter1 QString [required]
+* @param[in] stringParameter2 QString [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::simpleExplodeStringsCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by simpleExplodeStringsFinished() or
+* being returned as a callback parameter of simpleExplodeStrings() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::simpleExplodeStringsWithDataImpl(const QString &stringParameter1, const QString &stringParameter2, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the simpleExplodeStrings() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking simpleExplodeStrings() operation calls.
+
+* @param[in] stringParameter1 QString [required]
+* @param[in] stringParameter2 QString [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::simpleExplodeStringsWithDataImpl(const QString &stringParameter1, const QString &stringParameter2, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["simpleExplodeStrings"][m_serverIndices.value("simpleExplodeStrings")].serverUrl();
+    QString fullPath = "/path/strings/simple-explode/{stringParameter1}/{stringParameter2}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString stringParameter1PathParam = QString("{%1}").arg("stringParameter1");
+        QString pathStyle = "simple";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"stringParameter1"_s, true, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(stringParameter1));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(stringParameter1PathParam, paramString);
+    }
+    {
+        QString stringParameter2PathParam = QString("{%1}").arg("stringParameter2");
+        QString pathStyle = "simple";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"stringParameter2"_s, true, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(stringParameter2));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(stringParameter2PathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            simpleExplodeStringsCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit simpleExplodeStringsErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::simpleExplodeStringsCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit simpleExplodeStringsFinished(output);
 }
 
 /**

@@ -98,6 +98,7 @@ private Q_SLOTS:
     void pathStringMapParameters_data();
     void pathStringMapParameters();
     void pathModelMapParameters();
+    void multiplePathParameters();
     void queryParameters();
     void queryAnyTypeParameters_data();
     void queryAnyTypeParameters();
@@ -679,6 +680,52 @@ void OperationParameters::pathModelMapParameters()
     // style=matrix, explode=false, type=map with object values
     QTest::ignoreMessage(QtWarningMsg, warningMsg);
     CALL_NO_EXPECTED_RESULT_TEST_OPERATION(matrixNotExplodeModelMap, mapValue);
+}
+
+void OperationParameters::multiplePathParameters()
+{
+    QString str1("First string param");
+    QString str2("Second string param");
+    QList<int> array {-90, 0, 0, 2, 87867};
+
+    QString expectedResult;
+    bool done = false;
+
+    connect(this, &OperationParameters::simpleExplodeStringsFinished,
+            [&](const QString &summary) {
+                done = true;
+                QCOMPARE(getStatusString(summary), expectedResult);
+            });
+    connect(this, &OperationParameters::simpleExplodeStringsErrorOccurred,
+            [&](QNetworkReply::NetworkError errType, const QString &errStr) {
+                done = false;
+                qDebug() << errType << errStr;
+            });
+
+    expectedResult = "/v2/path/strings/simple-explode/First%20string%20param/"
+                     "Second%20string%20param";
+    simpleExplodeStrings(str1,str2);
+    QCOMPARE("/v2" + m_testOperationPath, expectedResult);
+    QTRY_COMPARE_EQ(done, true);
+
+    done = false;
+
+    connect(this, &OperationParameters::labelStringMatrixArrayNotExplodeFinished,
+            [&](const QString &summary) {
+                done = true;
+                QCOMPARE(getStatusString(summary), expectedResult);
+            });
+    connect(this, &OperationParameters::labelStringMatrixArrayNotExplodeErrorOccurred,
+            [&](QNetworkReply::NetworkError errType, const QString &errStr) {
+                done = false;
+                qDebug() << errType << errStr;
+            });
+
+    expectedResult = "/v2/path/string/label-not-explode/array/matrix-not-explode/"
+                     ".First%20string%20param/;arrayParameter=-90,0,0,2,87867";
+    labelStringMatrixArrayNotExplode(str1, array);
+    QCOMPARE("/v2" + m_testOperationPath, expectedResult);
+    QTRY_COMPARE_EQ(done, true);
 }
 
 // The latest implementation is done based on this information:
