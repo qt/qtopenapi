@@ -191,6 +191,9 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{#queryParams}}
     {
         [[maybe_unused]] QString paramString;
+{{#vendorExtensions.x-warningMessage}}
+        qWarning("{{{vendorExtensions.x-warningMessage}}}");
+{{/vendorExtensions.x-warningMessage}}
         QString queryStyle = "{{style}}";
         if (queryStyle.isEmpty())
             queryStyle = "form";
@@ -205,16 +208,30 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{/isDeepObject}}
 {{/isArray}}
 {{/isAnyType}}
-{{#isAnyType}}
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"{{baseName}}"_s, {{isExplode}}, {{paramName}}{{^required}}.value(){{/required}}.type() == QJsonValue::Object);
-        const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, {{isExplode}}, {{paramName}}{{^required}}.value(){{/required}}.type() == QJsonValue::Object);
-{{/isAnyType}}
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
         {{^required}}if ({{paramName}}.hasValue()) {{/required}}{
             if (queryParamCounter > 0)
                 fullPath.append("&");
 {{#isAnyType}}
+            const QJsonValue::Type paramType = {{paramName}}{{^required}}.value(){{/required}}.type();
+            if (paramType != QJsonValue::Object) {
+                if (queryStyle == "deepObject"_L1) {
+                    qWarning("Be aware that 'deepObject' style is only valid for parameters of "
+                             "type 'object'. The generated result will not conform to the OpenAPI "
+                             "standard.");
+                } else if (paramType != QJsonValue::Array
+                           && (queryStyle == "pipeDelimited"_L1
+                               || queryStyle == "spaceDelimited"_L1)) {
+                    qWarning("Be aware that '%s' style is invalid for primitive parameters. "
+                             "The generated result will not conform to the OpenAPI standard.",
+                             qPrintable(queryStyle));
+                }
+            }
+            const QString querySuffix = getParamStyleSuffix(queryStyle, u"{{baseName}}"_s, {{isExplode}}, paramType == QJsonValue::Object);
+            const QString queryAssignOperator
+                = getParamStyleAssignOperator(queryStyle, {{isExplode}},
+                                              paramType == QJsonValue::Object);
             paramString = serializeJsonValue({{paramName}}{{^required}}.value(){{/required}}, queryStyle, {{isExplode}}, querySuffix, queryAssignOperator, queryDelimiter, true);
             fullPath.append(paramString);
 {{/isAnyType}}

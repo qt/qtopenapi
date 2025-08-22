@@ -115,6 +115,12 @@ void QtOAITestApi::initializeServerConfigs()
     m_serverIndices.insert("headerSimpleNotExplodeObject", 0);
     m_serverConfigs.insert("headerSimpleNotExplodeString", defaultConf);
     m_serverIndices.insert("headerSimpleNotExplodeString", 0);
+    m_serverConfigs.insert("invalidDeepObjectNotExplodeArray", defaultConf);
+    m_serverIndices.insert("invalidDeepObjectNotExplodeArray", 0);
+    m_serverConfigs.insert("invalidDeepObjectNotExplodeString", defaultConf);
+    m_serverIndices.insert("invalidDeepObjectNotExplodeString", 0);
+    m_serverConfigs.insert("invalidMatrixExplodeString", defaultConf);
+    m_serverIndices.insert("invalidMatrixExplodeString", 0);
     m_serverConfigs.insert("labelExplodeAnytype", defaultConf);
     m_serverIndices.insert("labelExplodeAnytype", 0);
     m_serverConfigs.insert("labelExplodeArray", defaultConf);
@@ -257,6 +263,8 @@ void QtOAITestApi::initializeServerConfigs()
     m_serverIndices.insert("spaceDelimitedNotExplodeModelMap", 0);
     m_serverConfigs.insert("spaceDelimitedNotExplodeObject", defaultConf);
     m_serverIndices.insert("spaceDelimitedNotExplodeObject", 0);
+    m_serverConfigs.insert("spaceDelimitedNotExplodeString", defaultConf);
+    m_serverIndices.insert("spaceDelimitedNotExplodeString", 0);
     m_serverConfigs.insert("spaceDelimitedNotExplodeStringMap", defaultConf);
     m_serverIndices.insert("spaceDelimitedNotExplodeStringMap", 0);
 }
@@ -320,13 +328,29 @@ void QtOAITestApi::deepObjectExplodeAnytypeWithDataImpl(const QJsonValue &anytyp
             queryStyle = "form";
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"anytypeParameter"_s, true, anytypeParameter.type() == QJsonValue::Object);
-        const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, anytypeParameter.type() == QJsonValue::Object);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
+            const QJsonValue::Type paramType = anytypeParameter.type();
+            if (paramType != QJsonValue::Object) {
+                if (queryStyle == "deepObject"_L1) {
+                    qWarning("Be aware that 'deepObject' style is only valid for parameters of "
+                             "type 'object'. The generated result will not conform to the OpenAPI "
+                             "standard.");
+                } else if (paramType != QJsonValue::Array
+                           && (queryStyle == "pipeDelimited"_L1
+                               || queryStyle == "spaceDelimited"_L1)) {
+                    qWarning("Be aware that '%s' style is invalid for primitive parameters. "
+                             "The generated result will not conform to the OpenAPI standard.",
+                             qPrintable(queryStyle));
+                }
+            }
+            const QString querySuffix = getParamStyleSuffix(queryStyle, u"anytypeParameter"_s, true, paramType == QJsonValue::Object);
+            const QString queryAssignOperator
+                = getParamStyleAssignOperator(queryStyle, true,
+                                              paramType == QJsonValue::Object);
             paramString = serializeJsonValue(anytypeParameter, queryStyle, true, querySuffix, queryAssignOperator, queryDelimiter, true);
             fullPath.append(paramString);
             queryParamCounter++;
@@ -846,20 +870,21 @@ void QtOAITestApi::deepObjectNotExplodeObjectWithDataImpl(const ::QtOpenAPI::Opt
     int queryParamCounter = 0;
     {
         [[maybe_unused]] QString paramString;
+        qWarning("Invalid combination for query parameter 'objectParameter': style=deepObject, explode=false.\nUsing valid explode=true instead.");
         QString queryStyle = "deepObject";
         if (queryStyle.isEmpty())
             queryStyle = "form";
         const QString queryPrefix = getParamStylePrefix(queryStyle);
-        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"objectParameter"_s, false, (!false && !false));
-        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, (!false && !false));
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"objectParameter"_s, true, (!false && !false));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!false && !false));
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
         if (objectParameter.hasValue()) {
             if (queryParamCounter > 0)
                 fullPath.append("&");
             const QJsonObject parameter = objectParameter.value().asJsonObject();
-            paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, false,
+            paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, true,
                                              querySuffix, queryAssignOperator, queryDelimiter,
                                              true);
             // style=form && explode=true && non-object => 'objectParameter' isn't used in serialization
@@ -983,13 +1008,29 @@ void QtOAITestApi::formExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParam
             queryStyle = "form";
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"anytypeParameter"_s, true, anytypeParameter.type() == QJsonValue::Object);
-        const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, anytypeParameter.type() == QJsonValue::Object);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
+            const QJsonValue::Type paramType = anytypeParameter.type();
+            if (paramType != QJsonValue::Object) {
+                if (queryStyle == "deepObject"_L1) {
+                    qWarning("Be aware that 'deepObject' style is only valid for parameters of "
+                             "type 'object'. The generated result will not conform to the OpenAPI "
+                             "standard.");
+                } else if (paramType != QJsonValue::Array
+                           && (queryStyle == "pipeDelimited"_L1
+                               || queryStyle == "spaceDelimited"_L1)) {
+                    qWarning("Be aware that '%s' style is invalid for primitive parameters. "
+                             "The generated result will not conform to the OpenAPI standard.",
+                             qPrintable(queryStyle));
+                }
+            }
+            const QString querySuffix = getParamStyleSuffix(queryStyle, u"anytypeParameter"_s, true, paramType == QJsonValue::Object);
+            const QString queryAssignOperator
+                = getParamStyleAssignOperator(queryStyle, true,
+                                              paramType == QJsonValue::Object);
             paramString = serializeJsonValue(anytypeParameter, queryStyle, true, querySuffix, queryAssignOperator, queryDelimiter, true);
             fullPath.append(paramString);
             queryParamCounter++;
@@ -2475,13 +2516,29 @@ void QtOAITestApi::formNotExplodeAnytypeWithDataImpl(const ::QtOpenAPI::Optional
             queryStyle = "form";
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"anytypeParameter"_s, false, anytypeParameter.value().type() == QJsonValue::Object);
-        const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, anytypeParameter.value().type() == QJsonValue::Object);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
         if (anytypeParameter.hasValue()) {
             if (queryParamCounter > 0)
                 fullPath.append("&");
+            const QJsonValue::Type paramType = anytypeParameter.value().type();
+            if (paramType != QJsonValue::Object) {
+                if (queryStyle == "deepObject"_L1) {
+                    qWarning("Be aware that 'deepObject' style is only valid for parameters of "
+                             "type 'object'. The generated result will not conform to the OpenAPI "
+                             "standard.");
+                } else if (paramType != QJsonValue::Array
+                           && (queryStyle == "pipeDelimited"_L1
+                               || queryStyle == "spaceDelimited"_L1)) {
+                    qWarning("Be aware that '%s' style is invalid for primitive parameters. "
+                             "The generated result will not conform to the OpenAPI standard.",
+                             qPrintable(queryStyle));
+                }
+            }
+            const QString querySuffix = getParamStyleSuffix(queryStyle, u"anytypeParameter"_s, false, paramType == QJsonValue::Object);
+            const QString queryAssignOperator
+                = getParamStyleAssignOperator(queryStyle, false,
+                                              paramType == QJsonValue::Object);
             paramString = serializeJsonValue(anytypeParameter.value(), queryStyle, false, querySuffix, queryAssignOperator, queryDelimiter, true);
             fullPath.append(paramString);
             queryParamCounter++;
@@ -5167,6 +5224,379 @@ void QtOAITestApi::headerSimpleNotExplodeStringCallback(const QRestReply &reply)
         callerInfo.slot->call(context, argv);
     }
     emit headerSimpleNotExplodeStringFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::invalidDeepObjectNotExplodeArray(const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter = ::QtOpenAPI::OptionalParam<QList<qint32>>())
+* 'invalidDeepObjectNotExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] arrayParameter QList<qint32> [optional]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::invalidDeepObjectNotExplodeArray(const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter = ::QtOpenAPI::OptionalParam<QList<qint32>>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'invalidDeepObjectNotExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    invalidDeepObjectNotExplodeArray(arrayParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual invalidDeepObjectNotExplodeArrayWithDataImpl() in derived class.
+* The virtual invalidDeepObjectNotExplodeArrayWithDataImpl() is being called by the template
+* function.
+
+* @param[in] arrayParameter QList<qint32> [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::invalidDeepObjectNotExplodeArrayCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by invalidDeepObjectNotExplodeArrayFinished() or
+* being returned as a callback parameter of invalidDeepObjectNotExplodeArray() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::invalidDeepObjectNotExplodeArrayWithDataImpl(const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the invalidDeepObjectNotExplodeArray() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking invalidDeepObjectNotExplodeArray() operation calls.
+
+* @param[in] arrayParameter QList<qint32> [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::invalidDeepObjectNotExplodeArrayWithDataImpl(const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["invalidDeepObjectNotExplodeArray"][m_serverIndices.value("invalidDeepObjectNotExplodeArray")].serverUrl();
+    QString fullPath = "/query/array/invalid-deepObject-not-explode/deepObjectNotExplodeArray";
+    m_networkFactory->setBaseUrl(serverUrl);
+    int queryParamCounter = 0;
+    {
+        [[maybe_unused]] QString paramString;
+        qWarning("'deepObject' style is only valid for parameters of type 'object'.\nFalling back to the default style: 'form'.");
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"arrayParameter"_s, false, (!false && !true));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, (!false && !true));
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
+            fullPath.append(queryPrefix);
+        if (arrayParameter.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
+            fullPath.append(serializeArrayValue(arrayParameter.value(), queryStyle, false, querySuffix, queryDelimiter, true));
+            queryParamCounter++;
+        }
+    }
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            invalidDeepObjectNotExplodeArrayCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit invalidDeepObjectNotExplodeArrayErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::invalidDeepObjectNotExplodeArrayCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit invalidDeepObjectNotExplodeArrayFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::invalidDeepObjectNotExplodeString(const ::QtOpenAPI::OptionalParam<QString> &stringParameter = ::QtOpenAPI::OptionalParam<QString>())
+* 'invalidDeepObjectNotExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] stringParameter QString [optional]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::invalidDeepObjectNotExplodeString(const ::QtOpenAPI::OptionalParam<QString> &stringParameter = ::QtOpenAPI::OptionalParam<QString>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'invalidDeepObjectNotExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    invalidDeepObjectNotExplodeString(stringParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual invalidDeepObjectNotExplodeStringWithDataImpl() in derived class.
+* The virtual invalidDeepObjectNotExplodeStringWithDataImpl() is being called by the template
+* function.
+
+* @param[in] stringParameter QString [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::invalidDeepObjectNotExplodeStringCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by invalidDeepObjectNotExplodeStringFinished() or
+* being returned as a callback parameter of invalidDeepObjectNotExplodeString() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::invalidDeepObjectNotExplodeStringWithDataImpl(const ::QtOpenAPI::OptionalParam<QString> &stringParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the invalidDeepObjectNotExplodeString() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking invalidDeepObjectNotExplodeString() operation calls.
+
+* @param[in] stringParameter QString [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::invalidDeepObjectNotExplodeStringWithDataImpl(const ::QtOpenAPI::OptionalParam<QString> &stringParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["invalidDeepObjectNotExplodeString"][m_serverIndices.value("invalidDeepObjectNotExplodeString")].serverUrl();
+    QString fullPath = "/query/string/invalid-deepObject-not-explode/deepObjectNotExplodeString";
+    m_networkFactory->setBaseUrl(serverUrl);
+    int queryParamCounter = 0;
+    {
+        [[maybe_unused]] QString paramString;
+        qWarning("'deepObject' style is only valid for parameters of type 'object'.\nFalling back to the default style: 'form'.");
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"stringParameter"_s, false, (!true && !false));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, (!true && !false));
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
+            fullPath.append(queryPrefix);
+        if (stringParameter.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
+            fullPath.append(querySuffix + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(stringParameter.value())));
+            queryParamCounter++;
+        }
+    }
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            invalidDeepObjectNotExplodeStringCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit invalidDeepObjectNotExplodeStringErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::invalidDeepObjectNotExplodeStringCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit invalidDeepObjectNotExplodeStringFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::invalidMatrixExplodeString(const ::QtOpenAPI::OptionalParam<QString> &stringParameter = ::QtOpenAPI::OptionalParam<QString>())
+* 'invalidMatrixExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] stringParameter QString [optional]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::invalidMatrixExplodeString(const ::QtOpenAPI::OptionalParam<QString> &stringParameter = ::QtOpenAPI::OptionalParam<QString>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'invalidMatrixExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    invalidMatrixExplodeString(stringParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual invalidMatrixExplodeStringWithDataImpl() in derived class.
+* The virtual invalidMatrixExplodeStringWithDataImpl() is being called by the template
+* function.
+
+* @param[in] stringParameter QString [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::invalidMatrixExplodeStringCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by invalidMatrixExplodeStringFinished() or
+* being returned as a callback parameter of invalidMatrixExplodeString() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::invalidMatrixExplodeStringWithDataImpl(const ::QtOpenAPI::OptionalParam<QString> &stringParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the invalidMatrixExplodeString() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking invalidMatrixExplodeString() operation calls.
+
+* @param[in] stringParameter QString [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::invalidMatrixExplodeStringWithDataImpl(const ::QtOpenAPI::OptionalParam<QString> &stringParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["invalidMatrixExplodeString"][m_serverIndices.value("invalidMatrixExplodeString")].serverUrl();
+    QString fullPath = "/query/string/invalid-matrix-explode/matrixExplodeString";
+    m_networkFactory->setBaseUrl(serverUrl);
+    int queryParamCounter = 0;
+    {
+        [[maybe_unused]] QString paramString;
+        qWarning("'matrix' style is invalid for query parameters.\nAllowed styles are: 'form', 'spaceDelimited', 'pipeDelimited' and 'deepObject'.\nFalling back to the default style 'form'.");
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"stringParameter"_s, true, (!true && !false));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!true && !false));
+        paramString = querySuffix;
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
+            fullPath.append(queryPrefix);
+        if (stringParameter.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
+            fullPath.append(querySuffix + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(stringParameter.value())));
+            queryParamCounter++;
+        }
+    }
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            invalidMatrixExplodeStringCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit invalidMatrixExplodeStringErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::invalidMatrixExplodeStringCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit invalidMatrixExplodeStringFinished(output);
 }
 
 /**
@@ -9779,19 +10209,36 @@ void QtOAITestApi::pipeDelimitedExplodeAnytypeWithDataImpl(const QJsonValue &any
     int queryParamCounter = 0;
     {
         [[maybe_unused]] QString paramString;
+        qWarning("Invalid combination for query parameter 'anytypeParameter': style=pipeDelimited, explode=true.\nUsing valid explode=false instead.");
         QString queryStyle = "pipeDelimited";
         if (queryStyle.isEmpty())
             queryStyle = "form";
         const QString queryPrefix = getParamStylePrefix(queryStyle);
-        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"anytypeParameter"_s, true, anytypeParameter.type() == QJsonValue::Object);
-        const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, anytypeParameter.type() == QJsonValue::Object);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-            paramString = serializeJsonValue(anytypeParameter, queryStyle, true, querySuffix, queryAssignOperator, queryDelimiter, true);
+            const QJsonValue::Type paramType = anytypeParameter.type();
+            if (paramType != QJsonValue::Object) {
+                if (queryStyle == "deepObject"_L1) {
+                    qWarning("Be aware that 'deepObject' style is only valid for parameters of "
+                             "type 'object'. The generated result will not conform to the OpenAPI "
+                             "standard.");
+                } else if (paramType != QJsonValue::Array
+                           && (queryStyle == "pipeDelimited"_L1
+                               || queryStyle == "spaceDelimited"_L1)) {
+                    qWarning("Be aware that '%s' style is invalid for primitive parameters. "
+                             "The generated result will not conform to the OpenAPI standard.",
+                             qPrintable(queryStyle));
+                }
+            }
+            const QString querySuffix = getParamStyleSuffix(queryStyle, u"anytypeParameter"_s, false, paramType == QJsonValue::Object);
+            const QString queryAssignOperator
+                = getParamStyleAssignOperator(queryStyle, false,
+                                              paramType == QJsonValue::Object);
+            paramString = serializeJsonValue(anytypeParameter, queryStyle, false, querySuffix, queryAssignOperator, queryDelimiter, true);
             fullPath.append(paramString);
             queryParamCounter++;
         }
@@ -9903,19 +10350,20 @@ void QtOAITestApi::pipeDelimitedExplodeArrayWithDataImpl(const QList<qint32> &ar
     int queryParamCounter = 0;
     {
         [[maybe_unused]] QString paramString;
+        qWarning("Invalid combination for query parameter 'arrayParameter': style=pipeDelimited, explode=true.\nUsing valid explode=false instead.");
         QString queryStyle = "pipeDelimited";
         if (queryStyle.isEmpty())
             queryStyle = "form";
         const QString queryPrefix = getParamStylePrefix(queryStyle);
-        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"arrayParameter"_s, true, (!false && !true));
-        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!false && !true));
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"arrayParameter"_s, false, (!false && !true));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, (!false && !true));
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-            fullPath.append(serializeArrayValue(arrayParameter, queryStyle, true, querySuffix, queryDelimiter, true));
+            fullPath.append(serializeArrayValue(arrayParameter, queryStyle, false, querySuffix, queryDelimiter, true));
             queryParamCounter++;
         }
     }
@@ -10026,13 +10474,14 @@ void QtOAITestApi::pipeDelimitedExplodeObjectWithDataImpl(const QtOAITestObject 
     int queryParamCounter = 0;
     {
         [[maybe_unused]] QString paramString;
+        qWarning("Invalid combination for query parameter 'objectParameter': style=pipeDelimited, explode=true.\nUsing valid explode=false instead.");
         QString queryStyle = "pipeDelimited";
         if (queryStyle.isEmpty())
             queryStyle = "form";
         const QString queryPrefix = getParamStylePrefix(queryStyle);
-        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"objectParameter"_s, true, (!false && !false));
-        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!false && !false));
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"objectParameter"_s, false, (!false && !false));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, (!false && !false));
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
@@ -10040,7 +10489,7 @@ void QtOAITestApi::pipeDelimitedExplodeObjectWithDataImpl(const QtOAITestObject 
             if (queryParamCounter > 0)
                 fullPath.append("&");
             const QJsonObject parameter = objectParameter.asJsonObject();
-            paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, true,
+            paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, false,
                                              querySuffix, queryAssignOperator, queryDelimiter,
                                              true);
             // style=form && explode=true && non-object => 'objectParameter' isn't used in serialization
@@ -10164,13 +10613,29 @@ void QtOAITestApi::pipeDelimitedNotExplodeAnytypeWithDataImpl(const ::QtOpenAPI:
             queryStyle = "form";
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"anytypeParameter"_s, false, anytypeParameter.value().type() == QJsonValue::Object);
-        const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, anytypeParameter.value().type() == QJsonValue::Object);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
         if (anytypeParameter.hasValue()) {
             if (queryParamCounter > 0)
                 fullPath.append("&");
+            const QJsonValue::Type paramType = anytypeParameter.value().type();
+            if (paramType != QJsonValue::Object) {
+                if (queryStyle == "deepObject"_L1) {
+                    qWarning("Be aware that 'deepObject' style is only valid for parameters of "
+                             "type 'object'. The generated result will not conform to the OpenAPI "
+                             "standard.");
+                } else if (paramType != QJsonValue::Array
+                           && (queryStyle == "pipeDelimited"_L1
+                               || queryStyle == "spaceDelimited"_L1)) {
+                    qWarning("Be aware that '%s' style is invalid for primitive parameters. "
+                             "The generated result will not conform to the OpenAPI standard.",
+                             qPrintable(queryStyle));
+                }
+            }
+            const QString querySuffix = getParamStyleSuffix(queryStyle, u"anytypeParameter"_s, false, paramType == QJsonValue::Object);
+            const QString queryAssignOperator
+                = getParamStyleAssignOperator(queryStyle, false,
+                                              paramType == QJsonValue::Object);
             paramString = serializeJsonValue(anytypeParameter.value(), queryStyle, false, querySuffix, queryAssignOperator, queryDelimiter, true);
             fullPath.append(paramString);
             queryParamCounter++;
@@ -13166,19 +13631,36 @@ void QtOAITestApi::spaceDelimitedExplodeAnytypeWithDataImpl(const QJsonValue &an
     int queryParamCounter = 0;
     {
         [[maybe_unused]] QString paramString;
+        qWarning("Invalid combination for query parameter 'anytypeParameter': style=spaceDelimited, explode=true.\nUsing valid explode=false instead.");
         QString queryStyle = "spaceDelimited";
         if (queryStyle.isEmpty())
             queryStyle = "form";
         const QString queryPrefix = getParamStylePrefix(queryStyle);
-        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"anytypeParameter"_s, true, anytypeParameter.type() == QJsonValue::Object);
-        const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, anytypeParameter.type() == QJsonValue::Object);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-            paramString = serializeJsonValue(anytypeParameter, queryStyle, true, querySuffix, queryAssignOperator, queryDelimiter, true);
+            const QJsonValue::Type paramType = anytypeParameter.type();
+            if (paramType != QJsonValue::Object) {
+                if (queryStyle == "deepObject"_L1) {
+                    qWarning("Be aware that 'deepObject' style is only valid for parameters of "
+                             "type 'object'. The generated result will not conform to the OpenAPI "
+                             "standard.");
+                } else if (paramType != QJsonValue::Array
+                           && (queryStyle == "pipeDelimited"_L1
+                               || queryStyle == "spaceDelimited"_L1)) {
+                    qWarning("Be aware that '%s' style is invalid for primitive parameters. "
+                             "The generated result will not conform to the OpenAPI standard.",
+                             qPrintable(queryStyle));
+                }
+            }
+            const QString querySuffix = getParamStyleSuffix(queryStyle, u"anytypeParameter"_s, false, paramType == QJsonValue::Object);
+            const QString queryAssignOperator
+                = getParamStyleAssignOperator(queryStyle, false,
+                                              paramType == QJsonValue::Object);
+            paramString = serializeJsonValue(anytypeParameter, queryStyle, false, querySuffix, queryAssignOperator, queryDelimiter, true);
             fullPath.append(paramString);
             queryParamCounter++;
         }
@@ -13290,19 +13772,20 @@ void QtOAITestApi::spaceDelimitedExplodeArrayWithDataImpl(const QList<qint32> &a
     int queryParamCounter = 0;
     {
         [[maybe_unused]] QString paramString;
+        qWarning("Invalid combination for query parameter 'arrayParameter': style=spaceDelimited, explode=true.\nUsing valid explode=false instead.");
         QString queryStyle = "spaceDelimited";
         if (queryStyle.isEmpty())
             queryStyle = "form";
         const QString queryPrefix = getParamStylePrefix(queryStyle);
-        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"arrayParameter"_s, true, (!false && !true));
-        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!false && !true));
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"arrayParameter"_s, false, (!false && !true));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, (!false && !true));
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-            fullPath.append(serializeArrayValue(arrayParameter, queryStyle, true, querySuffix, queryDelimiter, true));
+            fullPath.append(serializeArrayValue(arrayParameter, queryStyle, false, querySuffix, queryDelimiter, true));
             queryParamCounter++;
         }
     }
@@ -13413,13 +13896,14 @@ void QtOAITestApi::spaceDelimitedExplodeObjectWithDataImpl(const QtOAITestObject
     int queryParamCounter = 0;
     {
         [[maybe_unused]] QString paramString;
+        qWarning("Invalid combination for query parameter 'objectParameter': style=spaceDelimited, explode=true.\nUsing valid explode=false instead.");
         QString queryStyle = "spaceDelimited";
         if (queryStyle.isEmpty())
             queryStyle = "form";
         const QString queryPrefix = getParamStylePrefix(queryStyle);
-        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"objectParameter"_s, true, (!false && !false));
-        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!false && !false));
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"objectParameter"_s, false, (!false && !false));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, (!false && !false));
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
@@ -13427,7 +13911,7 @@ void QtOAITestApi::spaceDelimitedExplodeObjectWithDataImpl(const QtOAITestObject
             if (queryParamCounter > 0)
                 fullPath.append("&");
             const QJsonObject parameter = objectParameter.asJsonObject();
-            paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, true,
+            paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, false,
                                              querySuffix, queryAssignOperator, queryDelimiter,
                                              true);
             // style=form && explode=true && non-object => 'objectParameter' isn't used in serialization
@@ -13551,13 +14035,29 @@ void QtOAITestApi::spaceDelimitedNotExplodeAnytypeWithDataImpl(const ::QtOpenAPI
             queryStyle = "form";
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"anytypeParameter"_s, false, anytypeParameter.value().type() == QJsonValue::Object);
-        const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, anytypeParameter.value().type() == QJsonValue::Object);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
         if (anytypeParameter.hasValue()) {
             if (queryParamCounter > 0)
                 fullPath.append("&");
+            const QJsonValue::Type paramType = anytypeParameter.value().type();
+            if (paramType != QJsonValue::Object) {
+                if (queryStyle == "deepObject"_L1) {
+                    qWarning("Be aware that 'deepObject' style is only valid for parameters of "
+                             "type 'object'. The generated result will not conform to the OpenAPI "
+                             "standard.");
+                } else if (paramType != QJsonValue::Array
+                           && (queryStyle == "pipeDelimited"_L1
+                               || queryStyle == "spaceDelimited"_L1)) {
+                    qWarning("Be aware that '%s' style is invalid for primitive parameters. "
+                             "The generated result will not conform to the OpenAPI standard.",
+                             qPrintable(queryStyle));
+                }
+            }
+            const QString querySuffix = getParamStyleSuffix(queryStyle, u"anytypeParameter"_s, false, paramType == QJsonValue::Object);
+            const QString queryAssignOperator
+                = getParamStyleAssignOperator(queryStyle, false,
+                                              paramType == QJsonValue::Object);
             paramString = serializeJsonValue(anytypeParameter.value(), queryStyle, false, querySuffix, queryAssignOperator, queryDelimiter, true);
             fullPath.append(paramString);
             queryParamCounter++;
@@ -14010,6 +14510,131 @@ void QtOAITestApi::spaceDelimitedNotExplodeObjectCallback(const QRestReply &repl
         callerInfo.slot->call(context, argv);
     }
     emit spaceDelimitedNotExplodeObjectFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::spaceDelimitedNotExplodeString(const ::QtOpenAPI::OptionalParam<QString> &stringParameter = ::QtOpenAPI::OptionalParam<QString>())
+* 'spaceDelimitedNotExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] stringParameter QString [optional]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::spaceDelimitedNotExplodeString(const ::QtOpenAPI::OptionalParam<QString> &stringParameter = ::QtOpenAPI::OptionalParam<QString>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'spaceDelimitedNotExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    spaceDelimitedNotExplodeString(stringParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual spaceDelimitedNotExplodeStringWithDataImpl() in derived class.
+* The virtual spaceDelimitedNotExplodeStringWithDataImpl() is being called by the template
+* function.
+
+* @param[in] stringParameter QString [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::spaceDelimitedNotExplodeStringCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by spaceDelimitedNotExplodeStringFinished() or
+* being returned as a callback parameter of spaceDelimitedNotExplodeString() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::spaceDelimitedNotExplodeStringWithDataImpl(const ::QtOpenAPI::OptionalParam<QString> &stringParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the spaceDelimitedNotExplodeString() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking spaceDelimitedNotExplodeString() operation calls.
+
+* @param[in] stringParameter QString [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::spaceDelimitedNotExplodeStringWithDataImpl(const ::QtOpenAPI::OptionalParam<QString> &stringParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["spaceDelimitedNotExplodeString"][m_serverIndices.value("spaceDelimitedNotExplodeString")].serverUrl();
+    QString fullPath = "/query/string/spaceDelimited-not-explode/spaceDelimitedNotExplodeString";
+    m_networkFactory->setBaseUrl(serverUrl);
+    int queryParamCounter = 0;
+    {
+        [[maybe_unused]] QString paramString;
+        qWarning("'spaceDelimited' style is invalid for primitive parameters.\nFalling back to the default style: 'form'.");
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"stringParameter"_s, false, (!true && !false));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, (!true && !false));
+        paramString = querySuffix;
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
+            fullPath.append(queryPrefix);
+        if (stringParameter.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
+            fullPath.append(querySuffix + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(stringParameter.value())));
+            queryParamCounter++;
+        }
+    }
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            spaceDelimitedNotExplodeStringCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit spaceDelimitedNotExplodeStringErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::spaceDelimitedNotExplodeStringCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit spaceDelimitedNotExplodeStringFinished(output);
 }
 
 /**

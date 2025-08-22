@@ -364,6 +364,33 @@ public:
     /**
     * \internal
     * The auto-generated API:
+    * void invalidDeepObjectNotExplodeArray(const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter);
+    * void invalidDeepObjectNotExplodeArray(const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(invalidDeepObjectNotExplodeArray, (const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter = ::QtOpenAPI::OptionalParam<QList<qint32>>()), (arrayParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void invalidDeepObjectNotExplodeString(const ::QtOpenAPI::OptionalParam<QString> &stringParameter);
+    * void invalidDeepObjectNotExplodeString(const ::QtOpenAPI::OptionalParam<QString> &stringParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(invalidDeepObjectNotExplodeString, (const ::QtOpenAPI::OptionalParam<QString> &stringParameter = ::QtOpenAPI::OptionalParam<QString>()), (stringParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void invalidMatrixExplodeString(const ::QtOpenAPI::OptionalParam<QString> &stringParameter);
+    * void invalidMatrixExplodeString(const ::QtOpenAPI::OptionalParam<QString> &stringParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(invalidMatrixExplodeString, (const ::QtOpenAPI::OptionalParam<QString> &stringParameter = ::QtOpenAPI::OptionalParam<QString>()), (stringParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
     * void labelExplodeAnytype(const QJsonValue &anytypeParameter);
     * void labelExplodeAnytype(const QJsonValue &anytypeParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
     * \endinternal
@@ -1003,6 +1030,15 @@ public:
     /**
     * \internal
     * The auto-generated API:
+    * void spaceDelimitedNotExplodeString(const ::QtOpenAPI::OptionalParam<QString> &stringParameter);
+    * void spaceDelimitedNotExplodeString(const ::QtOpenAPI::OptionalParam<QString> &stringParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(spaceDelimitedNotExplodeString, (const ::QtOpenAPI::OptionalParam<QString> &stringParameter = ::QtOpenAPI::OptionalParam<QString>()), (stringParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
     * void spaceDelimitedNotExplodeStringMap(const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter);
     * void spaceDelimitedNotExplodeStringMap(const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
     * \endinternal
@@ -1158,6 +1194,18 @@ Q_SIGNALS:
     void headerSimpleNotExplodeStringFinished(const QString &summary);
     /** Signal is emitted, if headerSimpleNotExplodeString() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void headerSimpleNotExplodeStringErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if invalidDeepObjectNotExplodeArray() request completed successfully. The \a summary contains a serialized server response. */
+    void invalidDeepObjectNotExplodeArrayFinished(const QString &summary);
+    /** Signal is emitted, if invalidDeepObjectNotExplodeArray() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void invalidDeepObjectNotExplodeArrayErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if invalidDeepObjectNotExplodeString() request completed successfully. The \a summary contains a serialized server response. */
+    void invalidDeepObjectNotExplodeStringFinished(const QString &summary);
+    /** Signal is emitted, if invalidDeepObjectNotExplodeString() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void invalidDeepObjectNotExplodeStringErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if invalidMatrixExplodeString() request completed successfully. The \a summary contains a serialized server response. */
+    void invalidMatrixExplodeStringFinished(const QString &summary);
+    /** Signal is emitted, if invalidMatrixExplodeString() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void invalidMatrixExplodeStringErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if labelExplodeAnytype() request completed successfully. The \a summary contains a serialized server response. */
     void labelExplodeAnytypeFinished(const QString &summary);
     /** Signal is emitted, if labelExplodeAnytype() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
@@ -1442,6 +1490,10 @@ Q_SIGNALS:
     void spaceDelimitedNotExplodeObjectFinished(const QString &summary);
     /** Signal is emitted, if spaceDelimitedNotExplodeObject() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void spaceDelimitedNotExplodeObjectErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if spaceDelimitedNotExplodeString() request completed successfully. The \a summary contains a serialized server response. */
+    void spaceDelimitedNotExplodeStringFinished(const QString &summary);
+    /** Signal is emitted, if spaceDelimitedNotExplodeString() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void spaceDelimitedNotExplodeStringErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if spaceDelimitedNotExplodeStringMap() request completed successfully. The \a summary contains a serialized server response. */
     void spaceDelimitedNotExplodeStringMapFinished(const QString &summary);
     /** Signal is emitted, if spaceDelimitedNotExplodeStringMap() request completed with an error. \a errorType and \a errorStr contain an information about the error. */

@@ -65,6 +65,9 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:10203/v2
 |*headerSimpleNotExplodeMap* | *GET* /header/map/simple-not-explode/mapParameter | simple map not explode.|
 |*headerSimpleNotExplodeObject* | *POST* /header/object/simple-not-explode/objectParameter | simple object not explode.|
 |*headerSimpleNotExplodeString* | *GET* /header/string/simple-not-explode/stringParameter | Simple style with explode false..|
+|*invalidDeepObjectNotExplodeArray* | *POST* /query/array/invalid-deepObject-not-explode/deepObjectNotExplodeArray | invalid deepObject style for query array parameter with explode=false.|
+|*invalidDeepObjectNotExplodeString* | *POST* /query/string/invalid-deepObject-not-explode/deepObjectNotExplodeString | invalid deepObject style for query string parameter with explode=false.|
+|*invalidMatrixExplodeString* | *POST* /query/string/invalid-matrix-explode/matrixExplodeString | invalid matrix style for query string parameter with explode=true.|
 |*labelExplodeAnytype* | *GET* /path/anytype/label-explode/{anytypeParameter} | label anytype explode.|
 |*labelExplodeArray* | *GET* /path/array/label-explode/{arrayParameter} | label array explode.|
 |*labelExplodeDouble* | *GET* /path/double/label-explode/{doubleParameter} | Label style with explode set to true for double path parameter..|
@@ -136,6 +139,7 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:10203/v2
 |*spaceDelimitedNotExplodeArray* | *POST* /query/array/spaceDelimited-not-explode/spaceDelimitedNotExplodeArray | spaceDelimited array not explode.|
 |*spaceDelimitedNotExplodeModelMap* | *POST* /query/map/model-mapping/spaceDelimited-not-explode/spaceDelimitedNotExplodeMap | spaceDelimited style with explode=false for query map parameter of model values..|
 |*spaceDelimitedNotExplodeObject* | *POST* /query/object/spaceDelimited-not-explode/spaceDelimitedNotExplodeObject | spaceDelimited object not explode.|
+|*spaceDelimitedNotExplodeString* | *POST* /query/string/spaceDelimited-not-explode/spaceDelimitedNotExplodeString | spaceDelimited style with explode=false for query string parameter..|
 |*spaceDelimitedNotExplodeStringMap* | *POST* /query/map/string-mapping/spaceDelimited-not-explode/spaceDelimitedNotExplodeMap | spaceDelimited style with explode=false for query map parameter of string values..|
 
 

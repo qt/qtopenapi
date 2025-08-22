@@ -1669,6 +1669,25 @@ paths:
             application/json:
               schema:
                 type: string
+  /query/string/spaceDelimited-not-explode/spaceDelimitedNotExplodeString:
+    post:
+      tags: [test]
+      operationId: spaceDelimitedNotExplodeString
+      summary: spaceDelimited style with explode=false for query string parameter.
+      parameters:
+        - name: stringParameter
+          in: query
+          style: spaceDelimited
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
   /query/anytype/spaceDelimited-explode/spaceDelimitedExplodeAnytype:
     post:
       tags: [test]
@@ -2148,6 +2167,66 @@ paths:
             type: object
             additionalProperties:
               $ref: '#/components/schemas/TestObject'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /query/array/invalid-deepObject-not-explode/deepObjectNotExplodeArray:
+    post:
+      tags: [test]
+      operationId: invalidDeepObjectNotExplodeArray
+      summary: "invalid deepObject style for query array parameter with explode=false"
+      parameters:
+        - name: arrayParameter
+          in: query
+          style: deepObject # not allowed for arrays
+          explode: false
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /query/string/invalid-deepObject-not-explode/deepObjectNotExplodeString:
+    post:
+      tags: [test]
+      operationId: invalidDeepObjectNotExplodeString
+      summary: "invalid deepObject style for query string parameter with explode=false"
+      parameters:
+        - name: stringParameter
+          in: query
+          style: deepObject # not allowed for primitives
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /query/string/invalid-matrix-explode/matrixExplodeString:
+    post:
+      tags: [test]
+      operationId: invalidMatrixExplodeString
+      summary: "invalid matrix style for query string parameter with explode=true"
+      parameters:
+        - name: stringParameter
+          in: query
+          style: matrix # not allowed for query parameters
+          explode: true
+          schema:
+            type: string
       responses:
         '200':
           description: OK

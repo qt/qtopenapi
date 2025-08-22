@@ -219,6 +219,24 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
 			handleFunctions.TestAPI.FormNotExplodeStringMap,
 		},
 		{
+			"InvalidDeepObjectNotExplodeArray",
+			http.MethodPost,
+			"/v2/query/array/invalid-deepObject-not-explode/deepObjectNotExplodeArray",
+			handleFunctions.TestAPI.InvalidDeepObjectNotExplodeArray,
+		},
+		{
+			"InvalidDeepObjectNotExplodeString",
+			http.MethodPost,
+			"/v2/query/string/invalid-deepObject-not-explode/deepObjectNotExplodeString",
+			handleFunctions.TestAPI.InvalidDeepObjectNotExplodeString,
+		},
+		{
+			"InvalidMatrixExplodeString",
+			http.MethodPost,
+			"/v2/query/string/invalid-matrix-explode/matrixExplodeString",
+			handleFunctions.TestAPI.InvalidMatrixExplodeString,
+		},
+		{
 			"LabelExplodeAnytype",
 			http.MethodGet,
 			"/v2/path/anytype/label-explode/:anytypeParameter",
@@ -649,6 +667,12 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
 			http.MethodPost,
 			"/v2/query/map/string-mapping/spaceDelimited-not-explode/spaceDelimitedNotExplodeMap",
 			handleFunctions.TestAPI.SpaceDelimitedNotExplodeStringMap,
+		},
+		{
+			"SpaceDelimitedNotExplodeString",
+			http.MethodPost,
+			"/v2/query/string/spaceDelimited-not-explode/spaceDelimitedNotExplodeString",
+			handleFunctions.TestAPI.SpaceDelimitedNotExplodeString,
 		},
 		{
 			"HeaderSimpleExplodeAnytype",

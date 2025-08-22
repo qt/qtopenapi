@@ -356,6 +356,55 @@ public abstract class CppQt6AbstractCodegen extends AbstractCppCodegen implement
                     imports.add(createMapping("import", "QString"));
                 }
             }
+
+            // Look for unsupported query parameter styles or invalid style/explode combinations.
+            if (operation.queryParams != null) {
+                final Set<String> unsupportedQueryStyles = new HashSet<>(
+                        Arrays.asList("matrix", "label", "simple"));
+                for (CodegenParameter param : operation.queryParams) {
+                    if (param.style != null) {
+                        final String paramStyle = param.style;
+                        String msg = null;
+                        if (unsupportedQueryStyles.contains(paramStyle)) {
+                            // Invalid style.
+                            msg = String.format("'%s' style is invalid for query parameters.%n"
+                                                + "Allowed styles are: 'form', 'spaceDelimited',"
+                                                + " 'pipeDelimited' and 'deepObject'.%nFalling "
+                                                + "back to the default style 'form'.",
+                                                paramStyle);
+                            param.style = "form";
+                        } else if (paramStyle.equals("deepObject") && !param.isModel
+                                   && !param.isFreeFormObject && !param.isAnyType) {
+                            // Valid query style, invalid for non-object types.
+                            msg = "'deepObject' style is only valid for parameters of type "
+                                  + "'object'.\nFalling back to the default style: 'form'.";
+                            param.style = "form";
+                        } else if (param.isPrimitiveType && (paramStyle.equals("pipeDelimited")
+                                   || paramStyle.equals("spaceDelimited"))) {
+                            // Valid query style, invalid for primitive types.
+                            msg = String.format("'%s' style is invalid for primitive parameters."
+                                                + "%nFalling back to the default style: 'form'.",
+                                                paramStyle);
+                            param.style = "form";
+                        } else if ((paramStyle.equals("deepObject") && !param.isExplode)
+                                   || ((paramStyle.equals("pipeDelimited")
+                                   || paramStyle.equals("spaceDelimited")) && param.isExplode)) {
+                            // Invalid style/explode combinations.
+                            msg = String.format("Invalid combination for query parameter '%s': "
+                                                + "style=%s, explode=%b.%nUsing "
+                                                + "valid explode=%b instead.",
+                                                param.paramName, paramStyle,
+                                                param.isExplode, !param.isExplode);
+                            param.isExplode = !param.isExplode;
+                        }
+                        if (msg != null) {
+                            LOGGER.warn("{}: {}", operation.operationId, msg);
+                            param.vendorExtensions.put("x-warningMessage",
+                                                       msg.replaceAll("\\n", "\\\\n"));
+                        }
+                    }
+                }
+            }
         }
         if (isIncluded("QMap", imports)) {
             // Maps uses QString as key

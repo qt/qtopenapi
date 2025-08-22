@@ -990,13 +990,29 @@ void QtOAIUserApi::logoutUserWithDataImpl(const QJsonValue &username, const QObj
             queryStyle = "form";
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"username"_s, true, username.type() == QJsonValue::Object);
-        const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, username.type() == QJsonValue::Object);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
+            const QJsonValue::Type paramType = username.type();
+            if (paramType != QJsonValue::Object) {
+                if (queryStyle == "deepObject"_L1) {
+                    qWarning("Be aware that 'deepObject' style is only valid for parameters of "
+                             "type 'object'. The generated result will not conform to the OpenAPI "
+                             "standard.");
+                } else if (paramType != QJsonValue::Array
+                           && (queryStyle == "pipeDelimited"_L1
+                               || queryStyle == "spaceDelimited"_L1)) {
+                    qWarning("Be aware that '%s' style is invalid for primitive parameters. "
+                             "The generated result will not conform to the OpenAPI standard.",
+                             qPrintable(queryStyle));
+                }
+            }
+            const QString querySuffix = getParamStyleSuffix(queryStyle, u"username"_s, true, paramType == QJsonValue::Object);
+            const QString queryAssignOperator
+                = getParamStyleAssignOperator(queryStyle, true,
+                                              paramType == QJsonValue::Object);
             paramString = serializeJsonValue(username, queryStyle, true, querySuffix, queryAssignOperator, queryDelimiter, true);
             fullPath.append(paramString);
             queryParamCounter++;

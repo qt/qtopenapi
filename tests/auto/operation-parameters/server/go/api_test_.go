@@ -306,6 +306,27 @@ func (api *TestAPI) FormNotExplodeStringMap(c *gin.Context) {
 	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
+// Post /v2/query/array/invalid-deepObject-not-explode/deepObjectNotExplodeArray
+// invalid deepObject style with explode=false for query array parameter
+func (api *TestAPI) InvalidDeepObjectNotExplodeArray(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
+}
+
+// Post /v2/query/string/invalid-deepObject-not-explode/deepObjectNotExplodeString
+// invalid deepObject style with explode=false for query string parameter
+func (api *TestAPI) InvalidDeepObjectNotExplodeString(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
+}
+
+// Post /v2/query/string/invalid-matrix-explode/matrixExplodeString
+// invalid matrix style for query string parameter with explode=true
+func (api *TestAPI) InvalidMatrixExplodeString(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
+}
+
 // Get /v2/path/anytype/label-explode/:anytypeParameter
 // label anytype explode
 func (api *TestAPI) LabelExplodeAnytype(c *gin.Context) {
@@ -1110,6 +1131,13 @@ func (api *TestAPI) SpaceDelimitedNotExplodeObject(c *gin.Context) {
 	} else {
 		c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 	}
+}
+
+// Post /v2/query/string/spaceDelimited-not-explode/spaceDelimitedNotExplodeString
+// spaceDelimited style with explode=false for query string parameter.
+func (api *TestAPI) SpaceDelimitedNotExplodeString(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Post /v2/query/map/string-mapping/spaceDelimited-not-explode/spaceDelimitedNotExplodeMap
