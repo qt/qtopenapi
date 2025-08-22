@@ -162,7 +162,9 @@ void MediaType::testJsonMediaType()
         if (!(done = reply.isSuccess()))
             qWarning() << "ERROR: " << reply.errorString() << reply.error();
         QCOMPARE(getHeaderValue(summary), appJsonHeader);
-        QCOMPARE(getJsonValue(summary, "nested-object").toJson(QJsonDocument::Compact), expectedUser);
+        const QJsonObject nestedObj = getJsonValue(summary, "nested-object").toObject();
+        const QByteArray nestedJson = QJsonDocument(nestedObj).toJson(QJsonDocument::Compact);
+        QCOMPARE(nestedJson, expectedUser);
     });
     QCOMPARE(m_requestContent, expectedUser);
     QTRY_COMPARE_EQ(done, true);
