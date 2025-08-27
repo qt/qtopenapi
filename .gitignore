@@ -12,6 +12,7 @@ tests/auto/*/qmlclient/.openapi-generator*
 tests/auto/*/server/build/
 tests/auto/*/server/.openapi-generator*
 tests/auto/*/server/Dockerfile
+tests/auto/*/server/api/*.yaml
 tests/auto/*/server/go/README.md
 tests/auto/operation-parameters/server/server-app
 tests/auto/openapi2.0/server/backport-server-app
