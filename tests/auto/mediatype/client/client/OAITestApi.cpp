@@ -1012,12 +1012,14 @@ void OAITestApi::postMultiPartDataWithDataImpl(const QString &formId, const QLis
     {
         QString contentType;
         contentType = u"application/json"_s;
-        input.addFieldHeaders(u"formId"_s, addContentField(contentType, formId));
+        using VT = std::decay_t<decltype(formId)>;
+        input.addFieldHeaders(u"formId"_s, addContentField<VT>(contentType));
         input.addVar(u"formId"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, formId));
     }
     if (formIndex.hasValue()) {
         QString contentType;
-        input.addFieldHeaders(u"formIndex"_s, addContentField(contentType, formIndex.value()));
+        using VT = std::decay_t<decltype(formIndex.value())>;
+        input.addFieldHeaders(u"formIndex"_s, addContentField<VT>(contentType));
         input.addVar(u"formIndex"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, formIndex.value()));
     }
     if (formProfileImage.hasValue()) {
@@ -1032,19 +1034,20 @@ void OAITestApi::postMultiPartDataWithDataImpl(const QString &formId, const QLis
         using VT = std::decay_t<decltype(formAddresses)>::value_type;
         if (contentType == "application/json"_L1
             || (contentType.isEmpty() && !isPrimitiveMediaType<VT>)) {
-            input.addFieldHeaders(u"formAddresses"_s, "application/json");
+            input.addFieldHeaders(u"formAddresses"_s, "application/json"_L1);
             input.addVar(u"formAddresses"_s, ::OpenAPI::convertJsonValueToString(::OpenAPI::toJsonValue(formAddresses)));
         } else {
             // if none of the above - serialize according to the content type of items
             for (const auto &item : formAddresses) {
                 input.addVar(u"formAddresses"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, item));
             }
-            input.addFieldHeaders(u"formAddresses"_s, "text/plain");
+            input.addFieldHeaders(u"formAddresses"_s, "text/plain"_L1);
         }
     }
     if (formObject.hasValue()) {
         QString contentType;
-        input.addFieldHeaders(u"formObject"_s, addContentField(contentType, formObject.value()));
+        using VT = std::decay_t<decltype(formObject.value())>;
+        input.addFieldHeaders(u"formObject"_s, addContentField<VT>(contentType));
         input.addVar(u"formObject"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, formObject.value()));
     }
     if (formMap.hasValue()) {
@@ -1057,14 +1060,14 @@ void OAITestApi::postMultiPartDataWithDataImpl(const QString &formId, const QLis
         using VT = typename MapType::mapped_type;
         if (contentType == "application/json"_L1
             || (contentType.isEmpty() && !isPrimitiveMediaType<VT>)) {
-            input.addFieldHeaders(u"formMap"_s, "application/json");
+            input.addFieldHeaders(u"formMap"_s, "application/json"_L1);
             input.addVar(u"formMap"_s, ::OpenAPI::convertJsonValueToString(::OpenAPI::toJsonValue(formMap.value())));
         } else {
             // if none of the above - serialize according to the content type of items
             for (const auto &[key, value] : formMap.value().asKeyValueRange()) {
                 input.addVar(key, ::OpenAPI::serializeMediaTypeContentField(contentType, value));
             }
-            input.addFieldHeaders(u"formMap"_s, "text/plain");
+            input.addFieldHeaders(u"formMap"_s, "text/plain"_L1);
         }
     }
     QNetworkRequest request
@@ -1294,17 +1297,20 @@ void OAITestApi::postUrlEncodedFieldsWithDataImpl(const ::OpenAPI::OptionalParam
     input.addVarLayout(URL_ENCODED);
     if (name.hasValue()) {
         QString contentType;
-        input.addFieldHeaders(u"name"_s, addContentField(contentType, name.value()));
+        using VT = std::decay_t<decltype(name.value())>;
+        input.addFieldHeaders(u"name"_s, addContentField<VT>(contentType));
         input.addVar(u"name"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, name.value()));
     }
     if (status.hasValue()) {
         QString contentType;
-        input.addFieldHeaders(u"status"_s, addContentField(contentType, status.value()));
+        using VT = std::decay_t<decltype(status.value())>;
+        input.addFieldHeaders(u"status"_s, addContentField<VT>(contentType));
         input.addVar(u"status"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, status.value()));
     }
     if (availability.hasValue()) {
         QString contentType;
-        input.addFieldHeaders(u"availability"_s, addContentField(contentType, availability.value()));
+        using VT = std::decay_t<decltype(availability.value())>;
+        input.addFieldHeaders(u"availability"_s, addContentField<VT>(contentType));
         input.addVar(u"availability"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, availability.value()));
     }
     if (visits.hasValue()) {
@@ -1315,14 +1321,14 @@ void OAITestApi::postUrlEncodedFieldsWithDataImpl(const ::OpenAPI::OptionalParam
         using VT = std::decay_t<decltype(visits.value())>::value_type;
         if (contentType == "application/json"_L1
             || (contentType.isEmpty() && !isPrimitiveMediaType<VT>)) {
-            input.addFieldHeaders(u"visits"_s, "application/json");
+            input.addFieldHeaders(u"visits"_s, "application/json"_L1);
             input.addVar(u"visits"_s, ::OpenAPI::convertJsonValueToString(::OpenAPI::toJsonValue(visits.value())));
         } else {
             // if none of the above - serialize according to the content type of items
             for (const auto &item : visits.value()) {
                 input.addVar(u"visits"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, item));
             }
-            input.addFieldHeaders(u"visits"_s, "text/plain");
+            input.addFieldHeaders(u"visits"_s, "text/plain"_L1);
         }
     }
     if (mapfield.hasValue()) {
@@ -1334,14 +1340,14 @@ void OAITestApi::postUrlEncodedFieldsWithDataImpl(const ::OpenAPI::OptionalParam
         using VT = typename MapType::mapped_type;
         if (contentType == "application/json"_L1
             || (contentType.isEmpty() && !isPrimitiveMediaType<VT>)) {
-            input.addFieldHeaders(u"mapfield"_s, "application/json");
+            input.addFieldHeaders(u"mapfield"_s, "application/json"_L1);
             input.addVar(u"mapfield"_s, ::OpenAPI::convertJsonValueToString(::OpenAPI::toJsonValue(mapfield.value())));
         } else {
             // if none of the above - serialize according to the content type of items
             for (const auto &[key, value] : mapfield.value().asKeyValueRange()) {
                 input.addVar(key, ::OpenAPI::serializeMediaTypeContentField(contentType, value));
             }
-            input.addFieldHeaders(u"mapfield"_s, "text/plain");
+            input.addFieldHeaders(u"mapfield"_s, "text/plain"_L1);
         }
     }
     QNetworkRequest request
@@ -1454,12 +1460,14 @@ void OAITestApi::postUrlEncodedNestedObjectWithDataImpl(const ::OpenAPI::Optiona
     input.addVarLayout(URL_ENCODED);
     if (user.hasValue()) {
         QString contentType;
-        input.addFieldHeaders(u"user"_s, addContentField(contentType, user.value()));
+        using VT = std::decay_t<decltype(user.value())>;
+        input.addFieldHeaders(u"user"_s, addContentField<VT>(contentType));
         input.addVar(u"user"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, user.value()));
     }
     if (comment.hasValue()) {
         QString contentType;
-        input.addFieldHeaders(u"comment"_s, addContentField(contentType, comment.value()));
+        using VT = std::decay_t<decltype(comment.value())>;
+        input.addFieldHeaders(u"comment"_s, addContentField<VT>(contentType));
         input.addVar(u"comment"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, comment.value()));
     }
     QNetworkRequest request
@@ -1575,17 +1583,20 @@ void OAITestApi::postUrlEncodedObjectWithDataImpl(const ::OpenAPI::OptionalParam
     input.addVarLayout(URL_ENCODED);
     if (name.hasValue()) {
         QString contentType;
-        input.addFieldHeaders(u"name"_s, addContentField(contentType, name.value()));
+        using VT = std::decay_t<decltype(name.value())>;
+        input.addFieldHeaders(u"name"_s, addContentField<VT>(contentType));
         input.addVar(u"name"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, name.value()));
     }
     if (status.hasValue()) {
         QString contentType;
-        input.addFieldHeaders(u"status"_s, addContentField(contentType, status.value()));
+        using VT = std::decay_t<decltype(status.value())>;
+        input.addFieldHeaders(u"status"_s, addContentField<VT>(contentType));
         input.addVar(u"status"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, status.value()));
     }
     if (age.hasValue()) {
         QString contentType;
-        input.addFieldHeaders(u"age"_s, addContentField(contentType, age.value()));
+        using VT = std::decay_t<decltype(age.value())>;
+        input.addFieldHeaders(u"age"_s, addContentField<VT>(contentType));
         input.addVar(u"age"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, age.value()));
     }
     QNetworkRequest request

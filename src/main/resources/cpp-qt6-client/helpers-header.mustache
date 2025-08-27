@@ -287,7 +287,7 @@ QString serializeMediaTypeContentField(const QString &contentType, const T &valu
 }
 
 template <typename T>
-QString addContentField(const QString &contentType, const T &value)
+QString addContentField(const QString &contentType)
 {
     if (contentType.isEmpty()) {
         if constexpr (isPrimitiveMediaType<T>)

@@ -1258,12 +1258,14 @@ void OAIPetApi::updatePetWithFormWithDataImpl(const qint64 &petId, const ::OpenA
     input.addVarLayout(URL_ENCODED);
     if (name.hasValue()) {
         QString contentType;
-        input.addFieldHeaders(u"name"_s, addContentField(contentType, name.value()));
+        using VT = std::decay_t<decltype(name.value())>;
+        input.addFieldHeaders(u"name"_s, addContentField<VT>(contentType));
         input.addVar(u"name"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, name.value()));
     }
     if (status.hasValue()) {
         QString contentType;
-        input.addFieldHeaders(u"status"_s, addContentField(contentType, status.value()));
+        using VT = std::decay_t<decltype(status.value())>;
+        input.addFieldHeaders(u"status"_s, addContentField<VT>(contentType));
         input.addVar(u"status"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, status.value()));
     }
     QNetworkRequest request
@@ -1393,7 +1395,8 @@ void OAIPetApi::uploadFileWithDataImpl(const qint64 &petId, const ::OpenAPI::Opt
     input.addVarLayout(MULTIPART);
     if (additionalMetadata.hasValue()) {
         QString contentType;
-        input.addFieldHeaders(u"additionalMetadata"_s, addContentField(contentType, additionalMetadata.value()));
+        using VT = std::decay_t<decltype(additionalMetadata.value())>;
+        input.addFieldHeaders(u"additionalMetadata"_s, addContentField<VT>(contentType));
         input.addVar(u"additionalMetadata"_s, ::OpenAPI::serializeMediaTypeContentField(contentType, additionalMetadata.value()));
     }
     if (file.hasValue()) {
