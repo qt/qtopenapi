@@ -119,27 +119,27 @@ QString toStringValue(const QDate &value)
     return value.toString(Qt::DateFormat::ISODate);
 }
 
-QString toStringValue(const qint32 &value)
+QString toStringValue(qint32 value)
 {
     return QString::number(value);
 }
 
-QString toStringValue(const qint64 &value)
+QString toStringValue(qint64 value)
 {
     return QString::number(value);
 }
 
-QString toStringValue(const bool &value)
+QString toStringValue(bool value)
 {
     return QString(value ? "true" : "false");
 }
 
-QString toStringValue(const float &value)
+QString toStringValue(float value)
 {
     return QString::number(static_cast<double>(value));
 }
 
-QString toStringValue(const double &value)
+QString toStringValue(double value)
 {
     return QString::number(value);
 }
@@ -188,27 +188,27 @@ QJsonValue toJsonValue(const QDate &value)
     return QJsonValue(value.toString(Qt::ISODate));
 }
 
-QJsonValue toJsonValue(const qint32 &value)
+QJsonValue toJsonValue(qint32 value)
 {
     return QJsonValue(value);
 }
 
-QJsonValue toJsonValue(const qint64 &value)
+QJsonValue toJsonValue(qint64 value)
 {
     return QJsonValue(value);
 }
 
-QJsonValue toJsonValue(const bool &value)
+QJsonValue toJsonValue(bool value)
 {
     return QJsonValue(value);
 }
 
-QJsonValue toJsonValue(const float &value)
+QJsonValue toJsonValue(float value)
 {
     return QJsonValue(static_cast<double>(value));
 }
 
-QJsonValue toJsonValue(const double &value)
+QJsonValue toJsonValue(double value)
 {
     return QJsonValue(value);
 }
