@@ -11,7 +11,7 @@ sudo apt-get -y install doxygen graphviz
 # operation-parameters test server uses Go
 sudo apt-get -y install golang
 # Fetch missing Go dependencies (only works if run from within a Go module)
-if [ -f "go.mod" ]; then
+if [[ -f "go.mod" ]]; then
     go mod tidy
 fi
 OPENAPI_HOME=/home/qt/work/playground/qtopenapi
@@ -24,11 +24,35 @@ function run_test() {
     source build-and-test.bash
 }
 
-function killTestServer() {
+function run_test_server() {
+    SERVER_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/$1/server"
+    if [[ $1 == "petstore" ]]; then
+        SERVER_NAME="cpp-qt-qhttpengine-server"
+        rm -rf $SERVER_OUTPUT_DIR/build
+    elif [[ $1 == "colorpalette" ]]; then
+        SERVER_NAME=""
+        return # no server yet
+    elif [[ $1 == "operation-parameters" ]]; then
+        SERVER_NAME="server-app"
+    elif [[ $1 == "openapi2.0" ]]; then
+        SERVER_NAME="backport-server-app"
+    elif [[ $1 == "mediatype" ]]; then
+        SERVER_NAME="mediatype-server-app"
+    fi
+    cd "$SERVER_OUTPUT_DIR"
+    source build-and-run.bash
+}
+
+function kill_test_server() {
     # when the client finished testing, let's kill server ]:->
+    if [[ $SERVER_NAME == "" ]]; then
+        return
+    fi
     exit_pid=$(pidof $SERVER_NAME)
-    echo "Now kill the server by pid:" $exit_pid
-    kill -9 $exit_pid
+    if [[ $exit_pid != "" ]]; then
+        echo "Now kill the server by pid:" $exit_pid
+        kill -9 $exit_pid
+    fi
 }
 
 function build_doxygen_docs() {
@@ -38,59 +62,25 @@ function build_doxygen_docs() {
     doxygen doc/Doxyfile.in
     cd $OPENAPI_HOME
 }
-# build and run petstore cpp server app
-SERVER_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/petstore/server"
-SERVER_NAME="cpp-qt-qhttpengine-server"
-cd $SERVER_OUTPUT_DIR
-rm -rf $SERVER_OUTPUT_DIR/build
-source build-and-run.bash
-# build and run petsore cpp client
-CLIENTFOLDER_NAME=client
-CLIENT_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/petstore/$CLIENTFOLDER_NAME"
-run_test ;
-build_doxygen_docs ;
 
-# build and run petsore qml client
-CLIENTFOLDER_NAME=qmlclient
-CLIENT_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/petstore/$CLIENTFOLDER_NAME"
-run_test ;
-killTestServer ;
+testFolders=("petstore" "colorpalette" "operation-parameters" "openapi2.0" "mediatype")
+for i in "${testFolders[@]}"
+do
+    CLIENTFOLDER_NAME=client
+    CLIENT_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/$i/$CLIENTFOLDER_NAME"
+    run_test_server $i ;
+    run_test ;
+    kill_test_server ;
+    build_doxygen_docs ;
+done
 
-# generate colorpalette cpp client
-CLIENTFOLDER_NAME=client
-CLIENT_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/colorpalette/$CLIENTFOLDER_NAME"
-rm -rf CLIENT_OUTPUT_DIR/client
-run_test ;
-build_doxygen_docs ;
+qmlTestFolders=("petstore" "colorpalette")
+for i in "${qmlTestFolders[@]}"
+do
+    CLIENTFOLDER_NAME=qmlclient
+    CLIENT_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/$i/$CLIENTFOLDER_NAME"
+    run_test_server $i ;
+    run_test ;
+    kill_test_server ;
+done
 
-# generate colorpalette qml client
-CLIENTFOLDER_NAME=qmlclient
-CLIENT_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/colorpalette/$CLIENTFOLDER_NAME"
-rm -rf CLIENT_OUTPUT_DIR/client
-run_test ;
-
-# Build and run the operation-parameters Go server app
-SERVER_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/operation-parameters/server"
-SERVER_NAME="server-app"
-cd "$SERVER_OUTPUT_DIR"
-source build-and-run.bash
-
-# Build and run operation-parameters cpp client
-CLIENTFOLDER_NAME=client
-CLIENT_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/operation-parameters/$CLIENTFOLDER_NAME"
-run_test ;
-killTestServer ;
-build_doxygen_docs ;
-
-# Build and run the openapi2.0 Go server app
-SERVER_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/openapi2.0/server"
-SERVER_NAME="backport-server-app"
-cd "$SERVER_OUTPUT_DIR"
-source build-and-run.bash
-
-# Build and run openapi2.0 cpp client
-CLIENTFOLDER_NAME=client
-CLIENT_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/openapi2.0/$CLIENTFOLDER_NAME"
-run_test ;
-killTestServer ;
-build_doxygen_docs ;

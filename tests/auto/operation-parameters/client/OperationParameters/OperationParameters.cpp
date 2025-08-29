@@ -1,7 +1,7 @@
 // Copyright (C) 2025 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "../client/OAITestApi.h"
+#include "../client/QtOAITestApi.h"
 
 #include <QtCore/qobject.h>
 #include <QtNetwork/qnetworkrequestfactory.h>
@@ -31,7 +31,7 @@
     QTRY_COMPARE_EQ(done, false);                                                       \
 }                                                                                       \
 
-namespace OpenAPI {
+namespace QtOpenAPI {
 
 QString getStatusString(const QString &summary)
 {
@@ -43,7 +43,7 @@ QString getStatusString(const QString &summary)
     return QString();
 }
 
-class OperationParameters : public OAITestApi {
+class OperationParameters : public QtOAITestApi {
     Q_OBJECT
 
 private Q_SLOTS:
@@ -189,7 +189,7 @@ void OperationParameters::pathArrayParameters()
 
 void OperationParameters::pathAnyTypeParameters_data()
 {
-    OAITestObject obj;
+    QtOAITestObject obj;
     obj.setName("Super*+,;=!$&'()Puper");
     obj.setStatus("Awake or Not $");
 
@@ -261,17 +261,17 @@ void OperationParameters::pathAnyTypeParameters()
 
 void OperationParameters::pathObjectParameters_data()
 {
-    OAITestObject object;
+    QtOAITestObject object;
     object.setName("Igor");
     object.setStatus("Sleep");
-    QTest::addColumn<OAITestObject>("objectValue");
+    QTest::addColumn<QtOAITestObject>("objectValue");
     QTest::addColumn<QString>("expectedSimpleExplode");
     QTest::addColumn<QString>("expectedSimpleNotExplode");
     QTest::addColumn<QString>("expectedLabelExplode");
     QTest::addColumn<QString>("expectedLabelNotExplode");
     QTest::addColumn<QString>("expectedMatrixExplode");
     QTest::addColumn<QString>("expectedMatrixNotExplode");
-    QTest::newRow("OAITestObject({Igor, Sleep})") << object
+    QTest::newRow("QtOAITestObject({Igor, Sleep})") << object
                                                   << "/v2/path/object/simple-explode/name=Igor,status=Sleep"
                                                   << "/v2/path/object/simple-not-explode/name,Igor,status,Sleep"
                                                   << "/v2/path/object/label-explode/.name=Igor.status=Sleep"
@@ -280,7 +280,7 @@ void OperationParameters::pathObjectParameters_data()
                                                   << "/v2/path/object/matrix-not-explode/;objectParameter=name,Igor,status,Sleep";
     object.setName("TestName123");
     object.setStatus("Maybe-Awake");
-    QTest::newRow("OAITestObject({TestName123, Maybe-Awake})") << object
+    QTest::newRow("QtOAITestObject({TestName123, Maybe-Awake})") << object
                                                                << "/v2/path/object/simple-explode/name=TestName123,status=Maybe-Awake"
                                                                << "/v2/path/object/simple-not-explode/name,TestName123,status,Maybe-Awake"
                                                                << "/v2/path/object/label-explode/.name=TestName123.status=Maybe-Awake"
@@ -289,7 +289,7 @@ void OperationParameters::pathObjectParameters_data()
                                                                << "/v2/path/object/matrix-not-explode/;objectParameter=name,TestName123,status,Maybe-Awake";
     object.setName("SoMe");
     object.setStatus(" *+,;=!$&'()");
-    QTest::newRow("OAITestObject({SoMe, ' *+,;=!$&'()'})") << object
+    QTest::newRow("QtOAITestObject({SoMe, ' *+,;=!$&'()'})") << object
                                                 << "/v2/path/object/simple-explode/name=SoMe,status=%20%2A%2B%2C%3B%3D%21%24%26%27%28%29"
                                                 << "/v2/path/object/simple-not-explode/name,SoMe,status,%20%2A%2B%2C%3B%3D%21%24%26%27%28%29"
                                                 << "/v2/path/object/label-explode/.name=SoMe.status=%20%2A%2B%2C%3B%3D%21%24%26%27%28%29"
@@ -301,7 +301,7 @@ void OperationParameters::pathObjectParameters_data()
 
 void OperationParameters::pathObjectParameters()
 {
-    QFETCH(OAITestObject, objectValue);
+    QFETCH(QtOAITestObject, objectValue);
     QFETCH(QString, expectedSimpleExplode);
     QFETCH(QString, expectedSimpleNotExplode);
     QFETCH(QString, expectedLabelExplode);
@@ -343,15 +343,15 @@ void OperationParameters::queryParameters()
 
     // Only style=FORM supports primitive types (string, int, double, float)
     // style=form, explode=true, type=string
-    CALL_TEST_OPERATION(formExplodeString, ::OpenAPI::OptionalParam<QString>("hello, guys!"),
+    CALL_TEST_OPERATION(formExplodeString, OptionalParam<QString>("hello, guys!"),
                         "/v2/query/string/form-explode/formExplodeString?stringParameter=hello%2C%20guys%21");
 
     // style=form, explode=false, type=string
-    CALL_TEST_OPERATION(formNotExplodeString, ::OpenAPI::OptionalParam<QString>("hello, guys!"),
+    CALL_TEST_OPERATION(formNotExplodeString, OptionalParam<QString>("hello, guys!"),
                         "/v2/query/string/form-not-explode/formNotExplodeString?stringParameter=hello%2C%20guys%21");
 
     // style=form, explode=true, type=object
-    OAITestObject formObj;
+    QtOAITestObject formObj;
     formObj.setName("TestName+123");
     formObj.setStatus("Awake");
     CALL_TEST_OPERATION(formExplodeObject, formObj,
@@ -366,7 +366,7 @@ void OperationParameters::queryParameters()
                         "/v2/query/array/spaceDelimited-not-explode/spaceDelimitedNotExplodeArray?arrayParameter=1%202%20-9%2090");
 
     // style=spaceDelimited, explode=false, type=object
-    OAITestObject spaceDelimitedObj;
+    QtOAITestObject spaceDelimitedObj;
     spaceDelimitedObj.setName("TestName 123 *+,;=!$&'()");
     spaceDelimitedObj.setStatus("Awake!");
     CALL_TEST_OPERATION(spaceDelimitedNotExplodeObject, spaceDelimitedObj,
@@ -386,7 +386,7 @@ void OperationParameters::queryParameters()
                         "/v2/query/array/pipeDelimited-not-explode/pipeDelimitedNotExplodeArray?arrayParameter=1%7C2%7C-9%7C90");
 
     // style=pipeDelimited, explode=false, type=object
-    OAITestObject pipeDelimitedObj;
+    QtOAITestObject pipeDelimitedObj;
     pipeDelimitedObj.setName("pipeDelimited=TestName");
     pipeDelimitedObj.setStatus("pipeDelimited-Sleeping *+,;=!$&'()");
     CALL_TEST_OPERATION(pipeDelimitedNotExplodeObject, pipeDelimitedObj,
@@ -401,7 +401,7 @@ void OperationParameters::queryParameters()
                         "/v2/query/anytype/pipeDelimited-not-explode/pipeDelimitedNotExplodeAnytype?anytypeParameter=name%7CpipeDelimited%3DTestName%7Cstatus%7CpipeDelimited-Sleeping%20%2A%2B%2C%3B%3D%21%24%26%27%28%29");
 
     // style=deepObject, explode=true, type=object
-    OAITestObject deepObjectObj;
+    QtOAITestObject deepObjectObj;
     deepObjectObj.setName("deepObject *+,;=!$&'()-TestName");
     deepObjectObj.setStatus("deepObject-Sleeping");
     CALL_TEST_OPERATION(deepObjectExplodeObject, deepObjectObj,
@@ -410,7 +410,7 @@ void OperationParameters::queryParameters()
 
 void OperationParameters::queryAnyTypeParameters_data()
 {
-    OAITestObject obj;
+    QtOAITestObject obj;
     obj.setName("Super Puper *+,;=!$&'()");
     obj.setStatus("Awake!");
 
@@ -482,21 +482,21 @@ void OperationParameters::queryNACombinations()
                         "/v2/query/array/pipeDelimited-explode/pipeDelimitedExplodeArray?arrayParameter=");
 
     // style=spaceDelimited, explode=true, type=object
-    OAITestObject spaceDelimitedObj;
+    QtOAITestObject spaceDelimitedObj;
     spaceDelimitedObj.setName("TestName123");
     spaceDelimitedObj.setStatus("Awake");
     CALL_TEST_OPERATION(spaceDelimitedExplodeObject, spaceDelimitedObj,
                         "/v2/query/object/spaceDelimited-explode/spaceDelimitedExplodeObject?objectParameter=name%20TestName123%20status%20Awake");
 
     // style=pipeDelimited, explode=true, type=object
-    OAITestObject pipeDelimitedObj;
+    QtOAITestObject pipeDelimitedObj;
     pipeDelimitedObj.setName("pipeDelimited-TestName");
     pipeDelimitedObj.setStatus("pipeDelimited-Sleeping");
     CALL_TEST_OPERATION(pipeDelimitedExplodeObject, pipeDelimitedObj,
                         "/v2/query/object/pipeDelimited-explode/pipeDelimitedExplodeObject?objectParameter=name%7CpipeDelimited-TestName%7Cstatus%7CpipeDelimited-Sleeping");
 
     // style=deepObject, explode=false, type=object
-    OAITestObject deepObjectObj;
+    QtOAITestObject deepObjectObj;
     deepObjectObj.setName("deepObject-TestName");
     deepObjectObj.setStatus("deepObject-Sleeping");
     CALL_TEST_OPERATION(deepObjectNotExplodeObject, deepObjectObj,
@@ -542,12 +542,12 @@ void OperationParameters::pathAndQueryUndefined()
 
     // undefined case for form with empty object
     // style=form, explode=false, type=object
-    CALL_TEST_OPERATION(formNotExplodeObject, OAITestObject(),
+    CALL_TEST_OPERATION(formNotExplodeObject, QtOAITestObject(),
                         "/v2/query/object/form-not-explode/formNotExplodeObject?objectParameter=");
 
     // undefined case for form with empty object
     // style=form, explode=true, type=empty object
-    CALL_TEST_OPERATION(formExplodeObject, OAITestObject(),
+    CALL_TEST_OPERATION(formExplodeObject, QtOAITestObject(),
                         "/v2/query/object/form-explode/formExplodeObject?objectParameter=");
 
     // style=form, explode=true, type=empty array
@@ -632,8 +632,8 @@ void OperationParameters::severalQueryParametersPerOPeration()
             });
 
     expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterA=First%20param&stringParameterB=second%20param&stringParameterC=-3499";
-    formExplodeStringOptions(bParam, ::OpenAPI::OptionalParam<QString>(aParam),
-                             ::OpenAPI::OptionalParam<qint32>(cParam));
+    formExplodeStringOptions(bParam, OptionalParam<QString>(aParam),
+                             OptionalParam<qint32>(cParam));
     QCOMPARE("/v2" + m_testOperationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
@@ -651,7 +651,7 @@ void OperationParameters::severalQueryParametersPerOPeration()
     QCOMPARE("/v2" + m_testOperationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
-    // NOTE: OpenAPI::OptionalParam<T>() is equal to EMPTY optional parameter
+    // NOTE: QtOpenAPI::OptionalParam<T>() is equal to EMPTY optional parameter
     // The value will be excluded from the url
     done = false;
     expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterB=";
@@ -661,13 +661,13 @@ void OperationParameters::severalQueryParametersPerOPeration()
 
     done = false;
     expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterB=";
-    formExplodeStringOptions("", ::OpenAPI::OptionalParam<QString>());
+    formExplodeStringOptions("", OptionalParam<QString>());
     QCOMPARE("/v2" + m_testOperationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
     expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterB=";
-    formExplodeStringOptions("", ::OpenAPI::OptionalParam<QString>(), ::OpenAPI::OptionalParam<qint32>());
+    formExplodeStringOptions("", OptionalParam<QString>(), OptionalParam<qint32>());
     QCOMPARE("/v2" + m_testOperationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
@@ -675,7 +675,7 @@ void OperationParameters::severalQueryParametersPerOPeration()
     // 'undefined' column here: https://spec.openapis.org/oas/v3.1.1.html#style-examples
     done = false;
     expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterA=&stringParameterB=";
-    formExplodeStringOptions("", ::OpenAPI::OptionalParam<QString>(OptionalParam<QString>::IsNull));
+    formExplodeStringOptions("", OptionalParam<QString>(OptionalParam<QString>::IsNull));
     QCOMPARE("/v2" + m_testOperationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
@@ -695,22 +695,22 @@ void OperationParameters::severalQueryParametersPerOPeration()
     // 'undefined' column here: https://spec.openapis.org/oas/v3.1.1.html#style-examples
     done = false;
     expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterA=&stringParameterB=&stringParameterC=";
-    formExplodeStringOptions("", ::OpenAPI::OptionalParam<QString>(""), ::OpenAPI::OptionalParam<qint32>(OptionalParam<qint32>::IsNull));
+    formExplodeStringOptions("", OptionalParam<QString>(""), OptionalParam<qint32>(OptionalParam<qint32>::IsNull));
     QCOMPARE("/v2" + m_testOperationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
     expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterA=%20end%21&stringParameterB=The&stringParameterC=100";
-    formExplodeStringOptions("The", ::OpenAPI::OptionalParam<QString>(" end!"), ::OpenAPI::OptionalParam<qint32>(100));
+    formExplodeStringOptions("The", OptionalParam<QString>(" end!"), OptionalParam<qint32>(100));
     QCOMPARE("/v2" + m_testOperationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
-    OAITestObject testObject;
+    QtOAITestObject testObject;
     testObject.setName("John");
     testObject.setStatus("Sleepy");
     testObject.setAge(12);
-    formExplodeDifferentOptions(50, ::OpenAPI::OptionalParam<OAITestObject>(testObject),
+    formExplodeDifferentOptions(50, OptionalParam<QtOAITestObject>(testObject),
                                 this, [&](const QRestReply &reply, const QString &summary) {
                                     done = reply.isSuccess();
                                     QCOMPARE(getStatusString(summary), "/v2/query/strings/form-explode/formExplodeDifferentOptions?age=12&name=John&status=Sleepy&stringParameterB=50");
@@ -719,7 +719,7 @@ void OperationParameters::severalQueryParametersPerOPeration()
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
-    formExplodeDifferentOptions(50, ::OpenAPI::OptionalParam<OAITestObject>(),
+    formExplodeDifferentOptions(50, OptionalParam<QtOAITestObject>(),
                                 this, [&](const QRestReply &reply, const QString &summary) {
                                     done = reply.isSuccess();
                                     QCOMPARE(getStatusString(summary), "/v2/query/strings/form-explode/formExplodeDifferentOptions?stringParameterB=50");
@@ -729,7 +729,7 @@ void OperationParameters::severalQueryParametersPerOPeration()
     // NOTE: Parameter is not nullable in yaml file, so it's being excluded
     // from the serialization, even if Null is passed as a 2d argument.
     done = false;
-    formExplodeDifferentOptions(50, ::OpenAPI::OptionalParam<OAITestObject>(OptionalParam<OAITestObject>::IsNull), this,
+    formExplodeDifferentOptions(50, OptionalParam<QtOAITestObject>(OptionalParam<QtOAITestObject>::IsNull), this,
                                 [&](const QRestReply &reply, const QString &summary) {
                                     done = reply.isSuccess();
                                     QCOMPARE(getStatusString(summary), "/v2/query/strings/form-explode/formExplodeDifferentOptions?stringParameterB=50");
@@ -737,7 +737,7 @@ void OperationParameters::severalQueryParametersPerOPeration()
     QTRY_COMPARE_EQ(done, true);
 }
 
-} // OpenAPI
+} // QtOpenAPI
 
-QTEST_MAIN(OpenAPI::OperationParameters)
+QTEST_MAIN(QtOpenAPI::OperationParameters)
 #include "OperationParameters.moc"

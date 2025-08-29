@@ -2,38 +2,38 @@ QT += network
 
 HEADERS += \
 # Models
-    $${PWD}/OAIApiResponse.h \
-    $${PWD}/OAICategory.h \
-    $${PWD}/OAIOrder.h \
-    $${PWD}/OAIPet.h \
-    $${PWD}/OAITag.h \
-    $${PWD}/OAIUser.h \
+    $${PWD}/QtOAIApiResponse.h \
+    $${PWD}/QtOAICategory.h \
+    $${PWD}/QtOAIOrder.h \
+    $${PWD}/QtOAIPet.h \
+    $${PWD}/QtOAITag.h \
+    $${PWD}/QtOAIUser.h \
 # APIs
-    $${PWD}/OAIPetApi.h \
-    $${PWD}/OAIStoreApi.h \
-    $${PWD}/OAIUserApi.h \
+    $${PWD}/QtOAIPetApi.h \
+    $${PWD}/QtOAIStoreApi.h \
+    $${PWD}/QtOAIUserApi.h \
 # Others
-    $${PWD}/OAIHelpers.h \
-    $${PWD}/OAIHttpRequest.h \
-    $${PWD}/OAIObject.h \
-    $${PWD}/OAIEnum.h \
-    $${PWD}/OAIHttpFileElement.h \
-    $${PWD}/OAIServerConfiguration.h \
-    $${PWD}/OAIServerVariable.h
+    $${PWD}/QtOAIHelpers.h \
+    $${PWD}/QtOAIHttpRequest.h \
+    $${PWD}/QtOAIObject.h \
+    $${PWD}/QtOAIEnum.h \
+    $${PWD}/QtOAIHttpFileElement.h \
+    $${PWD}/QtOAIServerConfiguration.h \
+    $${PWD}/QtOAIServerVariable.h
 
 SOURCES += \
 # Models
-    $${PWD}/OAIApiResponse.cpp \
-    $${PWD}/OAICategory.cpp \
-    $${PWD}/OAIOrder.cpp \
-    $${PWD}/OAIPet.cpp \
-    $${PWD}/OAITag.cpp \
-    $${PWD}/OAIUser.cpp \
+    $${PWD}/QtOAIApiResponse.cpp \
+    $${PWD}/QtOAICategory.cpp \
+    $${PWD}/QtOAIOrder.cpp \
+    $${PWD}/QtOAIPet.cpp \
+    $${PWD}/QtOAITag.cpp \
+    $${PWD}/QtOAIUser.cpp \
 # APIs
-    $${PWD}/OAIPetApi.cpp \
-    $${PWD}/OAIStoreApi.cpp \
-    $${PWD}/OAIUserApi.cpp \
+    $${PWD}/QtOAIPetApi.cpp \
+    $${PWD}/QtOAIStoreApi.cpp \
+    $${PWD}/QtOAIUserApi.cpp \
 # Others
-    $${PWD}/OAIHelpers.cpp \
-    $${PWD}/OAIHttpRequest.cpp \
-    $${PWD}/OAIHttpFileElement.cpp
+    $${PWD}/QtOAIHelpers.cpp \
+    $${PWD}/QtOAIHttpRequest.cpp \
+    $${PWD}/QtOAIHttpFileElement.cpp

@@ -2,24 +2,24 @@ QT += network
 
 HEADERS += \
 # Models
-    $${PWD}/OAITestObject.h \
+    $${PWD}/QtOAITestObject.h \
 # APIs
-    $${PWD}/OAITestApi.h \
+    $${PWD}/QtOAITestApi.h \
 # Others
-    $${PWD}/OAIHelpers.h \
-    $${PWD}/OAIHttpRequest.h \
-    $${PWD}/OAIObject.h \
-    $${PWD}/OAIEnum.h \
-    $${PWD}/OAIHttpFileElement.h \
-    $${PWD}/OAIServerConfiguration.h \
-    $${PWD}/OAIServerVariable.h
+    $${PWD}/QtOAIHelpers.h \
+    $${PWD}/QtOAIHttpRequest.h \
+    $${PWD}/QtOAIObject.h \
+    $${PWD}/QtOAIEnum.h \
+    $${PWD}/QtOAIHttpFileElement.h \
+    $${PWD}/QtOAIServerConfiguration.h \
+    $${PWD}/QtOAIServerVariable.h
 
 SOURCES += \
 # Models
-    $${PWD}/OAITestObject.cpp \
+    $${PWD}/QtOAITestObject.cpp \
 # APIs
-    $${PWD}/OAITestApi.cpp \
+    $${PWD}/QtOAITestApi.cpp \
 # Others
-    $${PWD}/OAIHelpers.cpp \
-    $${PWD}/OAIHttpRequest.cpp \
-    $${PWD}/OAIHttpFileElement.cpp
+    $${PWD}/QtOAIHelpers.cpp \
+    $${PWD}/QtOAIHttpRequest.cpp \
+    $${PWD}/QtOAIHttpFileElement.cpp

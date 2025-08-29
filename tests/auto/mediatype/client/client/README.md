@@ -25,7 +25,7 @@ Building the API client library requires:
 # Documentation for Operation Parameters Test 1.0.0 Qt6 Client Cpp
 All URIs are relative to http://127.0.0.1http://127.0.0.1:10209/v2
 
-### OAITestApi
+### QtOAITestApi
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |*binaryType* | *POST* /reqBody/octetstream/binaryType | Test body parameter.|
@@ -46,20 +46,20 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:10209/v2
 ## What are the Model files for the data structures/objects?
 |Class | Description|
 |------------- | -------------|
-|*OAIPostApplicationJsonSeveralObjects_request* | |
-|*OAIPostMultiPartData_request_formObject* | |
-|*OAIUser* | |
+|*QtOAIPostApplicationJsonSeveralObjects_request* | |
+|*QtOAIPostMultiPartData_request_formObject* | |
+|*QtOAIUser* | |
 
 
 main.cpp:
 ```
 
-#include "../client/OAITestApi.h"
+#include "../client/QtOAITestApi.h"
 
 int main(int argc, char *argv[]) {
     QCoreApplication a(argc, argv);
-    OAIHttpFileElement body;
-    OAITestApi apiInstance;
+    QtOAIHttpFileElement body;
+    QtOAITestApi apiInstance;
 
 
     /*
@@ -79,10 +79,10 @@ int main(int argc, char *argv[]) {
         Or connect to the operation response 'binaryTypeFinished()/binaryTypeErrorOccurred()' signals
         And call the operation 'binaryType()'
     */
-    connect(&apiInstance, &OAITestApi::binaryTypeFinished, [&](QString summary) {
+    connect(&apiInstance, &QtOAITestApi::binaryTypeFinished, [&](QString summary) {
                // handling the user logic
            });
-    connect(&apiInstance, &OAITestApi::binaryTypeErrorOccurred, [&](QNetworkReply::NetworkError errorType, const QString &errorStr) {
+    connect(&apiInstance, &QtOAITestApi::binaryTypeErrorOccurred, [&](QNetworkReply::NetworkError errorType, const QString &errorStr) {
                qWarning() << "There is an error occurred: " << errorType << errorStr;
            });
     apiInstance.binaryType(body);

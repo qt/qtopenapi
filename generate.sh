@@ -64,9 +64,13 @@ OPENAPI_CLI_ENTRYPOINT_CLASS="org.openapitools.codegen.OpenAPIGenerator"
 ORIGINAL_GENERATOR="cpp-qt6-client"
 ORIGINAL_GENERATOR_JAR="$PWD/target/cpp-qt6-client-openapi-generator-1.0.0.jar"
 QML_ADDITIONAL_PROPERTIES=false
-if [[ $MODE == "qmltest" ]] || [[ $MODE == "qmldoc" ]] || [[ $MODE == "qmlcg" ]];then
+PREFIX_NAME=QtOAI
+CPP_NAMESPACE=QtOpenAPI
+if [[ $MODE == "qmltest" ]] || [[ $MODE == "qmldoc" ]] || [[ $MODE == "qmlcg" ]]; then
     QML_ADDITIONAL_PROPERTIES=true
     CLIENTFOLDER_NAME=qmlclient
+    PREFIX_NAME=OAI
+    CPP_NAMESPACE=OpenAPI
 else
     CLIENTFOLDER_NAME=client
 fi
@@ -166,7 +170,7 @@ function generate() {
     java -Dlogback.configurationFile=$LOGBACK_XML_PATH -Dlog.level=$LOG_LEVEL -Dcolor=true \
     -cp $PWD:$OPENAPI_CLI:$ORIGINAL_GENERATOR_JAR $OPENAPI_CLI_ENTRYPOINT_CLASS \
     generate -g $ORIGINAL_GENERATOR -i $USER_SPEC -o $CLIENT_OUTPUT_DIR \
-    --additional-properties=enableQmlCode=$QML_ADDITIONAL_PROPERTIES
+    --additional-properties=enableQmlCode=$QML_ADDITIONAL_PROPERTIES,cppNamespace=$CPP_NAMESPACE,modelNamePrefix=$PREFIX_NAME
 }
 
 function killServer() {
@@ -217,34 +221,48 @@ function run_all() {
     QML_ADDITIONAL_PROPERTIES=false
     CLIENTFOLDER_NAME=client
     USER_MODE="petstore"
+    PREFIX_NAME=QtOAI
+    CPP_NAMESPACE=QtOpenAPI
     set_paths && compile && generate && run_test
 
     QML_ADDITIONAL_PROPERTIES=true
     CLIENTFOLDER_NAME=qmlclient
+    PREFIX_NAME=OAI
+    CPP_NAMESPACE=OpenAPI
     set_paths && compile && generate && run_test
 
     QML_ADDITIONAL_PROPERTIES=false
     CLIENTFOLDER_NAME=client
     USER_MODE="colorpalette"
+    PREFIX_NAME=QtOAI
+    CPP_NAMESPACE=QtOpenAPI
     set_paths && compile && generate && run_test
 
     QML_ADDITIONAL_PROPERTIES=true
     CLIENTFOLDER_NAME=qmlclient
+    PREFIX_NAME=OAI
+    CPP_NAMESPACE=OpenAPI
     set_paths && compile && generate && run_test
 
     QML_ADDITIONAL_PROPERTIES=false
     CLIENTFOLDER_NAME=client
     USER_MODE="operation-parameters"
+    PREFIX_NAME=QtOAI
+    CPP_NAMESPACE=QtOpenAPI
     set_paths && compile && generate && run_test
 
     QML_ADDITIONAL_PROPERTIES=false
     CLIENTFOLDER_NAME=client
     USER_MODE="openapi2.0"
+    PREFIX_NAME=QtOAI
+    CPP_NAMESPACE=QtOpenAPI
     set_paths && compile && generate && run_test
 
     QML_ADDITIONAL_PROPERTIES=false
     CLIENTFOLDER_NAME=client
     USER_MODE="mediatype"
+    PREFIX_NAME=QtOAI
+    CPP_NAMESPACE=QtOpenAPI
     set_paths && compile && generate && run_test
 }
 

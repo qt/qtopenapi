@@ -24,7 +24,7 @@ Building the API client library requires:
 # Documentation for OpenAPI 2.0 test 1.0.0 Qt6 Client Cpp
 All URIs are relative to http://127.0.0.1http://127.0.0.1:10300/v2
 
-### OAIFakeApi
+### QtOAIFakeApi
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |*testPathParameterCollectionFormat* | *POST* /fake/test-path-parameters/{pipeId}/{ioutilId}/{httpId}/{urlId}/{multiContextId} | .|
@@ -39,12 +39,12 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:10300/v2
 main.cpp:
 ```
 
-#include "../client/OAIFakeApi.h"
+#include "../client/QtOAIFakeApi.h"
 
 int main(int argc, char *argv[]) {
     QCoreApplication a(argc, argv);
     QList<QString> pipeId;QList<QString> ioutilId;QList<QString> httpId;QList<QString> urlId;QList<QString> multiContextId;
-    OAIFakeApi apiInstance;
+    QtOAIFakeApi apiInstance;
 
 
     /*
@@ -64,10 +64,10 @@ int main(int argc, char *argv[]) {
         Or connect to the operation response 'testPathParameterCollectionFormatFinished()/testPathParameterCollectionFormatErrorOccurred()' signals
         And call the operation 'testPathParameterCollectionFormat()'
     */
-    connect(&apiInstance, &OAIFakeApi::testPathParameterCollectionFormatFinished, [&](QString summary) {
+    connect(&apiInstance, &QtOAIFakeApi::testPathParameterCollectionFormatFinished, [&](QString summary) {
                // handling the user logic
            });
-    connect(&apiInstance, &OAIFakeApi::testPathParameterCollectionFormatErrorOccurred, [&](QNetworkReply::NetworkError errorType, const QString &errorStr) {
+    connect(&apiInstance, &QtOAIFakeApi::testPathParameterCollectionFormatErrorOccurred, [&](QNetworkReply::NetworkError errorType, const QString &errorStr) {
                qWarning() << "There is an error occurred: " << errorType << errorStr;
            });
     apiInstance.testPathParameterCollectionFormat(pipeId);
@@ -89,10 +89,10 @@ int main(int argc, char *argv[]) {
         Or connect to the operation response 'testPathParameterCollectionFormatFinished()/testPathParameterCollectionFormatErrorOccurred()' signals
         And call the operation 'testPathParameterCollectionFormat()'
     */
-    connect(&apiInstance, &OAIFakeApi::testPathParameterCollectionFormatFinished, [&](QString summary) {
+    connect(&apiInstance, &QtOAIFakeApi::testPathParameterCollectionFormatFinished, [&](QString summary) {
                // handling the user logic
            });
-    connect(&apiInstance, &OAIFakeApi::testPathParameterCollectionFormatErrorOccurred, [&](QNetworkReply::NetworkError errorType, const QString &errorStr) {
+    connect(&apiInstance, &QtOAIFakeApi::testPathParameterCollectionFormatErrorOccurred, [&](QNetworkReply::NetworkError errorType, const QString &errorStr) {
                qWarning() << "There is an error occurred: " << errorType << errorStr;
            });
     apiInstance.testPathParameterCollectionFormat(ioutilId);
@@ -114,10 +114,10 @@ int main(int argc, char *argv[]) {
         Or connect to the operation response 'testPathParameterCollectionFormatFinished()/testPathParameterCollectionFormatErrorOccurred()' signals
         And call the operation 'testPathParameterCollectionFormat()'
     */
-    connect(&apiInstance, &OAIFakeApi::testPathParameterCollectionFormatFinished, [&](QString summary) {
+    connect(&apiInstance, &QtOAIFakeApi::testPathParameterCollectionFormatFinished, [&](QString summary) {
                // handling the user logic
            });
-    connect(&apiInstance, &OAIFakeApi::testPathParameterCollectionFormatErrorOccurred, [&](QNetworkReply::NetworkError errorType, const QString &errorStr) {
+    connect(&apiInstance, &QtOAIFakeApi::testPathParameterCollectionFormatErrorOccurred, [&](QNetworkReply::NetworkError errorType, const QString &errorStr) {
                qWarning() << "There is an error occurred: " << errorType << errorStr;
            });
     apiInstance.testPathParameterCollectionFormat(httpId);
@@ -139,10 +139,10 @@ int main(int argc, char *argv[]) {
         Or connect to the operation response 'testPathParameterCollectionFormatFinished()/testPathParameterCollectionFormatErrorOccurred()' signals
         And call the operation 'testPathParameterCollectionFormat()'
     */
-    connect(&apiInstance, &OAIFakeApi::testPathParameterCollectionFormatFinished, [&](QString summary) {
+    connect(&apiInstance, &QtOAIFakeApi::testPathParameterCollectionFormatFinished, [&](QString summary) {
                // handling the user logic
            });
-    connect(&apiInstance, &OAIFakeApi::testPathParameterCollectionFormatErrorOccurred, [&](QNetworkReply::NetworkError errorType, const QString &errorStr) {
+    connect(&apiInstance, &QtOAIFakeApi::testPathParameterCollectionFormatErrorOccurred, [&](QNetworkReply::NetworkError errorType, const QString &errorStr) {
                qWarning() << "There is an error occurred: " << errorType << errorStr;
            });
     apiInstance.testPathParameterCollectionFormat(urlId);
@@ -164,10 +164,10 @@ int main(int argc, char *argv[]) {
         Or connect to the operation response 'testPathParameterCollectionFormatFinished()/testPathParameterCollectionFormatErrorOccurred()' signals
         And call the operation 'testPathParameterCollectionFormat()'
     */
-    connect(&apiInstance, &OAIFakeApi::testPathParameterCollectionFormatFinished, [&](QString summary) {
+    connect(&apiInstance, &QtOAIFakeApi::testPathParameterCollectionFormatFinished, [&](QString summary) {
                // handling the user logic
            });
-    connect(&apiInstance, &OAIFakeApi::testPathParameterCollectionFormatErrorOccurred, [&](QNetworkReply::NetworkError errorType, const QString &errorStr) {
+    connect(&apiInstance, &QtOAIFakeApi::testPathParameterCollectionFormatErrorOccurred, [&](QNetworkReply::NetworkError errorType, const QString &errorStr) {
                qWarning() << "There is an error occurred: " << errorType << errorStr;
            });
     apiInstance.testPathParameterCollectionFormat(multiContextId);

@@ -15,20 +15,20 @@ include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
 qt_add_library(${PROJECT_NAME}
-    OAIFakeApi.h
-    OAIBaseApi.h
-    OAIHelpers.h
-    OAIHttpRequest.h
-    OAIObject.h
-    OAIEnum.h
-    OAIHttpFileElement.h
-    OAIServerConfiguration.h
-    OAIServerVariable.h
-    OAIFakeApi.cpp
-    OAIBaseApi.cpp
-    OAIHelpers.cpp
-    OAIHttpRequest.cpp
-    OAIHttpFileElement.cpp
+    QtOAIFakeApi.h
+    QtOAIBaseApi.h
+    QtOAIHelpers.h
+    QtOAIHttpRequest.h
+    QtOAIObject.h
+    QtOAIEnum.h
+    QtOAIHttpFileElement.h
+    QtOAIServerConfiguration.h
+    QtOAIServerVariable.h
+    QtOAIFakeApi.cpp
+    QtOAIBaseApi.cpp
+    QtOAIHelpers.cpp
+    QtOAIHttpRequest.cpp
+    QtOAIHttpFileElement.cpp
 )
 
 target_include_directories(${PROJECT_NAME}

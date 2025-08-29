@@ -24,7 +24,7 @@ Building the API client library requires:
 # Documentation for Qt Quick Demo - RESTful API client 1.0.0 Qt6 Client Cpp
 All URIs are relative to https://reqres.inhttps://reqres.in/api
 
-### OAIColorsApi
+### QtOAIColorsApi
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |*addColor* | *POST* /colors | Add a color.|
@@ -33,17 +33,17 @@ All URIs are relative to https://reqres.inhttps://reqres.in/api
 |*getColors* | *GET* /colors | Get the list of colors from the database..|
 |*updateColorById* | *PUT* /colors/{id} | Update an existing color.|
 
-### OAIDefaultApi
+### QtOAIDefaultApi
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |*testOperation* | *POST* /test/{path_param} | .|
 
-### OAIRegisterApi
+### QtOAIRegisterApi
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |*registerPost* | *POST* /register | .|
 
-### OAIUsersApi
+### QtOAIUsersApi
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |*getUserById* | *GET* /users/{id} | Get a single User by id.|
@@ -56,24 +56,24 @@ All URIs are relative to https://reqres.inhttps://reqres.in/api
 ## What are the Model files for the data structures/objects?
 |Class | Description|
 |------------- | -------------|
-|*OAIColor* | |
-|*OAIColorPage* | |
-|*OAITestObject* | |
-|*OAITestOperation_request* | |
-|*OAIUpdateUser_request* | |
-|*OAIUser* | |
-|*OAIUserPage* | |
+|*QtOAIColor* | |
+|*QtOAIColorPage* | |
+|*QtOAITestObject* | |
+|*QtOAITestOperation_request* | |
+|*QtOAIUpdateUser_request* | |
+|*QtOAIUser* | |
+|*QtOAIUserPage* | |
 
 
 main.cpp:
 ```
 
-#include "../client/OAIColorsApi.h"
+#include "../client/QtOAIColorsApi.h"
 
 int main(int argc, char *argv[]) {
     QCoreApplication a(argc, argv);
-    OAIColor oAIColor;
-    OAIColorsApi apiInstance;
+    QtOAIColor qtOAIColor;
+    QtOAIColorsApi apiInstance;
 
 
     /*
@@ -81,7 +81,7 @@ int main(int argc, char *argv[]) {
         Note, the callback should always have the 'QRestReply &reply' as first parameter.
         The second and subsequent parameters are defined by the 'response' field of operation in your yaml specification.
     */
-    apiInstance.addColor(oAIColor, nullptr, [&](QRestReply &reply, OAIColor summary) {
+    apiInstance.addColor(qtOAIColor, nullptr, [&](QRestReply &reply, QtOAIColor summary) {
         if (reply.isSuccess())
             qDebug() << "The server response is: " << summary.asJson();
             // Proceed with handling the user logic.
@@ -93,13 +93,13 @@ int main(int argc, char *argv[]) {
         Or connect to the operation response 'addColorFinished()/addColorErrorOccurred()' signals
         And call the operation 'addColor()'
     */
-    connect(&apiInstance, &OAIColorsApi::addColorFinished, [&](OAIColor summary) {
+    connect(&apiInstance, &QtOAIColorsApi::addColorFinished, [&](QtOAIColor summary) {
                // handling the user logic
            });
-    connect(&apiInstance, &OAIColorsApi::addColorErrorOccurred, [&](QNetworkReply::NetworkError errorType, const QString &errorStr) {
+    connect(&apiInstance, &QtOAIColorsApi::addColorErrorOccurred, [&](QNetworkReply::NetworkError errorType, const QString &errorStr) {
                qWarning() << "There is an error occurred: " << errorType << errorStr;
            });
-    apiInstance.addColor(oAIColor);
+    apiInstance.addColor(qtOAIColor);
     return a.exec();
 }
 

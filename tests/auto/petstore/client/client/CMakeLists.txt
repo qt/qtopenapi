@@ -15,36 +15,36 @@ include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
 qt_add_library(${PROJECT_NAME}
-    OAIApiResponse.h
-    OAICategory.h
-    OAIOrder.h
-    OAIPet.h
-    OAITag.h
-    OAIUser.h
-    OAIPetApi.h
-    OAIStoreApi.h
-    OAIUserApi.h
-    OAIBaseApi.h
-    OAIHelpers.h
-    OAIHttpRequest.h
-    OAIObject.h
-    OAIEnum.h
-    OAIHttpFileElement.h
-    OAIServerConfiguration.h
-    OAIServerVariable.h
-    OAIApiResponse.cpp
-    OAICategory.cpp
-    OAIOrder.cpp
-    OAIPet.cpp
-    OAITag.cpp
-    OAIUser.cpp
-    OAIPetApi.cpp
-    OAIStoreApi.cpp
-    OAIUserApi.cpp
-    OAIBaseApi.cpp
-    OAIHelpers.cpp
-    OAIHttpRequest.cpp
-    OAIHttpFileElement.cpp
+    QtOAIApiResponse.h
+    QtOAICategory.h
+    QtOAIOrder.h
+    QtOAIPet.h
+    QtOAITag.h
+    QtOAIUser.h
+    QtOAIPetApi.h
+    QtOAIStoreApi.h
+    QtOAIUserApi.h
+    QtOAIBaseApi.h
+    QtOAIHelpers.h
+    QtOAIHttpRequest.h
+    QtOAIObject.h
+    QtOAIEnum.h
+    QtOAIHttpFileElement.h
+    QtOAIServerConfiguration.h
+    QtOAIServerVariable.h
+    QtOAIApiResponse.cpp
+    QtOAICategory.cpp
+    QtOAIOrder.cpp
+    QtOAIPet.cpp
+    QtOAITag.cpp
+    QtOAIUser.cpp
+    QtOAIPetApi.cpp
+    QtOAIStoreApi.cpp
+    QtOAIUserApi.cpp
+    QtOAIBaseApi.cpp
+    QtOAIHelpers.cpp
+    QtOAIHttpRequest.cpp
+    QtOAIHttpFileElement.cpp
 )
 
 target_include_directories(${PROJECT_NAME}

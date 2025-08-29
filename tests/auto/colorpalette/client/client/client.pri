@@ -2,42 +2,42 @@ QT += network
 
 HEADERS += \
 # Models
-    $${PWD}/OAIColor.h \
-    $${PWD}/OAIColorPage.h \
-    $${PWD}/OAITestObject.h \
-    $${PWD}/OAITestOperation_request.h \
-    $${PWD}/OAIUpdateUser_request.h \
-    $${PWD}/OAIUser.h \
-    $${PWD}/OAIUserPage.h \
+    $${PWD}/QtOAIColor.h \
+    $${PWD}/QtOAIColorPage.h \
+    $${PWD}/QtOAITestObject.h \
+    $${PWD}/QtOAITestOperation_request.h \
+    $${PWD}/QtOAIUpdateUser_request.h \
+    $${PWD}/QtOAIUser.h \
+    $${PWD}/QtOAIUserPage.h \
 # APIs
-    $${PWD}/OAIColorsApi.h \
-    $${PWD}/OAIDefaultApi.h \
-    $${PWD}/OAIRegisterApi.h \
-    $${PWD}/OAIUsersApi.h \
+    $${PWD}/QtOAIColorsApi.h \
+    $${PWD}/QtOAIDefaultApi.h \
+    $${PWD}/QtOAIRegisterApi.h \
+    $${PWD}/QtOAIUsersApi.h \
 # Others
-    $${PWD}/OAIHelpers.h \
-    $${PWD}/OAIHttpRequest.h \
-    $${PWD}/OAIObject.h \
-    $${PWD}/OAIEnum.h \
-    $${PWD}/OAIHttpFileElement.h \
-    $${PWD}/OAIServerConfiguration.h \
-    $${PWD}/OAIServerVariable.h
+    $${PWD}/QtOAIHelpers.h \
+    $${PWD}/QtOAIHttpRequest.h \
+    $${PWD}/QtOAIObject.h \
+    $${PWD}/QtOAIEnum.h \
+    $${PWD}/QtOAIHttpFileElement.h \
+    $${PWD}/QtOAIServerConfiguration.h \
+    $${PWD}/QtOAIServerVariable.h
 
 SOURCES += \
 # Models
-    $${PWD}/OAIColor.cpp \
-    $${PWD}/OAIColorPage.cpp \
-    $${PWD}/OAITestObject.cpp \
-    $${PWD}/OAITestOperation_request.cpp \
-    $${PWD}/OAIUpdateUser_request.cpp \
-    $${PWD}/OAIUser.cpp \
-    $${PWD}/OAIUserPage.cpp \
+    $${PWD}/QtOAIColor.cpp \
+    $${PWD}/QtOAIColorPage.cpp \
+    $${PWD}/QtOAITestObject.cpp \
+    $${PWD}/QtOAITestOperation_request.cpp \
+    $${PWD}/QtOAIUpdateUser_request.cpp \
+    $${PWD}/QtOAIUser.cpp \
+    $${PWD}/QtOAIUserPage.cpp \
 # APIs
-    $${PWD}/OAIColorsApi.cpp \
-    $${PWD}/OAIDefaultApi.cpp \
-    $${PWD}/OAIRegisterApi.cpp \
-    $${PWD}/OAIUsersApi.cpp \
+    $${PWD}/QtOAIColorsApi.cpp \
+    $${PWD}/QtOAIDefaultApi.cpp \
+    $${PWD}/QtOAIRegisterApi.cpp \
+    $${PWD}/QtOAIUsersApi.cpp \
 # Others
-    $${PWD}/OAIHelpers.cpp \
-    $${PWD}/OAIHttpRequest.cpp \
-    $${PWD}/OAIHttpFileElement.cpp
+    $${PWD}/QtOAIHelpers.cpp \
+    $${PWD}/QtOAIHttpRequest.cpp \
+    $${PWD}/QtOAIHttpFileElement.cpp

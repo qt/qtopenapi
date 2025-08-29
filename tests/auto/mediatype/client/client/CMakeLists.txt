@@ -15,26 +15,26 @@ include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
 qt_add_library(${PROJECT_NAME}
-    OAIPostApplicationJsonSeveralObjects_request.h
-    OAIPostMultiPartData_request_formObject.h
-    OAIUser.h
-    OAITestApi.h
-    OAIBaseApi.h
-    OAIHelpers.h
-    OAIHttpRequest.h
-    OAIObject.h
-    OAIEnum.h
-    OAIHttpFileElement.h
-    OAIServerConfiguration.h
-    OAIServerVariable.h
-    OAIPostApplicationJsonSeveralObjects_request.cpp
-    OAIPostMultiPartData_request_formObject.cpp
-    OAIUser.cpp
-    OAITestApi.cpp
-    OAIBaseApi.cpp
-    OAIHelpers.cpp
-    OAIHttpRequest.cpp
-    OAIHttpFileElement.cpp
+    QtOAIPostApplicationJsonSeveralObjects_request.h
+    QtOAIPostMultiPartData_request_formObject.h
+    QtOAIUser.h
+    QtOAITestApi.h
+    QtOAIBaseApi.h
+    QtOAIHelpers.h
+    QtOAIHttpRequest.h
+    QtOAIObject.h
+    QtOAIEnum.h
+    QtOAIHttpFileElement.h
+    QtOAIServerConfiguration.h
+    QtOAIServerVariable.h
+    QtOAIPostApplicationJsonSeveralObjects_request.cpp
+    QtOAIPostMultiPartData_request_formObject.cpp
+    QtOAIUser.cpp
+    QtOAITestApi.cpp
+    QtOAIBaseApi.cpp
+    QtOAIHelpers.cpp
+    QtOAIHttpRequest.cpp
+    QtOAIHttpFileElement.cpp
 )
 
 target_include_directories(${PROJECT_NAME}

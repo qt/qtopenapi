@@ -4,7 +4,7 @@
 #include <QtCore/qobject.h>
 #include <QtTest/qtest.h>
 
-namespace OpenAPI {
+namespace QtOpenAPI {
 
 class ColorPaletteTests : public QObject {
     Q_OBJECT
@@ -16,8 +16,8 @@ private Q_SLOTS:
 void ColorPaletteTests::initialTest() {
     qDebug() << "Nothing to do yet";
 }
-} // OpenAPI
+} // QtOpenAPI
 
-QTEST_MAIN(OpenAPI::ColorPaletteTests)
+QTEST_MAIN(QtOpenAPI::ColorPaletteTests)
 #include "ColorPaletteTests.moc"
 

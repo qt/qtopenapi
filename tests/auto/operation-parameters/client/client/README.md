@@ -25,7 +25,7 @@ Building the API client library requires:
 # Documentation for Operation Parameters Test 1.0.0 Qt6 Client Cpp
 All URIs are relative to http://127.0.0.1http://127.0.0.1:10203/v2
 
-### OAITestApi
+### QtOAITestApi
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |*deepObjectExplodeObject* | *POST* /query/object/deepObject-explode/deepObjectExplodeObject | deepObject object explode.|
@@ -81,18 +81,18 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:10203/v2
 ## What are the Model files for the data structures/objects?
 |Class | Description|
 |------------- | -------------|
-|*OAITestObject* | |
+|*QtOAITestObject* | |
 
 
 main.cpp:
 ```
 
-#include "../client/OAITestApi.h"
+#include "../client/QtOAITestApi.h"
 
 int main(int argc, char *argv[]) {
     QCoreApplication a(argc, argv);
-    OAITestObject objectParameter;
-    OAITestApi apiInstance;
+    QtOAITestObject objectParameter;
+    QtOAITestApi apiInstance;
 
 
     /*
@@ -112,10 +112,10 @@ int main(int argc, char *argv[]) {
         Or connect to the operation response 'deepObjectExplodeObjectFinished()/deepObjectExplodeObjectErrorOccurred()' signals
         And call the operation 'deepObjectExplodeObject()'
     */
-    connect(&apiInstance, &OAITestApi::deepObjectExplodeObjectFinished, [&](QString summary) {
+    connect(&apiInstance, &QtOAITestApi::deepObjectExplodeObjectFinished, [&](QString summary) {
                // handling the user logic
            });
-    connect(&apiInstance, &OAITestApi::deepObjectExplodeObjectErrorOccurred, [&](QNetworkReply::NetworkError errorType, const QString &errorStr) {
+    connect(&apiInstance, &QtOAITestApi::deepObjectExplodeObjectErrorOccurred, [&](QNetworkReply::NetworkError errorType, const QString &errorStr) {
                qWarning() << "There is an error occurred: " << errorType << errorStr;
            });
     apiInstance.deepObjectExplodeObject(objectParameter);

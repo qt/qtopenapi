@@ -15,40 +15,40 @@ include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
 qt_add_library(${PROJECT_NAME}
-    OAIColor.h
-    OAIColorPage.h
-    OAITestObject.h
-    OAITestOperation_request.h
-    OAIUpdateUser_request.h
-    OAIUser.h
-    OAIUserPage.h
-    OAIColorsApi.h
-    OAIDefaultApi.h
-    OAIRegisterApi.h
-    OAIUsersApi.h
-    OAIBaseApi.h
-    OAIHelpers.h
-    OAIHttpRequest.h
-    OAIObject.h
-    OAIEnum.h
-    OAIHttpFileElement.h
-    OAIServerConfiguration.h
-    OAIServerVariable.h
-    OAIColor.cpp
-    OAIColorPage.cpp
-    OAITestObject.cpp
-    OAITestOperation_request.cpp
-    OAIUpdateUser_request.cpp
-    OAIUser.cpp
-    OAIUserPage.cpp
-    OAIColorsApi.cpp
-    OAIDefaultApi.cpp
-    OAIRegisterApi.cpp
-    OAIUsersApi.cpp
-    OAIBaseApi.cpp
-    OAIHelpers.cpp
-    OAIHttpRequest.cpp
-    OAIHttpFileElement.cpp
+    QtOAIColor.h
+    QtOAIColorPage.h
+    QtOAITestObject.h
+    QtOAITestOperation_request.h
+    QtOAIUpdateUser_request.h
+    QtOAIUser.h
+    QtOAIUserPage.h
+    QtOAIColorsApi.h
+    QtOAIDefaultApi.h
+    QtOAIRegisterApi.h
+    QtOAIUsersApi.h
+    QtOAIBaseApi.h
+    QtOAIHelpers.h
+    QtOAIHttpRequest.h
+    QtOAIObject.h
+    QtOAIEnum.h
+    QtOAIHttpFileElement.h
+    QtOAIServerConfiguration.h
+    QtOAIServerVariable.h
+    QtOAIColor.cpp
+    QtOAIColorPage.cpp
+    QtOAITestObject.cpp
+    QtOAITestOperation_request.cpp
+    QtOAIUpdateUser_request.cpp
+    QtOAIUser.cpp
+    QtOAIUserPage.cpp
+    QtOAIColorsApi.cpp
+    QtOAIDefaultApi.cpp
+    QtOAIRegisterApi.cpp
+    QtOAIUsersApi.cpp
+    QtOAIBaseApi.cpp
+    QtOAIHelpers.cpp
+    QtOAIHttpRequest.cpp
+    QtOAIHttpFileElement.cpp
 )
 
 target_include_directories(${PROJECT_NAME}

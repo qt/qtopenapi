@@ -1,21 +1,21 @@
 // Copyright (C) 2025 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "../client/OAIUserApi.h"
+#include "../client/QtOAIUserApi.h"
 
 #include <QtCore/qdebug.h>
 #include <QtTest/qtest.h>
 
 using namespace Qt::StringLiterals;
 
-namespace OpenAPI {
+namespace QtOpenAPI {
 
 const int REPLY_OK = 200;
 
 class UserApiTests : public QObject {
     Q_OBJECT
 
-    OAIUser createRandomUser();
+    QtOAIUser createRandomUser();
 
 private Q_SLOTS:
     void createUserTest();
@@ -30,10 +30,10 @@ private Q_SLOTS:
     void updateUserTest();
 };
 
-OAIUser UserApiTests::createRandomUser() {
-    OAIUser user;
+QtOAIUser UserApiTests::createRandomUser() {
+    QtOAIUser user;
     user.setId(QDateTime::currentMSecsSinceEpoch());
-    user.setEmail("Jane.Doe@openapitools.io");
+    user.setEmail("Jane.Doe@QtOpenAPItools.io");
     user.setFirstName("Jane");
     user.setLastName("Doe");
     user.setPhone("123456789");
@@ -44,7 +44,7 @@ OAIUser UserApiTests::createRandomUser() {
 }
 
 void UserApiTests::createUserTest() {
-    OAIUserApi api;
+    QtOAIUserApi api;
     bool userCreated = false;
     api.createUser(createRandomUser(), this, [&](QRestReply &reply) {
         if (!(userCreated = reply.isSuccess()))
@@ -56,7 +56,7 @@ void UserApiTests::createUserTest() {
 
 void UserApiTests::createInQueryMapTest()
 {
-    OAIUserApi api;
+    QtOAIUserApi api;
     bool usersCreated = false;
     int status = static_cast<int>(rand());
     api.createInQueryMap({{"Ivan", QString::number(status)}}, this, [&](QRestReply &reply) {
@@ -67,7 +67,7 @@ void UserApiTests::createInQueryMapTest()
     QTRY_COMPARE_EQ_WITH_TIMEOUT(usersCreated, true, 14000);
 
     bool userFetched = false;
-    api.getUserByName({{"Ivan", status}}, this, [&](const QRestReply &reply, const OAIUser &summary) {
+    api.getUserByName({{"Ivan", status}}, this, [&](const QRestReply &reply, const QtOAIUser &summary) {
         if (!(userFetched = reply.isSuccess()))
             qWarning() << "Error happened while issuing request : " << reply.errorString();
         QCOMPARE(reply.httpStatus(), REPLY_OK);
@@ -78,9 +78,9 @@ void UserApiTests::createInQueryMapTest()
 }
 
 void UserApiTests::createUsersWithArrayInputTest() {
-    OAIUserApi api;
+    QtOAIUserApi api;
     bool usersCreated = false;
-    QList<OAIUser> users;
+    QList<QtOAIUser> users;
     users.append(createRandomUser());
     users.append(createRandomUser());
     users.append(createRandomUser());
@@ -93,9 +93,9 @@ void UserApiTests::createUsersWithArrayInputTest() {
 }
 
 void UserApiTests::createUsersWithListInputTest() {
-    OAIUserApi api;
+    QtOAIUserApi api;
     bool usersCreated = false;
-    QList<OAIUser> users;
+    QList<QtOAIUser> users;
     auto johndoe = createRandomUser();
     johndoe.setUsername("johndoe");
     auto rambo = createRandomUser();
@@ -112,7 +112,7 @@ void UserApiTests::createUsersWithListInputTest() {
 }
 
 void UserApiTests::deleteUserTest() {
-    OAIUserApi api;
+    QtOAIUserApi api;
     bool operationStatus = false;
     auto stallone = createRandomUser();
 
@@ -134,7 +134,7 @@ void UserApiTests::deleteUserTest() {
 }
 
 void UserApiTests::getUserByNameTest() {
-    OAIUserApi api;
+    QtOAIUserApi api;
     bool userFetched = false;
     auto mrSmith = createRandomUser();
 
@@ -147,7 +147,7 @@ void UserApiTests::getUserByNameTest() {
     QTRY_COMPARE_EQ_WITH_TIMEOUT(userFetched, true, 14000);
 
     userFetched = false;
-    api.getUserByName({{mrSmith.getUsername(), mrSmith.getUserStatus()}}, this, [&](const QRestReply &reply, const OAIUser &summary) {
+    api.getUserByName({{mrSmith.getUsername(), mrSmith.getUserStatus()}}, this, [&](const QRestReply &reply, const QtOAIUser &summary) {
         if (!(userFetched = reply.isSuccess()))
             qWarning() << "Error happened while issuing request : " << reply.errorString();
         QCOMPARE(reply.httpStatus(), REPLY_OK);
@@ -157,15 +157,15 @@ void UserApiTests::getUserByNameTest() {
 }
 
 void UserApiTests::loginUserTest() {
-    OAIUserApi api;
+    QtOAIUserApi api;
     bool userLogged = false;
     QString expectedString;
 
-    connect(&api, &OAIUserApi::loginUserFinished, [&](const QString &summary) {
+    connect(&api, &QtOAIUserApi::loginUserFinished, [&](const QString &summary) {
         userLogged = true;
         expectedString = summary;
     });
-    connect(&api, &OAIUserApi::loginUserErrorOccurred, [&](QNetworkReply::NetworkError, const QString &errorStr) {
+    connect(&api, &QtOAIUserApi::loginUserErrorOccurred, [&](QNetworkReply::NetworkError, const QString &errorStr) {
         userLogged = false;
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
@@ -187,7 +187,7 @@ void UserApiTests::loginUserTest() {
     QCOMPARE(expectedString, "123456789"); // Username is empty; only password is returned.
 
     userLogged = false;
-    api.loginUser(user_name, OpenAPI::OptionalParam<QString>("123456789"));
+    api.loginUser(user_name, QtOpenAPI::OptionalParam<QString>("123456789"));
     QTRY_COMPARE_EQ_WITH_TIMEOUT(userLogged, true, 14000);
     QCOMPARE(expectedString, "johndoe123456789"); // Username and password are non-empty; both are returned concatenated.
 }
@@ -206,7 +206,7 @@ void UserApiTests::logoutUserTest_data()
 void UserApiTests::logoutUserTest()
 {
     QFETCH(QJsonValue, jsonValue);
-    OAIUserApi api;
+    QtOAIUserApi api;
     bool userLoggedOut = false;
     api.logoutUser(jsonValue, this, [&](QRestReply &reply) {
         if (!(userLoggedOut = reply.isSuccess()))
@@ -217,7 +217,7 @@ void UserApiTests::logoutUserTest()
 }
 
 void UserApiTests::updateUserTest() {
-    OAIUserApi api;
+    QtOAIUserApi api;
     bool operationStatus = false;
     auto grumpy = createRandomUser();
 
@@ -232,7 +232,7 @@ void UserApiTests::updateUserTest() {
     operationStatus = false;
     grumpy.setFirstName("Stephan");
     grumpy.setLastName("Newman");
-    api.updateUser("MrGrump", grumpy, this, [&](const QRestReply &reply, const OAIUser &summary) {
+    api.updateUser("MrGrump", grumpy, this, [&](const QRestReply &reply, const QtOAIUser &summary) {
         if (!(operationStatus = reply.isSuccess()))
             qDebug() << "Error happened while issuing request : " << reply.errorString();
         QCOMPARE(reply.httpStatus(), REPLY_OK);
@@ -240,7 +240,7 @@ void UserApiTests::updateUserTest() {
     });
     QTRY_COMPARE_EQ_WITH_TIMEOUT(operationStatus, true, 14000);
 }
-} // OpenAPI
+} // QtOpenAPI
 
-QTEST_MAIN(OpenAPI::UserApiTests)
+QTEST_MAIN(QtOpenAPI::UserApiTests)
 #include "UserApiTests.moc"

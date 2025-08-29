@@ -224,7 +224,7 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
             importMapping.put(modelNamePrefix + "HttpFileElement", "#include \"" + modelNamePrefix + "HttpFileElement.h\"");
             importMapping.put("QJsonValue", "#include <QtCore/qjsonvalue.h>");
             if (optionalProjectFileFlag) {
-                supportingFiles.add(new SupportingFile("Project.mustache", sourceFolder, modelNamePrefix + "client.pri"));
+                supportingFiles.add(new SupportingFile("Project.mustache", sourceFolder, "client.pri"));
             }
         }
     }

@@ -3,21 +3,21 @@ QT += network
 HEADERS += \
 # Models
 # APIs
-    $${PWD}/OAIFakeApi.h \
+    $${PWD}/QtOAIFakeApi.h \
 # Others
-    $${PWD}/OAIHelpers.h \
-    $${PWD}/OAIHttpRequest.h \
-    $${PWD}/OAIObject.h \
-    $${PWD}/OAIEnum.h \
-    $${PWD}/OAIHttpFileElement.h \
-    $${PWD}/OAIServerConfiguration.h \
-    $${PWD}/OAIServerVariable.h
+    $${PWD}/QtOAIHelpers.h \
+    $${PWD}/QtOAIHttpRequest.h \
+    $${PWD}/QtOAIObject.h \
+    $${PWD}/QtOAIEnum.h \
+    $${PWD}/QtOAIHttpFileElement.h \
+    $${PWD}/QtOAIServerConfiguration.h \
+    $${PWD}/QtOAIServerVariable.h
 
 SOURCES += \
 # Models
 # APIs
-    $${PWD}/OAIFakeApi.cpp \
+    $${PWD}/QtOAIFakeApi.cpp \
 # Others
-    $${PWD}/OAIHelpers.cpp \
-    $${PWD}/OAIHttpRequest.cpp \
-    $${PWD}/OAIHttpFileElement.cpp
+    $${PWD}/QtOAIHelpers.cpp \
+    $${PWD}/QtOAIHttpRequest.cpp \
+    $${PWD}/QtOAIHttpFileElement.cpp

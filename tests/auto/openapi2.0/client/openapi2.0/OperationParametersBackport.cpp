@@ -1,14 +1,14 @@
 // Copyright (C) 2025 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "../client/OAIFakeApi.h"
+#include "../client/QtOAIFakeApi.h"
 
 #include <QtCore/qobject.h>
 #include <QtNetwork/qnetworkrequestfactory.h>
 #include <QtNetwork/qrestaccessmanager.h>
 #include <QtTest/qtest.h>
 
-namespace OpenAPI {
+namespace QtOpenAPI {
 
 QString getStatusString(const QString &summary)
 {
@@ -20,7 +20,7 @@ QString getStatusString(const QString &summary)
     return QString();
 }
 
-class OperationParametersBackport : public OAIFakeApi {
+class OperationParametersBackport : public QtOAIFakeApi {
     Q_OBJECT
 
 private Q_SLOTS:
@@ -79,7 +79,7 @@ void OperationParametersBackport::testCollectionFormats()
     QTRY_COMPARE_EQ(done, true);
 }
 
-} // OpenAPI
+} // QtOpenAPI
 
-QTEST_MAIN(OpenAPI::OperationParametersBackport)
+QTEST_MAIN(QtOpenAPI::OperationParametersBackport)
 #include "OperationParametersBackport.moc"

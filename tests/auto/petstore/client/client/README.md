@@ -24,7 +24,7 @@ Building the API client library requires:
 # Documentation for OpenAPI Petstore 1.0.0 Qt6 Client Cpp
 All URIs are relative to http://127.0.0.1http://127.0.0.1:9080/v2
 
-### OAIPetApi
+### QtOAIPetApi
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |*addPet* | *POST* /pet | Add a new pet to the store.|
@@ -39,7 +39,7 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:9080/v2
 |*updatePetWithForm* | *POST* /pet/{petId} | Updates a pet in the store with form data.|
 |*uploadFile* | *POST* /pet/{petId}/uploadImage | uploads an image.|
 
-### OAIStoreApi
+### QtOAIStoreApi
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |*deleteOrder* | *DELETE* /store/order/{orderId} | Delete purchase order by ID.|
@@ -47,7 +47,7 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:9080/v2
 |*getOrderById* | *GET* /store/order/{orderId} | Find purchase order by ID.|
 |*placeOrder* | *POST* /store/order | Place an order for a pet.|
 
-### OAIUserApi
+### QtOAIUserApi
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |*createInQueryMap* | *POST* /user/createInQueryMap | Testing map query operation parameter.|
@@ -64,23 +64,23 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:9080/v2
 ## What are the Model files for the data structures/objects?
 |Class | Description|
 |------------- | -------------|
-|*OAIApiResponse* | Describes the result of uploading an image resource|
-|*OAICategory* | A category for a pet|
-|*OAIOrder* | An order for a pets from the pet store|
-|*OAIPet* | A pet for sale in the pet store|
-|*OAITag* | A tag for a pet|
-|*OAIUser* | A User who is purchasing from the pet store|
+|*QtOAIApiResponse* | Describes the result of uploading an image resource|
+|*QtOAICategory* | A category for a pet|
+|*QtOAIOrder* | An order for a pets from the pet store|
+|*QtOAIPet* | A pet for sale in the pet store|
+|*QtOAITag* | A tag for a pet|
+|*QtOAIUser* | A User who is purchasing from the pet store|
 
 
 main.cpp:
 ```
 
-#include "../client/OAIPetApi.h"
+#include "../client/QtOAIPetApi.h"
 
 int main(int argc, char *argv[]) {
     QCoreApplication a(argc, argv);
-    OAIPet oAIPet;
-    OAIPetApi apiInstance;
+    QtOAIPet qtOAIPet;
+    QtOAIPetApi apiInstance;
 
     /* Configure HTTP basic authorization: http_basic_test */
     apiInstance.setUsername("YOUR USERNAME");
@@ -91,7 +91,7 @@ int main(int argc, char *argv[]) {
         Note, the callback should always have the 'QRestReply &reply' as first parameter.
         The second and subsequent parameters are defined by the 'response' field of operation in your yaml specification.
     */
-    apiInstance.addPet(oAIPet, nullptr, [&](QRestReply &reply, OAIPet summary) {
+    apiInstance.addPet(qtOAIPet, nullptr, [&](QRestReply &reply, QtOAIPet summary) {
         if (reply.isSuccess())
             qDebug() << "The server response is: " << summary.asJson();
             // Proceed with handling the user logic.
@@ -103,13 +103,13 @@ int main(int argc, char *argv[]) {
         Or connect to the operation response 'addPetFinished()/addPetErrorOccurred()' signals
         And call the operation 'addPet()'
     */
-    connect(&apiInstance, &OAIPetApi::addPetFinished, [&](OAIPet summary) {
+    connect(&apiInstance, &QtOAIPetApi::addPetFinished, [&](QtOAIPet summary) {
                // handling the user logic
            });
-    connect(&apiInstance, &OAIPetApi::addPetErrorOccurred, [&](QNetworkReply::NetworkError errorType, const QString &errorStr) {
+    connect(&apiInstance, &QtOAIPetApi::addPetErrorOccurred, [&](QNetworkReply::NetworkError errorType, const QString &errorStr) {
                qWarning() << "There is an error occurred: " << errorType << errorStr;
            });
-    apiInstance.addPet(oAIPet);
+    apiInstance.addPet(qtOAIPet);
     return a.exec();
 }
 

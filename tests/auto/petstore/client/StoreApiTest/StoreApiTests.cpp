@@ -1,14 +1,14 @@
 // Copyright (C) 2025 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "../client/OAIStoreApi.h"
+#include "../client/QtOAIStoreApi.h"
 
 #include <QtCore/qdebug.h>
 #include <QtTest/qtest.h>
 
 using namespace std::chrono_literals;
 
-namespace OpenAPI {
+namespace QtOpenAPI {
 const QDateTime TestDate(QDateTime::fromString("1.30.1", "M.d.s"));
 
 class StoreApiTests : public QObject {
@@ -23,16 +23,16 @@ private Q_SLOTS:
 };
 
 void StoreApiTests::placeOrderTest() {
-    OAIStoreApi api;
+    QtOAIStoreApi api;
     bool orderPlaced = false;
-    OAIOrder order;
+    QtOAIOrder order;
     order.setId(500);
     order.setQuantity(10);
     order.setPetId(10000);
     order.setComplete(false);
     order.setStatus("shipping");
     order.setShipDate(QDateTime::currentDateTime());
-    api.placeOrder(order, this, [&](const QRestReply &reply, const OAIOrder &respval) {
+    api.placeOrder(order, this, [&](const QRestReply &reply, const QtOAIOrder &respval) {
         if ((orderPlaced = reply.isSuccess())) {
             QCOMPARE(respval.getShipDate(), TestDate);
         } else {
@@ -43,10 +43,10 @@ void StoreApiTests::placeOrderTest() {
 }
 
 void StoreApiTests::getOrderByIdTest() {
-    OAIStoreApi api;
+    QtOAIStoreApi api;
     api.setApiKey("api_key_2","testKey");
     bool orderFetched = false;
-    api.getOrderById(500, nullptr, [&](const QRestReply &reply, const OAIOrder &respval) {
+    api.getOrderById(500, nullptr, [&](const QRestReply &reply, const QtOAIOrder &respval) {
         if ((orderFetched = reply.isSuccess())) {
             QVERIFY(respval.getPetId() == 10000);
             QVERIFY(respval.getId() == 500);
@@ -58,7 +58,7 @@ void StoreApiTests::getOrderByIdTest() {
 }
 
 void StoreApiTests::getInventoryTest() {
-    OAIStoreApi api;
+    QtOAIStoreApi api;
     api.setApiKey("api_key","special-key");
     bool inventoryFetched = false;
     api.getInventory(this, [&](const QRestReply &reply, const QMap<QString, qint32> &respval) {
@@ -76,16 +76,16 @@ void StoreApiTests::getInventoryTest() {
 
 void StoreApiTests::deleteOrderTest()
 {
-    OAIStoreApi api;
+    QtOAIStoreApi api;
     bool orderPlaced = false;
-    OAIOrder order;
+    QtOAIOrder order;
     order.setId(600);
     order.setQuantity(10);
     order.setPetId(20000);
     order.setComplete(false);
     order.setStatus("shipping");
     order.setShipDate(QDateTime::currentDateTime());
-    api.placeOrder(order, this, [&](const QRestReply &reply, const OAIOrder &respval) {
+    api.placeOrder(order, this, [&](const QRestReply &reply, const QtOAIOrder &respval) {
         if ((orderPlaced = reply.isSuccess())) {
             QCOMPARE(respval.getShipDate(), TestDate);
         } else {
@@ -115,7 +115,7 @@ void StoreApiTests::deleteOrderTest()
 
 void StoreApiTests::timeoutTest()
 {
-    OAIOrder order;
+    QtOAIOrder order;
     order.setId(600);
     order.setQuantity(10);
     order.setPetId(20000);
@@ -123,7 +123,7 @@ void StoreApiTests::timeoutTest()
     order.setStatus("shipping");
     order.setShipDate(QDateTime::currentDateTime());
 
-    OAIStoreApi api;
+    QtOAIStoreApi api;
     bool orderPlaced = false;
     api.placeOrder(order, this, [&](const QRestReply &summary) {
         orderPlaced = summary.isSuccess();
@@ -162,7 +162,7 @@ void StoreApiTests::timeoutTest()
              "Transfers are caneled if no bytes are transferred before the timeout expires.");
     QVERIFY2(errorStr == "Operation canceled", "Operation expected be canceled.");
 }
-} // OpenAPI
+} // QtOpenAPI
 
-QTEST_MAIN(OpenAPI::StoreApiTests)
+QTEST_MAIN(QtOpenAPI::StoreApiTests)
 #include "StoreApiTests.moc"

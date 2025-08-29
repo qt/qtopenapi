@@ -25,34 +25,29 @@ OPENAPI_CLI_ENTRYPOINT_CLASS="org.openapitools.codegen.OpenAPIGenerator"
 ORIGINAL_GENERATOR="cpp-qt6-client"
 ORIGINAL_GENERATOR_JAR="$OPENAPI_HOME/target/cpp-qt6-client-openapi-generator-1.0.0.jar"
 
-if [ ! -e "$ORIGINAL_GENERATOR_JAR" ]; then
+if [[ ! -e "$ORIGINAL_GENERATOR_JAR" ]]; then
     echo "File $ORIGINAL_GENERATOR_JAR doesn't exist"
     exit 1
 fi
 
-# generate petsore cpp client
-CLIENTFOLDER_NAME=client
-USER_SPEC="$OPENAPI_HOME/yaml_files/petstore.yaml"
-CLIENT_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/petstore/$CLIENTFOLDER_NAME"
-rm -rf CLIENT_OUTPUT_DIR/client
-java -cp $OPENAPI_HOME:$OPENAPI_CLI:$ORIGINAL_GENERATOR_JAR $OPENAPI_CLI_ENTRYPOINT_CLASS generate -g $ORIGINAL_GENERATOR -i $USER_SPEC -o $CLIENT_OUTPUT_DIR --additional-properties=enableQmlCode=false
+# cpp clients + default namespace and model name
+testFolders=("petstore" "operation-parameters" "mediatype" "colorpalette" "openapi2.0")
+for i in "${testFolders[@]}"
+do
+    CLIENTFOLDER_NAME=client
+    USER_SPEC="$OPENAPI_HOME/yaml_files/$i.yaml"
+    CLIENT_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/$i/$CLIENTFOLDER_NAME"
+    rm -rf CLIENT_OUTPUT_DIR/client
+    java -cp $OPENAPI_HOME:$OPENAPI_CLI:$ORIGINAL_GENERATOR_JAR $OPENAPI_CLI_ENTRYPOINT_CLASS generate -g $ORIGINAL_GENERATOR -i $USER_SPEC -o $CLIENT_OUTPUT_DIR --additional-properties=enableQmlCode=false,cppNamespace=QtOpenAPI,modelNamePrefix=QtOAI
+done
 
-# generate petsore qml client
-CLIENTFOLDER_NAME=qmlclient
-CLIENT_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/petstore/$CLIENTFOLDER_NAME"
-rm -rf CLIENT_OUTPUT_DIR/client
-java -cp $OPENAPI_HOME:$OPENAPI_CLI:$ORIGINAL_GENERATOR_JAR $OPENAPI_CLI_ENTRYPOINT_CLASS generate -g $ORIGINAL_GENERATOR -i $USER_SPEC -o $CLIENT_OUTPUT_DIR --additional-properties=enableQmlCode=true
-
-# generate colorpalette cpp client
-CLIENTFOLDER_NAME=client
-USER_SPEC="$OPENAPI_HOME/yaml_files/colorpalette.yaml"
-CLIENT_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/colorpalette/$CLIENTFOLDER_NAME"
-rm -rf CLIENT_OUTPUT_DIR/client
-java -cp $OPENAPI_HOME:$OPENAPI_CLI:$ORIGINAL_GENERATOR_JAR $OPENAPI_CLI_ENTRYPOINT_CLASS generate -g $ORIGINAL_GENERATOR -i $USER_SPEC -o $CLIENT_OUTPUT_DIR --additional-properties=enableQmlCode=false
-
-# generate colorpalette qml client
-CLIENTFOLDER_NAME=qmlclient
-CLIENT_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/colorpalette/$CLIENTFOLDER_NAME"
-rm -rf CLIENT_OUTPUT_DIR/client
-java -cp $OPENAPI_HOME:$OPENAPI_CLI:$ORIGINAL_GENERATOR_JAR $OPENAPI_CLI_ENTRYPOINT_CLASS generate -g $ORIGINAL_GENERATOR -i $USER_SPEC -o $CLIENT_OUTPUT_DIR --additional-properties=enableQmlCode=true
-
+#qml clients
+qmlTestFolders=("petstore" "colorpalette")
+for i in "${qmlTestFolders[@]}"
+do
+    USER_SPEC="$OPENAPI_HOME/yaml_files/$i.yaml"
+    CLIENTFOLDER_NAME=qmlclient
+    CLIENT_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/$i/$CLIENTFOLDER_NAME"
+    rm -rf CLIENT_OUTPUT_DIR/client
+    java -cp $OPENAPI_HOME:$OPENAPI_CLI:$ORIGINAL_GENERATOR_JAR $OPENAPI_CLI_ENTRYPOINT_CLASS generate -g $ORIGINAL_GENERATOR -i $USER_SPEC -o $CLIENT_OUTPUT_DIR --additional-properties=enableQmlCode=true,cppNamespace=OpenAPI,modelNamePrefix=OAI
+done
