@@ -266,7 +266,7 @@ void QtOAITestApi::deepObjectExplodeObjectCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -407,7 +407,7 @@ void QtOAITestApi::deepObjectNotExplodeObjectCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -529,7 +529,7 @@ void QtOAITestApi::formExplodeAnytypeCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -650,7 +650,7 @@ void QtOAITestApi::formExplodeArrayCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -813,7 +813,7 @@ void QtOAITestApi::formExplodeDifferentOptionsCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -954,7 +954,7 @@ void QtOAITestApi::formExplodeObjectCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -1076,7 +1076,7 @@ void QtOAITestApi::formExplodeStringCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -1264,7 +1264,7 @@ void QtOAITestApi::formExplodeStringOptionsCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -1386,7 +1386,7 @@ void QtOAITestApi::formNotExplodeAnytypeCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -1507,7 +1507,7 @@ void QtOAITestApi::formNotExplodeArrayCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -1648,7 +1648,7 @@ void QtOAITestApi::formNotExplodeObjectCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -1770,7 +1770,7 @@ void QtOAITestApi::formNotExplodeStringCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -1890,7 +1890,7 @@ void QtOAITestApi::labelExplodeAnytypeCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -2011,7 +2011,7 @@ void QtOAITestApi::labelExplodeArrayCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -2132,7 +2132,7 @@ void QtOAITestApi::labelExplodeObjectCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -2253,7 +2253,7 @@ void QtOAITestApi::labelExplodeStringCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -2373,7 +2373,7 @@ void QtOAITestApi::labelNotExplodeAnytypeCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -2494,7 +2494,7 @@ void QtOAITestApi::labelNotExplodeArrayCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -2615,7 +2615,7 @@ void QtOAITestApi::labelNotExplodeObjectCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -2736,7 +2736,7 @@ void QtOAITestApi::labelNotExplodeStringCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -2856,7 +2856,7 @@ void QtOAITestApi::matrixExplodeAnytypeCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -2977,7 +2977,7 @@ void QtOAITestApi::matrixExplodeArrayCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -3098,7 +3098,7 @@ void QtOAITestApi::matrixExplodeObjectCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -3219,7 +3219,7 @@ void QtOAITestApi::matrixExplodeStringCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -3339,7 +3339,7 @@ void QtOAITestApi::matrixNotExplodeAnytypeCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -3460,7 +3460,7 @@ void QtOAITestApi::matrixNotExplodeArrayCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -3581,7 +3581,7 @@ void QtOAITestApi::matrixNotExplodeObjectCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -3702,7 +3702,7 @@ void QtOAITestApi::matrixNotExplodeStringCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -3824,7 +3824,7 @@ void QtOAITestApi::pipeDelimitedExplodeAnytypeCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -3945,7 +3945,7 @@ void QtOAITestApi::pipeDelimitedExplodeArrayCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -4086,7 +4086,7 @@ void QtOAITestApi::pipeDelimitedExplodeObjectCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -4208,7 +4208,7 @@ void QtOAITestApi::pipeDelimitedNotExplodeAnytypeCallback(const QRestReply &repl
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -4329,7 +4329,7 @@ void QtOAITestApi::pipeDelimitedNotExplodeArrayCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -4470,7 +4470,7 @@ void QtOAITestApi::pipeDelimitedNotExplodeObjectCallback(const QRestReply &reply
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -4590,7 +4590,7 @@ void QtOAITestApi::simpleExplodeAnytypeCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -4711,7 +4711,7 @@ void QtOAITestApi::simpleExplodeArrayCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -4832,7 +4832,7 @@ void QtOAITestApi::simpleExplodeObjectCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -4953,7 +4953,7 @@ void QtOAITestApi::simpleExplodeStringCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -5073,7 +5073,7 @@ void QtOAITestApi::simpleNotExplodeAnytypeCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -5194,7 +5194,7 @@ void QtOAITestApi::simpleNotExplodeArrayCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -5315,7 +5315,7 @@ void QtOAITestApi::simpleNotExplodeObjectCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -5436,7 +5436,7 @@ void QtOAITestApi::simpleNotExplodeStringCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -5558,7 +5558,7 @@ void QtOAITestApi::spaceDelimitedExplodeAnytypeCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -5679,7 +5679,7 @@ void QtOAITestApi::spaceDelimitedExplodeArrayCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -5820,7 +5820,7 @@ void QtOAITestApi::spaceDelimitedExplodeObjectCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -5942,7 +5942,7 @@ void QtOAITestApi::spaceDelimitedNotExplodeAnytypeCallback(const QRestReply &rep
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -6063,7 +6063,7 @@ void QtOAITestApi::spaceDelimitedNotExplodeArrayCallback(const QRestReply &reply
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -6204,7 +6204,7 @@ void QtOAITestApi::spaceDelimitedNotExplodeObjectCallback(const QRestReply &repl
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided

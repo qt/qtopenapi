@@ -258,10 +258,9 @@ void QtOAIStoreApi::getInventoryCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QMap<QString, qint32> output;
-    QByteArray array(response.toStdString().c_str());
-    QJsonDocument doc = QJsonDocument::fromJson(array);
+    QJsonDocument doc = QJsonDocument::fromJson(response);
     QJsonObject obj = doc.object();
     for (const QString &key : obj.keys()) {
         qint32 val;
@@ -386,7 +385,7 @@ void QtOAIStoreApi::getOrderByIdCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QtOAIOrder output(response);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
@@ -493,7 +492,7 @@ void QtOAIStoreApi::placeOrderCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QtOAIOrder output(response);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);

@@ -151,7 +151,7 @@ void QtOAIColorsApi::addColorCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QtOAIColor output(response);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
@@ -388,7 +388,7 @@ void QtOAIColorsApi::getColorByIdCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QtOAIColor output(response);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
@@ -509,7 +509,7 @@ void QtOAIColorsApi::getColorsCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QtOAIColorPage output(response);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
@@ -637,11 +637,9 @@ void QtOAIColorsApi::updateColorByIdCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QList<QtOAIColor> output;
-    const QString json(response);
-    QByteArray array(json.toStdString().c_str());
-    QJsonDocument doc = QJsonDocument::fromJson(array);
+    QJsonDocument doc = QJsonDocument::fromJson(response);
     QJsonArray jsonArray = doc.array();
     for (QJsonValue obj : jsonArray) {
         QtOAIColor val;

@@ -238,7 +238,7 @@ void QtOAIFakeApi::testPathParameterCollectionFormatCallback(const QRestReply &r
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -443,7 +443,7 @@ void QtOAIFakeApi::testQueryParameterCollectionFormatCallback(const QRestReply &
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided

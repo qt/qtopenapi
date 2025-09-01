@@ -163,7 +163,7 @@ void QtOAITestApi::binaryTypeCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -272,7 +272,7 @@ void QtOAITestApi::postApplicationJsonArrayCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -380,7 +380,7 @@ void QtOAITestApi::postApplicationJsonBoolCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -488,7 +488,7 @@ void QtOAITestApi::postApplicationJsonIntCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -597,7 +597,7 @@ void QtOAITestApi::postApplicationJsonMapCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -705,7 +705,7 @@ void QtOAITestApi::postApplicationJsonObjectCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -813,7 +813,7 @@ void QtOAITestApi::postApplicationJsonSeveralObjectsCallback(const QRestReply &r
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -923,7 +923,7 @@ void QtOAITestApi::postApplicationJsonStringCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -1104,7 +1104,7 @@ void QtOAITestApi::postMultiPartDataCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -1212,7 +1212,7 @@ void QtOAITestApi::postPlainTextTypeCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -1384,7 +1384,7 @@ void QtOAITestApi::postUrlEncodedFieldsCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -1504,7 +1504,7 @@ void QtOAITestApi::postUrlEncodedNestedObjectCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -1633,7 +1633,7 @@ void QtOAITestApi::postUrlEncodedObjectCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided

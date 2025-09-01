@@ -164,7 +164,7 @@ void QtOAIPetApi::addPetCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QtOAIPet output(response);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
@@ -413,11 +413,9 @@ void QtOAIPetApi::findPetsByAgeAndPatienceCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QList<QtOAIPet> output;
-    const QString json(response);
-    QByteArray array(json.toStdString().c_str());
-    QJsonDocument doc = QJsonDocument::fromJson(array);
+    QJsonDocument doc = QJsonDocument::fromJson(response);
     QJsonArray jsonArray = doc.array();
     for (QJsonValue obj : jsonArray) {
         QtOAIPet val;
@@ -542,11 +540,9 @@ void QtOAIPetApi::findPetsByStatusCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QList<QtOAIPet> output;
-    const QString json(response);
-    QByteArray array(json.toStdString().c_str());
-    QJsonDocument doc = QJsonDocument::fromJson(array);
+    QJsonDocument doc = QJsonDocument::fromJson(response);
     QJsonArray jsonArray = doc.array();
     for (QJsonValue obj : jsonArray) {
         QtOAIPet val;
@@ -671,11 +667,9 @@ void QtOAIPetApi::findPetsByTagsCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QList<QtOAIPet> output;
-    const QString json(response);
-    QByteArray array(json.toStdString().c_str());
-    QJsonDocument doc = QJsonDocument::fromJson(array);
+    QJsonDocument doc = QJsonDocument::fromJson(response);
     QJsonArray jsonArray = doc.array();
     for (QJsonValue obj : jsonArray) {
         QtOAIPet val;
@@ -801,7 +795,7 @@ void QtOAIPetApi::findPetsImageByIdCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -923,7 +917,7 @@ void QtOAIPetApi::getJsonFileCallback(const QRestReply &reply)
         return;
 
     QMap<QString, QtOAIHttpFileElement> responseFiles;
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory, &responseFiles);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory, &responseFiles);
     QtOAIHttpFileElement output = QtOAIHttpRequestWorker::getHttpFileElement(responseFiles);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
@@ -1047,7 +1041,7 @@ void QtOAIPetApi::getPetByIdCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QtOAIPet output(response);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
@@ -1162,7 +1156,7 @@ void QtOAIPetApi::updatePetCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QtOAIPet output(response);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
@@ -1437,7 +1431,7 @@ void QtOAIPetApi::uploadFileCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QtOAIApiResponse output(response);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);

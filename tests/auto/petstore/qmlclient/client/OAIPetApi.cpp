@@ -164,7 +164,7 @@ void OAIPetApi::addPetCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     OAIPet output(response);
     // Check if callback is provided
     OAICallerInfo callerInfo = m_callerData.take(netReply);
@@ -413,11 +413,9 @@ void OAIPetApi::findPetsByAgeAndPatienceCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QList<OAIPet> output;
-    const QString json(response);
-    QByteArray array(json.toStdString().c_str());
-    QJsonDocument doc = QJsonDocument::fromJson(array);
+    QJsonDocument doc = QJsonDocument::fromJson(response);
     QJsonArray jsonArray = doc.array();
     for (QJsonValue obj : jsonArray) {
         OAIPet val;
@@ -542,11 +540,9 @@ void OAIPetApi::findPetsByStatusCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QList<OAIPet> output;
-    const QString json(response);
-    QByteArray array(json.toStdString().c_str());
-    QJsonDocument doc = QJsonDocument::fromJson(array);
+    QJsonDocument doc = QJsonDocument::fromJson(response);
     QJsonArray jsonArray = doc.array();
     for (QJsonValue obj : jsonArray) {
         OAIPet val;
@@ -671,11 +667,9 @@ void OAIPetApi::findPetsByTagsCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QList<OAIPet> output;
-    const QString json(response);
-    QByteArray array(json.toStdString().c_str());
-    QJsonDocument doc = QJsonDocument::fromJson(array);
+    QJsonDocument doc = QJsonDocument::fromJson(response);
     QJsonArray jsonArray = doc.array();
     for (QJsonValue obj : jsonArray) {
         OAIPet val;
@@ -801,7 +795,7 @@ void OAIPetApi::findPetsImageByIdCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::OpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -923,7 +917,7 @@ void OAIPetApi::getJsonFileCallback(const QRestReply &reply)
         return;
 
     QMap<QString, OAIHttpFileElement> responseFiles;
-    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory, &responseFiles);
+    const QByteArray response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory, &responseFiles);
     OAIHttpFileElement output = OAIHttpRequestWorker::getHttpFileElement(responseFiles);
     // Check if callback is provided
     OAICallerInfo callerInfo = m_callerData.take(netReply);
@@ -1047,7 +1041,7 @@ void OAIPetApi::getPetByIdCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     OAIPet output(response);
     // Check if callback is provided
     OAICallerInfo callerInfo = m_callerData.take(netReply);
@@ -1162,7 +1156,7 @@ void OAIPetApi::updatePetCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     OAIPet output(response);
     // Check if callback is provided
     OAICallerInfo callerInfo = m_callerData.take(netReply);
@@ -1437,7 +1431,7 @@ void OAIPetApi::uploadFileCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     OAIApiResponse output(response);
     // Check if callback is provided
     OAICallerInfo callerInfo = m_callerData.take(netReply);

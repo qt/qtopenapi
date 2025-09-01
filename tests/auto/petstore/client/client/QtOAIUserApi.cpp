@@ -734,7 +734,7 @@ void QtOAIUserApi::getUserByNameCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QtOAIUser output(response);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
@@ -899,7 +899,7 @@ void QtOAIUserApi::loginUserCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::QtOpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -1187,7 +1187,7 @@ void QtOAIUserApi::updateUserCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QtOAIUser output(response);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);

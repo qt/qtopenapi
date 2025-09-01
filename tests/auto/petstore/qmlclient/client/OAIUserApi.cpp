@@ -734,7 +734,7 @@ void OAIUserApi::getUserByNameCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     OAIUser output(response);
     // Check if callback is provided
     OAICallerInfo callerInfo = m_callerData.take(netReply);
@@ -899,7 +899,7 @@ void OAIUserApi::loginUserCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
     ::OpenAPI::fromStringValue(response, output);
     // Check if callback is provided
@@ -1187,7 +1187,7 @@ void OAIUserApi::updateUserCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     OAIUser output(response);
     // Check if callback is provided
     OAICallerInfo callerInfo = m_callerData.take(netReply);

@@ -164,7 +164,7 @@ void OAIUsersApi::getUserByIdCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     OAIUser output(response);
     // Check if callback is provided
     OAICallerInfo callerInfo = m_callerData.take(netReply);
@@ -296,7 +296,7 @@ void OAIUsersApi::getUsersByPageCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     OAIUserPage output(response);
     // Check if callback is provided
     OAICallerInfo callerInfo = m_callerData.take(netReply);

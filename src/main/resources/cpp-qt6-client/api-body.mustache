@@ -490,12 +490,10 @@ void {{classname}}::{{nickname}}Callback(const QRestReply &reply)
     QMap<QString, {{prefix}}HttpFileElement> responseFiles;
 {{/isResponseFile}}
 {{/returnTypeIsPrimitive}}
-    const QByteArray &response = {{prefix}}HttpRequestWorker::parseResponse(reply, m_workingDirectory{{^returnTypeIsPrimitive}}{{#isResponseFile}}, &responseFiles{{/isResponseFile}}{{/returnTypeIsPrimitive}});
+    const QByteArray response = {{prefix}}HttpRequestWorker::parseResponse(reply, m_workingDirectory{{^returnTypeIsPrimitive}}{{#isResponseFile}}, &responseFiles{{/isResponseFile}}{{/returnTypeIsPrimitive}});
 {{#isArray}}
     {{{returnType}}} output;
-    const QString json(response);
-    QByteArray array(json.toStdString().c_str());
-    QJsonDocument doc = QJsonDocument::fromJson(array);
+    QJsonDocument doc = QJsonDocument::fromJson(response);
     QJsonArray jsonArray = doc.array();
     for (QJsonValue obj : jsonArray) {
         {{{returnBaseType}}} val;
@@ -517,8 +515,7 @@ void {{classname}}::{{nickname}}Callback(const QRestReply &reply)
 {{/isMap}}
 {{#isMap}}
     {{{returnType}}} output;
-    QByteArray array(response.toStdString().c_str());
-    QJsonDocument doc = QJsonDocument::fromJson(array);
+    QJsonDocument doc = QJsonDocument::fromJson(response);
     QJsonObject obj = doc.object();
     for (const QString &key : obj.keys()) {
         {{returnBaseType}} val;

@@ -151,7 +151,7 @@ void OAIColorsApi::addColorCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     OAIColor output(response);
     // Check if callback is provided
     OAICallerInfo callerInfo = m_callerData.take(netReply);
@@ -388,7 +388,7 @@ void OAIColorsApi::getColorByIdCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     OAIColor output(response);
     // Check if callback is provided
     OAICallerInfo callerInfo = m_callerData.take(netReply);
@@ -509,7 +509,7 @@ void OAIColorsApi::getColorsCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     OAIColorPage output(response);
     // Check if callback is provided
     OAICallerInfo callerInfo = m_callerData.take(netReply);
@@ -637,11 +637,9 @@ void OAIColorsApi::updateColorByIdCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray &response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    const QByteArray response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QList<OAIColor> output;
-    const QString json(response);
-    QByteArray array(json.toStdString().c_str());
-    QJsonDocument doc = QJsonDocument::fromJson(array);
+    QJsonDocument doc = QJsonDocument::fromJson(response);
     QJsonArray jsonArray = doc.array();
     for (QJsonValue obj : jsonArray) {
         OAIColor val;
