@@ -415,9 +415,9 @@ void OAIPetApi::findPetsByAgeAndPatienceCallback(const QRestReply &reply)
 
     const QByteArray response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QList<OAIPet> output;
-    QJsonDocument doc = QJsonDocument::fromJson(response);
-    QJsonArray jsonArray = doc.array();
-    for (QJsonValue obj : jsonArray) {
+    const QJsonDocument doc = QJsonDocument::fromJson(response);
+    const QJsonArray jsonArray = doc.array();
+    for (const QJsonValue &obj : jsonArray) {
         OAIPet val;
         ::OpenAPI::fromJsonValue(val, obj);
         output.append(val);
@@ -542,9 +542,9 @@ void OAIPetApi::findPetsByStatusCallback(const QRestReply &reply)
 
     const QByteArray response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QList<OAIPet> output;
-    QJsonDocument doc = QJsonDocument::fromJson(response);
-    QJsonArray jsonArray = doc.array();
-    for (QJsonValue obj : jsonArray) {
+    const QJsonDocument doc = QJsonDocument::fromJson(response);
+    const QJsonArray jsonArray = doc.array();
+    for (const QJsonValue &obj : jsonArray) {
         OAIPet val;
         ::OpenAPI::fromJsonValue(val, obj);
         output.append(val);
@@ -669,9 +669,9 @@ void OAIPetApi::findPetsByTagsCallback(const QRestReply &reply)
 
     const QByteArray response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QList<OAIPet> output;
-    QJsonDocument doc = QJsonDocument::fromJson(response);
-    QJsonArray jsonArray = doc.array();
-    for (QJsonValue obj : jsonArray) {
+    const QJsonDocument doc = QJsonDocument::fromJson(response);
+    const QJsonArray jsonArray = doc.array();
+    for (const QJsonValue &obj : jsonArray) {
         OAIPet val;
         ::OpenAPI::fromJsonValue(val, obj);
         output.append(val);

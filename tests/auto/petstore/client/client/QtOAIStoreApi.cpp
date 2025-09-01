@@ -260,8 +260,8 @@ void QtOAIStoreApi::getInventoryCallback(const QRestReply &reply)
 
     const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QMap<QString, qint32> output;
-    QJsonDocument doc = QJsonDocument::fromJson(response);
-    QJsonObject obj = doc.object();
+    const QJsonDocument doc = QJsonDocument::fromJson(response);
+    const QJsonObject obj = doc.object();
     for (const QString &key : obj.keys()) {
         qint32 val;
         ::QtOpenAPI::fromJsonValue(val, obj[key]);

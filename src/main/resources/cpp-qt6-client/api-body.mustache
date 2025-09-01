@@ -493,9 +493,9 @@ void {{classname}}::{{nickname}}Callback(const QRestReply &reply)
     const QByteArray response = {{prefix}}HttpRequestWorker::parseResponse(reply, m_workingDirectory{{^returnTypeIsPrimitive}}{{#isResponseFile}}, &responseFiles{{/isResponseFile}}{{/returnTypeIsPrimitive}});
 {{#isArray}}
     {{{returnType}}} output;
-    QJsonDocument doc = QJsonDocument::fromJson(response);
-    QJsonArray jsonArray = doc.array();
-    for (QJsonValue obj : jsonArray) {
+    const QJsonDocument doc = QJsonDocument::fromJson(response);
+    const QJsonArray jsonArray = doc.array();
+    for (const QJsonValue &obj : jsonArray) {
         {{{returnBaseType}}} val;
         ::{{cppNamespace}}::fromJsonValue(val, obj);
         {{#uniqueItems}}
@@ -515,8 +515,8 @@ void {{classname}}::{{nickname}}Callback(const QRestReply &reply)
 {{/isMap}}
 {{#isMap}}
     {{{returnType}}} output;
-    QJsonDocument doc = QJsonDocument::fromJson(response);
-    QJsonObject obj = doc.object();
+    const QJsonDocument doc = QJsonDocument::fromJson(response);
+    const QJsonObject obj = doc.object();
     for (const QString &key : obj.keys()) {
         {{returnBaseType}} val;
         ::{{cppNamespace}}::fromJsonValue(val, obj[key]);

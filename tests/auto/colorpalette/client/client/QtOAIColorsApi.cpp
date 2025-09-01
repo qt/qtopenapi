@@ -639,9 +639,9 @@ void QtOAIColorsApi::updateColorByIdCallback(const QRestReply &reply)
 
     const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QList<QtOAIColor> output;
-    QJsonDocument doc = QJsonDocument::fromJson(response);
-    QJsonArray jsonArray = doc.array();
-    for (QJsonValue obj : jsonArray) {
+    const QJsonDocument doc = QJsonDocument::fromJson(response);
+    const QJsonArray jsonArray = doc.array();
+    for (const QJsonValue &obj : jsonArray) {
         QtOAIColor val;
         ::QtOpenAPI::fromJsonValue(val, obj);
         output.append(val);
