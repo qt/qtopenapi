@@ -165,7 +165,7 @@ void QtOAITestApi::binaryTypeCallback(const QRestReply &reply)
 
     const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
-    ::QtOpenAPI::fromStringValue(response, output);
+    ::QtOpenAPI::fromByteArray(response, output);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
     if (callerInfo.slot) {
@@ -274,7 +274,7 @@ void QtOAITestApi::postApplicationJsonArrayCallback(const QRestReply &reply)
 
     const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
-    ::QtOpenAPI::fromStringValue(response, output);
+    ::QtOpenAPI::fromByteArray(response, output);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
     if (callerInfo.slot) {
@@ -382,7 +382,7 @@ void QtOAITestApi::postApplicationJsonBoolCallback(const QRestReply &reply)
 
     const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
-    ::QtOpenAPI::fromStringValue(response, output);
+    ::QtOpenAPI::fromByteArray(response, output);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
     if (callerInfo.slot) {
@@ -490,7 +490,7 @@ void QtOAITestApi::postApplicationJsonIntCallback(const QRestReply &reply)
 
     const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
-    ::QtOpenAPI::fromStringValue(response, output);
+    ::QtOpenAPI::fromByteArray(response, output);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
     if (callerInfo.slot) {
@@ -599,7 +599,7 @@ void QtOAITestApi::postApplicationJsonMapCallback(const QRestReply &reply)
 
     const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
-    ::QtOpenAPI::fromStringValue(response, output);
+    ::QtOpenAPI::fromByteArray(response, output);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
     if (callerInfo.slot) {
@@ -707,7 +707,7 @@ void QtOAITestApi::postApplicationJsonObjectCallback(const QRestReply &reply)
 
     const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
-    ::QtOpenAPI::fromStringValue(response, output);
+    ::QtOpenAPI::fromByteArray(response, output);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
     if (callerInfo.slot) {
@@ -815,7 +815,7 @@ void QtOAITestApi::postApplicationJsonSeveralObjectsCallback(const QRestReply &r
 
     const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
-    ::QtOpenAPI::fromStringValue(response, output);
+    ::QtOpenAPI::fromByteArray(response, output);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
     if (callerInfo.slot) {
@@ -925,7 +925,7 @@ void QtOAITestApi::postApplicationJsonStringCallback(const QRestReply &reply)
 
     const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
-    ::QtOpenAPI::fromStringValue(response, output);
+    ::QtOpenAPI::fromByteArray(response, output);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
     if (callerInfo.slot) {
@@ -1106,7 +1106,7 @@ void QtOAITestApi::postMultiPartDataCallback(const QRestReply &reply)
 
     const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
-    ::QtOpenAPI::fromStringValue(response, output);
+    ::QtOpenAPI::fromByteArray(response, output);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
     if (callerInfo.slot) {
@@ -1214,7 +1214,7 @@ void QtOAITestApi::postPlainTextTypeCallback(const QRestReply &reply)
 
     const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
-    ::QtOpenAPI::fromStringValue(response, output);
+    ::QtOpenAPI::fromByteArray(response, output);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
     if (callerInfo.slot) {
@@ -1386,7 +1386,7 @@ void QtOAITestApi::postUrlEncodedFieldsCallback(const QRestReply &reply)
 
     const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
-    ::QtOpenAPI::fromStringValue(response, output);
+    ::QtOpenAPI::fromByteArray(response, output);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
     if (callerInfo.slot) {
@@ -1506,7 +1506,7 @@ void QtOAITestApi::postUrlEncodedNestedObjectCallback(const QRestReply &reply)
 
     const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
-    ::QtOpenAPI::fromStringValue(response, output);
+    ::QtOpenAPI::fromByteArray(response, output);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
     if (callerInfo.slot) {
@@ -1635,7 +1635,7 @@ void QtOAITestApi::postUrlEncodedObjectCallback(const QRestReply &reply)
 
     const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
-    ::QtOpenAPI::fromStringValue(response, output);
+    ::QtOpenAPI::fromByteArray(response, output);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
     if (callerInfo.slot) {

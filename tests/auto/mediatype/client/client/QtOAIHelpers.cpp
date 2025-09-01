@@ -233,6 +233,96 @@ QJsonValue toJsonValue(const QJsonValue &value)
     return value;
 }
 
+bool fromByteArray(const QByteArray &input, QString &value)
+{
+    value = QString::fromUtf8(input);
+    return !input.isEmpty();
+}
+
+
+bool fromByteArray(const QByteArray &input, QDateTime &value)
+{
+    const QString inStr = QString::fromUtf8(input);
+    return fromStringValue(inStr, value);
+}
+
+bool fromByteArray(const QByteArray &input, QByteArray &value)
+{
+    value = input;
+    return !input.isEmpty();
+}
+
+bool fromByteArray(const QByteArray &input, QDate &value)
+{
+    const QString inStr = QString::fromUtf8(input);
+    return fromStringValue(inStr, value);
+}
+
+bool fromByteArray(const QByteArray &input, qint32 &value)
+{
+    bool ok = false;
+    value = input.toInt(&ok);
+    return ok;
+}
+
+bool fromByteArray(const QByteArray &input, qint64 &value)
+{
+    bool ok = false;
+    value = input.toLongLong(&ok);
+    return ok;
+}
+
+bool fromByteArray(const QByteArray &input, bool &value)
+{
+    bool ok = false;
+    if (input == "true") {
+        value = true;
+        ok = true;
+    } else if (input == "false") {
+        value = false;
+        ok = true;
+    }
+    return ok;
+}
+
+bool fromByteArray(const QByteArray &input, float &value)
+{
+    bool ok = false;
+    value = input.toFloat(&ok);
+    return ok;
+}
+
+bool fromByteArray(const QByteArray &input, double &value)
+{
+    bool ok = false;
+    value = input.toDouble(&ok);
+    return ok;
+}
+
+bool fromByteArray(const QByteArray &input, QtOAIObject &value)
+{
+    QJsonParseError err;
+    QJsonDocument::fromJson(input, &err);
+    if (err.error == QJsonParseError::NoError) {
+        // TODO: rework QtOAIObject to take QBA?
+        value.fromJson(QString::fromUtf8(input));
+        return true;
+    }
+    return false;
+}
+
+bool fromByteArray(const QByteArray &input, QtOAIEnum &value)
+{
+    // TODO: rework QtOAIEnum to take QBA?
+    value.fromJson(QString::fromUtf8(input));
+    return true;
+}
+
+bool fromByteArray(const QByteArray &input, QtOAIHttpFileElement &value)
+{
+    return value.fromByteArray(input);
+}
+
 bool fromStringValue(const QString &inStr, QString &value)
 {
     value.clear();

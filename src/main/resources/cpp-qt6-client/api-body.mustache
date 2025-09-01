@@ -510,7 +510,7 @@ void {{classname}}::{{nickname}}Callback(const QRestReply &reply)
 {{^isMap}}
 {{#returnTypeIsPrimitive}}
     {{{returnType}}} output;
-    ::{{cppNamespace}}::fromStringValue(response, output);
+    ::{{cppNamespace}}::fromByteArray(response, output);
 {{/returnTypeIsPrimitive}}
 {{/isMap}}
 {{#isMap}}

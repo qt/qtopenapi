@@ -797,7 +797,7 @@ void QtOAIPetApi::findPetsImageByIdCallback(const QRestReply &reply)
 
     const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
-    ::QtOpenAPI::fromStringValue(response, output);
+    ::QtOpenAPI::fromByteArray(response, output);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
     if (callerInfo.slot) {

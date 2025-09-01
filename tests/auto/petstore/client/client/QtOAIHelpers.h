@@ -146,6 +146,19 @@ QJsonValue toJsonValue(const QMap<QString, T> &val) {
     return jObject;
 }
 
+bool fromByteArray(const QByteArray &input, QString &value);
+bool fromByteArray(const QByteArray &input, QDateTime &value);
+bool fromByteArray(const QByteArray &input, QByteArray &value);
+bool fromByteArray(const QByteArray &input, QDate &value);
+bool fromByteArray(const QByteArray &input, qint32 &value);
+bool fromByteArray(const QByteArray &input, qint64 &value);
+bool fromByteArray(const QByteArray &input, bool &value);
+bool fromByteArray(const QByteArray &input, float &value);
+bool fromByteArray(const QByteArray &input, double &value);
+bool fromByteArray(const QByteArray &input, QtOAIObject &value);
+bool fromByteArray(const QByteArray &input, QtOAIEnum &value);
+bool fromByteArray(const QByteArray &input, QtOAIHttpFileElement &value);
+
 bool fromStringValue(const QString &inStr, QString &value);
 bool fromStringValue(const QString &inStr, QDateTime &value);
 bool fromStringValue(const QString &inStr, QByteArray &value);
