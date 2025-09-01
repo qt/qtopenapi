@@ -484,9 +484,14 @@ void {{classname}}::{{nickname}}Callback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    {{#returnType}}{{^returnTypeIsPrimitive}}{{#isResponseFile}}QMap<QString, {{prefix}}HttpFileElement> responseFiles;
-    {{/isResponseFile}}{{/returnTypeIsPrimitive}}const QByteArray &response = {{prefix}}HttpRequestWorker::parseResponse(reply, m_workingDirectory{{^returnTypeIsPrimitive}}{{#isResponseFile}}, &responseFiles{{/isResponseFile}}{{/returnTypeIsPrimitive}});
-    {{#isArray}}
+{{#returnType}}
+{{^returnTypeIsPrimitive}}
+{{#isResponseFile}}
+    QMap<QString, {{prefix}}HttpFileElement> responseFiles;
+{{/isResponseFile}}
+{{/returnTypeIsPrimitive}}
+    const QByteArray &response = {{prefix}}HttpRequestWorker::parseResponse(reply, m_workingDirectory{{^returnTypeIsPrimitive}}{{#isResponseFile}}, &responseFiles{{/isResponseFile}}{{/returnTypeIsPrimitive}});
+{{#isArray}}
     {{{returnType}}} output;
     const QString json(response);
     QByteArray array(json.toStdString().c_str());
@@ -502,15 +507,15 @@ void {{classname}}::{{nickname}}Callback(const QRestReply &reply)
         output.append(val);
         {{/uniqueItems}}
     }
-    {{/isArray}}
-    {{^isArray}}
-    {{^isMap}}
-    {{#returnTypeIsPrimitive}}
+{{/isArray}}
+{{^isArray}}
+{{^isMap}}
+{{#returnTypeIsPrimitive}}
     {{{returnType}}} output;
     ::{{cppNamespace}}::fromStringValue(response, output);
-    {{/returnTypeIsPrimitive}}
-    {{/isMap}}
-    {{#isMap}}
+{{/returnTypeIsPrimitive}}
+{{/isMap}}
+{{#isMap}}
     {{{returnType}}} output;
     QByteArray array(response.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
@@ -520,14 +525,15 @@ void {{classname}}::{{nickname}}Callback(const QRestReply &reply)
         ::{{cppNamespace}}::fromJsonValue(val, obj[key]);
         output.insert(key, val);
     }
-    {{/isMap}}
-    {{^isMap}}
-    {{^returnTypeIsPrimitive}}
+{{/isMap}}
+{{^isMap}}
+{{^returnTypeIsPrimitive}}
     {{{returnType}}} output{{^isResponseFile}}(response){{/isResponseFile}}{{#isResponseFile}} = {{prefix}}HttpRequestWorker::getHttpFileElement(responseFiles){{/isResponseFile}};
-    {{/returnTypeIsPrimitive}}
-    {{/isMap}}
-    {{/isArray}}
-    {{/returnType}}// Check if callback is provided
+{{/returnTypeIsPrimitive}}
+{{/isMap}}
+{{/isArray}}
+{{/returnType}}
+    // Check if callback is provided
     {{prefix}}CallerInfo callerInfo = m_callerData.take(netReply);
     if (callerInfo.slot) {
         void *argv[] = { nullptr, const_cast<QRestReply*>(&reply){{#returnType}}, &output{{/returnType}} };
