@@ -901,7 +901,9 @@ void QtOAIUserApi::loginUserCallback(const QRestReply &reply)
 
     const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
-    ::QtOpenAPI::fromByteArray(response, output);
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
     if (callerInfo.slot) {

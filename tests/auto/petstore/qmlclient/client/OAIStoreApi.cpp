@@ -261,11 +261,17 @@ void OAIStoreApi::getInventoryCallback(const QRestReply &reply)
     const QByteArray response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QMap<QString, qint32> output;
     const QJsonDocument doc = QJsonDocument::fromJson(response);
-    const QJsonObject obj = doc.object();
-    for (const QString &key : obj.keys()) {
-        qint32 val;
-        ::OpenAPI::fromJsonValue(val, obj[key]);
-        output.insert(key, val);
+    if (!doc.isNull() && doc.isObject()) {
+        const QJsonObject obj = doc.object();
+        for (const QString &key : obj.keys()) {
+            qint32 val;
+            const bool ok = ::OpenAPI::fromJsonValue(val, obj[key]);
+            if (!ok)
+                qWarning("%s: Failed to convert QJsonValue to qint32.", Q_FUNC_INFO);
+            output.insert(key, val);
+        }
+    } else {
+        qWarning("%s: Failed to parse the response as a JSON object.", Q_FUNC_INFO);
     }
     // Check if callback is provided
     OAICallerInfo callerInfo = m_callerData.take(netReply);

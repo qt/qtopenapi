@@ -640,11 +640,17 @@ void OAIColorsApi::updateColorByIdCallback(const QRestReply &reply)
     const QByteArray response = OAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QList<OAIColor> output;
     const QJsonDocument doc = QJsonDocument::fromJson(response);
-    const QJsonArray jsonArray = doc.array();
-    for (const QJsonValue &obj : jsonArray) {
-        OAIColor val;
-        ::OpenAPI::fromJsonValue(val, obj);
-        output.append(val);
+    if (!doc.isNull() && doc.isArray()) {
+        const QJsonArray jsonArray = doc.array();
+        for (const QJsonValue &obj : jsonArray) {
+            OAIColor val;
+            const bool ok = ::OpenAPI::fromJsonValue(val, obj);
+            if (!ok)
+                qWarning("%s: Failed to convert QJsonValue to OAIColor.", Q_FUNC_INFO);
+            output.append(val);
+        }
+    } else {
+        qWarning("%s: Failed to parse the response as a JSON array.", Q_FUNC_INFO);
     }
     // Check if callback is provided
     OAICallerInfo callerInfo = m_callerData.take(netReply);

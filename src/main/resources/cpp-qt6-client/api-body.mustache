@@ -494,33 +494,47 @@ void {{classname}}::{{nickname}}Callback(const QRestReply &reply)
 {{#isArray}}
     {{{returnType}}} output;
     const QJsonDocument doc = QJsonDocument::fromJson(response);
-    const QJsonArray jsonArray = doc.array();
-    for (const QJsonValue &obj : jsonArray) {
-        {{{returnBaseType}}} val;
-        ::{{cppNamespace}}::fromJsonValue(val, obj);
-        {{#uniqueItems}}
-        output.insert(val);
-        {{/uniqueItems}}
-        {{^uniqueItems}}
-        output.append(val);
-        {{/uniqueItems}}
+    if (!doc.isNull() && doc.isArray()) {
+        const QJsonArray jsonArray = doc.array();
+        for (const QJsonValue &obj : jsonArray) {
+            {{{returnBaseType}}} val;
+            const bool ok = ::{{cppNamespace}}::fromJsonValue(val, obj);
+            if (!ok)
+                qWarning("%s: Failed to convert QJsonValue to {{returnBaseType}}.", Q_FUNC_INFO);
+            {{#uniqueItems}}
+            output.insert(val);
+            {{/uniqueItems}}
+            {{^uniqueItems}}
+            output.append(val);
+            {{/uniqueItems}}
+        }
+    } else {
+        qWarning("%s: Failed to parse the response as a JSON array.", Q_FUNC_INFO);
     }
 {{/isArray}}
 {{^isArray}}
 {{^isMap}}
 {{#returnTypeIsPrimitive}}
     {{{returnType}}} output;
-    ::{{cppNamespace}}::fromByteArray(response, output);
+    const bool ok = ::{{cppNamespace}}::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to {{returnType}}.", Q_FUNC_INFO);
 {{/returnTypeIsPrimitive}}
 {{/isMap}}
 {{#isMap}}
     {{{returnType}}} output;
     const QJsonDocument doc = QJsonDocument::fromJson(response);
-    const QJsonObject obj = doc.object();
-    for (const QString &key : obj.keys()) {
-        {{returnBaseType}} val;
-        ::{{cppNamespace}}::fromJsonValue(val, obj[key]);
-        output.insert(key, val);
+    if (!doc.isNull() && doc.isObject()) {
+        const QJsonObject obj = doc.object();
+        for (const QString &key : obj.keys()) {
+            {{returnBaseType}} val;
+            const bool ok = ::{{cppNamespace}}::fromJsonValue(val, obj[key]);
+            if (!ok)
+                qWarning("%s: Failed to convert QJsonValue to {{returnBaseType}}.", Q_FUNC_INFO);
+            output.insert(key, val);
+        }
+    } else {
+        qWarning("%s: Failed to parse the response as a JSON object.", Q_FUNC_INFO);
     }
 {{/isMap}}
 {{^isMap}}

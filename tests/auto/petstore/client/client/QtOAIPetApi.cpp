@@ -416,11 +416,17 @@ void QtOAIPetApi::findPetsByAgeAndPatienceCallback(const QRestReply &reply)
     const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QList<QtOAIPet> output;
     const QJsonDocument doc = QJsonDocument::fromJson(response);
-    const QJsonArray jsonArray = doc.array();
-    for (const QJsonValue &obj : jsonArray) {
-        QtOAIPet val;
-        ::QtOpenAPI::fromJsonValue(val, obj);
-        output.append(val);
+    if (!doc.isNull() && doc.isArray()) {
+        const QJsonArray jsonArray = doc.array();
+        for (const QJsonValue &obj : jsonArray) {
+            QtOAIPet val;
+            const bool ok = ::QtOpenAPI::fromJsonValue(val, obj);
+            if (!ok)
+                qWarning("%s: Failed to convert QJsonValue to QtOAIPet.", Q_FUNC_INFO);
+            output.append(val);
+        }
+    } else {
+        qWarning("%s: Failed to parse the response as a JSON array.", Q_FUNC_INFO);
     }
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
@@ -543,11 +549,17 @@ void QtOAIPetApi::findPetsByStatusCallback(const QRestReply &reply)
     const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QList<QtOAIPet> output;
     const QJsonDocument doc = QJsonDocument::fromJson(response);
-    const QJsonArray jsonArray = doc.array();
-    for (const QJsonValue &obj : jsonArray) {
-        QtOAIPet val;
-        ::QtOpenAPI::fromJsonValue(val, obj);
-        output.append(val);
+    if (!doc.isNull() && doc.isArray()) {
+        const QJsonArray jsonArray = doc.array();
+        for (const QJsonValue &obj : jsonArray) {
+            QtOAIPet val;
+            const bool ok = ::QtOpenAPI::fromJsonValue(val, obj);
+            if (!ok)
+                qWarning("%s: Failed to convert QJsonValue to QtOAIPet.", Q_FUNC_INFO);
+            output.append(val);
+        }
+    } else {
+        qWarning("%s: Failed to parse the response as a JSON array.", Q_FUNC_INFO);
     }
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
@@ -670,11 +682,17 @@ void QtOAIPetApi::findPetsByTagsCallback(const QRestReply &reply)
     const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QList<QtOAIPet> output;
     const QJsonDocument doc = QJsonDocument::fromJson(response);
-    const QJsonArray jsonArray = doc.array();
-    for (const QJsonValue &obj : jsonArray) {
-        QtOAIPet val;
-        ::QtOpenAPI::fromJsonValue(val, obj);
-        output.append(val);
+    if (!doc.isNull() && doc.isArray()) {
+        const QJsonArray jsonArray = doc.array();
+        for (const QJsonValue &obj : jsonArray) {
+            QtOAIPet val;
+            const bool ok = ::QtOpenAPI::fromJsonValue(val, obj);
+            if (!ok)
+                qWarning("%s: Failed to convert QJsonValue to QtOAIPet.", Q_FUNC_INFO);
+            output.append(val);
+        }
+    } else {
+        qWarning("%s: Failed to parse the response as a JSON array.", Q_FUNC_INFO);
     }
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
@@ -797,7 +815,9 @@ void QtOAIPetApi::findPetsImageByIdCallback(const QRestReply &reply)
 
     const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
     QString output;
-    ::QtOpenAPI::fromByteArray(response, output);
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
     if (callerInfo.slot) {
