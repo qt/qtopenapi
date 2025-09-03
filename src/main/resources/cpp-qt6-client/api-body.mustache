@@ -291,11 +291,13 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
     input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "{{{mediaType}}}"_L1);
 {{/-first}}
 {{/consumes}}
+    input.setFormData(true);
 {{#isMultipart}}
     input.addVarLayout(MULTIPART);
 {{/isMultipart}}
 {{^isMultipart}}
-    input.addVarLayout(URL_ENCODED);
+    input.addVarLayout(input.m_httpMethod == "GET"_L1 || input.m_httpMethod == "HEAD"_L1
+                       ? ADDRESS : URL_ENCODED);
 {{/isMultipart}}
 {{/hasFormParams}}
 {{#formParams}}

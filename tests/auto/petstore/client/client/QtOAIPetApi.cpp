@@ -1269,7 +1269,9 @@ void QtOAIPetApi::updatePetWithFormWithDataImpl(const qint64 &petId, const ::QtO
     m_testOperationPath = fullPath;
     QtOAIHttpRequestInput input(fullPath, "POST");
     input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/x-www-form-urlencoded"_L1);
-    input.addVarLayout(URL_ENCODED);
+    input.setFormData(true);
+    input.addVarLayout(input.m_httpMethod == "GET"_L1 || input.m_httpMethod == "HEAD"_L1
+                       ? ADDRESS : URL_ENCODED);
     if (name.hasValue()) {
         QString contentType;
         using VT = std::decay_t<decltype(name.value())>;
@@ -1406,6 +1408,7 @@ void QtOAIPetApi::uploadFileWithDataImpl(const qint64 &petId, const ::QtOpenAPI:
     m_testOperationPath = fullPath;
     QtOAIHttpRequestInput input(fullPath, "POST");
     input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "multipart/form-data"_L1);
+    input.setFormData(true);
     input.addVarLayout(MULTIPART);
     if (additionalMetadata.hasValue()) {
         QString contentType;

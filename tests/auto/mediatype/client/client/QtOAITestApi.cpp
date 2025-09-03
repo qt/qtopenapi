@@ -1024,6 +1024,7 @@ void QtOAITestApi::postMultiPartDataWithDataImpl(const QString &formId, const QL
     m_testOperationPath = fullPath;
     QtOAIHttpRequestInput input(fullPath, "POST");
     input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "multipart/form-data"_L1);
+    input.setFormData(true);
     input.addVarLayout(MULTIPART);
     {
         QString contentType;
@@ -1314,7 +1315,9 @@ void QtOAITestApi::postUrlEncodedFieldsWithDataImpl(const ::QtOpenAPI::OptionalP
     m_testOperationPath = fullPath;
     QtOAIHttpRequestInput input(fullPath, "POST");
     input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/x-www-form-urlencoded"_L1);
-    input.addVarLayout(URL_ENCODED);
+    input.setFormData(true);
+    input.addVarLayout(input.m_httpMethod == "GET"_L1 || input.m_httpMethod == "HEAD"_L1
+                       ? ADDRESS : URL_ENCODED);
     if (name.hasValue()) {
         QString contentType;
         using VT = std::decay_t<decltype(name.value())>;
@@ -1479,7 +1482,9 @@ void QtOAITestApi::postUrlEncodedNestedObjectWithDataImpl(const ::QtOpenAPI::Opt
     m_testOperationPath = fullPath;
     QtOAIHttpRequestInput input(fullPath, "POST");
     input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/x-www-form-urlencoded"_L1);
-    input.addVarLayout(URL_ENCODED);
+    input.setFormData(true);
+    input.addVarLayout(input.m_httpMethod == "GET"_L1 || input.m_httpMethod == "HEAD"_L1
+                       ? ADDRESS : URL_ENCODED);
     if (user.hasValue()) {
         QString contentType;
         using VT = std::decay_t<decltype(user.value())>;
@@ -1604,7 +1609,9 @@ void QtOAITestApi::postUrlEncodedObjectWithDataImpl(const ::QtOpenAPI::OptionalP
     m_testOperationPath = fullPath;
     QtOAIHttpRequestInput input(fullPath, "POST");
     input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/x-www-form-urlencoded"_L1);
-    input.addVarLayout(URL_ENCODED);
+    input.setFormData(true);
+    input.addVarLayout(input.m_httpMethod == "GET"_L1 || input.m_httpMethod == "HEAD"_L1
+                       ? ADDRESS : URL_ENCODED);
     if (name.hasValue()) {
         QString contentType;
         using VT = std::decay_t<decltype(name.value())>;

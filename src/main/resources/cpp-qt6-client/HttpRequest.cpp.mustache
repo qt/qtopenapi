@@ -48,6 +48,7 @@ void {{prefix}}HttpRequestInput::initialize()
     m_urlStr = "";
     m_httpMethod = "GET";
     m_multiPart.reset();
+    m_isFormData = false;
 }
 
 {{prefix}}HttpRequestInput::{{prefix}}HttpRequestInput({{prefix}}HttpRequestInput &other)
@@ -61,6 +62,7 @@ void {{prefix}}HttpRequestInput::initialize()
     m_files = other.m_files;
     m_requestBody = other.m_requestBody;
     m_queryItem = other.m_queryItem;
+    m_isFormData = other.m_isFormData;
 }
 
 void {{prefix}}HttpRequestInput::addVar(const QString &key, const QString &value)
@@ -94,6 +96,11 @@ void {{prefix}}HttpRequestInput::addVarLayout({{prefix}}HttpRequestVarLayout lay
 void {{prefix}}HttpRequestInput::setHeaders(const QHttpHeaders &newHeaders)
 {
     m_headers = newHeaders;
+}
+
+void {{prefix}}HttpRequestInput::setFormData(bool isForm)
+{
+    m_isFormData = isForm;
 }
 
 namespace {{prefix}}HttpRequestWorker {
@@ -169,7 +176,6 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
     QRandomGenerator randomGenerator = QRandomGenerator(QDateTime::currentDateTime().toSecsSinceEpoch());
     // reset variables
     requestContent = "";
-    bool isFormData = false;
 
     if (input.m_varLayout == NOT_SET) {
         input.m_varLayout = input.m_httpMethod == "GET" || input.m_httpMethod == "HEAD" ? ADDRESS : URL_ENCODED;
@@ -238,7 +244,7 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
 
     if (input.m_requestBody.size() > 0) {
         requestContent.clear();
-        if (!isFormData && (input.m_varLayout != MULTIPART) && requestCompressionEnabled) {
+        if (!input.m_isFormData && requestCompressionEnabled) {
             requestContent.append(compress(input.m_requestBody, 7, {{prefix}}CompressionType::Gzip));
         } else {
             requestContent.append(input.m_requestBody);
@@ -250,7 +256,7 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
     if (request.header(QNetworkRequest::UserAgentHeader).isNull())
         request.setHeader(QNetworkRequest::UserAgentHeader, "{{httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{apiVersion}}/cpp-qt{{/httpUserAgent}}");
 
-    if (requestContent.size() > 0 && !isFormData && (input.m_varLayout != MULTIPART)) {
+    if (requestContent.size() > 0 && !input.m_isFormData) {
         if (!input.m_headers.contains(QHttpHeaders::WellKnownHeader::ContentType)) {
             request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
         } else {

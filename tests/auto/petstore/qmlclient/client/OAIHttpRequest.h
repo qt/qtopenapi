@@ -53,6 +53,7 @@ public:
     QByteArray m_requestBody;
     QUrlQuery m_queryItem;
     std::unique_ptr<QHttpMultiPart> m_multiPart;
+    bool m_isFormData;
 
     OAIHttpRequestInput();
     OAIHttpRequestInput(const QString &vUrlStr, const QString &vHttpMethod);
@@ -63,6 +64,7 @@ public:
     void addFile(const QString &variableName, const QString &localFilename, const QString &requestFilename, const QString &mimeType);
     void addVarLayout(OAIHttpRequestVarLayout layout);
     void setHeaders(const QHttpHeaders &newHeaders);
+    void setFormData(bool isForm);
 };
 
 namespace OAIHttpRequestWorker {
