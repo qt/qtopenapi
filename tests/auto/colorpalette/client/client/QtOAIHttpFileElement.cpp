@@ -41,66 +41,26 @@ bool QtOAIHttpFileElement::isSet() const {
 
 QString QtOAIHttpFileElement::asJson() const
 {
-    QFile file(m_localFilename);
-    QByteArray bArray;
-    bool result = false;
-    if (file.exists()) {
-        result = file.open(QIODevice::ReadOnly);
-        bArray = file.readAll();
-        file.close();
-    }
-    if (!result) {
-        qDebug() << "Error opening file " << m_localFilename;
-    }
-    return QString(bArray);
+    const QByteArray data = asByteArray();
+    return QString::fromUtf8(data);
 }
 
 QJsonValue QtOAIHttpFileElement::asJsonValue() const
 {
-    QFile file(m_localFilename);
-    QByteArray bArray;
-    bool result = false;
-    if (file.exists()) {
-        result = file.open(QIODevice::ReadOnly);
-        bArray = file.readAll();
-        file.close();
-    }
-    if (!result) {
-        qDebug() << "Error opening file " << m_localFilename;
-    }
-    return QJsonDocument::fromJson(bArray.data()).object();
+    const QByteArray data = asByteArray();
+    const QJsonObject object = QJsonDocument::fromJson(data).object();
+    return QJsonValue(object);
 }
 
 bool QtOAIHttpFileElement::fromStringValue(const QString &instr)
 {
-    QFile file(m_localFilename);
-    bool result = false;
-    if (file.exists()) {
-        file.remove();
-    }
-    result = file.open(QIODevice::WriteOnly);
-    file.write(instr.toUtf8());
-    file.close();
-    if (!result) {
-        qDebug() << "Error creating file " << m_localFilename;
-    }
-    return result;
+    return fromByteArray(instr.toUtf8());
 }
 
 bool QtOAIHttpFileElement::fromJsonValue(const QJsonValue &jval)
 {
-    QFile file(m_localFilename);
-    bool result = false;
-    if (file.exists()) {
-        file.remove();
-    }
-    result = file.open(QIODevice::WriteOnly);
-    file.write(QJsonDocument(jval.toObject()).toJson(QJsonDocument::Compact));
-    file.close();
-    if (!result) {
-        qDebug() << "Error creating file " << m_localFilename;
-    }
-    return result;
+    const QByteArray content = QJsonDocument(jval.toObject()).toJson(QJsonDocument::Compact);
+    return fromByteArray(content);
 }
 
 QByteArray QtOAIHttpFileElement::asByteArray() const
