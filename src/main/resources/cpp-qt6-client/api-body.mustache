@@ -144,6 +144,9 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{#pathParams}}
     {
         QString {{paramName}}PathParam = QString("{%1}").arg("{{baseName}}");
+{{#vendorExtensions.x-warningMessage}}
+        qWarning("{{{vendorExtensions.x-warningMessage}}}");
+{{/vendorExtensions.x-warningMessage}}
         QString pathStyle = "{{style}}";
         if (pathStyle.isEmpty())
             pathStyle = "simple";

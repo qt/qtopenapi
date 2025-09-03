@@ -1280,6 +1280,26 @@ paths:
             application/json:
               schema:
                 type: string
+  /path/string/invalid-form-explode/formExplodeString/{stringParameter}:
+    post:
+      tags: [test]
+      operationId: invalidFormExplodeString
+      summary: "invalid form style for path string parameter with explode=true"
+      parameters:
+        - name: stringParameter
+          in: path
+          required: true
+          style: form # not allowed for path parameters
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
   /query/string/form-explode/formExplodeString:
     post:
       tags: [test]

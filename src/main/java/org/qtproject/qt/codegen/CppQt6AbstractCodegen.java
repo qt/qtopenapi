@@ -355,6 +355,26 @@ public abstract class CppQt6AbstractCodegen extends AbstractCppCodegen implement
                 if (!isIncluded("QString", imports)) {
                     imports.add(createMapping("import", "QString"));
                 }
+                // Look for unsupported path parameter styles.
+                final Set<String> unsupportedPathStyles = new HashSet<>(
+                        Arrays.asList("form", "spaceDelimited", "pipeDelimited", "deepObject"));
+                for (CodegenParameter param : operation.pathParams) {
+                    if (param.style != null) {
+                        final String paramStyle = param.style;
+                        if (unsupportedPathStyles.contains(paramStyle)) {
+                            // Invalid style.
+                            final String msg = String.format("'%s' style is invalid for path "
+                                                             + "parameters.%nAllowed styles are: "
+                                                             + "'matrix', 'label' and 'simple'.%n"
+                                                             + "Falling back to the default style "
+                                                             + "'simple'.", paramStyle);
+                            LOGGER.warn("{}: {}", operation.operationId, msg);
+                            param.vendorExtensions.put("x-warningMessage",
+                                                       msg.replaceAll("\\n", "\\\\n"));
+                            param.style = "simple";
+                        }
+                    }
+                }
             }
 
             // Look for unsupported query parameter styles or invalid style/explode combinations.

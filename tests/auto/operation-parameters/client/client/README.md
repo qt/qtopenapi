@@ -67,6 +67,7 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:10203/v2
 |*headerSimpleNotExplodeString* | *GET* /header/string/simple-not-explode/stringParameter | Simple style with explode false..|
 |*invalidDeepObjectNotExplodeArray* | *POST* /query/array/invalid-deepObject-not-explode/deepObjectNotExplodeArray | invalid deepObject style for query array parameter with explode=false.|
 |*invalidDeepObjectNotExplodeString* | *POST* /query/string/invalid-deepObject-not-explode/deepObjectNotExplodeString | invalid deepObject style for query string parameter with explode=false.|
+|*invalidFormExplodeString* | *POST* /path/string/invalid-form-explode/formExplodeString/{stringParameter} | invalid form style for path string parameter with explode=true.|
 |*invalidMatrixExplodeString* | *POST* /query/string/invalid-matrix-explode/matrixExplodeString | invalid matrix style for query string parameter with explode=true.|
 |*labelExplodeAnytype* | *GET* /path/anytype/label-explode/{anytypeParameter} | label anytype explode.|
 |*labelExplodeArray* | *GET* /path/array/label-explode/{arrayParameter} | label array explode.|

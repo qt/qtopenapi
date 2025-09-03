@@ -320,6 +320,13 @@ func (api *TestAPI) InvalidDeepObjectNotExplodeString(c *gin.Context) {
 	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
+// Post /v2/path/string/invalid-form-explode/formExplodeString/:stringParameter
+// invalid form style for path string parameter with explode=true
+func (api *TestAPI) InvalidFormExplodeString(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
 // Post /v2/query/string/invalid-matrix-explode/matrixExplodeString
 // invalid matrix style for query string parameter with explode=true
 func (api *TestAPI) InvalidMatrixExplodeString(c *gin.Context) {

@@ -231,6 +231,12 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
 			handleFunctions.TestAPI.InvalidDeepObjectNotExplodeString,
 		},
 		{
+			"InvalidFormExplodeString",
+			http.MethodPost,
+			"/v2/path/string/invalid-form-explode/formExplodeString/:stringParameter",
+			handleFunctions.TestAPI.InvalidFormExplodeString,
+		},
+		{
 			"InvalidMatrixExplodeString",
 			http.MethodPost,
 			"/v2/query/string/invalid-matrix-explode/matrixExplodeString",

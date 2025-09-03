@@ -129,6 +129,7 @@ private Q_SLOTS:
     void queryParameters();
     void queryAnyTypeParameters_data();
     void queryAnyTypeParameters();
+    void pathNACombinations();
     void queryNACombinations();
     void pathAndQueryUndefined();
     void severalQueryParametersPerOPeration();
@@ -1028,6 +1029,18 @@ void OperationParameters::queryAnyTypeParameters()
     CALL_TEST_POST_OPERATION(formExplodeAnytype, jsonValue, expectedFormExplode);
     // style=form, explode=false, type=anytype
     CALL_TEST_POST_OPERATION(formNotExplodeAnytype, jsonValue, expectedFormNotExplode);
+}
+
+void OperationParameters::pathNACombinations()
+{
+    // style=form, explode=true, type=string : Invalid style for path parameters.
+    // Falling back to the default style simple instead.
+    const char *warningMsg = "'form' style is invalid for path parameters.\nAllowed styles are: "
+                             "'matrix', 'label' and 'simple'.\nFalling back to the default style "
+                             "'simple'.";
+    QTest::ignoreMessage(QtWarningMsg, warningMsg);
+    CALL_TEST_OPERATION(invalidFormExplodeString, QString("Test!*%"),
+                        "/v2/path/string/invalid-form-explode/formExplodeString/Test%21%2A%25");
 }
 
 /**

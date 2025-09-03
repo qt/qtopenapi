@@ -382,6 +382,15 @@ public:
     /**
     * \internal
     * The auto-generated API:
+    * void invalidFormExplodeString(const QString &stringParameter);
+    * void invalidFormExplodeString(const QString &stringParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(invalidFormExplodeString, (const QString &stringParameter), (stringParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
     * void invalidMatrixExplodeString(const ::QtOpenAPI::OptionalParam<QString> &stringParameter);
     * void invalidMatrixExplodeString(const ::QtOpenAPI::OptionalParam<QString> &stringParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
     * \endinternal
@@ -1202,6 +1211,10 @@ Q_SIGNALS:
     void invalidDeepObjectNotExplodeStringFinished(const QString &summary);
     /** Signal is emitted, if invalidDeepObjectNotExplodeString() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void invalidDeepObjectNotExplodeStringErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if invalidFormExplodeString() request completed successfully. The \a summary contains a serialized server response. */
+    void invalidFormExplodeStringFinished(const QString &summary);
+    /** Signal is emitted, if invalidFormExplodeString() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void invalidFormExplodeStringErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if invalidMatrixExplodeString() request completed successfully. The \a summary contains a serialized server response. */
     void invalidMatrixExplodeStringFinished(const QString &summary);
     /** Signal is emitted, if invalidMatrixExplodeString() request completed with an error. \a errorType and \a errorStr contain an information about the error. */

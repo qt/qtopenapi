@@ -119,6 +119,8 @@ void QtOAITestApi::initializeServerConfigs()
     m_serverIndices.insert("invalidDeepObjectNotExplodeArray", 0);
     m_serverConfigs.insert("invalidDeepObjectNotExplodeString", defaultConf);
     m_serverIndices.insert("invalidDeepObjectNotExplodeString", 0);
+    m_serverConfigs.insert("invalidFormExplodeString", defaultConf);
+    m_serverIndices.insert("invalidFormExplodeString", 0);
     m_serverConfigs.insert("invalidMatrixExplodeString", defaultConf);
     m_serverIndices.insert("invalidMatrixExplodeString", 0);
     m_serverConfigs.insert("labelExplodeAnytype", defaultConf);
@@ -5472,6 +5474,130 @@ void QtOAITestApi::invalidDeepObjectNotExplodeStringCallback(const QRestReply &r
         callerInfo.slot->call(context, argv);
     }
     emit invalidDeepObjectNotExplodeStringFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::invalidFormExplodeString(const QString &stringParameter)
+* 'invalidFormExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] stringParameter QString [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::invalidFormExplodeString(const QString &stringParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'invalidFormExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    invalidFormExplodeString(stringParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual invalidFormExplodeStringWithDataImpl() in derived class.
+* The virtual invalidFormExplodeStringWithDataImpl() is being called by the template
+* function.
+
+* @param[in] stringParameter QString [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::invalidFormExplodeStringCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by invalidFormExplodeStringFinished() or
+* being returned as a callback parameter of invalidFormExplodeString() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::invalidFormExplodeStringWithDataImpl(const QString &stringParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the invalidFormExplodeString() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking invalidFormExplodeString() operation calls.
+
+* @param[in] stringParameter QString [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::invalidFormExplodeStringWithDataImpl(const QString &stringParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["invalidFormExplodeString"][m_serverIndices.value("invalidFormExplodeString")].serverUrl();
+    QString fullPath = "/path/string/invalid-form-explode/formExplodeString/{stringParameter}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString stringParameterPathParam = QString("{%1}").arg("stringParameter");
+        qWarning("'form' style is invalid for path parameters.\nAllowed styles are: 'matrix', 'label' and 'simple'.\nFalling back to the default style 'simple'.");
+        QString pathStyle = "simple";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"stringParameter"_s, true, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(stringParameter));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(stringParameterPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            invalidFormExplodeStringCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit invalidFormExplodeStringErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::invalidFormExplodeStringCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit invalidFormExplodeStringFinished(output);
 }
 
 /**
