@@ -123,6 +123,8 @@ void QtOAITestApi::initializeServerConfigs()
     m_serverIndices.insert("invalidFormExplodeString", 0);
     m_serverConfigs.insert("invalidMatrixExplodeString", defaultConf);
     m_serverIndices.insert("invalidMatrixExplodeString", 0);
+    m_serverConfigs.insert("invalidStylesQueryPathParams", defaultConf);
+    m_serverIndices.insert("invalidStylesQueryPathParams", 0);
     m_serverConfigs.insert("labelExplodeAnytype", defaultConf);
     m_serverIndices.insert("labelExplodeAnytype", 0);
     m_serverConfigs.insert("labelExplodeArray", defaultConf);
@@ -213,6 +215,8 @@ void QtOAITestApi::initializeServerConfigs()
     m_serverIndices.insert("pipeDelimitedNotExplodeObject", 0);
     m_serverConfigs.insert("pipeDelimitedNotExplodeStringMap", defaultConf);
     m_serverIndices.insert("pipeDelimitedNotExplodeStringMap", 0);
+    m_serverConfigs.insert("queryAndPathParams", defaultConf);
+    m_serverIndices.insert("queryAndPathParams", 0);
     m_serverConfigs.insert("simpleExplodeAnytype", defaultConf);
     m_serverIndices.insert("simpleExplodeAnytype", 0);
     m_serverConfigs.insert("simpleExplodeArray", defaultConf);
@@ -5723,6 +5727,152 @@ void QtOAITestApi::invalidMatrixExplodeStringCallback(const QRestReply &reply)
         callerInfo.slot->call(context, argv);
     }
     emit invalidMatrixExplodeStringFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::invalidStylesQueryPathParams(const QString &stringParameter, const QList<qint32> &arrayParameter)
+* 'invalidStylesQueryPathParams' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] stringParameter QString [required]
+* @param[in] arrayParameter QList<qint32> [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::invalidStylesQueryPathParams(const QString &stringParameter, const QList<qint32> &arrayParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'invalidStylesQueryPathParams' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    invalidStylesQueryPathParams(stringParameter, arrayParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual invalidStylesQueryPathParamsWithDataImpl() in derived class.
+* The virtual invalidStylesQueryPathParamsWithDataImpl() is being called by the template
+* function.
+
+* @param[in] stringParameter QString [required]
+* @param[in] arrayParameter QList<qint32> [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::invalidStylesQueryPathParamsCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by invalidStylesQueryPathParamsFinished() or
+* being returned as a callback parameter of invalidStylesQueryPathParams() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::invalidStylesQueryPathParamsWithDataImpl(const QString &stringParameter, const QList<qint32> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the invalidStylesQueryPathParams() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking invalidStylesQueryPathParams() operation calls.
+
+* @param[in] stringParameter QString [required]
+* @param[in] arrayParameter QList<qint32> [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::invalidStylesQueryPathParamsWithDataImpl(const QString &stringParameter, const QList<qint32> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["invalidStylesQueryPathParams"][m_serverIndices.value("invalidStylesQueryPathParams")].serverUrl();
+    QString fullPath = "/path/string/invalid-form-explode/{stringParameter}/query/array/invalid-label-explode";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString stringParameterPathParam = QString("{%1}").arg("stringParameter");
+        qWarning("'form' style is invalid for path parameters.\nAllowed styles are: 'matrix', 'label' and 'simple'.\nFalling back to the default style 'simple'.");
+        QString pathStyle = "simple";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"stringParameter"_s, true, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(stringParameter));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(stringParameterPathParam, paramString);
+    }
+    int queryParamCounter = 0;
+    {
+        [[maybe_unused]] QString paramString;
+        qWarning("'label' style is invalid for query parameters.\nAllowed styles are: 'form', 'spaceDelimited', 'pipeDelimited' and 'deepObject'.\nFalling back to the default style 'form'.");
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"arrayParameter"_s, true, (!false && !true));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!false && !true));
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
+            fullPath.append(queryPrefix);
+        {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
+            fullPath.append(serializeArrayValue(arrayParameter, queryStyle, true, querySuffix, queryDelimiter, true));
+            queryParamCounter++;
+        }
+    }
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            invalidStylesQueryPathParamsCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit invalidStylesQueryPathParamsErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::invalidStylesQueryPathParamsCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit invalidStylesQueryPathParamsFinished(output);
 }
 
 /**
@@ -11351,6 +11501,150 @@ void QtOAITestApi::pipeDelimitedNotExplodeStringMapCallback(const QRestReply &re
         callerInfo.slot->call(context, argv);
     }
     emit pipeDelimitedNotExplodeStringMapFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::queryAndPathParams(const QString &stringParameter, const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter = ::QtOpenAPI::OptionalParam<QList<qint32>>())
+* 'queryAndPathParams' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] stringParameter QString [required]
+* @param[in] arrayParameter QList<qint32> [optional]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::queryAndPathParams(const QString &stringParameter, const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter = ::QtOpenAPI::OptionalParam<QList<qint32>>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'queryAndPathParams' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    queryAndPathParams(stringParameter, arrayParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual queryAndPathParamsWithDataImpl() in derived class.
+* The virtual queryAndPathParamsWithDataImpl() is being called by the template
+* function.
+
+* @param[in] stringParameter QString [required]
+* @param[in] arrayParameter QList<qint32> [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::queryAndPathParamsCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by queryAndPathParamsFinished() or
+* being returned as a callback parameter of queryAndPathParams() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::queryAndPathParamsWithDataImpl(const QString &stringParameter, const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the queryAndPathParams() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking queryAndPathParams() operation calls.
+
+* @param[in] stringParameter QString [required]
+* @param[in] arrayParameter QList<qint32> [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::queryAndPathParamsWithDataImpl(const QString &stringParameter, const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["queryAndPathParams"][m_serverIndices.value("queryAndPathParams")].serverUrl();
+    QString fullPath = "/path/string/matrix-explode/{stringParameter}/query/array/spaceDelimited-not-explode";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString stringParameterPathParam = QString("{%1}").arg("stringParameter");
+        QString pathStyle = "matrix";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, (!true && !false));
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"stringParameter"_s, true, (!true && !false));
+        QString paramString = pathPrefix + pathSuffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(stringParameter));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("matrix") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(stringParameterPathParam, paramString);
+    }
+    int queryParamCounter = 0;
+    {
+        [[maybe_unused]] QString paramString;
+        QString queryStyle = "spaceDelimited";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"arrayParameter"_s, false, (!false && !true));
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, (!false && !true));
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
+            fullPath.append(queryPrefix);
+        if (arrayParameter.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
+            fullPath.append(serializeArrayValue(arrayParameter.value(), queryStyle, false, querySuffix, queryDelimiter, true));
+            queryParamCounter++;
+        }
+    }
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            queryAndPathParamsCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit queryAndPathParamsErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::queryAndPathParamsCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit queryAndPathParamsFinished(output);
 }
 
 /**

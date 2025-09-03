@@ -69,6 +69,7 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:10203/v2
 |*invalidDeepObjectNotExplodeString* | *POST* /query/string/invalid-deepObject-not-explode/deepObjectNotExplodeString | invalid deepObject style for query string parameter with explode=false.|
 |*invalidFormExplodeString* | *POST* /path/string/invalid-form-explode/formExplodeString/{stringParameter} | invalid form style for path string parameter with explode=true.|
 |*invalidMatrixExplodeString* | *POST* /query/string/invalid-matrix-explode/matrixExplodeString | invalid matrix style for query string parameter with explode=true.|
+|*invalidStylesQueryPathParams* | *POST* /path/string/invalid-form-explode/{stringParameter}/query/array/invalid-label-explode | invalid form style for path string parameter and invalid label style for query array parameter.|
 |*labelExplodeAnytype* | *GET* /path/anytype/label-explode/{anytypeParameter} | label anytype explode.|
 |*labelExplodeArray* | *GET* /path/array/label-explode/{arrayParameter} | label array explode.|
 |*labelExplodeDouble* | *GET* /path/double/label-explode/{doubleParameter} | Label style with explode set to true for double path parameter..|
@@ -114,6 +115,7 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:10203/v2
 |*pipeDelimitedNotExplodeModelMap* | *POST* /query/map/model-mapping/pipeDelimited-not-explode/pipeDelimitedNotExplodeMap | pipeDelimited style with explode=false for query map parameter of model values..|
 |*pipeDelimitedNotExplodeObject* | *POST* /query/object/pipeDelimited-not-explode/pipeDelimitedNotExplodeObject | pipeDelimited object not explode.|
 |*pipeDelimitedNotExplodeStringMap* | *POST* /query/map/string-mapping/pipeDelimited-not-explode/pipeDelimitedNotExplodeMap | pipeDelimited style with explode=false for query map parameter of string values..|
+|*queryAndPathParams* | *POST* /path/string/matrix-explode/{stringParameter}/query/array/spaceDelimited-not-explode | matrix style for path string parameter with explode=true and spaceDelimited style for query array parameter with explode=false.|
 |*simpleExplodeAnytype* | *GET* /path/anytype/simple-explode/{anytypeParameter} | simple anytype explode.|
 |*simpleExplodeArray* | *GET* /path/array/simple-explode/{arrayParameter} | simple array explode.|
 |*simpleExplodeDouble* | *GET* /path/double/simple-explode/{doubleParameter} | Simple style with explode set to true for double path parameter..|

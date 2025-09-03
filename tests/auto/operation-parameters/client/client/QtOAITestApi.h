@@ -400,6 +400,15 @@ public:
     /**
     * \internal
     * The auto-generated API:
+    * void invalidStylesQueryPathParams(const QString &stringParameter, const QList<qint32> &arrayParameter);
+    * void invalidStylesQueryPathParams(const QString &stringParameter, const QList<qint32> &arrayParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(invalidStylesQueryPathParams, (const QString &stringParameter, const QList<qint32> &arrayParameter), (stringParameter, arrayParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
     * void labelExplodeAnytype(const QJsonValue &anytypeParameter);
     * void labelExplodeAnytype(const QJsonValue &anytypeParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
     * \endinternal
@@ -801,6 +810,15 @@ public:
     * \endinternal
     */
     QtOAI_ADD_OPERATION_IMPL(pipeDelimitedNotExplodeStringMap, (const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter = ::QtOpenAPI::OptionalParam<QMap<QString, QString>>()), (mapParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void queryAndPathParams(const QString &stringParameter, const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter);
+    * void queryAndPathParams(const QString &stringParameter, const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(queryAndPathParams, (const QString &stringParameter, const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter = ::QtOpenAPI::OptionalParam<QList<qint32>>()), (stringParameter, arrayParameter), (const QString &), /* non-deprecated */)
 
     /**
     * \internal
@@ -1219,6 +1237,10 @@ Q_SIGNALS:
     void invalidMatrixExplodeStringFinished(const QString &summary);
     /** Signal is emitted, if invalidMatrixExplodeString() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void invalidMatrixExplodeStringErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if invalidStylesQueryPathParams() request completed successfully. The \a summary contains a serialized server response. */
+    void invalidStylesQueryPathParamsFinished(const QString &summary);
+    /** Signal is emitted, if invalidStylesQueryPathParams() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void invalidStylesQueryPathParamsErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if labelExplodeAnytype() request completed successfully. The \a summary contains a serialized server response. */
     void labelExplodeAnytypeFinished(const QString &summary);
     /** Signal is emitted, if labelExplodeAnytype() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
@@ -1399,6 +1421,10 @@ Q_SIGNALS:
     void pipeDelimitedNotExplodeStringMapFinished(const QString &summary);
     /** Signal is emitted, if pipeDelimitedNotExplodeStringMap() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void pipeDelimitedNotExplodeStringMapErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if queryAndPathParams() request completed successfully. The \a summary contains a serialized server response. */
+    void queryAndPathParamsFinished(const QString &summary);
+    /** Signal is emitted, if queryAndPathParams() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void queryAndPathParamsErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if simpleExplodeAnytype() request completed successfully. The \a summary contains a serialized server response. */
     void simpleExplodeAnytypeFinished(const QString &summary);
     /** Signal is emitted, if simpleExplodeAnytype() request completed with an error. \a errorType and \a errorStr contain an information about the error. */

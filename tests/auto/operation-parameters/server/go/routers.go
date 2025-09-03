@@ -752,5 +752,17 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
 			"/v2/header/string-custom-devided/simple-not-explode/stringParameter",
 			handleFunctions.TestAPI.HeaderSimpleNotExplodeCustomDevidedString,
 		},
+		{
+			"QueryAndPathParams",
+			http.MethodPost,
+			"/v2/path/string/matrix-explode/:stringParameter/query/array/spaceDelimited-not-explode",
+			handleFunctions.TestAPI.QueryAndPathParams,
+		},
+		{
+			"InvalidStylesQueryPathParams",
+			http.MethodPost,
+			"/v2/path/string/invalid-form-explode/:stringParameter/query/array/invalid-label-explode",
+			handleFunctions.TestAPI.InvalidStylesQueryPathParams,
+		},
 	}
 }

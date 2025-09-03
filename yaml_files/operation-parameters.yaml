@@ -2254,6 +2254,65 @@ paths:
             application/json:
               schema:
                 type: string
+  /path/string/matrix-explode/{stringParameter}/query/array/spaceDelimited-not-explode:
+    post:
+      tags: [test]
+      operationId: queryAndPathParams
+      summary: "matrix style for path string parameter with explode=true and spaceDelimited style for query array parameter with explode=false"
+      parameters:
+        - name: stringParameter
+          in: path
+          required: true
+          style: matrix
+          explode: true
+          schema:
+            type: string
+        - name: arrayParameter
+          in: query
+          style: spaceDelimited
+          explode: false
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /path/string/invalid-form-explode/{stringParameter}/query/array/invalid-label-explode:
+    post:
+      tags: [test]
+      operationId: invalidStylesQueryPathParams
+      summary: "invalid form style for path string parameter and invalid label style for query array parameter"
+      parameters:
+        - name: stringParameter
+          in: path
+          required: true
+          style: form # not allowed for path parameters
+          explode: true
+          schema:
+            type: string
+        - name: arrayParameter
+          in: query
+          required: true
+          style: label # not allowed for query parameters
+          explode: true
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
   /header/string/simple-explode/stringParameter:
     get:
       tags: [test]

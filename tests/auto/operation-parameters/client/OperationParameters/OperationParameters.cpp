@@ -12,15 +12,20 @@ using namespace Qt::StringLiterals;
 
 #define CALL_TEST_OPERATION(OPERATION, PARAM, EXPECTED_STRING)                          \
 {                                                                                       \
-    bool done = false;                                                                  \
-    OPERATION(PARAM, this, [&](const QRestReply &reply, const QString &summary) {       \
-        if (!(done = reply.isSuccess()))                                                \
-            qWarning() << "Error happened while issuing request : " << reply.errorString(); \
-        QCOMPARE(getStatusString(summary), EXPECTED_STRING);                            \
-    });                                                                                 \
-    QCOMPARE("/v2" + m_testOperationPath, EXPECTED_STRING);                             \
-    QTRY_COMPARE_EQ(done, true);                                                        \
+    CALL_TEST_OPERATION_MULTI_PARAMS(OPERATION, EXPECTED_STRING, PARAM)                 \
 }                                                                                       \
+
+#define CALL_TEST_OPERATION_MULTI_PARAMS(OPERATION, EXPECTED_STRING, ...)                       \
+{                                                                                               \
+        bool done = false;                                                                      \
+        OPERATION(__VA_ARGS__, this, [&](const QRestReply &reply, const QString &summary) {     \
+            if (!(done = reply.isSuccess()))                                                    \
+                qWarning() << "Error happened while issuing request : " << reply.errorString(); \
+            QCOMPARE(getStatusString(summary), EXPECTED_STRING);                                \
+        });                                                                                     \
+        QCOMPARE("/v2" + m_testOperationPath, EXPECTED_STRING);                                 \
+        QTRY_COMPARE_EQ(done, true);                                                            \
+}
 
 #define CALL_TEST_POST_OPERATION(OPERATION, PARAM, EXPECTED_STRING)                     \
 {                                                                                       \
@@ -133,6 +138,7 @@ private Q_SLOTS:
     void queryNACombinations();
     void pathAndQueryUndefined();
     void severalQueryParametersPerOPeration();
+    void pathAndQueryParameters();
     void headerAnyTypeParameters_data();
     void headerAnyTypeParameters();
     void headerStringParameters_data();
@@ -1393,6 +1399,30 @@ void OperationParameters::severalQueryParametersPerOPeration()
                                     QCOMPARE(getStatusString(summary), "/v2/query/strings/form-explode/formExplodeDifferentOptions?stringParameterB=50");
                                 });
     QTRY_COMPARE_EQ(done, true);
+}
+
+void OperationParameters::pathAndQueryParameters()
+{
+    QString expectedResult;
+    QString stringParam("str * param");
+    QList<int> arrayParam({22, -150, 0});
+
+    expectedResult = "/v2/path/string/matrix-explode/;stringParameter=str%20%2A%20param/query/array/spaceDelimited-not-explode?arrayParameter=22%20-150%200"_L1;
+    CALL_TEST_OPERATION_MULTI_PARAMS(queryAndPathParams, expectedResult, stringParam, arrayParam);
+
+    // style=form, explode=true, type=string : Invalid style for path parameters => use simple style
+    // style=label, explode=true, type=array : Invalid style for query parameters => use form style
+    const char *pathWarningMsg = "'form' style is invalid for path parameters.\nAllowed styles are:"
+                                 " 'matrix', 'label' and 'simple'.\nFalling back to the default "
+                                 "style 'simple'.";
+    const char *queryWarningMsg = "'label' style is invalid for query parameters.\nAllowed styles "
+                                  "are: 'form', 'spaceDelimited', 'pipeDelimited' and 'deepObject'."
+                                  "\nFalling back to the default style 'form'.";
+    QTest::ignoreMessage(QtWarningMsg, pathWarningMsg);
+    QTest::ignoreMessage(QtWarningMsg, queryWarningMsg);
+    expectedResult = "/v2/path/string/invalid-form-explode/str%20%2A%20param/query/array/invalid-label-explode?arrayParameter=22&arrayParameter=-150&arrayParameter=0"_L1;
+    CALL_TEST_OPERATION_MULTI_PARAMS(invalidStylesQueryPathParams, expectedResult, stringParam,
+                                     arrayParam);
 }
 
 /**

@@ -334,6 +334,13 @@ func (api *TestAPI) InvalidMatrixExplodeString(c *gin.Context) {
 	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
+// Post /v2/path/string/invalid-form-explode/:stringParameter/query/array/invalid-label-explode
+// invalid form style for path string parameter and invalid label style for query array parameter
+func (api *TestAPI) InvalidStylesQueryPathParams(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
+}
+
 // Get /v2/path/anytype/label-explode/:anytypeParameter
 // label anytype explode
 func (api *TestAPI) LabelExplodeAnytype(c *gin.Context) {
@@ -853,6 +860,13 @@ func (api *TestAPI) PipeDelimitedNotExplodeObject(c *gin.Context) {
 func (api *TestAPI) PipeDelimitedNotExplodeStringMap(c *gin.Context) {
 	// Your handler implementation
 	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
+}
+
+// Post /v2/path/string/matrix-explode/:stringParameter/query/array/spaceDelimited-not-explode
+// matrix style for path string parameter with explode=true and spaceDelimited style for query array parameter with explode=false
+func (api *TestAPI) QueryAndPathParams(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Get /v2/path/anytype/simple-explode/:anytypeParameter
