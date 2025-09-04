@@ -225,7 +225,7 @@ QNetworkRequest getNetworkRequest(OAIHttpRequestInput &input, QByteArray &reques
                 // silent abort for the current file
                 continue;
             }
-            QFile *file = new QFile(fileInfo->m_localFilename);
+            auto file = std::make_unique<QFile>(fileInfo->m_localFilename);
             if (!file->open(QIODevice::ReadOnly)) {
                 qWarning() << "Cannot open the file: " << fileInfo->m_localFilename;
                 continue;
@@ -238,15 +238,15 @@ QNetworkRequest getNetworkRequest(OAIHttpRequestInput &input, QByteArray &reques
                 }
             }
             auto part = builder.part(fileInfo->m_variableName);
-            part.setBodyDevice(file, fileInfo->m_localFilename,
+            part.setBodyDevice(file.get(), fileInfo->m_localFilename,
                                fileInfo->m_mimeType.isEmpty() ? u"application/octet-stream"_s
                                                               : fileInfo->m_mimeType);
-            addedFiles.append(file);
+            addedFiles.append(file.release());
         }
         // Build the multipart object
         input.m_multiPart = builder.buildMultiPart();
         // Need to take care about opened files
-        for (QFile *file: addedFiles) {
+        for (QFile *file: std::as_const(addedFiles)) {
             if (file)
                 file->setParent(input.m_multiPart.get()); // we cannot delete the file now, so delete it with the multiPart
         }
