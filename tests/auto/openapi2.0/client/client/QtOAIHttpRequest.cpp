@@ -208,9 +208,7 @@ QNetworkRequest getNetworkRequest(QtOAIHttpRequestInput &input, QByteArray &requ
         for (QList<QtOAIHttpFileElement>::iterator fileInfo = input.m_files.begin(); fileInfo != input.m_files.end(); fileInfo++) {
             QFileInfo fi(fileInfo->m_localFilename);
             // ensure necessary variables are available
-            if (fileInfo->m_localFilename == nullptr
-                || fileInfo->m_localFilename.isEmpty()
-                || fileInfo->m_variableName == nullptr
+            if (fileInfo->m_localFilename.isEmpty()
                 || fileInfo->m_variableName.isEmpty()
                 || !fi.exists()
                 || !fi.isFile()
@@ -224,7 +222,7 @@ QNetworkRequest getNetworkRequest(QtOAIHttpRequestInput &input, QByteArray &requ
                 continue;
             }
             // ensure filename for the request
-            if (fileInfo->m_requestFilename == nullptr || fileInfo->m_requestFilename.isEmpty()) {
+            if (fileInfo->m_requestFilename.isEmpty()) {
                 fileInfo->m_requestFilename = fi.fileName();
                 if (fileInfo->m_requestFilename.isEmpty()) {
                     fileInfo->m_requestFilename = "file";
