@@ -141,7 +141,7 @@ QString httpAttributeEncode(const QString &attributeName, const QString &input)
     // result structure follows RFC 5987
     bool needUtfEncoding = false;
     QString result;
-    const QByteArray inputC = input.toLocal8Bit();
+    const QByteArray inputC = input.toUtf8();
     char c;
     for (int i = 0; i < inputC.length(); i++) {
         c = inputC.at(i);
@@ -330,11 +330,11 @@ QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<Q
         const auto name = headers.nameAt(i);
         const auto value = headers.valueAt(i);
         if (name.compare("Content-Disposition"_L1, Qt::CaseInsensitive) == 0)
-            contentDispositionHdr = QString::fromLatin1(value);
+            contentDispositionHdr = QString::fromUtf8(value);
         else if (name.compare("Content-Type"_L1, Qt::CaseInsensitive) == 0)
-            contentTypeHdr = QString::fromLatin1(value);
+            contentTypeHdr = QString::fromUtf8(value);
         else if (name.compare("Content-Encoding"_L1, Qt::CaseInsensitive) == 0)
-            contentEncodingHdr = QString::fromLatin1(value);
+            contentEncodingHdr = QString::fromUtf8(value);
     }
 
     if (!contentDispositionHdr.isEmpty()) {
