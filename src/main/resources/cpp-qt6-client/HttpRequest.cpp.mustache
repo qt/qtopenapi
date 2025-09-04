@@ -19,6 +19,8 @@
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
+using namespace Qt::StringLiterals;
+
 // Internal url encoding helper function
 QString toFormUrlEncoding(const QString &input)
 {
@@ -45,8 +47,8 @@ QString toFormUrlEncoding(const QString &input)
 void {{prefix}}HttpRequestInput::initialize()
 {
     m_varLayout = NOT_SET;
-    m_urlStr = "";
-    m_httpMethod = "GET";
+    m_urlStr.clear();
+    m_httpMethod = "GET"_L1;
     m_multiPart.reset();
     m_isFormData = false;
 }
@@ -133,7 +135,7 @@ QString httpAttributeEncode(const QString &attributeName, const QString &input)
 {
     // result structure follows RFC 5987
     bool needUtfEncoding = false;
-    QString result = "";
+    QString result;
     const QByteArray inputC = input.toLocal8Bit();
     char c;
     for (int i = 0; i < inputC.length(); i++) {
@@ -154,10 +156,10 @@ QString httpAttributeEncode(const QString &attributeName, const QString &input)
 
     if (!needUtfEncoding) {
         // return simple version
-        return QString("%1=\"%2\"").arg(attributeName, result);
+        return u"%1=\"%2\""_s.arg(attributeName, result);
     }
 
-    QString resultUtf8 = "";
+    QString resultUtf8;
     for (int i = 0; i < inputC.length(); i++) {
         c = inputC.at(i);
         if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')) {
@@ -168,7 +170,7 @@ QString httpAttributeEncode(const QString &attributeName, const QString &input)
     }
 
     // return enhanced version with UTF-8 support
-    return QString("%1=\"%2\"; %1*=utf-8''%3").arg(attributeName, result, resultUtf8);
+    return u"%1=\"%2\"; %1*=utf-8''%3"_s.arg(attributeName, result, resultUtf8);
 }
 
 QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray &requestContent, std::shared_ptr<QNetworkRequestFactory> factory, bool responseCompressionEnabled, bool requestCompressionEnabled)
@@ -178,15 +180,16 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
     requestContent = "";
 
     if (input.m_varLayout == NOT_SET) {
-        input.m_varLayout = input.m_httpMethod == "GET" || input.m_httpMethod == "HEAD" ? ADDRESS : URL_ENCODED;
+        input.m_varLayout = input.m_httpMethod == "GET"_L1 || input.m_httpMethod == "HEAD"_L1
+                                ? ADDRESS : URL_ENCODED;
     }
     // prepare request content
     if (input.m_varLayout == ADDRESS || input.m_varLayout == URL_ENCODED) {
         // variable layout is ADDRESS or URL_ENCODED
         if (!input.m_queryItem.isEmpty()) {
             if (input.m_varLayout == ADDRESS) {
-                input.m_urlStr += "?";
-                input.m_urlStr += input.m_queryItem.toString(QUrl::FullyEncoded).toUtf8();
+                input.m_urlStr += '?'_L1;
+                input.m_urlStr += input.m_queryItem.toString(QUrl::FullyEncoded);
             } else {
                 requestContent = input.m_queryItem.toString(QUrl::FullyEncoded).toUtf8();
             }
@@ -226,11 +229,13 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
             if (fileInfo->m_requestFilename.isEmpty()) {
                 fileInfo->m_requestFilename = fi.fileName();
                 if (fileInfo->m_requestFilename.isEmpty()) {
-                    fileInfo->m_requestFilename = "file";
+                    fileInfo->m_requestFilename = "file"_L1;
                 }
             }
             auto part = builder.part(fileInfo->m_variableName);
-            part.setBodyDevice(file, fileInfo->m_localFilename, fileInfo->m_mimeType.isEmpty() ? QString("application/octet-stream") : fileInfo->m_mimeType);
+            part.setBodyDevice(file, fileInfo->m_localFilename,
+                               fileInfo->m_mimeType.isEmpty() ? u"application/octet-stream"_s
+                                                              : fileInfo->m_mimeType);
             addedFiles.append(file);
         }
         // Build the multipart object
@@ -319,26 +324,24 @@ QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<Q
     for (qsizetype i = 0; i < headers.size(); ++i) {
         const auto name = headers.nameAt(i);
         const auto value = headers.valueAt(i);
-        if (name.compare(QString("Content-Disposition"), Qt::CaseInsensitive) == 0) {
+        if (name.compare("Content-Disposition"_L1, Qt::CaseInsensitive) == 0)
             contentDispositionHdr = QString::fromLatin1(value);
-        }
-        if (name.compare(QString("Content-Type"), Qt::CaseInsensitive) == 0) {
+        else if (name.compare("Content-Type"_L1, Qt::CaseInsensitive) == 0)
             contentTypeHdr = QString::fromLatin1(value);
-        }
-        if (name.compare(QString("Content-Encoding"), Qt::CaseInsensitive) == 0) {
+        else if (name.compare("Content-Encoding"_L1, Qt::CaseInsensitive) == 0)
             contentEncodingHdr = QString::fromLatin1(value);
-        }
     }
 
     if (!contentDispositionHdr.isEmpty()) {
-        auto contentDisposition = contentDispositionHdr.split(QString(";"), Qt::SkipEmptyParts);
-        auto contentType =
-            !contentTypeHdr.isEmpty() ? contentTypeHdr.split(QString(";"), Qt::SkipEmptyParts).first() : QStringLiteral("");
-        if ((contentDisposition.count() > 0) && (contentDisposition.first() == QString("attachment"))) {
+        const auto contentDisposition = contentDispositionHdr.split(u';', Qt::SkipEmptyParts);
+        const auto contentType =
+            !contentTypeHdr.isEmpty() ? contentTypeHdr.split(u';', Qt::SkipEmptyParts).first()
+                                      : QStringLiteral("");
+        if ((contentDisposition.count() > 0) && (contentDisposition.first() == "attachment"_L1)) {
             QString filename = QUuid::createUuid().toString();
             for (const auto &file : contentDisposition) {
-                if (file.contains(QString("filename"))) {
-                    filename = file.split(QString("="), Qt::SkipEmptyParts).at(1);
+                if (file.contains("filename"_L1)) {
+                    filename = file.split(u'=', Qt::SkipEmptyParts).at(1);
                     break;
                 }
             }
@@ -349,17 +352,18 @@ QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<Q
         }
 
     } else if (!contentTypeHdr.isEmpty()) {
-        auto contentType = contentTypeHdr.split(QString(";"), Qt::SkipEmptyParts);
-        if ((contentType.count() > 0) && (contentType.first() == QString("multipart/form-data"))) {
+        const auto contentType = contentTypeHdr.split(u';', Qt::SkipEmptyParts);
+        if ((contentType.count() > 0) && (contentType.first() == "multipart/form-data"_L1)) {
             // TODO : Handle Multipart responses
         } else {
             if (!contentEncodingHdr.isEmpty()) {
-                auto encoding = contentEncodingHdr.split(QString(";"), Qt::SkipEmptyParts);
+                const auto encoding = contentEncodingHdr.split(u';', Qt::SkipEmptyParts);
                 if (encoding.count() > 0) {
-                    auto compressionTypes = encoding.first().split(',', Qt::SkipEmptyParts);
-                    if (compressionTypes.contains("gzip", Qt::CaseInsensitive) || compressionTypes.contains("deflate", Qt::CaseInsensitive)) {
+                    const auto compressionTypes = encoding.first().split(u',', Qt::SkipEmptyParts);
+                    if (compressionTypes.contains("gzip"_L1, Qt::CaseInsensitive)
+                        || compressionTypes.contains("deflate"_L1, Qt::CaseInsensitive)) {
                         result = decompress(reply.networkReply()->readAll());
-                    } else if (compressionTypes.contains("identity", Qt::CaseInsensitive)) {
+                    } else if (compressionTypes.contains("identity"_L1, Qt::CaseInsensitive)) {
                         result = reply.networkReply()->readAll();
                     }
                 }
