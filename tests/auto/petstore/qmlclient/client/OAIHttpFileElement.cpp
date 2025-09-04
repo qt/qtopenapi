@@ -67,14 +67,11 @@ QByteArray OAIHttpFileElement::asByteArray() const
 {
     QFile file(m_localFilename);
     QByteArray bArray;
-    bool result = false;
-    if (file.exists()) {
-        result = file.open(QIODevice::ReadOnly);
+    if (file.exists() && file.open(QIODevice::ReadOnly)) {
         bArray = file.readAll();
         file.close();
-    }
-    if (!result) {
-        qDebug() << "Error opening file " << m_localFilename;
+    } else {
+        qDebug() << "Failed to open the file" << m_localFilename;
     }
     return bArray;
 }
@@ -82,15 +79,15 @@ QByteArray OAIHttpFileElement::asByteArray() const
 bool OAIHttpFileElement::fromByteArray(const QByteArray &bytes)
 {
     QFile file(m_localFilename);
-    bool result = false;
-    if (file.exists()) {
-        file.remove();
-    }
-    result = file.open(QIODevice::WriteOnly);
-    file.write(bytes);
-    file.close();
-    if (!result) {
-        qDebug() << "Error creating file " << m_localFilename;
+    bool result = file.open(QIODevice::WriteOnly | QIODevice::Truncate);
+    if (result) {
+        const qint64 written = file.write(bytes);
+        file.close();
+        result = (written == bytes.size());
+        if (!result)
+            qDebug() << "Failed to write data to the file" << m_localFilename;
+    } else {
+        qDebug() << "Failed to create the file" << m_localFilename;
     }
     return result;
 }
