@@ -202,9 +202,9 @@ QNetworkRequest getNetworkRequest(OAIHttpRequestInput &input, QByteArray &reques
     } else {
         QFormDataBuilder builder;
         // add variables
-        for (const QString &key : input.m_vars.keys()) {
+        for (const auto &[key, str] : input.m_vars.asKeyValueRange()) {
             auto part = builder.part(key);
-            const QByteArray value = input.m_vars.value(key).toUtf8();
+            const QByteArray value = str.toUtf8();
             if (input.m_fieldHeaders.contains(key)) {
                 part.setBody(value, QString(), input.m_fieldHeaders[key]);
             } else {
@@ -214,33 +214,33 @@ QNetworkRequest getNetworkRequest(OAIHttpRequestInput &input, QByteArray &reques
 
         // add files
         QList<QFile *> addedFiles;
-        for (QList<OAIHttpFileElement>::iterator fileInfo = input.m_files.begin(); fileInfo != input.m_files.end(); fileInfo++) {
-            QFileInfo fi(fileInfo->m_localFilename);
+        for (auto &fileInfo : input.m_files) {
+            QFileInfo fi(fileInfo.m_localFilename);
             // ensure necessary variables are available
-            if (fileInfo->m_localFilename.isEmpty()
-                || fileInfo->m_variableName.isEmpty()
+            if (fileInfo.m_localFilename.isEmpty()
+                || fileInfo.m_variableName.isEmpty()
                 || !fi.exists()
                 || !fi.isFile()
                 || !fi.isReadable()) {
                 // silent abort for the current file
                 continue;
             }
-            auto file = std::make_unique<QFile>(fileInfo->m_localFilename);
+            auto file = std::make_unique<QFile>(fileInfo.m_localFilename);
             if (!file->open(QIODevice::ReadOnly)) {
-                qWarning() << "Cannot open the file: " << fileInfo->m_localFilename;
+                qWarning() << "Cannot open the file: " << fileInfo.m_localFilename;
                 continue;
             }
             // ensure filename for the request
-            if (fileInfo->m_requestFilename.isEmpty()) {
-                fileInfo->m_requestFilename = fi.fileName();
-                if (fileInfo->m_requestFilename.isEmpty()) {
-                    fileInfo->m_requestFilename = "file"_L1;
+            if (fileInfo.m_requestFilename.isEmpty()) {
+                fileInfo.m_requestFilename = fi.fileName();
+                if (fileInfo.m_requestFilename.isEmpty()) {
+                    fileInfo.m_requestFilename = "file"_L1;
                 }
             }
-            auto part = builder.part(fileInfo->m_variableName);
-            part.setBodyDevice(file.get(), fileInfo->m_localFilename,
-                               fileInfo->m_mimeType.isEmpty() ? u"application/octet-stream"_s
-                                                              : fileInfo->m_mimeType);
+            auto part = builder.part(fileInfo.m_variableName);
+            part.setBodyDevice(file.get(), fileInfo.m_localFilename,
+                               fileInfo.m_mimeType.isEmpty() ? u"application/octet-stream"_s
+                                                             : fileInfo.m_mimeType);
             addedFiles.append(file.release());
         }
         // Build the multipart object
