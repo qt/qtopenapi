@@ -459,8 +459,8 @@ void QtOAIStoreApi::placeOrderWithDataImpl(const QtOAIOrder &qtOAIOrder, const Q
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     QtOAIHttpRequestInput input(fullPath, "POST");
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
     {
-        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QByteArray output = qtOAIOrder.asJson().toUtf8();
         input.m_requestBody.append(output);
     }

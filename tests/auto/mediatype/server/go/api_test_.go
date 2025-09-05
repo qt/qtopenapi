@@ -43,25 +43,25 @@ func (api *TestAPI) BinaryType(c *gin.Context) {
 // Put request-body, application-json, array
 func (api *TestAPI) PostApplicationJsonArray(c *gin.Context) {
 	var requestUsers any
+
 	if err := c.ShouldBindJSON(&requestUsers); err != nil {
-		fmt.Println("Error of reading json!", err)
+		fmt.Println("PostApplicationJsonArray: Error of reading json or empty json!", err)
 	}
 
 	// Here just check we can parse ANY block to array of users
 	bytes, err := json.Marshal(requestUsers)
 	if err != nil {
 		fmt.Println("Failed to marshal: %w", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	var users []User
 	if err := json.Unmarshal(bytes, &users); err != nil {
-		fmt.Println("Failed to unmarshal: %w", err)
-	}
-
-	if len(users) != 4 {
-		fmt.Println("Unexpected array size! See: ", users)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
 	c.JSON(http.StatusOK, gin.H{"users": requestUsers, "header": c.Request.Header})
 }
 
@@ -70,7 +70,7 @@ func (api *TestAPI) PostApplicationJsonArray(c *gin.Context) {
 func (api *TestAPI) PostApplicationJsonBool(c *gin.Context) {
 	var requestBody bool
 	if err := c.ShouldBindJSON(&requestBody); err != nil {
-		fmt.Println("Error of reading json!", err)
+		fmt.Println("PostApplicationJsonBool: Error of reading json!", err)
 	}
 	c.JSON(http.StatusOK, gin.H{"bool": requestBody, "header": c.Request.Header})
 }
@@ -80,7 +80,7 @@ func (api *TestAPI) PostApplicationJsonBool(c *gin.Context) {
 func (api *TestAPI) PostApplicationJsonInt(c *gin.Context) {
 	var requestBody any
 	if err := c.ShouldBindJSON(&requestBody); err != nil {
-		fmt.Println("Error of reading json!", err)
+		fmt.Println("PostApplicationJsonInt: Error of reading json!", err)
 	}
 	c.JSON(http.StatusOK, gin.H{"integer": requestBody, "header": c.Request.Header})
 }
@@ -90,7 +90,7 @@ func (api *TestAPI) PostApplicationJsonInt(c *gin.Context) {
 func (api *TestAPI) PostApplicationJsonMap(c *gin.Context) {
 	var requestBody any
 	if err := c.BindJSON(&requestBody); err != nil {
-		fmt.Println("Error of reading json!", err)
+		fmt.Println("PostApplicationJsonMap: Error of reading json!", err)
 	}
 	c.JSON(http.StatusOK, gin.H{"nested-object": requestBody, "header": c.Request.Header})
 }
@@ -100,7 +100,7 @@ func (api *TestAPI) PostApplicationJsonMap(c *gin.Context) {
 func (api *TestAPI) PostApplicationJsonObject(c *gin.Context) {
 	var requestBody User
 	if err := c.BindJSON(&requestBody); err != nil {
-		fmt.Println("Error of reading json!", err)
+		fmt.Println("PostApplicationJsonObject: Error of reading json!", err)
 	}
 	c.JSON(http.StatusOK, gin.H{"json-object": requestBody, "header": c.Request.Header})
 }
@@ -110,7 +110,7 @@ func (api *TestAPI) PostApplicationJsonObject(c *gin.Context) {
 func (api *TestAPI) PostApplicationJsonSeveralObjects(c *gin.Context) {
 	var requestBody any
 	if err := c.BindJSON(&requestBody); err != nil {
-		fmt.Println("Error of reading json!", err)
+		fmt.Println("PostApplicationJsonSeveralObjects: Error of reading json!", err)
 	}
 	c.JSON(http.StatusOK, gin.H{"nested-object": requestBody, "header": c.Request.Header})
 }
@@ -122,7 +122,7 @@ func (api *TestAPI) PostApplicationJsonString(c *gin.Context) {
 	// but we want to double-check that it's literal null
 	body, err := io.ReadAll(c.Request.Body)
 	if err != nil {
-		fmt.Println("Error of reading json!", err)
+		fmt.Println("PostApplicationJsonString: Error of reading request body!", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": "unable to read string body"})
 		return
 	}
@@ -136,10 +136,15 @@ func (api *TestAPI) PostApplicationJsonString(c *gin.Context) {
 		return
 	}
 
+	// Check the case when optional string was not sent as a parameter
+	if bytes.Equal(bytes.TrimSpace(body), []byte("")) {
+		c.JSON(http.StatusOK, gin.H{"json-string": "", "header": c.Request.Header})
+		return
+	}
+
 	var requestBody string
 	if err := c.ShouldBindJSON(&requestBody); err != nil {
-
-		fmt.Println("Error of reading json!", err)
+		fmt.Println("PostApplicationJsonString: Error of reading json", err)
 	}
 	c.JSON(http.StatusOK, gin.H{"json-string": requestBody, "header": c.Request.Header})
 }
@@ -165,9 +170,6 @@ func (api *TestAPI) PostUrlEncodedFields(c *gin.Context) {
 	status := c.PostForm("status")
 	availability := c.PostForm("availability")
 	data := c.PostForm("mapfield")
-	// var parsed map[string]User
-	// json.Unmarshal([]byte(data), &parsed)
-	fmt.Println(" ***********PostUrlEncodedFields******** visits = ", visits, "availability = ", availability, "name = ", name, "status = ", status, "mapfield = ", data)
 
 	c.JSON(http.StatusOK, gin.H{"visits": visits, "name": name, "status": status, "availability": availability, "mapfield": data, "header": c.Request.Header})
 }
@@ -203,8 +205,8 @@ func (api *TestAPI) PostMultiPartData(c *gin.Context) {
 	//Get the file from the form input
 	file, _, err := c.Request.FormFile("formProfileImage")
 	if err != nil {
-		fmt.Println("Error of reading formProfileImage: ", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to get file"})
+		// HERE it is ok for the second call, because we test here sending empty fields and NON empty header
+		c.JSON(http.StatusOK, gin.H{"header": c.Request.Header})
 		return
 	}
 	defer file.Close()

@@ -22,13 +22,27 @@ using namespace Qt::StringLiterals;
     QTRY_COMPARE_EQ(done, true);                                                        \
 }                                                                                       \
 
-#define CALL_NO_EXPECTED_RESULT_TEST_OPERATION(OPERATION, PARAM)                       \
+#define CALL_TEST_POST_OPERATION(OPERATION, PARAM, EXPECTED_STRING)                     \
+{                                                                                       \
+    bool done = false;                                                                  \
+    OPERATION(PARAM, this, [&](const QRestReply &reply, const QString &summary) {       \
+            if (!(done = reply.isSuccess()))                                                \
+            qWarning() << "Error happened while issuing request : " << reply.errorString(); \
+            QCOMPARE(getStatusString(summary), EXPECTED_STRING);                            \
+            QCOMPARE(getHeaderValue(summary), "application/x-www-form-urlencoded");     \
+    });                                                                                 \
+    QCOMPARE("/v2" + m_testOperationPath, EXPECTED_STRING);                             \
+    QTRY_COMPARE_EQ(done, true);                                                        \
+}                                                                                       \
+
+#define CALL_POST_NO_EXPECTED_RESULT_TEST_OPERATION(OPERATION, PARAM)                  \
 {                                                                                      \
     bool done = false;                                                                 \
     OPERATION(PARAM, this, [&](const QRestReply &reply, const QString &summary) {      \
         Q_UNUSED(summary)                                                              \
         done = reply.isSuccess();                                                      \
         QCOMPARE(reply.httpStatus(), 200);                                             \
+        QCOMPARE(getHeaderValue(summary), "application/x-www-form-urlencoded");        \
     });                                                                                \
     QTRY_COMPARE_EQ(done, true);                                                       \
 }                                                                                      \
@@ -69,10 +83,24 @@ namespace QtOpenAPI {
 
 QString getStatusString(const QString &summary)
 {
-    QJsonDocument doc = QJsonDocument::fromJson(summary.toUtf8());
+    const QJsonDocument doc = QJsonDocument::fromJson(summary.toUtf8());
     if (!doc.isNull() && doc.isObject()) {
-        QJsonObject obj = doc.object();
+        const QJsonObject obj = doc.object();
         return obj.value("status").toString();
+    }
+    return QString();
+}
+
+
+QString getHeaderValue(const QString &summary)
+{
+    const QJsonDocument doc = QJsonDocument::fromJson(summary.toUtf8());
+    if (!doc.isNull() && doc.isObject()) {
+        const QJsonObject obj = doc.object();
+        const QStringList headers
+            = obj.value("header"_L1).toVariant().toMap().value("Content-Type"_L1).toStringList();
+        if (headers.size() > 0)
+            return headers.at(0);
     }
     return QString();
 }
@@ -659,27 +687,27 @@ void OperationParameters::pathModelMapParameters()
 
     // style=simple, explode=true, type=map with object values
     QTest::ignoreMessage(QtWarningMsg, warningMsg);
-    CALL_NO_EXPECTED_RESULT_TEST_OPERATION(simpleExplodeModelMap, mapValue);
+    CALL_POST_NO_EXPECTED_RESULT_TEST_OPERATION(simpleExplodeModelMap, mapValue);
 
     // style=simple, explode=false, type=map with object values
     QTest::ignoreMessage(QtWarningMsg, warningMsg);
-    CALL_NO_EXPECTED_RESULT_TEST_OPERATION(simpleNotExplodeModelMap, mapValue);
+    CALL_POST_NO_EXPECTED_RESULT_TEST_OPERATION(simpleNotExplodeModelMap, mapValue);
 
     // style=label, explode=true, type=map with object values
     QTest::ignoreMessage(QtWarningMsg, warningMsg);
-    CALL_NO_EXPECTED_RESULT_TEST_OPERATION(labelExplodeModelMap, mapValue);
+    CALL_POST_NO_EXPECTED_RESULT_TEST_OPERATION(labelExplodeModelMap, mapValue);
 
     // style=label, explode=false, type=map with object values
     QTest::ignoreMessage(QtWarningMsg, warningMsg);
-    CALL_NO_EXPECTED_RESULT_TEST_OPERATION(labelNotExplodeModelMap, mapValue);
+    CALL_POST_NO_EXPECTED_RESULT_TEST_OPERATION(labelNotExplodeModelMap, mapValue);
 
     // style=matrix, explode=true, type=map with object values
     QTest::ignoreMessage(QtWarningMsg, warningMsg);
-    CALL_NO_EXPECTED_RESULT_TEST_OPERATION(matrixExplodeModelMap, mapValue);
+    CALL_POST_NO_EXPECTED_RESULT_TEST_OPERATION(matrixExplodeModelMap, mapValue);
 
     // style=matrix, explode=false, type=map with object values
     QTest::ignoreMessage(QtWarningMsg, warningMsg);
-    CALL_NO_EXPECTED_RESULT_TEST_OPERATION(matrixNotExplodeModelMap, mapValue);
+    CALL_POST_NO_EXPECTED_RESULT_TEST_OPERATION(matrixNotExplodeModelMap, mapValue);
 }
 
 void OperationParameters::multiplePathParameters()
@@ -734,29 +762,29 @@ void OperationParameters::multiplePathParameters()
 void OperationParameters::queryParameters()
 {
     // style=form, explode=true, type=array
-    CALL_TEST_OPERATION(formExplodeArray, QList<int>({-90, 0, 0, 2, 87867}),
-                        "/v2/query/array/form-explode/formExplodeArray?arrayParameter=-90&arrayParameter=0&arrayParameter=0&arrayParameter=2&arrayParameter=87867");
+    CALL_TEST_POST_OPERATION(formExplodeArray, QList<int>({-90, 0, 0, 2, 87867}),
+                             "/v2/query/array/form-explode/formExplodeArray?arrayParameter=-90&arrayParameter=0&arrayParameter=0&arrayParameter=2&arrayParameter=87867");
 
     // style=form, explode=false, type=array
-    CALL_TEST_OPERATION(formNotExplodeArray, QList<int>({1, 2, -9, 90}),
-                        "/v2/query/array/form-not-explode/formNotExplodeArray?arrayParameter=1,2,-9,90");
+    CALL_TEST_POST_OPERATION(formNotExplodeArray, QList<int>({1, 2, -9, 90}),
+                             "/v2/query/array/form-not-explode/formNotExplodeArray?arrayParameter=1,2,-9,90");
 
     // Only style=FORM supports primitive types (string, int, double, float)
     // style=form, explode=true, type=string
-    CALL_TEST_OPERATION(formExplodeString, OptionalParam<QString>("hello, guys!"),
-                        "/v2/query/string/form-explode/formExplodeString?stringParameter=hello%2C%20guys%21");
+    CALL_TEST_POST_OPERATION(formExplodeString, OptionalParam<QString>("hello, guys!"),
+                             "/v2/query/string/form-explode/formExplodeString?stringParameter=hello%2C%20guys%21");
 
     // style=form, explode=false, type=string
-    CALL_TEST_OPERATION(formNotExplodeString, OptionalParam<QString>("hello, guys!"),
-                        "/v2/query/string/form-not-explode/formNotExplodeString?stringParameter=hello%2C%20guys%21");
+    CALL_TEST_POST_OPERATION(formNotExplodeString, OptionalParam<QString>("hello, guys!"),
+                             "/v2/query/string/form-not-explode/formNotExplodeString?stringParameter=hello%2C%20guys%21");
 
     // style=form, explode=true, type=integer, format=int64
-    CALL_TEST_OPERATION(formExplodeInt, OptionalParam<qint64>(22),
-                        "/v2/query/int/form-explode/formExplodeInt?intParameter=22");
+    CALL_TEST_POST_OPERATION(formExplodeInt, OptionalParam<qint64>(22),
+                             "/v2/query/int/form-explode/formExplodeInt?intParameter=22");
 
     // style=form, explode=false, type=integer, format=int64
-    CALL_TEST_OPERATION(formNotExplodeInt, OptionalParam<qint64>(22),
-                        "/v2/query/int/form-not-explode/formNotExplodeInt?intParameter=22");
+    CALL_TEST_POST_OPERATION(formNotExplodeInt, OptionalParam<qint64>(22),
+                             "/v2/query/int/form-not-explode/formNotExplodeInt?intParameter=22");
 
     // style=form, explode=true, type=number, format=float
     float f_val = 22.0123f;
@@ -797,12 +825,12 @@ void OperationParameters::queryParameters()
     QtOAITestObject formObj;
     formObj.setName("TestName+123");
     formObj.setStatus("Awake");
-    CALL_TEST_OPERATION(formExplodeObject, formObj,
-                        "/v2/query/object/form-explode/formExplodeObject?name=TestName%2B123&status=Awake");
+    CALL_TEST_POST_OPERATION(formExplodeObject, formObj,
+                             "/v2/query/object/form-explode/formExplodeObject?name=TestName%2B123&status=Awake");
 
     // style=form, explode=false, type=object
-    CALL_TEST_OPERATION(formNotExplodeObject, formObj,
-                        "/v2/query/object/form-not-explode/formNotExplodeObject?objectParameter=name,TestName%2B123,status,Awake");
+    CALL_TEST_POST_OPERATION(formNotExplodeObject, formObj,
+                             "/v2/query/object/form-not-explode/formNotExplodeObject?objectParameter=name,TestName%2B123,status,Awake");
 
     // style=form, explode=true, type=map with string values
     QMap<QString, QString> formStringMap;
@@ -812,14 +840,14 @@ void OperationParameters::queryParameters()
     formStringMap[key2] = "str2"_L1;
     QString urlEncodedVal1 = QUrl::toPercentEncoding(val1);
     QString urlEncodedKey2 = QUrl::toPercentEncoding(key2);
-    CALL_TEST_OPERATION(formExplodeStringMap, formStringMap,
-                        "/v2/query/map/string-mapping/form-explode/formExplodeMap?"
-                        "key1="_L1 + urlEncodedVal1 + "&"_L1 + urlEncodedKey2 + "=str2");
+    CALL_TEST_POST_OPERATION(formExplodeStringMap, formStringMap,
+                             "/v2/query/map/string-mapping/form-explode/formExplodeMap?"
+                             "key1="_L1 + urlEncodedVal1 + "&"_L1 + urlEncodedKey2 + "=str2");
 
     // style=form, explode=false, type=map with string values
-    CALL_TEST_OPERATION(formNotExplodeStringMap, formStringMap,
-                        "/v2/query/map/string-mapping/form-not-explode/formNotExplodeMap?"
-                        "mapParameter=key1,"_L1 + urlEncodedVal1 + ","_L1 + urlEncodedKey2 + ",str2");
+    CALL_TEST_POST_OPERATION(formNotExplodeStringMap, formStringMap,
+                             "/v2/query/map/string-mapping/form-not-explode/formNotExplodeMap?"
+                             "mapParameter=key1,"_L1 + urlEncodedVal1 + ","_L1 + urlEncodedKey2 + ",str2");
 
     QMap<QString, QtOAITestObject> mapValue;
     QtOAITestObject obj1;
@@ -837,96 +865,99 @@ void OperationParameters::queryParameters()
 
     // style=form, explode=true, type=map with object values
     QTest::ignoreMessage(QtWarningMsg, warningMsg);
-    CALL_NO_EXPECTED_RESULT_TEST_OPERATION(formExplodeModelMap, mapValue);
+    CALL_POST_NO_EXPECTED_RESULT_TEST_OPERATION(formExplodeModelMap, mapValue);
 
     // style=form, explode=false, type=map with object values
     QTest::ignoreMessage(QtWarningMsg, warningMsg);
-    CALL_NO_EXPECTED_RESULT_TEST_OPERATION(formNotExplodeModelMap, mapValue);
+    CALL_POST_NO_EXPECTED_RESULT_TEST_OPERATION(formNotExplodeModelMap, mapValue);
 
     // style=spaceDelimited, explode=false, type=array
-    CALL_TEST_OPERATION(spaceDelimitedNotExplodeArray, QList<int>({1, 2, -9, 90}),
-                        "/v2/query/array/spaceDelimited-not-explode/spaceDelimitedNotExplodeArray?arrayParameter=1%202%20-9%2090");
+    CALL_TEST_POST_OPERATION(spaceDelimitedNotExplodeArray, QList<int>({1, 2, -9, 90}),
+                             "/v2/query/array/spaceDelimited-not-explode/spaceDelimitedNotExplodeArray?arrayParameter=1%202%20-9%2090");
 
     // style=spaceDelimited, explode=false, type=object
     QtOAITestObject spaceDelimitedObj;
     spaceDelimitedObj.setName("TestName 123 *+,;=!$&'()");
     spaceDelimitedObj.setStatus("Awake!");
-    CALL_TEST_OPERATION(spaceDelimitedNotExplodeObject, spaceDelimitedObj,
-                        "/v2/query/object/spaceDelimited-not-explode/spaceDelimitedNotExplodeObject?objectParameter=name%20TestName%20123%20%2A%2B%2C%3B%3D%21%24%26%27%28%29%20status%20Awake%21");
+    CALL_TEST_POST_OPERATION(spaceDelimitedNotExplodeObject, spaceDelimitedObj,
+                             "/v2/query/object/spaceDelimited-not-explode/spaceDelimitedNotExplodeObject?objectParameter=name%20TestName%20123%20%2A%2B%2C%3B%3D%21%24%26%27%28%29%20status%20Awake%21");
 
     // style=spaceDelimited, explode=false, type=map with string values
     QMap<QString, QString> spaceDelimitedStringMap;
     spaceDelimitedStringMap["key1"_L1] = val1;
     spaceDelimitedStringMap[key2] = "str2"_L1;
-    CALL_TEST_OPERATION(spaceDelimitedNotExplodeStringMap, spaceDelimitedStringMap,
-                        "/v2/query/map/string-mapping/spaceDelimited-not-explode/"
-                        "spaceDelimitedNotExplodeMap?mapParameter="
-                        "key1%20"_L1 + urlEncodedVal1 + "%20"_L1 + urlEncodedKey2 + "%20str2"_L1);
+    CALL_TEST_POST_OPERATION(spaceDelimitedNotExplodeStringMap, spaceDelimitedStringMap,
+                             "/v2/query/map/string-mapping/spaceDelimited-not-explode/"
+                             "spaceDelimitedNotExplodeMap?mapParameter="
+                             "key1%20"_L1 + urlEncodedVal1 + "%20"_L1 + urlEncodedKey2
+                                 + "%20str2"_L1);
 
     // style=spaceDelimited, explode=false, with object values
     QTest::ignoreMessage(QtWarningMsg, warningMsg);
-    CALL_NO_EXPECTED_RESULT_TEST_OPERATION(spaceDelimitedNotExplodeModelMap, mapValue);
+    CALL_POST_NO_EXPECTED_RESULT_TEST_OPERATION(spaceDelimitedNotExplodeModelMap, mapValue);
 
     // Primitives are not defined for spaceDelimited and pipeDelimited, so anytype=array or anytype-object are not possible
     // style=spaceDelimited, explode=false, type=anytype array
-    CALL_TEST_OPERATION(spaceDelimitedNotExplodeAnytype, QJsonValue({ 1, 2.2, QString("Strange *+,;=!$&'()")}),
-                        "/v2/query/anytype/spaceDelimited-not-explode/spaceDelimitedNotExplodeAnytype?anytypeParameter=1%202.2%20Strange%20%2A%2B%2C%3B%3D%21%24%26%27%28%29");
+    CALL_TEST_POST_OPERATION(spaceDelimitedNotExplodeAnytype, QJsonValue({ 1, 2.2, QString("Strange *+,;=!$&'()")}),
+                             "/v2/query/anytype/spaceDelimited-not-explode/spaceDelimitedNotExplodeAnytype?anytypeParameter=1%202.2%20Strange%20%2A%2B%2C%3B%3D%21%24%26%27%28%29");
 
     // style=spaceDelimited, explode=false, type=anytype object
-    CALL_TEST_OPERATION(spaceDelimitedNotExplodeAnytype, QJsonValue(spaceDelimitedObj.asJsonObject()),
-                        "/v2/query/anytype/spaceDelimited-not-explode/spaceDelimitedNotExplodeAnytype?anytypeParameter=name%20TestName%20123%20%2A%2B%2C%3B%3D%21%24%26%27%28%29%20status%20Awake%21");
+    CALL_TEST_POST_OPERATION(spaceDelimitedNotExplodeAnytype, QJsonValue(spaceDelimitedObj.asJsonObject()),
+                             "/v2/query/anytype/spaceDelimited-not-explode/spaceDelimitedNotExplodeAnytype?anytypeParameter=name%20TestName%20123%20%2A%2B%2C%3B%3D%21%24%26%27%28%29%20status%20Awake%21");
 
     // style=pipeDelimited, explode=false, type=array
-    CALL_TEST_OPERATION(pipeDelimitedNotExplodeArray, QList<int>({1, 2, -9, 90}),
-                        "/v2/query/array/pipeDelimited-not-explode/pipeDelimitedNotExplodeArray?arrayParameter=1%7C2%7C-9%7C90");
+    CALL_TEST_POST_OPERATION(pipeDelimitedNotExplodeArray, QList<int>({1, 2, -9, 90}),
+                             "/v2/query/array/pipeDelimited-not-explode/pipeDelimitedNotExplodeArray?arrayParameter=1%7C2%7C-9%7C90");
 
     // style=pipeDelimited, explode=false, type=object
     QtOAITestObject pipeDelimitedObj;
     pipeDelimitedObj.setName("pipeDelimited=TestName");
     pipeDelimitedObj.setStatus("pipeDelimited-Sleeping *+,;=!$&'()");
-    CALL_TEST_OPERATION(pipeDelimitedNotExplodeObject, pipeDelimitedObj,
-                        "/v2/query/object/pipeDelimited-not-explode/pipeDelimitedNotExplodeObject?objectParameter=name%7CpipeDelimited%3DTestName%7Cstatus%7CpipeDelimited-Sleeping%20%2A%2B%2C%3B%3D%21%24%26%27%28%29");
+    CALL_TEST_POST_OPERATION(pipeDelimitedNotExplodeObject, pipeDelimitedObj,
+                             "/v2/query/object/pipeDelimited-not-explode/pipeDelimitedNotExplodeObject?objectParameter=name%7CpipeDelimited%3DTestName%7Cstatus%7CpipeDelimited-Sleeping%20%2A%2B%2C%3B%3D%21%24%26%27%28%29");
 
     // style=pipeDelimited, explode=false, type=map with string values
     QMap<QString, QString> pipeDelimitedStringMap;
     pipeDelimitedStringMap["key1"_L1] = val1;
     pipeDelimitedStringMap[key2] = "str2"_L1;
-    CALL_TEST_OPERATION(pipeDelimitedNotExplodeStringMap, pipeDelimitedStringMap,
-                        "/v2/query/map/string-mapping/pipeDelimited-not-explode/"
-                        "pipeDelimitedNotExplodeMap?mapParameter="
-                        "key1%7C"_L1 + urlEncodedVal1 + "%7C"_L1 + urlEncodedKey2 + "%7Cstr2"_L1);
+    CALL_TEST_POST_OPERATION(pipeDelimitedNotExplodeStringMap, pipeDelimitedStringMap,
+                             "/v2/query/map/string-mapping/pipeDelimited-not-explode/"
+                             "pipeDelimitedNotExplodeMap?mapParameter="
+                             "key1%7C"_L1 + urlEncodedVal1 + "%7C"_L1 + urlEncodedKey2
+                                 + "%7Cstr2"_L1);
 
     // style=pipeDelimited, explode=false, with object values
     QTest::ignoreMessage(QtWarningMsg, warningMsg);
-    CALL_NO_EXPECTED_RESULT_TEST_OPERATION(pipeDelimitedNotExplodeModelMap, mapValue);
+    CALL_POST_NO_EXPECTED_RESULT_TEST_OPERATION(pipeDelimitedNotExplodeModelMap, mapValue);
 
     // style=pipeDelimited, explode=false, type=anytype array
-    CALL_TEST_OPERATION(pipeDelimitedNotExplodeAnytype, QJsonValue({ 1, 2.2, QString("Strange *+,;=!$&'()")}),
-                        "/v2/query/anytype/pipeDelimited-not-explode/pipeDelimitedNotExplodeAnytype?anytypeParameter=1%7C2.2%7CStrange%20%2A%2B%2C%3B%3D%21%24%26%27%28%29");
+    CALL_TEST_POST_OPERATION(pipeDelimitedNotExplodeAnytype, QJsonValue({ 1, 2.2, QString("Strange *+,;=!$&'()")}),
+                             "/v2/query/anytype/pipeDelimited-not-explode/pipeDelimitedNotExplodeAnytype?anytypeParameter=1%7C2.2%7CStrange%20%2A%2B%2C%3B%3D%21%24%26%27%28%29");
 
     // style=pipeDelimited, explode=false, type=anytype object
-    CALL_TEST_OPERATION(pipeDelimitedNotExplodeAnytype, QJsonValue(pipeDelimitedObj.asJsonObject()),
-                        "/v2/query/anytype/pipeDelimited-not-explode/pipeDelimitedNotExplodeAnytype?anytypeParameter=name%7CpipeDelimited%3DTestName%7Cstatus%7CpipeDelimited-Sleeping%20%2A%2B%2C%3B%3D%21%24%26%27%28%29");
+    CALL_TEST_POST_OPERATION(pipeDelimitedNotExplodeAnytype, QJsonValue(pipeDelimitedObj.asJsonObject()),
+                             "/v2/query/anytype/pipeDelimited-not-explode/pipeDelimitedNotExplodeAnytype?anytypeParameter=name%7CpipeDelimited%3DTestName%7Cstatus%7CpipeDelimited-Sleeping%20%2A%2B%2C%3B%3D%21%24%26%27%28%29");
 
     // style=deepObject, explode=true, type=object
     QtOAITestObject deepObjectObj;
     deepObjectObj.setName("deepObject *+,;=!$&'()-TestName");
     deepObjectObj.setStatus("deepObject-Sleeping");
-    CALL_TEST_OPERATION(deepObjectExplodeObject, deepObjectObj,
-                        "/v2/query/object/deepObject-explode/deepObjectExplodeObject?objectParameter%5Bname%5D=deepObject%20%2A%2B%2C%3B%3D%21%24%26%27%28%29-TestName&objectParameter%5Bstatus%5D=deepObject-Sleeping");
+    CALL_TEST_POST_OPERATION(deepObjectExplodeObject, deepObjectObj,
+                             "/v2/query/object/deepObject-explode/deepObjectExplodeObject?objectParameter%5Bname%5D=deepObject%20%2A%2B%2C%3B%3D%21%24%26%27%28%29-TestName&objectParameter%5Bstatus%5D=deepObject-Sleeping");
 
     // style=deepObject, explode=true, type=map with string values
     QMap<QString, QString> deepObjectStringMap;
     deepObjectStringMap["key1"_L1] = val1;
     deepObjectStringMap[key2] = "str2"_L1;
-    CALL_TEST_OPERATION(deepObjectExplodeStringMap, deepObjectStringMap,
-                        "/v2/query/map/string-mapping/deepObject-explode/deepObjectExplodeMap?"
-                        "mapParameter%5Bkey1%5D="_L1 + urlEncodedVal1 + "&"
-                        "mapParameter%5B"_L1 + urlEncodedKey2 + "%5D=str2"_L1);
+    CALL_TEST_POST_OPERATION(deepObjectExplodeStringMap, deepObjectStringMap,
+                             "/v2/query/map/string-mapping/deepObject-explode/deepObjectExplodeMap?"
+                             "mapParameter%5Bkey1%5D="_L1 + urlEncodedVal1 + "&"_L1
+                                 + "mapParameter%5B"_L1 + urlEncodedKey2
+                                 + "%5D=str2"_L1);
 
     // style=deepObject, explode=false, with object values
     QTest::ignoreMessage(QtWarningMsg, warningMsg);
-    CALL_NO_EXPECTED_RESULT_TEST_OPERATION(deepObjectExplodeModelMap, mapValue);
+    CALL_POST_NO_EXPECTED_RESULT_TEST_OPERATION(deepObjectExplodeModelMap, mapValue);
 }
 
 void OperationParameters::queryAnyTypeParameters_data()
@@ -973,9 +1004,9 @@ void OperationParameters::queryAnyTypeParameters()
     QFETCH(QString, expectedFormNotExplode);
 
     // style=form, explode=true, type=anytype
-    CALL_TEST_OPERATION(formExplodeAnytype, jsonValue, expectedFormExplode);
+    CALL_TEST_POST_OPERATION(formExplodeAnytype, jsonValue, expectedFormExplode);
     // style=form, explode=false, type=anytype
-    CALL_TEST_OPERATION(formNotExplodeAnytype, jsonValue, expectedFormNotExplode);
+    CALL_TEST_POST_OPERATION(formNotExplodeAnytype, jsonValue, expectedFormNotExplode);
 }
 
 /**
@@ -987,41 +1018,41 @@ void OperationParameters::queryAnyTypeParameters()
 void OperationParameters::queryNACombinations()
 {
     // style=spaceDelimited, explode=true, type=array
-    CALL_TEST_OPERATION(spaceDelimitedExplodeArray, QList<int>({-90, 0, 0, 2, 87867}),
-                        "/v2/query/array/spaceDelimited-explode/spaceDelimitedExplodeArray?arrayParameter=-90%200%200%202%2087867");
+    CALL_TEST_POST_OPERATION(spaceDelimitedExplodeArray, QList<int>({-90, 0, 0, 2, 87867}),
+                             "/v2/query/array/spaceDelimited-explode/spaceDelimitedExplodeArray?arrayParameter=-90%200%200%202%2087867");
 
     // style=spaceDelimited, explode=true, type=empty array
-    CALL_TEST_OPERATION(spaceDelimitedExplodeArray, QList<int>(),
-                        "/v2/query/array/spaceDelimited-explode/spaceDelimitedExplodeArray?arrayParameter=");
+    CALL_TEST_POST_OPERATION(spaceDelimitedExplodeArray, QList<int>(),
+                             "/v2/query/array/spaceDelimited-explode/spaceDelimitedExplodeArray?arrayParameter=");
 
     // style=pipeDelimited, explode=true, type=array
-    CALL_TEST_OPERATION(pipeDelimitedExplodeArray, QList<int>({-90, 0, 0, 2, 87867}),
-                        "/v2/query/array/pipeDelimited-explode/pipeDelimitedExplodeArray?arrayParameter=-90%7C0%7C0%7C2%7C87867");
+    CALL_TEST_POST_OPERATION(pipeDelimitedExplodeArray, QList<int>({-90, 0, 0, 2, 87867}),
+                             "/v2/query/array/pipeDelimited-explode/pipeDelimitedExplodeArray?arrayParameter=-90%7C0%7C0%7C2%7C87867");
 
     // style=pipeDelimited, explode=true, type=empty array
-    CALL_TEST_OPERATION(pipeDelimitedExplodeArray, QList<int>(),
-                        "/v2/query/array/pipeDelimited-explode/pipeDelimitedExplodeArray?arrayParameter=");
+    CALL_TEST_POST_OPERATION(pipeDelimitedExplodeArray, QList<int>(),
+                             "/v2/query/array/pipeDelimited-explode/pipeDelimitedExplodeArray?arrayParameter=");
 
     // style=spaceDelimited, explode=true, type=object
     QtOAITestObject spaceDelimitedObj;
     spaceDelimitedObj.setName("TestName123");
     spaceDelimitedObj.setStatus("Awake");
-    CALL_TEST_OPERATION(spaceDelimitedExplodeObject, spaceDelimitedObj,
-                        "/v2/query/object/spaceDelimited-explode/spaceDelimitedExplodeObject?objectParameter=name%20TestName123%20status%20Awake");
+    CALL_TEST_POST_OPERATION(spaceDelimitedExplodeObject, spaceDelimitedObj,
+                             "/v2/query/object/spaceDelimited-explode/spaceDelimitedExplodeObject?objectParameter=name%20TestName123%20status%20Awake");
 
     // style=pipeDelimited, explode=true, type=object
     QtOAITestObject pipeDelimitedObj;
     pipeDelimitedObj.setName("pipeDelimited-TestName");
     pipeDelimitedObj.setStatus("pipeDelimited-Sleeping");
-    CALL_TEST_OPERATION(pipeDelimitedExplodeObject, pipeDelimitedObj,
-                        "/v2/query/object/pipeDelimited-explode/pipeDelimitedExplodeObject?objectParameter=name%7CpipeDelimited-TestName%7Cstatus%7CpipeDelimited-Sleeping");
+    CALL_TEST_POST_OPERATION(pipeDelimitedExplodeObject, pipeDelimitedObj,
+                             "/v2/query/object/pipeDelimited-explode/pipeDelimitedExplodeObject?objectParameter=name%7CpipeDelimited-TestName%7Cstatus%7CpipeDelimited-Sleeping");
 
     // style=deepObject, explode=false, type=object
     QtOAITestObject deepObjectObj;
     deepObjectObj.setName("deepObject-TestName");
     deepObjectObj.setStatus("deepObject-Sleeping");
-    CALL_TEST_OPERATION(deepObjectNotExplodeObject, deepObjectObj,
-                        "/v2/query/object/deepObject-not-explode/deepObjectNotExplodeObject?objectParameter%5Bname%5D=deepObject-TestName&objectParameter%5Bstatus%5D=deepObject-Sleeping");
+    CALL_TEST_POST_OPERATION(deepObjectNotExplodeObject, deepObjectObj,
+                             "/v2/query/object/deepObject-not-explode/deepObjectNotExplodeObject?objectParameter%5Bname%5D=deepObject-TestName&objectParameter%5Bstatus%5D=deepObject-Sleeping");
 }
 
 void OperationParameters::pathAndQueryUndefined()
@@ -1032,10 +1063,10 @@ void OperationParameters::pathAndQueryUndefined()
     QJsonValue emptyJson;
 
     // style=form, explode=true, type=string
-    CALL_TEST_OPERATION(formExplodeString, emptyLine, "/v2/query/string/form-explode/formExplodeString?stringParameter=");
+    CALL_TEST_POST_OPERATION(formExplodeString, emptyLine, "/v2/query/string/form-explode/formExplodeString?stringParameter=");
 
     // style=form, explode=false, type=string
-    CALL_TEST_OPERATION(formNotExplodeString, emptyLine, "/v2/query/string/form-not-explode/formNotExplodeString?stringParameter=");
+    CALL_TEST_POST_OPERATION(formNotExplodeString, emptyLine, "/v2/query/string/form-not-explode/formNotExplodeString?stringParameter=");
 
     // style=matrix, explode=true, type=string
     CALL_TEST_OPERATION(matrixExplodeString, emptyLine, "/v2/path/string/matrix-explode/;stringParameter");
@@ -1063,21 +1094,21 @@ void OperationParameters::pathAndQueryUndefined()
 
     // undefined case for form with empty object
     // style=form, explode=false, type=object
-    CALL_TEST_OPERATION(formNotExplodeObject, QtOAITestObject(),
-                        "/v2/query/object/form-not-explode/formNotExplodeObject?objectParameter=");
+    CALL_TEST_POST_OPERATION(formNotExplodeObject, QtOAITestObject(),
+                             "/v2/query/object/form-not-explode/formNotExplodeObject?objectParameter=");
 
     // undefined case for form with empty object
     // style=form, explode=true, type=empty object
-    CALL_TEST_OPERATION(formExplodeObject, QtOAITestObject(),
-                        "/v2/query/object/form-explode/formExplodeObject?objectParameter=");
+    CALL_TEST_POST_OPERATION(formExplodeObject, QtOAITestObject(),
+                             "/v2/query/object/form-explode/formExplodeObject?objectParameter=");
 
     // style=form, explode=true, type=empty array
-    CALL_TEST_OPERATION(formExplodeArray, QList<int>(),
-                        "/v2/query/array/form-explode/formExplodeArray?arrayParameter=");
+    CALL_TEST_POST_OPERATION(formExplodeArray, QList<int>(),
+                             "/v2/query/array/form-explode/formExplodeArray?arrayParameter=");
 
     // style=form, explode=false, type=empty array
-    CALL_TEST_OPERATION(formNotExplodeArray, QList<int>(),
-                        "/v2/query/array/form-not-explode/formNotExplodeArray?arrayParameter=");
+    CALL_TEST_POST_OPERATION(formNotExplodeArray, QList<int>(),
+                             "/v2/query/array/form-not-explode/formNotExplodeArray?arrayParameter=");
 
     // Despite the fact that https://spec.openapis.org/oas/v3.1.1.html#style-values
     // defines the undefined column for null/emptied parameters,

@@ -124,6 +124,18 @@ void MediaType::testJsonMediaType()
     QCOMPARE(m_requestContent, "null");
     QTRY_COMPARE_EQ(done, true);
 
+    // EMPTY requestContent, but header still needs to be sent.
+    done = false;
+    postApplicationJsonString(::QtOpenAPI::OptionalParam<QString>(), this,
+                              [&](const QRestReply &reply, const QString &summary) {
+                                  if (!(done = reply.isSuccess()))
+                                      qWarning() << "ERROR: " << reply.errorString() << reply.error();\
+                                  QCOMPARE(getJsonValue(summary, "json-string").toString(), "");
+                                  QCOMPARE(getHeaderValue(summary), appJsonHeader);
+                              });
+    QCOMPARE(m_requestContent, "");
+    QTRY_COMPARE_EQ(done, true);
+
     done = false;
     QList<QtOAIUser> users;
     for (qsizetype i = 0; i < 4; i++) {
@@ -150,6 +162,19 @@ void MediaType::testJsonMediaType()
              "[{\"age\":0,\"name\":\"UserName0\",\"status\":\"a child\"},{\"age\":1,\"name\":\"UserName1\",\"status\":\"a child\"},{\"age\":2,\"name\":\"UserName2\",\"status\":\"a child\"},{\"age\":3,\"name\":\"UserName3\",\"status\":\"a child\"}]");
     QTRY_COMPARE_EQ(done, true);
 
+    // EMPTY requestContent, but header still needs to be sent.
+    done = false;
+    QList<QtOAIUser> empty;
+    postApplicationJsonArray(empty, this,
+                             [&](const QRestReply &reply, const QString &summary) {
+                                 if (!(done = reply.isSuccess()))
+                                     qWarning() << "ERROR: " << reply.errorString() << reply.error();
+                                 QCOMPARE(getHeaderValue(summary), appJsonHeader);
+                                 QJsonArray array = getJsonValue(summary, "users").toArray();
+                                 QVERIFY(array.size() == 0);
+                             });
+    QTRY_COMPARE_EQ(done, true);
+
     done = false;
     QString expectedUser("{\"First-User\":{\"age\":8778,\"name\":\"Tatiana\",\"status\":\"is working\"}}");
     QMap<QString, QtOAIUser> mapOfUsers;
@@ -169,6 +194,17 @@ void MediaType::testJsonMediaType()
     QCOMPARE(m_requestContent, expectedUser);
     QTRY_COMPARE_EQ(done, true);
 
+    // EMPTY requestContent, but header still needs to be sent.
+    done = false;
+    postApplicationJsonMap(QMap<QString, QtOAIUser>(),
+                           this, [&](const QRestReply &reply, const QString &summary) {
+                               if (!(done = reply.isSuccess()))
+                                   qWarning() << "ERROR: " << reply.errorString() << reply.error();
+                               QCOMPARE(getHeaderValue(summary), appJsonHeader);
+                               QVERIFY(getJsonValue(summary, "nested-object").toObject().isEmpty());
+                           });
+    QTRY_COMPARE_EQ(done, true);
+
     // JSON object
     done = false;
     QtOAIUser user;
@@ -182,6 +218,17 @@ void MediaType::testJsonMediaType()
         QCOMPARE(getHeaderValue(summary), appJsonHeader);
     });
     QCOMPARE(m_requestContent, "{\"age\":99,\"name\":\"Tatiana\",\"status\":\"is working\"}");
+    QTRY_COMPARE_EQ(done, true);
+
+    // EMPTY requestContent, but header still needs to be sent.
+    done = false;
+    postApplicationJsonObject(QtOAIUser(),
+                              this, [&](const QRestReply &reply, const QString &summary) {
+                                  if (!(done = reply.isSuccess()))
+                                      qWarning() << "ERROR: " << reply.errorString() << reply.error();
+                                  QCOMPARE(getHeaderValue(summary), appJsonHeader);
+                                  QVERIFY(getJsonValue(summary, "json-object").toObject().isEmpty());
+                              });
     QTRY_COMPARE_EQ(done, true);
 
     // JSON nested object
@@ -204,6 +251,17 @@ void MediaType::testJsonMediaType()
     QCOMPARE(m_requestContent,
              "{\"user\":{\"age\":76,\"name\":\"User Userovich\",\"status\":\"is resting\"},\"uuid\":\"f81d4fae-7dec-11d0-a765-00a0c91e6bf6\"}");
     QTRY_COMPARE_EQ(done, true);
+
+    // EMPTY requestContent, but header still needs to be sent.
+    done = false;
+    postApplicationJsonSeveralObjects(QtOAIPostApplicationJsonSeveralObjects_request(),
+                                      this, [&](const QRestReply &reply, const QString &summary) {
+                                          if (!(done = reply.isSuccess()))
+                                              qWarning() << "ERROR: " << reply.errorString() << reply.error();
+                                          QCOMPARE(getHeaderValue(summary), appJsonHeader);
+                                          QVERIFY(getJsonValue(summary, "nested-object").toObject().isEmpty());
+                                      });
+    QTRY_COMPARE_EQ(done, true);
 }
 
 void MediaType::testPlainText_data()
@@ -211,6 +269,7 @@ void MediaType::testPlainText_data()
     QTest::addColumn<QString>("stringValue");
     QTest::newRow("QString(simple-string)") << QString("I am a plain user input -_-");
     QTest::newRow("QString(simple-with-special-characters)") << QString("No encoding *+,;=!$&'()");
+    QTest::newRow("QString(empty-string)") << QString();
 }
 
 // MEDIA TYPE text/plain;
@@ -267,6 +326,16 @@ void MediaType::testOctetStream()
     image.loadFromData(m_requestContent, "PNG");
     QCOMPARE(image.size(), imgFromFile.size());
     QTRY_COMPARE_EQ(done, true);
+
+    // EMPTY requestContent, but header still needs to be sent.
+    done = false;
+    binaryType(::QtOpenAPI::OptionalParam<QtOAIHttpFileElement>(), this,
+               [&](const QRestReply &reply, const QString &summary) {
+                   if (!(done = reply.isSuccess()))
+                       qWarning() << "ERROR: " << reply.errorString() << reply.error();
+                   QCOMPARE(getHeaderValue(summary), "application/octet-stream");
+               });
+    QTRY_COMPARE_EQ(done, true);
 }
 
 // MEDIA TYPE `application/x-www-form-urlencoded`
@@ -315,6 +384,21 @@ void MediaType::testUrlEncodedType()
              "name=John *+,;=!$&'()&status=98665&availability=true&visits=Monday&visits=Sunday&visits=*+,;=!$&'()&mapfield={\"PET\":{\"age\":101,\"name\":\"Lazy Cat\",\"status\":\"Sleeping Beeping *+,;=!$&'()\"}}");
     QTRY_COMPARE_EQ(done, true);
 
+    // EMPTY requestContent, but header still needs to be sent.
+    done = false;
+    postUrlEncodedFields(::QtOpenAPI::OptionalParam<QString>(),
+                         ::QtOpenAPI::OptionalParam<qint32>(),
+                         ::QtOpenAPI::OptionalParam<bool>(),
+                         ::QtOpenAPI::OptionalParam<QList<QString>>(),
+                         ::QtOpenAPI::OptionalParam<QMap<QString, QtOAIUser>>(),
+                         this, [&](const QRestReply &reply, const QString &summary) {
+                             if (!(done = reply.isSuccess()))
+                                 qWarning() << "ERROR: " << reply.errorString() << reply.error();
+
+                             QCOMPARE(getHeaderValue(summary), "application/x-www-form-urlencoded");
+                         });
+    QTRY_COMPARE_EQ(done, true);
+
     done = false;
     // NOTE: - 'user' field is being serialized as application/json.
     // NOTE: - 'comment' field is being serialized as text/plain.
@@ -339,6 +423,20 @@ void MediaType::testUrlEncodedType()
     QCOMPARE(fromFormUrlEncoding(m_requestContent), "user={\"age\":100,\"name\":\"Tatiana\",\"status\":\"is working\"}&comment=Test String ");
     QTRY_COMPARE_EQ(done, true);
 
+    // EMPTY requestContent, but header still needs to be sent.
+    done = false;
+    QtOAIUser emptyUser;
+    postUrlEncodedNestedObject(emptyUser, ::QtOpenAPI::OptionalParam<QString>(),
+                               this, [&](const QRestReply &reply, const QString &summary) {
+                                   if (!(done = reply.isSuccess()))
+                                       qWarning() << "ERROR: " << reply.errorString() << reply.error();
+                                   QtOAIUser received;
+                                   received.fromJson(getJsonValue(summary, "user").toString());
+                                   QCOMPARE(received, emptyUser);
+                                   QCOMPARE(getHeaderValue(summary), "application/x-www-form-urlencoded");
+                               });
+    QTRY_COMPARE_EQ(done, true);
+
     done = false;
     postUrlEncodedObject(::QtOpenAPI::OptionalParam<QString>("User Name 1234 "),
                          ::QtOpenAPI::OptionalParam<QString>("Thinking"),
@@ -355,6 +453,17 @@ void MediaType::testUrlEncodedType()
     QCOMPARE(fromFormUrlEncoding(m_requestContent), "name=User Name 1234 &status=Thinking&age=8776513");
     QTRY_COMPARE_EQ(done, true);
 
+    // EMPTY requestContent, but header still needs to be sent.
+    done = false;
+    postUrlEncodedObject(::QtOpenAPI::OptionalParam<QString>(),
+                         ::QtOpenAPI::OptionalParam<QString>(),
+                         ::QtOpenAPI::OptionalParam<qint32>(),
+                         this, [&](const QRestReply &reply, const QString &summary) {
+                             if (!(done = reply.isSuccess()))
+                                 qWarning() << "ERROR: " << reply.errorString() << reply.error();
+                             QCOMPARE(getHeaderValue(summary), "application/x-www-form-urlencoded");
+                         });
+    QTRY_COMPARE_EQ(done, true);
 }
 
 // Main idea of multipart/form-data is an each field are being serialized
@@ -417,6 +526,20 @@ void MediaType::testFormMediaTypes()
         QCOMPARE(getJsonValue(summary, "formProfileImage").toString() , "Hello world!\n");
         QVERIFY(getHeaderValue(summary).contains("multipart/form-data; boundary="));
     });
+    QTRY_COMPARE_EQ(done, true);
+
+    done = false;
+    postMultiPartData(QString("\"\""), // json string
+                      QList<QtOAIUser>(),
+                      ::QtOpenAPI::OptionalParam<qint32>(),
+                      ::QtOpenAPI::OptionalParam<QtOAIHttpFileElement>(),
+                      ::QtOpenAPI::OptionalParam<QtOAIPostMultiPartData_request_formObject>(),
+                      ::QtOpenAPI::OptionalParam<QMap<QString, QtOAIUser>>(),
+                      this, [&](const QRestReply &reply, const QString &summary) {
+                          if (!(done = reply.isSuccess()))
+                              qWarning() << "ERROR: " << reply.errorString() << reply.error();
+                          QVERIFY(getHeaderValue(summary).contains("multipart/form-data; boundary="));
+                      });
     QTRY_COMPARE_EQ(done, true);
 }
 

@@ -355,12 +355,12 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
     }
 {{/formParams}}
 {{#bodyParams}}
-    {{^required}}if ({{paramName}}.hasValue()) {{/required}}{
 {{#consumes}}
 {{#-first}}
-        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "{{{mediaType}}}"_L1);
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "{{{mediaType}}}"_L1);
 {{/-first}}
 {{/consumes}}
+    {{^required}}if ({{paramName}}.hasValue()) {{/required}}{
 {{#isContainer}}
 {{#isArray}}
         QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}{{^required}}.value(){{/required}}).toArray());

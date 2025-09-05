@@ -112,8 +112,8 @@ void QtOAIColorsApi::addColorWithDataImpl(const QtOAIColor &qtOAIColor, const QO
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     QtOAIHttpRequestInput input(fullPath, "POST");
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
     {
-        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QByteArray output = qtOAIColor.asJson().toUtf8();
         input.m_requestBody.append(output);
     }
@@ -598,8 +598,8 @@ void QtOAIColorsApi::updateColorByIdWithDataImpl(const qint64 &id, const QtOAICo
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     QtOAIHttpRequestInput input(fullPath, "PUT");
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
     {
-        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QByteArray output = qtOAIColor.asJson().toUtf8();
         input.m_requestBody.append(output);
     }

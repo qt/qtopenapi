@@ -125,8 +125,8 @@ void OAIPetApi::addPetWithDataImpl(const OAIPet &oAIPet, const QObject *context,
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
     {
-        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QByteArray output = oAIPet.asJson().toUtf8();
         input.m_requestBody.append(output);
     }
@@ -1137,8 +1137,8 @@ void OAIPetApi::updatePetWithDataImpl(const OAIPet &oAIPet, const QObject *conte
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "PUT");
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
     {
-        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QByteArray output = oAIPet.asJson().toUtf8();
         input.m_requestBody.append(output);
     }

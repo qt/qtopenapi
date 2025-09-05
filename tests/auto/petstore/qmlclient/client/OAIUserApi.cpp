@@ -251,8 +251,8 @@ void OAIUserApi::createUserWithDataImpl(const OAIUser &oAIUser, const QObject *c
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
     {
-        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QByteArray output = oAIUser.asJson().toUtf8();
         input.m_requestBody.append(output);
     }
@@ -359,8 +359,8 @@ void OAIUserApi::createUsersWithArrayInputWithDataImpl(const QList<OAIUser> &oAI
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
     {
-        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QJsonDocument doc(::OpenAPI::toJsonValue(oAIUser).toArray());
         QByteArray bytes = doc.toJson(QJsonDocument::Compact);
         input.m_requestBody.append(bytes);
@@ -468,8 +468,8 @@ void OAIUserApi::createUsersWithListInputWithDataImpl(const QList<OAIUser> &oAIU
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
     {
-        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QJsonDocument doc(::OpenAPI::toJsonValue(oAIUser).toArray());
         QByteArray bytes = doc.toJson(QJsonDocument::Compact);
         input.m_requestBody.append(bytes);

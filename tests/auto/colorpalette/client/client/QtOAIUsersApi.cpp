@@ -364,8 +364,8 @@ void QtOAIUsersApi::loginUserWithDataImpl(const ::QtOpenAPI::OptionalParam<QtOAI
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     QtOAIHttpRequestInput input(fullPath, "POST");
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
     if (qtOAITestOperationRequest.hasValue()) {
-        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QByteArray output = qtOAITestOperationRequest.value().asJson().toUtf8();
         input.m_requestBody.append(output);
     } else if (qtOAITestOperationRequest.isNull()) {
@@ -587,8 +587,8 @@ void QtOAIUsersApi::updateUserWithDataImpl(const qint64 &id, const ::QtOpenAPI::
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     QtOAIHttpRequestInput input(fullPath, "PATCH");
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
     if (qtOAIUpdateUserRequest.hasValue()) {
-        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QByteArray output = qtOAIUpdateUserRequest.value().asJson().toUtf8();
         input.m_requestBody.append(output);
     }

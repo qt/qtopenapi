@@ -220,8 +220,8 @@ void QtOAIDefaultApi::testOperationWithDataImpl(const qint32 &pathParam, const :
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     QtOAIHttpRequestInput input(fullPath, "POST");
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
     if (qtOAITestOperationRequest.hasValue()) {
-        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QByteArray output = qtOAITestOperationRequest.value().asJson().toUtf8();
         input.m_requestBody.append(output);
     } else if (qtOAITestOperationRequest.isNull()) {

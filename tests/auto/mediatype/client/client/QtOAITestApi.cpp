@@ -124,8 +124,8 @@ void QtOAITestApi::binaryTypeWithDataImpl(const ::QtOpenAPI::OptionalParam<QtOAI
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     QtOAIHttpRequestInput input(fullPath, "POST");
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/octet-stream"_L1);
     if (body.hasValue()) {
-        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/octet-stream"_L1);
         QByteArray output = body.value().asByteArray();
         input.m_requestBody.append(output);
     }
@@ -234,8 +234,8 @@ void QtOAITestApi::postApplicationJsonArrayWithDataImpl(const QList<QtOAIUser> &
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     QtOAIHttpRequestInput input(fullPath, "POST");
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
     {
-        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QJsonDocument doc(::QtOpenAPI::toJsonValue(qtOAIUser).toArray());
         QByteArray bytes = doc.toJson(QJsonDocument::Compact);
         input.m_requestBody.append(bytes);
@@ -345,8 +345,8 @@ void QtOAITestApi::postApplicationJsonBoolWithDataImpl(const bool &body, const Q
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     QtOAIHttpRequestInput input(fullPath, "POST");
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
     {
-        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QByteArray output = ::QtOpenAPI::toStringValue(body).toUtf8();
         input.m_requestBody.append(output);
     }
@@ -455,8 +455,8 @@ void QtOAITestApi::postApplicationJsonIntWithDataImpl(const qint32 &body, const 
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     QtOAIHttpRequestInput input(fullPath, "POST");
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
     {
-        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QByteArray output = QByteArray::number(body);
         input.m_requestBody.append(output);
     }
@@ -565,8 +565,8 @@ void QtOAITestApi::postApplicationJsonMapWithDataImpl(const QMap<QString, QtOAIU
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     QtOAIHttpRequestInput input(fullPath, "POST");
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
     {
-        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QJsonDocument doc(::QtOpenAPI::toJsonValue(requestBody).toObject());
         QByteArray bytes = doc.toJson(QJsonDocument::Compact);
         input.m_requestBody.append(bytes);
@@ -676,8 +676,8 @@ void QtOAITestApi::postApplicationJsonObjectWithDataImpl(const QtOAIUser &qtOAIU
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     QtOAIHttpRequestInput input(fullPath, "POST");
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
     {
-        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QByteArray output = qtOAIUser.asJson().toUtf8();
         input.m_requestBody.append(output);
     }
@@ -786,8 +786,8 @@ void QtOAITestApi::postApplicationJsonSeveralObjectsWithDataImpl(const QtOAIPost
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     QtOAIHttpRequestInput input(fullPath, "POST");
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
     {
-        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QByteArray output = qtOAIPostApplicationJsonSeveralObjectsRequest.asJson().toUtf8();
         input.m_requestBody.append(output);
     }
@@ -896,8 +896,8 @@ void QtOAITestApi::postApplicationJsonStringWithDataImpl(const ::QtOpenAPI::Opti
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     QtOAIHttpRequestInput input(fullPath, "POST");
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
     if (body.hasValue()) {
-        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QByteArray output = body.value().toUtf8();
         input.m_requestBody.append(output);
     } else if (body.isNull()) {
@@ -1192,8 +1192,8 @@ void QtOAITestApi::postPlainTextTypeWithDataImpl(const QString &body, const QObj
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     QtOAIHttpRequestInput input(fullPath, "POST");
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "text/plain"_L1);
     {
-        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "text/plain"_L1);
         QByteArray output = body.toUtf8();
         input.m_requestBody.append(output);
     }

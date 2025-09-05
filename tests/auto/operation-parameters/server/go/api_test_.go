@@ -10,14 +10,14 @@
 package openapi
 
 import (
-    "fmt"
-    "math"
-    "net/http"
-    "net/url"
-    "strconv"
-    "strings"
+	"fmt"
+	"math"
+	"net/http"
+	"net/url"
+	"strconv"
+	"strings"
 
-    "github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin"
 )
 
 type TestAPI struct {
@@ -26,1089 +26,1088 @@ type TestAPI struct {
 // Post /v2/query/map/model-mapping/deepObject-explode/deepObjectExplodeMap
 // deepObject style with explode=true for query map parameter of model values.
 func (api *TestAPI) DeepObjectExplodeModelMap(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Post /v2/query/object/deepObject-explode/deepObjectExplodeObject
 // deepObject object explode
 func (api *TestAPI) DeepObjectExplodeObject(c *gin.Context) {
-    m, err := url.ParseQuery(c.Request.URL.RawQuery)
-    if err != nil || m.Get("objectParameter[name]") == "" || m.Get("objectParameter[status]") == "" {
-        fmt.Println(" ====== QUERY ====== deepObject object explode URI error:", err, m)
-        c.JSON(400, gin.H{"status": c.Request.RequestURI})
-    } else {
-        c.JSON(200, gin.H{"status": c.Request.RequestURI})
-    }
+	m, err := url.ParseQuery(c.Request.URL.RawQuery)
+	if err != nil || m.Get("objectParameter[name]") == "" || m.Get("objectParameter[status]") == "" {
+		fmt.Println(" ====== QUERY ====== deepObject object explode URI error:", err, m)
+		c.JSON(400, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
+	} else {
+		c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
+	}
 }
 
 // Post /v2/query/map/string-mapping/deepObject-explode/deepObjectExplodeMap
 // deepObject style with explode=true for query map parameter of string values.
 func (api *TestAPI) DeepObjectExplodeStringMap(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Post /v2/query/object/deepObject-not-explode/deepObjectNotExplodeObject
 // deepObject object not explode
 func (api *TestAPI) DeepObjectNotExplodeObject(c *gin.Context) {
-    m, err := url.ParseQuery(c.Request.URL.RawQuery)
-    if err != nil || m.Get("objectParameter[name]") == "" || m.Get("objectParameter[status]") == "" {
-        fmt.Println(" ====== QUERY ====== deepObject object explode URI error:", err, m)
-        c.JSON(400, gin.H{"status": c.Request.RequestURI})
-    } else {
-        c.JSON(200, gin.H{"status": c.Request.RequestURI})
-    }
+	m, err := url.ParseQuery(c.Request.URL.RawQuery)
+	if err != nil || m.Get("objectParameter[name]") == "" || m.Get("objectParameter[status]") == "" {
+		fmt.Println(" ====== QUERY ====== deepObject object explode URI error:", err, m)
+		c.JSON(400, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
+	} else {
+		c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
+	}
 }
 
 // Post /v2/query/anytype/form-explode/formExplodeAnytype
 // form anytype explode
 func (api *TestAPI) FormExplodeAnytype(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Post /v2/query/array/form-explode/formExplodeArray
 // form array explode
 func (api *TestAPI) FormExplodeArray(c *gin.Context) {
-    m, err := url.ParseQuery(c.Request.URL.RawQuery)
-    if err != nil || m.Get("arrayParameter") == "" {
-        fmt.Println(" ====== QUERY ====== form array explode URI error:", err, m)
-    }
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	m, err := url.ParseQuery(c.Request.URL.RawQuery)
+	if err != nil || m.Get("arrayParameter") == "" {
+		fmt.Println(" ====== QUERY ====== form array explode URI error:", err, m)
+	}
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Post /v2/query/strings/form-explode/formExplodeDifferentOptions
 // style-form, explode=true
 func (api *TestAPI) FormExplodeDifferentOptions(c *gin.Context) {
-    m, err := url.ParseQuery(c.Request.URL.RawQuery)
-    if err != nil {
-        fmt.Println(" ====== formExplodeDifferentOptions ====== query parsing error:", err, m)
-    }
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	m, err := url.ParseQuery(c.Request.URL.RawQuery)
+	if err != nil {
+		fmt.Println(" ====== formExplodeDifferentOptions ====== query parsing error:", err, m)
+	}
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Post /v2/query/double/form-explode/formExplodeDouble
 // Form style with explode set to true for double query parameter.
 func (api *TestAPI) FormExplodeDouble(c *gin.Context) {
-    doubleParam := c.Query("doubleParameter")
-    if doubleParam == "" {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "missing doubleParameter"})
-        return
-    }
+	doubleParam := c.Query("doubleParameter")
+	if doubleParam == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "missing doubleParameter"})
+		return
+	}
 
-    f64, err := strconv.ParseFloat(doubleParam, 64)
-    if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid doubleParameter"})
-        return
-    }
+	f64, err := strconv.ParseFloat(doubleParam, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid doubleParameter"})
+		return
+	}
 
-    resp := DoubleResponse{
-        StringValue: c.Request.RequestURI,
-        Value: f64,
-    }
+	resp := DoubleResponse{
+		StringValue: c.Request.RequestURI,
+		Value:       f64,
+	}
 
-    c.JSON(http.StatusOK, resp)
+	c.JSON(http.StatusOK, resp)
 }
 
 // Post /v2/query/float/form-explode/formExplodeFloat
 // Form style with explode set to true for float query parameter.
 func (api *TestAPI) FormExplodeFloat(c *gin.Context) {
-    floatParam := c.Query("floatParameter")
-    if floatParam == "" {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "missing floatParameter"})
-        return
-    }
+	floatParam := c.Query("floatParameter")
+	if floatParam == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "missing floatParameter"})
+		return
+	}
 
-    f64, err := strconv.ParseFloat(floatParam, 32)
-    if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid floatParameter"})
-        return
-    }
+	f64, err := strconv.ParseFloat(floatParam, 32)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid floatParameter"})
+		return
+	}
 
-    f32 := float32(f64)
+	f32 := float32(f64)
 
-    // JSON does not support Inf and NaN values. Therefore, we cannot return these
-    // values as FloatResponse.Value. Instead, set the FloatResponse value to 0.
-    // We anyway do not need to compare them with the expected value.
-    // The RequestURI is enough for tests.
-    if math.IsNaN(f64) || math.IsInf(f64, 0) {
-        f32 = 0.0
-    }
+	// JSON does not support Inf and NaN values. Therefore, we cannot return these
+	// values as FloatResponse.Value. Instead, set the FloatResponse value to 0.
+	// We anyway do not need to compare them with the expected value.
+	// The RequestURI is enough for tests.
+	if math.IsNaN(f64) || math.IsInf(f64, 0) {
+		f32 = 0.0
+	}
 
-    resp := FloatResponse{
-        StringValue: c.Request.RequestURI,
-        Value: f32,
-    }
+	resp := FloatResponse{
+		StringValue: c.Request.RequestURI,
+		Value:       f32,
+	}
 
-    c.JSON(http.StatusOK, resp)
+	c.JSON(http.StatusOK, resp)
 }
 
 // Post /v2/query/int/form-explode/formExplodeInt
 // Form style with explode set to true for integer query parameter.
 func (api *TestAPI) FormExplodeInt(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Post /v2/query/map/model-mapping/form-explode/formExplodeMap
 // Form style with explode=true for query map parameter of model values.
 func (api *TestAPI) FormExplodeModelMap(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Post /v2/query/object/form-explode/formExplodeObject
 // form object explode
 func (api *TestAPI) FormExplodeObject(c *gin.Context) {
-    m, err := url.ParseQuery(c.Request.URL.RawQuery)
-    if err != nil || m.Get("name") == "" {
-        fmt.Println(" ====== QUERY ====== form object explode URI error:", err, m)
-    }
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	m, err := url.ParseQuery(c.Request.URL.RawQuery)
+	if err != nil || m.Get("name") == "" {
+		fmt.Println(" ====== QUERY ====== form object explode URI error:", err, m)
+	}
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Post /v2/path/string/form-explode/formExplodeString
 // form style with explode set to true for string query parameter.
 func (api *TestAPI) FormExplodeString(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Post /v2/query/strings/form-explode/formExplodeStringOptions
 // style-form, explode=true
 func (api *TestAPI) FormExplodeStringOptions(c *gin.Context) {
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Post /v2/query/map/string-mapping/form-explode/formExplodeMap
 // Form style with explode=true for query map parameter of string values.
 func (api *TestAPI) FormExplodeStringMap(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Post /v2/query/anytype/form-not-explode/formNotExplodeAnytype
 // form anytype not explode
 func (api *TestAPI) FormNotExplodeAnytype(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Post /v2/query/array/form-not-explode/formNotExplodeArray
 // form array not explode
 func (api *TestAPI) FormNotExplodeArray(c *gin.Context) {
-    m, err := url.ParseQuery(c.Request.URL.RawQuery)
-    if err != nil || m.Get("arrayParameter") == "" {
-        fmt.Println(" ====== QUERY ====== form array not explode URI error:", err, m)
-    }
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	m, err := url.ParseQuery(c.Request.URL.RawQuery)
+	if err != nil || m.Get("arrayParameter") == "" {
+		fmt.Println(" ====== QUERY ====== form array not explode URI error:", err, m)
+	}
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Post /v2/query/double/form-not-explode/formNotExplodeDouble
 // Form style with explode set to false for double query parameter.
 func (api *TestAPI) FormNotExplodeDouble(c *gin.Context) {
-    doubleParam := c.Query("doubleParameter")
-    if doubleParam == "" {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "missing doubleParameter"})
-        return
-    }
+	doubleParam := c.Query("doubleParameter")
+	if doubleParam == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "missing doubleParameter"})
+		return
+	}
 
-    f64, err := strconv.ParseFloat(doubleParam, 64)
-    if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid doubleParameter"})
-        return
-    }
+	f64, err := strconv.ParseFloat(doubleParam, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid doubleParameter"})
+		return
+	}
 
-    resp := DoubleResponse{
-        StringValue: c.Request.RequestURI,
-        Value: f64,
-    }
+	resp := DoubleResponse{
+		StringValue: c.Request.RequestURI,
+		Value:       f64,
+	}
 
-    c.JSON(http.StatusOK, resp)
+	c.JSON(http.StatusOK, resp)
 }
 
 // Post /v2/query/float/form-not-explode/formNotExplodeFloat
 // Form style with explode set to false for float query parameter.
 func (api *TestAPI) FormNotExplodeFloat(c *gin.Context) {
-    floatParam := c.Query("floatParameter")
-    if floatParam == "" {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "missing floatParameter"})
-        return
-    }
+	floatParam := c.Query("floatParameter")
+	if floatParam == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "missing floatParameter"})
+		return
+	}
 
-    f64, err := strconv.ParseFloat(floatParam, 32)
-    if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid floatParameter"})
-        return
-    }
+	f64, err := strconv.ParseFloat(floatParam, 32)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid floatParameter"})
+		return
+	}
 
-    f32 := float32(f64)
+	f32 := float32(f64)
 
-    // JSON does not support Inf and NaN values. Therefore, we cannot return these
-    // values as FloatResponse.Value. Instead, set the FloatResponse value to 0.
-    // We anyway do not need to compare them with the expected value.
-    // The RequestURI is enough for tests.
-    if math.IsNaN(f64) || math.IsInf(f64, 0) {
-        f32 = 0.0
-    }
+	// JSON does not support Inf and NaN values. Therefore, we cannot return these
+	// values as FloatResponse.Value. Instead, set the FloatResponse value to 0.
+	// We anyway do not need to compare them with the expected value.
+	// The RequestURI is enough for tests.
+	if math.IsNaN(f64) || math.IsInf(f64, 0) {
+		f32 = 0.0
+	}
 
-    resp := FloatResponse{
-        StringValue: c.Request.RequestURI,
-        Value: f32,
-    }
+	resp := FloatResponse{
+		StringValue: c.Request.RequestURI,
+		Value:       f32,
+	}
 
-    c.JSON(http.StatusOK, resp)
+	c.JSON(http.StatusOK, resp)
 }
 
 // Post /v2/query/int/form-not-explode/formNotExplodeInt
 // Form style with explode set to false for integer query parameter.
 func (api *TestAPI) FormNotExplodeInt(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Post /v2/query/map/model-mapping/form-not-explode/formNotExplodeMap
 // Form style with explode=false for query map parameter of model values.
 func (api *TestAPI) FormNotExplodeModelMap(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Post /v2/query/object/form-not-explode/formNotExplodeObject
 // form object not explode
 func (api *TestAPI) FormNotExplodeObject(c *gin.Context) {
-    m, err := url.ParseQuery(c.Request.URL.RawQuery)
-    if err != nil || m.Get("objectParameter") == "" {
-        fmt.Println(" ====== QUERY ====== form object not explode URI error:", err, m)
-    }
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	m, err := url.ParseQuery(c.Request.URL.RawQuery)
+	if err != nil || m.Get("objectParameter") == "" {
+		fmt.Println(" ====== QUERY ====== form object not explode URI error:", err, m)
+	}
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Post /v2/query/string/form-not-explode/formNotExplodeString
 // form style with explode set to false for string query parameter.
 func (api *TestAPI) FormNotExplodeString(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Post /v2/query/map/string-mapping/form-not-explode/formNotExplodeMap
 // Form style with explode=false for query map parameter of string values.
 func (api *TestAPI) FormNotExplodeStringMap(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Get /v2/path/anytype/label-explode/:anytypeParameter
 // label anytype explode
 func (api *TestAPI) LabelExplodeAnytype(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Get /v2/path/array/label-explode/:arrayParameter
 // label array explode
 func (api *TestAPI) LabelExplodeArray(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Get /v2/path/double/label-explode/:doubleParameter
 // Label style with explode set to true for double path parameter.
 func (api *TestAPI) LabelExplodeDouble(c *gin.Context) {
-    doubleParam := c.Param("doubleParameter")
-    if doubleParam == "" {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "missing doubleParameter"})
-        return
-    }
+	doubleParam := c.Param("doubleParameter")
+	if doubleParam == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "missing doubleParameter"})
+		return
+	}
 
-    doubleParam = strings.TrimPrefix(doubleParam, ".")
+	doubleParam = strings.TrimPrefix(doubleParam, ".")
 
-    f64, err := strconv.ParseFloat(doubleParam, 64)
-    if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid doubleParameter"})
-        return
-    }
+	f64, err := strconv.ParseFloat(doubleParam, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid doubleParameter"})
+		return
+	}
 
-    resp := DoubleResponse{
-        StringValue: c.Request.RequestURI,
-        Value: f64,
-    }
+	resp := DoubleResponse{
+		StringValue: c.Request.RequestURI,
+		Value:       f64,
+	}
 
-    c.JSON(http.StatusOK, resp)
+	c.JSON(http.StatusOK, resp)
 }
 
 // Get /v2/path/float/label-explode/:floatParameter
 // Label style with explode set to true for float path parameter.
 func (api *TestAPI) LabelExplodeFloat(c *gin.Context) {
-    floatParam := c.Param("floatParameter")
-    if floatParam == "" {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "missing floatParameter"})
-        return
-    }
-    floatParam = strings.TrimPrefix(floatParam, ".")
+	floatParam := c.Param("floatParameter")
+	if floatParam == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "missing floatParameter"})
+		return
+	}
+	floatParam = strings.TrimPrefix(floatParam, ".")
 
-    f64, err := strconv.ParseFloat(floatParam, 32)
-    if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid floatParameter"})
-        return
-    }
+	f64, err := strconv.ParseFloat(floatParam, 32)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid floatParameter"})
+		return
+	}
 
-    f32 := float32(f64)
+	f32 := float32(f64)
 
-    // JSON does not support Inf and NaN values. Therefore, we cannot return these
-    // values as FloatResponse.Value. Instead, set the FloatResponse value to 0.
-    // We anyway do not need to compare them with the expected value.
-    // The RequestURI is enough for tests.
-    if math.IsNaN(f64) || math.IsInf(f64, 0) {
-        f32 = 0.0
-    }
+	// JSON does not support Inf and NaN values. Therefore, we cannot return these
+	// values as FloatResponse.Value. Instead, set the FloatResponse value to 0.
+	// We anyway do not need to compare them with the expected value.
+	// The RequestURI is enough for tests.
+	if math.IsNaN(f64) || math.IsInf(f64, 0) {
+		f32 = 0.0
+	}
 
-    resp := FloatResponse{
-        StringValue: c.Request.RequestURI,
-        Value: f32,
-    }
+	resp := FloatResponse{
+		StringValue: c.Request.RequestURI,
+		Value:       f32,
+	}
 
-    c.JSON(http.StatusOK, resp)
+	c.JSON(http.StatusOK, resp)
 }
 
 // Get /v2/path/int/label-explode/:intParameter
 // Label style with explode set to true for integer path parameter.
 func (api *TestAPI) LabelExplodeInt(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Post /v2/path/map/model-mapping/label-explode/:mapParameter
 // label style with explode=true for path map parameter of model values.
 func (api *TestAPI) LabelExplodeModelMap(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Get /v2/path/object/label-explode/:objectParameter
 // label object explode
 func (api *TestAPI) LabelExplodeObject(c *gin.Context) {
-    m, err := url.ParseRequestURI(c.Request.URL.Path)
-    if err != nil {
-        fmt.Println(" ====== PATH ====== label object explode URI error:", err, m)
-        c.JSON(400, gin.H{"status": c.Request.URL.Path})
-    } else {
-        c.JSON(200, gin.H{"status": c.Request.RequestURI})
-    }
+	m, err := url.ParseRequestURI(c.Request.URL.Path)
+	if err != nil {
+		fmt.Println(" ====== PATH ====== label object explode URI error:", err, m)
+		c.JSON(400, gin.H{"status": c.Request.URL.Path})
+	} else {
+		c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	}
 }
 
 // Get /v2/path/string/label-explode/:stringParameter
 // label style with explode set to true for string path parameter.
 func (api *TestAPI) LabelExplodeString(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Post /v2/path/map/string-mapping/label-explode/:mapParameter
 // label style with explode=true for path map parameter of string values.
 func (api *TestAPI) LabelExplodeStringMap(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Get /v2/path/anytype/label-not-explode/:anytypeParameter
 // label anytype not explode
 func (api *TestAPI) LabelNotExplodeAnytype(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Get /v2/path/array/label-not-explode/:arrayParameter
 // label array not explode
 func (api *TestAPI) LabelNotExplodeArray(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Get /v2/path/double/label-not-explode/:doubleParameter
 // Label style with explode set to false for double path parameter.
 func (api *TestAPI) LabelNotExplodeDouble(c *gin.Context) {
-    doubleParam := c.Param("doubleParameter")
-    if doubleParam == "" {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "missing doubleParameter"})
-        return
-    }
+	doubleParam := c.Param("doubleParameter")
+	if doubleParam == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "missing doubleParameter"})
+		return
+	}
 
-    doubleParam = strings.TrimPrefix(doubleParam, ".")
+	doubleParam = strings.TrimPrefix(doubleParam, ".")
 
-    f64, err := strconv.ParseFloat(doubleParam, 64)
-    if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid doubleParameter"})
-        return
-    }
+	f64, err := strconv.ParseFloat(doubleParam, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid doubleParameter"})
+		return
+	}
 
-    resp := DoubleResponse{
-        StringValue: c.Request.RequestURI,
-        Value: f64,
-    }
+	resp := DoubleResponse{
+		StringValue: c.Request.RequestURI,
+		Value:       f64,
+	}
 
-    c.JSON(http.StatusOK, resp)
+	c.JSON(http.StatusOK, resp)
 }
 
 // Get /v2/path/float/label-not-explode/:floatParameter
 // Label style with explode set to false for float path parameter.
 func (api *TestAPI) LabelNotExplodeFloat(c *gin.Context) {
-    floatParam := c.Param("floatParameter")
-    if floatParam == "" {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "missing floatParameter"})
-        return
-    }
-    floatParam = strings.TrimPrefix(floatParam, ".")
+	floatParam := c.Param("floatParameter")
+	if floatParam == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "missing floatParameter"})
+		return
+	}
+	floatParam = strings.TrimPrefix(floatParam, ".")
 
-    f64, err := strconv.ParseFloat(floatParam, 32)
-    if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid floatParameter"})
-        return
-    }
+	f64, err := strconv.ParseFloat(floatParam, 32)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid floatParameter"})
+		return
+	}
 
-    f32 := float32(f64)
+	f32 := float32(f64)
 
-    // JSON does not support Inf and NaN values. Therefore, we cannot return these
-    // values as FloatResponse.Value. Instead, set the FloatResponse value to 0.
-    // We anyway do not need to compare them with the expected value.
-    // The RequestURI is enough for tests.
-    if math.IsNaN(f64) || math.IsInf(f64, 0) {
-        f32 = 0.0
-    }
+	// JSON does not support Inf and NaN values. Therefore, we cannot return these
+	// values as FloatResponse.Value. Instead, set the FloatResponse value to 0.
+	// We anyway do not need to compare them with the expected value.
+	// The RequestURI is enough for tests.
+	if math.IsNaN(f64) || math.IsInf(f64, 0) {
+		f32 = 0.0
+	}
 
-    resp := FloatResponse{
-        StringValue: c.Request.RequestURI,
-        Value: f32,
-    }
+	resp := FloatResponse{
+		StringValue: c.Request.RequestURI,
+		Value:       f32,
+	}
 
-    c.JSON(http.StatusOK, resp)
+	c.JSON(http.StatusOK, resp)
 }
 
 // Get /v2/path/int/label-not-explode/:intParameter
 // Label style with explode set to false for integer path parameter.
 func (api *TestAPI) LabelNotExplodeInt(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Post /v2/path/map/model-mapping/label-not-explode/:mapParameter
 // label style with explode=false for path map parameter of model values.
 func (api *TestAPI) LabelNotExplodeModelMap(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Post /v2/path/object/label-not-explode/:objectParameter
 // label object not explode
 func (api *TestAPI) LabelNotExplodeObject(c *gin.Context) {
-    m, err := url.ParseRequestURI(c.Request.URL.Path)
-    if err != nil {
-        fmt.Println(" ====== PATH ====== label object not explode URI error:", err, m)
-        c.JSON(400, gin.H{"status": c.Request.URL.Path})
-    } else {
-        c.JSON(200, gin.H{"status": c.Request.RequestURI})
-    }
+	m, err := url.ParseRequestURI(c.Request.URL.Path)
+	if err != nil {
+		fmt.Println(" ====== PATH ====== label object not explode URI error:", err, m)
+		c.JSON(400, gin.H{"status": c.Request.URL.Path})
+	} else {
+		c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	}
 }
 
 // Get /v2/path/string/label-not-explode/:stringParameter
 // label style with explode set to false for string path parameter.
 func (api *TestAPI) LabelNotExplodeString(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Post /v2/path/map/string-mapping/label-not-explode/:mapParameter
 // label style with explode=false for path map parameter of string values.
 func (api *TestAPI) LabelNotExplodeStringMap(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Get /v2/path/string/label-not-explode/array/matrix-not-explode/:stringParameter/:arrayParameter
 // label style with explode set to false for string path parameter and matrix style with explode set to false for array path parameter.
 func (api *TestAPI) LabelStringMatrixArrayNotExplode(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Get /v2/path/anytype/matrix-explode/:anytypeParameter
 // matrix anytype explode
 func (api *TestAPI) MatrixExplodeAnytype(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Get /v2/path/array/matrix-explode/:arrayParameter
 // matrix array explode
 func (api *TestAPI) MatrixExplodeArray(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Get /v2/path/double/matrix-explode/:doubleParameter
 // Matrix style with explode set to true for double path parameter.
 func (api *TestAPI) MatrixExplodeDouble(c *gin.Context) {
-    doubleParam := c.Param("doubleParameter")
-    if doubleParam == "" {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "missing doubleParameter"})
-        return
-    }
-    doubleParam = strings.TrimPrefix(doubleParam, ";doubleParameter=")
+	doubleParam := c.Param("doubleParameter")
+	if doubleParam == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "missing doubleParameter"})
+		return
+	}
+	doubleParam = strings.TrimPrefix(doubleParam, ";doubleParameter=")
 
-    f64, err := strconv.ParseFloat(doubleParam, 64)
-    if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid doubleParameter"})
-        return
-    }
+	f64, err := strconv.ParseFloat(doubleParam, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid doubleParameter"})
+		return
+	}
 
-    resp := DoubleResponse{
-        StringValue: c.Request.RequestURI,
-        Value: f64,
-    }
+	resp := DoubleResponse{
+		StringValue: c.Request.RequestURI,
+		Value:       f64,
+	}
 
-    c.JSON(http.StatusOK, resp)
+	c.JSON(http.StatusOK, resp)
 }
 
 // Get /v2/path/float/matrix-explode/:floatParameter
 // Matrix style with explode set to true for float path parameter.
 func (api *TestAPI) MatrixExplodeFloat(c *gin.Context) {
-    floatParam := c.Param("floatParameter")
-    if floatParam == "" {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "missing floatParameter"})
-        return
-    }
-    floatParam = strings.TrimPrefix(floatParam, ";floatParameter=")
+	floatParam := c.Param("floatParameter")
+	if floatParam == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "missing floatParameter"})
+		return
+	}
+	floatParam = strings.TrimPrefix(floatParam, ";floatParameter=")
 
-    f64, err := strconv.ParseFloat(floatParam, 32)
-    if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid floatParameter"})
-        return
-    }
+	f64, err := strconv.ParseFloat(floatParam, 32)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid floatParameter"})
+		return
+	}
 
-    f32 := float32(f64)
+	f32 := float32(f64)
 
-    // JSON does not support Inf and NaN values. Therefore, we cannot return these
-    // values as FloatResponse.Value. Instead, set the FloatResponse value to 0.
-    // We anyway do not need to compare them with the expected value.
-    // The RequestURI is enough for tests.
-    if math.IsNaN(f64) || math.IsInf(f64, 0) {
-        f32 = 0.0
-    }
+	// JSON does not support Inf and NaN values. Therefore, we cannot return these
+	// values as FloatResponse.Value. Instead, set the FloatResponse value to 0.
+	// We anyway do not need to compare them with the expected value.
+	// The RequestURI is enough for tests.
+	if math.IsNaN(f64) || math.IsInf(f64, 0) {
+		f32 = 0.0
+	}
 
-    resp := FloatResponse{
-        StringValue: c.Request.RequestURI,
-        Value: f32,
-    }
+	resp := FloatResponse{
+		StringValue: c.Request.RequestURI,
+		Value:       f32,
+	}
 
-    c.JSON(http.StatusOK, resp)
+	c.JSON(http.StatusOK, resp)
 }
 
 // Get /v2/path/int/matrix-explode/:intParameter
 // Matrix style with explode set to true for integer path parameter.
 func (api *TestAPI) MatrixExplodeInt(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Post /v2/path/map/model-mapping/matrix-explode/:mapParameter
 // matrix style with explode=true for path map parameter of model values.
 func (api *TestAPI) MatrixExplodeModelMap(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Get /v2/path/object/matrix-explode/:objectParameter
 // matrix object explode
 func (api *TestAPI) MatrixExplodeObject(c *gin.Context) {
-    m, err := url.ParseRequestURI(c.Request.URL.Path)
-    if err != nil {
-        fmt.Println(" ====== PATH ====== object explode URI error:", err, m)
-        c.JSON(400, gin.H{"status": c.Request.URL.Path})
-    } else {
-        c.JSON(200, gin.H{"status": c.Request.RequestURI})
-    }
+	m, err := url.ParseRequestURI(c.Request.URL.Path)
+	if err != nil {
+		fmt.Println(" ====== PATH ====== object explode URI error:", err, m)
+		c.JSON(400, gin.H{"status": c.Request.URL.Path})
+	} else {
+		c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	}
 }
 
 // Get /v2/path/string/matrix-explode/:stringParameter
 // matrix style with explode set to true for string path parameter.
 func (api *TestAPI) MatrixExplodeString(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Post /v2/path/map/string-mapping/matrix-explode/:mapParameter
 // matrix style with explode=true for path map parameter of string values.
 func (api *TestAPI) MatrixExplodeStringMap(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Get /v2/path/anytype/matrix-not-explode/:anytypeParameter
 // matrix anytype not explode
 func (api *TestAPI) MatrixNotExplodeAnytype(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Get /v2/path/array/matrix-not-explode/:arrayParameter
 // matrix array not explode
 func (api *TestAPI) MatrixNotExplodeArray(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Get /v2/path/double/matrix-not-explode/:doubleParameter
 // Matrix style with explode set to false for double path parameter.
 func (api *TestAPI) MatrixNotExplodeDouble(c *gin.Context) {
-    doubleParam := c.Param("doubleParameter")
-    if doubleParam == "" {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "missing doubleParameter"})
-        return
-    }
-    doubleParam = strings.TrimPrefix(doubleParam, ";doubleParameter=")
+	doubleParam := c.Param("doubleParameter")
+	if doubleParam == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "missing doubleParameter"})
+		return
+	}
+	doubleParam = strings.TrimPrefix(doubleParam, ";doubleParameter=")
 
-    f64, err := strconv.ParseFloat(doubleParam, 64)
-    if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid doubleParameter"})
-        return
-    }
+	f64, err := strconv.ParseFloat(doubleParam, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid doubleParameter"})
+		return
+	}
 
-    resp := DoubleResponse{
-        StringValue: c.Request.RequestURI,
-        Value: f64,
-    }
+	resp := DoubleResponse{
+		StringValue: c.Request.RequestURI,
+		Value:       f64,
+	}
 
-    c.JSON(http.StatusOK, resp)
+	c.JSON(http.StatusOK, resp)
 }
 
 // Get /v2/path/float/matrix-not-explode/:floatParameter
 // Matrix style with explode set to false for float path parameter.
 func (api *TestAPI) MatrixNotExplodeFloat(c *gin.Context) {
-    floatParam := c.Param("floatParameter")
-    if floatParam == "" {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "missing floatParameter"})
-        return
-    }
-    floatParam = strings.TrimPrefix(floatParam, ";floatParameter=")
+	floatParam := c.Param("floatParameter")
+	if floatParam == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "missing floatParameter"})
+		return
+	}
+	floatParam = strings.TrimPrefix(floatParam, ";floatParameter=")
 
-    f64, err := strconv.ParseFloat(floatParam, 32)
-    if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid floatParameter"})
-        return
-    }
+	f64, err := strconv.ParseFloat(floatParam, 32)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid floatParameter"})
+		return
+	}
 
-    f32 := float32(f64)
+	f32 := float32(f64)
 
-    // JSON does not support Inf and NaN values. Therefore, we cannot return these
-    // values as FloatResponse.Value. Instead, set the FloatResponse value to 0.
-    // We anyway do not need to compare them with the expected value.
-    // The RequestURI is enough for tests.
-    if math.IsNaN(f64) || math.IsInf(f64, 0) {
-        f32 = 0.0
-    }
+	// JSON does not support Inf and NaN values. Therefore, we cannot return these
+	// values as FloatResponse.Value. Instead, set the FloatResponse value to 0.
+	// We anyway do not need to compare them with the expected value.
+	// The RequestURI is enough for tests.
+	if math.IsNaN(f64) || math.IsInf(f64, 0) {
+		f32 = 0.0
+	}
 
-    resp := FloatResponse{
-        StringValue: c.Request.RequestURI,
-        Value: f32,
-    }
+	resp := FloatResponse{
+		StringValue: c.Request.RequestURI,
+		Value:       f32,
+	}
 
-    c.JSON(http.StatusOK, resp)
+	c.JSON(http.StatusOK, resp)
 }
 
 // Get /v2/path/int/matrix-not-explode/:intParameter
 // Matrix style with explode set to false for integer path parameter.
 func (api *TestAPI) MatrixNotExplodeInt(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Post /v2/path/map/model-mapping/matrix-not-explode/:mapParameter
 // matrix style with explode=false for path map parameter of model values.
 func (api *TestAPI) MatrixNotExplodeModelMap(c *gin.Context) {
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Get /v2/path/object/matrix-not-explode/:objectParameter
 // matrix object not explode
 func (api *TestAPI) MatrixNotExplodeObject(c *gin.Context) {
-    m, err := url.ParseRequestURI(c.Request.URL.Path)
-    if err != nil {
-        fmt.Println(" ====== PATH ====== matrix object not explode URI error:", err, m)
-        c.JSON(400, gin.H{"status": c.Request.URL.Path})
-    } else {
-        c.JSON(200, gin.H{"status": c.Request.RequestURI})
-    }
+	m, err := url.ParseRequestURI(c.Request.URL.Path)
+	if err != nil {
+		fmt.Println(" ====== PATH ====== matrix object not explode URI error:", err, m)
+		c.JSON(400, gin.H{"status": c.Request.URL.Path})
+	} else {
+		c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	}
 }
 
 // Get /v2/path/string/matrix-not-explode/:stringParameter
 // matrix style with explode set to false for string path parameter.
 func (api *TestAPI) MatrixNotExplodeString(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Post /v2/path/map/string-mapping/matrix-not-explode/:mapParameter
 // matrix style with explode=false for path map parameter of string values.
 func (api *TestAPI) MatrixNotExplodeStringMap(c *gin.Context) {
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Post /v2/query/anytype/pipeDelimited-explode/pipeDelimitedExplodeAnytype
 // pipeDelimited anytype explode
 func (api *TestAPI) PipeDelimitedExplodeAnytype(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Post /v2/query/array/pipeDelimited-explode/pipeDelimitedExplodeArray
 // pipeDelimited array explode
 func (api *TestAPI) PipeDelimitedExplodeArray(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Post /v2/query/object/pipeDelimited-explode/pipeDelimitedExplodeObject
 // pipeDelimited object explode
 func (api *TestAPI) PipeDelimitedExplodeObject(c *gin.Context) {
-    m, err := url.ParseQuery(c.Request.URL.RawQuery)
-    if err != nil || m.Get("objectParameter") == "" {
-        fmt.Println(" ====== QUERY ====== pipeDelimited object explode URI error:", err, m)
-        c.JSON(400, gin.H{"status": c.Request.RequestURI})
-    } else {
-        c.JSON(200, gin.H{"status": c.Request.RequestURI})
-    }
+	m, err := url.ParseQuery(c.Request.URL.RawQuery)
+	if err != nil || m.Get("objectParameter") == "" {
+		fmt.Println(" ====== QUERY ====== pipeDelimited object explode URI error:", err, m)
+		c.JSON(400, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
+	} else {
+		c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
+	}
 }
 
 // Post /v2/query/anytype/pipeDelimited-not-explode/pipeDelimitedNotExplodeAnytype
 // pipeDelimited anytype not explode
 func (api *TestAPI) PipeDelimitedNotExplodeAnytype(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Post /v2/query/array/pipeDelimited-not-explode/pipeDelimitedNotExplodeArray
 // pipeDelimited array not explode
 func (api *TestAPI) PipeDelimitedNotExplodeArray(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Post /v2/query/map/model-mapping/pipeDelimited-not-explode/pipeDelimitedNotExplodeMap
 // pipeDelimited style with explode=false for query map parameter of model values.
 func (api *TestAPI) PipeDelimitedNotExplodeModelMap(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Post /v2/query/object/pipeDelimited-not-explode/pipeDelimitedNotExplodeObject
 // pipeDelimited object not explode
 func (api *TestAPI) PipeDelimitedNotExplodeObject(c *gin.Context) {
-    m, err := url.ParseQuery(c.Request.URL.RawQuery)
-    if err != nil || m.Get("objectParameter") == "" {
-        fmt.Println(" ====== QUERY ====== pipeDelimited object not explode URI error:", err, m)
-        c.JSON(400, gin.H{"status": c.Request.RequestURI})
-    } else {
-        c.JSON(200, gin.H{"status": c.Request.RequestURI})
-    }
+	m, err := url.ParseQuery(c.Request.URL.RawQuery)
+	if err != nil || m.Get("objectParameter") == "" {
+		fmt.Println(" ====== QUERY ====== pipeDelimited object not explode URI error:", err, m)
+		c.JSON(400, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
+	} else {
+		c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
+	}
 }
 
 // Post /v2/query/map/string-mapping/pipeDelimited-not-explode/pipeDelimitedNotExplodeMap
 // pipeDelimited style with explode=false for query map parameter of string values.
 func (api *TestAPI) PipeDelimitedNotExplodeStringMap(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Get /v2/path/anytype/simple-explode/:anytypeParameter
 // simple anytype explode
 func (api *TestAPI) SimpleExplodeAnytype(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Get /v2/path/array/simple-explode/:arrayParameter
 // simple array explode
 func (api *TestAPI) SimpleExplodeArray(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Get /v2/path/double/simple-explode/:doubleParameter
 // Simple style with explode set to true for double path parameter.
 func (api *TestAPI) SimpleExplodeDouble(c *gin.Context) {
-    doubleParam := c.Param("doubleParameter")
-    if doubleParam == "" {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "missing doubleParameter"})
-        return
-    }
+	doubleParam := c.Param("doubleParameter")
+	if doubleParam == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "missing doubleParameter"})
+		return
+	}
 
-    f64, err := strconv.ParseFloat(doubleParam, 64)
-    if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid doubleParameter"})
-        return
-    }
+	f64, err := strconv.ParseFloat(doubleParam, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid doubleParameter"})
+		return
+	}
 
-    resp := DoubleResponse{
-        StringValue: c.Request.RequestURI,
-        Value: f64,
-    }
+	resp := DoubleResponse{
+		StringValue: c.Request.RequestURI,
+		Value:       f64,
+	}
 
-    c.JSON(http.StatusOK, resp)
+	c.JSON(http.StatusOK, resp)
 }
 
 // Get /v2/path/float/simple-explode/:floatParameter
 // Simple style with explode set to true for float path parameter.
 func (api *TestAPI) SimpleExplodeFloat(c *gin.Context) {
-    floatParam := c.Param("floatParameter")
-    if floatParam == "" {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "missing floatParameter"})
-        return
-    }
+	floatParam := c.Param("floatParameter")
+	if floatParam == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "missing floatParameter"})
+		return
+	}
 
-    f64, err := strconv.ParseFloat(floatParam, 32)
-    if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid floatParameter"})
-        return
-    }
+	f64, err := strconv.ParseFloat(floatParam, 32)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid floatParameter"})
+		return
+	}
 
-    f32 := float32(f64)
+	f32 := float32(f64)
 
-    // JSON does not support Inf and NaN values. Therefore, we cannot return these
-    // values as FloatResponse.Value. Instead, set the FloatResponse value to 0.
-    // We anyway do not need to compare them with the expected value.
-    // The RequestURI is enough for tests.
-    if math.IsNaN(f64) || math.IsInf(f64, 0) {
-        f32 = 0.0
-    }
+	// JSON does not support Inf and NaN values. Therefore, we cannot return these
+	// values as FloatResponse.Value. Instead, set the FloatResponse value to 0.
+	// We anyway do not need to compare them with the expected value.
+	// The RequestURI is enough for tests.
+	if math.IsNaN(f64) || math.IsInf(f64, 0) {
+		f32 = 0.0
+	}
 
-    resp := FloatResponse{
-        StringValue: c.Request.RequestURI,
-        Value: f32,
-    }
+	resp := FloatResponse{
+		StringValue: c.Request.RequestURI,
+		Value:       f32,
+	}
 
-    c.JSON(http.StatusOK, resp)
+	c.JSON(http.StatusOK, resp)
 }
 
 // Get /v2/path/int/simple-explode/:intParameter
 // Simple style with explode set to true for integer path parameter.
 func (api *TestAPI) SimpleExplodeInt(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Post /v2/path/map/model-mapping/simple-explode/:mapParameter
 // simple style with explode=true for path map parameter of model values.
 func (api *TestAPI) SimpleExplodeModelMap(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Get /v2/path/object/simple-explode/:objectParameter
 // simple object explode
 func (api *TestAPI) SimpleExplodeObject(c *gin.Context) {
-    m, err := url.ParseRequestURI(c.Request.URL.Path)
-    if err != nil {
-        fmt.Println(" ====== PATH ====== simple object explode URI error:", err, m)
-        c.JSON(400, gin.H{"status": c.Request.URL.Path})
-    } else {
-        c.JSON(200, gin.H{"status": c.Request.RequestURI})
-    }
+	m, err := url.ParseRequestURI(c.Request.URL.Path)
+	if err != nil {
+		fmt.Println(" ====== PATH ====== simple object explode URI error:", err, m)
+		c.JSON(400, gin.H{"status": c.Request.URL.Path})
+	} else {
+		c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	}
 }
 
 // Get /v2/path/string/simple-explode/:stringParameter
 // Simple style with explode set to true for string path parameter.
 func (api *TestAPI) SimpleExplodeString(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Post /v2/path/map/string-mapping/simple-explode/:mapParameter
 // simple style with explode=true for path map parameter of string values.
 func (api *TestAPI) SimpleExplodeStringMap(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Get /v2/path/strings/simple-explode/:stringParameter1/:stringParameter2
 // Simple style with explode set to true for two string path parameters.
 func (api *TestAPI) SimpleExplodeStrings(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Get /v2/path/anytype/simple-not-explode/:anytypeParameter
 // simple anytype not explode
 func (api *TestAPI) SimpleNotExplodeAnytype(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Get /v2/path/array/simple-not-explode/:arrayParameter
 // simple array not explode
 func (api *TestAPI) SimpleNotExplodeArray(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Get /v2/path/double/simple-not-explode/:doubleParameter
 // Simple style with explode set to false for double path parameter.
 func (api *TestAPI) SimpleNotExplodeDouble(c *gin.Context) {
-    doubleParam := c.Param("doubleParameter")
-    if doubleParam == "" {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "missing doubleParameter"})
-        return
-    }
+	doubleParam := c.Param("doubleParameter")
+	if doubleParam == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "missing doubleParameter"})
+		return
+	}
 
-    f64, err := strconv.ParseFloat(doubleParam, 64)
-    if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid doubleParameter"})
-        return
-    }
+	f64, err := strconv.ParseFloat(doubleParam, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid doubleParameter"})
+		return
+	}
 
-    resp := DoubleResponse{
-        StringValue: c.Request.RequestURI,
-        Value: f64,
-    }
+	resp := DoubleResponse{
+		StringValue: c.Request.RequestURI,
+		Value:       f64,
+	}
 
-    c.JSON(http.StatusOK, resp)
+	c.JSON(http.StatusOK, resp)
 }
 
 // Get /v2/path/float/simple-not-explode/:floatParameter
 // Simple style with explode set to false for float path parameter.
 func (api *TestAPI) SimpleNotExplodeFloat(c *gin.Context) {
-    floatParam := c.Param("floatParameter")
-    if floatParam == "" {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "missing floatParameter"})
-        return
-    }
+	floatParam := c.Param("floatParameter")
+	if floatParam == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "missing floatParameter"})
+		return
+	}
 
-    f64, err := strconv.ParseFloat(floatParam, 32)
-    if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid floatParameter"})
-        return
-    }
+	f64, err := strconv.ParseFloat(floatParam, 32)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid floatParameter"})
+		return
+	}
 
-    f32 := float32(f64)
+	f32 := float32(f64)
 
-    // JSON does not support Inf and NaN values. Therefore, we cannot return these
-    // values as FloatResponse.Value. Instead, set the FloatResponse value to 0.
-    // We anyway do not need to compare them with the expected value.
-    // The RequestURI is enough for tests.
-    if math.IsNaN(f64) || math.IsInf(f64, 0) {
-        f32 = 0.0
-    }
+	// JSON does not support Inf and NaN values. Therefore, we cannot return these
+	// values as FloatResponse.Value. Instead, set the FloatResponse value to 0.
+	// We anyway do not need to compare them with the expected value.
+	// The RequestURI is enough for tests.
+	if math.IsNaN(f64) || math.IsInf(f64, 0) {
+		f32 = 0.0
+	}
 
-    resp := FloatResponse{
-        StringValue: c.Request.RequestURI,
-        Value: f32,
-    }
+	resp := FloatResponse{
+		StringValue: c.Request.RequestURI,
+		Value:       f32,
+	}
 
-    c.JSON(http.StatusOK, resp)
+	c.JSON(http.StatusOK, resp)
 }
 
 // Get /v2/path/int/simple-not-explode/:intParameter
 // Simple style with explode set to false for string path parameter.
 func (api *TestAPI) SimpleNotExplodeInt(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Post /v2/path/map/model-mapping/simple-not-explode/:mapParameter
 // simple style with explode=false for path map parameter of model values.
 func (api *TestAPI) SimpleNotExplodeModelMap(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Get /v2/path/object/simple-not-explode/:objectParameter
 // simple object not explode
 func (api *TestAPI) SimpleNotExplodeObject(c *gin.Context) {
-    m, err := url.ParseRequestURI(c.Request.URL.Path)
-    if err != nil {
-        fmt.Println(" ====== PATH ====== simple object not explode URI error:", err, m)
-        c.JSON(400, gin.H{"status": c.Request.URL.Path})
-    } else {
-        c.JSON(200, gin.H{"status": c.Request.RequestURI})
-    }
+	m, err := url.ParseRequestURI(c.Request.URL.Path)
+	if err != nil {
+		fmt.Println(" ====== PATH ====== simple object not explode URI error:", err, m)
+		c.JSON(400, gin.H{"status": c.Request.URL.Path})
+	} else {
+		c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	}
 }
 
 // Get /v2/path/string/simple-not-explode/:stringParameter
 // Simple style with explode set to false for string path parameter.
 func (api *TestAPI) SimpleNotExplodeString(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Post /v2/path/map/string-mapping/simple-not-explode/:mapParameter
 // simple style with explode=false for path map parameter of string values.
 func (api *TestAPI) SimpleNotExplodeStringMap(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Post /v2/query/anytype/spaceDelimited-explode/spaceDelimitedExplodeAnytype
 // spaceDelimited anytype explode
 func (api *TestAPI) SpaceDelimitedExplodeAnytype(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Post /v2/query/array/spaceDelimited-explode/spaceDelimitedExplodeArray
 // spaceDelimited array explode
 func (api *TestAPI) SpaceDelimitedExplodeArray(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Post /v2/query/object/spaceDelimited-explode/spaceDelimitedExplodeObject
 // spaceDelimited object explode
 func (api *TestAPI) SpaceDelimitedExplodeObject(c *gin.Context) {
-    m, err := url.ParseQuery(c.Request.URL.RawQuery)
-    if err != nil || m.Get("objectParameter") == "" {
-        fmt.Println(" ====== QUERY ====== spaceDelimited object explode URI error:", err, m)
-        c.JSON(400, gin.H{"status": c.Request.RequestURI})
-    } else {
-        c.JSON(200, gin.H{"status": c.Request.RequestURI})
-    }
+	m, err := url.ParseQuery(c.Request.URL.RawQuery)
+	if err != nil || m.Get("objectParameter") == "" {
+		fmt.Println(" ====== QUERY ====== spaceDelimited object explode URI error:", err, m)
+		c.JSON(400, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
+	} else {
+		c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
+	}
 }
 
 // Post /v2/query/anytype/spaceDelimited-not-explode/spaceDelimitedNotExplodeAnytype
 // spaceDelimited anytype not explode
 func (api *TestAPI) SpaceDelimitedNotExplodeAnytype(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Post /v2/query/array/spaceDelimited-not-explode/spaceDelimitedNotExplodeArray
 // spaceDelimited array not explode
 func (api *TestAPI) SpaceDelimitedNotExplodeArray(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Post /v2/query/map/model-mapping/spaceDelimited-not-explode/spaceDelimitedNotExplodeMap
 // spaceDelimited style with explode=false for query map parameter of model values.
 func (api *TestAPI) SpaceDelimitedNotExplodeModelMap(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 
 // Post /v2/query/object/spaceDelimited-not-explode/spaceDelimitedNotExplodeObject
 // spaceDelimited object not explode
 func (api *TestAPI) SpaceDelimitedNotExplodeObject(c *gin.Context) {
-    m, err := url.ParseQuery(c.Request.URL.RawQuery)
-    if err != nil || m.Get("objectParameter") == "" {
-        fmt.Println(" ====== QUERY ====== spaceDelimited object not explode URI error:", err, m)
-        c.JSON(400, gin.H{"status": c.Request.RequestURI})
-    } else {
-        c.JSON(200, gin.H{"status": c.Request.RequestURI})
-    }
+	m, err := url.ParseQuery(c.Request.URL.RawQuery)
+	if err != nil || m.Get("objectParameter") == "" {
+		fmt.Println(" ====== QUERY ====== spaceDelimited object not explode URI error:", err, m)
+		c.JSON(400, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
+	} else {
+		c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
+	}
 }
 
 // Post /v2/query/map/string-mapping/spaceDelimited-not-explode/spaceDelimitedNotExplodeMap
 // spaceDelimited style with explode=false for query map parameter of string values.
 func (api *TestAPI) SpaceDelimitedNotExplodeStringMap(c *gin.Context) {
-    // Your handler implementation
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }

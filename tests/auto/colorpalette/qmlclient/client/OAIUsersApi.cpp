@@ -364,8 +364,8 @@ void OAIUsersApi::loginUserWithDataImpl(const ::OpenAPI::OptionalParam<OAITestOp
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "POST");
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
     if (oAITestOperationRequest.hasValue()) {
-        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QByteArray output = oAITestOperationRequest.value().asJson().toUtf8();
         input.m_requestBody.append(output);
     } else if (oAITestOperationRequest.isNull()) {
@@ -587,8 +587,8 @@ void OAIUsersApi::updateUserWithDataImpl(const qint64 &id, const ::OpenAPI::Opti
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     OAIHttpRequestInput input(fullPath, "PATCH");
+    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
     if (oAIUpdateUserRequest.hasValue()) {
-        input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
         QByteArray output = oAIUpdateUserRequest.value().asJson().toUtf8();
         input.m_requestBody.append(output);
     }

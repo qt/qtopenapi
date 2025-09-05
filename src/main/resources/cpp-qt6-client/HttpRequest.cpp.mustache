@@ -256,18 +256,42 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
     if (request.header(QNetworkRequest::UserAgentHeader).isNull())
         request.setHeader(QNetworkRequest::UserAgentHeader, "{{httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{apiVersion}}/cpp-qt{{/httpUserAgent}}");
 
-    if (requestContent.size() > 0 && !input.m_isFormData) {
-        if (!input.m_headers.contains(QHttpHeaders::WellKnownHeader::ContentType)) {
-            request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    for (int i = 0; i < input.m_headers.size(); i++) {
+        const auto name = input.m_headers.nameAt(i);
+        const QByteArray headerName(name.data(), name.size());
+        // Skipping "multipart/*" header. Multipart should have NOT a header,
+        // but the header AND a boundary, like: Content-Type:
+        // multipart/form-data; boundary=----exclusive7MA4YWxkTrZu0gW
+        // Both are being set by buildMultiPart() call above.
+        if (input.m_varLayout == MULTIPART
+                && (headerName.compare("content-type", Qt::CaseInsensitive) == 0))
+            continue;
+        if (request.hasRawHeader(headerName)) {
+            request.setRawHeader(headerName, request.rawHeader(headerName)
+                                 + "," + input.m_headers.combinedValue(headerName));
         } else {
-            request.setHeader(QNetworkRequest::ContentTypeHeader,
-                              input.m_headers.combinedValue(QHttpHeaders::WellKnownHeader::ContentType));
+            request.setRawHeader(headerName, input.m_headers.combinedValue(headerName));
         }
+    }
+    if (requestContent.size() > 0 && !input.m_isFormData) {
         if (requestCompressionEnabled) {
             request.setRawHeader("Content-Encoding", "gzip");
         }
-    } else if (input.m_varLayout == URL_ENCODED) {
-        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    } else if (requestContent.size() <= 0 || input.m_varLayout == URL_ENCODED) {
+        // Here is expected that:
+        // 1) The Operation is a POST request. URL_ENCODED is being set only for POST.
+        // 2) AND requestContent.size() <= 0 in case bodyParams/formParams are optional and empty.
+        // 3) OR/AND requestContent.size() <= 0 because the Operation has only Operation Parameters.
+        // 4) AND input.m_headers doesn't contain Content-Type.
+        // Despite the fact, that Openapi SPEC doesn't require to set Content-Type
+        // for the situation mentioned above, the Qt framework expects setting it for all
+        // POST requests.
+        // For more info see the Qt commit by sha 4f578d15fe2ef176f0533c7ff4aea99b17636f85
+        // Using the message without Content-Type triggers the Qt warning.
+        if (!input.m_headers.contains(QHttpHeaders::WellKnownHeader::ContentType)) {
+            request.setHeader(QNetworkRequest::ContentTypeHeader,
+                              "application/x-www-form-urlencoded");
+        }
     }
 
     if (responseCompressionEnabled) {
