@@ -200,9 +200,13 @@ Q_SIGNALS:
 
 protected:
     QNetworkReply *execute({{prefix}}HttpRequestInput &input, QNetworkRequest &request, QByteArray &requestContent);
-    QString serializeJsonValue(const QJsonValue &value, const QString style, bool isExplode, const QString &suffix, const QString &assignOperator, const QString &delimiter);
+    QString serializeJsonValue(const QJsonValue &value, const QString style, bool isExplode,
+                               const QString &suffix, const QString &assignOperator,
+                               const QString &delimiter, bool percentEncode);
     template<typename T>
-    QString serializeArrayValue(const QList<T> &value,  const QString &style, bool isExplode, const QString &suffixName, const QString &delimiter)
+    QString serializeArrayValue(const QList<T> &value,  const QString &style, bool isExplode,
+                                const QString &suffixName, const QString &delimiter,
+                                bool percentEncode)
     {
         QString paramString = suffixName;
         qint32 index = 0;
@@ -213,20 +217,27 @@ protected:
                 paramString.append(delimiter);
             if ((style == "matrix" || style == "form") && isExplode && index > 0)
                 paramString.append(suffixName);
-            paramString.append(QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue(t)));
+            const QString resultValue = toStringValue(t);
+            paramString.append(percentEncode ? QUrl::toPercentEncoding(resultValue) : resultValue);
             index++;
         }
         return paramString;
     }
     template <typename T>
-    QString serializeMapValue(const QMap<QString, T> &mapValue, QAnyStringView keyValueDelimiter, QAnyStringView itemDelimiter) {
+    QString serializeMapValue(const QMap<QString, T> &val, QAnyStringView keyValueDelimiter,
+                              QAnyStringView itemDelimiter, bool percentEncode) {
         QString strMap;
-        if (mapValue.size() == 0)
-            qWarning() << "serializeMapValue: map is empty!";
-        for (const auto &[key, value] : mapValue.asKeyValueRange()) {
-            strMap.append(QUrl::toPercentEncoding(key) + keyValueDelimiter.toString() + QUrl::toPercentEncoding(toStringValue(value)) + itemDelimiter.toString());
+        for (const auto &[key, value] : val.asKeyValueRange()) {
+            if (percentEncode) {
+                strMap.append(QUrl::toPercentEncoding(key) + keyValueDelimiter.toString()
+                              + QUrl::toPercentEncoding(toStringValue(value))
+                              + itemDelimiter.toString());
+            } else {
+                strMap.append(key + keyValueDelimiter.toString() + toStringValue(value)
+                              + itemDelimiter.toString());
+            }
         }
-        if (mapValue.size() > 0)
+        if (val.size() > 0)
             strMap.chop(itemDelimiter.size());
         return strMap;
     }

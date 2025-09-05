@@ -2136,6 +2136,318 @@ paths:
             application/json:
               schema:
                 type: string
+  /header/string/simple-explode/stringParameter:
+    get:
+      tags: [test]
+      operationId: headerSimpleExplodeString
+      summary: Simple style with explode true.
+      parameters:
+        - name: String-Parameter
+          in: header
+          required: true
+          style: simple
+          explode: true
+          schema:
+            type: string
+        - name: queryParameter
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /header/string/simple-not-explode/stringParameter:
+    get:
+      tags: [test]
+      operationId: headerSimpleNotExplodeString
+      summary: Simple style with explode false.
+      parameters:
+        - name: String-Parameter
+          in: header
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: queryParameter
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /header/anytype/simple-explode/anytypeParameter:
+    post:
+      tags: [test]
+      operationId: headerSimpleExplodeAnytype
+      summary: "simple anytype explode"
+      parameters:
+        - name: Any-Type-Parameter
+          in: header
+          required: true
+          style: simple
+          explode: true
+          schema: {}
+        - name: queryParameter
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /header/anytype/simple-not-explode/anytypeParameter:
+    get:
+      tags: [test]
+      operationId: headerSimpleNotExplodeAnytype
+      summary: "simple anytype not explode"
+      parameters:
+        - name: Any-Type-Parameter
+          in: header
+          required: true
+          style: simple
+          explode: false
+          schema: {}
+        - name: queryParameter
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /header/array/simple-explode/arrayParameter:
+    get:
+      tags: [test]
+      operationId: headerSimpleExplodeArray
+      summary: "simple array explode"
+      parameters:
+        - name: Array-Parameter
+          in: header
+          required: true
+          style: simple
+          explode: true
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int32
+        - name: queryParameter
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /header/array/simple-not-explode/arrayParameter:
+    post:
+      tags: [test]
+      operationId: headerSimpleNotExplodeArray
+      summary: "simple array not explode"
+      parameters:
+        - name: Array-Parameter
+          in: header
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int32
+        - name: queryParameter
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /header/object/simple-explode/objectParameter:
+    get:
+      tags: [test]
+      operationId: headerSimpleExplodeObject
+      summary: "simple object explode"
+      parameters:
+        - name: Object-Parameter
+          in: header
+          required: true
+          style: simple
+          explode: true
+          schema:
+            $ref: '#/components/schemas/TestObject'
+        - name: queryParameter
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /header/object/simple-not-explode/objectParameter:
+    post:
+      tags: [test]
+      operationId: headerSimpleNotExplodeObject
+      summary: "simple object not explode"
+      parameters:
+        - name: Object-Parameter
+          in: header
+          required: true
+          style: simple
+          explode: false
+          schema:
+            $ref: '#/components/schemas/TestObject'
+        - name: queryParameter
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /header/map/simple-explode/mapParameter:
+    post:
+      tags: [test]
+      operationId: headerSimpleExplodeMap
+      summary: "simple map explode"
+      parameters:
+        - name: Map-Parameter
+          in: header
+          required: true
+          style: simple
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: queryParameter
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /header/map/simple-not-explode/mapParameter:
+    get:
+      tags: [test]
+      operationId: headerSimpleNotExplodeMap
+      summary: "simple map not explode"
+      parameters:
+        - name: Map-Parameter
+          in: header
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: queryParameter
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /header/string-custom-devided/simple-not-explode/stringParameter:
+    get:
+      tags: [test]
+      # If you want to use ";" as a seperator between different values of the same header,
+      # you can manually compose required values into the string.
+      # See an example bellow.
+      operationId: headerSimpleNotExplodeCustom
+      summary: Simple style with explode false.
+      parameters:
+        - name: String-Parameter
+          in: header
+          required: false
+          style: simple
+          explode: false
+          schema:
+            type: string
+          example: name=John; status=Sleep; age=34 # use ';' as a seperator inside the string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /header/bad-header-name/simple-not-explode/operatoinParameter:
+    get:
+      tags: [test]
+      operationId: headerSimpleNotExplodeContentType
+      summary: "simple not explode"
+      parameters:
+        - name: Content-Type # QTBUG-140168 Fix me! This should not be allowed as a CUSTOM header name!
+          in: header
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
 components:
   schemas:
     TestObject:

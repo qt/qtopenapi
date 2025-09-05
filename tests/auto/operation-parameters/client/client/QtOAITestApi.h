@@ -247,6 +247,114 @@ public:
     /**
     * \internal
     * The auto-generated API:
+    * void headerSimpleExplodeAnytype(const QJsonValue &anyTypeParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter);
+    * void headerSimpleExplodeAnytype(const QJsonValue &anyTypeParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(headerSimpleExplodeAnytype, (const QJsonValue &anyTypeParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter = ::QtOpenAPI::OptionalParam<QString>()), (anyTypeParameter, queryParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void headerSimpleExplodeArray(const QList<qint32> &arrayParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter);
+    * void headerSimpleExplodeArray(const QList<qint32> &arrayParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(headerSimpleExplodeArray, (const QList<qint32> &arrayParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter = ::QtOpenAPI::OptionalParam<QString>()), (arrayParameter, queryParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void headerSimpleExplodeMap(const QMap<QString, QString> &mapParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter);
+    * void headerSimpleExplodeMap(const QMap<QString, QString> &mapParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(headerSimpleExplodeMap, (const QMap<QString, QString> &mapParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter = ::QtOpenAPI::OptionalParam<QString>()), (mapParameter, queryParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void headerSimpleExplodeObject(const QtOAITestObject &objectParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter);
+    * void headerSimpleExplodeObject(const QtOAITestObject &objectParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(headerSimpleExplodeObject, (const QtOAITestObject &objectParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter = ::QtOpenAPI::OptionalParam<QString>()), (objectParameter, queryParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void headerSimpleExplodeString(const QString &stringParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter);
+    * void headerSimpleExplodeString(const QString &stringParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(headerSimpleExplodeString, (const QString &stringParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter = ::QtOpenAPI::OptionalParam<QString>()), (stringParameter, queryParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void headerSimpleNotExplodeAnytype(const QJsonValue &anyTypeParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter);
+    * void headerSimpleNotExplodeAnytype(const QJsonValue &anyTypeParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(headerSimpleNotExplodeAnytype, (const QJsonValue &anyTypeParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter = ::QtOpenAPI::OptionalParam<QString>()), (anyTypeParameter, queryParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void headerSimpleNotExplodeArray(const QList<qint32> &arrayParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter);
+    * void headerSimpleNotExplodeArray(const QList<qint32> &arrayParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(headerSimpleNotExplodeArray, (const QList<qint32> &arrayParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter = ::QtOpenAPI::OptionalParam<QString>()), (arrayParameter, queryParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void headerSimpleNotExplodeContentType(const QString &contentType);
+    * void headerSimpleNotExplodeContentType(const QString &contentType, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(headerSimpleNotExplodeContentType, (const QString &contentType), (contentType), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void headerSimpleNotExplodeCustom(const ::QtOpenAPI::OptionalParam<QString> &stringParameter);
+    * void headerSimpleNotExplodeCustom(const ::QtOpenAPI::OptionalParam<QString> &stringParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(headerSimpleNotExplodeCustom, (const ::QtOpenAPI::OptionalParam<QString> &stringParameter = ::QtOpenAPI::OptionalParam<QString>()), (stringParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void headerSimpleNotExplodeMap(const QMap<QString, QString> &mapParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter);
+    * void headerSimpleNotExplodeMap(const QMap<QString, QString> &mapParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(headerSimpleNotExplodeMap, (const QMap<QString, QString> &mapParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter = ::QtOpenAPI::OptionalParam<QString>()), (mapParameter, queryParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void headerSimpleNotExplodeObject(const QtOAITestObject &objectParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter);
+    * void headerSimpleNotExplodeObject(const QtOAITestObject &objectParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(headerSimpleNotExplodeObject, (const QtOAITestObject &objectParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter = ::QtOpenAPI::OptionalParam<QString>()), (objectParameter, queryParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void headerSimpleNotExplodeString(const QString &stringParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter);
+    * void headerSimpleNotExplodeString(const QString &stringParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(headerSimpleNotExplodeString, (const QString &stringParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter = ::QtOpenAPI::OptionalParam<QString>()), (stringParameter, queryParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
     * void labelExplodeAnytype(const QJsonValue &anytypeParameter);
     * void labelExplodeAnytype(const QJsonValue &anytypeParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
     * \endinternal
@@ -989,6 +1097,54 @@ Q_SIGNALS:
     void formNotExplodeStringMapFinished(const QString &summary);
     /** Signal is emitted, if formNotExplodeStringMap() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void formNotExplodeStringMapErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if headerSimpleExplodeAnytype() request completed successfully. The \a summary contains a serialized server response. */
+    void headerSimpleExplodeAnytypeFinished(const QString &summary);
+    /** Signal is emitted, if headerSimpleExplodeAnytype() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void headerSimpleExplodeAnytypeErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if headerSimpleExplodeArray() request completed successfully. The \a summary contains a serialized server response. */
+    void headerSimpleExplodeArrayFinished(const QString &summary);
+    /** Signal is emitted, if headerSimpleExplodeArray() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void headerSimpleExplodeArrayErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if headerSimpleExplodeMap() request completed successfully. The \a summary contains a serialized server response. */
+    void headerSimpleExplodeMapFinished(const QString &summary);
+    /** Signal is emitted, if headerSimpleExplodeMap() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void headerSimpleExplodeMapErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if headerSimpleExplodeObject() request completed successfully. The \a summary contains a serialized server response. */
+    void headerSimpleExplodeObjectFinished(const QString &summary);
+    /** Signal is emitted, if headerSimpleExplodeObject() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void headerSimpleExplodeObjectErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if headerSimpleExplodeString() request completed successfully. The \a summary contains a serialized server response. */
+    void headerSimpleExplodeStringFinished(const QString &summary);
+    /** Signal is emitted, if headerSimpleExplodeString() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void headerSimpleExplodeStringErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if headerSimpleNotExplodeAnytype() request completed successfully. The \a summary contains a serialized server response. */
+    void headerSimpleNotExplodeAnytypeFinished(const QString &summary);
+    /** Signal is emitted, if headerSimpleNotExplodeAnytype() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void headerSimpleNotExplodeAnytypeErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if headerSimpleNotExplodeArray() request completed successfully. The \a summary contains a serialized server response. */
+    void headerSimpleNotExplodeArrayFinished(const QString &summary);
+    /** Signal is emitted, if headerSimpleNotExplodeArray() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void headerSimpleNotExplodeArrayErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if headerSimpleNotExplodeContentType() request completed successfully. The \a summary contains a serialized server response. */
+    void headerSimpleNotExplodeContentTypeFinished(const QString &summary);
+    /** Signal is emitted, if headerSimpleNotExplodeContentType() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void headerSimpleNotExplodeContentTypeErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if headerSimpleNotExplodeCustom() request completed successfully. The \a summary contains a serialized server response. */
+    void headerSimpleNotExplodeCustomFinished(const QString &summary);
+    /** Signal is emitted, if headerSimpleNotExplodeCustom() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void headerSimpleNotExplodeCustomErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if headerSimpleNotExplodeMap() request completed successfully. The \a summary contains a serialized server response. */
+    void headerSimpleNotExplodeMapFinished(const QString &summary);
+    /** Signal is emitted, if headerSimpleNotExplodeMap() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void headerSimpleNotExplodeMapErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if headerSimpleNotExplodeObject() request completed successfully. The \a summary contains a serialized server response. */
+    void headerSimpleNotExplodeObjectFinished(const QString &summary);
+    /** Signal is emitted, if headerSimpleNotExplodeObject() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void headerSimpleNotExplodeObjectErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if headerSimpleNotExplodeString() request completed successfully. The \a summary contains a serialized server response. */
+    void headerSimpleNotExplodeStringFinished(const QString &summary);
+    /** Signal is emitted, if headerSimpleNotExplodeString() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void headerSimpleNotExplodeStringErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if labelExplodeAnytype() request completed successfully. The \a summary contains a serialized server response. */
     void labelExplodeAnytypeFinished(const QString &summary);
     /** Signal is emitted, if labelExplodeAnytype() request completed with an error. \a errorType and \a errorStr contain an information about the error. */

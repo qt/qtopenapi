@@ -344,7 +344,7 @@ QNetworkReply *QtOAIBaseApi::execute(QtOAIHttpRequestInput &input, QNetworkReque
     return reply;
 }
 
-QString QtOAIBaseApi::serializeJsonValue(const QJsonValue &value, const QString style, bool isExplode, const QString &suffix, const QString &assignOperator, const QString &delimiter)
+QString QtOAIBaseApi::serializeJsonValue(const QJsonValue &value, const QString style, bool isExplode, const QString &suffix, const QString &assignOperator, const QString &delimiter, bool percentEncode)
 {
     QString paramString;
     switch(value.type()) {
@@ -353,19 +353,21 @@ QString QtOAIBaseApi::serializeJsonValue(const QJsonValue &value, const QString 
     case QJsonValue::Double:
     {
         paramString = suffix;
-        paramString.append(QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(value.toVariant())));
+        const QString stringValue = ::QtOpenAPI::toStringValue(value.toVariant());
+        paramString.append(percentEncode ? QUrl::toPercentEncoding(stringValue) : stringValue);
     } break;
     case QJsonValue::Array:
     {
         const QVariantList array = value.toArray().toVariantList();
-        paramString = serializeArrayValue(array, style, isExplode, suffix, delimiter);
+        paramString
+            = serializeArrayValue(array, style, isExplode, suffix, delimiter, percentEncode);
     } break;
     case QJsonValue::Object:
     {
         paramString = suffix;
         QVariantMap map = value.toObject().toVariantMap();
         if (map.size() > 0)
-            paramString.append(serializeMapValue(map, assignOperator, delimiter));
+            paramString.append(serializeMapValue(map, assignOperator, delimiter, percentEncode));
         else
             qWarning() << "Serialized QJsonValue::Object is empty!";
     } break;

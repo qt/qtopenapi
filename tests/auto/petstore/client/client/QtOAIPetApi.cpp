@@ -256,11 +256,15 @@ void QtOAIPetApi::deletePetWithDataImpl(const qint64 &petId, const ::QtOpenAPI::
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     QtOAIHttpRequestInput input(fullPath, "DELETE");
-    if (apiKey.hasValue()) {
-        if (!::QtOpenAPI::toStringValue(apiKey.value()).isEmpty()) {
-            QAnyStringView paramValue = QAnyStringView(::QtOpenAPI::toStringValue(apiKey.value()));
-            input.m_headers.replaceOrAppend("api_key"_L1, paramValue);
-        }
+    if (apiKey.hasValue())
+    {
+        const QString headerStyle = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
+        const QString headerDelimiter = getParamStyleDelimiter(headerStyle, false);
+        const QString headerAssignOperator
+            = getParamStyleAssignOperator(headerStyle, false, (false || false));
+        const QString headerString = toStringValue(apiKey.value());
+        if (!headerString.isEmpty())
+            input.m_headers.replaceOrAppend("api_key"_L1, QAnyStringView(headerString));
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -367,7 +371,7 @@ void QtOAIPetApi::findPetsByAgeAndPatienceWithDataImpl(const QList<qint32> &petD
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !true));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"petData"_s, false, (!false && !true));
         QString paramString = pathPrefix + pathSuffix;
-        paramString = pathPrefix + serializeArrayValue(petData, pathStyle, false, pathSuffix, pathDelimiter);
+        paramString = pathPrefix + serializeArrayValue(petData, pathStyle, false, pathSuffix, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -505,7 +509,7 @@ void QtOAIPetApi::findPetsByStatusWithDataImpl(const QList<QString> &status, con
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-            fullPath.append(serializeArrayValue(status, queryStyle, false, querySuffix, queryDelimiter));
+            fullPath.append(serializeArrayValue(status, queryStyle, false, querySuffix, queryDelimiter, true));
             queryParamCounter++;
         }
     }
@@ -638,7 +642,7 @@ void QtOAIPetApi::findPetsByTagsWithDataImpl(const QList<QString> &tags, const Q
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-            fullPath.append(serializeArrayValue(tags, queryStyle, false, querySuffix, queryDelimiter));
+            fullPath.append(serializeArrayValue(tags, queryStyle, false, querySuffix, queryDelimiter, true));
             queryParamCounter++;
         }
     }

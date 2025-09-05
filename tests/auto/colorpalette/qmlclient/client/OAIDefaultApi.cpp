@@ -177,7 +177,9 @@ void OAIDefaultApi::testOperationWithDataImpl(const qint32 &pathParam, const ::O
                     index++;
                 }
             } else {
-                paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, true, querySuffix, queryAssignOperator, queryDelimiter);
+                paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, true,
+                                                 querySuffix, queryAssignOperator, queryDelimiter,
+                                                 true);
             }
             // style=form && explode=true && non-object => 'query_param1' isn't used in serialization
             // style=form && explode=true && empty object => need to be 'query_param1='
@@ -213,7 +215,7 @@ void OAIDefaultApi::testOperationWithDataImpl(const qint32 &pathParam, const ::O
         if (queryParam2.hasValue()) {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-            fullPath.append(serializeArrayValue(queryParam2.value(), queryStyle, true, querySuffix, queryDelimiter));
+            fullPath.append(serializeArrayValue(queryParam2.value(), queryStyle, true, querySuffix, queryDelimiter, true));
             queryParamCounter++;
         }
     }

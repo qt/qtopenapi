@@ -157,10 +157,10 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{#isAnyType}}
         const QString assignOperator = getParamStyleAssignOperator(pathStyle, {{isExplode}}, {{paramName}}.type() == QJsonValue::Object);
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"{{baseName}}"_s, {{isExplode}}, {{paramName}}.type() == QJsonValue::Object);
-        QString paramString = pathPrefix + serializeJsonValue({{paramName}}, pathStyle, {{isExplode}}, pathSuffix, assignOperator, pathDelimiter);
+        QString paramString = pathPrefix + serializeJsonValue({{paramName}}, pathStyle, {{isExplode}}, pathSuffix, assignOperator, pathDelimiter, true);
 {{/isAnyType}}
 {{#isModel}}
-        paramString = pathPrefix + serializeJsonValue(QJsonValue({{paramName}}.asJsonObject()), pathStyle, {{isExplode}}, pathSuffix, assignOperator, pathDelimiter);
+        paramString = pathPrefix + serializeJsonValue(QJsonValue({{paramName}}.asJsonObject()), pathStyle, {{isExplode}}, pathSuffix, assignOperator, pathDelimiter, true);
 {{/isModel}}
 {{#isMap}}
 {{#additionalProperties.isModel}}
@@ -170,13 +170,13 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
                       "OpenAPI standard.";
 {{/content}}
 {{/additionalProperties.isModel}}
-        paramString.append(serializeMapValue({{paramName}}, assignOperator, pathDelimiter));
+        paramString.append(serializeMapValue({{paramName}}, assignOperator, pathDelimiter, true));
 {{/isMap}}
 {{#isPrimitiveType}}
         paramString += QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}}));
 {{/isPrimitiveType}}
 {{#isArray}}
-        paramString = pathPrefix + serializeArrayValue({{paramName}}, pathStyle, {{isExplode}}, pathSuffix, pathDelimiter);
+        paramString = pathPrefix + serializeArrayValue({{paramName}}, pathStyle, {{isExplode}}, pathSuffix, pathDelimiter, true);
 {{/isArray}}
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -213,7 +213,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
             if (queryParamCounter > 0)
                 fullPath.append("&");
 {{#isAnyType}}
-            paramString = serializeJsonValue({{paramName}}{{^required}}.value(){{/required}}, queryStyle, {{isExplode}}, querySuffix, queryAssignOperator, queryDelimiter);
+            paramString = serializeJsonValue({{paramName}}{{^required}}.value(){{/required}}, queryStyle, {{isExplode}}, querySuffix, queryAssignOperator, queryDelimiter, true);
             fullPath.append(paramString);
 {{/isAnyType}}
 {{#isModel}}
@@ -229,7 +229,9 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
                     index++;
                 }
             } else {
-                paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, {{isExplode}}, querySuffix, queryAssignOperator, queryDelimiter);
+                paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, {{isExplode}},
+                                                 querySuffix, queryAssignOperator, queryDelimiter,
+                                                 true);
             }
             // style=form && explode=true && non-object => '{{baseName}}' isn't used in serialization
             // style=form && explode=true && empty object => need to be '{{baseName}}='
@@ -257,7 +259,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
                     index++;
                 }
             } else {
-                paramString.append(serializeMapValue({{paramName}}{{^required}}.value(){{/required}}, queryAssignOperator, queryDelimiter));
+                paramString.append(serializeMapValue({{paramName}}{{^required}}.value(){{/required}}, queryAssignOperator, queryDelimiter, true));
             }
             fullPath.append(paramString);
 {{/isMap}}
@@ -265,7 +267,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
             fullPath.append(querySuffix + QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value(){{/required}})));
 {{/isPrimitiveType}}
 {{#isArray}}
-            fullPath.append(serializeArrayValue({{paramName}}{{^required}}.value(){{/required}}, queryStyle, {{isExplode}}, querySuffix, queryDelimiter));
+            fullPath.append(serializeArrayValue({{paramName}}{{^required}}.value(){{/required}}, queryStyle, {{isExplode}}, querySuffix, queryDelimiter, true));
 {{/isArray}}
             queryParamCounter++;
         }{{^required}}{{#isNullable}} else if ({{paramName}}.isNull()) {
@@ -397,41 +399,36 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
     }{{/isNullable}}{{/required}}
     {{/bodyParams}}
 {{#headerParams}}
-    {{^required}}if ({{paramName}}.hasValue()){{/required}} {
-{{^collectionFormat}}
-{{^isPrimitiveType}}
-        QString headerString;
+    {{^required}}if ({{paramName}}.hasValue()){{/required}}
+    {
+        const QString headerStyle = "{{style}}"_L1.isEmpty() ? "simple"_L1 : "{{style}}"_L1;
+        const QString headerDelimiter = getParamStyleDelimiter(headerStyle, {{isExplode}});
+{{^isAnyType}}
+        const QString headerAssignOperator
+            = getParamStyleAssignOperator(headerStyle, {{isExplode}}, ({{isModel}} || {{isMap}}));
+{{/isAnyType}}
+{{#isAnyType}}
+        const bool isObject = {{paramName}}{{^required}}.value(){{/required}}.type() == QJsonValue::Object;
+        const QString headerAssignOperator = getParamStyleAssignOperator(headerStyle, {{isExplode}}, isObject);
+        const QString headerString = serializeJsonValue({{paramName}}{{^required}}.value(){{/required}}, headerStyle, {{isExplode}}, "", headerAssignOperator, headerDelimiter, false);
+{{/isAnyType}}
+{{#isModel}}
         const QJsonObject parameter = {{paramName}}{{^required}}.value(){{/required}}.asJsonObject();
-        qint32 count = 0;
-        const QString assignOperator = ({{isExplode}}) ? "=" : ",";
-        for (const QString& key : parameter.keys()) {
-            if (count > 0) {
-                headerString.append(",");
-            }
-            headerString.append(::{{cppNamespace}}::parameterToString(key, assignOperator, parameter.value(key)));
-            count++;
-        }
-        input.m_headers.replaceOrAppend("{{baseName}}"_L1, QAnyStringView(headerString));
-{{/isPrimitiveType}}
+        const QString headerString
+            = serializeJsonValue(parameter, headerStyle, {{isExplode}}, "",
+                                 headerAssignOperator, headerDelimiter, false);
+{{/isModel}}
+{{#isMap}}
+        const QString headerString = serializeMapValue({{paramName}}{{^required}}.value(){{/required}}, headerAssignOperator, headerDelimiter, false);
+{{/isMap}}
 {{#isPrimitiveType}}
-        if (!::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value(){{/required}}).isEmpty()) {
-            QAnyStringView paramValue = QAnyStringView(::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value(){{/required}}));
-            input.m_headers.replaceOrAppend("{{baseName}}"_L1, paramValue);
-        }
-{{/isPrimitiveType}}{{/collectionFormat}}{{#collectionFormat}}
-        QString headerString;
-        if ({{{paramName}}}{{^required}}.value(){{/required}}.size() > 0) {
-            qint32 count = 0;
-            for ({{{baseType}}} t : {{paramName}}{{^required}}.value(){{/required}}) {
-                if (count > 0) {
-                    headerString.append(",");
-                }
-                headerString.append(::{{cppNamespace}}::toStringValue(t));
-                count++;
-            }
+        const QString headerString = toStringValue({{paramName}}{{^required}}.value(){{/required}});
+{{/isPrimitiveType}}
+{{#isArray}}
+        const QString headerString = serializeArrayValue({{paramName}}, headerStyle, {{isExplode}}, "", headerDelimiter, false);
+{{/isArray}}
+        if (!headerString.isEmpty())
             input.m_headers.replaceOrAppend("{{baseName}}"_L1, QAnyStringView(headerString));
-        }
-{{/collectionFormat}}
     }
 {{/headerParams}}
 {{#cookieParams}}

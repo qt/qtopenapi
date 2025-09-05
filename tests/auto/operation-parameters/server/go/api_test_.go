@@ -1111,3 +1111,75 @@ func (api *TestAPI) SpaceDelimitedNotExplodeStringMap(c *gin.Context) {
 	// Your handler implementation
 	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
+
+// Get /v2/header/anytype/simple-explode/anytypeParameter
+// simple anytype explode
+func (api *TestAPI) HeaderSimpleExplodeAnytype(c *gin.Context) {
+	c.JSON(200, gin.H{"header": c.Request.Header})
+}
+
+// Get /v2/header/array/simple-explode/arrayParameter
+// simple array explode
+func (api *TestAPI) HeaderSimpleExplodeArray(c *gin.Context) {
+	c.JSON(200, gin.H{"header": c.Request.Header})
+}
+
+// Get /v2/header/object/simple-explode/objectParameter
+// simple object explode
+func (api *TestAPI) HeaderSimpleExplodeObject(c *gin.Context) {
+	c.JSON(200, gin.H{"header": c.Request.Header})
+}
+
+// Get /v2/header/string/simple-explode/stringParameter
+// Simple style with explode true.
+func (api *TestAPI) HeaderSimpleExplodeString(c *gin.Context) {
+	c.JSON(200, gin.H{"header": c.Request.Header})
+}
+
+// Get /v2/header/anytype/simple-not-explode/anytypeParameter
+// simple anytype not explode
+func (api *TestAPI) HeaderSimpleNotExplodeAnytype(c *gin.Context) {
+	c.JSON(200, gin.H{"header": c.Request.Header})
+}
+
+// Post /v2/header/array/simple-not-explode/arrayParameter
+// simple array not explode
+func (api *TestAPI) HeaderSimpleNotExplodeArray(c *gin.Context) {
+	c.JSON(200, gin.H{"header": c.Request.Header})
+}
+
+// Post /v2/header/object/simple-not-explode/objectParameter
+// simple object not explode
+func (api *TestAPI) HeaderSimpleNotExplodeObject(c *gin.Context) {
+	c.JSON(200, gin.H{"header": c.Request.Header})
+}
+
+// Get /v2/header/string/simple-not-explode/stringParameter
+// Simple style with explode false.
+func (api *TestAPI) HeaderSimpleNotExplodeString(c *gin.Context) {
+	c.JSON(200, gin.H{"header": c.Request.Header})
+}
+
+// Post /v2/header/map/simple-explode/mapParameter
+// simple map explode
+func (api *TestAPI) HeaderSimpleExplodeMap(c *gin.Context) {
+	c.JSON(200, gin.H{"header": c.Request.Header})
+}
+
+// Get /v2/header/map/simple-not-explode/mapParameter
+// simple map not explode
+func (api *TestAPI) HeaderSimpleNotExplodeMap(c *gin.Context) {
+	c.JSON(200, gin.H{"header": c.Request.Header})
+}
+
+// Get /v2/header/bad-header-name/simple-not-explode/operatoinParameter
+// simple not explode
+func (api *TestAPI) HeaderSimpleNotExplodeContentType(c *gin.Context) {
+	c.JSON(200, gin.H{"header": c.Request.Header})
+}
+
+// Get /v2/header/string-custom-devided/simple-not-explode/stringParameter
+// Simple style with explode false.
+func (api *TestAPI) HeaderSimpleNotExplodeCustomDevidedString(c *gin.Context) {
+	c.JSON(200, gin.H{"header": c.Request.Header})
+}

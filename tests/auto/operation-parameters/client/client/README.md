@@ -52,6 +52,18 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:10203/v2
 |*formNotExplodeObject* | *POST* /query/object/form-not-explode/formNotExplodeObject | form object not explode.|
 |*formNotExplodeString* | *POST* /query/string/form-not-explode/formNotExplodeString | form style with explode set to false for string query parameter..|
 |*formNotExplodeStringMap* | *POST* /query/map/string-mapping/form-not-explode/formNotExplodeMap | Form style with explode=false for query map parameter of string values..|
+|*headerSimpleExplodeAnytype* | *POST* /header/anytype/simple-explode/anytypeParameter | simple anytype explode.|
+|*headerSimpleExplodeArray* | *GET* /header/array/simple-explode/arrayParameter | simple array explode.|
+|*headerSimpleExplodeMap* | *POST* /header/map/simple-explode/mapParameter | simple map explode.|
+|*headerSimpleExplodeObject* | *GET* /header/object/simple-explode/objectParameter | simple object explode.|
+|*headerSimpleExplodeString* | *GET* /header/string/simple-explode/stringParameter | Simple style with explode true..|
+|*headerSimpleNotExplodeAnytype* | *GET* /header/anytype/simple-not-explode/anytypeParameter | simple anytype not explode.|
+|*headerSimpleNotExplodeArray* | *POST* /header/array/simple-not-explode/arrayParameter | simple array not explode.|
+|*headerSimpleNotExplodeContentType* | *GET* /header/bad-header-name/simple-not-explode/operatoinParameter | simple not explode.|
+|*headerSimpleNotExplodeCustom* | *GET* /header/string-custom-devided/simple-not-explode/stringParameter | Simple style with explode false..|
+|*headerSimpleNotExplodeMap* | *GET* /header/map/simple-not-explode/mapParameter | simple map not explode.|
+|*headerSimpleNotExplodeObject* | *POST* /header/object/simple-not-explode/objectParameter | simple object not explode.|
+|*headerSimpleNotExplodeString* | *GET* /header/string/simple-not-explode/stringParameter | Simple style with explode false..|
 |*labelExplodeAnytype* | *GET* /path/anytype/label-explode/{anytypeParameter} | label anytype explode.|
 |*labelExplodeArray* | *GET* /path/array/label-explode/{arrayParameter} | label array explode.|
 |*labelExplodeDouble* | *GET* /path/double/label-explode/{doubleParameter} | Label style with explode set to true for double path parameter..|

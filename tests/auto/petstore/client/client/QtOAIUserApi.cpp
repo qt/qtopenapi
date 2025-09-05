@@ -139,7 +139,7 @@ void QtOAIUserApi::createInQueryMapWithDataImpl(const QMap<QString, QString> &us
                     index++;
                 }
             } else {
-                paramString.append(serializeMapValue(username, queryAssignOperator, queryDelimiter));
+                paramString.append(serializeMapValue(username, queryAssignOperator, queryDelimiter, true));
             }
             fullPath.append(paramString);
             queryParamCounter++;
@@ -583,7 +583,7 @@ void QtOAIUserApi::deleteUserWithDataImpl(const QtOAIUser &username, const QObje
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"username"_s, false, (!false && !false));
         QString paramString = pathPrefix + pathSuffix;
-        paramString = pathPrefix + serializeJsonValue(QJsonValue(username.asJsonObject()), pathStyle, false, pathSuffix, assignOperator, pathDelimiter);
+        paramString = pathPrefix + serializeJsonValue(QJsonValue(username.asJsonObject()), pathStyle, false, pathSuffix, assignOperator, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -700,7 +700,7 @@ void QtOAIUserApi::getUserByNameWithDataImpl(const QMap<QString, qint32> &userna
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"username"_s, false, (!false && !false));
         QString paramString = pathPrefix + pathSuffix;
-        paramString.append(serializeMapValue(username, assignOperator, pathDelimiter));
+        paramString.append(serializeMapValue(username, assignOperator, pathDelimiter, true));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -997,7 +997,7 @@ void QtOAIUserApi::logoutUserWithDataImpl(const QJsonValue &username, const QObj
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-            paramString = serializeJsonValue(username, queryStyle, true, querySuffix, queryAssignOperator, queryDelimiter);
+            paramString = serializeJsonValue(username, queryStyle, true, querySuffix, queryAssignOperator, queryDelimiter, true);
             fullPath.append(paramString);
             queryParamCounter++;
         }
@@ -1153,7 +1153,9 @@ void QtOAIUserApi::updateUserWithDataImpl(const QString &username, const QtOAIUs
                     index++;
                 }
             } else {
-                paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, true, querySuffix, queryAssignOperator, queryDelimiter);
+                paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, true,
+                                                 querySuffix, queryAssignOperator, queryDelimiter,
+                                                 true);
             }
             // style=form && explode=true && non-object => 'body' isn't used in serialization
             // style=form && explode=true && empty object => need to be 'body='

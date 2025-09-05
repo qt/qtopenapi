@@ -120,7 +120,7 @@ void QtOAIFakeApi::testPathParameterCollectionFormatWithDataImpl(const QList<QSt
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !true));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"pipeId"_s, false, (!false && !true));
         QString paramString = pathPrefix + pathSuffix;
-        paramString = pathPrefix + serializeArrayValue(pipeId, pathStyle, false, pathSuffix, pathDelimiter);
+        paramString = pathPrefix + serializeArrayValue(pipeId, pathStyle, false, pathSuffix, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -138,7 +138,7 @@ void QtOAIFakeApi::testPathParameterCollectionFormatWithDataImpl(const QList<QSt
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !true));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"ioutilId"_s, false, (!false && !true));
         QString paramString = pathPrefix + pathSuffix;
-        paramString = pathPrefix + serializeArrayValue(ioutilId, pathStyle, false, pathSuffix, pathDelimiter);
+        paramString = pathPrefix + serializeArrayValue(ioutilId, pathStyle, false, pathSuffix, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -156,7 +156,7 @@ void QtOAIFakeApi::testPathParameterCollectionFormatWithDataImpl(const QList<QSt
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !true));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"httpId"_s, false, (!false && !true));
         QString paramString = pathPrefix + pathSuffix;
-        paramString = pathPrefix + serializeArrayValue(httpId, pathStyle, false, pathSuffix, pathDelimiter);
+        paramString = pathPrefix + serializeArrayValue(httpId, pathStyle, false, pathSuffix, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -174,7 +174,7 @@ void QtOAIFakeApi::testPathParameterCollectionFormatWithDataImpl(const QList<QSt
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !true));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"urlId"_s, false, (!false && !true));
         QString paramString = pathPrefix + pathSuffix;
-        paramString = pathPrefix + serializeArrayValue(urlId, pathStyle, false, pathSuffix, pathDelimiter);
+        paramString = pathPrefix + serializeArrayValue(urlId, pathStyle, false, pathSuffix, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -192,7 +192,7 @@ void QtOAIFakeApi::testPathParameterCollectionFormatWithDataImpl(const QList<QSt
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !true));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"multiContextId"_s, false, (!false && !true));
         QString paramString = pathPrefix + pathSuffix;
-        paramString = pathPrefix + serializeArrayValue(multiContextId, pathStyle, false, pathSuffix, pathDelimiter);
+        paramString = pathPrefix + serializeArrayValue(multiContextId, pathStyle, false, pathSuffix, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -332,7 +332,7 @@ void QtOAIFakeApi::testQueryParameterCollectionFormatWithDataImpl(const QList<QS
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-            fullPath.append(serializeArrayValue(pipe, queryStyle, false, querySuffix, queryDelimiter));
+            fullPath.append(serializeArrayValue(pipe, queryStyle, false, querySuffix, queryDelimiter, true));
             queryParamCounter++;
         }
     }
@@ -350,7 +350,7 @@ void QtOAIFakeApi::testQueryParameterCollectionFormatWithDataImpl(const QList<QS
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-            fullPath.append(serializeArrayValue(ioutil, queryStyle, false, querySuffix, queryDelimiter));
+            fullPath.append(serializeArrayValue(ioutil, queryStyle, false, querySuffix, queryDelimiter, true));
             queryParamCounter++;
         }
     }
@@ -368,7 +368,7 @@ void QtOAIFakeApi::testQueryParameterCollectionFormatWithDataImpl(const QList<QS
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-            fullPath.append(serializeArrayValue(http, queryStyle, false, querySuffix, queryDelimiter));
+            fullPath.append(serializeArrayValue(http, queryStyle, false, querySuffix, queryDelimiter, true));
             queryParamCounter++;
         }
     }
@@ -386,7 +386,7 @@ void QtOAIFakeApi::testQueryParameterCollectionFormatWithDataImpl(const QList<QS
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-            fullPath.append(serializeArrayValue(url, queryStyle, false, querySuffix, queryDelimiter));
+            fullPath.append(serializeArrayValue(url, queryStyle, false, querySuffix, queryDelimiter, true));
             queryParamCounter++;
         }
     }
@@ -404,7 +404,7 @@ void QtOAIFakeApi::testQueryParameterCollectionFormatWithDataImpl(const QList<QS
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-            fullPath.append(serializeArrayValue(multiContext, queryStyle, true, querySuffix, queryDelimiter));
+            fullPath.append(serializeArrayValue(multiContext, queryStyle, true, querySuffix, queryDelimiter, true));
             queryParamCounter++;
         }
     }
