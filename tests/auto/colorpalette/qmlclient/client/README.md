@@ -3,7 +3,7 @@
 Qt Quick Demo - RESTful API client
 
 - API version: 1.0.0
-- Generator version: 7.12.0
+- Generator version: 7.15.0
 
 This specification defines the RESTful API for the imaginary color palette service used by the QHttpServer example and the colorpalette QML application.
 

@@ -59,7 +59,7 @@ function mvn_exists() {
 }
 
 MODE="$1"
-OPENAPI_CLI="openapi_client_generators/openapi-generator-cli-7.12.0.jar"
+OPENAPI_CLI="openapi_client_generators/openapi-generator-cli-7.15.0.jar"
 OPENAPI_CLI_ENTRYPOINT_CLASS="org.openapitools.codegen.OpenAPIGenerator"
 ORIGINAL_GENERATOR="cpp-qt6-client"
 ORIGINAL_GENERATOR_JAR="$PWD/target/cpp-qt6-client-openapi-generator-1.0.0.jar"
@@ -80,11 +80,9 @@ function openapi_generator_download() {
     #### Download openapi installation
     if [[ ! -f "$OPENAPI_CLI" ]]; then
         mkdir -p $PWD/openapi_client_generators
-        curl https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/bin/utils/openapi-generator-cli.sh > $PWD/openapi_client_generators/openapi-generator-cli
-        chmod u+x $PWD/openapi_client_generators/openapi-generator-cli
 
         #### Here version should be updated manually
-        wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.12.0/openapi-generator-cli-7.12.0.jar -O $PWD/openapi_client_generators/openapi-generator-cli-7.12.0.jar
+        wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.15.0/openapi-generator-cli-7.15.0.jar -O $PWD/openapi_client_generators/openapi-generator-cli-7.15.0.jar
         export PATH=$PATH:$PWD/openapi_client_generators
     fi
     #### Check downloads

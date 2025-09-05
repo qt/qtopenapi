@@ -3,7 +3,7 @@
 Operation Parameters Test
 
 - API version: 1.0.0
-- Generator version: 7.12.0
+- Generator version: 7.15.0
 
 This specification is intended for testing purposes. It demonstrates a wide range of combinations of the `style` and `explode` attributes for parameters in various locations: query, path, header, and cookie. The goal is to verify correct path and parameter generation for each case.
 

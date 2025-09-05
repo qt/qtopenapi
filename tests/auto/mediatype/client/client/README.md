@@ -3,7 +3,7 @@
 Operation Parameters Test
 
 - API version: 1.0.0
-- Generator version: 7.12.0
+- Generator version: 7.15.0
 
 This specification is intended for testing purposes. It demonstrates a wide range of content types for requestBody. The goal is to verify correct url for each case.
 

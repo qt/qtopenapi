@@ -3,7 +3,7 @@
 OpenAPI 2.0 test
 
 - API version: 1.0.0
-- Generator version: 7.12.0
+- Generator version: 7.15.0
 
 This spec is mainly for testing Openapi 2.0
 
