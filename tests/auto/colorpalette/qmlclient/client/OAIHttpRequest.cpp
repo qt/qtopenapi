@@ -11,7 +11,6 @@
 #include <QtCore/qdatetime.h>
 #include <QtCore/qdir.h>
 #include <QtCore/qfileinfo.h>
-#include <QtCore/QRandomGenerator>
 #include <QtCore/qurl.h>
 #include <QtCore/quuid.h>
 #include <QtCore/QtGlobal>
@@ -180,7 +179,6 @@ QString httpAttributeEncode(const QString &attributeName, const QString &input)
 
 QNetworkRequest getNetworkRequest(OAIHttpRequestInput &input, QByteArray &requestContent, std::shared_ptr<QNetworkRequestFactory> factory, bool responseCompressionEnabled, bool requestCompressionEnabled)
 {
-    QRandomGenerator randomGenerator = QRandomGenerator(QDateTime::currentDateTime().toSecsSinceEpoch());
     // reset variables
     requestContent = "";
 
