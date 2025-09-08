@@ -599,59 +599,6 @@ QString convertJsonValueToString(const QJsonValue &jsonValue)
     return jsonValue.toVariant().toString();
 }
 
-QString parameterToString(const QString &key, const QString &assignOperator, const QJsonValue &jval)
-{
-    QString paramString;
-    switch(jval.type()) {
-        case QJsonValue::String:
-            paramString.append(QUrl::toPercentEncoding(key) + assignOperator + QUrl::toPercentEncoding(jval.toString()));
-            break;
-        case QJsonValue::Double:
-            paramString.append(QUrl::toPercentEncoding(key) + assignOperator + QUrl::toPercentEncoding(QVariant(jval.toDouble()).toString()));
-            break;
-        case QJsonValue::Bool:
-            paramString.append(QUrl::toPercentEncoding(key) + assignOperator + QUrl::toPercentEncoding(QVariant(jval.toBool()).toString()));
-            break;
-        case QJsonValue::Array:
-            paramString.append(QUrl::toPercentEncoding(key) + assignOperator + ::{{cppNamespace}}::toStringValue(jval.toArray().toVariantList(), assignOperator));
-            break;
-        case QJsonValue::Object:
-            paramString.append(QUrl::toPercentEncoding(key) + assignOperator + ::{{cppNamespace}}::toStringValue(jval.toObject().toVariantMap(), assignOperator));
-            break;
-        case QJsonValue::Null: // path value cannot be null because it's always required.
-            break;
-        case QJsonValue::Undefined:
-            break;
-    }
-    return paramString;
-}
-
-QString optionParameterToString(const QString &key, const QString &assignOperator, const QJsonValue &jval)
-{
-    QString paramString;
-    switch(jval.type()) {
-        case QJsonValue::String:
-            paramString.append(QUrl::toPercentEncoding(key) + assignOperator + QUrl::toPercentEncoding(jval.toString()));
-            break;
-        case QJsonValue::Double:
-            paramString.append(QUrl::toPercentEncoding(key) + assignOperator + QUrl::toPercentEncoding(QVariant(jval.toDouble()).toString()));
-            break;
-        case QJsonValue::Bool:
-            paramString.append(QUrl::toPercentEncoding(key) + assignOperator + QUrl::toPercentEncoding(QVariant(jval.toBool()).toString()));
-            break;
-        case QJsonValue::Array:
-            paramString.append(QUrl::toPercentEncoding(key) + assignOperator + ::{{cppNamespace}}::toStringValue(jval.toArray().toVariantList(), assignOperator));
-            break;
-        case QJsonValue::Object:
-            paramString.append(QUrl::toPercentEncoding(key) + assignOperator + ::{{cppNamespace}}::toStringValue(jval.toObject().toVariantMap(), assignOperator));
-            break;
-        case QJsonValue::Null:
-        case QJsonValue::Undefined:
-            break;
-    }
-    return paramString;
-}
-
 {{#cppNamespaceDeclarations}}
 } // namespace {{this}}
 {{/cppNamespaceDeclarations}}

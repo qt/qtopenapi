@@ -135,11 +135,11 @@ void OAIUserApi::createInQueryMapWithDataImpl(const QMap<QString, QString> &user
                 for (const auto &[key, value] : username.asKeyValueRange()) {
                     if (index > 0)
                         paramString.append(queryDelimiter);
-                    paramString.append(::OpenAPI::optionParameterToString(u"username[%1]"_s.arg(key), queryAssignOperator, value));
+                    paramString.append(QUrl::toPercentEncoding(u"username[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(::OpenAPI::toStringValue(value)));
                     index++;
                 }
             } else {
-                paramString.append(::OpenAPI::toStringValue(username, queryAssignOperator, queryDelimiter));
+                paramString.append(serializeMapValue(username, queryAssignOperator, queryDelimiter));
             }
             fullPath.append(paramString);
             queryParamCounter++;
@@ -700,7 +700,7 @@ void OAIUserApi::getUserByNameWithDataImpl(const QMap<QString, qint32> &username
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !false));
         const QString pathSuffix = getParamStyleSuffix(pathStyle, u"username"_s, false, (!false && !false));
         QString paramString = pathPrefix + pathSuffix;
-        paramString.append(::OpenAPI::toStringValue(username, assignOperator, pathDelimiter));
+        paramString.append(serializeMapValue(username, assignOperator, pathDelimiter));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -1143,13 +1143,13 @@ void OAIUserApi::updateUserWithDataImpl(const QString &username, const OAIUser &
                 fullPath.append("&");
             const QJsonObject parameter = body.asJsonObject();
             if (queryStyle == "deepObject") {
-                qint32 index = 0;
+                qsizetype index = 0;
                 if (parameter.isEmpty())
-                    qWarning() << "Serialized QJsonValue::Object is empty!";
-                for (const QString& key : parameter.keys()) {
+                    qWarning() << "Serialized parameter body is empty!";
+                for (const QString &key : parameter.keys()) {
                     if (index > 0)
                         paramString.append(queryDelimiter);
-                    paramString.append(::OpenAPI::optionParameterToString(QString("body") + QString("[") + key + QString("]"), queryAssignOperator, parameter.value(key)));
+                    paramString.append(QUrl::toPercentEncoding(u"body[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(convertJsonValueToString(parameter.value(key))));
                     index++;
                 }
             } else {

@@ -167,13 +167,13 @@ void QtOAIDefaultApi::testOperationWithDataImpl(const qint32 &pathParam, const :
                 fullPath.append("&");
             const QJsonObject parameter = queryParam1.value().asJsonObject();
             if (queryStyle == "deepObject") {
-                qint32 index = 0;
+                qsizetype index = 0;
                 if (parameter.isEmpty())
-                    qWarning() << "Serialized QJsonValue::Object is empty!";
-                for (const QString& key : parameter.keys()) {
+                    qWarning() << "Serialized parameter queryParam1 is empty!";
+                for (const QString &key : parameter.keys()) {
                     if (index > 0)
                         paramString.append(queryDelimiter);
-                    paramString.append(::QtOpenAPI::optionParameterToString(QString("query_param1") + QString("[") + key + QString("]"), queryAssignOperator, parameter.value(key)));
+                    paramString.append(QUrl::toPercentEncoding(u"query_param1[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(convertJsonValueToString(parameter.value(key))));
                     index++;
                 }
             } else {

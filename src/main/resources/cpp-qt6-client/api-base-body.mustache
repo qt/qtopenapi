@@ -360,7 +360,7 @@ QString {{prefix}}BaseApi::serializeJsonValue(const QJsonValue &value, const QSt
         paramString = suffix;
         QVariantMap map = value.toObject().toVariantMap();
         if (map.size() > 0)
-            paramString.append(::{{cppNamespace}}::toStringValue(map, assignOperator, delimiter));
+            paramString.append(serializeMapValue(map, assignOperator, delimiter));
         else
             qWarning() << "Serialized QJsonValue::Object is empty!";
     } break;

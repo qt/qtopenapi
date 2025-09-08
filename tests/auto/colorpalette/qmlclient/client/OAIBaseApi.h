@@ -223,6 +223,18 @@ protected:
         }
         return paramString;
     }
+    template <typename T>
+    QString serializeMapValue(const QMap<QString, T> &mapValue, QAnyStringView keyValueDelimiter, QAnyStringView itemDelimiter) {
+        QString strMap;
+        if (mapValue.size() == 0)
+            qWarning() << "serializeMapValue: map is empty!";
+        for (const auto &[key, value] : mapValue.asKeyValueRange()) {
+            strMap.append(QUrl::toPercentEncoding(key) + keyValueDelimiter.toString() + QUrl::toPercentEncoding(toStringValue(value)) + itemDelimiter.toString());
+        }
+        if (mapValue.size() > 0)
+            strMap.chop(itemDelimiter.size());
+        return strMap;
+    }
 
 protected:
     struct OAICallerInfo {

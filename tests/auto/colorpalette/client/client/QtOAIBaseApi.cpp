@@ -365,7 +365,7 @@ QString QtOAIBaseApi::serializeJsonValue(const QJsonValue &value, const QString 
         paramString = suffix;
         QVariantMap map = value.toObject().toVariantMap();
         if (map.size() > 0)
-            paramString.append(::QtOpenAPI::toStringValue(map, assignOperator, delimiter));
+            paramString.append(serializeMapValue(map, assignOperator, delimiter));
         else
             qWarning() << "Serialized QJsonValue::Object is empty!";
     } break;
