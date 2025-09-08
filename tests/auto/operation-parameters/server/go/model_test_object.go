@@ -11,12 +11,12 @@ package openapi
 
 type TestObject struct {
 
-    // Updated name
-    Name string `json:"name,omitempty"`
+	// Updated name
+	Name string `json:"name,omitempty"`
 
-    // Updated status
-    Status string `json:"status,omitempty"`
+	// Updated status
+	Status string `json:"status,omitempty"`
 
-    // age number
-    Age int32 `json:"age,omitempty"`
+	// age number
+	Age int32 `json:"age,omitempty"`
 }

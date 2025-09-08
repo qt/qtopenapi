@@ -10,7 +10,7 @@
 package openapi
 
 import (
-    "github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin"
 )
 
 type FakeAPI struct {
@@ -18,10 +18,10 @@ type FakeAPI struct {
 
 // Post /v2/fake/test-path-parameters/:pipeId/:ioutilId/:httpId/:urlId/:multiContextId
 func (api *FakeAPI) TestPathParameterCollectionFormat(c *gin.Context) {
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }
 
 // Post /v2/fake/test-query-parameters
 func (api *FakeAPI) TestQueryParameterCollectionFormat(c *gin.Context) {
-    c.JSON(200, gin.H{"status": c.Request.RequestURI})
+	c.JSON(200, gin.H{"status": c.Request.RequestURI})
 }

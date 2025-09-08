@@ -10,20 +10,20 @@
 package main
 
 import (
-    "log"
+	"log"
 
-    // WARNING!
-    // Pass --git-repo-id and --git-user-id properties when generating the code
-    //
-    sw "github.com/GIT_USER_ID/GIT_REPO_ID/go"
+	// WARNING!
+	// Pass --git-repo-id and --git-user-id properties when generating the code
+	//
+	sw "github.com/GIT_USER_ID/GIT_REPO_ID/go"
 )
 
 func main() {
-    routes := sw.ApiHandleFunctions{}
+	routes := sw.ApiHandleFunctions{}
 
-    log.Printf("Server started")
+	log.Printf("Server started")
 
-    router := sw.NewRouter(routes)
+	router := sw.NewRouter(routes)
 
-    log.Fatal(router.Run(":10300"))
+	log.Fatal(router.Run(":10300"))
 }
