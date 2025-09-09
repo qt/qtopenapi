@@ -57,6 +57,7 @@ paths:
     post:
       tags:
         - register
+      operationId: registerPost
       requestBody:
         $ref: '#/components/requestBodies/Credentials'
       responses:
