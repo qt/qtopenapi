@@ -346,8 +346,11 @@ QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<Q
             QString filename = QUuid::createUuid().toString();
             for (const auto &file : contentDisposition) {
                 if (file.contains("filename"_L1)) {
-                    filename = file.split(u'=', Qt::SkipEmptyParts).at(1);
-                    break;
+                    const auto parts = file.split(u'=', Qt::SkipEmptyParts);
+                    if (parts.size() > 1) {
+                        filename = parts.at(1);
+                        break;
+                    }
                 }
             }
             QtOAIHttpFileElement felement;
