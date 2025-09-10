@@ -130,48 +130,6 @@ QByteArray *getMultiPartField(const QMap<QString, QByteArray *> &multiPartFields
     return nullptr;
 }
 
-QString httpAttributeEncode(const QString &attributeName, const QString &input)
-{
-    // result structure follows RFC 5987
-    bool needUtfEncoding = false;
-    QString result;
-    const QByteArray inputC = input.toUtf8();
-    char c;
-    for (int i = 0; i < inputC.length(); i++) {
-        c = inputC.at(i);
-        if (c == '\\' || c == '/' || c == '\0' || c < ' ' || c > '~') {
-            // ignore and request utf-8 version
-            needUtfEncoding = true;
-        } else if (c == '"') {
-            result += "\\\"";
-        } else {
-            result += c;
-        }
-    }
-
-    if (result.length() == 0) {
-        needUtfEncoding = true;
-    }
-
-    if (!needUtfEncoding) {
-        // return simple version
-        return u"%1=\"%2\""_s.arg(attributeName, result);
-    }
-
-    QString resultUtf8;
-    for (int i = 0; i < inputC.length(); i++) {
-        c = inputC.at(i);
-        if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')) {
-            resultUtf8 += c;
-        } else {
-            resultUtf8 += "%" + QString::number(static_cast<unsigned char>(inputC.at(i)), 16).toUpper();
-        }
-    }
-
-    // return enhanced version with UTF-8 support
-    return u"%1=\"%2\"; %1*=utf-8''%3"_s.arg(attributeName, result, resultUtf8);
-}
-
 QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray &requestContent, std::shared_ptr<QNetworkRequestFactory> factory, bool responseCompressionEnabled, bool requestCompressionEnabled)
 {
     // reset variables

@@ -68,7 +68,6 @@ public:
 };
 
 namespace QtOAIHttpRequestWorker {
-    QString httpAttributeEncode(const QString &attributeName, const QString &input);
     QtOAIHttpFileElement getHttpFileElement(const QMap<QString, QtOAIHttpFileElement> &files, const QString &fieldname = QStringLiteral(""));
     QByteArray *getMultiPartField(const QMap<QString, QByteArray *> &multiPartFields, const QString &fieldname = QStringLiteral(""));
     QNetworkRequest getNetworkRequest(QtOAIHttpRequestInput &input, QByteArray &requestContent, std::shared_ptr<QNetworkRequestFactory> factory, bool responseCompressionEnabled, bool requestCompressionEnabled);
