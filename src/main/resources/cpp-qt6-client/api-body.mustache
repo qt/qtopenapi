@@ -200,7 +200,9 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         const QString querySuffix = getParamStyleSuffix(queryStyle, u"{{baseName}}"_s, {{isExplode}}, (!{{isPrimitiveType}} && !{{isArray}}));
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, {{isExplode}}, (!{{isPrimitiveType}} && !{{isArray}}));
 {{^isArray}}
+{{^isDeepObject}}
         paramString = querySuffix;
+{{/isDeepObject}}
 {{/isArray}}
 {{/isAnyType}}
 {{#isAnyType}}
@@ -218,21 +220,9 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{/isAnyType}}
 {{#isModel}}
             const QJsonObject parameter = {{paramName}}{{^required}}.value(){{/required}}.asJsonObject();
-            if (queryStyle == "deepObject") {
-                qsizetype index = 0;
-                if (parameter.isEmpty())
-                    qWarning() << "Serialized parameter {{paramName}} is empty!";
-                for (const QString &key : parameter.keys()) {
-                    if (index > 0)
-                        paramString.append(queryDelimiter);
-                    paramString.append(QUrl::toPercentEncoding(u"{{baseName}}[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(convertJsonValueToString(parameter.value(key))));
-                    index++;
-                }
-            } else {
-                paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, {{isExplode}},
-                                                 querySuffix, queryAssignOperator, queryDelimiter,
-                                                 true);
-            }
+            paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, {{isExplode}},
+                                             querySuffix, queryAssignOperator, queryDelimiter,
+                                             true);
             // style=form && explode=true && non-object => '{{baseName}}' isn't used in serialization
             // style=form && explode=true && empty object => need to be '{{baseName}}='
             // see https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -255,7 +245,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
                 for (const auto &[key, value] : {{paramName}}{{^required}}.value(){{/required}}.asKeyValueRange()) {
                     if (index > 0)
                         paramString.append(queryDelimiter);
-                    paramString.append(QUrl::toPercentEncoding(u"{{baseName}}[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue(value)));
+                    paramString.append(querySuffix + QUrl::toPercentEncoding(u"[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue(value)));
                     index++;
                 }
             } else {

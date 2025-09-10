@@ -251,7 +251,7 @@ QString QtOAIBaseApi::getParamStyleSuffix(const QString &style, const QString &n
     } else if (style == "pipeDelimited") {
         return QUrl::toPercentEncoding(name) + "=";
     } else if (style == "deepObject") {
-        return "";
+        return QUrl::toPercentEncoding(name);
     }
     Q_UNREACHABLE_RETURN(QString());
 }
@@ -364,12 +364,30 @@ QString QtOAIBaseApi::serializeJsonValue(const QJsonValue &value, const QString 
     } break;
     case QJsonValue::Object:
     {
-        paramString = suffix;
         QVariantMap map = value.toObject().toVariantMap();
-        if (map.size() > 0)
-            paramString.append(serializeMapValue(map, assignOperator, delimiter, percentEncode));
-        else
+        if (map.size() > 0) {
+            if (style == "deepObject"_L1) {
+                qsizetype index = 0;
+                for (const auto &[key, value] : map.asKeyValueRange()) {
+                     if (index > 0)
+                         paramString.append(delimiter);
+                     if (percentEncode) {
+                         paramString.append(suffix + QUrl::toPercentEncoding(u"[%1]"_s.arg(key))
+                                            + assignOperator
+                                            + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(value)));
+                     } else {
+                         paramString.append(suffix + u"[%1]"_s.arg(key) + assignOperator
+                                            + ::QtOpenAPI::toStringValue(value));
+                     }
+                     index++;
+                }
+            } else {
+                paramString = suffix;
+                paramString.append(serializeMapValue(map, assignOperator, delimiter, percentEncode));
+            }
+        } else {
             qWarning() << "Serialized QJsonValue::Object is empty!";
+        }
     } break;
     case QJsonValue::Null:
     case QJsonValue::Undefined:

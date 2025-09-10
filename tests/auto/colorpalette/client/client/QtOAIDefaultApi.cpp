@@ -166,21 +166,9 @@ void QtOAIDefaultApi::testOperationWithDataImpl(const qint32 &pathParam, const :
             if (queryParamCounter > 0)
                 fullPath.append("&");
             const QJsonObject parameter = queryParam1.value().asJsonObject();
-            if (queryStyle == "deepObject") {
-                qsizetype index = 0;
-                if (parameter.isEmpty())
-                    qWarning() << "Serialized parameter queryParam1 is empty!";
-                for (const QString &key : parameter.keys()) {
-                    if (index > 0)
-                        paramString.append(queryDelimiter);
-                    paramString.append(QUrl::toPercentEncoding(u"query_param1[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(convertJsonValueToString(parameter.value(key))));
-                    index++;
-                }
-            } else {
-                paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, true,
-                                                 querySuffix, queryAssignOperator, queryDelimiter,
-                                                 true);
-            }
+            paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, true,
+                                             querySuffix, queryAssignOperator, queryDelimiter,
+                                             true);
             // style=form && explode=true && non-object => 'query_param1' isn't used in serialization
             // style=form && explode=true && empty object => need to be 'query_param1='
             // see https://spec.openapis.org/oas/v3.1.1.html#style-values

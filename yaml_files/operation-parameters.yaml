@@ -1995,6 +1995,25 @@ paths:
             application/json:
               schema:
                 type: string
+  /query/anytype/deepObject-explode/deepObjectExplodeAnytype:
+    post:
+      tags: [test]
+      operationId: deepObjectExplodeAnytype
+      summary: "deepObject style with explode=true for query Anytype parameter."
+      parameters:
+        - name: anytypeParameter
+          in: query
+          required: true
+          style: deepObject
+          explode: true
+          schema: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
   /query/object/deepObject-explode/deepObjectExplodeObject:
     post:
       tags: [test]

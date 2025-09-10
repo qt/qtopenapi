@@ -41,6 +41,8 @@ void QtOAITestApi::initializeServerConfigs()
     QUrl("http://127.0.0.1:10203/v2"),
     "No description provided",
     QMap<QString, QtOAIServerVariable>()));
+    m_serverConfigs.insert("deepObjectExplodeAnytype", defaultConf);
+    m_serverIndices.insert("deepObjectExplodeAnytype", 0);
     m_serverConfigs.insert("deepObjectExplodeModelMap", defaultConf);
     m_serverIndices.insert("deepObjectExplodeModelMap", 0);
     m_serverConfigs.insert("deepObjectExplodeObject", defaultConf);
@@ -260,6 +262,130 @@ void QtOAITestApi::initializeServerConfigs()
 }
 
 /**
+* \fn virtual void QtOAITestApi::deepObjectExplodeAnytype(const QJsonValue &anytypeParameter)
+* 'deepObjectExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] anytypeParameter QJsonValue [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::deepObjectExplodeAnytype(const QJsonValue &anytypeParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'deepObjectExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    deepObjectExplodeAnytype(anytypeParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual deepObjectExplodeAnytypeWithDataImpl() in derived class.
+* The virtual deepObjectExplodeAnytypeWithDataImpl() is being called by the template
+* function.
+
+* @param[in] anytypeParameter QJsonValue [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::deepObjectExplodeAnytypeCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by deepObjectExplodeAnytypeFinished() or
+* being returned as a callback parameter of deepObjectExplodeAnytype() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::deepObjectExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the deepObjectExplodeAnytype() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking deepObjectExplodeAnytype() operation calls.
+
+* @param[in] anytypeParameter QJsonValue [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::deepObjectExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["deepObjectExplodeAnytype"][m_serverIndices.value("deepObjectExplodeAnytype")].serverUrl();
+    QString fullPath = "/query/anytype/deepObject-explode/deepObjectExplodeAnytype";
+    m_networkFactory->setBaseUrl(serverUrl);
+    int queryParamCounter = 0;
+    {
+        [[maybe_unused]] QString paramString;
+        QString queryStyle = "deepObject";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"anytypeParameter"_s, true, anytypeParameter.type() == QJsonValue::Object);
+        const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, anytypeParameter.type() == QJsonValue::Object);
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
+            fullPath.append(queryPrefix);
+        {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
+            paramString = serializeJsonValue(anytypeParameter, queryStyle, true, querySuffix, queryAssignOperator, queryDelimiter, true);
+            fullPath.append(paramString);
+            queryParamCounter++;
+        }
+    }
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            deepObjectExplodeAnytypeCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit deepObjectExplodeAnytypeErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::deepObjectExplodeAnytypeCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit deepObjectExplodeAnytypeFinished(output);
+}
+
+/**
 * \fn virtual void QtOAITestApi::deepObjectExplodeModelMap(const QMap<QString, QtOAITestObject> &mapParameter)
 * 'deepObjectExplodeModelMap' operation sends the request to a server.
 * The request parameters are defined by a specification file.
@@ -320,7 +446,6 @@ void QtOAITestApi::deepObjectExplodeModelMapWithDataImpl(const QMap<QString, QtO
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const QString querySuffix = getParamStyleSuffix(queryStyle, u"mapParameter"_s, true, (!false && !false));
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!false && !false));
-        paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
         {
@@ -336,7 +461,7 @@ void QtOAITestApi::deepObjectExplodeModelMapWithDataImpl(const QMap<QString, QtO
                 for (const auto &[key, value] : mapParameter.asKeyValueRange()) {
                     if (index > 0)
                         paramString.append(queryDelimiter);
-                    paramString.append(QUrl::toPercentEncoding(u"mapParameter[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(value)));
+                    paramString.append(querySuffix + QUrl::toPercentEncoding(u"[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(value)));
                     index++;
                 }
             } else {
@@ -460,28 +585,15 @@ void QtOAITestApi::deepObjectExplodeObjectWithDataImpl(const QtOAITestObject &ob
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const QString querySuffix = getParamStyleSuffix(queryStyle, u"objectParameter"_s, true, (!false && !false));
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!false && !false));
-        paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
             const QJsonObject parameter = objectParameter.asJsonObject();
-            if (queryStyle == "deepObject") {
-                qsizetype index = 0;
-                if (parameter.isEmpty())
-                    qWarning() << "Serialized parameter objectParameter is empty!";
-                for (const QString &key : parameter.keys()) {
-                    if (index > 0)
-                        paramString.append(queryDelimiter);
-                    paramString.append(QUrl::toPercentEncoding(u"objectParameter[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(convertJsonValueToString(parameter.value(key))));
-                    index++;
-                }
-            } else {
-                paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, true,
-                                                 querySuffix, queryAssignOperator, queryDelimiter,
-                                                 true);
-            }
+            paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, true,
+                                             querySuffix, queryAssignOperator, queryDelimiter,
+                                             true);
             // style=form && explode=true && non-object => 'objectParameter' isn't used in serialization
             // style=form && explode=true && empty object => need to be 'objectParameter='
             // see https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -605,7 +717,6 @@ void QtOAITestApi::deepObjectExplodeStringMapWithDataImpl(const QMap<QString, QS
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const QString querySuffix = getParamStyleSuffix(queryStyle, u"mapParameter"_s, true, (!false && !false));
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!false && !false));
-        paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
         {
@@ -618,7 +729,7 @@ void QtOAITestApi::deepObjectExplodeStringMapWithDataImpl(const QMap<QString, QS
                 for (const auto &[key, value] : mapParameter.asKeyValueRange()) {
                     if (index > 0)
                         paramString.append(queryDelimiter);
-                    paramString.append(QUrl::toPercentEncoding(u"mapParameter[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(value)));
+                    paramString.append(querySuffix + QUrl::toPercentEncoding(u"[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(value)));
                     index++;
                 }
             } else {
@@ -742,28 +853,15 @@ void QtOAITestApi::deepObjectNotExplodeObjectWithDataImpl(const ::QtOpenAPI::Opt
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const QString querySuffix = getParamStyleSuffix(queryStyle, u"objectParameter"_s, false, (!false && !false));
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, (!false && !false));
-        paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
         if (objectParameter.hasValue()) {
             if (queryParamCounter > 0)
                 fullPath.append("&");
             const QJsonObject parameter = objectParameter.value().asJsonObject();
-            if (queryStyle == "deepObject") {
-                qsizetype index = 0;
-                if (parameter.isEmpty())
-                    qWarning() << "Serialized parameter objectParameter is empty!";
-                for (const QString &key : parameter.keys()) {
-                    if (index > 0)
-                        paramString.append(queryDelimiter);
-                    paramString.append(QUrl::toPercentEncoding(u"objectParameter[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(convertJsonValueToString(parameter.value(key))));
-                    index++;
-                }
-            } else {
-                paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, false,
-                                                 querySuffix, queryAssignOperator, queryDelimiter,
-                                                 true);
-            }
+            paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, false,
+                                             querySuffix, queryAssignOperator, queryDelimiter,
+                                             true);
             // style=form && explode=true && non-object => 'objectParameter' isn't used in serialization
             // style=form && explode=true && empty object => need to be 'objectParameter='
             // see https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -1144,21 +1242,9 @@ void QtOAITestApi::formExplodeDifferentOptionsWithDataImpl(const qint32 &stringP
             if (queryParamCounter > 0)
                 fullPath.append("&");
             const QJsonObject parameter = objectParameter.value().asJsonObject();
-            if (queryStyle == "deepObject") {
-                qsizetype index = 0;
-                if (parameter.isEmpty())
-                    qWarning() << "Serialized parameter objectParameter is empty!";
-                for (const QString &key : parameter.keys()) {
-                    if (index > 0)
-                        paramString.append(queryDelimiter);
-                    paramString.append(QUrl::toPercentEncoding(u"objectParameter[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(convertJsonValueToString(parameter.value(key))));
-                    index++;
-                }
-            } else {
-                paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, true,
-                                                 querySuffix, queryAssignOperator, queryDelimiter,
-                                                 true);
-            }
+            paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, true,
+                                             querySuffix, queryAssignOperator, queryDelimiter,
+                                             true);
             // style=form && explode=true && non-object => 'objectParameter' isn't used in serialization
             // style=form && explode=true && empty object => need to be 'objectParameter='
             // see https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -1683,7 +1769,7 @@ void QtOAITestApi::formExplodeModelMapWithDataImpl(const QMap<QString, QtOAITest
                 for (const auto &[key, value] : mapParameter.asKeyValueRange()) {
                     if (index > 0)
                         paramString.append(queryDelimiter);
-                    paramString.append(QUrl::toPercentEncoding(u"mapParameter[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(value)));
+                    paramString.append(querySuffix + QUrl::toPercentEncoding(u"[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(value)));
                     index++;
                 }
             } else {
@@ -1814,21 +1900,9 @@ void QtOAITestApi::formExplodeObjectWithDataImpl(const QtOAITestObject &objectPa
             if (queryParamCounter > 0)
                 fullPath.append("&");
             const QJsonObject parameter = objectParameter.asJsonObject();
-            if (queryStyle == "deepObject") {
-                qsizetype index = 0;
-                if (parameter.isEmpty())
-                    qWarning() << "Serialized parameter objectParameter is empty!";
-                for (const QString &key : parameter.keys()) {
-                    if (index > 0)
-                        paramString.append(queryDelimiter);
-                    paramString.append(QUrl::toPercentEncoding(u"objectParameter[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(convertJsonValueToString(parameter.value(key))));
-                    index++;
-                }
-            } else {
-                paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, true,
-                                                 querySuffix, queryAssignOperator, queryDelimiter,
-                                                 true);
-            }
+            paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, true,
+                                             querySuffix, queryAssignOperator, queryDelimiter,
+                                             true);
             // style=form && explode=true && non-object => 'objectParameter' isn't used in serialization
             // style=form && explode=true && empty object => need to be 'objectParameter='
             // see https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -2089,7 +2163,7 @@ void QtOAITestApi::formExplodeStringMapWithDataImpl(const QMap<QString, QString>
                 for (const auto &[key, value] : mapParameter.asKeyValueRange()) {
                     if (index > 0)
                         paramString.append(queryDelimiter);
-                    paramString.append(QUrl::toPercentEncoding(u"mapParameter[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(value)));
+                    paramString.append(querySuffix + QUrl::toPercentEncoding(u"[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(value)));
                     index++;
                 }
             } else {
@@ -3032,7 +3106,7 @@ void QtOAITestApi::formNotExplodeModelMapWithDataImpl(const ::QtOpenAPI::Optiona
                 for (const auto &[key, value] : mapParameter.value().asKeyValueRange()) {
                     if (index > 0)
                         paramString.append(queryDelimiter);
-                    paramString.append(QUrl::toPercentEncoding(u"mapParameter[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(value)));
+                    paramString.append(querySuffix + QUrl::toPercentEncoding(u"[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(value)));
                     index++;
                 }
             } else {
@@ -3163,21 +3237,9 @@ void QtOAITestApi::formNotExplodeObjectWithDataImpl(const ::QtOpenAPI::OptionalP
             if (queryParamCounter > 0)
                 fullPath.append("&");
             const QJsonObject parameter = objectParameter.value().asJsonObject();
-            if (queryStyle == "deepObject") {
-                qsizetype index = 0;
-                if (parameter.isEmpty())
-                    qWarning() << "Serialized parameter objectParameter is empty!";
-                for (const QString &key : parameter.keys()) {
-                    if (index > 0)
-                        paramString.append(queryDelimiter);
-                    paramString.append(QUrl::toPercentEncoding(u"objectParameter[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(convertJsonValueToString(parameter.value(key))));
-                    index++;
-                }
-            } else {
-                paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, false,
-                                                 querySuffix, queryAssignOperator, queryDelimiter,
-                                                 true);
-            }
+            paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, false,
+                                             querySuffix, queryAssignOperator, queryDelimiter,
+                                             true);
             // style=form && explode=true && non-object => 'objectParameter' isn't used in serialization
             // style=form && explode=true && empty object => need to be 'objectParameter='
             // see https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -3438,7 +3500,7 @@ void QtOAITestApi::formNotExplodeStringMapWithDataImpl(const ::QtOpenAPI::Option
                 for (const auto &[key, value] : mapParameter.value().asKeyValueRange()) {
                     if (index > 0)
                         paramString.append(queryDelimiter);
-                    paramString.append(QUrl::toPercentEncoding(u"mapParameter[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(value)));
+                    paramString.append(querySuffix + QUrl::toPercentEncoding(u"[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(value)));
                     index++;
                 }
             } else {
@@ -9978,21 +10040,9 @@ void QtOAITestApi::pipeDelimitedExplodeObjectWithDataImpl(const QtOAITestObject 
             if (queryParamCounter > 0)
                 fullPath.append("&");
             const QJsonObject parameter = objectParameter.asJsonObject();
-            if (queryStyle == "deepObject") {
-                qsizetype index = 0;
-                if (parameter.isEmpty())
-                    qWarning() << "Serialized parameter objectParameter is empty!";
-                for (const QString &key : parameter.keys()) {
-                    if (index > 0)
-                        paramString.append(queryDelimiter);
-                    paramString.append(QUrl::toPercentEncoding(u"objectParameter[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(convertJsonValueToString(parameter.value(key))));
-                    index++;
-                }
-            } else {
-                paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, true,
-                                                 querySuffix, queryAssignOperator, queryDelimiter,
-                                                 true);
-            }
+            paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, true,
+                                             querySuffix, queryAssignOperator, queryDelimiter,
+                                             true);
             // style=form && explode=true && non-object => 'objectParameter' isn't used in serialization
             // style=form && explode=true && empty object => need to be 'objectParameter='
             // see https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -10379,7 +10429,7 @@ void QtOAITestApi::pipeDelimitedNotExplodeModelMapWithDataImpl(const ::QtOpenAPI
                 for (const auto &[key, value] : mapParameter.value().asKeyValueRange()) {
                     if (index > 0)
                         paramString.append(queryDelimiter);
-                    paramString.append(QUrl::toPercentEncoding(u"mapParameter[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(value)));
+                    paramString.append(querySuffix + QUrl::toPercentEncoding(u"[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(value)));
                     index++;
                 }
             } else {
@@ -10510,21 +10560,9 @@ void QtOAITestApi::pipeDelimitedNotExplodeObjectWithDataImpl(const ::QtOpenAPI::
             if (queryParamCounter > 0)
                 fullPath.append("&");
             const QJsonObject parameter = objectParameter.value().asJsonObject();
-            if (queryStyle == "deepObject") {
-                qsizetype index = 0;
-                if (parameter.isEmpty())
-                    qWarning() << "Serialized parameter objectParameter is empty!";
-                for (const QString &key : parameter.keys()) {
-                    if (index > 0)
-                        paramString.append(queryDelimiter);
-                    paramString.append(QUrl::toPercentEncoding(u"objectParameter[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(convertJsonValueToString(parameter.value(key))));
-                    index++;
-                }
-            } else {
-                paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, false,
-                                                 querySuffix, queryAssignOperator, queryDelimiter,
-                                                 true);
-            }
+            paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, false,
+                                             querySuffix, queryAssignOperator, queryDelimiter,
+                                             true);
             // style=form && explode=true && non-object => 'objectParameter' isn't used in serialization
             // style=form && explode=true && empty object => need to be 'objectParameter='
             // see https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -10661,7 +10699,7 @@ void QtOAITestApi::pipeDelimitedNotExplodeStringMapWithDataImpl(const ::QtOpenAP
                 for (const auto &[key, value] : mapParameter.value().asKeyValueRange()) {
                     if (index > 0)
                         paramString.append(queryDelimiter);
-                    paramString.append(QUrl::toPercentEncoding(u"mapParameter[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(value)));
+                    paramString.append(querySuffix + QUrl::toPercentEncoding(u"[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(value)));
                     index++;
                 }
             } else {
@@ -13389,21 +13427,9 @@ void QtOAITestApi::spaceDelimitedExplodeObjectWithDataImpl(const QtOAITestObject
             if (queryParamCounter > 0)
                 fullPath.append("&");
             const QJsonObject parameter = objectParameter.asJsonObject();
-            if (queryStyle == "deepObject") {
-                qsizetype index = 0;
-                if (parameter.isEmpty())
-                    qWarning() << "Serialized parameter objectParameter is empty!";
-                for (const QString &key : parameter.keys()) {
-                    if (index > 0)
-                        paramString.append(queryDelimiter);
-                    paramString.append(QUrl::toPercentEncoding(u"objectParameter[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(convertJsonValueToString(parameter.value(key))));
-                    index++;
-                }
-            } else {
-                paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, true,
-                                                 querySuffix, queryAssignOperator, queryDelimiter,
-                                                 true);
-            }
+            paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, true,
+                                             querySuffix, queryAssignOperator, queryDelimiter,
+                                             true);
             // style=form && explode=true && non-object => 'objectParameter' isn't used in serialization
             // style=form && explode=true && empty object => need to be 'objectParameter='
             // see https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -13790,7 +13816,7 @@ void QtOAITestApi::spaceDelimitedNotExplodeModelMapWithDataImpl(const ::QtOpenAP
                 for (const auto &[key, value] : mapParameter.value().asKeyValueRange()) {
                     if (index > 0)
                         paramString.append(queryDelimiter);
-                    paramString.append(QUrl::toPercentEncoding(u"mapParameter[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(value)));
+                    paramString.append(querySuffix + QUrl::toPercentEncoding(u"[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(value)));
                     index++;
                 }
             } else {
@@ -13921,21 +13947,9 @@ void QtOAITestApi::spaceDelimitedNotExplodeObjectWithDataImpl(const ::QtOpenAPI:
             if (queryParamCounter > 0)
                 fullPath.append("&");
             const QJsonObject parameter = objectParameter.value().asJsonObject();
-            if (queryStyle == "deepObject") {
-                qsizetype index = 0;
-                if (parameter.isEmpty())
-                    qWarning() << "Serialized parameter objectParameter is empty!";
-                for (const QString &key : parameter.keys()) {
-                    if (index > 0)
-                        paramString.append(queryDelimiter);
-                    paramString.append(QUrl::toPercentEncoding(u"objectParameter[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(convertJsonValueToString(parameter.value(key))));
-                    index++;
-                }
-            } else {
-                paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, false,
-                                                 querySuffix, queryAssignOperator, queryDelimiter,
-                                                 true);
-            }
+            paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, false,
+                                             querySuffix, queryAssignOperator, queryDelimiter,
+                                             true);
             // style=form && explode=true && non-object => 'objectParameter' isn't used in serialization
             // style=form && explode=true && empty object => need to be 'objectParameter='
             // see https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -14072,7 +14086,7 @@ void QtOAITestApi::spaceDelimitedNotExplodeStringMapWithDataImpl(const ::QtOpenA
                 for (const auto &[key, value] : mapParameter.value().asKeyValueRange()) {
                     if (index > 0)
                         paramString.append(queryDelimiter);
-                    paramString.append(QUrl::toPercentEncoding(u"mapParameter[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(value)));
+                    paramString.append(querySuffix + QUrl::toPercentEncoding(u"[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(value)));
                     index++;
                 }
             } else {

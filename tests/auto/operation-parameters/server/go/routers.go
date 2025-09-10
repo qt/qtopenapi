@@ -69,6 +69,12 @@ type ApiHandleFunctions struct {
 func getRoutes(handleFunctions ApiHandleFunctions) []Route {
 	return []Route{
 		{
+			"DeepObjectExplodeAnytype",
+			http.MethodPost,
+			"/v2/query/anytype/deepObject-explode/deepObjectExplodeAnytype",
+			handleFunctions.TestAPI.DeepObjectExplodeAnytype,
+		},
+		{
 			"DeepObjectExplodeModelMap",
 			http.MethodPost,
 			"/v2/query/map/model-mapping/deepObject-explode/deepObjectExplodeMap",

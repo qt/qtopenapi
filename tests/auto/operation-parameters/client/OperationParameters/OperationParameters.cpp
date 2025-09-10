@@ -956,6 +956,10 @@ void OperationParameters::queryParameters()
     CALL_TEST_POST_OPERATION(deepObjectExplodeObject, deepObjectObj,
                              "/v2/query/object/deepObject-explode/deepObjectExplodeObject?objectParameter%5Bname%5D=deepObject%20%2A%2B%2C%3B%3D%21%24%26%27%28%29-TestName&objectParameter%5Bstatus%5D=deepObject-Sleeping");
 
+    // style=deepObject, explode=true, type=anytype object
+    CALL_TEST_POST_OPERATION(deepObjectExplodeAnytype, QJsonValue(deepObjectObj.asJsonObject()),
+                        "/v2/query/anytype/deepObject-explode/deepObjectExplodeAnytype?anytypeParameter%5Bname%5D=deepObject%20%2A%2B%2C%3B%3D%21%24%26%27%28%29-TestName&anytypeParameter%5Bstatus%5D=deepObject-Sleeping");
+
     // style=deepObject, explode=true, type=map with string values
     QMap<QString, QString> deepObjectStringMap;
     deepObjectStringMap["key1"_L1] = val1;

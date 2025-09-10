@@ -23,6 +23,13 @@ import (
 type TestAPI struct {
 }
 
+// Post /v2/query/anytype/deepObject-explode/deepObjectExplodeAnytype
+// deepObject style with explode=true for query Anytype parameter.
+func (api *TestAPI) DeepObjectExplodeAnytype(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
+}
+
 // Post /v2/query/map/model-mapping/deepObject-explode/deepObjectExplodeMap
 // deepObject style with explode=true for query map parameter of model values.
 func (api *TestAPI) DeepObjectExplodeModelMap(c *gin.Context) {

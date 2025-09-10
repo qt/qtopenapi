@@ -28,6 +28,7 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:10203/v2
 ### QtOAITestApi
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
+|*deepObjectExplodeAnytype* | *POST* /query/anytype/deepObject-explode/deepObjectExplodeAnytype | deepObject style with explode=true for query Anytype parameter..|
 |*deepObjectExplodeModelMap* | *POST* /query/map/model-mapping/deepObject-explode/deepObjectExplodeMap | deepObject style with explode=true for query map parameter of model values..|
 |*deepObjectExplodeObject* | *POST* /query/object/deepObject-explode/deepObjectExplodeObject | deepObject object explode.|
 |*deepObjectExplodeStringMap* | *POST* /query/map/string-mapping/deepObject-explode/deepObjectExplodeMap | deepObject style with explode=true for query map parameter of string values..|
@@ -153,16 +154,16 @@ main.cpp:
 
 int main(int argc, char *argv[]) {
     QCoreApplication a(argc, argv);
-    QMap<QString, QtOAITestObject> mapParameter;
+    QJsonValue anytypeParameter;
     QtOAITestApi apiInstance;
 
 
     /*
-        Handle the 'deepObjectExplodeModelMap()' operation response directly in the callback.
+        Handle the 'deepObjectExplodeAnytype()' operation response directly in the callback.
         Note, the callback should always have the 'QRestReply &reply' as first parameter.
         The second and subsequent parameters are defined by the 'response' field of operation in your yaml specification.
     */
-    apiInstance.deepObjectExplodeModelMap(mapParameter, nullptr, [&](QRestReply &reply, QString summary) {
+    apiInstance.deepObjectExplodeAnytype(anytypeParameter, nullptr, [&](QRestReply &reply, QString summary) {
         if (reply.isSuccess())
             qDebug() << "The server response is: " << summary.asJson();
             // Proceed with handling the user logic.
@@ -171,16 +172,16 @@ int main(int argc, char *argv[]) {
     });
 
     /*
-        Or connect to the operation response 'deepObjectExplodeModelMapFinished()/deepObjectExplodeModelMapErrorOccurred()' signals
-        And call the operation 'deepObjectExplodeModelMap()'
+        Or connect to the operation response 'deepObjectExplodeAnytypeFinished()/deepObjectExplodeAnytypeErrorOccurred()' signals
+        And call the operation 'deepObjectExplodeAnytype()'
     */
-    connect(&apiInstance, &QtOAITestApi::deepObjectExplodeModelMapFinished, [&](QString summary) {
+    connect(&apiInstance, &QtOAITestApi::deepObjectExplodeAnytypeFinished, [&](QString summary) {
                // handling the user logic
            });
-    connect(&apiInstance, &QtOAITestApi::deepObjectExplodeModelMapErrorOccurred, [&](QNetworkReply::NetworkError errorType, const QString &errorStr) {
+    connect(&apiInstance, &QtOAITestApi::deepObjectExplodeAnytypeErrorOccurred, [&](QNetworkReply::NetworkError errorType, const QString &errorStr) {
                qWarning() << "There is an error occurred: " << errorType << errorStr;
            });
-    apiInstance.deepObjectExplodeModelMap(mapParameter);
+    apiInstance.deepObjectExplodeAnytype(anytypeParameter);
     return a.exec();
 }
 

@@ -135,7 +135,7 @@ void QtOAIUserApi::createInQueryMapWithDataImpl(const QMap<QString, QString> &us
                 for (const auto &[key, value] : username.asKeyValueRange()) {
                     if (index > 0)
                         paramString.append(queryDelimiter);
-                    paramString.append(QUrl::toPercentEncoding(u"username[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(value)));
+                    paramString.append(querySuffix + QUrl::toPercentEncoding(u"[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(value)));
                     index++;
                 }
             } else {
@@ -1142,21 +1142,9 @@ void QtOAIUserApi::updateUserWithDataImpl(const QString &username, const QtOAIUs
             if (queryParamCounter > 0)
                 fullPath.append("&");
             const QJsonObject parameter = body.asJsonObject();
-            if (queryStyle == "deepObject") {
-                qsizetype index = 0;
-                if (parameter.isEmpty())
-                    qWarning() << "Serialized parameter body is empty!";
-                for (const QString &key : parameter.keys()) {
-                    if (index > 0)
-                        paramString.append(queryDelimiter);
-                    paramString.append(QUrl::toPercentEncoding(u"body[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(convertJsonValueToString(parameter.value(key))));
-                    index++;
-                }
-            } else {
-                paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, true,
-                                                 querySuffix, queryAssignOperator, queryDelimiter,
-                                                 true);
-            }
+            paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, true,
+                                             querySuffix, queryAssignOperator, queryDelimiter,
+                                             true);
             // style=form && explode=true && non-object => 'body' isn't used in serialization
             // style=form && explode=true && empty object => need to be 'body='
             // see https://spec.openapis.org/oas/v3.1.1.html#style-values

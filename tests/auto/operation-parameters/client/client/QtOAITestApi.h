@@ -31,6 +31,15 @@ public:
     /**
     * \internal
     * The auto-generated API:
+    * void deepObjectExplodeAnytype(const QJsonValue &anytypeParameter);
+    * void deepObjectExplodeAnytype(const QJsonValue &anytypeParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(deepObjectExplodeAnytype, (const QJsonValue &anytypeParameter), (anytypeParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
     * void deepObjectExplodeModelMap(const QMap<QString, QtOAITestObject> &mapParameter);
     * void deepObjectExplodeModelMap(const QMap<QString, QtOAITestObject> &mapParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
     * \endinternal
@@ -1001,6 +1010,10 @@ public:
     QtOAI_ADD_OPERATION_IMPL(spaceDelimitedNotExplodeStringMap, (const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter = ::QtOpenAPI::OptionalParam<QMap<QString, QString>>()), (mapParameter), (const QString &), /* non-deprecated */)
 
 Q_SIGNALS:
+    /** Signal is emitted, if deepObjectExplodeAnytype() request completed successfully. The \a summary contains a serialized server response. */
+    void deepObjectExplodeAnytypeFinished(const QString &summary);
+    /** Signal is emitted, if deepObjectExplodeAnytype() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void deepObjectExplodeAnytypeErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if deepObjectExplodeModelMap() request completed successfully. The \a summary contains a serialized server response. */
     void deepObjectExplodeModelMapFinished(const QString &summary);
     /** Signal is emitted, if deepObjectExplodeModelMap() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
