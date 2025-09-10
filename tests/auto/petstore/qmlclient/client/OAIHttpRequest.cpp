@@ -187,12 +187,8 @@ QNetworkRequest getNetworkRequest(OAIHttpRequestInput &input, QByteArray &reques
                 continue;
             }
             // ensure filename for the request
-            if (fileInfo.m_requestFilename.isEmpty()) {
+            if (fileInfo.m_requestFilename.isEmpty())
                 fileInfo.m_requestFilename = fi.fileName();
-                if (fileInfo.m_requestFilename.isEmpty()) {
-                    fileInfo.m_requestFilename = "file"_L1;
-                }
-            }
             auto part = builder.part(fileInfo.m_variableName);
             part.setBodyDevice(file.get(), fileInfo.m_localFilename,
                                fileInfo.m_mimeType.isEmpty() ? u"application/octet-stream"_s
