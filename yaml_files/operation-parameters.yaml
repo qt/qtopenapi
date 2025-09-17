@@ -2268,7 +2268,6 @@ paths:
       parameters:
         - name: String-Parameter
           in: header
-          required: true
           style: simple
           explode: false
           schema:
@@ -2319,7 +2318,6 @@ paths:
       parameters:
         - name: Any-Type-Parameter
           in: header
-          required: true
           style: simple
           explode: false
           schema: {}
@@ -2373,7 +2371,6 @@ paths:
       parameters:
         - name: Array-Parameter
           in: header
-          required: false
           style: simple
           explode: false
           schema:
@@ -2428,7 +2425,6 @@ paths:
       parameters:
         - name: Object-Parameter
           in: header
-          required: true
           style: simple
           explode: false
           schema:
@@ -2482,7 +2478,6 @@ paths:
       parameters:
         - name: Map-Parameter
           in: header
-          required: true
           style: simple
           explode: false
           schema:

@@ -301,11 +301,11 @@ public:
     /**
     * \internal
     * The auto-generated API:
-    * void headerSimpleNotExplodeAnytype(const QJsonValue &anyTypeParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter);
-    * void headerSimpleNotExplodeAnytype(const QJsonValue &anyTypeParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * void headerSimpleNotExplodeAnytype(const ::QtOpenAPI::OptionalParam<QJsonValue> &anyTypeParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter);
+    * void headerSimpleNotExplodeAnytype(const ::QtOpenAPI::OptionalParam<QJsonValue> &anyTypeParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
     * \endinternal
     */
-    QtOAI_ADD_OPERATION_IMPL(headerSimpleNotExplodeAnytype, (const QJsonValue &anyTypeParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter = ::QtOpenAPI::OptionalParam<QString>()), (anyTypeParameter, queryParameter), (const QString &), /* non-deprecated */)
+    QtOAI_ADD_OPERATION_IMPL(headerSimpleNotExplodeAnytype, (const ::QtOpenAPI::OptionalParam<QJsonValue> &anyTypeParameter = ::QtOpenAPI::OptionalParam<QJsonValue>(), const ::QtOpenAPI::OptionalParam<QString> &queryParameter = ::QtOpenAPI::OptionalParam<QString>()), (anyTypeParameter, queryParameter), (const QString &), /* non-deprecated */)
 
     /**
     * \internal
@@ -337,29 +337,29 @@ public:
     /**
     * \internal
     * The auto-generated API:
-    * void headerSimpleNotExplodeMap(const QMap<QString, QString> &mapParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter);
-    * void headerSimpleNotExplodeMap(const QMap<QString, QString> &mapParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * void headerSimpleNotExplodeMap(const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter);
+    * void headerSimpleNotExplodeMap(const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
     * \endinternal
     */
-    QtOAI_ADD_OPERATION_IMPL(headerSimpleNotExplodeMap, (const QMap<QString, QString> &mapParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter = ::QtOpenAPI::OptionalParam<QString>()), (mapParameter, queryParameter), (const QString &), /* non-deprecated */)
+    QtOAI_ADD_OPERATION_IMPL(headerSimpleNotExplodeMap, (const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter = ::QtOpenAPI::OptionalParam<QMap<QString, QString>>(), const ::QtOpenAPI::OptionalParam<QString> &queryParameter = ::QtOpenAPI::OptionalParam<QString>()), (mapParameter, queryParameter), (const QString &), /* non-deprecated */)
 
     /**
     * \internal
     * The auto-generated API:
-    * void headerSimpleNotExplodeObject(const QtOAITestObject &objectParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter);
-    * void headerSimpleNotExplodeObject(const QtOAITestObject &objectParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * void headerSimpleNotExplodeObject(const ::QtOpenAPI::OptionalParam<QtOAITestObject> &objectParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter);
+    * void headerSimpleNotExplodeObject(const ::QtOpenAPI::OptionalParam<QtOAITestObject> &objectParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
     * \endinternal
     */
-    QtOAI_ADD_OPERATION_IMPL(headerSimpleNotExplodeObject, (const QtOAITestObject &objectParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter = ::QtOpenAPI::OptionalParam<QString>()), (objectParameter, queryParameter), (const QString &), /* non-deprecated */)
+    QtOAI_ADD_OPERATION_IMPL(headerSimpleNotExplodeObject, (const ::QtOpenAPI::OptionalParam<QtOAITestObject> &objectParameter = ::QtOpenAPI::OptionalParam<QtOAITestObject>(), const ::QtOpenAPI::OptionalParam<QString> &queryParameter = ::QtOpenAPI::OptionalParam<QString>()), (objectParameter, queryParameter), (const QString &), /* non-deprecated */)
 
     /**
     * \internal
     * The auto-generated API:
-    * void headerSimpleNotExplodeString(const QString &stringParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter);
-    * void headerSimpleNotExplodeString(const QString &stringParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * void headerSimpleNotExplodeString(const ::QtOpenAPI::OptionalParam<QString> &stringParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter);
+    * void headerSimpleNotExplodeString(const ::QtOpenAPI::OptionalParam<QString> &stringParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
     * \endinternal
     */
-    QtOAI_ADD_OPERATION_IMPL(headerSimpleNotExplodeString, (const QString &stringParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter = ::QtOpenAPI::OptionalParam<QString>()), (stringParameter, queryParameter), (const QString &), /* non-deprecated */)
+    QtOAI_ADD_OPERATION_IMPL(headerSimpleNotExplodeString, (const ::QtOpenAPI::OptionalParam<QString> &stringParameter = ::QtOpenAPI::OptionalParam<QString>(), const ::QtOpenAPI::OptionalParam<QString> &queryParameter = ::QtOpenAPI::OptionalParam<QString>()), (stringParameter, queryParameter), (const QString &), /* non-deprecated */)
 
     /**
     * \internal
