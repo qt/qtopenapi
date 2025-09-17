@@ -301,11 +301,11 @@ public:
     /**
     * \internal
     * The auto-generated API:
-    * void headerSimpleNotExplodeArray(const QList<qint32> &arrayParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter);
-    * void headerSimpleNotExplodeArray(const QList<qint32> &arrayParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * void headerSimpleNotExplodeArray(const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter);
+    * void headerSimpleNotExplodeArray(const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
     * \endinternal
     */
-    QtOAI_ADD_OPERATION_IMPL(headerSimpleNotExplodeArray, (const QList<qint32> &arrayParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter = ::QtOpenAPI::OptionalParam<QString>()), (arrayParameter, queryParameter), (const QString &), /* non-deprecated */)
+    QtOAI_ADD_OPERATION_IMPL(headerSimpleNotExplodeArray, (const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter = ::QtOpenAPI::OptionalParam<QList<qint32>>(), const ::QtOpenAPI::OptionalParam<QString> &queryParameter = ::QtOpenAPI::OptionalParam<QString>()), (arrayParameter, queryParameter), (const QString &), /* non-deprecated */)
 
     /**
     * \internal

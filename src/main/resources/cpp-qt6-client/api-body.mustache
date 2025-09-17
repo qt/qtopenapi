@@ -425,7 +425,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         const QString headerString = toStringValue({{paramName}}{{^required}}.value(){{/required}});
 {{/isPrimitiveType}}
 {{#isArray}}
-        const QString headerString = serializeArrayValue({{paramName}}, headerStyle, {{isExplode}}, "", headerDelimiter, false);
+        const QString headerString = serializeArrayValue({{paramName}}{{^required}}.value(){{/required}}, headerStyle, {{isExplode}}, "", headerDelimiter, false);
 {{/isArray}}
         if (!headerString.isEmpty())
             input.m_headers.replaceOrAppend("{{baseName}}"_L1, QAnyStringView(headerString));

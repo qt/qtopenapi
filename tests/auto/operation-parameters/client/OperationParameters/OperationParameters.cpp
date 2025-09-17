@@ -1483,7 +1483,8 @@ void OperationParameters::headerArrayParameters()
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
-    headerSimpleNotExplodeArray(arrayValue, ::QtOpenAPI::OptionalParam<QString>(),
+    headerSimpleNotExplodeArray(::QtOpenAPI::OptionalParam<QList<qint32>>(arrayValue),
+                                ::QtOpenAPI::OptionalParam<QString>(),
                                 this, [&](const QRestReply &reply, const QString &summary) {
                                     done = reply.isSuccess();
                                     QCOMPARE(getHeaderValue(summary, "Array-Parameter"),

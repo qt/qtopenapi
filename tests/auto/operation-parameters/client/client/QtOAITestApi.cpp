@@ -4327,16 +4327,16 @@ void QtOAITestApi::headerSimpleNotExplodeAnytypeCallback(const QRestReply &reply
 }
 
 /**
-* \fn virtual void QtOAITestApi::headerSimpleNotExplodeArray(const QList<qint32> &arrayParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter = ::QtOpenAPI::OptionalParam<QString>())
+* \fn virtual void QtOAITestApi::headerSimpleNotExplodeArray(const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter = ::QtOpenAPI::OptionalParam<QList<qint32>>(), const ::QtOpenAPI::OptionalParam<QString> &queryParameter = ::QtOpenAPI::OptionalParam<QString>())
 * 'headerSimpleNotExplodeArray' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 
-* @param[in] arrayParameter QList<qint32> [required]
+* @param[in] arrayParameter QList<qint32> [optional]
 * @param[in] queryParameter QString [optional]
 */
 
 /**
-* \fn template < Functor, > void QtOAITestApi::headerSimpleNotExplodeArray(const QList<qint32> &arrayParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter = ::QtOpenAPI::OptionalParam<QString>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* \fn template < Functor, > void QtOAITestApi::headerSimpleNotExplodeArray(const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter = ::QtOpenAPI::OptionalParam<QList<qint32>>(), const ::QtOpenAPI::OptionalParam<QString> &queryParameter = ::QtOpenAPI::OptionalParam<QString>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
 * 'headerSimpleNotExplodeArray' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
@@ -4350,7 +4350,7 @@ void QtOAITestApi::headerSimpleNotExplodeAnytypeCallback(const QRestReply &reply
 * The virtual headerSimpleNotExplodeArrayWithDataImpl() is being called by the template
 * function.
 
-* @param[in] arrayParameter QList<qint32> [required]
+* @param[in] arrayParameter QList<qint32> [optional]
 * @param[in] queryParameter QString [optional]
 * @param[in] context const ContextTypeForFunctor< Functor > * [optional]
 * @param[in] callback Functor && [optional]
@@ -4365,17 +4365,17 @@ void QtOAITestApi::headerSimpleNotExplodeAnytypeCallback(const QRestReply &reply
 */
 
 /**
-* \fn virtual void QtOAITestApi::headerSimpleNotExplodeArrayWithDataImpl(const QList<qint32> &arrayParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn virtual void QtOAITestApi::headerSimpleNotExplodeArrayWithDataImpl(const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
 * Implements the headerSimpleNotExplodeArray() operation request.
 * \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
 * and can be overloaded for mocking headerSimpleNotExplodeArray() operation calls.
 
-* @param[in] arrayParameter QList<qint32> [required]
+* @param[in] arrayParameter QList<qint32> [optional]
 * @param[in] queryParameter QString [optional]
 * @param[in] context const QObject * [optional]
 * @param[in] slot QtPrivate::QSlotObjectBase * [optional]
 */
-void QtOAITestApi::headerSimpleNotExplodeArrayWithDataImpl(const QList<qint32> &arrayParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void QtOAITestApi::headerSimpleNotExplodeArrayWithDataImpl(const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
 {
     const QUrl serverUrl = m_serverConfigs["headerSimpleNotExplodeArray"][m_serverIndices.value("headerSimpleNotExplodeArray")].serverUrl();
     QString fullPath = "/header/array/simple-not-explode/arrayParameter";
@@ -4403,13 +4403,13 @@ void QtOAITestApi::headerSimpleNotExplodeArrayWithDataImpl(const QList<qint32> &
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
     QtOAIHttpRequestInput input(fullPath, "POST");
-    
+    if (arrayParameter.hasValue())
     {
         const QString headerStyle = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
         const QString headerDelimiter = getParamStyleDelimiter(headerStyle, false);
         const QString headerAssignOperator
             = getParamStyleAssignOperator(headerStyle, false, (false || false));
-        const QString headerString = serializeArrayValue(arrayParameter, headerStyle, false, "", headerDelimiter, false);
+        const QString headerString = serializeArrayValue(arrayParameter.value(), headerStyle, false, "", headerDelimiter, false);
         if (!headerString.isEmpty())
             input.m_headers.replaceOrAppend("Array-Parameter"_L1, QAnyStringView(headerString));
     }

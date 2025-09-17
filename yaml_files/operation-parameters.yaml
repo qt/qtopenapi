@@ -2275,7 +2275,7 @@ paths:
       parameters:
         - name: Array-Parameter
           in: header
-          required: true
+          required: false
           style: simple
           explode: false
           schema:
