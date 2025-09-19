@@ -135,6 +135,9 @@ function set_paths() {
             else
                 CLIENT_PACKAGE_NAME=ColorpaletteClient
             fi
+        elif [[ $USER_MODE == "responses" ]]; then
+            CLIENT_PACKAGE_NAME=ResponsesClient
+            SERVER_NAME="responses-server-app"
         fi
     else
         echo "Available specifications in $PWD/tests/auto/yaml_files:"
@@ -263,6 +266,14 @@ function run_all() {
     PREFIX_NAME=QtOAI
     CPP_NAMESPACE=QtOpenAPI
     CLIENT_PACKAGE_NAME=MediaTypeClient
+    set_paths && compile && generate
+
+    QML_ADDITIONAL_PROPERTIES=false
+    CLIENTFOLDER_NAME=client
+    USER_MODE="responses"
+    PREFIX_NAME=QtOAI
+    CPP_NAMESPACE=QtOpenAPI
+    CLIENT_PACKAGE_NAME=ResponsesClient
     set_paths && compile && generate
 }
 

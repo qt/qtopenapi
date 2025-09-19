@@ -1,0 +1,61 @@
+# Copyright (C) 2025 The Qt Company Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+openapi: 3.1.1
+servers:
+  - url: 'http://127.0.0.1:20202/v2'
+info:
+  title: Responses Test
+  description: >
+    This specification is intended for testing purposes. It demonstrates various response media types.
+  version: 1.0.0
+tags:
+  - name: test
+    description: test operations
+
+paths:
+  /response/application/json/string:
+    get:
+      tags: [test]
+      summary: Check response type application-json string
+      operationId: applicationJsonStringResponse
+      responses:
+        '200':
+          description: Successful string response
+          content:
+            application/json:
+              schema:
+                type: string
+  /response/application/json/object:
+    get:
+      tags: [test]
+      summary: Check response type application-json object
+      operationId: applicationJsonObjectResponse
+      responses:
+        '200':
+          description: Successful object response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  value:
+                    type: integer
+                    format: int64
+                    example: 16
+  /response/text/plain/string:
+    get:
+      tags: [test]
+      summary: Check response type text/plain string
+      operationId: textPlainStringResponse
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "string only"
