@@ -26,14 +26,171 @@ type TestAPI struct {
 // Post /v2/query/anytype/deepObject-explode/deepObjectExplodeAnytype
 // deepObject style with explode=true for query Anytype parameter.
 func (api *TestAPI) DeepObjectExplodeAnytype(c *gin.Context) {
-	// Your handler implementation
 	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
+}
+
+// Post /v2/cookie/anytype/form-explode/cookieExplodeAnytype
+// form anytype explode
+func (api *TestAPI) CookieExplodeAnytype(c *gin.Context) {
+	_, err := c.Request.Cookie("anytypeParameter")
+	if err != nil {
+		c.JSON(200, gin.H{"header": c.Request.Header, "error": err.Error()})
+	} else {
+		c.JSON(200, gin.H{"header": c.Request.Header})
+	}
+}
+
+// Post /v2/cookie/array/form-explode/cookieExplodeArray
+// form array explode
+func (api *TestAPI) CookieExplodeArray(c *gin.Context) {
+	_, err := c.Request.Cookie("arrayParameter")
+	if err != nil {
+		c.JSON(200, gin.H{"header": c.Request.Header, "error": err.Error()})
+	} else {
+		c.JSON(200, gin.H{"header": c.Request.Header})
+	}
+}
+
+// Post /v2/cookie/int/form-explode/cookieExplodeInt
+// Form style with explode set to true for integer query parameter.
+func (api *TestAPI) CookieExplodeInt(c *gin.Context) {
+	_, err := c.Request.Cookie("intParameter")
+	if err != nil {
+		c.JSON(200, gin.H{"header": c.Request.Header, "error": err.Error()})
+	} else {
+		c.JSON(200, gin.H{"header": c.Request.Header})
+	}
+}
+
+// Post /v2/cookie/object/form-explode/cookieExplodeObject
+// form object explode
+func (api *TestAPI) CookieExplodeObject(c *gin.Context) {
+	_, err := c.Request.Cookie("objectParameter")
+	if err != nil {
+		c.JSON(200, gin.H{"header": c.Request.Header, "error": err.Error()})
+	} else {
+		c.JSON(200, gin.H{"header": c.Request.Header})
+	}
+}
+
+// Post /v2/cookie/string/form-explode/cookieExplodeString/:pathParam
+// form style with explode set to true for string query parameter.
+func (api *TestAPI) CookieExplodeString(c *gin.Context) {
+	_, err := c.Request.Cookie("stringParameter")
+	if err != nil {
+		c.JSON(200, gin.H{"header": c.Request.Header, "error": err.Error()})
+	} else {
+		c.JSON(200, gin.H{"header": c.Request.Header})
+	}
+}
+
+// Post /v2/cookie/map/string-mapping/form-explode/cookieExplodeMap
+// Form style with explode=true for query map parameter of string values.
+func (api *TestAPI) CookieExplodeStringMap(c *gin.Context) {
+	_, err := c.Request.Cookie("mapParameter")
+	if err != nil {
+		c.JSON(200, gin.H{"header": c.Request.Header, "error": err.Error()})
+	} else {
+		c.JSON(200, gin.H{"header": c.Request.Header})
+	}
+}
+
+// Post /v2/cookie/anytype/form-not-explode/cookieNotExplodeAnytype
+// form anytype not explode
+func (api *TestAPI) CookieNotExplodeAnytype(c *gin.Context) {
+	_, err := c.Request.Cookie("anytypeParameter")
+	if err != nil {
+		c.JSON(200, gin.H{"header": c.Request.Header, "error": err.Error()})
+	} else {
+		c.JSON(200, gin.H{"header": c.Request.Header})
+	}
+}
+
+// Post /v2/cookie/array/form-not-explode/cookieNotExplodeArray
+// form array not explode
+func (api *TestAPI) CookieNotExplodeArray(c *gin.Context) {
+	_, err := c.Request.Cookie("arrayParameter")
+	if err != nil {
+		c.JSON(200, gin.H{"header": c.Request.Header, "error": err.Error()})
+	} else {
+		c.JSON(200, gin.H{"header": c.Request.Header})
+	}
+}
+
+// Post /v2/cookie/int/form-not-explode/cookieNotExplodeInt
+// Form style with explode set to false for integer query parameter.
+func (api *TestAPI) CookieNotExplodeInt(c *gin.Context) {
+	_, err := c.Request.Cookie("intParameter")
+	if err != nil {
+		c.JSON(200, gin.H{"header": c.Request.Header, "error": err.Error()})
+	} else {
+		c.JSON(200, gin.H{"header": c.Request.Header})
+	}
+}
+
+// Post /v2/cookie/object/form-not-explode/cookieNotExplodeObject
+// form object not explode
+func (api *TestAPI) CookieNotExplodeObject(c *gin.Context) {
+	_, err := c.Request.Cookie("objectParameter")
+	if err != nil {
+		c.JSON(200, gin.H{"header": c.Request.Header, "error": err.Error()})
+	} else {
+		c.JSON(200, gin.H{"header": c.Request.Header})
+	}
+}
+
+// Post /v2/cookie/string/form-not-explode/cookieNotExplodeString/:pathParam
+// form style with explode set to false for string query parameter.
+func (api *TestAPI) CookieNotExplodeString(c *gin.Context) {
+	_, err := c.Request.Cookie("stringParameter")
+	if err != nil {
+		c.JSON(200, gin.H{"header": c.Request.Header, "error": err.Error()})
+	} else {
+		c.JSON(200, gin.H{"header": c.Request.Header})
+	}
+}
+
+// Post /v2/cookie/map/string-mapping/form-not-explode/cookieNotExplodeMap
+// Form style with explode=false for query map parameter of string values.
+func (api *TestAPI) CookieNotExplodeStringMap(c *gin.Context) {
+	_, err := c.Request.Cookie("mapParameter")
+	if err != nil {
+		c.JSON(200, gin.H{"header": c.Request.Header, "error": err.Error()})
+	} else {
+		c.JSON(200, gin.H{"header": c.Request.Header})
+	}
+}
+
+// Post /v2/cookie/several-cookies/form-explode/severalExplodeCookies
+func (api *TestAPI) SeveralExplodeCookies(c *gin.Context) {
+	cookie1, err1 := c.Request.Cookie("mapParameter")
+	cookie2, err2 := c.Request.Cookie("intParameter")
+	if err1 != nil && err2 != nil {
+		c.JSON(400, gin.H{"status": "No-cookies"})
+	} else if err1 != nil {
+		c.JSON(200, gin.H{"cookie1": "", "cookie2": cookie2.Value, "size": len(c.Request.Cookies())})
+	} else if err2 != nil {
+		c.JSON(200, gin.H{"cookie1": cookie1.Value, "cookie2": "", "size": len(c.Request.Cookies())})
+	} else {
+		c.JSON(200, gin.H{"cookie1": cookie1.Value, "cookie2": cookie2.Value, "size": len(c.Request.Cookies())})
+	}
+
+}
+
+// Post /v2/cookie/several-cookies/form-not-explode/severalNotExplodeCookies
+func (api *TestAPI) SeveralNotExplodeCookies(c *gin.Context) {
+	cookie1, err1 := c.Request.Cookie("mapParameter")
+	cookie2, err2 := c.Request.Cookie("intParameter")
+	if err1 != nil || err2 != nil {
+		c.JSON(400, gin.H{"status": "No-cookies"})
+	} else {
+		c.JSON(200, gin.H{"cookie1": cookie1.Value, "cookie2": cookie2.Value, "size": len(c.Request.Cookies())})
+	}
 }
 
 // Post /v2/query/map/model-mapping/deepObject-explode/deepObjectExplodeMap
 // deepObject style with explode=true for query map parameter of model values.
 func (api *TestAPI) DeepObjectExplodeModelMap(c *gin.Context) {
-	// Your handler implementation
 	c.JSON(200, gin.H{"status": c.Request.RequestURI, "header": c.Request.Header})
 }
 

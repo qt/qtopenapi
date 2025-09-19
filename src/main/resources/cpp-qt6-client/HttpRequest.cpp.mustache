@@ -223,11 +223,37 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
         if (input.m_varLayout == MULTIPART
                 && (headerName.compare("content-type", Qt::CaseInsensitive) == 0))
             continue;
-        if (request.hasRawHeader(headerName)) {
-            request.setRawHeader(headerName, request.rawHeader(headerName)
-                                 + "," + input.m_headers.combinedValue(headerName));
+        // Header can already be presented in the request and should not be overwritten here.
+        if (!request.hasRawHeader(headerName)) {
+            // 'Cookie' values cannot be combined by QHttpHeaders::combinedValue()
+            // due to the fact that 'Cookie' are being divided by ';' naturally.
+            // Prefer QHttpHeaders::values() instead.
+            if (headerName.compare("Cookie", Qt::CaseInsensitive) == 0) {
+                const QList<QByteArray> cookies = input.m_headers.values(headerName);
+                QByteArray joinedCookies;
+                for (const auto &value: cookies) {
+                    if (!joinedCookies.isEmpty())
+                        joinedCookies.append("; " + value);
+                    else
+                        joinedCookies = value;
+                }
+                if (joinedCookies.isEmpty())
+                    qWarning() << "Setting an empty cookie value";
+                request.setRawHeader(headerName, joinedCookies);
+            } else {
+                request.setRawHeader(headerName, input.m_headers.combinedValue(headerName));
+            }
         } else {
-            request.setRawHeader(headerName, input.m_headers.combinedValue(headerName));
+            // rawHeader() return all values as a string separated by the delimiter,
+            // that a user chose to use (can be ';' or ',' in our case).
+            const QByteArray rawHeader = request.rawHeader(headerName);
+            const auto headerValue = input.m_headers.valueAt(i);
+            if (!rawHeader.contains(headerValue)) {
+                if (headerName.compare("Cookie", Qt::CaseInsensitive) == 0)
+                    request.setRawHeader(headerName, rawHeader + "; " + headerValue);
+                else
+                    request.setRawHeader(headerName, rawHeader + ", " + headerValue);
+            }
         }
     }
     if (requestContent.size() > 0 && !input.m_isFormData) {

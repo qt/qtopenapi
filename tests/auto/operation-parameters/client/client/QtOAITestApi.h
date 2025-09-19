@@ -31,6 +31,114 @@ public:
     /**
     * \internal
     * The auto-generated API:
+    * void cookieExplodeAnytype(const QJsonValue &anytypeParameter);
+    * void cookieExplodeAnytype(const QJsonValue &anytypeParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(cookieExplodeAnytype, (const QJsonValue &anytypeParameter), (anytypeParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void cookieExplodeArray(const QList<qint32> &arrayParameter);
+    * void cookieExplodeArray(const QList<qint32> &arrayParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(cookieExplodeArray, (const QList<qint32> &arrayParameter), (arrayParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void cookieExplodeInt(const ::QtOpenAPI::OptionalParam<qint64> &intParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter);
+    * void cookieExplodeInt(const ::QtOpenAPI::OptionalParam<qint64> &intParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(cookieExplodeInt, (const ::QtOpenAPI::OptionalParam<qint64> &intParameter = ::QtOpenAPI::OptionalParam<qint64>(), const ::QtOpenAPI::OptionalParam<QString> &queryParameter = ::QtOpenAPI::OptionalParam<QString>()), (intParameter, queryParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void cookieExplodeObject(const QtOAITestObject &objectParameter);
+    * void cookieExplodeObject(const QtOAITestObject &objectParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(cookieExplodeObject, (const QtOAITestObject &objectParameter), (objectParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void cookieExplodeString(const QString &stringParameter, const QString &pathParam);
+    * void cookieExplodeString(const QString &stringParameter, const QString &pathParam, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(cookieExplodeString, (const QString &stringParameter, const QString &pathParam), (stringParameter, pathParam), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void cookieExplodeStringMap(const QMap<QString, QString> &mapParameter);
+    * void cookieExplodeStringMap(const QMap<QString, QString> &mapParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(cookieExplodeStringMap, (const QMap<QString, QString> &mapParameter), (mapParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void cookieNotExplodeAnytype(const ::QtOpenAPI::OptionalParam<QJsonValue> &anytypeParameter);
+    * void cookieNotExplodeAnytype(const ::QtOpenAPI::OptionalParam<QJsonValue> &anytypeParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(cookieNotExplodeAnytype, (const ::QtOpenAPI::OptionalParam<QJsonValue> &anytypeParameter = ::QtOpenAPI::OptionalParam<QJsonValue>()), (anytypeParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void cookieNotExplodeArray(const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter);
+    * void cookieNotExplodeArray(const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(cookieNotExplodeArray, (const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter = ::QtOpenAPI::OptionalParam<QList<qint32>>()), (arrayParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void cookieNotExplodeInt(const QString &queryParameter, const ::QtOpenAPI::OptionalParam<qint64> &intParameter);
+    * void cookieNotExplodeInt(const QString &queryParameter, const ::QtOpenAPI::OptionalParam<qint64> &intParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(cookieNotExplodeInt, (const QString &queryParameter, const ::QtOpenAPI::OptionalParam<qint64> &intParameter = ::QtOpenAPI::OptionalParam<qint64>()), (queryParameter, intParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void cookieNotExplodeObject(const ::QtOpenAPI::OptionalParam<QtOAITestObject> &objectParameter);
+    * void cookieNotExplodeObject(const ::QtOpenAPI::OptionalParam<QtOAITestObject> &objectParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(cookieNotExplodeObject, (const ::QtOpenAPI::OptionalParam<QtOAITestObject> &objectParameter = ::QtOpenAPI::OptionalParam<QtOAITestObject>()), (objectParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void cookieNotExplodeString(const QString &pathParam, const ::QtOpenAPI::OptionalParam<QString> &stringParameter);
+    * void cookieNotExplodeString(const QString &pathParam, const ::QtOpenAPI::OptionalParam<QString> &stringParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(cookieNotExplodeString, (const QString &pathParam, const ::QtOpenAPI::OptionalParam<QString> &stringParameter = ::QtOpenAPI::OptionalParam<QString>()), (pathParam, stringParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void cookieNotExplodeStringMap(const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter);
+    * void cookieNotExplodeStringMap(const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(cookieNotExplodeStringMap, (const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter = ::QtOpenAPI::OptionalParam<QMap<QString, QString>>()), (mapParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
     * void deepObjectExplodeAnytype(const QJsonValue &anytypeParameter);
     * void deepObjectExplodeAnytype(const QJsonValue &anytypeParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
     * \endinternal
@@ -823,6 +931,24 @@ public:
     /**
     * \internal
     * The auto-generated API:
+    * void severalExplodeCookies(const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter, const ::QtOpenAPI::OptionalParam<qint64> &intParameter);
+    * void severalExplodeCookies(const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter, const ::QtOpenAPI::OptionalParam<qint64> &intParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(severalExplodeCookies, (const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter = ::QtOpenAPI::OptionalParam<QMap<QString, QString>>(), const ::QtOpenAPI::OptionalParam<qint64> &intParameter = ::QtOpenAPI::OptionalParam<qint64>()), (mapParameter, intParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void severalNotExplodeCookies(const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter, const ::QtOpenAPI::OptionalParam<qint64> &intParameter);
+    * void severalNotExplodeCookies(const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter, const ::QtOpenAPI::OptionalParam<qint64> &intParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(severalNotExplodeCookies, (const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter = ::QtOpenAPI::OptionalParam<QMap<QString, QString>>(), const ::QtOpenAPI::OptionalParam<qint64> &intParameter = ::QtOpenAPI::OptionalParam<qint64>()), (mapParameter, intParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
     * void simpleExplodeAnytype(const QJsonValue &anytypeParameter);
     * void simpleExplodeAnytype(const QJsonValue &anytypeParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
     * \endinternal
@@ -1073,6 +1199,54 @@ public:
     QtOAI_ADD_OPERATION_IMPL(spaceDelimitedNotExplodeStringMap, (const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter = ::QtOpenAPI::OptionalParam<QMap<QString, QString>>()), (mapParameter), (const QString &), /* non-deprecated */)
 
 Q_SIGNALS:
+    /** Signal is emitted, if cookieExplodeAnytype() request completed successfully. The \a summary contains a serialized server response. */
+    void cookieExplodeAnytypeFinished(const QString &summary);
+    /** Signal is emitted, if cookieExplodeAnytype() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void cookieExplodeAnytypeErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if cookieExplodeArray() request completed successfully. The \a summary contains a serialized server response. */
+    void cookieExplodeArrayFinished(const QString &summary);
+    /** Signal is emitted, if cookieExplodeArray() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void cookieExplodeArrayErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if cookieExplodeInt() request completed successfully. The \a summary contains a serialized server response. */
+    void cookieExplodeIntFinished(const QString &summary);
+    /** Signal is emitted, if cookieExplodeInt() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void cookieExplodeIntErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if cookieExplodeObject() request completed successfully. The \a summary contains a serialized server response. */
+    void cookieExplodeObjectFinished(const QString &summary);
+    /** Signal is emitted, if cookieExplodeObject() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void cookieExplodeObjectErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if cookieExplodeString() request completed successfully. The \a summary contains a serialized server response. */
+    void cookieExplodeStringFinished(const QString &summary);
+    /** Signal is emitted, if cookieExplodeString() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void cookieExplodeStringErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if cookieExplodeStringMap() request completed successfully. The \a summary contains a serialized server response. */
+    void cookieExplodeStringMapFinished(const QString &summary);
+    /** Signal is emitted, if cookieExplodeStringMap() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void cookieExplodeStringMapErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if cookieNotExplodeAnytype() request completed successfully. The \a summary contains a serialized server response. */
+    void cookieNotExplodeAnytypeFinished(const QString &summary);
+    /** Signal is emitted, if cookieNotExplodeAnytype() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void cookieNotExplodeAnytypeErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if cookieNotExplodeArray() request completed successfully. The \a summary contains a serialized server response. */
+    void cookieNotExplodeArrayFinished(const QString &summary);
+    /** Signal is emitted, if cookieNotExplodeArray() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void cookieNotExplodeArrayErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if cookieNotExplodeInt() request completed successfully. The \a summary contains a serialized server response. */
+    void cookieNotExplodeIntFinished(const QString &summary);
+    /** Signal is emitted, if cookieNotExplodeInt() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void cookieNotExplodeIntErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if cookieNotExplodeObject() request completed successfully. The \a summary contains a serialized server response. */
+    void cookieNotExplodeObjectFinished(const QString &summary);
+    /** Signal is emitted, if cookieNotExplodeObject() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void cookieNotExplodeObjectErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if cookieNotExplodeString() request completed successfully. The \a summary contains a serialized server response. */
+    void cookieNotExplodeStringFinished(const QString &summary);
+    /** Signal is emitted, if cookieNotExplodeString() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void cookieNotExplodeStringErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if cookieNotExplodeStringMap() request completed successfully. The \a summary contains a serialized server response. */
+    void cookieNotExplodeStringMapFinished(const QString &summary);
+    /** Signal is emitted, if cookieNotExplodeStringMap() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void cookieNotExplodeStringMapErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if deepObjectExplodeAnytype() request completed successfully. The \a summary contains a serialized server response. */
     void deepObjectExplodeAnytypeFinished(const QString &summary);
     /** Signal is emitted, if deepObjectExplodeAnytype() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
@@ -1425,6 +1599,14 @@ Q_SIGNALS:
     void queryAndPathParamsFinished(const QString &summary);
     /** Signal is emitted, if queryAndPathParams() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void queryAndPathParamsErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if severalExplodeCookies() request completed successfully. The \a summary contains a serialized server response. */
+    void severalExplodeCookiesFinished(const QString &summary);
+    /** Signal is emitted, if severalExplodeCookies() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void severalExplodeCookiesErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if severalNotExplodeCookies() request completed successfully. The \a summary contains a serialized server response. */
+    void severalNotExplodeCookiesFinished(const QString &summary);
+    /** Signal is emitted, if severalNotExplodeCookies() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void severalNotExplodeCookiesErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if simpleExplodeAnytype() request completed successfully. The \a summary contains a serialized server response. */
     void simpleExplodeAnytypeFinished(const QString &summary);
     /** Signal is emitted, if simpleExplodeAnytype() request completed with an error. \a errorType and \a errorStr contain an information about the error. */

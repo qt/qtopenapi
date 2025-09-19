@@ -28,6 +28,18 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:10203/v2
 ### QtOAITestApi
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
+|*cookieExplodeAnytype* | *POST* /cookie/anytype/form-explode/cookieExplodeAnytype | form anytype explode.|
+|*cookieExplodeArray* | *POST* /cookie/array/form-explode/cookieExplodeArray | form array explode.|
+|*cookieExplodeInt* | *POST* /cookie/int/form-explode/cookieExplodeInt | Form style with explode set to true for integer query parameter..|
+|*cookieExplodeObject* | *POST* /cookie/object/form-explode/cookieExplodeObject | form object explode.|
+|*cookieExplodeString* | *POST* /cookie/string/form-explode/cookieExplodeString/{pathParam} | form style with explode set to true for string query parameter..|
+|*cookieExplodeStringMap* | *POST* /cookie/map/string-mapping/form-explode/cookieExplodeMap | Form style with explode=true for query map parameter of string values..|
+|*cookieNotExplodeAnytype* | *POST* /cookie/anytype/form-not-explode/cookieNotExplodeAnytype | form anytype not explode.|
+|*cookieNotExplodeArray* | *POST* /cookie/array/form-not-explode/cookieNotExplodeArray | form array not explode.|
+|*cookieNotExplodeInt* | *POST* /cookie/int/form-not-explode/cookieNotExplodeInt | Form style with explode set to false for integer query parameter..|
+|*cookieNotExplodeObject* | *POST* /cookie/object/form-not-explode/cookieNotExplodeObject | form object not explode.|
+|*cookieNotExplodeString* | *POST* /cookie/string/form-not-explode/cookieNotExplodeString/{pathParam} | form style with explode set to false for string query parameter..|
+|*cookieNotExplodeStringMap* | *POST* /cookie/map/string-mapping/form-not-explode/cookieNotExplodeMap | Form style with explode=false for query map parameter of string values..|
 |*deepObjectExplodeAnytype* | *POST* /query/anytype/deepObject-explode/deepObjectExplodeAnytype | deepObject style with explode=true for query Anytype parameter..|
 |*deepObjectExplodeModelMap* | *POST* /query/map/model-mapping/deepObject-explode/deepObjectExplodeMap | deepObject style with explode=true for query map parameter of model values..|
 |*deepObjectExplodeObject* | *POST* /query/object/deepObject-explode/deepObjectExplodeObject | deepObject object explode.|
@@ -116,6 +128,8 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:10203/v2
 |*pipeDelimitedNotExplodeObject* | *POST* /query/object/pipeDelimited-not-explode/pipeDelimitedNotExplodeObject | pipeDelimited object not explode.|
 |*pipeDelimitedNotExplodeStringMap* | *POST* /query/map/string-mapping/pipeDelimited-not-explode/pipeDelimitedNotExplodeMap | pipeDelimited style with explode=false for query map parameter of string values..|
 |*queryAndPathParams* | *POST* /path/string/matrix-explode/{stringParameter}/query/array/spaceDelimited-not-explode | matrix style for path string parameter with explode=true and spaceDelimited style for query array parameter with explode=false.|
+|*severalExplodeCookies* | *POST* /cookie/several-cookies/form-explode/severalExplodeCookies | .|
+|*severalNotExplodeCookies* | *POST* /cookie/several-cookies/form-not-explode/severalNotExplodeCookies | .|
 |*simpleExplodeAnytype* | *GET* /path/anytype/simple-explode/{anytypeParameter} | simple anytype explode.|
 |*simpleExplodeArray* | *GET* /path/array/simple-explode/{arrayParameter} | simple array explode.|
 |*simpleExplodeDouble* | *GET* /path/double/simple-explode/{doubleParameter} | Simple style with explode set to true for double path parameter..|
@@ -166,11 +180,11 @@ int main(int argc, char *argv[]) {
 
 
     /*
-        Handle the 'deepObjectExplodeAnytype()' operation response directly in the callback.
+        Handle the 'cookieExplodeAnytype()' operation response directly in the callback.
         Note, the callback should always have the 'QRestReply &reply' as first parameter.
         The second and subsequent parameters are defined by the 'response' field of operation in your yaml specification.
     */
-    apiInstance.deepObjectExplodeAnytype(anytypeParameter, nullptr, [&](QRestReply &reply, QString summary) {
+    apiInstance.cookieExplodeAnytype(anytypeParameter, nullptr, [&](QRestReply &reply, QString summary) {
         if (reply.isSuccess())
             qDebug() << "The server response is: " << summary.asJson();
             // Proceed with handling the user logic.
@@ -179,16 +193,16 @@ int main(int argc, char *argv[]) {
     });
 
     /*
-        Or connect to the operation response 'deepObjectExplodeAnytypeFinished()/deepObjectExplodeAnytypeErrorOccurred()' signals
-        And call the operation 'deepObjectExplodeAnytype()'
+        Or connect to the operation response 'cookieExplodeAnytypeFinished()/cookieExplodeAnytypeErrorOccurred()' signals
+        And call the operation 'cookieExplodeAnytype()'
     */
-    connect(&apiInstance, &QtOAITestApi::deepObjectExplodeAnytypeFinished, [&](QString summary) {
+    connect(&apiInstance, &QtOAITestApi::cookieExplodeAnytypeFinished, [&](QString summary) {
                // handling the user logic
            });
-    connect(&apiInstance, &QtOAITestApi::deepObjectExplodeAnytypeErrorOccurred, [&](QNetworkReply::NetworkError errorType, const QString &errorStr) {
+    connect(&apiInstance, &QtOAITestApi::cookieExplodeAnytypeErrorOccurred, [&](QNetworkReply::NetworkError errorType, const QString &errorStr) {
                qWarning() << "There is an error occurred: " << errorType << errorStr;
            });
-    apiInstance.deepObjectExplodeAnytype(anytypeParameter);
+    apiInstance.cookieExplodeAnytype(anytypeParameter);
     return a.exec();
 }
 

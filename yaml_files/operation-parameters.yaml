@@ -2620,6 +2620,329 @@ paths:
             application/json:
               schema:
                 type: string
+  /cookie/string/form-explode/cookieExplodeString/{pathParam}:
+    post:
+      tags: [test]
+      operationId: cookieExplodeString
+      summary: form style with explode set to true for string query parameter.
+      parameters:
+        - name: stringParameter
+          in: cookie
+          style: form
+          explode: true
+          required: true
+          schema:
+            type: string
+        - name: pathParam
+          in: path
+          explode: true
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /cookie/string/form-not-explode/cookieNotExplodeString/{pathParam}:
+    post:
+      tags: [test]
+      operationId: cookieNotExplodeString
+      summary: form style with explode set to false for string query parameter.
+      parameters:
+        - name: stringParameter
+          in: cookie
+          style: form
+          explode: false
+          schema:
+            type: string
+        - name: pathParam
+          in: path
+          explode: false
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /cookie/int/form-explode/cookieExplodeInt:
+    post:
+      tags: [test]
+      operationId: cookieExplodeInt
+      summary: Form style with explode set to true for integer query parameter.
+      parameters:
+        - name: intParameter
+          in: cookie
+          style: form
+          explode: true
+          schema:
+            type: integer
+            format: int64
+        - name: queryParameter
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /cookie/int/form-not-explode/cookieNotExplodeInt:
+    post:
+      tags: [test]
+      operationId: cookieNotExplodeInt
+      summary: Form style with explode set to false for integer query parameter.
+      parameters:
+        - name: intParameter
+          in: cookie
+          style: form
+          explode: false
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: queryParameter
+          in: query
+          style: form
+          explode: true
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /cookie/anytype/form-explode/cookieExplodeAnytype:
+    post:
+      tags: [test]
+      operationId: cookieExplodeAnytype
+      summary: "form anytype explode"
+      parameters:
+        - name: anytypeParameter
+          in: cookie
+          required: true
+          style: form
+          explode: true
+          schema: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /cookie/anytype/form-not-explode/cookieNotExplodeAnytype:
+    post:
+      tags: [test]
+      operationId: cookieNotExplodeAnytype
+      summary: "form anytype not explode"
+      parameters:
+        - name: anytypeParameter
+          in: cookie
+          style: form
+          explode: false
+          schema: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /cookie/array/form-explode/cookieExplodeArray:
+    post:
+      tags: [test]
+      operationId: cookieExplodeArray
+      summary: "form array explode"
+      parameters:
+        - name: arrayParameter
+          in: cookie
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /cookie/array/form-not-explode/cookieNotExplodeArray:
+    post:
+      tags: [test]
+      operationId: cookieNotExplodeArray
+      summary: "form array not explode"
+      parameters:
+        - name: arrayParameter
+          in: cookie
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /cookie/object/form-explode/cookieExplodeObject:
+    post:
+      tags: [test]
+      operationId: cookieExplodeObject
+      summary: "form object explode"
+      parameters:
+        - name: objectParameter
+          in: cookie
+          required: true
+          style: form
+          explode: true
+          schema:
+            $ref: '#/components/schemas/TestObject'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /cookie/object/form-not-explode/cookieNotExplodeObject:
+    post:
+      tags: [test]
+      operationId: cookieNotExplodeObject
+      summary: "form object not explode"
+      parameters:
+        - name: objectParameter
+          in: cookie
+          style: form
+          explode: false
+          schema:
+            $ref: '#/components/schemas/TestObject'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /cookie/map/string-mapping/form-explode/cookieExplodeMap:
+    post:
+      tags: [test]
+      operationId: cookieExplodeStringMap
+      summary: "Form style with explode=true for query map parameter of string values."
+      parameters:
+        - name: mapParameter
+          in: cookie
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /cookie/map/string-mapping/form-not-explode/cookieNotExplodeMap:
+    post:
+      tags: [test]
+      operationId: cookieNotExplodeStringMap
+      summary: "Form style with explode=false for query map parameter of string values."
+      parameters:
+        - name: mapParameter
+          in: cookie
+          style: form
+          explode: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /cookie/several-cookies/form-not-explode/severalNotExplodeCookies:
+    post:
+      tags: [test]
+      operationId: severalNotExplodeCookies
+      parameters:
+        - name: mapParameter
+          in: cookie
+          style: form
+          explode: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: intParameter
+          in: cookie
+          style: form
+          explode: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /cookie/several-cookies/form-explode/severalExplodeCookies:
+    post:
+      tags: [test]
+      operationId: severalExplodeCookies
+      parameters:
+        - name: mapParameter
+          in: cookie
+          style: form
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: intParameter
+          in: cookie
+          style: form
+          explode: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
 components:
   schemas:
     TestObject:

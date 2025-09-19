@@ -109,6 +109,16 @@ QString getHeaderValue(const QString &summary, const QString &headerType = "Cont
     return QString();
 }
 
+QJsonValue getObjectValue(const QString &summary, const QString &key)
+{
+    QJsonDocument doc = QJsonDocument::fromJson(summary.toUtf8());
+    if (!doc.isNull() && doc.isObject()) {
+        QJsonObject obj = doc.object();
+        return obj.value(key);
+    }
+    return QJsonValue();
+}
+
 class OperationParameters : public QtOAITestApi {
     Q_OBJECT
 
@@ -151,6 +161,17 @@ private Q_SLOTS:
     void headerMapParameters();
     void headerAdditionalCases_data();
     void headerAdditionalCases();
+    void cookieAnyTypeParameters_data();
+    void cookieAnyTypeParameters();
+    void cookieStringParameters_data();
+    void cookieStringParameters();
+    void cookieArrayParameters_data();
+    void cookieArrayParameters();
+    void cookieObjectParameters_data();
+    void cookieObjectParameters();
+    void cookieMapParameters_data();
+    void cookieMapParameters();
+    void severalCookies();
 };
 
 QString invalidExplodeWarningMsg(const QString& paramName, const QString& style, bool explode) {
@@ -1691,7 +1712,6 @@ void OperationParameters::headerMapParameters()
     headerSimpleExplodeMap(mapValue, ::QtOpenAPI::OptionalParam<QString>(""),
                            this, [&](const QRestReply &reply, const QString &summary) {
                                done = reply.isSuccess();
-                                qWarning() << "headerSimpleExplodeMap:: " << summary;
                                QCOMPARE(getHeaderValue(summary, "Map-Parameter"),
                                          expectedExplodeResult);
                            });
@@ -1702,7 +1722,6 @@ void OperationParameters::headerMapParameters()
                               ::QtOpenAPI::OptionalParam<QString>("I am a QUERY string"),
                               this, [&](const QRestReply &reply, const QString &summary) {
                                   done = reply.isSuccess();
-                                    qWarning() << "headerSimpleExplodeMap:: " << summary;
                                   QCOMPARE(getHeaderValue(summary, "Map-Parameter"),
                                            expectedNotExplodeResult);
                               });
@@ -1752,6 +1771,437 @@ void OperationParameters::headerAdditionalCases()
                                                    expectedExplodeResult2);
                                       });
     QTRY_COMPARE_EQ(done, true);
+}
+
+/**
+ * Cookies are a part of Operation parameters.
+ * Cookies support only style=form. Cookies can be presented with
+ * a schema or a content type.
+ *
+ * See: https://spec.openapis.org/oas/v3.1.1.html#appendix-d-serializing-headers-and-cookies
+ * For more see:
+ * https://www.speakeasy.com/openapi/requests/parameters/cookie-parameters
+ *
+ * Cookies are also an interesting topic.
+ * The thing is, cookies are not well defined in the OpenAPI 3.1.1,
+ * which is our referenced SPEC version.
+ *
+ * There are 2 cases supported:
+ * - normal case: style=form + explode=false;
+ * - not well defined case: style=form + explode=true;
+ *
+ * What does "not well defined case" mean?
+ * It means such serialization is not supported by any known frameworks
+ * or RFC, except OpenApi 3.1.1 itself.
+ *
+ * What does RFC say?
+ * Historically, Cookies are "name1=value1; name2=value2" pairs separated by semicolons.
+ * See Cookie header semantic rules:
+ * https://datatracker.ietf.org/doc/html/rfc6265#section-5.2
+ *
+ * So, each "name=value" pair is being interpreted as a separate cookie.
+ * And the delimiter between seperate cookies is ';', not a ','.
+ *
+ * Servers do understand commas inside a cookie value,
+ * as long as they are part of a single cookie's value.
+ * For example: "key=value1,text,value2,something" is a valid single cookie.
+ *
+ * And no, servers do not interpret commas as a separator for multiple
+ * "key=value" pairs. It means servers do not interpret the following
+ * case as two separate cookies:
+ * "name1=value1, name2=value2"
+ *
+ * If you want to set several separate independent cookies,
+ * you need to use semicolons as follows:
+ * "name1=value1; name2=value2"
+ *
+ * Speaking about our current Cookie implementation,
+ * it supports OpenApi 3.1.1 as it is.
+ *
+ * See supported examples with object type:
+ * style=form, explode=false looks like: "color=R,100,G,200,B,150"
+ * style=form, explode=true looks like: "R=100&G=200&B=150"
+ *
+ * Problems of explode=true are obvious here:
+ * - It looks like separate pairs.
+ * - It uses an inappropriate '&' delimiter.
+ *
+ * Users should decide if they want to use explode=true.
+ * It will always mean that the server side should be aware of it somehow
+ * by additional implementation agreements.
+ *
+ * But in general using explode=true is not recommended, though
+ * there is no reason to prohibit it entirely.
+ */
+void OperationParameters::cookieAnyTypeParameters_data()
+{
+    QtOAITestObject obj;
+    obj.setName("Super Puper");
+    obj.setStatus("Awake!");
+
+    QTest::addColumn<QJsonValue>("jsonValue");
+    QTest::addColumn<QString>("expectedExplodeResult");
+    QTest::addColumn<QString>("expectedNotExplodeResult");
+
+    QTest::newRow("QJsonValue(string)")
+        << QJsonValue("John Doe")
+        << QString("anytypeParameter=John Doe")
+        << QString("anytypeParameter=John Doe");
+    QTest::newRow("QJsonValue(int)")
+        << QJsonValue(100)
+        << QString("anytypeParameter=100") << QString("anytypeParameter=100");
+    QTest::newRow("QJsonValue(array)")
+        << QJsonValue({ 1, 2.2, QString("Strange") })
+        << QString("anytypeParameter=1&anytypeParameter=2.2&anytypeParameter=Strange")
+        << QString("anytypeParameter=1,2.2,Strange");
+    QTest::newRow("QJsonValue(object)")
+        << QJsonValue(obj.asJsonObject())
+        << QString("name=Super Puper&status=Awake!")
+        << QString("anytypeParameter=name,Super Puper,status,Awake!");
+    QTest::newRow("QJsonValue(Null)")
+        << QJsonValue(QJsonValue::Null)
+        << QString("anytypeParameter=")
+        << QString("anytypeParameter=");
+    QTest::newRow("QJsonValue(Undefined)")
+        << QJsonValue(QJsonValue::Undefined)
+        << QString("anytypeParameter=")
+        << QString("anytypeParameter=");
+    QTest::newRow("QJsonValue()")
+        << QJsonValue()
+        << QString("anytypeParameter=")
+        << QString("anytypeParameter=");
+}
+
+void OperationParameters::cookieAnyTypeParameters()
+{
+    QFETCH(QJsonValue, jsonValue);
+    QFETCH(QString, expectedExplodeResult);
+    QFETCH(QString, expectedNotExplodeResult);
+    bool done = false;
+    // NOTE: if you send cookies from a client to a server, use "Cookie" header name.
+    // If you send cookies from the server to the client, then use "Set-Cookie" header name.
+    // All cookie related operations use "Cookie" inside, because it's a Client part.
+    cookieExplodeAnytype(jsonValue,
+                         this, [&](const QRestReply &reply, const QString &summary) {
+                             done = reply.isSuccess();
+                             QCOMPARE(getHeaderValue(summary, "Cookie"_L1),
+                                      expectedExplodeResult);
+                             if (jsonValue.type() == QJsonValue::Object) {
+                                 // explode=true for objects doesn't work well on server side.
+                                 // It is not possible to detect cookie value by Parameter Name
+                                 // on server side, because the serialized string doesn't contain it:
+                                 // "name=Super Puper&status=Awake!"
+                                 // Just be aware.
+                                 QCOMPARE(getObjectValue(summary, "error"_L1).toString(),
+                                          "http: named cookie not present"_L1);
+                             } else {
+                                QVERIFY(getObjectValue(summary, "error"_L1).toString().isEmpty());
+                             }
+                         });
+    QTRY_COMPARE_EQ(done, true);
+
+    done = false;
+    cookieNotExplodeAnytype(jsonValue,
+                            this, [&](const QRestReply &reply, const QString &summary) {
+                                done = reply.isSuccess();
+                                QCOMPARE(getHeaderValue(summary, "Cookie"_L1),
+                                         expectedNotExplodeResult);
+                                QVERIFY(getObjectValue(summary, "error"_L1).toString().isEmpty());
+                            });
+    QTRY_COMPARE_EQ(done, true);
+}
+
+void OperationParameters::cookieStringParameters_data()
+{
+    QTest::addColumn<QString>("stringValue");
+    QTest::addColumn<QString>("expectedExplodeResult");
+    QTest::addColumn<QString>("expectedNotExplodeResult");
+
+    QTest::newRow("QString with sub-delims")
+        << QString("I am a simple string")
+        << QString("stringParameter=I am a simple string")
+        << QString("stringParameter=I am a simple string");
+    QTest::newRow("QString with numbers")
+        << QString("1236498910")
+        << QString("stringParameter=1236498910")
+        << QString("stringParameter=1236498910");
+    QTest::newRow("Empty string")
+        << QString() << QString("stringParameter=") << QString("stringParameter=");
+}
+
+void OperationParameters::cookieStringParameters()
+{
+    QFETCH(QString, stringValue);
+    QFETCH(QString, expectedExplodeResult);
+    QFETCH(QString, expectedNotExplodeResult);
+    bool done = false;
+    cookieExplodeString(stringValue, QString("I am a PATH string"),
+                        this, [&](const QRestReply &reply, const QString &summary) {
+                            done = reply.isSuccess();
+                            QCOMPARE(getHeaderValue(summary, "Cookie"_L1),
+                                     expectedExplodeResult);
+                            QVERIFY(getObjectValue(summary, "error"_L1).toString().isEmpty());
+                        });
+    QTRY_COMPARE_EQ(done, true);
+
+    done = false;
+    cookieNotExplodeString(QString("I am a PATH string"), stringValue,
+                           this, [&](const QRestReply &reply, const QString &summary) {
+                               done = reply.isSuccess();
+                               QCOMPARE(getHeaderValue(summary, "Cookie"_L1),
+                                        expectedNotExplodeResult);
+                               QVERIFY(getObjectValue(summary, "error"_L1).toString().isEmpty());
+                           });
+    QTRY_COMPARE_EQ(done, true);
+}
+
+void OperationParameters::cookieArrayParameters_data()
+{
+    QTest::addColumn<QList<qint32>>("arrayValue");
+    QTest::addColumn<QString>("expectedExplodeResult");
+    QTest::addColumn<QString>("expectedNotExplodeResult");
+
+    QTest::newRow("QList<qint32>{regular numbers}")
+        << QList<qint32>({0, 1, -7654, 1987357, 0, 0, 1876, -997675})
+        << QString("arrayParameter=0&arrayParameter=1&arrayParameter=-7654&arrayParameter=1987357&arrayParameter=0&arrayParameter=0&arrayParameter=1876&arrayParameter=-997675")
+        << QString("arrayParameter=0,1,-7654,1987357,0,0,1876,-997675");
+    QTest::newRow("QList<qint32>{limits}")
+        << QList<qint32>({std::numeric_limits<qint32>::min(),
+                          0, std::numeric_limits<qint32>::max()})
+        << QString("arrayParameter=-2147483648&arrayParameter=0&arrayParameter=2147483647")
+        << QString("arrayParameter=-2147483648,0,2147483647");
+    QTest::newRow("QList<qint32>{empty}")
+        << QList<qint32>({}) << QString("arrayParameter=") << QString("arrayParameter=");
+}
+
+void OperationParameters::cookieArrayParameters()
+{
+    QFETCH(QList<qint32>, arrayValue);
+    QFETCH(QString, expectedExplodeResult);
+    QFETCH(QString, expectedNotExplodeResult);
+    bool done = false;
+    cookieExplodeArray(arrayValue,
+                       this, [&](const QRestReply &reply, const QString &summary) {
+                           done = reply.isSuccess();
+                           QCOMPARE(getHeaderValue(summary, "Cookie"_L1),
+                                    expectedExplodeResult);
+                           QVERIFY(getObjectValue(summary, "error"_L1).toString().isEmpty());
+                       });
+    QTRY_COMPARE_EQ(done, true);
+
+    done = false;
+    cookieNotExplodeArray(arrayValue,
+                          this, [&](const QRestReply &reply, const QString &summary) {
+                              done = reply.isSuccess();
+                              QCOMPARE(getHeaderValue(summary, "Cookie"_L1),
+                                       expectedNotExplodeResult);
+                              QVERIFY(getObjectValue(summary, "error"_L1).toString().isEmpty());
+                          });
+    QTRY_COMPARE_EQ(done, true);
+}
+
+void OperationParameters::cookieObjectParameters_data()
+{
+    QtOAITestObject obj1, obj2, obj3;
+    obj1.setName("Super Puper");
+    obj1.setStatus("Awake!");
+    obj2.setName("Simple123456789");
+    obj2.setStatus("Sleeping");
+
+    QTest::addColumn<QtOAITestObject>("objectValue");
+    QTest::addColumn<QString>("expectedExplodeResult");
+    QTest::addColumn<QString>("expectedNotExplodeResult");
+
+    QTest::newRow("Object with sub-delim characters")
+        << obj1
+        << QString("name=Super Puper&status=Awake!")
+        << QString("objectParameter=name,Super Puper,status,Awake!");
+    QTest::newRow("Object with simple strings")
+        << obj2
+        << QString("name=Simple123456789&status=Sleeping")
+        << QString("objectParameter=name,Simple123456789,status,Sleeping");
+    QTest::newRow("Empty object") << obj3
+                                  << QString("objectParameter=")
+                                  << QString("objectParameter=");
+}
+
+void OperationParameters::cookieObjectParameters()
+{
+    QFETCH(QtOAITestObject, objectValue);
+    QFETCH(QString, expectedExplodeResult);
+    QFETCH(QString, expectedNotExplodeResult);
+    bool done = false;
+    cookieExplodeObject(objectValue,
+                        this, [&](const QRestReply &reply, const QString &summary) {
+                            done = reply.isSuccess();
+                            QCOMPARE(getHeaderValue(summary, "Cookie"_L1),
+                                     expectedExplodeResult);
+                            // explode=true for objects doesn't work well on server side.
+                            // It is not possible to detect cookie value by Parameter Name
+                            // on server side, because the serialized string doesn't contain it:
+                            // obj1 = "name=Super Puper&status=Awake!"
+                            // obj2 = "name=Simple123456789&status=Sleeping".
+                            // Just be aware.
+                            if (!objectValue.asJsonObject().empty()) {
+                                QCOMPARE(getObjectValue(summary, "error"_L1).toString(),
+                                         "http: named cookie not present"_L1);
+                            } else {
+                                // Obj3 is empty, so we send objectParameter=
+                                // as described in "undefined" column
+                                // see style=form, explode=true
+                                // https://spec.openapis.org/oas/v3.1.1.html#style-examples
+                                QVERIFY(getObjectValue(summary, "error"_L1).toString().isEmpty());
+                            }
+                        });
+    QTRY_COMPARE_EQ(done, true);
+
+    done = false;
+    cookieNotExplodeObject(objectValue,
+                           this, [&](const QRestReply &reply, const QString &summary) {
+                               done = reply.isSuccess();
+                               QCOMPARE(getHeaderValue(summary, "Cookie"_L1),
+                                        expectedNotExplodeResult);
+                               QVERIFY(getObjectValue(summary, "error"_L1).toString().isEmpty());
+                           });
+    QTRY_COMPARE_EQ(done, true);
+}
+
+void OperationParameters::cookieMapParameters_data()
+{
+    QMap<QString, QString> stringMap;
+    stringMap["key1"_L1] = QString("Super Puper");
+    stringMap["key2"_L1] = QString("Simple123456789");
+
+    QTest::addColumn<QMap<QString, QString>>("mapValue");
+    QTest::addColumn<QString>("expectedExplodeResult");
+    QTest::addColumn<QString>("expectedNotExplodeResult");
+
+    QTest::newRow("Non-empty map")
+        << stringMap
+        << QString("key1=Super Puper&key2=Simple123456789")
+        << QString("mapParameter=key1,Super Puper,key2,Simple123456789");
+    QTest::newRow("Empty map")
+        << QMap<QString, QString>()
+        << QString("mapParameter=") << QString("mapParameter=");
+}
+
+void OperationParameters::cookieMapParameters()
+{
+    using StringMap = QMap<QString, QString>;
+    QFETCH(StringMap, mapValue);
+    QFETCH(QString, expectedExplodeResult);
+    QFETCH(QString, expectedNotExplodeResult);
+    bool done = false;
+    cookieExplodeStringMap(mapValue,
+                           this, [&](const QRestReply &reply, const QString &summary) {
+                               done = reply.isSuccess();
+                               QCOMPARE(getHeaderValue(summary, "Cookie"_L1),
+                                        expectedExplodeResult);
+                               // explode=true for objects doesn't work well on server side.
+                               // It is not possible to detect cookie value by parameter name
+                               // on server side, because the serialized string doesn't contain it:
+                               // "key1=Super Puper&key2=Simple123456789". Just be aware.
+                               if (!mapValue.empty()) {
+                                   QCOMPARE(getObjectValue(summary, "error"_L1).toString(),
+                                            "http: named cookie not present"_L1);
+                               } else {
+                                   // Map is empty, so we send mapParameter=
+                                   // as described in "undefined" column
+                                   // see style=form, explode=true
+                                   // https://spec.openapis.org/oas/v3.1.1.html#style-examples
+                                   QVERIFY(getObjectValue(summary, "error"_L1).toString().isEmpty());
+                               }
+                           });
+    QTRY_COMPARE_EQ(done, true);
+
+    done = false;
+    cookieNotExplodeStringMap(mapValue,
+                              this, [&](const QRestReply &reply, const QString &summary) {
+                                  done = reply.isSuccess();
+                                  QCOMPARE(getHeaderValue(summary, "Cookie"_L1),
+                                           expectedNotExplodeResult);
+                                  QVERIFY(getObjectValue(summary, "error"_L1).toString().isEmpty());
+                              });
+    QTRY_COMPARE_EQ(done, true);
+}
+
+void OperationParameters::severalCookies()
+{
+    QMap<QString, QString> stringMap, emptyMap;
+    stringMap["key1"_L1] = QString("Super Puper");
+    stringMap["key2"_L1] = QString("Simple123456789");
+
+    bool done = false;
+    severalNotExplodeCookies(stringMap, 100,
+                             this, [&](const QRestReply &reply, const QString &summary) {
+                                 done = reply.isSuccess();
+                                 QCOMPARE(getObjectValue(summary, "cookie1"_L1).toString(),
+                                          "key1,Super Puper,key2,Simple123456789");
+                                 QCOMPARE(getObjectValue(summary, "cookie2"_L1).toString(), "100");
+                                 QCOMPARE(getObjectValue(summary, "size"_L1).toInt(), 2);
+                             });
+    QTRY_COMPARE_EQ(done, true);
+
+    done = false;
+    severalNotExplodeCookies(::QtOpenAPI::OptionalParam<QMap<QString, QString>>(emptyMap),
+                             ::QtOpenAPI::OptionalParam<qint64>(-999999999),
+                             this, [&](const QRestReply &reply, const QString &summary) {
+                                 done = reply.isSuccess();
+                                 QVERIFY(getObjectValue(summary,
+                                                        "cookie1"_L1).toString().isEmpty());
+                                 QCOMPARE(getObjectValue(summary,
+                                                         "cookie2"_L1).toString(), "-999999999");
+                                 QCOMPARE(getObjectValue(summary, "size"_L1).toInt(), 2);
+                             });
+    QTRY_COMPARE_EQ(done, true);
+
+    // Cookies are empty, because the empty optional parameter is not being sent at all
+    // so nothing to send back from the server
+    done = true;
+    severalNotExplodeCookies(::QtOpenAPI::OptionalParam<QMap<QString, QString>>(),
+                             ::QtOpenAPI::OptionalParam<qint64>(),
+                             this, [&](const QRestReply &reply, const QString &) {
+                                 done = reply.isSuccess();
+                             });
+    QTRY_COMPARE_EQ(done, false);
+
+    done = false;
+    severalExplodeCookies(stringMap, 100,
+                          this, [&](const QRestReply &reply, const QString &summary) {
+                              done = reply.isSuccess();
+                              // Server doesn't parse objects like
+                              // "key1=Super Puper&key2=Simple123456789"
+                              // because key=value pairs are being interpreted as a
+                              // separate values
+                              QCOMPARE(getObjectValue(summary, "cookie1"_L1).toString(), "");
+                              // Primitive types are OK, the serialization is the same
+                              // like explode=false for primitives
+                              QCOMPARE(getObjectValue(summary, "cookie2"_L1).toString(), "100");
+                              QCOMPARE(getObjectValue(summary, "size"_L1).toInt(), 2);
+                          });
+    QTRY_COMPARE_EQ(done, true);
+
+    done = false;
+    severalExplodeCookies(::QtOpenAPI::OptionalParam<QMap<QString, QString>>(emptyMap),
+                          ::QtOpenAPI::OptionalParam<qint64>(-999999999),
+                          this, [&](const QRestReply &reply, const QString &summary) {
+                              done = reply.isSuccess();
+                              QCOMPARE(getObjectValue(summary, "cookie1"_L1).toString(), "");
+                              QCOMPARE(getObjectValue(summary, "cookie2"_L1).toString(),
+                                       "-999999999");
+                              QCOMPARE(getObjectValue(summary, "size"_L1).toInt(), 2);
+                          });
+    QTRY_COMPARE_EQ(done, true);
+
+    // Cookies are empty, because the empty optional parameter is not being sent at all
+    // so nothing to send back from the server
+    done = true;
+    severalExplodeCookies(::QtOpenAPI::OptionalParam<QMap<QString, QString>>(),
+                          ::QtOpenAPI::OptionalParam<qint64>(),
+                          this, [&](const QRestReply &reply, const QString &) {
+                              done = reply.isSuccess();
+                          });
+    QTRY_COMPARE_EQ(done, false);
 }
 
 } // QtOpenAPI

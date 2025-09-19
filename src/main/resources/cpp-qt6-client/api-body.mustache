@@ -440,44 +440,42 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{#cookieParams}}
     {{^required}}if ({{paramName}}.hasValue()){{/required}}
     {
-        if (QString("{{style}}").indexOf("form") == 0) {
-{{^collectionFormat}}
-{{^isPrimitiveType}}
-{{^isExplode}}
-            QString cookieString = "{{baseName}}="_L1;
-            const QJsonObject parameter = {{paramName}}{{^required}}.value(){{/required}}.asJsonObject();
-            qint32 count = 0;
-            for (const QString& key : parameter.keys()) {
-                if (count > 0) {
-                    cookieString.append(",");
-                }
-                cookieString.append(::{{cppNamespace}}::parameterToString(key, ",", parameter.value(key)));
-                count++;
-            }
-            input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::Cookie, QAnyStringView(cookieString));
-{{/isExplode}}
-{{/isPrimitiveType}}
+        QString cookieString;
+        const QString cookieStyle = "{{style}}"_L1.isEmpty() ? "form"_L1 : "{{style}}"_L1;
+        const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, {{isExplode}});
+{{^isAnyType}}
+        const bool isObject = {{isModel}} || {{isMap}};
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"{{baseName}}"_s),
+                                                         {{isExplode}}, isObject);
+        const QString cookieAssignOperator
+            = getParamStyleAssignOperator(cookieStyle, {{isExplode}}, isObject);
+{{/isAnyType}}
+{{#isAnyType}}
+        const bool isObject = {{paramName}}{{^required}}.value(){{/required}}.type() == QJsonValue::Object;
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"{{baseName}}"_s), {{isExplode}}, isObject);
+        const QString cookieAssignOperator
+            = getParamStyleAssignOperator(cookieStyle, {{isExplode}}, isObject);
+        cookieString = serializeJsonValue({{paramName}}{{^required}}.value(){{/required}}, cookieStyle, {{isExplode}}, cookieSuffix, cookieAssignOperator, cookieDelimiter, false);
+{{/isAnyType}}
+{{#isModel}}
+        const QJsonObject parameter = {{paramName}}{{^required}}.value(){{/required}}.asJsonObject();
+        cookieString = serializeJsonValue(parameter, cookieStyle, {{isExplode}}, cookieSuffix,
+                                          cookieAssignOperator, cookieDelimiter, false);
+{{/isModel}}
+{{#isMap}}
+        cookieString = cookieSuffix + serializeMapValue({{paramName}}{{^required}}.value(){{/required}}, cookieAssignOperator, cookieDelimiter, false);
+{{/isMap}}
 {{#isPrimitiveType}}
-            if (!::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value(){{/required}}).isEmpty())
-                input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::Cookie, QAnyStringView("{{baseName}}="_L1 + ::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value(){{/required}})));
+        cookieString = cookieSuffix + toStringValue({{paramName}}{{^required}}.value(){{/required}});
 {{/isPrimitiveType}}
-{{/collectionFormat}}
-{{#collectionFormat}}
-{{^isExplode}}
-            QString cookieString = "{{baseName}}="_L1;
-            if ({{{paramName}}}.size() > 0) {
-            qint32 count = 0;
-            for ({{{baseType}}} t : {{paramName}}{{^required}}.value(){{/required}}) {
-                if (count > 0) {
-                    cookieString.append(",");
-                }
-                cookieString.append(::{{cppNamespace}}::toStringValue(t));
-                count++;
-            }
-            input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::Cookie, QAnyStringView(cookieString));
-            }
-{{/isExplode}}{{/collectionFormat}}
-        }
+{{#isArray}}
+        cookieString = serializeArrayValue({{paramName}}{{^required}}.value(){{/required}}, cookieStyle, {{isExplode}}, cookieSuffix, cookieDelimiter, false);
+{{/isArray}}
+        // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
+        if (cookieString.isEmpty())
+            cookieString = u"{{baseName}}="_s;
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
+                               QAnyStringView(cookieString));
     }
 {{/cookieParams}}
     QNetworkRequest request

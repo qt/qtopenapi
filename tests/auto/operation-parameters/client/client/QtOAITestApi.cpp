@@ -41,6 +41,30 @@ void QtOAITestApi::initializeServerConfigs()
     QUrl("http://127.0.0.1:10203/v2"),
     "No description provided",
     QMap<QString, QtOAIServerVariable>()));
+    m_serverConfigs.insert("cookieExplodeAnytype", defaultConf);
+    m_serverIndices.insert("cookieExplodeAnytype", 0);
+    m_serverConfigs.insert("cookieExplodeArray", defaultConf);
+    m_serverIndices.insert("cookieExplodeArray", 0);
+    m_serverConfigs.insert("cookieExplodeInt", defaultConf);
+    m_serverIndices.insert("cookieExplodeInt", 0);
+    m_serverConfigs.insert("cookieExplodeObject", defaultConf);
+    m_serverIndices.insert("cookieExplodeObject", 0);
+    m_serverConfigs.insert("cookieExplodeString", defaultConf);
+    m_serverIndices.insert("cookieExplodeString", 0);
+    m_serverConfigs.insert("cookieExplodeStringMap", defaultConf);
+    m_serverIndices.insert("cookieExplodeStringMap", 0);
+    m_serverConfigs.insert("cookieNotExplodeAnytype", defaultConf);
+    m_serverIndices.insert("cookieNotExplodeAnytype", 0);
+    m_serverConfigs.insert("cookieNotExplodeArray", defaultConf);
+    m_serverIndices.insert("cookieNotExplodeArray", 0);
+    m_serverConfigs.insert("cookieNotExplodeInt", defaultConf);
+    m_serverIndices.insert("cookieNotExplodeInt", 0);
+    m_serverConfigs.insert("cookieNotExplodeObject", defaultConf);
+    m_serverIndices.insert("cookieNotExplodeObject", 0);
+    m_serverConfigs.insert("cookieNotExplodeString", defaultConf);
+    m_serverIndices.insert("cookieNotExplodeString", 0);
+    m_serverConfigs.insert("cookieNotExplodeStringMap", defaultConf);
+    m_serverIndices.insert("cookieNotExplodeStringMap", 0);
     m_serverConfigs.insert("deepObjectExplodeAnytype", defaultConf);
     m_serverIndices.insert("deepObjectExplodeAnytype", 0);
     m_serverConfigs.insert("deepObjectExplodeModelMap", defaultConf);
@@ -217,6 +241,10 @@ void QtOAITestApi::initializeServerConfigs()
     m_serverIndices.insert("pipeDelimitedNotExplodeStringMap", 0);
     m_serverConfigs.insert("queryAndPathParams", defaultConf);
     m_serverIndices.insert("queryAndPathParams", 0);
+    m_serverConfigs.insert("severalExplodeCookies", defaultConf);
+    m_serverIndices.insert("severalExplodeCookies", 0);
+    m_serverConfigs.insert("severalNotExplodeCookies", defaultConf);
+    m_serverIndices.insert("severalNotExplodeCookies", 0);
     m_serverConfigs.insert("simpleExplodeAnytype", defaultConf);
     m_serverIndices.insert("simpleExplodeAnytype", 0);
     m_serverConfigs.insert("simpleExplodeArray", defaultConf);
@@ -273,6 +301,1562 @@ void QtOAITestApi::initializeServerConfigs()
     m_serverIndices.insert("spaceDelimitedNotExplodeString", 0);
     m_serverConfigs.insert("spaceDelimitedNotExplodeStringMap", defaultConf);
     m_serverIndices.insert("spaceDelimitedNotExplodeStringMap", 0);
+}
+
+/**
+* \fn virtual void QtOAITestApi::cookieExplodeAnytype(const QJsonValue &anytypeParameter)
+* 'cookieExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] anytypeParameter QJsonValue [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::cookieExplodeAnytype(const QJsonValue &anytypeParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'cookieExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    cookieExplodeAnytype(anytypeParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual cookieExplodeAnytypeWithDataImpl() in derived class.
+* The virtual cookieExplodeAnytypeWithDataImpl() is being called by the template
+* function.
+
+* @param[in] anytypeParameter QJsonValue [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::cookieExplodeAnytypeCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by cookieExplodeAnytypeFinished() or
+* being returned as a callback parameter of cookieExplodeAnytype() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::cookieExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the cookieExplodeAnytype() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking cookieExplodeAnytype() operation calls.
+
+* @param[in] anytypeParameter QJsonValue [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::cookieExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["cookieExplodeAnytype"][m_serverIndices.value("cookieExplodeAnytype")].serverUrl();
+    QString fullPath = "/cookie/anytype/form-explode/cookieExplodeAnytype";
+    m_networkFactory->setBaseUrl(serverUrl);
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    
+    {
+        QString cookieString;
+        const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
+        const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, true);
+        const bool isObject = anytypeParameter.type() == QJsonValue::Object;
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"anytypeParameter"_s), true, isObject);
+        const QString cookieAssignOperator
+            = getParamStyleAssignOperator(cookieStyle, true, isObject);
+        cookieString = serializeJsonValue(anytypeParameter, cookieStyle, true, cookieSuffix, cookieAssignOperator, cookieDelimiter, false);
+        // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
+        if (cookieString.isEmpty())
+            cookieString = u"anytypeParameter="_s;
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
+                               QAnyStringView(cookieString));
+    }
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            cookieExplodeAnytypeCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit cookieExplodeAnytypeErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::cookieExplodeAnytypeCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit cookieExplodeAnytypeFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::cookieExplodeArray(const QList<qint32> &arrayParameter)
+* 'cookieExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] arrayParameter QList<qint32> [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::cookieExplodeArray(const QList<qint32> &arrayParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'cookieExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    cookieExplodeArray(arrayParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual cookieExplodeArrayWithDataImpl() in derived class.
+* The virtual cookieExplodeArrayWithDataImpl() is being called by the template
+* function.
+
+* @param[in] arrayParameter QList<qint32> [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::cookieExplodeArrayCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by cookieExplodeArrayFinished() or
+* being returned as a callback parameter of cookieExplodeArray() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::cookieExplodeArrayWithDataImpl(const QList<qint32> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the cookieExplodeArray() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking cookieExplodeArray() operation calls.
+
+* @param[in] arrayParameter QList<qint32> [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::cookieExplodeArrayWithDataImpl(const QList<qint32> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["cookieExplodeArray"][m_serverIndices.value("cookieExplodeArray")].serverUrl();
+    QString fullPath = "/cookie/array/form-explode/cookieExplodeArray";
+    m_networkFactory->setBaseUrl(serverUrl);
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    
+    {
+        QString cookieString;
+        const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
+        const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, true);
+        const bool isObject = false || false;
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"arrayParameter"_s),
+                                                         true, isObject);
+        const QString cookieAssignOperator
+            = getParamStyleAssignOperator(cookieStyle, true, isObject);
+        cookieString = serializeArrayValue(arrayParameter, cookieStyle, true, cookieSuffix, cookieDelimiter, false);
+        // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
+        if (cookieString.isEmpty())
+            cookieString = u"arrayParameter="_s;
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
+                               QAnyStringView(cookieString));
+    }
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            cookieExplodeArrayCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit cookieExplodeArrayErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::cookieExplodeArrayCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit cookieExplodeArrayFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::cookieExplodeInt(const ::QtOpenAPI::OptionalParam<qint64> &intParameter = ::QtOpenAPI::OptionalParam<qint64>(), const ::QtOpenAPI::OptionalParam<QString> &queryParameter = ::QtOpenAPI::OptionalParam<QString>())
+* 'cookieExplodeInt' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] intParameter qint64 [optional]
+* @param[in] queryParameter QString [optional]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::cookieExplodeInt(const ::QtOpenAPI::OptionalParam<qint64> &intParameter = ::QtOpenAPI::OptionalParam<qint64>(), const ::QtOpenAPI::OptionalParam<QString> &queryParameter = ::QtOpenAPI::OptionalParam<QString>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'cookieExplodeInt' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    cookieExplodeInt(intParameter, queryParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual cookieExplodeIntWithDataImpl() in derived class.
+* The virtual cookieExplodeIntWithDataImpl() is being called by the template
+* function.
+
+* @param[in] intParameter qint64 [optional]
+* @param[in] queryParameter QString [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::cookieExplodeIntCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by cookieExplodeIntFinished() or
+* being returned as a callback parameter of cookieExplodeInt() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::cookieExplodeIntWithDataImpl(const ::QtOpenAPI::OptionalParam<qint64> &intParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the cookieExplodeInt() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking cookieExplodeInt() operation calls.
+
+* @param[in] intParameter qint64 [optional]
+* @param[in] queryParameter QString [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::cookieExplodeIntWithDataImpl(const ::QtOpenAPI::OptionalParam<qint64> &intParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["cookieExplodeInt"][m_serverIndices.value("cookieExplodeInt")].serverUrl();
+    QString fullPath = "/cookie/int/form-explode/cookieExplodeInt";
+    m_networkFactory->setBaseUrl(serverUrl);
+    int queryParamCounter = 0;
+    {
+        [[maybe_unused]] QString paramString;
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
+        const bool isObject = false || false;
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"queryParameter"_s), true, isObject);
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
+        paramString = querySuffix;
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
+            fullPath.append(queryPrefix);
+        if (queryParameter.hasValue()) {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
+            fullPath.append(querySuffix + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(queryParameter.value())));
+            queryParamCounter++;
+        }
+    }
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    if (intParameter.hasValue())
+    {
+        QString cookieString;
+        const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
+        const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, true);
+        const bool isObject = false || false;
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"intParameter"_s),
+                                                         true, isObject);
+        const QString cookieAssignOperator
+            = getParamStyleAssignOperator(cookieStyle, true, isObject);
+        cookieString = cookieSuffix + toStringValue(intParameter.value());
+        // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
+        if (cookieString.isEmpty())
+            cookieString = u"intParameter="_s;
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
+                               QAnyStringView(cookieString));
+    }
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            cookieExplodeIntCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit cookieExplodeIntErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::cookieExplodeIntCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit cookieExplodeIntFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::cookieExplodeObject(const QtOAITestObject &objectParameter)
+* 'cookieExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] objectParameter QtOAITestObject [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::cookieExplodeObject(const QtOAITestObject &objectParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'cookieExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    cookieExplodeObject(objectParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual cookieExplodeObjectWithDataImpl() in derived class.
+* The virtual cookieExplodeObjectWithDataImpl() is being called by the template
+* function.
+
+* @param[in] objectParameter QtOAITestObject [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::cookieExplodeObjectCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by cookieExplodeObjectFinished() or
+* being returned as a callback parameter of cookieExplodeObject() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::cookieExplodeObjectWithDataImpl(const QtOAITestObject &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the cookieExplodeObject() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking cookieExplodeObject() operation calls.
+
+* @param[in] objectParameter QtOAITestObject [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::cookieExplodeObjectWithDataImpl(const QtOAITestObject &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["cookieExplodeObject"][m_serverIndices.value("cookieExplodeObject")].serverUrl();
+    QString fullPath = "/cookie/object/form-explode/cookieExplodeObject";
+    m_networkFactory->setBaseUrl(serverUrl);
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    
+    {
+        QString cookieString;
+        const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
+        const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, true);
+        const bool isObject = true || false;
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"objectParameter"_s),
+                                                         true, isObject);
+        const QString cookieAssignOperator
+            = getParamStyleAssignOperator(cookieStyle, true, isObject);
+        const QJsonObject parameter = objectParameter.asJsonObject();
+        cookieString = serializeJsonValue(parameter, cookieStyle, true, cookieSuffix,
+                                          cookieAssignOperator, cookieDelimiter, false);
+        // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
+        if (cookieString.isEmpty())
+            cookieString = u"objectParameter="_s;
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
+                               QAnyStringView(cookieString));
+    }
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            cookieExplodeObjectCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit cookieExplodeObjectErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::cookieExplodeObjectCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit cookieExplodeObjectFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::cookieExplodeString(const QString &stringParameter, const QString &pathParam)
+* 'cookieExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] stringParameter QString [required]
+* @param[in] pathParam QString [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::cookieExplodeString(const QString &stringParameter, const QString &pathParam, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'cookieExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    cookieExplodeString(stringParameter, pathParam, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual cookieExplodeStringWithDataImpl() in derived class.
+* The virtual cookieExplodeStringWithDataImpl() is being called by the template
+* function.
+
+* @param[in] stringParameter QString [required]
+* @param[in] pathParam QString [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::cookieExplodeStringCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by cookieExplodeStringFinished() or
+* being returned as a callback parameter of cookieExplodeString() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::cookieExplodeStringWithDataImpl(const QString &stringParameter, const QString &pathParam, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the cookieExplodeString() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking cookieExplodeString() operation calls.
+
+* @param[in] stringParameter QString [required]
+* @param[in] pathParam QString [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::cookieExplodeStringWithDataImpl(const QString &stringParameter, const QString &pathParam, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["cookieExplodeString"][m_serverIndices.value("cookieExplodeString")].serverUrl();
+    QString fullPath = "/cookie/string/form-explode/cookieExplodeString/{pathParam}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString pathParamPathParam = QString("{%1}").arg("pathParam");
+        QString pathStyle = "simple";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
+        const bool isObject = false || false;
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"pathParam"_s), true, isObject);
+        QString paramString = pathPrefix + pathSuffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(pathParam));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(pathParamPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    
+    {
+        QString cookieString;
+        const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
+        const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, true);
+        const bool isObject = false || false;
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"stringParameter"_s),
+                                                         true, isObject);
+        const QString cookieAssignOperator
+            = getParamStyleAssignOperator(cookieStyle, true, isObject);
+        cookieString = cookieSuffix + toStringValue(stringParameter);
+        // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
+        if (cookieString.isEmpty())
+            cookieString = u"stringParameter="_s;
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
+                               QAnyStringView(cookieString));
+    }
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            cookieExplodeStringCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit cookieExplodeStringErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::cookieExplodeStringCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit cookieExplodeStringFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::cookieExplodeStringMap(const QMap<QString, QString> &mapParameter)
+* 'cookieExplodeStringMap' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] mapParameter QMap<QString, QString> [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::cookieExplodeStringMap(const QMap<QString, QString> &mapParameter, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'cookieExplodeStringMap' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    cookieExplodeStringMap(mapParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual cookieExplodeStringMapWithDataImpl() in derived class.
+* The virtual cookieExplodeStringMapWithDataImpl() is being called by the template
+* function.
+
+* @param[in] mapParameter QMap<QString, QString> [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::cookieExplodeStringMapCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by cookieExplodeStringMapFinished() or
+* being returned as a callback parameter of cookieExplodeStringMap() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::cookieExplodeStringMapWithDataImpl(const QMap<QString, QString> &mapParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the cookieExplodeStringMap() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking cookieExplodeStringMap() operation calls.
+
+* @param[in] mapParameter QMap<QString, QString> [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::cookieExplodeStringMapWithDataImpl(const QMap<QString, QString> &mapParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["cookieExplodeStringMap"][m_serverIndices.value("cookieExplodeStringMap")].serverUrl();
+    QString fullPath = "/cookie/map/string-mapping/form-explode/cookieExplodeMap";
+    m_networkFactory->setBaseUrl(serverUrl);
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    
+    {
+        QString cookieString;
+        const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
+        const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, true);
+        const bool isObject = false || true;
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"mapParameter"_s),
+                                                         true, isObject);
+        const QString cookieAssignOperator
+            = getParamStyleAssignOperator(cookieStyle, true, isObject);
+        cookieString = cookieSuffix + serializeMapValue(mapParameter, cookieAssignOperator, cookieDelimiter, false);
+        // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
+        if (cookieString.isEmpty())
+            cookieString = u"mapParameter="_s;
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
+                               QAnyStringView(cookieString));
+    }
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            cookieExplodeStringMapCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit cookieExplodeStringMapErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::cookieExplodeStringMapCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit cookieExplodeStringMapFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::cookieNotExplodeAnytype(const ::QtOpenAPI::OptionalParam<QJsonValue> &anytypeParameter = ::QtOpenAPI::OptionalParam<QJsonValue>())
+* 'cookieNotExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] anytypeParameter QJsonValue [optional]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::cookieNotExplodeAnytype(const ::QtOpenAPI::OptionalParam<QJsonValue> &anytypeParameter = ::QtOpenAPI::OptionalParam<QJsonValue>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'cookieNotExplodeAnytype' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    cookieNotExplodeAnytype(anytypeParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual cookieNotExplodeAnytypeWithDataImpl() in derived class.
+* The virtual cookieNotExplodeAnytypeWithDataImpl() is being called by the template
+* function.
+
+* @param[in] anytypeParameter QJsonValue [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::cookieNotExplodeAnytypeCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by cookieNotExplodeAnytypeFinished() or
+* being returned as a callback parameter of cookieNotExplodeAnytype() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::cookieNotExplodeAnytypeWithDataImpl(const ::QtOpenAPI::OptionalParam<QJsonValue> &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the cookieNotExplodeAnytype() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking cookieNotExplodeAnytype() operation calls.
+
+* @param[in] anytypeParameter QJsonValue [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::cookieNotExplodeAnytypeWithDataImpl(const ::QtOpenAPI::OptionalParam<QJsonValue> &anytypeParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["cookieNotExplodeAnytype"][m_serverIndices.value("cookieNotExplodeAnytype")].serverUrl();
+    QString fullPath = "/cookie/anytype/form-not-explode/cookieNotExplodeAnytype";
+    m_networkFactory->setBaseUrl(serverUrl);
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    if (anytypeParameter.hasValue())
+    {
+        QString cookieString;
+        const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
+        const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, false);
+        const bool isObject = anytypeParameter.value().type() == QJsonValue::Object;
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"anytypeParameter"_s), false, isObject);
+        const QString cookieAssignOperator
+            = getParamStyleAssignOperator(cookieStyle, false, isObject);
+        cookieString = serializeJsonValue(anytypeParameter.value(), cookieStyle, false, cookieSuffix, cookieAssignOperator, cookieDelimiter, false);
+        // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
+        if (cookieString.isEmpty())
+            cookieString = u"anytypeParameter="_s;
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
+                               QAnyStringView(cookieString));
+    }
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            cookieNotExplodeAnytypeCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit cookieNotExplodeAnytypeErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::cookieNotExplodeAnytypeCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit cookieNotExplodeAnytypeFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::cookieNotExplodeArray(const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter = ::QtOpenAPI::OptionalParam<QList<qint32>>())
+* 'cookieNotExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] arrayParameter QList<qint32> [optional]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::cookieNotExplodeArray(const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter = ::QtOpenAPI::OptionalParam<QList<qint32>>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'cookieNotExplodeArray' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    cookieNotExplodeArray(arrayParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual cookieNotExplodeArrayWithDataImpl() in derived class.
+* The virtual cookieNotExplodeArrayWithDataImpl() is being called by the template
+* function.
+
+* @param[in] arrayParameter QList<qint32> [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::cookieNotExplodeArrayCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by cookieNotExplodeArrayFinished() or
+* being returned as a callback parameter of cookieNotExplodeArray() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::cookieNotExplodeArrayWithDataImpl(const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the cookieNotExplodeArray() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking cookieNotExplodeArray() operation calls.
+
+* @param[in] arrayParameter QList<qint32> [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::cookieNotExplodeArrayWithDataImpl(const ::QtOpenAPI::OptionalParam<QList<qint32>> &arrayParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["cookieNotExplodeArray"][m_serverIndices.value("cookieNotExplodeArray")].serverUrl();
+    QString fullPath = "/cookie/array/form-not-explode/cookieNotExplodeArray";
+    m_networkFactory->setBaseUrl(serverUrl);
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    if (arrayParameter.hasValue())
+    {
+        QString cookieString;
+        const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
+        const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, false);
+        const bool isObject = false || false;
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"arrayParameter"_s),
+                                                         false, isObject);
+        const QString cookieAssignOperator
+            = getParamStyleAssignOperator(cookieStyle, false, isObject);
+        cookieString = serializeArrayValue(arrayParameter.value(), cookieStyle, false, cookieSuffix, cookieDelimiter, false);
+        // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
+        if (cookieString.isEmpty())
+            cookieString = u"arrayParameter="_s;
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
+                               QAnyStringView(cookieString));
+    }
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            cookieNotExplodeArrayCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit cookieNotExplodeArrayErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::cookieNotExplodeArrayCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit cookieNotExplodeArrayFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::cookieNotExplodeInt(const QString &queryParameter, const ::QtOpenAPI::OptionalParam<qint64> &intParameter = ::QtOpenAPI::OptionalParam<qint64>())
+* 'cookieNotExplodeInt' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] queryParameter QString [required]
+* @param[in] intParameter qint64 [optional]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::cookieNotExplodeInt(const QString &queryParameter, const ::QtOpenAPI::OptionalParam<qint64> &intParameter = ::QtOpenAPI::OptionalParam<qint64>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'cookieNotExplodeInt' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    cookieNotExplodeInt(queryParameter, intParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual cookieNotExplodeIntWithDataImpl() in derived class.
+* The virtual cookieNotExplodeIntWithDataImpl() is being called by the template
+* function.
+
+* @param[in] queryParameter QString [required]
+* @param[in] intParameter qint64 [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::cookieNotExplodeIntCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by cookieNotExplodeIntFinished() or
+* being returned as a callback parameter of cookieNotExplodeInt() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::cookieNotExplodeIntWithDataImpl(const QString &queryParameter, const ::QtOpenAPI::OptionalParam<qint64> &intParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the cookieNotExplodeInt() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking cookieNotExplodeInt() operation calls.
+
+* @param[in] queryParameter QString [required]
+* @param[in] intParameter qint64 [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::cookieNotExplodeIntWithDataImpl(const QString &queryParameter, const ::QtOpenAPI::OptionalParam<qint64> &intParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["cookieNotExplodeInt"][m_serverIndices.value("cookieNotExplodeInt")].serverUrl();
+    QString fullPath = "/cookie/int/form-not-explode/cookieNotExplodeInt";
+    m_networkFactory->setBaseUrl(serverUrl);
+    int queryParamCounter = 0;
+    {
+        [[maybe_unused]] QString paramString;
+        QString queryStyle = "form";
+        if (queryStyle.isEmpty())
+            queryStyle = "form";
+        const QString queryPrefix = getParamStylePrefix(queryStyle);
+        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
+        const bool isObject = false || false;
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"queryParameter"_s), true, isObject);
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
+        paramString = querySuffix;
+        if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
+            fullPath.append(queryPrefix);
+        {
+            if (queryParamCounter > 0)
+                fullPath.append("&");
+            fullPath.append(querySuffix + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(queryParameter)));
+            queryParamCounter++;
+        }
+    }
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    if (intParameter.hasValue())
+    {
+        QString cookieString;
+        const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
+        const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, false);
+        const bool isObject = false || false;
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"intParameter"_s),
+                                                         false, isObject);
+        const QString cookieAssignOperator
+            = getParamStyleAssignOperator(cookieStyle, false, isObject);
+        cookieString = cookieSuffix + toStringValue(intParameter.value());
+        // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
+        if (cookieString.isEmpty())
+            cookieString = u"intParameter="_s;
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
+                               QAnyStringView(cookieString));
+    }
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            cookieNotExplodeIntCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit cookieNotExplodeIntErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::cookieNotExplodeIntCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit cookieNotExplodeIntFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::cookieNotExplodeObject(const ::QtOpenAPI::OptionalParam<QtOAITestObject> &objectParameter = ::QtOpenAPI::OptionalParam<QtOAITestObject>())
+* 'cookieNotExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] objectParameter QtOAITestObject [optional]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::cookieNotExplodeObject(const ::QtOpenAPI::OptionalParam<QtOAITestObject> &objectParameter = ::QtOpenAPI::OptionalParam<QtOAITestObject>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'cookieNotExplodeObject' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    cookieNotExplodeObject(objectParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual cookieNotExplodeObjectWithDataImpl() in derived class.
+* The virtual cookieNotExplodeObjectWithDataImpl() is being called by the template
+* function.
+
+* @param[in] objectParameter QtOAITestObject [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::cookieNotExplodeObjectCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by cookieNotExplodeObjectFinished() or
+* being returned as a callback parameter of cookieNotExplodeObject() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::cookieNotExplodeObjectWithDataImpl(const ::QtOpenAPI::OptionalParam<QtOAITestObject> &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the cookieNotExplodeObject() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking cookieNotExplodeObject() operation calls.
+
+* @param[in] objectParameter QtOAITestObject [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::cookieNotExplodeObjectWithDataImpl(const ::QtOpenAPI::OptionalParam<QtOAITestObject> &objectParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["cookieNotExplodeObject"][m_serverIndices.value("cookieNotExplodeObject")].serverUrl();
+    QString fullPath = "/cookie/object/form-not-explode/cookieNotExplodeObject";
+    m_networkFactory->setBaseUrl(serverUrl);
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    if (objectParameter.hasValue())
+    {
+        QString cookieString;
+        const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
+        const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, false);
+        const bool isObject = true || false;
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"objectParameter"_s),
+                                                         false, isObject);
+        const QString cookieAssignOperator
+            = getParamStyleAssignOperator(cookieStyle, false, isObject);
+        const QJsonObject parameter = objectParameter.value().asJsonObject();
+        cookieString = serializeJsonValue(parameter, cookieStyle, false, cookieSuffix,
+                                          cookieAssignOperator, cookieDelimiter, false);
+        // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
+        if (cookieString.isEmpty())
+            cookieString = u"objectParameter="_s;
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
+                               QAnyStringView(cookieString));
+    }
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            cookieNotExplodeObjectCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit cookieNotExplodeObjectErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::cookieNotExplodeObjectCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit cookieNotExplodeObjectFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::cookieNotExplodeString(const QString &pathParam, const ::QtOpenAPI::OptionalParam<QString> &stringParameter = ::QtOpenAPI::OptionalParam<QString>())
+* 'cookieNotExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] pathParam QString [required]
+* @param[in] stringParameter QString [optional]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::cookieNotExplodeString(const QString &pathParam, const ::QtOpenAPI::OptionalParam<QString> &stringParameter = ::QtOpenAPI::OptionalParam<QString>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'cookieNotExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    cookieNotExplodeString(pathParam, stringParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual cookieNotExplodeStringWithDataImpl() in derived class.
+* The virtual cookieNotExplodeStringWithDataImpl() is being called by the template
+* function.
+
+* @param[in] pathParam QString [required]
+* @param[in] stringParameter QString [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::cookieNotExplodeStringCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by cookieNotExplodeStringFinished() or
+* being returned as a callback parameter of cookieNotExplodeString() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::cookieNotExplodeStringWithDataImpl(const QString &pathParam, const ::QtOpenAPI::OptionalParam<QString> &stringParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the cookieNotExplodeString() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking cookieNotExplodeString() operation calls.
+
+* @param[in] pathParam QString [required]
+* @param[in] stringParameter QString [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::cookieNotExplodeStringWithDataImpl(const QString &pathParam, const ::QtOpenAPI::OptionalParam<QString> &stringParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["cookieNotExplodeString"][m_serverIndices.value("cookieNotExplodeString")].serverUrl();
+    QString fullPath = "/cookie/string/form-not-explode/cookieNotExplodeString/{pathParam}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString pathParamPathParam = QString("{%1}").arg("pathParam");
+        QString pathStyle = "simple";
+        if (pathStyle.isEmpty())
+            pathStyle = "simple";
+        const QString pathPrefix = getParamStylePrefix(pathStyle);
+        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
+        const bool isObject = false || false;
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"pathParam"_s), false, isObject);
+        QString paramString = pathPrefix + pathSuffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(pathParam));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(pathParamPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    if (stringParameter.hasValue())
+    {
+        QString cookieString;
+        const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
+        const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, false);
+        const bool isObject = false || false;
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"stringParameter"_s),
+                                                         false, isObject);
+        const QString cookieAssignOperator
+            = getParamStyleAssignOperator(cookieStyle, false, isObject);
+        cookieString = cookieSuffix + toStringValue(stringParameter.value());
+        // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
+        if (cookieString.isEmpty())
+            cookieString = u"stringParameter="_s;
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
+                               QAnyStringView(cookieString));
+    }
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            cookieNotExplodeStringCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit cookieNotExplodeStringErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::cookieNotExplodeStringCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit cookieNotExplodeStringFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::cookieNotExplodeStringMap(const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter = ::QtOpenAPI::OptionalParam<QMap<QString, QString>>())
+* 'cookieNotExplodeStringMap' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] mapParameter QMap<QString, QString> [optional]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::cookieNotExplodeStringMap(const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter = ::QtOpenAPI::OptionalParam<QMap<QString, QString>>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'cookieNotExplodeStringMap' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    cookieNotExplodeStringMap(mapParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual cookieNotExplodeStringMapWithDataImpl() in derived class.
+* The virtual cookieNotExplodeStringMapWithDataImpl() is being called by the template
+* function.
+
+* @param[in] mapParameter QMap<QString, QString> [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::cookieNotExplodeStringMapCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by cookieNotExplodeStringMapFinished() or
+* being returned as a callback parameter of cookieNotExplodeStringMap() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::cookieNotExplodeStringMapWithDataImpl(const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the cookieNotExplodeStringMap() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking cookieNotExplodeStringMap() operation calls.
+
+* @param[in] mapParameter QMap<QString, QString> [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::cookieNotExplodeStringMapWithDataImpl(const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["cookieNotExplodeStringMap"][m_serverIndices.value("cookieNotExplodeStringMap")].serverUrl();
+    QString fullPath = "/cookie/map/string-mapping/form-not-explode/cookieNotExplodeMap";
+    m_networkFactory->setBaseUrl(serverUrl);
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    if (mapParameter.hasValue())
+    {
+        QString cookieString;
+        const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
+        const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, false);
+        const bool isObject = false || true;
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"mapParameter"_s),
+                                                         false, isObject);
+        const QString cookieAssignOperator
+            = getParamStyleAssignOperator(cookieStyle, false, isObject);
+        cookieString = cookieSuffix + serializeMapValue(mapParameter.value(), cookieAssignOperator, cookieDelimiter, false);
+        // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
+        if (cookieString.isEmpty())
+            cookieString = u"mapParameter="_s;
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
+                               QAnyStringView(cookieString));
+    }
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            cookieNotExplodeStringMapCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit cookieNotExplodeStringMapErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::cookieNotExplodeStringMapCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit cookieNotExplodeStringMapFinished(output);
 }
 
 /**
@@ -11727,6 +13311,290 @@ void QtOAITestApi::queryAndPathParamsCallback(const QRestReply &reply)
         callerInfo.slot->call(context, argv);
     }
     emit queryAndPathParamsFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::severalExplodeCookies(const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter = ::QtOpenAPI::OptionalParam<QMap<QString, QString>>(), const ::QtOpenAPI::OptionalParam<qint64> &intParameter = ::QtOpenAPI::OptionalParam<qint64>())
+* 'severalExplodeCookies' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] mapParameter QMap<QString, QString> [optional]
+* @param[in] intParameter qint64 [optional]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::severalExplodeCookies(const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter = ::QtOpenAPI::OptionalParam<QMap<QString, QString>>(), const ::QtOpenAPI::OptionalParam<qint64> &intParameter = ::QtOpenAPI::OptionalParam<qint64>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'severalExplodeCookies' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    severalExplodeCookies(mapParameter, intParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual severalExplodeCookiesWithDataImpl() in derived class.
+* The virtual severalExplodeCookiesWithDataImpl() is being called by the template
+* function.
+
+* @param[in] mapParameter QMap<QString, QString> [optional]
+* @param[in] intParameter qint64 [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::severalExplodeCookiesCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by severalExplodeCookiesFinished() or
+* being returned as a callback parameter of severalExplodeCookies() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::severalExplodeCookiesWithDataImpl(const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter, const ::QtOpenAPI::OptionalParam<qint64> &intParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the severalExplodeCookies() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking severalExplodeCookies() operation calls.
+
+* @param[in] mapParameter QMap<QString, QString> [optional]
+* @param[in] intParameter qint64 [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::severalExplodeCookiesWithDataImpl(const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter, const ::QtOpenAPI::OptionalParam<qint64> &intParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["severalExplodeCookies"][m_serverIndices.value("severalExplodeCookies")].serverUrl();
+    QString fullPath = "/cookie/several-cookies/form-explode/severalExplodeCookies";
+    m_networkFactory->setBaseUrl(serverUrl);
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    if (mapParameter.hasValue())
+    {
+        QString cookieString;
+        const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
+        const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, true);
+        const bool isObject = false || true;
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"mapParameter"_s),
+                                                         true, isObject);
+        const QString cookieAssignOperator
+            = getParamStyleAssignOperator(cookieStyle, true, isObject);
+        cookieString = cookieSuffix + serializeMapValue(mapParameter.value(), cookieAssignOperator, cookieDelimiter, false);
+        // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
+        if (cookieString.isEmpty())
+            cookieString = u"mapParameter="_s;
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
+                               QAnyStringView(cookieString));
+    }
+    if (intParameter.hasValue())
+    {
+        QString cookieString;
+        const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
+        const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, true);
+        const bool isObject = false || false;
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"intParameter"_s),
+                                                         true, isObject);
+        const QString cookieAssignOperator
+            = getParamStyleAssignOperator(cookieStyle, true, isObject);
+        cookieString = cookieSuffix + toStringValue(intParameter.value());
+        // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
+        if (cookieString.isEmpty())
+            cookieString = u"intParameter="_s;
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
+                               QAnyStringView(cookieString));
+    }
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            severalExplodeCookiesCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit severalExplodeCookiesErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::severalExplodeCookiesCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit severalExplodeCookiesFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::severalNotExplodeCookies(const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter = ::QtOpenAPI::OptionalParam<QMap<QString, QString>>(), const ::QtOpenAPI::OptionalParam<qint64> &intParameter = ::QtOpenAPI::OptionalParam<qint64>())
+* 'severalNotExplodeCookies' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] mapParameter QMap<QString, QString> [optional]
+* @param[in] intParameter qint64 [optional]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::severalNotExplodeCookies(const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter = ::QtOpenAPI::OptionalParam<QMap<QString, QString>>(), const ::QtOpenAPI::OptionalParam<qint64> &intParameter = ::QtOpenAPI::OptionalParam<qint64>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'severalNotExplodeCookies' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    severalNotExplodeCookies(mapParameter, intParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual severalNotExplodeCookiesWithDataImpl() in derived class.
+* The virtual severalNotExplodeCookiesWithDataImpl() is being called by the template
+* function.
+
+* @param[in] mapParameter QMap<QString, QString> [optional]
+* @param[in] intParameter qint64 [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::severalNotExplodeCookiesCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by severalNotExplodeCookiesFinished() or
+* being returned as a callback parameter of severalNotExplodeCookies() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::severalNotExplodeCookiesWithDataImpl(const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter, const ::QtOpenAPI::OptionalParam<qint64> &intParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the severalNotExplodeCookies() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking severalNotExplodeCookies() operation calls.
+
+* @param[in] mapParameter QMap<QString, QString> [optional]
+* @param[in] intParameter qint64 [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::severalNotExplodeCookiesWithDataImpl(const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter, const ::QtOpenAPI::OptionalParam<qint64> &intParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["severalNotExplodeCookies"][m_serverIndices.value("severalNotExplodeCookies")].serverUrl();
+    QString fullPath = "/cookie/several-cookies/form-not-explode/severalNotExplodeCookies";
+    m_networkFactory->setBaseUrl(serverUrl);
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "POST");
+    if (mapParameter.hasValue())
+    {
+        QString cookieString;
+        const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
+        const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, false);
+        const bool isObject = false || true;
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"mapParameter"_s),
+                                                         false, isObject);
+        const QString cookieAssignOperator
+            = getParamStyleAssignOperator(cookieStyle, false, isObject);
+        cookieString = cookieSuffix + serializeMapValue(mapParameter.value(), cookieAssignOperator, cookieDelimiter, false);
+        // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
+        if (cookieString.isEmpty())
+            cookieString = u"mapParameter="_s;
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
+                               QAnyStringView(cookieString));
+    }
+    if (intParameter.hasValue())
+    {
+        QString cookieString;
+        const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
+        const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, false);
+        const bool isObject = false || false;
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"intParameter"_s),
+                                                         false, isObject);
+        const QString cookieAssignOperator
+            = getParamStyleAssignOperator(cookieStyle, false, isObject);
+        cookieString = cookieSuffix + toStringValue(intParameter.value());
+        // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
+        if (cookieString.isEmpty())
+            cookieString = u"intParameter="_s;
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
+                               QAnyStringView(cookieString));
+    }
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            severalNotExplodeCookiesCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit severalNotExplodeCookiesErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::severalNotExplodeCookiesCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit severalNotExplodeCookiesFinished(output);
 }
 
 /**
