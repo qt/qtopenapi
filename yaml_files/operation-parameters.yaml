@@ -2620,6 +2620,39 @@ paths:
             application/json:
               schema:
                 type: string
+  /header/several-headers/simple/severalHeaderParameters:
+    post:
+      tags: [test]
+      operationId: severalHeaderParametersOp
+      parameters:
+        - name: String-Parameter
+          in: header
+          required: false
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: int-Parameter
+          in: header
+          required: false
+          style: simple
+          explode: true
+          schema:
+            type: integer
+            format: int32
+        - name: Object-Parameter
+          in: header
+          required: false
+          explode: true
+          schema:
+            $ref: '#/components/schemas/TestObject'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
   /cookie/string/form-explode/cookieExplodeString/{pathParam}:
     post:
       tags: [test]

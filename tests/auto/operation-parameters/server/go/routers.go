@@ -87,6 +87,12 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
 			handleFunctions.TestAPI.SeveralNotExplodeCookies,
 		},
 		{
+			"SeveralHeaderParametersOp",
+			http.MethodPost,
+			"/v2/header/several-headers/simple/severalHeaderParameters",
+			handleFunctions.TestAPI.SeveralHeaderParametersOp,
+		},
+		{
 			"CookieExplodeAnytype",
 			http.MethodPost,
 			"/v2/cookie/anytype/form-explode/cookieExplodeAnytype",

@@ -161,6 +161,7 @@ private Q_SLOTS:
     void headerMapParameters();
     void headerAdditionalCases_data();
     void headerAdditionalCases();
+    void severalHeaderParameters();
     void cookieAnyTypeParameters_data();
     void cookieAnyTypeParameters();
     void cookieStringParameters_data();
@@ -1770,6 +1771,25 @@ void OperationParameters::headerAdditionalCases()
                                           QCOMPARE(getHeaderValue(summary, "Content-Type"),
                                                    expectedExplodeResult2);
                                       });
+    QTRY_COMPARE_EQ(done, true);
+}
+
+void OperationParameters::severalHeaderParameters()
+{
+    bool done = false;
+    QtOAITestObject obj;
+    obj.setName("object-header"_L1);
+    obj.setStatus("Awake!"_L1);
+
+    severalHeaderParametersOp(QString("String-header!"_L1), 300, obj,
+                              this, [&](const QRestReply &reply, const QString &summary) {
+                                  done = reply.isSuccess();
+                                  QCOMPARE(getHeaderValue(summary, "String-Parameter"_L1),
+                                           "String-header!"_L1);
+                                  QCOMPARE(getHeaderValue(summary, "Int-Parameter"_L1), "300"_L1);
+                                  QCOMPARE(getHeaderValue(summary, "Object-Parameter"_L1),
+                                           "name=object-header,status=Awake!"_L1);
+                              });
     QTRY_COMPARE_EQ(done, true);
 }
 

@@ -1396,3 +1396,8 @@ func (api *TestAPI) HeaderSimpleNotExplodeContentType(c *gin.Context) {
 func (api *TestAPI) HeaderSimpleNotExplodeCustomDevidedString(c *gin.Context) {
 	c.JSON(200, gin.H{"header": c.Request.Header})
 }
+
+// Post /v2/header/several-headers/simple/severalHeaderParameters
+func (api *TestAPI) SeveralHeaderParametersOp(c *gin.Context) {
+	c.JSON(200, gin.H{"header": c.Request.Header})
+}

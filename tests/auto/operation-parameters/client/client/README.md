@@ -129,6 +129,7 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:10203/v2
 |*pipeDelimitedNotExplodeStringMap* | *POST* /query/map/string-mapping/pipeDelimited-not-explode/pipeDelimitedNotExplodeMap | pipeDelimited style with explode=false for query map parameter of string values..|
 |*queryAndPathParams* | *POST* /path/string/matrix-explode/{stringParameter}/query/array/spaceDelimited-not-explode | matrix style for path string parameter with explode=true and spaceDelimited style for query array parameter with explode=false.|
 |*severalExplodeCookies* | *POST* /cookie/several-cookies/form-explode/severalExplodeCookies | .|
+|*severalHeaderParametersOp* | *POST* /header/several-headers/simple/severalHeaderParameters | .|
 |*severalNotExplodeCookies* | *POST* /cookie/several-cookies/form-not-explode/severalNotExplodeCookies | .|
 |*simpleExplodeAnytype* | *GET* /path/anytype/simple-explode/{anytypeParameter} | simple anytype explode.|
 |*simpleExplodeArray* | *GET* /path/array/simple-explode/{arrayParameter} | simple array explode.|

@@ -940,6 +940,15 @@ public:
     /**
     * \internal
     * The auto-generated API:
+    * void severalHeaderParametersOp(const ::QtOpenAPI::OptionalParam<QString> &stringParameter, const ::QtOpenAPI::OptionalParam<qint32> &intParameter, const ::QtOpenAPI::OptionalParam<QtOAITestObject> &objectParameter);
+    * void severalHeaderParametersOp(const ::QtOpenAPI::OptionalParam<QString> &stringParameter, const ::QtOpenAPI::OptionalParam<qint32> &intParameter, const ::QtOpenAPI::OptionalParam<QtOAITestObject> &objectParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(severalHeaderParametersOp, (const ::QtOpenAPI::OptionalParam<QString> &stringParameter = ::QtOpenAPI::OptionalParam<QString>(), const ::QtOpenAPI::OptionalParam<qint32> &intParameter = ::QtOpenAPI::OptionalParam<qint32>(), const ::QtOpenAPI::OptionalParam<QtOAITestObject> &objectParameter = ::QtOpenAPI::OptionalParam<QtOAITestObject>()), (stringParameter, intParameter, objectParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
     * void severalNotExplodeCookies(const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter, const ::QtOpenAPI::OptionalParam<qint64> &intParameter);
     * void severalNotExplodeCookies(const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter, const ::QtOpenAPI::OptionalParam<qint64> &intParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
     * \endinternal
@@ -1603,6 +1612,10 @@ Q_SIGNALS:
     void severalExplodeCookiesFinished(const QString &summary);
     /** Signal is emitted, if severalExplodeCookies() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void severalExplodeCookiesErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if severalHeaderParametersOp() request completed successfully. The \a summary contains a serialized server response. */
+    void severalHeaderParametersOpFinished(const QString &summary);
+    /** Signal is emitted, if severalHeaderParametersOp() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void severalHeaderParametersOpErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if severalNotExplodeCookies() request completed successfully. The \a summary contains a serialized server response. */
     void severalNotExplodeCookiesFinished(const QString &summary);
     /** Signal is emitted, if severalNotExplodeCookies() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
