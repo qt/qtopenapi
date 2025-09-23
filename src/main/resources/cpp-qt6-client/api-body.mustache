@@ -152,14 +152,13 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
             pathStyle = "simple";
         const QString pathPrefix = getParamStylePrefix(pathStyle);
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, {{isExplode}});
+        const bool isObject = {{^isAnyType}}{{isModel}} || {{isMap}}{{/isAnyType}}{{#isAnyType}}{{paramName}}.type() == QJsonValue::Object{{/isAnyType}};
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, {{isExplode}}, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"{{baseName}}"_s, {{isExplode}}, isObject);
 {{^isAnyType}}
-        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, {{isExplode}}, (!{{isPrimitiveType}} && !{{isArray}}));
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"{{baseName}}"_s, {{isExplode}}, (!{{isPrimitiveType}} && !{{isArray}}));
         QString paramString = pathPrefix + pathSuffix;
 {{/isAnyType}}
 {{#isAnyType}}
-        const QString assignOperator = getParamStyleAssignOperator(pathStyle, {{isExplode}}, {{paramName}}.type() == QJsonValue::Object);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"{{baseName}}"_s, {{isExplode}}, {{paramName}}.type() == QJsonValue::Object);
         QString paramString = pathPrefix + serializeJsonValue({{paramName}}, pathStyle, {{isExplode}}, pathSuffix, assignOperator, pathDelimiter, true);
 {{/isAnyType}}
 {{#isModel}}
@@ -202,9 +201,10 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
             queryStyle = "form";
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, {{isExplode}});
+        const bool isObject = {{^isAnyType}}{{isModel}} || {{isMap}}{{/isAnyType}}{{#isAnyType}}{{paramName}}{{^required}}.value(){{/required}}.type() == QJsonValue::Object{{/isAnyType}};
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"{{baseName}}"_s, {{isExplode}}, isObject);
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, {{isExplode}}, isObject);
 {{^isAnyType}}
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"{{baseName}}"_s, {{isExplode}}, (!{{isPrimitiveType}} && !{{isArray}}));
-        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, {{isExplode}}, (!{{isPrimitiveType}} && !{{isArray}}));
 {{^isArray}}
 {{^isDeepObject}}
         paramString = querySuffix;
@@ -231,10 +231,6 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
                              qPrintable(queryStyle));
                 }
             }
-            const QString querySuffix = getParamStyleSuffix(queryStyle, u"{{baseName}}"_s, {{isExplode}}, paramType == QJsonValue::Object);
-            const QString queryAssignOperator
-                = getParamStyleAssignOperator(queryStyle, {{isExplode}},
-                                              paramType == QJsonValue::Object);
             paramString = serializeJsonValue({{paramName}}{{^required}}.value(){{/required}}, queryStyle, {{isExplode}}, querySuffix, queryAssignOperator, queryDelimiter, true);
             fullPath.append(paramString);
 {{/isAnyType}}

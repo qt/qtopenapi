@@ -117,8 +117,9 @@ void QtOAIFakeApi::testPathParameterCollectionFormatWithDataImpl(const QList<QSt
             pathStyle = "simple";
         const QString pathPrefix = getParamStylePrefix(pathStyle);
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
-        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !true));
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"pipeId"_s, false, (!false && !true));
+        const bool isObject = false || false;
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"pipeId"_s, false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString = pathPrefix + serializeArrayValue(pipeId, pathStyle, false, pathSuffix, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
@@ -135,8 +136,9 @@ void QtOAIFakeApi::testPathParameterCollectionFormatWithDataImpl(const QList<QSt
             pathStyle = "simple";
         const QString pathPrefix = getParamStylePrefix(pathStyle);
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
-        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !true));
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"ioutilId"_s, false, (!false && !true));
+        const bool isObject = false || false;
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"ioutilId"_s, false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString = pathPrefix + serializeArrayValue(ioutilId, pathStyle, false, pathSuffix, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
@@ -153,8 +155,9 @@ void QtOAIFakeApi::testPathParameterCollectionFormatWithDataImpl(const QList<QSt
             pathStyle = "simple";
         const QString pathPrefix = getParamStylePrefix(pathStyle);
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
-        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !true));
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"httpId"_s, false, (!false && !true));
+        const bool isObject = false || false;
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"httpId"_s, false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString = pathPrefix + serializeArrayValue(httpId, pathStyle, false, pathSuffix, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
@@ -171,8 +174,9 @@ void QtOAIFakeApi::testPathParameterCollectionFormatWithDataImpl(const QList<QSt
             pathStyle = "simple";
         const QString pathPrefix = getParamStylePrefix(pathStyle);
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
-        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !true));
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"urlId"_s, false, (!false && !true));
+        const bool isObject = false || false;
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"urlId"_s, false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString = pathPrefix + serializeArrayValue(urlId, pathStyle, false, pathSuffix, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
@@ -189,8 +193,9 @@ void QtOAIFakeApi::testPathParameterCollectionFormatWithDataImpl(const QList<QSt
             pathStyle = "simple";
         const QString pathPrefix = getParamStylePrefix(pathStyle);
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
-        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, (!false && !true));
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"multiContextId"_s, false, (!false && !true));
+        const bool isObject = false || false;
+        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"multiContextId"_s, false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString = pathPrefix + serializeArrayValue(multiContextId, pathStyle, false, pathSuffix, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
@@ -325,8 +330,9 @@ void QtOAIFakeApi::testQueryParameterCollectionFormatWithDataImpl(const QList<QS
             queryStyle = "form";
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"pipe"_s, false, (!false && !true));
-        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, (!false && !true));
+        const bool isObject = false || false;
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"pipe"_s, false, isObject);
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
         {
@@ -343,8 +349,9 @@ void QtOAIFakeApi::testQueryParameterCollectionFormatWithDataImpl(const QList<QS
             queryStyle = "form";
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"ioutil"_s, false, (!false && !true));
-        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, (!false && !true));
+        const bool isObject = false || false;
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"ioutil"_s, false, isObject);
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
         {
@@ -361,8 +368,9 @@ void QtOAIFakeApi::testQueryParameterCollectionFormatWithDataImpl(const QList<QS
             queryStyle = "form";
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"http"_s, false, (!false && !true));
-        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, (!false && !true));
+        const bool isObject = false || false;
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"http"_s, false, isObject);
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
         {
@@ -379,8 +387,9 @@ void QtOAIFakeApi::testQueryParameterCollectionFormatWithDataImpl(const QList<QS
             queryStyle = "form";
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"url"_s, false, (!false && !true));
-        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, (!false && !true));
+        const bool isObject = false || false;
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"url"_s, false, isObject);
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
         {
@@ -397,8 +406,9 @@ void QtOAIFakeApi::testQueryParameterCollectionFormatWithDataImpl(const QList<QS
             queryStyle = "form";
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"multiContext"_s, true, (!false && !true));
-        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, (!false && !true));
+        const bool isObject = false || false;
+        const QString querySuffix = getParamStyleSuffix(queryStyle, u"multiContext"_s, true, isObject);
+        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
         {
