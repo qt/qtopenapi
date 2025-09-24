@@ -121,7 +121,7 @@ void QtOAIUserApi::createInQueryMapWithDataImpl(const QMap<QString, QString> &us
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || true;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"username"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"username"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -583,7 +583,7 @@ void QtOAIUserApi::deleteUserWithDataImpl(const QtOAIUser &username, const QObje
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = true || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"username"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"username"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString = pathPrefix + serializeJsonValue(QJsonValue(username.asJsonObject()), pathStyle, false, pathSuffix, assignOperator, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
@@ -701,7 +701,7 @@ void QtOAIUserApi::getUserByNameWithDataImpl(const QMap<QString, qint32> &userna
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || true;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"username"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"username"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString.append(serializeMapValue(username, assignOperator, pathDelimiter, true));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -825,7 +825,7 @@ void QtOAIUserApi::loginUserWithDataImpl(const ::QtOpenAPI::OptionalParam<QStrin
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"username"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"username"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -856,7 +856,7 @@ void QtOAIUserApi::loginUserWithDataImpl(const ::QtOpenAPI::OptionalParam<QStrin
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"password"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"password"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -996,7 +996,7 @@ void QtOAIUserApi::logoutUserWithDataImpl(const QJsonValue &username, const QObj
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = username.type() == QJsonValue::Object;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"username"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"username"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
@@ -1136,7 +1136,7 @@ void QtOAIUserApi::updateUserWithDataImpl(const QString &username, const QtOAIUs
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"username"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"username"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(username));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -1155,7 +1155,7 @@ void QtOAIUserApi::updateUserWithDataImpl(const QString &username, const QtOAIUs
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = true || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"body"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"body"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))

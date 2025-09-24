@@ -335,7 +335,7 @@ void QtOAITestApi::deepObjectExplodeAnytypeWithDataImpl(const QJsonValue &anytyp
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = anytypeParameter.type() == QJsonValue::Object;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"anytypeParameter"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"anytypeParameter"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
@@ -474,7 +474,7 @@ void QtOAITestApi::deepObjectExplodeModelMapWithDataImpl(const QMap<QString, QtO
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || true;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"mapParameter"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"mapParameter"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
@@ -614,7 +614,7 @@ void QtOAITestApi::deepObjectExplodeObjectWithDataImpl(const QtOAITestObject &ob
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = true || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"objectParameter"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"objectParameter"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
@@ -747,7 +747,7 @@ void QtOAITestApi::deepObjectExplodeStringMapWithDataImpl(const QMap<QString, QS
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || true;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"mapParameter"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"mapParameter"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
@@ -885,7 +885,7 @@ void QtOAITestApi::deepObjectNotExplodeObjectWithDataImpl(const ::QtOpenAPI::Opt
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = true || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"objectParameter"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"objectParameter"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
@@ -1018,7 +1018,7 @@ void QtOAITestApi::formExplodeAnytypeWithDataImpl(const QJsonValue &anytypeParam
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = anytypeParameter.type() == QJsonValue::Object;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"anytypeParameter"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"anytypeParameter"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
@@ -1157,7 +1157,7 @@ void QtOAITestApi::formExplodeArrayWithDataImpl(const QList<qint32> &arrayParame
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"arrayParameter"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"arrayParameter"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
@@ -1284,7 +1284,7 @@ void QtOAITestApi::formExplodeDifferentOptionsWithDataImpl(const qint32 &stringP
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = true || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"objectParameter"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"objectParameter"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -1313,7 +1313,7 @@ void QtOAITestApi::formExplodeDifferentOptionsWithDataImpl(const qint32 &stringP
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"stringParameterB"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"stringParameterB"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -1438,7 +1438,7 @@ void QtOAITestApi::formExplodeDoubleWithDataImpl(const ::QtOpenAPI::OptionalPara
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"doubleParameter"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"doubleParameter"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -1560,7 +1560,7 @@ void QtOAITestApi::formExplodeFloatWithDataImpl(const ::QtOpenAPI::OptionalParam
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"floatParameter"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"floatParameter"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -1682,7 +1682,7 @@ void QtOAITestApi::formExplodeIntWithDataImpl(const ::QtOpenAPI::OptionalParam<q
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"intParameter"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"intParameter"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -1807,7 +1807,7 @@ void QtOAITestApi::formExplodeModelMapWithDataImpl(const QMap<QString, QtOAITest
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || true;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"mapParameter"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"mapParameter"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -1948,7 +1948,7 @@ void QtOAITestApi::formExplodeObjectWithDataImpl(const QtOAITestObject &objectPa
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = true || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"objectParameter"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"objectParameter"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -2082,7 +2082,7 @@ void QtOAITestApi::formExplodeStringWithDataImpl(const ::QtOpenAPI::OptionalPara
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"stringParameter"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"stringParameter"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -2207,7 +2207,7 @@ void QtOAITestApi::formExplodeStringMapWithDataImpl(const QMap<QString, QString>
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || true;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"mapParameter"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"mapParameter"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -2351,7 +2351,7 @@ void QtOAITestApi::formExplodeStringOptionsWithDataImpl(const QString &stringPar
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"stringParameterA"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"stringParameterA"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -2382,7 +2382,7 @@ void QtOAITestApi::formExplodeStringOptionsWithDataImpl(const QString &stringPar
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"stringParameterB"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"stringParameterB"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -2402,7 +2402,7 @@ void QtOAITestApi::formExplodeStringOptionsWithDataImpl(const QString &stringPar
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"stringParameterC"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"stringParameterC"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -2538,7 +2538,7 @@ void QtOAITestApi::formNotExplodeAnytypeWithDataImpl(const ::QtOpenAPI::Optional
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = anytypeParameter.value().type() == QJsonValue::Object;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"anytypeParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"anytypeParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
@@ -2677,7 +2677,7 @@ void QtOAITestApi::formNotExplodeArrayWithDataImpl(const ::QtOpenAPI::OptionalPa
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"arrayParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"arrayParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
@@ -2801,7 +2801,7 @@ void QtOAITestApi::formNotExplodeDoubleWithDataImpl(const ::QtOpenAPI::OptionalP
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"doubleParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"doubleParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -2923,7 +2923,7 @@ void QtOAITestApi::formNotExplodeFloatWithDataImpl(const ::QtOpenAPI::OptionalPa
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"floatParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"floatParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -3045,7 +3045,7 @@ void QtOAITestApi::formNotExplodeIntWithDataImpl(const ::QtOpenAPI::OptionalPara
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"intParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"intParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -3170,7 +3170,7 @@ void QtOAITestApi::formNotExplodeModelMapWithDataImpl(const ::QtOpenAPI::Optiona
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = false || true;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"mapParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"mapParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -3311,7 +3311,7 @@ void QtOAITestApi::formNotExplodeObjectWithDataImpl(const ::QtOpenAPI::OptionalP
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = true || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"objectParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"objectParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -3445,7 +3445,7 @@ void QtOAITestApi::formNotExplodeStringWithDataImpl(const ::QtOpenAPI::OptionalP
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"stringParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"stringParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -3570,7 +3570,7 @@ void QtOAITestApi::formNotExplodeStringMapWithDataImpl(const ::QtOpenAPI::Option
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = false || true;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"mapParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"mapParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -3711,7 +3711,7 @@ void QtOAITestApi::headerSimpleExplodeAnytypeWithDataImpl(const QJsonValue &anyT
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"queryParameter"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"queryParameter"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -3849,7 +3849,7 @@ void QtOAITestApi::headerSimpleExplodeArrayWithDataImpl(const QList<qint32> &arr
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"queryParameter"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"queryParameter"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -3987,7 +3987,7 @@ void QtOAITestApi::headerSimpleExplodeMapWithDataImpl(const QMap<QString, QStrin
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"queryParameter"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"queryParameter"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -4125,7 +4125,7 @@ void QtOAITestApi::headerSimpleExplodeObjectWithDataImpl(const QtOAITestObject &
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"queryParameter"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"queryParameter"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -4266,7 +4266,7 @@ void QtOAITestApi::headerSimpleExplodeStringWithDataImpl(const QString &stringPa
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"queryParameter"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"queryParameter"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -4404,7 +4404,7 @@ void QtOAITestApi::headerSimpleNotExplodeAnytypeWithDataImpl(const ::QtOpenAPI::
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"queryParameter"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"queryParameter"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -4542,7 +4542,7 @@ void QtOAITestApi::headerSimpleNotExplodeArrayWithDataImpl(const ::QtOpenAPI::Op
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"queryParameter"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"queryParameter"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -4910,7 +4910,7 @@ void QtOAITestApi::headerSimpleNotExplodeMapWithDataImpl(const ::QtOpenAPI::Opti
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"queryParameter"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"queryParameter"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -5048,7 +5048,7 @@ void QtOAITestApi::headerSimpleNotExplodeObjectWithDataImpl(const ::QtOpenAPI::O
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"queryParameter"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"queryParameter"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -5189,7 +5189,7 @@ void QtOAITestApi::headerSimpleNotExplodeStringWithDataImpl(const ::QtOpenAPI::O
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"queryParameter"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"queryParameter"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -5325,7 +5325,7 @@ void QtOAITestApi::invalidDeepObjectNotExplodeArrayWithDataImpl(const ::QtOpenAP
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"arrayParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"arrayParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
@@ -5450,7 +5450,7 @@ void QtOAITestApi::invalidDeepObjectNotExplodeStringWithDataImpl(const ::QtOpenA
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"stringParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"stringParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
@@ -5575,7 +5575,7 @@ void QtOAITestApi::invalidFormExplodeStringWithDataImpl(const QString &stringPar
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"stringParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"stringParameter"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(stringParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -5700,7 +5700,7 @@ void QtOAITestApi::invalidMatrixExplodeStringWithDataImpl(const ::QtOpenAPI::Opt
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"stringParameter"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"stringParameter"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -5829,7 +5829,7 @@ void QtOAITestApi::invalidStylesQueryPathParamsWithDataImpl(const QString &strin
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"stringParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"stringParameter"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(stringParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -5849,7 +5849,7 @@ void QtOAITestApi::invalidStylesQueryPathParamsWithDataImpl(const QString &strin
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"arrayParameter"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"arrayParameter"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
@@ -5973,7 +5973,7 @@ void QtOAITestApi::labelExplodeAnytypeWithDataImpl(const QJsonValue &anytypePara
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = anytypeParameter.type() == QJsonValue::Object;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"anytypeParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"anytypeParameter"_s), true, isObject);
         QString paramString = pathPrefix + serializeJsonValue(anytypeParameter, pathStyle, true, pathSuffix, assignOperator, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -6096,7 +6096,7 @@ void QtOAITestApi::labelExplodeArrayWithDataImpl(const QList<qint32> &arrayParam
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"arrayParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"arrayParameter"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString = pathPrefix + serializeArrayValue(arrayParameter, pathStyle, true, pathSuffix, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
@@ -6220,7 +6220,7 @@ void QtOAITestApi::labelExplodeDoubleWithDataImpl(const double &doubleParameter,
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"doubleParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"doubleParameter"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(doubleParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -6341,7 +6341,7 @@ void QtOAITestApi::labelExplodeFloatWithDataImpl(const float &floatParameter, co
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"floatParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"floatParameter"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(floatParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -6462,7 +6462,7 @@ void QtOAITestApi::labelExplodeIntWithDataImpl(const qint64 &intParameter, const
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"intParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"intParameter"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(intParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -6586,7 +6586,7 @@ void QtOAITestApi::labelExplodeModelMapWithDataImpl(const QMap<QString, QtOAITes
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = false || true;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"mapParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"mapParameter"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         qWarning() << "Serialization of complex array or object properties in path or query "
                       "parameters is undefined. The generated result will not conform to the "
@@ -6713,7 +6713,7 @@ void QtOAITestApi::labelExplodeObjectWithDataImpl(const QtOAITestObject &objectP
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = true || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"objectParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"objectParameter"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString = pathPrefix + serializeJsonValue(QJsonValue(objectParameter.asJsonObject()), pathStyle, true, pathSuffix, assignOperator, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
@@ -6837,7 +6837,7 @@ void QtOAITestApi::labelExplodeStringWithDataImpl(const QString &stringParameter
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"stringParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"stringParameter"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(stringParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -6961,7 +6961,7 @@ void QtOAITestApi::labelExplodeStringMapWithDataImpl(const QMap<QString, QString
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = false || true;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"mapParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"mapParameter"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString.append(serializeMapValue(mapParameter, assignOperator, pathDelimiter, true));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -7085,7 +7085,7 @@ void QtOAITestApi::labelNotExplodeAnytypeWithDataImpl(const QJsonValue &anytypeP
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = anytypeParameter.type() == QJsonValue::Object;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"anytypeParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"anytypeParameter"_s), false, isObject);
         QString paramString = pathPrefix + serializeJsonValue(anytypeParameter, pathStyle, false, pathSuffix, assignOperator, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -7208,7 +7208,7 @@ void QtOAITestApi::labelNotExplodeArrayWithDataImpl(const QList<qint32> &arrayPa
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"arrayParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"arrayParameter"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString = pathPrefix + serializeArrayValue(arrayParameter, pathStyle, false, pathSuffix, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
@@ -7332,7 +7332,7 @@ void QtOAITestApi::labelNotExplodeDoubleWithDataImpl(const double &doubleParamet
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"doubleParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"doubleParameter"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(doubleParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -7453,7 +7453,7 @@ void QtOAITestApi::labelNotExplodeFloatWithDataImpl(const float &floatParameter,
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"floatParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"floatParameter"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(floatParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -7574,7 +7574,7 @@ void QtOAITestApi::labelNotExplodeIntWithDataImpl(const qint64 &intParameter, co
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"intParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"intParameter"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(intParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -7698,7 +7698,7 @@ void QtOAITestApi::labelNotExplodeModelMapWithDataImpl(const QMap<QString, QtOAI
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || true;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"mapParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"mapParameter"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         qWarning() << "Serialization of complex array or object properties in path or query "
                       "parameters is undefined. The generated result will not conform to the "
@@ -7825,7 +7825,7 @@ void QtOAITestApi::labelNotExplodeObjectWithDataImpl(const QtOAITestObject &obje
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = true || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"objectParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"objectParameter"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString = pathPrefix + serializeJsonValue(QJsonValue(objectParameter.asJsonObject()), pathStyle, false, pathSuffix, assignOperator, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
@@ -7949,7 +7949,7 @@ void QtOAITestApi::labelNotExplodeStringWithDataImpl(const QString &stringParame
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"stringParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"stringParameter"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(stringParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -8073,7 +8073,7 @@ void QtOAITestApi::labelNotExplodeStringMapWithDataImpl(const QMap<QString, QStr
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || true;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"mapParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"mapParameter"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString.append(serializeMapValue(mapParameter, assignOperator, pathDelimiter, true));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -8200,7 +8200,7 @@ void QtOAITestApi::labelStringMatrixArrayNotExplodeWithDataImpl(const QString &s
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"stringParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"stringParameter"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(stringParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -8219,7 +8219,7 @@ void QtOAITestApi::labelStringMatrixArrayNotExplodeWithDataImpl(const QString &s
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"arrayParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"arrayParameter"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString = pathPrefix + serializeArrayValue(arrayParameter, pathStyle, false, pathSuffix, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
@@ -8343,7 +8343,7 @@ void QtOAITestApi::matrixExplodeAnytypeWithDataImpl(const QJsonValue &anytypePar
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = anytypeParameter.type() == QJsonValue::Object;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"anytypeParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"anytypeParameter"_s), true, isObject);
         QString paramString = pathPrefix + serializeJsonValue(anytypeParameter, pathStyle, true, pathSuffix, assignOperator, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -8466,7 +8466,7 @@ void QtOAITestApi::matrixExplodeArrayWithDataImpl(const QList<qint32> &arrayPara
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"arrayParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"arrayParameter"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString = pathPrefix + serializeArrayValue(arrayParameter, pathStyle, true, pathSuffix, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
@@ -8590,7 +8590,7 @@ void QtOAITestApi::matrixExplodeDoubleWithDataImpl(const double &doubleParameter
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"doubleParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"doubleParameter"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(doubleParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -8711,7 +8711,7 @@ void QtOAITestApi::matrixExplodeFloatWithDataImpl(const float &floatParameter, c
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"floatParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"floatParameter"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(floatParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -8832,7 +8832,7 @@ void QtOAITestApi::matrixExplodeIntWithDataImpl(const qint64 &intParameter, cons
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"intParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"intParameter"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(intParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -8956,7 +8956,7 @@ void QtOAITestApi::matrixExplodeModelMapWithDataImpl(const QMap<QString, QtOAITe
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = false || true;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"mapParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"mapParameter"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         qWarning() << "Serialization of complex array or object properties in path or query "
                       "parameters is undefined. The generated result will not conform to the "
@@ -9083,7 +9083,7 @@ void QtOAITestApi::matrixExplodeObjectWithDataImpl(const QtOAITestObject &object
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = true || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"objectParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"objectParameter"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString = pathPrefix + serializeJsonValue(QJsonValue(objectParameter.asJsonObject()), pathStyle, true, pathSuffix, assignOperator, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
@@ -9207,7 +9207,7 @@ void QtOAITestApi::matrixExplodeStringWithDataImpl(const QString &stringParamete
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"stringParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"stringParameter"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(stringParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -9331,7 +9331,7 @@ void QtOAITestApi::matrixExplodeStringMapWithDataImpl(const QMap<QString, QStrin
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = false || true;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"mapParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"mapParameter"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString.append(serializeMapValue(mapParameter, assignOperator, pathDelimiter, true));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -9455,7 +9455,7 @@ void QtOAITestApi::matrixNotExplodeAnytypeWithDataImpl(const QJsonValue &anytype
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = anytypeParameter.type() == QJsonValue::Object;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"anytypeParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"anytypeParameter"_s), false, isObject);
         QString paramString = pathPrefix + serializeJsonValue(anytypeParameter, pathStyle, false, pathSuffix, assignOperator, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -9578,7 +9578,7 @@ void QtOAITestApi::matrixNotExplodeArrayWithDataImpl(const QList<qint32> &arrayP
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"arrayParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"arrayParameter"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString = pathPrefix + serializeArrayValue(arrayParameter, pathStyle, false, pathSuffix, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
@@ -9702,7 +9702,7 @@ void QtOAITestApi::matrixNotExplodeDoubleWithDataImpl(const double &doubleParame
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"doubleParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"doubleParameter"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(doubleParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -9823,7 +9823,7 @@ void QtOAITestApi::matrixNotExplodeFloatWithDataImpl(const float &floatParameter
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"floatParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"floatParameter"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(floatParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -9944,7 +9944,7 @@ void QtOAITestApi::matrixNotExplodeIntWithDataImpl(const qint64 &intParameter, c
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"intParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"intParameter"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(intParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -10068,7 +10068,7 @@ void QtOAITestApi::matrixNotExplodeModelMapWithDataImpl(const QMap<QString, QtOA
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || true;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"mapParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"mapParameter"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         qWarning() << "Serialization of complex array or object properties in path or query "
                       "parameters is undefined. The generated result will not conform to the "
@@ -10195,7 +10195,7 @@ void QtOAITestApi::matrixNotExplodeObjectWithDataImpl(const QtOAITestObject &obj
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = true || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"objectParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"objectParameter"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString = pathPrefix + serializeJsonValue(QJsonValue(objectParameter.asJsonObject()), pathStyle, false, pathSuffix, assignOperator, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
@@ -10319,7 +10319,7 @@ void QtOAITestApi::matrixNotExplodeStringWithDataImpl(const QString &stringParam
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"stringParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"stringParameter"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(stringParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -10443,7 +10443,7 @@ void QtOAITestApi::matrixNotExplodeStringMapWithDataImpl(const QMap<QString, QSt
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || true;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"mapParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"mapParameter"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString.append(serializeMapValue(mapParameter, assignOperator, pathDelimiter, true));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -10568,7 +10568,7 @@ void QtOAITestApi::pipeDelimitedExplodeAnytypeWithDataImpl(const QJsonValue &any
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = anytypeParameter.type() == QJsonValue::Object;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"anytypeParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"anytypeParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
@@ -10708,7 +10708,7 @@ void QtOAITestApi::pipeDelimitedExplodeArrayWithDataImpl(const QList<qint32> &ar
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"arrayParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"arrayParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
@@ -10833,7 +10833,7 @@ void QtOAITestApi::pipeDelimitedExplodeObjectWithDataImpl(const QtOAITestObject 
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = true || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"objectParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"objectParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -10967,7 +10967,7 @@ void QtOAITestApi::pipeDelimitedNotExplodeAnytypeWithDataImpl(const ::QtOpenAPI:
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = anytypeParameter.value().type() == QJsonValue::Object;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"anytypeParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"anytypeParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
@@ -11106,7 +11106,7 @@ void QtOAITestApi::pipeDelimitedNotExplodeArrayWithDataImpl(const ::QtOpenAPI::O
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"arrayParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"arrayParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
@@ -11230,7 +11230,7 @@ void QtOAITestApi::pipeDelimitedNotExplodeModelMapWithDataImpl(const ::QtOpenAPI
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = false || true;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"mapParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"mapParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -11371,7 +11371,7 @@ void QtOAITestApi::pipeDelimitedNotExplodeObjectWithDataImpl(const ::QtOpenAPI::
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = true || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"objectParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"objectParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -11505,7 +11505,7 @@ void QtOAITestApi::pipeDelimitedNotExplodeStringMapWithDataImpl(const ::QtOpenAP
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = false || true;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"mapParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"mapParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -11646,7 +11646,7 @@ void QtOAITestApi::queryAndPathParamsWithDataImpl(const QString &stringParameter
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"stringParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"stringParameter"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(stringParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -11665,7 +11665,7 @@ void QtOAITestApi::queryAndPathParamsWithDataImpl(const QString &stringParameter
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"arrayParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"arrayParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
@@ -11789,7 +11789,7 @@ void QtOAITestApi::simpleExplodeAnytypeWithDataImpl(const QJsonValue &anytypePar
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = anytypeParameter.type() == QJsonValue::Object;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"anytypeParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"anytypeParameter"_s), true, isObject);
         QString paramString = pathPrefix + serializeJsonValue(anytypeParameter, pathStyle, true, pathSuffix, assignOperator, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -11912,7 +11912,7 @@ void QtOAITestApi::simpleExplodeArrayWithDataImpl(const QList<qint32> &arrayPara
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"arrayParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"arrayParameter"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString = pathPrefix + serializeArrayValue(arrayParameter, pathStyle, true, pathSuffix, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
@@ -12036,7 +12036,7 @@ void QtOAITestApi::simpleExplodeDoubleWithDataImpl(const double &doubleParameter
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"doubleParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"doubleParameter"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(doubleParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -12157,7 +12157,7 @@ void QtOAITestApi::simpleExplodeFloatWithDataImpl(const float &floatParameter, c
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"floatParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"floatParameter"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(floatParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -12278,7 +12278,7 @@ void QtOAITestApi::simpleExplodeIntWithDataImpl(const qint64 &intParameter, cons
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"intParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"intParameter"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(intParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -12402,7 +12402,7 @@ void QtOAITestApi::simpleExplodeModelMapWithDataImpl(const QMap<QString, QtOAITe
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = false || true;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"mapParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"mapParameter"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         qWarning() << "Serialization of complex array or object properties in path or query "
                       "parameters is undefined. The generated result will not conform to the "
@@ -12529,7 +12529,7 @@ void QtOAITestApi::simpleExplodeObjectWithDataImpl(const QtOAITestObject &object
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = true || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"objectParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"objectParameter"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString = pathPrefix + serializeJsonValue(QJsonValue(objectParameter.asJsonObject()), pathStyle, true, pathSuffix, assignOperator, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
@@ -12653,7 +12653,7 @@ void QtOAITestApi::simpleExplodeStringWithDataImpl(const QString &stringParamete
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"stringParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"stringParameter"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(stringParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -12777,7 +12777,7 @@ void QtOAITestApi::simpleExplodeStringMapWithDataImpl(const QMap<QString, QStrin
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = false || true;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"mapParameter"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"mapParameter"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString.append(serializeMapValue(mapParameter, assignOperator, pathDelimiter, true));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -12904,7 +12904,7 @@ void QtOAITestApi::simpleExplodeStringsWithDataImpl(const QString &stringParamet
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"stringParameter1"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"stringParameter1"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(stringParameter1));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -12923,7 +12923,7 @@ void QtOAITestApi::simpleExplodeStringsWithDataImpl(const QString &stringParamet
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, true);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, true, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"stringParameter2"_s, true, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"stringParameter2"_s), true, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(stringParameter2));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -13047,7 +13047,7 @@ void QtOAITestApi::simpleNotExplodeAnytypeWithDataImpl(const QJsonValue &anytype
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = anytypeParameter.type() == QJsonValue::Object;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"anytypeParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"anytypeParameter"_s), false, isObject);
         QString paramString = pathPrefix + serializeJsonValue(anytypeParameter, pathStyle, false, pathSuffix, assignOperator, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
@@ -13170,7 +13170,7 @@ void QtOAITestApi::simpleNotExplodeArrayWithDataImpl(const QList<qint32> &arrayP
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"arrayParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"arrayParameter"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString = pathPrefix + serializeArrayValue(arrayParameter, pathStyle, false, pathSuffix, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
@@ -13294,7 +13294,7 @@ void QtOAITestApi::simpleNotExplodeDoubleWithDataImpl(const double &doubleParame
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"doubleParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"doubleParameter"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(doubleParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -13415,7 +13415,7 @@ void QtOAITestApi::simpleNotExplodeFloatWithDataImpl(const float &floatParameter
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"floatParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"floatParameter"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(floatParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -13536,7 +13536,7 @@ void QtOAITestApi::simpleNotExplodeIntWithDataImpl(const qint64 &intParameter, c
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"intParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"intParameter"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(intParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -13660,7 +13660,7 @@ void QtOAITestApi::simpleNotExplodeModelMapWithDataImpl(const QMap<QString, QtOA
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || true;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"mapParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"mapParameter"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         qWarning() << "Serialization of complex array or object properties in path or query "
                       "parameters is undefined. The generated result will not conform to the "
@@ -13787,7 +13787,7 @@ void QtOAITestApi::simpleNotExplodeObjectWithDataImpl(const QtOAITestObject &obj
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = true || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"objectParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"objectParameter"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString = pathPrefix + serializeJsonValue(QJsonValue(objectParameter.asJsonObject()), pathStyle, false, pathSuffix, assignOperator, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
@@ -13911,7 +13911,7 @@ void QtOAITestApi::simpleNotExplodeStringWithDataImpl(const QString &stringParam
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"stringParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"stringParameter"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(stringParameter));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -14035,7 +14035,7 @@ void QtOAITestApi::simpleNotExplodeStringMapWithDataImpl(const QMap<QString, QSt
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || true;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"mapParameter"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"mapParameter"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString.append(serializeMapValue(mapParameter, assignOperator, pathDelimiter, true));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -14160,7 +14160,7 @@ void QtOAITestApi::spaceDelimitedExplodeAnytypeWithDataImpl(const QJsonValue &an
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = anytypeParameter.type() == QJsonValue::Object;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"anytypeParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"anytypeParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
@@ -14300,7 +14300,7 @@ void QtOAITestApi::spaceDelimitedExplodeArrayWithDataImpl(const QList<qint32> &a
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"arrayParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"arrayParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
@@ -14425,7 +14425,7 @@ void QtOAITestApi::spaceDelimitedExplodeObjectWithDataImpl(const QtOAITestObject
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = true || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"objectParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"objectParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -14559,7 +14559,7 @@ void QtOAITestApi::spaceDelimitedNotExplodeAnytypeWithDataImpl(const ::QtOpenAPI
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = anytypeParameter.value().type() == QJsonValue::Object;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"anytypeParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"anytypeParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
@@ -14698,7 +14698,7 @@ void QtOAITestApi::spaceDelimitedNotExplodeArrayWithDataImpl(const ::QtOpenAPI::
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"arrayParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"arrayParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
@@ -14822,7 +14822,7 @@ void QtOAITestApi::spaceDelimitedNotExplodeModelMapWithDataImpl(const ::QtOpenAP
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = false || true;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"mapParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"mapParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -14963,7 +14963,7 @@ void QtOAITestApi::spaceDelimitedNotExplodeObjectWithDataImpl(const ::QtOpenAPI:
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = true || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"objectParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"objectParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -15098,7 +15098,7 @@ void QtOAITestApi::spaceDelimitedNotExplodeStringWithDataImpl(const ::QtOpenAPI:
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"stringParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"stringParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -15223,7 +15223,7 @@ void QtOAITestApi::spaceDelimitedNotExplodeStringMapWithDataImpl(const ::QtOpenA
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = false || true;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"mapParameter"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"mapParameter"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))

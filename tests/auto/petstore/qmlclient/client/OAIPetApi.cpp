@@ -243,7 +243,7 @@ void OAIPetApi::deletePetWithDataImpl(const qint64 &petId, const ::OpenAPI::Opti
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"petId"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"petId"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(petId));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -371,7 +371,7 @@ void OAIPetApi::findPetsByAgeAndPatienceWithDataImpl(const QList<qint32> &petDat
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"petData"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"petData"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString = pathPrefix + serializeArrayValue(petData, pathStyle, false, pathSuffix, pathDelimiter, true);
         // In case style=matrix and paramString is empty due to any reasons,
@@ -505,7 +505,7 @@ void OAIPetApi::findPetsByStatusWithDataImpl(const QList<QString> &status, const
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"status"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"status"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
@@ -639,7 +639,7 @@ void OAIPetApi::findPetsByTagsWithDataImpl(const QList<QString> &tags, const QOb
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"tags"_s, false, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"tags"_s), false, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);
@@ -773,7 +773,7 @@ void OAIPetApi::findPetsImageByIdWithDataImpl(const qint64 &petId, const QObject
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"petId"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"petId"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -898,7 +898,7 @@ void OAIPetApi::getJsonFileWithDataImpl(const qint64 &petId, const QObject *cont
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"petId"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"petId"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(petId));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -1024,7 +1024,7 @@ void OAIPetApi::getPetByIdWithDataImpl(const qint64 &petId, const QObject *conte
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"petId"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"petId"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(petId));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -1266,7 +1266,7 @@ void OAIPetApi::updatePetWithFormWithDataImpl(const qint64 &petId, const ::OpenA
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"petId"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"petId"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(petId));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -1406,7 +1406,7 @@ void OAIPetApi::uploadFileWithDataImpl(const qint64 &petId, const ::OpenAPI::Opt
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"petId"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"petId"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(petId));
         // In case style=matrix and paramString is empty due to any reasons,

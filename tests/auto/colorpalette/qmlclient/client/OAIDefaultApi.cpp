@@ -121,7 +121,7 @@ void OAIDefaultApi::testOperationWithDataImpl(const qint32 &pathParam, const ::O
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"path_param"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"path_param"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(pathParam));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -140,7 +140,7 @@ void OAIDefaultApi::testOperationWithDataImpl(const qint32 &pathParam, const ::O
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"query_param0"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"query_param0"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -160,7 +160,7 @@ void OAIDefaultApi::testOperationWithDataImpl(const qint32 &pathParam, const ::O
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = true || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"query_param1"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"query_param1"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -200,7 +200,7 @@ void OAIDefaultApi::testOperationWithDataImpl(const qint32 &pathParam, const ::O
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"query_param2"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"query_param2"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
             fullPath.append(queryPrefix);

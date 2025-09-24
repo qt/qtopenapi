@@ -224,7 +224,7 @@ void OAIColorsApi::deleteColorByIdWithDataImpl(const qint64 &id, const QObject *
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"id"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"id"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(id));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -342,7 +342,7 @@ void OAIColorsApi::getColorByIdWithDataImpl(const qint64 &id, const QObject *con
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"id"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"id"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(id));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -463,7 +463,7 @@ void OAIColorsApi::getColorsWithDataImpl(const ::OpenAPI::OptionalParam<qint32> 
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
         const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"page"_s, true, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"page"_s), true, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
         paramString = querySuffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
@@ -588,7 +588,7 @@ void OAIColorsApi::updateColorByIdWithDataImpl(const qint64 &id, const OAIColor 
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"id"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"id"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(id));
         // In case style=matrix and paramString is empty due to any reasons,

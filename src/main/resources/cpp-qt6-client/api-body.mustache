@@ -154,7 +154,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, {{isExplode}});
         const bool isObject = {{^isAnyType}}{{isModel}} || {{isMap}}{{/isAnyType}}{{#isAnyType}}{{paramName}}.type() == QJsonValue::Object{{/isAnyType}};
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, {{isExplode}}, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"{{baseName}}"_s, {{isExplode}}, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"{{baseName}}"_s), {{isExplode}}, isObject);
 {{^isAnyType}}
         QString paramString = pathPrefix + pathSuffix;
 {{/isAnyType}}
@@ -202,7 +202,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         const QString queryPrefix = getParamStylePrefix(queryStyle);
         [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, {{isExplode}});
         const bool isObject = {{^isAnyType}}{{isModel}} || {{isMap}}{{/isAnyType}}{{#isAnyType}}{{paramName}}{{^required}}.value(){{/required}}.type() == QJsonValue::Object{{/isAnyType}};
-        const QString querySuffix = getParamStyleSuffix(queryStyle, u"{{baseName}}"_s, {{isExplode}}, isObject);
+        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"{{baseName}}"_s), {{isExplode}}, isObject);
         [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, {{isExplode}}, isObject);
 {{^isAnyType}}
 {{^isArray}}

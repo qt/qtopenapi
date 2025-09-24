@@ -239,19 +239,19 @@ QString QtOAIBaseApi::getParamStyleSuffix(const QString &style, const QString &n
 {
     if (style == "matrix") {
         // for undefined cases "=" will be deleted on serialization.
-        return (isExplode && isObject) ? "" : QUrl::toPercentEncoding(name) + "=";
+        return (isExplode && isObject) ? "" : name + "=";
     } else if (style == "label") {
         return "";
     } else if (style == "form") {
-        return (isExplode && isObject) ? "" : QUrl::toPercentEncoding(name) + "=";
+        return (isExplode && isObject) ? "" : name + "=";
     } else if (style == "simple") {
         return "";
     } else if (style == "spaceDelimited") {
-        return QUrl::toPercentEncoding(name) + "=";
+        return name + "=";
     } else if (style == "pipeDelimited") {
-        return QUrl::toPercentEncoding(name) + "=";
+        return name + "=";
     } else if (style == "deepObject") {
-        return QUrl::toPercentEncoding(name);
+        return name;
     }
     Q_UNREACHABLE_RETURN(QString());
 }

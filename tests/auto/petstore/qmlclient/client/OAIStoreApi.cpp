@@ -111,7 +111,7 @@ void OAIStoreApi::deleteOrderWithDataImpl(const QString &orderId, const QObject 
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"orderId"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"orderId"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(orderId));
         // In case style=matrix and paramString is empty due to any reasons,
@@ -345,7 +345,7 @@ void OAIStoreApi::getOrderByIdWithDataImpl(const qint64 &orderId, const QObject 
         const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
         const bool isObject = false || false;
         [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, u"orderId"_s, false, isObject);
+        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"orderId"_s), false, isObject);
         QString paramString = pathPrefix + pathSuffix;
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(orderId));
         // In case style=matrix and paramString is empty due to any reasons,
