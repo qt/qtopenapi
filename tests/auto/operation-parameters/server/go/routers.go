@@ -831,6 +831,12 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
 			handleFunctions.TestAPI.HeaderSimpleNotExplodeString,
 		},
 		{
+			"HeaderInvalidLabelNotExplodeString",
+			http.MethodGet,
+			"/v2/header/string/invalid-label-not-explode/stringParameter",
+			handleFunctions.TestAPI.HeaderInvalidLabelNotExplodeString,
+		},
+		{
 			"HeaderSimpleNotExplodeContentType",
 			http.MethodGet,
 			"/v2/header/bad-header-name/simple-not-explode/operatoinParameter",

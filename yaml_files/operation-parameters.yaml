@@ -2364,6 +2364,25 @@ paths:
             application/json:
               schema:
                 type: string
+  /header/string/invalid-label-not-explode/stringParameter:
+    get:
+      tags: [test]
+      operationId: headerInvalidLabelNotExplodeString
+      summary: Invalid label style with explode false, replaced to simple.
+      parameters:
+        - name: String-Parameter
+          in: header
+          style: label # invalid, will fall back to simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
   /header/anytype/simple-explode/anytypeParameter:
     post:
       tags: [test]

@@ -162,6 +162,7 @@ private Q_SLOTS:
     void headerAdditionalCases_data();
     void headerAdditionalCases();
     void severalHeaderParameters();
+    void headerInvalidStyle();
     void cookieAnyTypeParameters_data();
     void cookieAnyTypeParameters();
     void cookieStringParameters_data();
@@ -1790,6 +1791,21 @@ void OperationParameters::severalHeaderParameters()
                                   QCOMPARE(getHeaderValue(summary, "Object-Parameter"_L1),
                                            "name=object-header,status=Awake!"_L1);
                               });
+}
+
+void OperationParameters::headerInvalidStyle()
+{
+    const QString stringValue = "Just some random string"_L1;
+    bool done = false;
+
+    const char *warningMsg = "'label' style is invalid for header parameters.\n"
+                             "Falling back to the default style 'simple'.";
+    QTest::ignoreMessage(QtWarningMsg, warningMsg);
+    headerInvalidLabelNotExplodeString(stringValue, this,
+        [&](const QRestReply &reply, const QString &summary) {
+            done = reply.isSuccess();
+            QCOMPARE(getHeaderValue(summary, "String-Parameter"), stringValue);
+        });
     QTRY_COMPARE_EQ(done, true);
 }
 

@@ -407,6 +407,9 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{#headerParams}}
     {{^required}}if ({{paramName}}.hasValue()){{/required}}
     {
+{{#vendorExtensions.x-warningMessage}}
+        qWarning("{{{vendorExtensions.x-warningMessage}}}");
+{{/vendorExtensions.x-warningMessage}}
         const QString headerStyle = "{{style}}"_L1.isEmpty() ? "simple"_L1 : "{{style}}"_L1;
         const QString headerDelimiter = getParamStyleDelimiter(headerStyle, {{isExplode}});
 {{^isAnyType}}

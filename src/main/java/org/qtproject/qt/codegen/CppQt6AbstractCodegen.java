@@ -425,6 +425,23 @@ public abstract class CppQt6AbstractCodegen extends AbstractCppCodegen implement
                     }
                 }
             }
+
+            // Look for unsupported styles for header parameters
+            if (operation.headerParams != null) {
+                // header parameters can only use style=="simple"
+                final String expectedStyle = "simple";
+                for (CodegenParameter param : operation.headerParams) {
+                    if (param.style != null && !param.style.equals(expectedStyle)) {
+                        String msg = String.format("'%s' style is invalid for header parameters.%n"
+                                                   + "Falling back to the default style '%s'.",
+                                                   param.style, expectedStyle);
+                        param.style = expectedStyle;
+                        param.vendorExtensions.put("x-warningMessage",
+                                                   msg.replaceAll("\\n", "\\\\n"));
+                        LOGGER.warn("{}: {}", operation.operationId, msg);
+                    }
+                }
+            }
         }
         if (isIncluded("QMap", imports)) {
             // Maps uses QString as key

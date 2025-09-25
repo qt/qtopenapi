@@ -65,6 +65,7 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:10203/v2
 |*formNotExplodeObject* | *POST* /query/object/form-not-explode/formNotExplodeObject | form object not explode.|
 |*formNotExplodeString* | *POST* /query/string/form-not-explode/formNotExplodeString | form style with explode set to false for string query parameter..|
 |*formNotExplodeStringMap* | *POST* /query/map/string-mapping/form-not-explode/formNotExplodeMap | Form style with explode=false for query map parameter of string values..|
+|*headerInvalidLabelNotExplodeString* | *GET* /header/string/invalid-label-not-explode/stringParameter | Invalid label style with explode false, replaced to simple..|
 |*headerSimpleExplodeAnytype* | *POST* /header/anytype/simple-explode/anytypeParameter | simple anytype explode.|
 |*headerSimpleExplodeArray* | *GET* /header/array/simple-explode/arrayParameter | simple array explode.|
 |*headerSimpleExplodeMap* | *POST* /header/map/simple-explode/mapParameter | simple map explode.|

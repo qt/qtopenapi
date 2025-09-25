@@ -115,6 +115,8 @@ void QtOAITestApi::initializeServerConfigs()
     m_serverIndices.insert("formNotExplodeString", 0);
     m_serverConfigs.insert("formNotExplodeStringMap", defaultConf);
     m_serverIndices.insert("formNotExplodeStringMap", 0);
+    m_serverConfigs.insert("headerInvalidLabelNotExplodeString", defaultConf);
+    m_serverIndices.insert("headerInvalidLabelNotExplodeString", 0);
     m_serverConfigs.insert("headerSimpleExplodeAnytype", defaultConf);
     m_serverIndices.insert("headerSimpleExplodeAnytype", 0);
     m_serverConfigs.insert("headerSimpleExplodeArray", defaultConf);
@@ -5232,6 +5234,122 @@ void QtOAITestApi::formNotExplodeStringMapCallback(const QRestReply &reply)
         callerInfo.slot->call(context, argv);
     }
     emit formNotExplodeStringMapFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::headerInvalidLabelNotExplodeString(const ::QtOpenAPI::OptionalParam<QString> &stringParameter = ::QtOpenAPI::OptionalParam<QString>())
+* 'headerInvalidLabelNotExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] stringParameter QString [optional]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::headerInvalidLabelNotExplodeString(const ::QtOpenAPI::OptionalParam<QString> &stringParameter = ::QtOpenAPI::OptionalParam<QString>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'headerInvalidLabelNotExplodeString' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    headerInvalidLabelNotExplodeString(stringParameter, this, [&](const QRestReply &reply, const QString &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual headerInvalidLabelNotExplodeStringWithDataImpl() in derived class.
+* The virtual headerInvalidLabelNotExplodeStringWithDataImpl() is being called by the template
+* function.
+
+* @param[in] stringParameter QString [optional]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::headerInvalidLabelNotExplodeStringCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by headerInvalidLabelNotExplodeStringFinished() or
+* being returned as a callback parameter of headerInvalidLabelNotExplodeString() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::headerInvalidLabelNotExplodeStringWithDataImpl(const ::QtOpenAPI::OptionalParam<QString> &stringParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the headerInvalidLabelNotExplodeString() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking headerInvalidLabelNotExplodeString() operation calls.
+
+* @param[in] stringParameter QString [optional]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::headerInvalidLabelNotExplodeStringWithDataImpl(const ::QtOpenAPI::OptionalParam<QString> &stringParameter, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["headerInvalidLabelNotExplodeString"][m_serverIndices.value("headerInvalidLabelNotExplodeString")].serverUrl();
+    QString fullPath = "/header/string/invalid-label-not-explode/stringParameter";
+    m_networkFactory->setBaseUrl(serverUrl);
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    if (stringParameter.hasValue())
+    {
+        qWarning("'label' style is invalid for header parameters.\nFalling back to the default style 'simple'.");
+        const QString headerStyle = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
+        const QString headerDelimiter = getParamStyleDelimiter(headerStyle, false);
+        const QString headerAssignOperator
+            = getParamStyleAssignOperator(headerStyle, false, (false || false));
+        const QString headerString = toStringValue(stringParameter.value());
+        if (!headerString.isEmpty())
+            input.m_headers.replaceOrAppend("String-Parameter"_L1, QAnyStringView(headerString));
+    }
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            headerInvalidLabelNotExplodeStringCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit headerInvalidLabelNotExplodeStringErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QString empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::headerInvalidLabelNotExplodeStringCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
+    QString output;
+    const bool ok = ::QtOpenAPI::fromByteArray(response, output);
+    if (!ok)
+        qWarning("%s: Failed to convert the response to QString.", Q_FUNC_INFO);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit headerInvalidLabelNotExplodeStringFinished(output);
 }
 
 /**

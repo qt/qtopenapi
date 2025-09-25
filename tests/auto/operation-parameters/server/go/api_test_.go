@@ -1373,6 +1373,13 @@ func (api *TestAPI) HeaderSimpleNotExplodeString(c *gin.Context) {
 	c.JSON(200, gin.H{"header": c.Request.Header})
 }
 
+// Get /v2/header/string/invalid-label-not-explode/stringParameter
+// Invalid label style with explode false, replaced to simple.
+func (api *TestAPI) HeaderInvalidLabelNotExplodeString(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"header": c.Request.Header})
+}
+
 // Post /v2/header/map/simple-explode/mapParameter
 // simple map explode
 func (api *TestAPI) HeaderSimpleExplodeMap(c *gin.Context) {

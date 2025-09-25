@@ -364,6 +364,15 @@ public:
     /**
     * \internal
     * The auto-generated API:
+    * void headerInvalidLabelNotExplodeString(const ::QtOpenAPI::OptionalParam<QString> &stringParameter);
+    * void headerInvalidLabelNotExplodeString(const ::QtOpenAPI::OptionalParam<QString> &stringParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(headerInvalidLabelNotExplodeString, (const ::QtOpenAPI::OptionalParam<QString> &stringParameter = ::QtOpenAPI::OptionalParam<QString>()), (stringParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
     * void headerSimpleExplodeAnytype(const QJsonValue &anyTypeParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter);
     * void headerSimpleExplodeAnytype(const QJsonValue &anyTypeParameter, const ::QtOpenAPI::OptionalParam<QString> &queryParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
     * \endinternal
@@ -1356,6 +1365,10 @@ Q_SIGNALS:
     void formNotExplodeStringMapFinished(const QString &summary);
     /** Signal is emitted, if formNotExplodeStringMap() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void formNotExplodeStringMapErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if headerInvalidLabelNotExplodeString() request completed successfully. The \a summary contains a serialized server response. */
+    void headerInvalidLabelNotExplodeStringFinished(const QString &summary);
+    /** Signal is emitted, if headerInvalidLabelNotExplodeString() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void headerInvalidLabelNotExplodeStringErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if headerSimpleExplodeAnytype() request completed successfully. The \a summary contains a serialized server response. */
     void headerSimpleExplodeAnytypeFinished(const QString &summary);
     /** Signal is emitted, if headerSimpleExplodeAnytype() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
