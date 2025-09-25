@@ -10,35 +10,33 @@
 
 using namespace Qt::StringLiterals;
 
-#define CALL_TEST_OPERATION(OPERATION, PARAM, EXPECTED_STRING)                          \
-{                                                                                       \
-    CALL_TEST_OPERATION_MULTI_PARAMS(OPERATION, EXPECTED_STRING, PARAM)                 \
-}                                                                                       \
+#define CALL_TEST_OPERATION(OPERATION, PARAM, EXPECTED_STRING) \
+    CALL_TEST_OPERATION_MULTI_PARAMS(OPERATION, EXPECTED_STRING, PARAM)
 
-#define CALL_TEST_OPERATION_MULTI_PARAMS(OPERATION, EXPECTED_STRING, ...)                       \
-{                                                                                               \
-        bool done = false;                                                                      \
-        OPERATION(__VA_ARGS__, this, [&](const QRestReply &reply, const QString &summary) {     \
-            if (!(done = reply.isSuccess()))                                                    \
-                qWarning() << "Error happened while issuing request : " << reply.errorString(); \
-            QCOMPARE(getStatusString(summary), EXPECTED_STRING);                                \
-        });                                                                                     \
-        QCOMPARE("/v2" + m_testOperationPath, EXPECTED_STRING);                                 \
-        QTRY_COMPARE_EQ(done, true);                                                            \
+#define CALL_TEST_OPERATION_MULTI_PARAMS(OPERATION, EXPECTED_STRING, ...)                   \
+{                                                                                           \
+    bool done = false;                                                                      \
+    OPERATION(__VA_ARGS__, this, [&](const QRestReply &reply, const QString &summary) {     \
+        if (!(done = reply.isSuccess()))                                                    \
+            qWarning() << "Error happened while issuing request : " << reply.errorString(); \
+        QCOMPARE(getStatusString(summary), EXPECTED_STRING);                                \
+    });                                                                                     \
+    QCOMPARE("/v2" + m_testOperationPath, EXPECTED_STRING);                                 \
+    QTRY_COMPARE_EQ(done, true);                                                            \
 }
 
-#define CALL_TEST_POST_OPERATION(OPERATION, PARAM, EXPECTED_STRING)                     \
-{                                                                                       \
-    bool done = false;                                                                  \
-    OPERATION(PARAM, this, [&](const QRestReply &reply, const QString &summary) {       \
-            if (!(done = reply.isSuccess()))                                                \
+#define CALL_TEST_POST_OPERATION(OPERATION, PARAM, EXPECTED_STRING)                         \
+{                                                                                           \
+    bool done = false;                                                                      \
+    OPERATION(PARAM, this, [&](const QRestReply &reply, const QString &summary) {           \
+        if (!(done = reply.isSuccess()))                                                    \
             qWarning() << "Error happened while issuing request : " << reply.errorString(); \
-            QCOMPARE(getStatusString(summary), EXPECTED_STRING);                            \
-            QCOMPARE(getHeaderValue(summary), "application/x-www-form-urlencoded");     \
-    });                                                                                 \
-    QCOMPARE("/v2" + m_testOperationPath, EXPECTED_STRING);                             \
-    QTRY_COMPARE_EQ(done, true);                                                        \
-}                                                                                       \
+        QCOMPARE(getStatusString(summary), EXPECTED_STRING);                                \
+        QCOMPARE(getHeaderValue(summary), "application/x-www-form-urlencoded");             \
+    });                                                                                     \
+    QCOMPARE("/v2" + m_testOperationPath, EXPECTED_STRING);                                 \
+    QTRY_COMPARE_EQ(done, true);                                                            \
+}
 
 #define CALL_POST_NO_EXPECTED_RESULT_TEST_OPERATION(OPERATION, PARAM)                  \
 {                                                                                      \
@@ -50,10 +48,10 @@ using namespace Qt::StringLiterals;
         QCOMPARE(getHeaderValue(summary), "application/x-www-form-urlencoded");        \
     });                                                                                \
     QTRY_COMPARE_EQ(done, true);                                                       \
-}                                                                                      \
+}
 
-#define CALL_NOT_FOUND_TEST_OPERATION(OPERATION, PARAM)                                 \
-    CALL_FAIL_TEST_OPERATION(OPERATION, PARAM, QString, 404, "404 page not found"_L1)   \
+#define CALL_NOT_FOUND_TEST_OPERATION(OPERATION, PARAM) \
+    CALL_FAIL_TEST_OPERATION(OPERATION, PARAM, QString, 404, "404 page not found"_L1)
 
 #define CALL_FAIL_TEST_OPERATION(OPERATION, PARAM, RESPONSE_TYPE, STATUS, ERROR_MESSAGE)\
 {                                                                                       \
@@ -65,7 +63,7 @@ using namespace Qt::StringLiterals;
         QCOMPARE(reply.networkReply()->readAll(), ERROR_MESSAGE);                       \
     });                                                                                 \
     QTRY_COMPARE_EQ(done, false);                                                       \
-}                                                                                       \
+}
 
 #define CALL_TEST_NUMERIC_OPERATION(OPERATION, PARAM, EXPECTED_SUMMARY)                     \
 {                                                                                           \
@@ -76,13 +74,12 @@ using namespace Qt::StringLiterals;
             qWarning() << "Error happened while issuing request : " << reply.errorString(); \
         QCOMPARE(summary.getStringValue(), EXPECTED_SUMMARY.getStringValue());              \
         auto expectedVal = EXPECTED_SUMMARY.getValue();                                     \
-        if (!std::isnan(expectedVal) && !std::isinf(expectedVal)) {                         \
+        if (!std::isnan(expectedVal) && !std::isinf(expectedVal))                           \
             QCOMPARE(summary.getValue(), expectedVal);                                      \
-        }                                                                                   \
     });                                                                                     \
     QCOMPARE("/v2" + m_testOperationPath, EXPECTED_SUMMARY.getStringValue());               \
     QTRY_COMPARE_EQ(done, true);                                                            \
-}                                                                                           \
+}
 
 namespace QtOpenAPI {
 
