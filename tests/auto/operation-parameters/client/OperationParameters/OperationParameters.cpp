@@ -83,30 +83,7 @@ using namespace Qt::StringLiterals;
 
 namespace QtOpenAPI {
 
-QString getStatusString(const QString &summary)
-{
-    const QJsonDocument doc = QJsonDocument::fromJson(summary.toUtf8());
-    if (!doc.isNull() && doc.isObject()) {
-        const QJsonObject obj = doc.object();
-        return obj.value("status").toString();
-    }
-    return QString();
-}
-
-QString getHeaderValue(const QString &summary, const QString &headerType = "Content-Type"_L1)
-{
-    const QJsonDocument doc = QJsonDocument::fromJson(summary.toUtf8());
-    if (!doc.isNull() && doc.isObject()) {
-        const QJsonObject obj = doc.object();
-        const QStringList headers
-            = obj.value("header"_L1).toVariant().toMap().value(headerType).toStringList();
-        if (headers.size() > 0)
-            return headers.at(0);
-    }
-    return QString();
-}
-
-QJsonValue getObjectValue(const QString &summary, const QString &key)
+static QJsonValue getObjectValue(const QString &summary, const QString &key)
 {
     QJsonDocument doc = QJsonDocument::fromJson(summary.toUtf8());
     if (!doc.isNull() && doc.isObject()) {
@@ -114,6 +91,24 @@ QJsonValue getObjectValue(const QString &summary, const QString &key)
         return obj.value(key);
     }
     return QJsonValue();
+}
+
+static QString getStatusString(const QString &summary)
+{
+    const QJsonValue val = getObjectValue(summary, "status"_L1);
+    return val.toString();
+}
+
+static QString getHeaderValue(const QString &summary,
+                              const QString &headerType = "Content-Type"_L1)
+{
+    const QJsonValue val = getObjectValue(summary, "header"_L1);
+    if (!val.isNull()) {
+        const QStringList headers = val.toVariant().toMap().value(headerType).toStringList();
+        if (headers.size() > 0)
+            return headers.at(0);
+    }
+    return QString();
 }
 
 class OperationParameters : public QtOAITestApi {
