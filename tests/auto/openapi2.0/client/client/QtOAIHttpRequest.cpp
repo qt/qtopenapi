@@ -252,7 +252,7 @@ QNetworkRequest getNetworkRequest(QtOAIHttpRequestInput &input, QByteArray &requ
             // rawHeader() return all values as a string separated by the delimiter,
             // that a user chose to use (can be ';' or ',' in our case).
             const QByteArray rawHeader = request.rawHeader(headerName);
-            const auto headerValue = input.m_headers.valueAt(i);
+            const auto headerValue = QByteArray(input.m_headers.valueAt(i));
             if (!rawHeader.contains(headerValue)) {
                 if (headerName.compare("Cookie", Qt::CaseInsensitive) == 0)
                     request.setRawHeader(headerName, rawHeader + "; " + headerValue);
