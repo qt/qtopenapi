@@ -370,7 +370,7 @@ void QtOAITestApi::cookieExplodeAnytypeWithDataImpl(const QJsonValue &anytypePar
         const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
         const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, true);
         const bool isObject = anytypeParameter.type() == QJsonValue::Object;
-        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"anytypeParameter"_s), true, isObject);
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, u"anytypeParameter"_s, true, isObject);
         const QString cookieAssignOperator
             = getParamStyleAssignOperator(cookieStyle, true, isObject);
         cookieString = serializeJsonValue(anytypeParameter, cookieStyle, true, cookieSuffix, cookieAssignOperator, cookieDelimiter, false);
@@ -491,8 +491,7 @@ void QtOAITestApi::cookieExplodeArrayWithDataImpl(const QList<qint32> &arrayPara
         const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
         const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, true);
         const bool isObject = false || false;
-        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"arrayParameter"_s),
-                                                         true, isObject);
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, u"arrayParameter"_s, true, isObject);
         const QString cookieAssignOperator
             = getParamStyleAssignOperator(cookieStyle, true, isObject);
         cookieString = serializeArrayValue(arrayParameter, cookieStyle, true, cookieSuffix, cookieDelimiter, false);
@@ -636,8 +635,7 @@ void QtOAITestApi::cookieExplodeIntWithDataImpl(const ::QtOpenAPI::OptionalParam
         const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
         const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, true);
         const bool isObject = false || false;
-        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"intParameter"_s),
-                                                         true, isObject);
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, u"intParameter"_s, true, isObject);
         const QString cookieAssignOperator
             = getParamStyleAssignOperator(cookieStyle, true, isObject);
         cookieString = cookieSuffix + toStringValue(intParameter.value());
@@ -758,8 +756,7 @@ void QtOAITestApi::cookieExplodeObjectWithDataImpl(const QtOAITestObject &object
         const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
         const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, true);
         const bool isObject = true || false;
-        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"objectParameter"_s),
-                                                         true, isObject);
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, u"objectParameter"_s, true, isObject);
         const QString cookieAssignOperator
             = getParamStyleAssignOperator(cookieStyle, true, isObject);
         const QJsonObject parameter = objectParameter.asJsonObject();
@@ -904,8 +901,7 @@ void QtOAITestApi::cookieExplodeStringWithDataImpl(const QString &stringParamete
         const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
         const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, true);
         const bool isObject = false || false;
-        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"stringParameter"_s),
-                                                         true, isObject);
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, u"stringParameter"_s, true, isObject);
         const QString cookieAssignOperator
             = getParamStyleAssignOperator(cookieStyle, true, isObject);
         cookieString = cookieSuffix + toStringValue(stringParameter);
@@ -1026,8 +1022,7 @@ void QtOAITestApi::cookieExplodeStringMapWithDataImpl(const QMap<QString, QStrin
         const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
         const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, true);
         const bool isObject = false || true;
-        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"mapParameter"_s),
-                                                         true, isObject);
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, u"mapParameter"_s, true, isObject);
         const QString cookieAssignOperator
             = getParamStyleAssignOperator(cookieStyle, true, isObject);
         cookieString = cookieSuffix + serializeMapValue(mapParameter, cookieAssignOperator, cookieDelimiter, false);
@@ -1148,7 +1143,7 @@ void QtOAITestApi::cookieNotExplodeAnytypeWithDataImpl(const ::QtOpenAPI::Option
         const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
         const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, false);
         const bool isObject = anytypeParameter.value().type() == QJsonValue::Object;
-        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"anytypeParameter"_s), false, isObject);
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, u"anytypeParameter"_s, false, isObject);
         const QString cookieAssignOperator
             = getParamStyleAssignOperator(cookieStyle, false, isObject);
         cookieString = serializeJsonValue(anytypeParameter.value(), cookieStyle, false, cookieSuffix, cookieAssignOperator, cookieDelimiter, false);
@@ -1269,8 +1264,7 @@ void QtOAITestApi::cookieNotExplodeArrayWithDataImpl(const ::QtOpenAPI::Optional
         const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
         const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, false);
         const bool isObject = false || false;
-        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"arrayParameter"_s),
-                                                         false, isObject);
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, u"arrayParameter"_s, false, isObject);
         const QString cookieAssignOperator
             = getParamStyleAssignOperator(cookieStyle, false, isObject);
         cookieString = serializeArrayValue(arrayParameter.value(), cookieStyle, false, cookieSuffix, cookieDelimiter, false);
@@ -1414,8 +1408,7 @@ void QtOAITestApi::cookieNotExplodeIntWithDataImpl(const QString &queryParameter
         const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
         const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, false);
         const bool isObject = false || false;
-        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"intParameter"_s),
-                                                         false, isObject);
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, u"intParameter"_s, false, isObject);
         const QString cookieAssignOperator
             = getParamStyleAssignOperator(cookieStyle, false, isObject);
         cookieString = cookieSuffix + toStringValue(intParameter.value());
@@ -1536,8 +1529,7 @@ void QtOAITestApi::cookieNotExplodeObjectWithDataImpl(const ::QtOpenAPI::Optiona
         const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
         const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, false);
         const bool isObject = true || false;
-        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"objectParameter"_s),
-                                                         false, isObject);
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, u"objectParameter"_s, false, isObject);
         const QString cookieAssignOperator
             = getParamStyleAssignOperator(cookieStyle, false, isObject);
         const QJsonObject parameter = objectParameter.value().asJsonObject();
@@ -1682,8 +1674,7 @@ void QtOAITestApi::cookieNotExplodeStringWithDataImpl(const QString &pathParam, 
         const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
         const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, false);
         const bool isObject = false || false;
-        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"stringParameter"_s),
-                                                         false, isObject);
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, u"stringParameter"_s, false, isObject);
         const QString cookieAssignOperator
             = getParamStyleAssignOperator(cookieStyle, false, isObject);
         cookieString = cookieSuffix + toStringValue(stringParameter.value());
@@ -1805,8 +1796,7 @@ void QtOAITestApi::cookieNotExplodeStringInvalidStyleWithDataImpl(const ::QtOpen
         const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
         const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, false);
         const bool isObject = false || false;
-        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"stringParameter"_s),
-                                                         false, isObject);
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, u"stringParameter"_s, false, isObject);
         const QString cookieAssignOperator
             = getParamStyleAssignOperator(cookieStyle, false, isObject);
         cookieString = cookieSuffix + toStringValue(stringParameter.value());
@@ -1927,8 +1917,7 @@ void QtOAITestApi::cookieNotExplodeStringMapWithDataImpl(const ::QtOpenAPI::Opti
         const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
         const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, false);
         const bool isObject = false || true;
-        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"mapParameter"_s),
-                                                         false, isObject);
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, u"mapParameter"_s, false, isObject);
         const QString cookieAssignOperator
             = getParamStyleAssignOperator(cookieStyle, false, isObject);
         cookieString = cookieSuffix + serializeMapValue(mapParameter.value(), cookieAssignOperator, cookieDelimiter, false);
@@ -13622,8 +13611,7 @@ void QtOAITestApi::severalExplodeCookiesWithDataImpl(const ::QtOpenAPI::Optional
         const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
         const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, true);
         const bool isObject = false || true;
-        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"mapParameter"_s),
-                                                         true, isObject);
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, u"mapParameter"_s, true, isObject);
         const QString cookieAssignOperator
             = getParamStyleAssignOperator(cookieStyle, true, isObject);
         cookieString = cookieSuffix + serializeMapValue(mapParameter.value(), cookieAssignOperator, cookieDelimiter, false);
@@ -13639,8 +13627,7 @@ void QtOAITestApi::severalExplodeCookiesWithDataImpl(const ::QtOpenAPI::Optional
         const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
         const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, true);
         const bool isObject = false || false;
-        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"intParameter"_s),
-                                                         true, isObject);
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, u"intParameter"_s, true, isObject);
         const QString cookieAssignOperator
             = getParamStyleAssignOperator(cookieStyle, true, isObject);
         cookieString = cookieSuffix + toStringValue(intParameter.value());
@@ -13908,8 +13895,7 @@ void QtOAITestApi::severalNotExplodeCookiesWithDataImpl(const ::QtOpenAPI::Optio
         const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
         const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, false);
         const bool isObject = false || true;
-        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"mapParameter"_s),
-                                                         false, isObject);
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, u"mapParameter"_s, false, isObject);
         const QString cookieAssignOperator
             = getParamStyleAssignOperator(cookieStyle, false, isObject);
         cookieString = cookieSuffix + serializeMapValue(mapParameter.value(), cookieAssignOperator, cookieDelimiter, false);
@@ -13925,8 +13911,7 @@ void QtOAITestApi::severalNotExplodeCookiesWithDataImpl(const ::QtOpenAPI::Optio
         const QString cookieStyle = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
         const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, false);
         const bool isObject = false || false;
-        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"intParameter"_s),
-                                                         false, isObject);
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, u"intParameter"_s, false, isObject);
         const QString cookieAssignOperator
             = getParamStyleAssignOperator(cookieStyle, false, isObject);
         cookieString = cookieSuffix + toStringValue(intParameter.value());

@@ -449,18 +449,11 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         QString cookieString;
         const QString cookieStyle = "{{style}}"_L1.isEmpty() ? "form"_L1 : "{{style}}"_L1;
         const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, {{isExplode}});
-{{^isAnyType}}
-        const bool isObject = {{isModel}} || {{isMap}};
-        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"{{baseName}}"_s),
-                                                         {{isExplode}}, isObject);
+        const bool isObject = {{^isAnyType}}{{isModel}} || {{isMap}}{{/isAnyType}}{{#isAnyType}}{{paramName}}{{^required}}.value(){{/required}}.type() == QJsonValue::Object{{/isAnyType}};
+        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, u"{{baseName}}"_s, {{isExplode}}, isObject);
         const QString cookieAssignOperator
             = getParamStyleAssignOperator(cookieStyle, {{isExplode}}, isObject);
-{{/isAnyType}}
 {{#isAnyType}}
-        const bool isObject = {{paramName}}{{^required}}.value(){{/required}}.type() == QJsonValue::Object;
-        const QString cookieSuffix = getParamStyleSuffix(cookieStyle, QUrl::toPercentEncoding(u"{{baseName}}"_s), {{isExplode}}, isObject);
-        const QString cookieAssignOperator
-            = getParamStyleAssignOperator(cookieStyle, {{isExplode}}, isObject);
         cookieString = serializeJsonValue({{paramName}}{{^required}}.value(){{/required}}, cookieStyle, {{isExplode}}, cookieSuffix, cookieAssignOperator, cookieDelimiter, false);
 {{/isAnyType}}
 {{#isModel}}
