@@ -150,6 +150,17 @@ func (api *TestAPI) CookieNotExplodeString(c *gin.Context) {
 	}
 }
 
+// Post /v2/cookie/string/invalid-simple-not-explode/cookieNotExplodeStringInvalidStyle
+// simple style with explode set to false - fallback to form. 
+func (api *TestAPI) CookieNotExplodeStringInvalidStyle(c *gin.Context) {
+	_, err := c.Request.Cookie("stringParameter")
+	if err != nil {
+		c.JSON(200, gin.H{"header": c.Request.Header, "error": err.Error()})
+	} else {
+		c.JSON(200, gin.H{"header": c.Request.Header})
+	}
+}
+
 // Post /v2/cookie/map/string-mapping/form-not-explode/cookieNotExplodeMap
 // Form style with explode=false for query map parameter of string values.
 func (api *TestAPI) CookieNotExplodeStringMap(c *gin.Context) {

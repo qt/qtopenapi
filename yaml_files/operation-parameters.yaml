@@ -2723,6 +2723,25 @@ paths:
             application/json:
               schema:
                 type: string
+  /cookie/string/invalid-simple-not-explode/cookieNotExplodeStringInvalidStyle:
+    post:
+      tags: [test]
+      operationId: cookieNotExplodeStringInvalidStyle
+      summary: simple style with explode set to false - fallback to form.
+      parameters:
+        - name: stringParameter
+          in: cookie
+          style: simple # incorrect - falls back to form
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
   /cookie/int/form-explode/cookieExplodeInt:
     post:
       tags: [test]

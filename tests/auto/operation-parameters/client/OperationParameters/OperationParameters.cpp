@@ -174,6 +174,7 @@ private Q_SLOTS:
     void cookieMapParameters_data();
     void cookieMapParameters();
     void severalCookies();
+    void cookieInvalidStyle();
 };
 
 QString invalidExplodeWarningMsg(const QString& paramName, const QString& style, bool explode) {
@@ -2238,6 +2239,24 @@ void OperationParameters::severalCookies()
                               done = reply.isSuccess();
                           });
     QTRY_COMPARE_EQ(done, false);
+}
+
+void OperationParameters::cookieInvalidStyle()
+{
+    const QString stringValue = "Just some random string"_L1;
+    const QString expectedCookie = "stringParameter=Just some random string"_L1;
+    bool done = false;
+
+    const char *warningMsg = "'simple' style is invalid for cookie parameters.\n"
+                             "Falling back to the default style 'form'.";
+    QTest::ignoreMessage(QtWarningMsg, warningMsg);
+    cookieNotExplodeStringInvalidStyle(stringValue, this,
+        [&](const QRestReply &reply, const QString &summary) {
+            done = reply.isSuccess();
+            QCOMPARE(getHeaderValue(summary, "Cookie"_L1), expectedCookie);
+            QVERIFY(getObjectValue(summary, "error"_L1).toString().isEmpty());
+        });
+    QTRY_COMPARE_EQ(done, true);
 }
 
 } // QtOpenAPI

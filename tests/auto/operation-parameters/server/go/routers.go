@@ -159,6 +159,12 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
 			handleFunctions.TestAPI.CookieNotExplodeString,
 		},
 		{
+			"CookieNotExplodeStringInvalidStyle",
+			http.MethodPost,
+			"/v2/cookie/string/invalid-simple-not-explode/cookieNotExplodeStringInvalidStyle",
+			handleFunctions.TestAPI.CookieNotExplodeStringInvalidStyle,
+		},
+		{
 			"CookieNotExplodeStringMap",
 			http.MethodPost,
 			"/v2/cookie/map/string-mapping/form-not-explode/cookieNotExplodeMap",

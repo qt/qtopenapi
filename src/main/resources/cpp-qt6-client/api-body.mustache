@@ -443,6 +443,9 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{#cookieParams}}
     {{^required}}if ({{paramName}}.hasValue()){{/required}}
     {
+{{#vendorExtensions.x-warningMessage}}
+        qWarning("{{{vendorExtensions.x-warningMessage}}}");
+{{/vendorExtensions.x-warningMessage}}
         QString cookieString;
         const QString cookieStyle = "{{style}}"_L1.isEmpty() ? "form"_L1 : "{{style}}"_L1;
         const QString cookieDelimiter = getParamStyleDelimiter(cookieStyle, {{isExplode}});

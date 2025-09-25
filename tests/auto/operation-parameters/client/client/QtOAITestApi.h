@@ -130,6 +130,15 @@ public:
     /**
     * \internal
     * The auto-generated API:
+    * void cookieNotExplodeStringInvalidStyle(const ::QtOpenAPI::OptionalParam<QString> &stringParameter);
+    * void cookieNotExplodeStringInvalidStyle(const ::QtOpenAPI::OptionalParam<QString> &stringParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(cookieNotExplodeStringInvalidStyle, (const ::QtOpenAPI::OptionalParam<QString> &stringParameter = ::QtOpenAPI::OptionalParam<QString>()), (stringParameter), (const QString &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
     * void cookieNotExplodeStringMap(const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter);
     * void cookieNotExplodeStringMap(const ::QtOpenAPI::OptionalParam<QMap<QString, QString>> &mapParameter, QObject *object, [&](const QRestReply &reply, const QString &summary){});
     * \endinternal
@@ -1261,6 +1270,10 @@ Q_SIGNALS:
     void cookieNotExplodeStringFinished(const QString &summary);
     /** Signal is emitted, if cookieNotExplodeString() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void cookieNotExplodeStringErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if cookieNotExplodeStringInvalidStyle() request completed successfully. The \a summary contains a serialized server response. */
+    void cookieNotExplodeStringInvalidStyleFinished(const QString &summary);
+    /** Signal is emitted, if cookieNotExplodeStringInvalidStyle() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void cookieNotExplodeStringInvalidStyleErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if cookieNotExplodeStringMap() request completed successfully. The \a summary contains a serialized server response. */
     void cookieNotExplodeStringMapFinished(const QString &summary);
     /** Signal is emitted, if cookieNotExplodeStringMap() request completed with an error. \a errorType and \a errorStr contain an information about the error. */

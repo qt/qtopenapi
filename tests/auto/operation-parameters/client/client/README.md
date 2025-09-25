@@ -39,6 +39,7 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:10203/v2
 |*cookieNotExplodeInt* | *POST* /cookie/int/form-not-explode/cookieNotExplodeInt | Form style with explode set to false for integer query parameter..|
 |*cookieNotExplodeObject* | *POST* /cookie/object/form-not-explode/cookieNotExplodeObject | form object not explode.|
 |*cookieNotExplodeString* | *POST* /cookie/string/form-not-explode/cookieNotExplodeString/{pathParam} | form style with explode set to false for string query parameter..|
+|*cookieNotExplodeStringInvalidStyle* | *POST* /cookie/string/invalid-simple-not-explode/cookieNotExplodeStringInvalidStyle | simple style with explode set to false - fallback to form..|
 |*cookieNotExplodeStringMap* | *POST* /cookie/map/string-mapping/form-not-explode/cookieNotExplodeMap | Form style with explode=false for query map parameter of string values..|
 |*deepObjectExplodeAnytype* | *POST* /query/anytype/deepObject-explode/deepObjectExplodeAnytype | deepObject style with explode=true for query Anytype parameter..|
 |*deepObjectExplodeModelMap* | *POST* /query/map/model-mapping/deepObject-explode/deepObjectExplodeMap | deepObject style with explode=true for query map parameter of model values..|

@@ -442,6 +442,22 @@ public abstract class CppQt6AbstractCodegen extends AbstractCppCodegen implement
                     }
                 }
             }
+            // Look for unsupported styles for cookie parameters
+            if (operation.cookieParams != null) {
+                // cookie parameters can only use style=="form"
+                final String expectedStyle = "form";
+                for (CodegenParameter param : operation.cookieParams) {
+                    if (param.style != null && !param.style.equals(expectedStyle)) {
+                        String msg = String.format("'%s' style is invalid for cookie parameters.%n"
+                                                   + "Falling back to the default style '%s'.",
+                                                   param.style, expectedStyle);
+                        param.style = expectedStyle;
+                        param.vendorExtensions.put("x-warningMessage",
+                                                   msg.replaceAll("\\n", "\\\\n"));
+                        LOGGER.warn("{}: {}", operation.operationId, msg);
+                    }
+                }
+            }
         }
         if (isIncluded("QMap", imports)) {
             // Maps uses QString as key
