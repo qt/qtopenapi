@@ -261,8 +261,9 @@ void OAIPetApi::deletePetWithDataImpl(const qint64 &petId, const ::OpenAPI::Opti
     {
         const QString headerStyle = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
         const QString headerDelimiter = getParamStyleDelimiter(headerStyle, false);
+        const bool isObject = false || false;
         const QString headerAssignOperator
-            = getParamStyleAssignOperator(headerStyle, false, (false || false));
+            = getParamStyleAssignOperator(headerStyle, false, isObject);
         const QString headerString = toStringValue(apiKey.value());
         if (!headerString.isEmpty())
             input.m_headers.replaceOrAppend("api_key"_L1, QAnyStringView(headerString));

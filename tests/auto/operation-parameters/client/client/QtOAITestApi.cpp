@@ -5410,8 +5410,9 @@ void QtOAITestApi::headerInvalidLabelNotExplodeStringWithDataImpl(const ::QtOpen
         qWarning("'label' style is invalid for header parameters.\nFalling back to the default style 'simple'.");
         const QString headerStyle = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
         const QString headerDelimiter = getParamStyleDelimiter(headerStyle, false);
+        const bool isObject = false || false;
         const QString headerAssignOperator
-            = getParamStyleAssignOperator(headerStyle, false, (false || false));
+            = getParamStyleAssignOperator(headerStyle, false, isObject);
         const QString headerString = toStringValue(stringParameter.value());
         if (!headerString.isEmpty())
             input.m_headers.replaceOrAppend("String-Parameter"_L1, QAnyStringView(headerString));
@@ -5549,7 +5550,8 @@ void QtOAITestApi::headerSimpleExplodeAnytypeWithDataImpl(const QJsonValue &anyT
         const QString headerStyle = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
         const QString headerDelimiter = getParamStyleDelimiter(headerStyle, true);
         const bool isObject = anyTypeParameter.type() == QJsonValue::Object;
-        const QString headerAssignOperator = getParamStyleAssignOperator(headerStyle, true, isObject);
+        const QString headerAssignOperator
+            = getParamStyleAssignOperator(headerStyle, true, isObject);
         const QString headerString = serializeJsonValue(anyTypeParameter, headerStyle, true, "", headerAssignOperator, headerDelimiter, false);
         if (!headerString.isEmpty())
             input.m_headers.replaceOrAppend("Any-Type-Parameter"_L1, QAnyStringView(headerString));
@@ -5686,8 +5688,9 @@ void QtOAITestApi::headerSimpleExplodeArrayWithDataImpl(const QList<qint32> &arr
     {
         const QString headerStyle = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
         const QString headerDelimiter = getParamStyleDelimiter(headerStyle, true);
+        const bool isObject = false || false;
         const QString headerAssignOperator
-            = getParamStyleAssignOperator(headerStyle, true, (false || false));
+            = getParamStyleAssignOperator(headerStyle, true, isObject);
         const QString headerString = serializeArrayValue(arrayParameter, headerStyle, true, "", headerDelimiter, false);
         if (!headerString.isEmpty())
             input.m_headers.replaceOrAppend("Array-Parameter"_L1, QAnyStringView(headerString));
@@ -5824,8 +5827,9 @@ void QtOAITestApi::headerSimpleExplodeMapWithDataImpl(const QMap<QString, QStrin
     {
         const QString headerStyle = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
         const QString headerDelimiter = getParamStyleDelimiter(headerStyle, true);
+        const bool isObject = false || true;
         const QString headerAssignOperator
-            = getParamStyleAssignOperator(headerStyle, true, (false || true));
+            = getParamStyleAssignOperator(headerStyle, true, isObject);
         const QString headerString = serializeMapValue(mapParameter, headerAssignOperator, headerDelimiter, false);
         if (!headerString.isEmpty())
             input.m_headers.replaceOrAppend("Map-Parameter"_L1, QAnyStringView(headerString));
@@ -5962,8 +5966,9 @@ void QtOAITestApi::headerSimpleExplodeObjectWithDataImpl(const QtOAITestObject &
     {
         const QString headerStyle = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
         const QString headerDelimiter = getParamStyleDelimiter(headerStyle, true);
+        const bool isObject = true || false;
         const QString headerAssignOperator
-            = getParamStyleAssignOperator(headerStyle, true, (true || false));
+            = getParamStyleAssignOperator(headerStyle, true, isObject);
         const QJsonObject parameter = objectParameter.asJsonObject();
         const QString headerString
             = serializeJsonValue(parameter, headerStyle, true, "",
@@ -6103,8 +6108,9 @@ void QtOAITestApi::headerSimpleExplodeStringWithDataImpl(const QString &stringPa
     {
         const QString headerStyle = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
         const QString headerDelimiter = getParamStyleDelimiter(headerStyle, true);
+        const bool isObject = false || false;
         const QString headerAssignOperator
-            = getParamStyleAssignOperator(headerStyle, true, (false || false));
+            = getParamStyleAssignOperator(headerStyle, true, isObject);
         const QString headerString = toStringValue(stringParameter);
         if (!headerString.isEmpty())
             input.m_headers.replaceOrAppend("String-Parameter"_L1, QAnyStringView(headerString));
@@ -6242,7 +6248,8 @@ void QtOAITestApi::headerSimpleNotExplodeAnytypeWithDataImpl(const ::QtOpenAPI::
         const QString headerStyle = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
         const QString headerDelimiter = getParamStyleDelimiter(headerStyle, false);
         const bool isObject = anyTypeParameter.value().type() == QJsonValue::Object;
-        const QString headerAssignOperator = getParamStyleAssignOperator(headerStyle, false, isObject);
+        const QString headerAssignOperator
+            = getParamStyleAssignOperator(headerStyle, false, isObject);
         const QString headerString = serializeJsonValue(anyTypeParameter.value(), headerStyle, false, "", headerAssignOperator, headerDelimiter, false);
         if (!headerString.isEmpty())
             input.m_headers.replaceOrAppend("Any-Type-Parameter"_L1, QAnyStringView(headerString));
@@ -6379,8 +6386,9 @@ void QtOAITestApi::headerSimpleNotExplodeArrayWithDataImpl(const ::QtOpenAPI::Op
     {
         const QString headerStyle = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
         const QString headerDelimiter = getParamStyleDelimiter(headerStyle, false);
+        const bool isObject = false || false;
         const QString headerAssignOperator
-            = getParamStyleAssignOperator(headerStyle, false, (false || false));
+            = getParamStyleAssignOperator(headerStyle, false, isObject);
         const QString headerString = serializeArrayValue(arrayParameter.value(), headerStyle, false, "", headerDelimiter, false);
         if (!headerString.isEmpty())
             input.m_headers.replaceOrAppend("Array-Parameter"_L1, QAnyStringView(headerString));
@@ -6494,8 +6502,9 @@ void QtOAITestApi::headerSimpleNotExplodeContentTypeWithDataImpl(const QString &
     {
         const QString headerStyle = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
         const QString headerDelimiter = getParamStyleDelimiter(headerStyle, false);
+        const bool isObject = false || false;
         const QString headerAssignOperator
-            = getParamStyleAssignOperator(headerStyle, false, (false || false));
+            = getParamStyleAssignOperator(headerStyle, false, isObject);
         const QString headerString = toStringValue(contentType);
         if (!headerString.isEmpty())
             input.m_headers.replaceOrAppend("Content-Type"_L1, QAnyStringView(headerString));
@@ -6609,8 +6618,9 @@ void QtOAITestApi::headerSimpleNotExplodeCustomWithDataImpl(const ::QtOpenAPI::O
     {
         const QString headerStyle = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
         const QString headerDelimiter = getParamStyleDelimiter(headerStyle, false);
+        const bool isObject = false || false;
         const QString headerAssignOperator
-            = getParamStyleAssignOperator(headerStyle, false, (false || false));
+            = getParamStyleAssignOperator(headerStyle, false, isObject);
         const QString headerString = toStringValue(stringParameter.value());
         if (!headerString.isEmpty())
             input.m_headers.replaceOrAppend("String-Parameter"_L1, QAnyStringView(headerString));
@@ -6747,8 +6757,9 @@ void QtOAITestApi::headerSimpleNotExplodeMapWithDataImpl(const ::QtOpenAPI::Opti
     {
         const QString headerStyle = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
         const QString headerDelimiter = getParamStyleDelimiter(headerStyle, false);
+        const bool isObject = false || true;
         const QString headerAssignOperator
-            = getParamStyleAssignOperator(headerStyle, false, (false || true));
+            = getParamStyleAssignOperator(headerStyle, false, isObject);
         const QString headerString = serializeMapValue(mapParameter.value(), headerAssignOperator, headerDelimiter, false);
         if (!headerString.isEmpty())
             input.m_headers.replaceOrAppend("Map-Parameter"_L1, QAnyStringView(headerString));
@@ -6885,8 +6896,9 @@ void QtOAITestApi::headerSimpleNotExplodeObjectWithDataImpl(const ::QtOpenAPI::O
     {
         const QString headerStyle = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
         const QString headerDelimiter = getParamStyleDelimiter(headerStyle, false);
+        const bool isObject = true || false;
         const QString headerAssignOperator
-            = getParamStyleAssignOperator(headerStyle, false, (true || false));
+            = getParamStyleAssignOperator(headerStyle, false, isObject);
         const QJsonObject parameter = objectParameter.value().asJsonObject();
         const QString headerString
             = serializeJsonValue(parameter, headerStyle, false, "",
@@ -7026,8 +7038,9 @@ void QtOAITestApi::headerSimpleNotExplodeStringWithDataImpl(const ::QtOpenAPI::O
     {
         const QString headerStyle = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
         const QString headerDelimiter = getParamStyleDelimiter(headerStyle, false);
+        const bool isObject = false || false;
         const QString headerAssignOperator
-            = getParamStyleAssignOperator(headerStyle, false, (false || false));
+            = getParamStyleAssignOperator(headerStyle, false, isObject);
         const QString headerString = toStringValue(stringParameter.value());
         if (!headerString.isEmpty())
             input.m_headers.replaceOrAppend("String-Parameter"_L1, QAnyStringView(headerString));
@@ -13752,8 +13765,9 @@ void QtOAITestApi::severalHeaderParametersOpWithDataImpl(const ::QtOpenAPI::Opti
     {
         const QString headerStyle = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
         const QString headerDelimiter = getParamStyleDelimiter(headerStyle, false);
+        const bool isObject = false || false;
         const QString headerAssignOperator
-            = getParamStyleAssignOperator(headerStyle, false, (false || false));
+            = getParamStyleAssignOperator(headerStyle, false, isObject);
         const QString headerString = toStringValue(stringParameter.value());
         if (!headerString.isEmpty())
             input.m_headers.replaceOrAppend("String-Parameter"_L1, QAnyStringView(headerString));
@@ -13762,8 +13776,9 @@ void QtOAITestApi::severalHeaderParametersOpWithDataImpl(const ::QtOpenAPI::Opti
     {
         const QString headerStyle = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
         const QString headerDelimiter = getParamStyleDelimiter(headerStyle, true);
+        const bool isObject = false || false;
         const QString headerAssignOperator
-            = getParamStyleAssignOperator(headerStyle, true, (false || false));
+            = getParamStyleAssignOperator(headerStyle, true, isObject);
         const QString headerString = toStringValue(intParameter.value());
         if (!headerString.isEmpty())
             input.m_headers.replaceOrAppend("int-Parameter"_L1, QAnyStringView(headerString));
@@ -13772,8 +13787,9 @@ void QtOAITestApi::severalHeaderParametersOpWithDataImpl(const ::QtOpenAPI::Opti
     {
         const QString headerStyle = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
         const QString headerDelimiter = getParamStyleDelimiter(headerStyle, true);
+        const bool isObject = true || false;
         const QString headerAssignOperator
-            = getParamStyleAssignOperator(headerStyle, true, (true || false));
+            = getParamStyleAssignOperator(headerStyle, true, isObject);
         const QJsonObject parameter = objectParameter.value().asJsonObject();
         const QString headerString
             = serializeJsonValue(parameter, headerStyle, true, "",

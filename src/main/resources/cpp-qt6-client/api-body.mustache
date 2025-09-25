@@ -412,13 +412,10 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{/vendorExtensions.x-warningMessage}}
         const QString headerStyle = "{{style}}"_L1.isEmpty() ? "simple"_L1 : "{{style}}"_L1;
         const QString headerDelimiter = getParamStyleDelimiter(headerStyle, {{isExplode}});
-{{^isAnyType}}
+        const bool isObject = {{^isAnyType}}{{isModel}} || {{isMap}}{{/isAnyType}}{{#isAnyType}}{{paramName}}{{^required}}.value(){{/required}}.type() == QJsonValue::Object{{/isAnyType}};
         const QString headerAssignOperator
-            = getParamStyleAssignOperator(headerStyle, {{isExplode}}, ({{isModel}} || {{isMap}}));
-{{/isAnyType}}
+            = getParamStyleAssignOperator(headerStyle, {{isExplode}}, isObject);
 {{#isAnyType}}
-        const bool isObject = {{paramName}}{{^required}}.value(){{/required}}.type() == QJsonValue::Object;
-        const QString headerAssignOperator = getParamStyleAssignOperator(headerStyle, {{isExplode}}, isObject);
         const QString headerString = serializeJsonValue({{paramName}}{{^required}}.value(){{/required}}, headerStyle, {{isExplode}}, "", headerAssignOperator, headerDelimiter, false);
 {{/isAnyType}}
 {{#isModel}}
