@@ -252,7 +252,6 @@ void QtOAIUserApi::createUserWithDataImpl(const QtOAIUser &qtOAIUser, const QObj
     if (m_apiKeys.contains("api_key"_L1)) {
         setHeader("api_key"_L1, QAnyStringView(m_apiKeys.find("api_key"_L1).value()));
     }
-    
 
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
@@ -360,7 +359,6 @@ void QtOAIUserApi::createUsersWithArrayInputWithDataImpl(const QList<QtOAIUser> 
     if (m_apiKeys.contains("api_key"_L1)) {
         setHeader("api_key"_L1, QAnyStringView(m_apiKeys.find("api_key"_L1).value()));
     }
-    
 
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
@@ -469,7 +467,6 @@ void QtOAIUserApi::createUsersWithListInputWithDataImpl(const QList<QtOAIUser> &
     if (m_apiKeys.contains("api_key"_L1)) {
         setHeader("api_key"_L1, QAnyStringView(m_apiKeys.find("api_key"_L1).value()));
     }
-    
 
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
@@ -578,7 +575,6 @@ void QtOAIUserApi::deleteUserWithDataImpl(const QtOAIUser &username, const QObje
     if (m_apiKeys.contains("api_key"_L1)) {
         setHeader("api_key"_L1, QAnyStringView(m_apiKeys.find("api_key"_L1).value()));
     }
-    
     {
         QString usernamePathParam = QString("{%1}").arg("username");
 
@@ -1011,7 +1007,6 @@ void QtOAIUserApi::logoutUserWithDataImpl(const QJsonValue &username, const QObj
     if (m_apiKeys.contains("api_key"_L1)) {
         setHeader("api_key"_L1, QAnyStringView(m_apiKeys.find("api_key"_L1).value()));
     }
-    
     int queryParamCounter = 0;
     {
         [[maybe_unused]] QString paramString;
@@ -1156,7 +1151,6 @@ void QtOAIUserApi::updateUserWithDataImpl(const QString &username, const QtOAIUs
     if (m_apiKeys.contains("api_key"_L1)) {
         setHeader("api_key"_L1, QAnyStringView(m_apiKeys.find("api_key"_L1).value()));
     }
-    
     {
         QString usernamePathParam = QString("{%1}").arg("username");
 

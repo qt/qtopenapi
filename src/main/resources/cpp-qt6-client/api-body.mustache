@@ -120,11 +120,15 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {
     const QUrl serverUrl = m_serverConfigs["{{nickname}}"][m_serverIndices.value("{{nickname}}")].serverUrl();
     QString fullPath = "{{{path}}}";
-    m_networkFactory->setBaseUrl(serverUrl);{{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}}
+    m_networkFactory->setBaseUrl(serverUrl);
+{{#authMethods}}
+{{#isApiKey}}
+{{#isKeyInHeader}}
     if (m_apiKeys.contains("{{name}}"_L1)) {
         setHeader("{{name}}"_L1, QAnyStringView(m_apiKeys.find("{{name}}"_L1).value()));
     }
-    {{/isKeyInHeader}}{{#isKeyInQuery}}
+{{/isKeyInHeader}}
+{{#isKeyInQuery}}
     if (m_apiKeys.contains("{{name}}")) {
         if (fullPath.indexOf("?") > 0)
             fullPath.append("&");
@@ -132,15 +136,20 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
             fullPath.append("?");
         fullPath.append("{{{name}}}=").append(m_apiKeys.find("{{name}}").value());
     }
-    {{/isKeyInQuery}}{{/isApiKey}}{{#isBasicBearer}}
+{{/isKeyInQuery}}
+{{/isApiKey}}
+{{#isBasicBearer}}
     if (!m_bearerToken.isEmpty())
         setHeader(QHttpHeaders::WellKnownHeader::Authorization, QAnyStringView("Bearer "_L1 + m_bearerToken));
-    {{/isBasicBearer}}{{#isBasicBasic}}
+{{/isBasicBearer}}
+{{#isBasicBasic}}
     if (!m_username.isEmpty() && !m_password.isEmpty()) {
         QByteArray b64;
         b64.append(m_username.toUtf8() + ":" + m_password.toUtf8());
         setHeader(QHttpHeaders::WellKnownHeader::Authorization, QAnyStringView("Basic "_L1 + b64.toBase64()));
-    }{{/isBasicBasic}}{{/authMethods}}
+    }
+{{/isBasicBasic}}
+{{/authMethods}}
 {{#pathParams}}
     {
         QString {{paramName}}PathParam = QString("{%1}").arg("{{baseName}}");
@@ -411,7 +420,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
     }{{^required}}{{#isNullable}} else if ({{paramName}}.isNull()) {
         input.m_requestBody.append("null");
     }{{/isNullable}}{{/required}}
-    {{/bodyParams}}
+{{/bodyParams}}
 {{#headerParams}}
     {{^required}}if ({{paramName}}.hasValue()){{/required}}
     {

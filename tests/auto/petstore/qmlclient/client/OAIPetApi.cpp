@@ -233,7 +233,6 @@ void OAIPetApi::deletePetWithDataImpl(const qint64 &petId, const ::OpenAPI::Opti
     m_networkFactory->setBaseUrl(serverUrl);
     if (!m_bearerToken.isEmpty())
         setHeader(QHttpHeaders::WellKnownHeader::Authorization, QAnyStringView("Bearer "_L1 + m_bearerToken));
-    
     {
         QString petIdPathParam = QString("{%1}").arg("petId");
 
@@ -1054,7 +1053,6 @@ void OAIPetApi::getPetByIdWithDataImpl(const qint64 &petId, const QObject *conte
     if (m_apiKeys.contains("api_key"_L1)) {
         setHeader("api_key"_L1, QAnyStringView(m_apiKeys.find("api_key"_L1).value()));
     }
-    
     {
         QString petIdPathParam = QString("{%1}").arg("petId");
 
@@ -1188,7 +1186,6 @@ void OAIPetApi::updatePetWithDataImpl(const OAIPet &oAIPet, const QObject *conte
             fullPath.append("?");
         fullPath.append("api_key_query=").append(m_apiKeys.find("api_key_query").value());
     }
-    
 
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;

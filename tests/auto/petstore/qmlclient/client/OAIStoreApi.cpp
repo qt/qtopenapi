@@ -225,7 +225,6 @@ void OAIStoreApi::getInventoryWithDataImpl(const QObject *context, QtPrivate::QS
     if (m_apiKeys.contains("api_key"_L1)) {
         setHeader("api_key"_L1, QAnyStringView(m_apiKeys.find("api_key"_L1).value()));
     }
-    
 
     // set m_testOperationPath for serialization tests
     m_testOperationPath = fullPath;
