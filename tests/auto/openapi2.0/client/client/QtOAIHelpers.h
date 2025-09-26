@@ -331,6 +331,73 @@ private:
     std::optional<T> m_value;
 };
 
+enum class SerializationFlag : quint32
+{
+    Explode = 0x01,
+    Object = 0x02,
+    NeedPercentEncoding = 0x04,
+    AllFlags = 0xFFFFFFFF,
+};
+Q_DECLARE_FLAGS(SerializationFlags, SerializationFlag)
+
+struct SerializationOptions
+{
+    QString style;
+    QString prefix;
+    QString suffix;
+    QString assignOperator;
+    QString delimiter;
+    SerializationFlags flags;
+};
+
+QString getParamStylePrefix(const QString &style);
+QString getParamStyleSuffix(const QString &style, const QString &name, SerializationFlags flags);
+QString getParamStyleDelimiter(const QString &style, SerializationFlags flags);
+QString getParamStyleAssignOperator(const QString &style, SerializationFlags flags);
+
+QString serializeJsonValue(const QJsonValue &value, const SerializationOptions &opts);
+
+template<typename T>
+QString serializeArrayValue(const QList<T> &value, const SerializationOptions &opts)
+{
+    using namespace Qt::StringLiterals;
+    const bool isExplode = opts.flags.testFlag(SerializationFlag::Explode);
+    const bool percentEncode = opts.flags.testFlag(SerializationFlag::NeedPercentEncoding);
+    QString paramString = opts.suffix;
+    qsizetype index = 0;
+    if (value.size() == 0)
+        qWarning() << "serializeArrayValue: array is empty!";
+    for (const T &t : value) {
+        if (index > 0)
+            paramString.append(opts.delimiter);
+        if ((opts.style == "matrix"_L1 || opts.style == "form"_L1) && isExplode && index > 0)
+            paramString.append(opts.suffix);
+        const QString resultValue = toStringValue(t);
+        paramString.append(percentEncode ? QUrl::toPercentEncoding(resultValue) : resultValue);
+        ++index;
+    }
+    return paramString;
+}
+
+template <typename T>
+QString serializeMapValue(const QMap<QString, T> &val, const SerializationOptions &opts) {
+    const bool percentEncode = opts.flags.testFlag(SerializationFlag::NeedPercentEncoding);
+    QString strMap;
+    for (const auto &[key, value] : val.asKeyValueRange()) {
+        if (percentEncode) {
+            strMap.append(QUrl::toPercentEncoding(key) + opts.assignOperator
+                          + QUrl::toPercentEncoding(toStringValue(value))
+                          + opts.delimiter);
+        } else {
+            strMap.append(key + opts.assignOperator + toStringValue(value)
+                          + opts.delimiter);
+        }
+    }
+    if (val.size() > 0)
+        strMap.chop(opts.delimiter.size());
+    return strMap;
+}
+
 } // namespace QtOpenAPI
 
 #endif // QtOAI_HELPERS_H

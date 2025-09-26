@@ -13,6 +13,8 @@
 
 namespace OpenAPI {
 
+using namespace Qt::StringLiterals;
+
 class OAISerializerSettings {
 public:
     struct CustomDateTimeFormat{
@@ -602,6 +604,151 @@ QString convertJsonValueToString(const QJsonValue &jsonValue)
         return QJsonDocument(jsonValue.toObject()).toJson(QJsonDocument::Compact);
     }
     return jsonValue.toVariant().toString();
+}
+
+// Param prefix - the first parameter related symbol in a serialization string.
+QString getParamStylePrefix(const QString &style)
+{
+    if (style == "matrix"_L1) {
+        return ";"_L1;
+    } else if (style == "label"_L1) {
+        return "."_L1;
+    } else if (style == "form"_L1) {
+        return "?"_L1;
+    } else if (style == "simple"_L1) {
+        return ""_L1;
+    } else if (style == "spaceDelimited"_L1) {
+        return "?"_L1;
+    } else if (style == "pipeDelimited"_L1) {
+        return "?"_L1;
+    } else if (style == "deepObject"_L1) {
+        return "?"_L1;
+    }
+    Q_UNREACHABLE_RETURN(QString());
+}
+
+QString getParamStyleSuffix(const QString &style, const QString &name, SerializationFlags flags)
+{
+    const bool isExplode = flags.testFlag(SerializationFlag::Explode);
+    const bool isObject = flags.testFlag(SerializationFlag::Object);
+    if (style == "matrix"_L1) {
+        // for undefined cases "=" will be deleted on serialization.
+        return (isExplode && isObject) ? ""_L1 : name + "="_L1;
+    } else if (style == "label"_L1) {
+        return ""_L1;
+    } else if (style == "form"_L1) {
+        return (isExplode && isObject) ? ""_L1 : name + "="_L1;
+    } else if (style == "simple"_L1) {
+        return ""_L1;
+    } else if (style == "spaceDelimited"_L1) {
+        return name + "="_L1;
+    } else if (style == "pipeDelimited"_L1) {
+        return name + "="_L1;
+    } else if (style == "deepObject"_L1) {
+        return name;
+    }
+    Q_UNREACHABLE_RETURN(QString());
+}
+
+QString getParamStyleDelimiter(const QString &style, SerializationFlags flags)
+{
+    const bool isExplode = flags.testFlag(SerializationFlag::Explode);
+    if (style == "matrix"_L1) {
+        return (isExplode) ? ";"_L1 : ","_L1;
+    } else if (style == "label"_L1) {
+        return (isExplode) ? "."_L1 : ","_L1;
+    } else if (style == "form"_L1) {
+        return (isExplode) ? "&"_L1 : ","_L1;
+    } else if (style == "simple"_L1) {
+        return ","_L1;
+    } else if (style == "spaceDelimited"_L1) {
+        return QUrl::toPercentEncoding(" "_L1);
+    } else if (style == "pipeDelimited"_L1) {
+        return QUrl::toPercentEncoding("|"_L1);
+    } else if (style == "deepObject"_L1) {
+        return "&"_L1;
+    }
+    Q_UNREACHABLE_RETURN(QString());
+}
+
+QString getParamStyleAssignOperator(const QString &style, SerializationFlags flags)
+{
+    const bool isExplode = flags.testFlag(SerializationFlag::Explode);
+    const bool isObject = flags.testFlag(SerializationFlag::Object);
+    if (!isObject)
+        return ""_L1;
+    if (style == "matrix"_L1) {
+        return (isExplode) ? "=" : ",";
+    } else if (style == "label"_L1) {
+        return (isExplode) ? "="_L1 : ","_L1;
+    } else if (style == "form"_L1) {
+        return (isExplode) ? "="_L1 : ","_L1;
+    } else if (style == "simple"_L1) {
+        return (isExplode) ? "="_L1 : ","_L1;
+    } else if (style == "spaceDelimited"_L1) {
+        return QUrl::toPercentEncoding(" "_L1);
+    } else if (style == "pipeDelimited"_L1) {
+        return QUrl::toPercentEncoding("|"_L1);
+    } else if (style == "deepObject"_L1) {
+        return "="_L1;
+    }
+    Q_UNREACHABLE_RETURN(QString());
+}
+
+QString serializeJsonValue(const QJsonValue &value, const SerializationOptions &opts)
+{
+    const bool percentEncode = opts.flags.testFlag(SerializationFlag::NeedPercentEncoding);
+    QString paramString;
+    switch(value.type()) {
+    case QJsonValue::String:
+    case QJsonValue::Bool:
+    case QJsonValue::Double:
+    {
+        paramString = opts.suffix;
+        const QString stringValue = toStringValue(value.toVariant());
+        paramString.append(percentEncode ? QUrl::toPercentEncoding(stringValue) : stringValue);
+    } break;
+    case QJsonValue::Array:
+    {
+        const QVariantList array = value.toArray().toVariantList();
+        paramString = serializeArrayValue(array, opts);
+    } break;
+    case QJsonValue::Object:
+    {
+        QVariantMap map = value.toObject().toVariantMap();
+        if (map.size() > 0) {
+            if (opts.style == "deepObject"_L1) {
+                qsizetype index = 0;
+                for (const auto &[key, value] : map.asKeyValueRange()) {
+                    if (index > 0)
+                        paramString.append(opts.delimiter);
+                    if (percentEncode) {
+                        paramString.append(opts.suffix
+                                           + QUrl::toPercentEncoding(u"[%1]"_s.arg(key))
+                                           + opts.assignOperator
+                                           + QUrl::toPercentEncoding(toStringValue(value)));
+                    } else {
+                        paramString.append(opts.suffix  + u"[%1]"_s.arg(key)
+                                           + opts.assignOperator + toStringValue(value));
+                    }
+                    ++index;
+                }
+            } else {
+                paramString = opts.suffix;
+                paramString.append(serializeMapValue(map, opts));
+            }
+        } else {
+            qWarning() << "Serialized QJsonValue::Object is empty!";
+        }
+    } break;
+    case QJsonValue::Null:
+    case QJsonValue::Undefined:
+    {
+        paramString = opts.suffix;
+        qWarning() << "Path parameter serialization is not supported for the value: " << value;
+    } break;
+    }
+    return paramString;
 }
 
 } // namespace OpenAPI
