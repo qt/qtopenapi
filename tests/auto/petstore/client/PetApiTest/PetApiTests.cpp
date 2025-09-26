@@ -386,10 +386,10 @@ void PetApiTests::uploadPetFileTest()
     });
 
     QtOAIHttpFileElement fileElement;
-    fileElement.setFileName(":/PetStore/file-for-uploading.txt");
+    fileElement.setFileName(":/file-for-uploading.txt");
     fileElement.setMimeType("txt");
     fileElement.setVariableName("Variable=100");
-    fileElement.setRequestFileName(":/PetStore/file-for-uploading.txt");
+    fileElement.setRequestFileName("file-for-uploading.txt");
 
     api.uploadFile(id, QString("metadata-info"), fileElement);
     QTRY_COMPARE_EQ_WITH_TIMEOUT(petFileUploaded, true, 5000);

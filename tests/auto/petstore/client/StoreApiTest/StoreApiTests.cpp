@@ -31,7 +31,7 @@ void StoreApiTests::placeOrderTest() {
     order.setPetId(10000);
     order.setComplete(false);
     order.setStatus("shipping");
-    order.setShipDate(QDateTime::currentDateTime());
+    order.setShipDate(QDateTime::currentDateTimeUtc());
     api.placeOrder(order, this, [&](const QRestReply &reply, const QtOAIOrder &respval) {
         if ((orderPlaced = reply.isSuccess())) {
             QCOMPARE(respval.getShipDate(), TestDate);
@@ -84,7 +84,7 @@ void StoreApiTests::deleteOrderTest()
     order.setPetId(20000);
     order.setComplete(false);
     order.setStatus("shipping");
-    order.setShipDate(QDateTime::currentDateTime());
+    order.setShipDate(QDateTime::currentDateTimeUtc());
     api.placeOrder(order, this, [&](const QRestReply &reply, const QtOAIOrder &respval) {
         if ((orderPlaced = reply.isSuccess())) {
             QCOMPARE(respval.getShipDate(), TestDate);
@@ -121,7 +121,7 @@ void StoreApiTests::timeoutTest()
     order.setPetId(20000);
     order.setComplete(false);
     order.setStatus("shipping");
-    order.setShipDate(QDateTime::currentDateTime());
+    order.setShipDate(QDateTime::currentDateTimeUtc());
 
     QtOAIStoreApi api;
     bool orderPlaced = false;
