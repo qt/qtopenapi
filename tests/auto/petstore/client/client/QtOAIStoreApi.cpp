@@ -104,20 +104,25 @@ void QtOAIStoreApi::deleteOrderWithDataImpl(const QString &orderId, const QObjec
     m_networkFactory->setBaseUrl(serverUrl);
     {
         QString orderIdPathParam = QString("{%1}").arg("orderId");
-        QString pathStyle = "simple";
-        if (pathStyle.isEmpty())
-            pathStyle = "simple";
-        const QString pathPrefix = getParamStylePrefix(pathStyle);
-        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
-        const bool isObject = false || false;
-        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"orderId"_s), false, isObject);
-        QString paramString = pathPrefix + pathSuffix;
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, false || false);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, false);
+
+        SerializationOptions opts;
+        opts.style = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"orderId"_s), flags);
+        opts.flags = flags;
+        QString paramString = opts.prefix + opts.suffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(orderId));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
-        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+        if ((paramString == opts.prefix + opts.suffix) && QString("simple") == "matrix"_L1)
             paramString.chop(1);
         fullPath.replace(orderIdPathParam, paramString);
     }
@@ -338,20 +343,25 @@ void QtOAIStoreApi::getOrderByIdWithDataImpl(const qint64 &orderId, const QObjec
     m_networkFactory->setBaseUrl(serverUrl);
     {
         QString orderIdPathParam = QString("{%1}").arg("orderId");
-        QString pathStyle = "simple";
-        if (pathStyle.isEmpty())
-            pathStyle = "simple";
-        const QString pathPrefix = getParamStylePrefix(pathStyle);
-        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
-        const bool isObject = false || false;
-        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"orderId"_s), false, isObject);
-        QString paramString = pathPrefix + pathSuffix;
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, false || false);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, false);
+
+        SerializationOptions opts;
+        opts.style = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"orderId"_s), flags);
+        opts.flags = flags;
+        QString paramString = opts.prefix + opts.suffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(orderId));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
-        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+        if ((paramString == opts.prefix + opts.suffix) && QString("simple") == "matrix"_L1)
             paramString.chop(1);
         fullPath.replace(orderIdPathParam, paramString);
     }

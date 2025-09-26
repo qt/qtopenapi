@@ -217,20 +217,25 @@ void QtOAIColorsApi::deleteColorByIdWithDataImpl(const qint64 &id, const QObject
     m_networkFactory->setBaseUrl(serverUrl);
     {
         QString idPathParam = QString("{%1}").arg("id");
-        QString pathStyle = "simple";
-        if (pathStyle.isEmpty())
-            pathStyle = "simple";
-        const QString pathPrefix = getParamStylePrefix(pathStyle);
-        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
-        const bool isObject = false || false;
-        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"id"_s), false, isObject);
-        QString paramString = pathPrefix + pathSuffix;
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, false || false);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, false);
+
+        SerializationOptions opts;
+        opts.style = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"id"_s), flags);
+        opts.flags = flags;
+        QString paramString = opts.prefix + opts.suffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(id));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
-        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+        if ((paramString == opts.prefix + opts.suffix) && QString("simple") == "matrix"_L1)
             paramString.chop(1);
         fullPath.replace(idPathParam, paramString);
     }
@@ -335,20 +340,25 @@ void QtOAIColorsApi::getColorByIdWithDataImpl(const qint64 &id, const QObject *c
     m_networkFactory->setBaseUrl(serverUrl);
     {
         QString idPathParam = QString("{%1}").arg("id");
-        QString pathStyle = "simple";
-        if (pathStyle.isEmpty())
-            pathStyle = "simple";
-        const QString pathPrefix = getParamStylePrefix(pathStyle);
-        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
-        const bool isObject = false || false;
-        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"id"_s), false, isObject);
-        QString paramString = pathPrefix + pathSuffix;
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, false || false);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, false);
+
+        SerializationOptions opts;
+        opts.style = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"id"_s), flags);
+        opts.flags = flags;
+        QString paramString = opts.prefix + opts.suffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(id));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
-        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+        if ((paramString == opts.prefix + opts.suffix) && QString("simple") == "matrix"_L1)
             paramString.chop(1);
         fullPath.replace(idPathParam, paramString);
     }
@@ -457,21 +467,26 @@ void QtOAIColorsApi::getColorsWithDataImpl(const ::QtOpenAPI::OptionalParam<qint
     int queryParamCounter = 0;
     {
         [[maybe_unused]] QString paramString;
-        QString queryStyle = "form";
-        if (queryStyle.isEmpty())
-            queryStyle = "form";
-        const QString queryPrefix = getParamStylePrefix(queryStyle);
-        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
-        const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"page"_s), true, isObject);
-        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
-        paramString = querySuffix;
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, false || false);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, true);
+
+        SerializationOptions opts;
+        opts.style = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"page"_s), flags);
+        opts.flags = flags;
+        paramString = opts.suffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
-            fullPath.append(queryPrefix);
+            fullPath.append(opts.prefix);
         if (page.hasValue()) {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-            fullPath.append(querySuffix + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(page.value())));
+            fullPath.append(opts.suffix + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(page.value())));
             queryParamCounter++;
         }
     }
@@ -581,20 +596,25 @@ void QtOAIColorsApi::updateColorByIdWithDataImpl(const qint64 &id, const QtOAICo
     m_networkFactory->setBaseUrl(serverUrl);
     {
         QString idPathParam = QString("{%1}").arg("id");
-        QString pathStyle = "simple";
-        if (pathStyle.isEmpty())
-            pathStyle = "simple";
-        const QString pathPrefix = getParamStylePrefix(pathStyle);
-        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
-        const bool isObject = false || false;
-        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"id"_s), false, isObject);
-        QString paramString = pathPrefix + pathSuffix;
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, false || false);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, false);
+
+        SerializationOptions opts;
+        opts.style = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"id"_s), flags);
+        opts.flags = flags;
+        QString paramString = opts.prefix + opts.suffix;
         paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(id));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
-        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+        if ((paramString == opts.prefix + opts.suffix) && QString("simple") == "matrix"_L1)
             paramString.chop(1);
         fullPath.replace(idPathParam, paramString);
     }

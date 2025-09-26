@@ -235,8 +235,10 @@ QString QtOAIBaseApi::getParamStylePrefix(const QString &style)
     Q_UNREACHABLE_RETURN(QString());
 }
 
-QString QtOAIBaseApi::getParamStyleSuffix(const QString &style, const QString &name, bool isExplode, bool isObject)
+QString QtOAIBaseApi::getParamStyleSuffix(const QString &style, const QString &name, SerializationFlags flags)
 {
+    const bool isExplode = flags.testFlag(SerializationFlag::Explode);
+    const bool isObject = flags.testFlag(SerializationFlag::Object);
     if (style == "matrix") {
         // for undefined cases "=" will be deleted on serialization.
         return (isExplode && isObject) ? "" : name + "=";
@@ -256,8 +258,9 @@ QString QtOAIBaseApi::getParamStyleSuffix(const QString &style, const QString &n
     Q_UNREACHABLE_RETURN(QString());
 }
 
-QString QtOAIBaseApi::getParamStyleDelimiter(const QString &style, bool isExplode)
+QString QtOAIBaseApi::getParamStyleDelimiter(const QString &style, SerializationFlags flags)
 {
+    const bool isExplode = flags.testFlag(SerializationFlag::Explode);
     if (style == "matrix") {
         return (isExplode) ? ";" : ",";
     } else if (style == "label") {
@@ -276,8 +279,10 @@ QString QtOAIBaseApi::getParamStyleDelimiter(const QString &style, bool isExplod
     Q_UNREACHABLE_RETURN(QString());
 }
 
-QString QtOAIBaseApi::getParamStyleAssignOperator(const QString &style, bool isExplode, bool isObject)
+QString QtOAIBaseApi::getParamStyleAssignOperator(const QString &style, SerializationFlags flags)
 {
+    const bool isExplode = flags.testFlag(SerializationFlag::Explode);
+    const bool isObject = flags.testFlag(SerializationFlag::Object);
     if (!isObject)
         return "";
     if (style == "matrix") {
@@ -344,46 +349,47 @@ QNetworkReply *QtOAIBaseApi::execute(QtOAIHttpRequestInput &input, QNetworkReque
     return reply;
 }
 
-QString QtOAIBaseApi::serializeJsonValue(const QJsonValue &value, const QString style, bool isExplode, const QString &suffix, const QString &assignOperator, const QString &delimiter, bool percentEncode)
+QString QtOAIBaseApi::serializeJsonValue(const QJsonValue &value, const SerializationOptions &opts)
 {
+    const bool percentEncode = opts.flags.testFlag(SerializationFlag::NeedPercentEncoding);
     QString paramString;
     switch(value.type()) {
     case QJsonValue::String:
     case QJsonValue::Bool:
     case QJsonValue::Double:
     {
-        paramString = suffix;
-        const QString stringValue = ::QtOpenAPI::toStringValue(value.toVariant());
+        paramString = opts.suffix;
+        const QString stringValue = toStringValue(value.toVariant());
         paramString.append(percentEncode ? QUrl::toPercentEncoding(stringValue) : stringValue);
     } break;
     case QJsonValue::Array:
     {
         const QVariantList array = value.toArray().toVariantList();
-        paramString
-            = serializeArrayValue(array, style, isExplode, suffix, delimiter, percentEncode);
+        paramString = serializeArrayValue(array, opts);
     } break;
     case QJsonValue::Object:
     {
         QVariantMap map = value.toObject().toVariantMap();
         if (map.size() > 0) {
-            if (style == "deepObject"_L1) {
+            if (opts.style == "deepObject"_L1) {
                 qsizetype index = 0;
                 for (const auto &[key, value] : map.asKeyValueRange()) {
-                     if (index > 0)
-                         paramString.append(delimiter);
-                     if (percentEncode) {
-                         paramString.append(suffix + QUrl::toPercentEncoding(u"[%1]"_s.arg(key))
-                                            + assignOperator
-                                            + QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(value)));
-                     } else {
-                         paramString.append(suffix + u"[%1]"_s.arg(key) + assignOperator
-                                            + ::QtOpenAPI::toStringValue(value));
-                     }
-                     index++;
+                    if (index > 0)
+                        paramString.append(opts.delimiter);
+                    if (percentEncode) {
+                        paramString.append(opts.suffix
+                                           + QUrl::toPercentEncoding(u"[%1]"_s.arg(key))
+                                           + opts.assignOperator
+                                           + QUrl::toPercentEncoding(toStringValue(value)));
+                    } else {
+                        paramString.append(opts.suffix  + u"[%1]"_s.arg(key)
+                                           + opts.assignOperator + toStringValue(value));
+                    }
+                    ++index;
                 }
             } else {
-                paramString = suffix;
-                paramString.append(serializeMapValue(map, assignOperator, delimiter, percentEncode));
+                paramString = opts.suffix;
+                paramString.append(serializeMapValue(map, opts));
             }
         } else {
             qWarning() << "Serialized QJsonValue::Object is empty!";
@@ -392,7 +398,7 @@ QString QtOAIBaseApi::serializeJsonValue(const QJsonValue &value, const QString 
     case QJsonValue::Null:
     case QJsonValue::Undefined:
     {
-        paramString = suffix;
+        paramString = opts.suffix;
         qWarning() << "Path parameter serialization is not supported for the value: " << value;
     } break;
     }

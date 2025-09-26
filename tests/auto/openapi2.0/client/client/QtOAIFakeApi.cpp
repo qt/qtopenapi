@@ -112,96 +112,121 @@ void QtOAIFakeApi::testPathParameterCollectionFormatWithDataImpl(const QList<QSt
     m_networkFactory->setBaseUrl(serverUrl);
     {
         QString pipeIdPathParam = QString("{%1}").arg("pipeId");
-        QString pathStyle = "";
-        if (pathStyle.isEmpty())
-            pathStyle = "simple";
-        const QString pathPrefix = getParamStylePrefix(pathStyle);
-        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
-        const bool isObject = false || false;
-        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"pipeId"_s), false, isObject);
-        QString paramString = pathPrefix + pathSuffix;
-        paramString = pathPrefix + serializeArrayValue(pipeId, pathStyle, false, pathSuffix, pathDelimiter, true);
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, false || false);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, false);
+
+        SerializationOptions opts;
+        opts.style = ""_L1.isEmpty() ? "simple"_L1 : ""_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"pipeId"_s), flags);
+        opts.flags = flags;
+        QString paramString = opts.prefix + opts.suffix;
+        paramString = opts.prefix + serializeArrayValue(pipeId, opts);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
-        if ((paramString == pathPrefix + pathSuffix) && QString("") == "matrix"_L1)
+        if ((paramString == opts.prefix + opts.suffix) && QString("") == "matrix"_L1)
             paramString.chop(1);
         fullPath.replace(pipeIdPathParam, paramString);
     }
     {
         QString ioutilIdPathParam = QString("{%1}").arg("ioutilId");
-        QString pathStyle = "";
-        if (pathStyle.isEmpty())
-            pathStyle = "simple";
-        const QString pathPrefix = getParamStylePrefix(pathStyle);
-        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
-        const bool isObject = false || false;
-        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"ioutilId"_s), false, isObject);
-        QString paramString = pathPrefix + pathSuffix;
-        paramString = pathPrefix + serializeArrayValue(ioutilId, pathStyle, false, pathSuffix, pathDelimiter, true);
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, false || false);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, false);
+
+        SerializationOptions opts;
+        opts.style = ""_L1.isEmpty() ? "simple"_L1 : ""_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"ioutilId"_s), flags);
+        opts.flags = flags;
+        QString paramString = opts.prefix + opts.suffix;
+        paramString = opts.prefix + serializeArrayValue(ioutilId, opts);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
-        if ((paramString == pathPrefix + pathSuffix) && QString("") == "matrix"_L1)
+        if ((paramString == opts.prefix + opts.suffix) && QString("") == "matrix"_L1)
             paramString.chop(1);
         fullPath.replace(ioutilIdPathParam, paramString);
     }
     {
         QString httpIdPathParam = QString("{%1}").arg("httpId");
-        QString pathStyle = "";
-        if (pathStyle.isEmpty())
-            pathStyle = "simple";
-        const QString pathPrefix = getParamStylePrefix(pathStyle);
-        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
-        const bool isObject = false || false;
-        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"httpId"_s), false, isObject);
-        QString paramString = pathPrefix + pathSuffix;
-        paramString = pathPrefix + serializeArrayValue(httpId, pathStyle, false, pathSuffix, pathDelimiter, true);
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, false || false);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, false);
+
+        SerializationOptions opts;
+        opts.style = ""_L1.isEmpty() ? "simple"_L1 : ""_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"httpId"_s), flags);
+        opts.flags = flags;
+        QString paramString = opts.prefix + opts.suffix;
+        paramString = opts.prefix + serializeArrayValue(httpId, opts);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
-        if ((paramString == pathPrefix + pathSuffix) && QString("") == "matrix"_L1)
+        if ((paramString == opts.prefix + opts.suffix) && QString("") == "matrix"_L1)
             paramString.chop(1);
         fullPath.replace(httpIdPathParam, paramString);
     }
     {
         QString urlIdPathParam = QString("{%1}").arg("urlId");
-        QString pathStyle = "simple";
-        if (pathStyle.isEmpty())
-            pathStyle = "simple";
-        const QString pathPrefix = getParamStylePrefix(pathStyle);
-        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
-        const bool isObject = false || false;
-        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"urlId"_s), false, isObject);
-        QString paramString = pathPrefix + pathSuffix;
-        paramString = pathPrefix + serializeArrayValue(urlId, pathStyle, false, pathSuffix, pathDelimiter, true);
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, false || false);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, false);
+
+        SerializationOptions opts;
+        opts.style = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"urlId"_s), flags);
+        opts.flags = flags;
+        QString paramString = opts.prefix + opts.suffix;
+        paramString = opts.prefix + serializeArrayValue(urlId, opts);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
-        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+        if ((paramString == opts.prefix + opts.suffix) && QString("simple") == "matrix"_L1)
             paramString.chop(1);
         fullPath.replace(urlIdPathParam, paramString);
     }
     {
         QString multiContextIdPathParam = QString("{%1}").arg("multiContextId");
-        QString pathStyle = "";
-        if (pathStyle.isEmpty())
-            pathStyle = "simple";
-        const QString pathPrefix = getParamStylePrefix(pathStyle);
-        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
-        const bool isObject = false || false;
-        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"multiContextId"_s), false, isObject);
-        QString paramString = pathPrefix + pathSuffix;
-        paramString = pathPrefix + serializeArrayValue(multiContextId, pathStyle, false, pathSuffix, pathDelimiter, true);
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, false || false);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, false);
+
+        SerializationOptions opts;
+        opts.style = ""_L1.isEmpty() ? "simple"_L1 : ""_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"multiContextId"_s), flags);
+        opts.flags = flags;
+        QString paramString = opts.prefix + opts.suffix;
+        paramString = opts.prefix + serializeArrayValue(multiContextId, opts);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
-        if ((paramString == pathPrefix + pathSuffix) && QString("") == "matrix"_L1)
+        if ((paramString == opts.prefix + opts.suffix) && QString("") == "matrix"_L1)
             paramString.chop(1);
         fullPath.replace(multiContextIdPathParam, paramString);
     }
@@ -325,96 +350,121 @@ void QtOAIFakeApi::testQueryParameterCollectionFormatWithDataImpl(const QList<QS
     int queryParamCounter = 0;
     {
         [[maybe_unused]] QString paramString;
-        QString queryStyle = "pipeDelimited";
-        if (queryStyle.isEmpty())
-            queryStyle = "form";
-        const QString queryPrefix = getParamStylePrefix(queryStyle);
-        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
-        const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"pipe"_s), false, isObject);
-        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, false || false);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, false);
+
+        SerializationOptions opts;
+        opts.style = "pipeDelimited"_L1.isEmpty() ? "form"_L1 : "pipeDelimited"_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"pipe"_s), flags);
+        opts.flags = flags;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
-            fullPath.append(queryPrefix);
+            fullPath.append(opts.prefix);
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-            fullPath.append(serializeArrayValue(pipe, queryStyle, false, querySuffix, queryDelimiter, true));
+            fullPath.append(serializeArrayValue(pipe, opts));
             queryParamCounter++;
         }
     }
     {
         [[maybe_unused]] QString paramString;
-        QString queryStyle = "";
-        if (queryStyle.isEmpty())
-            queryStyle = "form";
-        const QString queryPrefix = getParamStylePrefix(queryStyle);
-        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
-        const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"ioutil"_s), false, isObject);
-        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, false || false);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, false);
+
+        SerializationOptions opts;
+        opts.style = ""_L1.isEmpty() ? "form"_L1 : ""_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"ioutil"_s), flags);
+        opts.flags = flags;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
-            fullPath.append(queryPrefix);
+            fullPath.append(opts.prefix);
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-            fullPath.append(serializeArrayValue(ioutil, queryStyle, false, querySuffix, queryDelimiter, true));
+            fullPath.append(serializeArrayValue(ioutil, opts));
             queryParamCounter++;
         }
     }
     {
         [[maybe_unused]] QString paramString;
-        QString queryStyle = "spaceDelimited";
-        if (queryStyle.isEmpty())
-            queryStyle = "form";
-        const QString queryPrefix = getParamStylePrefix(queryStyle);
-        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
-        const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"http"_s), false, isObject);
-        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, false || false);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, false);
+
+        SerializationOptions opts;
+        opts.style = "spaceDelimited"_L1.isEmpty() ? "form"_L1 : "spaceDelimited"_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"http"_s), flags);
+        opts.flags = flags;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
-            fullPath.append(queryPrefix);
+            fullPath.append(opts.prefix);
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-            fullPath.append(serializeArrayValue(http, queryStyle, false, querySuffix, queryDelimiter, true));
+            fullPath.append(serializeArrayValue(http, opts));
             queryParamCounter++;
         }
     }
     {
         [[maybe_unused]] QString paramString;
-        QString queryStyle = "form";
-        if (queryStyle.isEmpty())
-            queryStyle = "form";
-        const QString queryPrefix = getParamStylePrefix(queryStyle);
-        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, false);
-        const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"url"_s), false, isObject);
-        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, false, isObject);
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, false || false);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, false);
+
+        SerializationOptions opts;
+        opts.style = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"url"_s), flags);
+        opts.flags = flags;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
-            fullPath.append(queryPrefix);
+            fullPath.append(opts.prefix);
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-            fullPath.append(serializeArrayValue(url, queryStyle, false, querySuffix, queryDelimiter, true));
+            fullPath.append(serializeArrayValue(url, opts));
             queryParamCounter++;
         }
     }
     {
         [[maybe_unused]] QString paramString;
-        QString queryStyle = "form";
-        if (queryStyle.isEmpty())
-            queryStyle = "form";
-        const QString queryPrefix = getParamStylePrefix(queryStyle);
-        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
-        const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"multiContext"_s), true, isObject);
-        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, false || false);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, true);
+
+        SerializationOptions opts;
+        opts.style = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"multiContext"_s), flags);
+        opts.flags = flags;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
-            fullPath.append(queryPrefix);
+            fullPath.append(opts.prefix);
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-            fullPath.append(serializeArrayValue(multiContext, queryStyle, true, querySuffix, queryDelimiter, true));
+            fullPath.append(serializeArrayValue(multiContext, opts));
             queryParamCounter++;
         }
     }

@@ -161,6 +161,25 @@ DEPRECATED void OPERATION(QtOAI_VA_LIST PARAMS, const ContextTypeForFunctor<Func
 
 namespace QtOpenAPI {
 
+enum class SerializationFlag : quint32
+{
+    Explode = 0x01,
+    Object = 0x02,
+    NeedPercentEncoding = 0x04,
+    AllFlags = 0xFFFFFFFF,
+};
+Q_DECLARE_FLAGS(SerializationFlags, SerializationFlag)
+
+struct SerializationOptions
+{
+    QString style;
+    QString prefix;
+    QString suffix;
+    QString assignOperator;
+    QString delimiter;
+    SerializationFlags flags;
+};
+
 class QtOAIBaseApi : public QObject {
     Q_OBJECT
 public:
@@ -192,9 +211,9 @@ public:
     void enableRequestCompression();
     void enableResponseCompression();
     QString getParamStylePrefix(const QString &style);
-    QString getParamStyleSuffix(const QString &style, const QString &name, bool isExplode, bool isObject);
-    QString getParamStyleDelimiter(const QString &style, bool isExplode);
-    QString getParamStyleAssignOperator(const QString &style, bool isExplode, bool isObject);
+    QString getParamStyleSuffix(const QString &style, const QString &name, SerializationFlags flags);
+    QString getParamStyleDelimiter(const QString &style, SerializationFlags flags);
+    QString getParamStyleAssignOperator(const QString &style, SerializationFlags flags);
     QString errorString(ServerError error) const;
 
 Q_SIGNALS:
@@ -203,23 +222,21 @@ Q_SIGNALS:
 
 protected:
     QNetworkReply *execute(QtOAIHttpRequestInput &input, QNetworkRequest &request, QByteArray &requestContent);
-    QString serializeJsonValue(const QJsonValue &value, const QString style, bool isExplode,
-                               const QString &suffix, const QString &assignOperator,
-                               const QString &delimiter, bool percentEncode);
+    QString serializeJsonValue(const QJsonValue &value, const SerializationOptions &opts);
     template<typename T>
-    QString serializeArrayValue(const QList<T> &value,  const QString &style, bool isExplode,
-                                const QString &suffixName, const QString &delimiter,
-                                bool percentEncode)
+    QString serializeArrayValue(const QList<T> &value, const SerializationOptions &opts)
     {
-        QString paramString = suffixName;
+        const bool isExplode = opts.flags.testFlag(SerializationFlag::Explode);
+        const bool percentEncode = opts.flags.testFlag(SerializationFlag::NeedPercentEncoding);
+        QString paramString = opts.suffix;
         qint32 index = 0;
         if (value.size() == 0)
             qWarning() << "serializeArrayValue: array is empty!";
         for (const T &t : value) {
             if (index > 0)
-                paramString.append(delimiter);
-            if ((style == "matrix" || style == "form") && isExplode && index > 0)
-                paramString.append(suffixName);
+                paramString.append(opts.delimiter);
+            if ((opts.style == "matrix" || opts.style == "form") && isExplode && index > 0)
+                paramString.append(opts.suffix);
             const QString resultValue = toStringValue(t);
             paramString.append(percentEncode ? QUrl::toPercentEncoding(resultValue) : resultValue);
             index++;
@@ -227,21 +244,21 @@ protected:
         return paramString;
     }
     template <typename T>
-    QString serializeMapValue(const QMap<QString, T> &val, QAnyStringView keyValueDelimiter,
-                              QAnyStringView itemDelimiter, bool percentEncode) {
+    QString serializeMapValue(const QMap<QString, T> &val, const SerializationOptions &opts) {
+        const bool percentEncode = opts.flags.testFlag(SerializationFlag::NeedPercentEncoding);
         QString strMap;
         for (const auto &[key, value] : val.asKeyValueRange()) {
             if (percentEncode) {
-                strMap.append(QUrl::toPercentEncoding(key) + keyValueDelimiter.toString()
+                strMap.append(QUrl::toPercentEncoding(key) + opts.assignOperator
                               + QUrl::toPercentEncoding(toStringValue(value))
-                              + itemDelimiter.toString());
+                              + opts.delimiter);
             } else {
-                strMap.append(key + keyValueDelimiter.toString() + toStringValue(value)
-                              + itemDelimiter.toString());
+                strMap.append(key + opts.assignOperator + toStringValue(value)
+                              + opts.delimiter);
             }
         }
         if (val.size() > 0)
-            strMap.chop(itemDelimiter.size());
+            strMap.chop(opts.delimiter.size());
         return strMap;
     }
 

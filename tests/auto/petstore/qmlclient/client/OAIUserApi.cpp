@@ -115,32 +115,37 @@ void OAIUserApi::createInQueryMapWithDataImpl(const QMap<QString, QString> &user
     int queryParamCounter = 0;
     {
         [[maybe_unused]] QString paramString;
-        QString queryStyle = "form";
-        if (queryStyle.isEmpty())
-            queryStyle = "form";
-        const QString queryPrefix = getParamStylePrefix(queryStyle);
-        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
-        const bool isObject = false || true;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"username"_s), true, isObject);
-        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
-        paramString = querySuffix;
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, false || true);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, true);
+
+        SerializationOptions opts;
+        opts.style = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"username"_s), flags);
+        opts.flags = flags;
+        paramString = opts.suffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
-            fullPath.append(queryPrefix);
+            fullPath.append(opts.prefix);
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-            if (queryStyle == "deepObject"_L1) {
+            if (opts.style == "deepObject"_L1) {
                 qsizetype index = 0;
                 if (username.isEmpty())
                     qWarning() << "Map is empty!";
                 for (const auto &[key, value] : username.asKeyValueRange()) {
                     if (index > 0)
-                        paramString.append(queryDelimiter);
-                    paramString.append(querySuffix + QUrl::toPercentEncoding(u"[%1]"_s.arg(key)) + queryAssignOperator + QUrl::toPercentEncoding(::OpenAPI::toStringValue(value)));
+                        paramString.append(opts.delimiter);
+                    paramString.append(opts.suffix + QUrl::toPercentEncoding(u"[%1]"_s.arg(key)) + opts.assignOperator + QUrl::toPercentEncoding(::OpenAPI::toStringValue(value)));
                     index++;
                 }
             } else {
-                paramString.append(serializeMapValue(username, queryAssignOperator, queryDelimiter, true));
+                paramString.append(serializeMapValue(username, opts));
             }
             fullPath.append(paramString);
             queryParamCounter++;
@@ -576,20 +581,25 @@ void OAIUserApi::deleteUserWithDataImpl(const OAIUser &username, const QObject *
     
     {
         QString usernamePathParam = QString("{%1}").arg("username");
-        QString pathStyle = "simple";
-        if (pathStyle.isEmpty())
-            pathStyle = "simple";
-        const QString pathPrefix = getParamStylePrefix(pathStyle);
-        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
-        const bool isObject = true || false;
-        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"username"_s), false, isObject);
-        QString paramString = pathPrefix + pathSuffix;
-        paramString = pathPrefix + serializeJsonValue(QJsonValue(username.asJsonObject()), pathStyle, false, pathSuffix, assignOperator, pathDelimiter, true);
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, true || false);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, false);
+
+        SerializationOptions opts;
+        opts.style = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"username"_s), flags);
+        opts.flags = flags;
+        QString paramString = opts.prefix + opts.suffix;
+        paramString = opts.prefix + serializeJsonValue(QJsonValue(username.asJsonObject()), opts);
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
-        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+        if ((paramString == opts.prefix + opts.suffix) && QString("simple") == "matrix"_L1)
             paramString.chop(1);
         fullPath.replace(usernamePathParam, paramString);
     }
@@ -694,20 +704,25 @@ void OAIUserApi::getUserByNameWithDataImpl(const QMap<QString, qint32> &username
     m_networkFactory->setBaseUrl(serverUrl);
     {
         QString usernamePathParam = QString("{%1}").arg("username");
-        QString pathStyle = "simple";
-        if (pathStyle.isEmpty())
-            pathStyle = "simple";
-        const QString pathPrefix = getParamStylePrefix(pathStyle);
-        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
-        const bool isObject = false || true;
-        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"username"_s), false, isObject);
-        QString paramString = pathPrefix + pathSuffix;
-        paramString.append(serializeMapValue(username, assignOperator, pathDelimiter, true));
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, false || true);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, false);
+
+        SerializationOptions opts;
+        opts.style = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"username"_s), flags);
+        opts.flags = flags;
+        QString paramString = opts.prefix + opts.suffix;
+        paramString.append(serializeMapValue(username, opts));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
-        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+        if ((paramString == opts.prefix + opts.suffix) && QString("simple") == "matrix"_L1)
             paramString.chop(1);
         fullPath.replace(usernamePathParam, paramString);
     }
@@ -819,21 +834,26 @@ void OAIUserApi::loginUserWithDataImpl(const ::OpenAPI::OptionalParam<QString> &
     int queryParamCounter = 0;
     {
         [[maybe_unused]] QString paramString;
-        QString queryStyle = "form";
-        if (queryStyle.isEmpty())
-            queryStyle = "form";
-        const QString queryPrefix = getParamStylePrefix(queryStyle);
-        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
-        const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"username"_s), true, isObject);
-        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
-        paramString = querySuffix;
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, false || false);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, true);
+
+        SerializationOptions opts;
+        opts.style = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"username"_s), flags);
+        opts.flags = flags;
+        paramString = opts.suffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
-            fullPath.append(queryPrefix);
+            fullPath.append(opts.prefix);
         if (username.hasValue()) {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-            fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(username.value())));
+            fullPath.append(opts.suffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(username.value())));
             queryParamCounter++;
         } else if (username.isNull()) {
             if (queryParamCounter > 0)
@@ -841,30 +861,35 @@ void OAIUserApi::loginUserWithDataImpl(const ::OpenAPI::OptionalParam<QString> &
             // style=form && explode=true && non-object => 'username' isn't used in serialization
             // style=form && explode=true && empty object => need to be 'username='
             // see https://spec.openapis.org/oas/v3.1.1.html#style-values
-            if (queryStyle == "form")
+            if (opts.style == "form")
                 fullPath.append(u"username="_s);
             else
-                fullPath.append(querySuffix);
+                fullPath.append(opts.suffix);
             queryParamCounter++;
         }
     }
     {
         [[maybe_unused]] QString paramString;
-        QString queryStyle = "form";
-        if (queryStyle.isEmpty())
-            queryStyle = "form";
-        const QString queryPrefix = getParamStylePrefix(queryStyle);
-        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
-        const bool isObject = false || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"password"_s), true, isObject);
-        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
-        paramString = querySuffix;
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, false || false);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, true);
+
+        SerializationOptions opts;
+        opts.style = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"password"_s), flags);
+        opts.flags = flags;
+        paramString = opts.suffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
-            fullPath.append(queryPrefix);
+            fullPath.append(opts.prefix);
         if (password.hasValue()) {
             if (queryParamCounter > 0)
                 fullPath.append("&");
-            fullPath.append(querySuffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(password.value())));
+            fullPath.append(opts.suffix + QUrl::toPercentEncoding(::OpenAPI::toStringValue(password.value())));
             queryParamCounter++;
         } else if (password.isNull()) {
             if (queryParamCounter > 0)
@@ -872,10 +897,10 @@ void OAIUserApi::loginUserWithDataImpl(const ::OpenAPI::OptionalParam<QString> &
             // style=form && explode=true && non-object => 'password' isn't used in serialization
             // style=form && explode=true && empty object => need to be 'password='
             // see https://spec.openapis.org/oas/v3.1.1.html#style-values
-            if (queryStyle == "form")
+            if (opts.style == "form")
                 fullPath.append(u"password="_s);
             else
-                fullPath.append(querySuffix);
+                fullPath.append(opts.suffix);
             queryParamCounter++;
         }
     }
@@ -990,34 +1015,39 @@ void OAIUserApi::logoutUserWithDataImpl(const QJsonValue &username, const QObjec
     int queryParamCounter = 0;
     {
         [[maybe_unused]] QString paramString;
-        QString queryStyle = "form";
-        if (queryStyle.isEmpty())
-            queryStyle = "form";
-        const QString queryPrefix = getParamStylePrefix(queryStyle);
-        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
-        const bool isObject = username.type() == QJsonValue::Object;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"username"_s), true, isObject);
-        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, username.type() == QJsonValue::Object);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, true);
+
+        SerializationOptions opts;
+        opts.style = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"username"_s), flags);
+        opts.flags = flags;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
-            fullPath.append(queryPrefix);
+            fullPath.append(opts.prefix);
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
             const QJsonValue::Type paramType = username.type();
             if (paramType != QJsonValue::Object) {
-                if (queryStyle == "deepObject"_L1) {
+                if (opts.style == "deepObject"_L1) {
                     qWarning("Be aware that 'deepObject' style is only valid for parameters of "
                              "type 'object'. The generated result will not conform to the OpenAPI "
                              "standard.");
                 } else if (paramType != QJsonValue::Array
-                           && (queryStyle == "pipeDelimited"_L1
-                               || queryStyle == "spaceDelimited"_L1)) {
+                           && (opts.style == "pipeDelimited"_L1
+                               || opts.style == "spaceDelimited"_L1)) {
                     qWarning("Be aware that '%s' style is invalid for primitive parameters. "
                              "The generated result will not conform to the OpenAPI standard.",
-                             qPrintable(queryStyle));
+                             qPrintable(opts.style));
                 }
             }
-            paramString = serializeJsonValue(username, queryStyle, true, querySuffix, queryAssignOperator, queryDelimiter, true);
+            paramString = serializeJsonValue(username, opts);
             fullPath.append(paramString);
             queryParamCounter++;
         }
@@ -1129,48 +1159,56 @@ void OAIUserApi::updateUserWithDataImpl(const QString &username, const OAIUser &
     
     {
         QString usernamePathParam = QString("{%1}").arg("username");
-        QString pathStyle = "simple";
-        if (pathStyle.isEmpty())
-            pathStyle = "simple";
-        const QString pathPrefix = getParamStylePrefix(pathStyle);
-        const QString pathDelimiter = getParamStyleDelimiter(pathStyle, false);
-        const bool isObject = false || false;
-        [[maybe_unused]] const QString assignOperator = getParamStyleAssignOperator(pathStyle, false, isObject);
-        const QString pathSuffix = getParamStyleSuffix(pathStyle, QUrl::toPercentEncoding(u"username"_s), false, isObject);
-        QString paramString = pathPrefix + pathSuffix;
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, false || false);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, false);
+
+        SerializationOptions opts;
+        opts.style = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"username"_s), flags);
+        opts.flags = flags;
+        QString paramString = opts.prefix + opts.suffix;
         paramString += QUrl::toPercentEncoding(::OpenAPI::toStringValue(username));
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
-        if ((paramString == pathPrefix + pathSuffix) && QString("simple") == "matrix"_L1)
+        if ((paramString == opts.prefix + opts.suffix) && QString("simple") == "matrix"_L1)
             paramString.chop(1);
         fullPath.replace(usernamePathParam, paramString);
     }
     int queryParamCounter = 0;
     {
         [[maybe_unused]] QString paramString;
-        QString queryStyle = "form";
-        if (queryStyle.isEmpty())
-            queryStyle = "form";
-        const QString queryPrefix = getParamStylePrefix(queryStyle);
-        [[maybe_unused]] const QString queryDelimiter = getParamStyleDelimiter(queryStyle, true);
-        const bool isObject = true || false;
-        const QString querySuffix = getParamStyleSuffix(queryStyle, QUrl::toPercentEncoding(u"body"_s), true, isObject);
-        [[maybe_unused]] const QString queryAssignOperator = getParamStyleAssignOperator(queryStyle, true, isObject);
-        paramString = querySuffix;
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, true || false);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, true);
+
+        SerializationOptions opts;
+        opts.style = "form"_L1.isEmpty() ? "form"_L1 : "form"_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"body"_s), flags);
+        opts.flags = flags;
+        paramString = opts.suffix;
         if ((fullPath.indexOf("?") != fullPath.size() - 1) && (queryParamCounter == 0))
-            fullPath.append(queryPrefix);
+            fullPath.append(opts.prefix);
         {
             if (queryParamCounter > 0)
                 fullPath.append("&");
             const QJsonObject parameter = body.asJsonObject();
-            paramString = serializeJsonValue(QJsonValue(parameter), queryStyle, true,
-                                             querySuffix, queryAssignOperator, queryDelimiter,
-                                             true);
+            paramString = serializeJsonValue(QJsonValue(parameter), opts);
             // style=form && explode=true && non-object => 'body' isn't used in serialization
             // style=form && explode=true && empty object => need to be 'body='
             // see https://spec.openapis.org/oas/v3.1.1.html#style-values
-            if (paramString.isEmpty() && queryStyle == "form")
+            if (paramString.isEmpty() && opts.style == "form")
                 paramString = u"body="_s;
             fullPath.append(paramString);
             queryParamCounter++;
