@@ -27,6 +27,6 @@ target_include_directories(cpp-qt-operations-parameters-backport
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/../client>
 )
 
-target_link_libraries(cpp-qt-operations-parameters-backport PRIVATE Qt6OpenAPIClient Qt::Core Qt::Network Qt::Gui Qt::Test)
+target_link_libraries(cpp-qt-operations-parameters-backport PRIVATE OpenapiBackportClient Qt::Core Qt::Network Qt::Gui Qt::Test)
 enable_testing()
 add_test(NAME cpp-qt-operations-parameters-backport-test COMMAND cpp-qt-operations-parameters-backport)

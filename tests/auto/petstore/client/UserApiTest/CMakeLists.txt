@@ -27,6 +27,6 @@ target_include_directories(cpp-qt-petstore-userapi
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/../client>
 )
 
-target_link_libraries(cpp-qt-petstore-userapi PRIVATE Qt6OpenAPIClient Qt::Core Qt::Network Qt::Test)
+target_link_libraries(cpp-qt-petstore-userapi PRIVATE PetStoreClient Qt::Core Qt::Network Qt::Test)
 enable_testing()
 add_test(NAME cpp-qt-petstore-userapi-test COMMAND cpp-qt-petstore-userapi)

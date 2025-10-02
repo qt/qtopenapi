@@ -27,6 +27,6 @@ target_include_directories(cpp-qt-colorpalette-app
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/../client>
 )
 
-target_link_libraries(cpp-qt-colorpalette-app PRIVATE Qt6OpenAPIClient Qt::Core Qt::Network Qt::Gui Qt::Test)
+target_link_libraries(cpp-qt-colorpalette-app PRIVATE ColorpaletteClient Qt::Core Qt::Network Qt::Gui Qt::Test)
 enable_testing()
 add_test(NAME cpp-qt-colorpalette-app-test COMMAND cpp-qt-colorpalette-app)

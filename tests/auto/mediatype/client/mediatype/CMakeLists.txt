@@ -39,6 +39,6 @@ target_include_directories(cpp-qt-mediatype
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/../client>
 )
 
-target_link_libraries(cpp-qt-mediatype PRIVATE Qt6OpenAPIClient Qt::Core Qt::Network Qt::Gui Qt::Test)
+target_link_libraries(cpp-qt-mediatype PRIVATE MediaTypeClient Qt::Core Qt::Network Qt::Gui Qt::Test)
 enable_testing()
 add_test(NAME cpp-qt-mediatype-test COMMAND cpp-qt-mediatype)

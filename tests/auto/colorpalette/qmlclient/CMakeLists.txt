@@ -31,7 +31,7 @@ target_include_directories(qml-qt-colorpalette
 
 target_link_libraries(qml-qt-colorpalette
     PUBLIC
-        Qt6OpenAPIClient
+        ColorpaletteClientQml
         Qt::QuickTest
 )
 

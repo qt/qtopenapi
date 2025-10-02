@@ -39,6 +39,6 @@ qt_add_resources(cpp-qt-petstore-petapi "cpp-qt-petstore-petapi"
         ${cpp_qt_petstore_resource_files}
 )
 
-target_link_libraries(cpp-qt-petstore-petapi PRIVATE Qt6OpenAPIClient Qt::Core Qt::Network Qt::Gui Qt::Test)
+target_link_libraries(cpp-qt-petstore-petapi PRIVATE PetStoreClient Qt::Core Qt::Network Qt::Gui Qt::Test)
 enable_testing()
 add_test(NAME cpp-qt-petstore-petapi-test COMMAND cpp-qt-petstore-petapi)

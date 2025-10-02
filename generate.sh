@@ -66,6 +66,7 @@ ORIGINAL_GENERATOR_JAR="$PWD/target/cpp-qt6-client-openapi-generator-1.0.0.jar"
 QML_ADDITIONAL_PROPERTIES=false
 PREFIX_NAME=QtOAI
 CPP_NAMESPACE=QtOpenAPI
+CLIENT_PACKAGE_NAME=ClientName
 if [[ $MODE == "qmltest" ]] || [[ $MODE == "qmldoc" ]] || [[ $MODE == "qmlcg" ]]; then
     QML_ADDITIONAL_PROPERTIES=true
     CLIENTFOLDER_NAME=qmlclient
@@ -110,13 +111,27 @@ function set_paths() {
         SERVER_OUTPUT_DIR="$PWD/tests/auto/$USER_MODE/server"
         CLIENT_OUTPUT_DIR="$PWD/tests/auto/$USER_MODE/$CLIENTFOLDER_NAME"
         if [[ $USER_MODE == "petstore" ]]; then
+            if [[ $QML_ADDITIONAL_PROPERTIES == true ]]; then
+                CLIENT_PACKAGE_NAME=PetStoreClientQml
+            else
+                CLIENT_PACKAGE_NAME=PetStoreClient
+            fi
             SERVER_NAME="cpp-qt-qhttpengine-server"
         elif [[ $USER_MODE == "operation-parameters" ]]; then
+            CLIENT_PACKAGE_NAME=OperationParametersClient
             SERVER_NAME="server-app"
         elif [[ $USER_MODE == "openapi2.0" ]]; then
+            CLIENT_PACKAGE_NAME=OpenapiBackportClient
             SERVER_NAME="backport-server-app"
         elif [[ $USER_MODE == "mediatype" ]]; then
+            CLIENT_PACKAGE_NAME=MediaTypeClient
             SERVER_NAME="mediatype-server-app"
+        elif [[ $USER_MODE == "colorpalette" ]]; then
+            if [[ $QML_ADDITIONAL_PROPERTIES == true ]]; then
+                CLIENT_PACKAGE_NAME=ColorpaletteClientQml
+            else
+                CLIENT_PACKAGE_NAME=ColorpaletteClient
+            fi
         fi
     else
         echo "Available specifications in $PWD/yaml_files:"
@@ -168,7 +183,7 @@ function generate() {
     java -Dlogback.configurationFile=$LOGBACK_XML_PATH -Dlog.level=$LOG_LEVEL -Dcolor=true \
     -cp $PWD:$OPENAPI_CLI:$ORIGINAL_GENERATOR_JAR $OPENAPI_CLI_ENTRYPOINT_CLASS \
     generate -g $ORIGINAL_GENERATOR -i $USER_SPEC -o $CLIENT_OUTPUT_DIR \
-    --additional-properties=enableQmlCode=$QML_ADDITIONAL_PROPERTIES,cppNamespace=$CPP_NAMESPACE,modelNamePrefix=$PREFIX_NAME
+    --additional-properties=enableQmlCode=$QML_ADDITIONAL_PROPERTIES,cppNamespace=$CPP_NAMESPACE,modelNamePrefix=$PREFIX_NAME --package-name=$CLIENT_PACKAGE_NAME
 }
 
 function killServer() {
@@ -221,12 +236,14 @@ function run_all() {
     USER_MODE="petstore"
     PREFIX_NAME=QtOAI
     CPP_NAMESPACE=QtOpenAPI
+    CLIENT_PACKAGE_NAME=PetStoreClient
     set_paths && compile && generate && run_test
 
     QML_ADDITIONAL_PROPERTIES=true
     CLIENTFOLDER_NAME=qmlclient
     PREFIX_NAME=OAI
     CPP_NAMESPACE=OpenAPI
+    CLIENT_PACKAGE_NAME=PetStoreClientQml
     set_paths && compile && generate && run_test
 
     QML_ADDITIONAL_PROPERTIES=false
@@ -234,12 +251,14 @@ function run_all() {
     USER_MODE="colorpalette"
     PREFIX_NAME=QtOAI
     CPP_NAMESPACE=QtOpenAPI
+    CLIENT_PACKAGE_NAME=ColorpaletteClient
     set_paths && compile && generate && run_test
 
     QML_ADDITIONAL_PROPERTIES=true
     CLIENTFOLDER_NAME=qmlclient
     PREFIX_NAME=OAI
     CPP_NAMESPACE=OpenAPI
+    CLIENT_PACKAGE_NAME=ColorpaletteClientQml
     set_paths && compile && generate && run_test
 
     QML_ADDITIONAL_PROPERTIES=false
@@ -247,6 +266,7 @@ function run_all() {
     USER_MODE="operation-parameters"
     PREFIX_NAME=QtOAI
     CPP_NAMESPACE=QtOpenAPI
+    CLIENT_PACKAGE_NAME=OperationParametersClient
     set_paths && compile && generate && run_test
 
     QML_ADDITIONAL_PROPERTIES=false
@@ -254,6 +274,7 @@ function run_all() {
     USER_MODE="openapi2.0"
     PREFIX_NAME=QtOAI
     CPP_NAMESPACE=QtOpenAPI
+    CLIENT_PACKAGE_NAME=OpenapiBackportClient
     set_paths && compile && generate && run_test
 
     QML_ADDITIONAL_PROPERTIES=false
@@ -261,6 +282,7 @@ function run_all() {
     USER_MODE="mediatype"
     PREFIX_NAME=QtOAI
     CPP_NAMESPACE=QtOpenAPI
+    CLIENT_PACKAGE_NAME=MediaTypeClient
     set_paths && compile && generate && run_test
 }
 

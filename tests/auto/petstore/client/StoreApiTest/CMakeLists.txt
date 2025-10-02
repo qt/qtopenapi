@@ -27,7 +27,7 @@ target_include_directories(cpp-qt-petstore-storeapi
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/../client>
 )
 
-target_link_libraries(cpp-qt-petstore-storeapi PRIVATE Qt6OpenAPIClient Qt::Core Qt::Network Qt::Test)
+target_link_libraries(cpp-qt-petstore-storeapi PRIVATE PetStoreClient Qt::Core Qt::Network Qt::Test)
 
 enable_testing()
 

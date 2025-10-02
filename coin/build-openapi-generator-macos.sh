@@ -24,23 +24,25 @@ fi
 
 # cpp clients + default namespace and model name
 testFolders=("petstore" "operation-parameters" "mediatype" "colorpalette" "openapi2.0")
-for i in "${testFolders[@]}"
-do
+clientNames=("PetStoreClient" "OperationParametersClient" "MediaTypeClient" "ColorpaletteClient" "OpenapiBackportClient")
+length=${#testFolders[@]}
+for ((i = 0; i < length; i++)); do
     CLIENTFOLDER_NAME=client
-    USER_SPEC="$OPENAPI_HOME/yaml_files/$i.yaml"
-    CLIENT_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/$i/$CLIENTFOLDER_NAME"
+    USER_SPEC="$OPENAPI_HOME/yaml_files/${testFolders[i]}.yaml"
+    CLIENT_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/${testFolders[i]}/$CLIENTFOLDER_NAME"
     rm -rf CLIENT_OUTPUT_DIR/client
-    java -cp $OPENAPI_HOME:$OPENAPI_CLI:$ORIGINAL_GENERATOR_JAR $OPENAPI_CLI_ENTRYPOINT_CLASS generate -g $ORIGINAL_GENERATOR -i $USER_SPEC -o $CLIENT_OUTPUT_DIR --additional-properties=enableQmlCode=false,cppNamespace=QtOpenAPI,modelNamePrefix=QtOAI
+    java -cp $OPENAPI_HOME:$OPENAPI_CLI:$ORIGINAL_GENERATOR_JAR $OPENAPI_CLI_ENTRYPOINT_CLASS generate -g $ORIGINAL_GENERATOR -i $USER_SPEC -o $CLIENT_OUTPUT_DIR --additional-properties=enableQmlCode=false,cppNamespace=QtOpenAPI,modelNamePrefix=QtOAI --package-name=${clientNames[i]}
 done
 
 #qml clients
 qmlTestFolders=("petstore" "colorpalette")
-for i in "${qmlTestFolders[@]}"
-do
-    USER_SPEC="$OPENAPI_HOME/yaml_files/$i.yaml"
+qmlClientNames=("PetStoreClientQml" "ColorpaletteClientQml")
+qmlLength=${#qmlTestFolders[@]}
+for ((i = 0; i < qmlLength; i++)); do
+    USER_SPEC="$OPENAPI_HOME/yaml_files/${qmlTestFolders[i]}.yaml"
     CLIENTFOLDER_NAME=qmlclient
-    CLIENT_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/$i/$CLIENTFOLDER_NAME"
+    CLIENT_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/${qmlTestFolders[i]}/$CLIENTFOLDER_NAME"
     rm -rf CLIENT_OUTPUT_DIR/client
-    java -cp $OPENAPI_HOME:$OPENAPI_CLI:$ORIGINAL_GENERATOR_JAR $OPENAPI_CLI_ENTRYPOINT_CLASS generate -g $ORIGINAL_GENERATOR -i $USER_SPEC -o $CLIENT_OUTPUT_DIR --additional-properties=enableQmlCode=true,cppNamespace=OpenAPI,modelNamePrefix=OAI
+    java -cp $OPENAPI_HOME:$OPENAPI_CLI:$ORIGINAL_GENERATOR_JAR $OPENAPI_CLI_ENTRYPOINT_CLASS generate -g $ORIGINAL_GENERATOR -i $USER_SPEC -o $CLIENT_OUTPUT_DIR --additional-properties=enableQmlCode=true,cppNamespace=OpenAPI,modelNamePrefix=OAI --package-name=${qmlClientNames[i]}
 done
 

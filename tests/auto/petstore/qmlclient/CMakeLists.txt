@@ -31,7 +31,7 @@ target_include_directories(qml-qt-petstore
 
 target_link_libraries(qml-qt-petstore
     PUBLIC
-        Qt6OpenAPIClient
+        PetStoreClientQml
         Qt::QuickTest
 )
 

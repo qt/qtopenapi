@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(Qt6OpenAPIClient VERSION 0.1 LANGUAGES CXX)
+project(ColorpaletteClient VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_AUTOMOC ON)
 

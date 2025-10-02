@@ -27,6 +27,6 @@ target_include_directories(cpp-qt-operation-parameters
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/../client>
 )
 
-target_link_libraries(cpp-qt-operation-parameters PRIVATE Qt6OpenAPIClient Qt::Core Qt::Network Qt::Gui Qt::Test)
+target_link_libraries(cpp-qt-operation-parameters PRIVATE OperationParametersClient Qt::Core Qt::Network Qt::Gui Qt::Test)
 enable_testing()
 add_test(NAME cpp-qt-operation-parameters-test COMMAND cpp-qt-operation-parameters)
