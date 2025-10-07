@@ -138,18 +138,18 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
          * entire object tree available.  If the input file has a suffix of `.mustache
          * it will be processed by the template engine.  Otherwise, it will be copied
          */
-        supportingFiles.add(new SupportingFile("api-base-header.mustache", sourceFolder, PREFIX + "BaseApi.h"));
-        supportingFiles.add(new SupportingFile("api-base-body.mustache", sourceFolder, PREFIX + "BaseApi.cpp"));
-        supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder, PREFIX + "Helpers.h"));
-        supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder, PREFIX + "Helpers.cpp"));
-        supportingFiles.add(new SupportingFile("HttpRequest.h.mustache", sourceFolder, PREFIX + "HttpRequest.h"));
-        supportingFiles.add(new SupportingFile("HttpRequest.cpp.mustache", sourceFolder, PREFIX + "HttpRequest.cpp"));
-        supportingFiles.add(new SupportingFile("HttpFileElement.h.mustache", sourceFolder, PREFIX + "HttpFileElement.h"));
-        supportingFiles.add(new SupportingFile("HttpFileElement.cpp.mustache", sourceFolder, PREFIX + "HttpFileElement.cpp"));
-        supportingFiles.add(new SupportingFile("object.mustache", sourceFolder, PREFIX + "Object.h"));
-        supportingFiles.add(new SupportingFile("enum.mustache", sourceFolder, PREFIX + "Enum.h"));
-        supportingFiles.add(new SupportingFile("ServerConfiguration.mustache", sourceFolder, PREFIX + "ServerConfiguration.h"));
-        supportingFiles.add(new SupportingFile("ServerVariable.mustache", sourceFolder, PREFIX + "ServerVariable.h"));
+        supportingFiles.add(new SupportingFile("common/api-base-header.mustache", sourceFolder, PREFIX + "BaseApi.h"));
+        supportingFiles.add(new SupportingFile("common/api-base-body.mustache", sourceFolder, PREFIX + "BaseApi.cpp"));
+        supportingFiles.add(new SupportingFile("common/helpers-header.mustache", sourceFolder, PREFIX + "Helpers.h"));
+        supportingFiles.add(new SupportingFile("common/helpers-body.mustache", sourceFolder, PREFIX + "Helpers.cpp"));
+        supportingFiles.add(new SupportingFile("common/HttpRequest.h.mustache", sourceFolder, PREFIX + "HttpRequest.h"));
+        supportingFiles.add(new SupportingFile("common/HttpRequest.cpp.mustache", sourceFolder, PREFIX + "HttpRequest.cpp"));
+        supportingFiles.add(new SupportingFile("common/HttpFileElement.h.mustache", sourceFolder, PREFIX + "HttpFileElement.h"));
+        supportingFiles.add(new SupportingFile("common/HttpFileElement.cpp.mustache", sourceFolder, PREFIX + "HttpFileElement.cpp"));
+        supportingFiles.add(new SupportingFile("common/object.mustache", sourceFolder, PREFIX + "Object.h"));
+        supportingFiles.add(new SupportingFile("common/enum.mustache", sourceFolder, PREFIX + "Enum.h"));
+        supportingFiles.add(new SupportingFile("common/ServerConfiguration.mustache", sourceFolder, PREFIX + "ServerConfiguration.h"));
+        supportingFiles.add(new SupportingFile("common/ServerVariable.mustache", sourceFolder, PREFIX + "ServerVariable.h"));
         supportingFiles.add(new SupportingFile("README.mustache", sourceFolder, "README.md"));
         supportingFiles.add(new SupportingFile("CMakeConfig.mustache", sourceFolder, "Config.cmake.in"));
         supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));
@@ -201,18 +201,18 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
 
         if (additionalProperties.containsKey("modelNamePrefix")) {
             supportingFiles.clear();
-            supportingFiles.add(new SupportingFile("api-base-header.mustache", sourceFolder, modelNamePrefix + "BaseApi.h"));
-            supportingFiles.add(new SupportingFile("api-base-body.mustache", sourceFolder, modelNamePrefix + "BaseApi.cpp"));
-            supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder, modelNamePrefix + "Helpers.h"));
-            supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder, modelNamePrefix + "Helpers.cpp"));
-            supportingFiles.add(new SupportingFile("HttpRequest.h.mustache", sourceFolder, modelNamePrefix + "HttpRequest.h"));
-            supportingFiles.add(new SupportingFile("HttpRequest.cpp.mustache", sourceFolder, modelNamePrefix + "HttpRequest.cpp"));
-            supportingFiles.add(new SupportingFile("HttpFileElement.h.mustache", sourceFolder, modelNamePrefix + "HttpFileElement.h"));
-            supportingFiles.add(new SupportingFile("HttpFileElement.cpp.mustache", sourceFolder, modelNamePrefix + "HttpFileElement.cpp"));
-            supportingFiles.add(new SupportingFile("object.mustache", sourceFolder, modelNamePrefix + "Object.h"));
-            supportingFiles.add(new SupportingFile("enum.mustache", sourceFolder, modelNamePrefix + "Enum.h"));
-            supportingFiles.add(new SupportingFile("ServerConfiguration.mustache", sourceFolder, modelNamePrefix + "ServerConfiguration.h"));
-            supportingFiles.add(new SupportingFile("ServerVariable.mustache", sourceFolder, modelNamePrefix + "ServerVariable.h"));
+            supportingFiles.add(new SupportingFile("common/api-base-header.mustache", sourceFolder, modelNamePrefix + "BaseApi.h"));
+            supportingFiles.add(new SupportingFile("common/api-base-body.mustache", sourceFolder, modelNamePrefix + "BaseApi.cpp"));
+            supportingFiles.add(new SupportingFile("common/helpers-header.mustache", sourceFolder, modelNamePrefix + "Helpers.h"));
+            supportingFiles.add(new SupportingFile("common/helpers-body.mustache", sourceFolder, modelNamePrefix + "Helpers.cpp"));
+            supportingFiles.add(new SupportingFile("common/HttpRequest.h.mustache", sourceFolder, modelNamePrefix + "HttpRequest.h"));
+            supportingFiles.add(new SupportingFile("common/HttpRequest.cpp.mustache", sourceFolder, modelNamePrefix + "HttpRequest.cpp"));
+            supportingFiles.add(new SupportingFile("common/HttpFileElement.h.mustache", sourceFolder, modelNamePrefix + "HttpFileElement.h"));
+            supportingFiles.add(new SupportingFile("common/HttpFileElement.cpp.mustache", sourceFolder, modelNamePrefix + "HttpFileElement.cpp"));
+            supportingFiles.add(new SupportingFile("common/object.mustache", sourceFolder, modelNamePrefix + "Object.h"));
+            supportingFiles.add(new SupportingFile("common/enum.mustache", sourceFolder, modelNamePrefix + "Enum.h"));
+            supportingFiles.add(new SupportingFile("common/ServerConfiguration.mustache", sourceFolder, modelNamePrefix + "ServerConfiguration.h"));
+            supportingFiles.add(new SupportingFile("common/ServerVariable.mustache", sourceFolder, modelNamePrefix + "ServerVariable.h"));
             supportingFiles.add(new SupportingFile("README.mustache", sourceFolder, "README.md"));
             supportingFiles.add(new SupportingFile("CMakeConfig.mustache", sourceFolder, "Config.cmake.in"));
             supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));
