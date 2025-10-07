@@ -3,9 +3,6 @@
 # SPDX-License-Identifier: LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only
 set -e
 
-# petstore test server uses the old Qt5 libs for the server implementation
-# TBD QTBUG-137879: remove dependency to the old Qt5 libs, and refactore current server or implement a new one
-sudo apt-get -y install qtbase5-dev qtbase5-dev-tools
 # Qt6 generator uses doxygen to provide documentation to the user
 sudo apt-get -y install doxygen graphviz
 # operation-parameters test server uses Go
@@ -27,7 +24,7 @@ function run_test() {
 function run_test_server() {
     SERVER_OUTPUT_DIR="$OPENAPI_HOME/tests/auto/$1/server"
     if [[ $1 == "petstore" ]]; then
-        SERVER_NAME="cpp-qt-qhttpengine-server"
+        SERVER_NAME="petstore-server-app"
         rm -rf $SERVER_OUTPUT_DIR/build
     elif [[ $1 == "colorpalette" ]]; then
         SERVER_NAME=""

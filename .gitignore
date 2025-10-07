@@ -22,7 +22,6 @@ tests/auto/*/client/client/doc/html/
 tests/auto/*/client/client/doc/latex/
 tests/auto/*/qmlclient/client/doc/html/
 tests/auto/*/qmlclient/client/doc/latex/
-tests/auto/petstore/server/external/*
-tests/auto/petstore/server/gmon.out
+tests/auto/petstore/server/petstore-server-app
 openapi_client_generators/*
 

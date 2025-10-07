@@ -2,22 +2,13 @@
 
 set -e
 
-export CMAKE_POLICY_VERSION_MINIMUM=3.5
-#export CMAKE_PREFIX_PATH="" Path to Qt5 on your desktop
+# Clean up old binary if exists
+rm -f server-app
 
-#sudo apt install libssl-dev qtbase5-dev qtbase5-dev-tools curl
+# Build the Go server
+go build -o petstore-server-app main.go
 
-if ! command -V curl 2>&1 >/dev/null
-then
-    echo "'Curl' is not installed. Run 'sudo apt install curl' for installation on Linux."
-    exit 1
-fi
+# Run the server in the background
+./petstore-server-app &
 
-mkdir -p build
-cd build
-
-cmake .. -G Ninja
-
-cmake --build . --parallel
-
-$PWD/src/cpp-qt-qhttpengine-server -p 9080 -a 127.0.0.1 &
+echo "Go server started in background with PID $!"
