@@ -760,12 +760,12 @@ void OperationParameters::multiplePathParameters()
     bool done = false;
 
     connect(this, &OperationParameters::simpleExplodeStringsFinished,
-            [&](const QString &summary) {
+            this, [&](const QString &summary) {
                 done = true;
                 QCOMPARE(getStatusString(summary), expectedResult);
             });
     connect(this, &OperationParameters::simpleExplodeStringsErrorOccurred,
-            [&](QNetworkReply::NetworkError errType, const QString &errStr) {
+            this, [&](QNetworkReply::NetworkError errType, const QString &errStr) {
                 done = false;
                 qDebug() << errType << errStr;
             });
@@ -779,12 +779,12 @@ void OperationParameters::multiplePathParameters()
     done = false;
 
     connect(this, &OperationParameters::labelStringMatrixArrayNotExplodeFinished,
-            [&](const QString &summary) {
+            this, [&](const QString &summary) {
                 done = true;
                 QCOMPARE(getStatusString(summary), expectedResult);
             });
     connect(this, &OperationParameters::labelStringMatrixArrayNotExplodeErrorOccurred,
-            [&](QNetworkReply::NetworkError errType, const QString &errStr) {
+            this, [&](QNetworkReply::NetworkError errType, const QString &errStr) {
                 done = false;
                 qDebug() << errType << errStr;
             });
@@ -1302,12 +1302,12 @@ void OperationParameters::severalQueryParametersPerOPeration()
     bool done = false;
 
     connect(this, &OperationParameters::formExplodeStringOptionsFinished,
-            [&](const QString &summary) {
+            this, [&](const QString &summary) {
                 done = true;
                 QCOMPARE(getStatusString(summary), expectedResult);
             });
     connect(this, &OperationParameters::formExplodeStringOptionsErrorOccurred,
-            [&](QNetworkReply::NetworkError, const QString &) {
+            this, [&](QNetworkReply::NetworkError, const QString &) {
                 done = false;
             });
 

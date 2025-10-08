@@ -94,18 +94,20 @@ void PetApiTests::findPetsByStatusTest() {
     api.addPet(sold_pet);
     QTRY_COMPARE_EQ_WITH_TIMEOUT(petCreated, true, 5000);
 
-    connect(&api, &QtOAIPetApi::findPetsByStatusFinished, [&](QList<QtOAIPet> pets) {
+    connect(&api, &QtOAIPetApi::findPetsByStatusFinished,
+            this, [&](QList<QtOAIPet> pets) {
         petFound = true;
         QVERIFY(!pets.isEmpty());
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
-        foreach (QtOAIPet pet, pets) {
+        for (const QtOAIPet &pet: pets) {
             qDebug() << "Pet id = " << pet.getId() << "status = " << pet.getStatus();
             QVERIFY(pet.getStatus() == "available" || pet.getStatus() == "sold");
         }
 QT_WARNING_POP
     });
-    connect(&api, &QtOAIPetApi::findPetsByStatusErrorOccurred, [&](QNetworkReply::NetworkError, const QString &errorStr) {
+    connect(&api, &QtOAIPetApi::findPetsByStatusErrorOccurred,
+            this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
 
@@ -115,13 +117,14 @@ QT_WARNING_POP
 
 void connectPetByIdApi(QtOAIPetApi *petApi, bool &petFetched, QtOAIPet &petToCheck)
 {
-    QObject::connect(petApi, &QtOAIPetApi::getPetByIdFinished, [&petFetched, &petToCheck](QtOAIPet summary) {
+    QObject::connect(petApi, &QtOAIPetApi::getPetByIdFinished,
+                     petApi, [&petFetched, &petToCheck](QtOAIPet summary) {
         // pet created
         petFetched = true;
         petToCheck = summary;
     });
-    QObject::connect(petApi, &QtOAIPetApi::getPetByIdErrorOccurred, [&]
-                     (QNetworkReply::NetworkError, const QString &errorStr) {
+    QObject::connect(petApi, &QtOAIPetApi::getPetByIdErrorOccurred, petApi,
+                     [&](QNetworkReply::NetworkError, const QString &errorStr) {
                          qDebug() << "Error happened while issuing request : " << errorStr;
                      });
 }
@@ -137,12 +140,13 @@ void PetApiTests::createAndGetPetTest() {
     QtOAIPet pet = createRandomPet("available", petName);
     qint64 id = pet.getId();
 
-    connect(&api, &QtOAIPetApi::addPetFinished, [&](QtOAIPet summary) {
+    connect(&api, &QtOAIPetApi::addPetFinished, this, [&](QtOAIPet summary) {
         // pet created
         petCreated = true;
         QCOMPARE(pet, summary);
     });
-    connect(&api, &QtOAIPetApi::addPetErrorOccurred, [&](QNetworkReply::NetworkError, const QString &errorStr) {
+    connect(&api, &QtOAIPetApi::addPetErrorOccurred, this,
+            [&](QNetworkReply::NetworkError, const QString &errorStr) {
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
     api.addPet(pet);
@@ -181,11 +185,12 @@ void PetApiTests::updatePetTest() {
     qint64 id = pet.getId();
     bool petAdded = false;
 
-    connect(&api, &QtOAIPetApi::addPetFinished, [&](QtOAIPet summary) {
+    connect(&api, &QtOAIPetApi::addPetFinished, this, [&](QtOAIPet summary) {
         petAdded = true;
         QCOMPARE(pet, summary);
     });
-    connect(&api, &QtOAIPetApi::addPetErrorOccurred, [&](QNetworkReply::NetworkError, const QString &errorStr) {
+    connect(&api, &QtOAIPetApi::addPetErrorOccurred,
+            this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
     // create pet
@@ -201,11 +206,12 @@ void PetApiTests::updatePetTest() {
 
     // update it
     bool petUpdated = false;
-    connect(&api, &QtOAIPetApi::updatePetFinished, [&](QtOAIPet summary) {
+    connect(&api, &QtOAIPetApi::updatePetFinished, this, [&](QtOAIPet summary) {
         petUpdated = true;
         pet = summary;
     });
-    connect(&api, &QtOAIPetApi::updatePetErrorOccurred, [&](QNetworkReply::NetworkError, const QString &errorStr) {
+    connect(&api, &QtOAIPetApi::updatePetErrorOccurred,
+            this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
 
@@ -238,11 +244,12 @@ void PetApiTests::updatePetWithFormTest() {
 
     // create pet
     bool petAdded = false;
-    connect(&api, &QtOAIPetApi::addPetFinished, [&](QtOAIPet summary) {
+    connect(&api, &QtOAIPetApi::addPetFinished, this, [&](QtOAIPet summary) {
         petAdded = true;
         QCOMPARE(pet, summary);
     });
-    connect(&api, &QtOAIPetApi::addPetErrorOccurred, [&](QNetworkReply::NetworkError, const QString &errorStr) {
+    connect(&api, &QtOAIPetApi::addPetErrorOccurred,
+            this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
 
@@ -257,10 +264,11 @@ void PetApiTests::updatePetWithFormTest() {
 
     // update it
     bool petUpdated = false;
-    connect(&api, &QtOAIPetApi::updatePetWithFormFinished, [&]() {
+    connect(&api, &QtOAIPetApi::updatePetWithFormFinished, this, [&]() {
         petUpdated = true;
     });
-    connect(&api, &QtOAIPetApi::updatePetWithFormErrorOccurred, [&](QNetworkReply::NetworkError, const QString &errorStr) {
+    connect(&api, &QtOAIPetApi::updatePetWithFormErrorOccurred,
+            this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
 
@@ -288,11 +296,12 @@ void PetApiTests::deleteCreatedPetByBearerTest()
 
     // create pet
     bool petAdded = false;
-    connect(&api, &QtOAIPetApi::addPetFinished, [&](QtOAIPet summary) {
+    connect(&api, &QtOAIPetApi::addPetFinished, this, [&](QtOAIPet summary) {
         petAdded = true;
         QCOMPARE(pet, summary);
     });
-    connect(&api, &QtOAIPetApi::addPetErrorOccurred, [&](QNetworkReply::NetworkError, const QString &errorStr) {
+    connect(&api, &QtOAIPetApi::addPetErrorOccurred,
+            this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
 
@@ -301,10 +310,11 @@ void PetApiTests::deleteCreatedPetByBearerTest()
 
     // delete created pet
     bool petDeleted = false;
-    connect(&api, &QtOAIPetApi::deletePetFinished, [&]() {
+    connect(&api, &QtOAIPetApi::deletePetFinished, this, [&]() {
         petDeleted = true;
     });
-    connect(&api, &QtOAIPetApi::deletePetErrorOccurred, [&](QNetworkReply::NetworkError, const QString &errorStr) {
+    connect(&api, &QtOAIPetApi::deletePetErrorOccurred,
+            this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
 
@@ -320,11 +330,11 @@ void PetApiTests::deleteCreatedPetNoBearerTest()
     // delete created pet
     bool petNotDeleted = false;
     int errorOccurredCounter = 0;
-    connect(&apiNoBearer, &QtOAIPetApi::deletePetFinished, [&]() {
+    connect(&apiNoBearer, &QtOAIPetApi::deletePetFinished, this, [&]() {
         qDebug() << "deletePetFinished: No error happened";
     });
-    connect(&apiNoBearer, &QtOAIPetApi::deletePetErrorOccurred, [&]
-            (QNetworkReply::NetworkError, const QString &errorStr) {
+    connect(&apiNoBearer, &QtOAIPetApi::deletePetErrorOccurred,
+            this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
                 qDebug() << "deletePetErrorOccurred: expected error happened while issuing the request : " << errorStr;
                 petNotDeleted = true;
                 errorOccurredCounter++;
@@ -347,11 +357,12 @@ void PetApiTests::uploadPetFileTest()
 
     // create pet
     bool petAdded = false;
-    connect(&api, &QtOAIPetApi::addPetFinished, [&](QtOAIPet summary) {
+    connect(&api, &QtOAIPetApi::addPetFinished, this, [&](QtOAIPet summary) {
         petAdded = true;
         QCOMPARE(pet, summary);
     });
-    connect(&api, &QtOAIPetApi::addPetErrorOccurred, [&](QNetworkReply::NetworkError, const QString &errorStr) {
+    connect(&api, &QtOAIPetApi::addPetErrorOccurred,
+            this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
 
@@ -362,14 +373,15 @@ void PetApiTests::uploadPetFileTest()
     bool petFileUploaded = false;
     QString type, message;
     qint32 code = -100;
-    connect(&api, &QtOAIPetApi::uploadFileFinished, [&](QtOAIApiResponse response) {
+    connect(&api, &QtOAIPetApi::uploadFileFinished, this, [&](QtOAIApiResponse response) {
         petFileUploaded = true;
         type = response.getType();
         code = response.getCode();
         message = response.getMessage();
         qWarning() << type << code << message;
     });
-    connect(&api, &QtOAIPetApi::uploadFileErrorOccurred, [&](QNetworkReply::NetworkError, const QString &errorStr) {
+    connect(&api, &QtOAIPetApi::uploadFileErrorOccurred,
+            this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
 
@@ -386,12 +398,12 @@ void PetApiTests::uploadPetFileTest()
 
 void PetApiTests::connectAddPetApi(QtOAIPetApi *petApi, bool &petCreated)
 {
-    QObject::connect(petApi, &QtOAIPetApi::addPetFinished, [&petCreated]() {
+    QObject::connect(petApi, &QtOAIPetApi::addPetFinished, this, [&petCreated]() {
         // pet created
         petCreated = true;
     });
-    QObject::connect(petApi, &QtOAIPetApi::addPetErrorOccurred, [&]
-                     (QNetworkReply::NetworkError, const QString &errorStr) {
+    QObject::connect(petApi, &QtOAIPetApi::addPetErrorOccurred,
+                     this, [&] (QNetworkReply::NetworkError, const QString &errorStr) {
                          qDebug() << "Error happened while issuing request : " << errorStr;
                      });
 }
@@ -433,14 +445,15 @@ void PetApiTests::mixedApiCallsTest()
     QTRY_COMPARE_EQ_WITH_TIMEOUT(petCreated, true, 14000);
 
     bool inventoryFetched = false;
-    connect(&apiStore, &QtOAIStoreApi::getInventoryFinished, [&](QMap<QString, qint32> status) {
+    connect(&apiStore, &QtOAIStoreApi::getInventoryFinished,
+            this, [&](QMap<QString, qint32> status) {
         inventoryFetched = true;
         for (const auto &key : status.keys()) {
             qDebug() << (key) << " Quantities " << status.value(key);
         }
     });
-    connect(&apiStore, &QtOAIStoreApi::getInventoryErrorOccurred, [&]
-            (QNetworkReply::NetworkError, const QString &errorStr) {
+    connect(&apiStore, &QtOAIStoreApi::getInventoryErrorOccurred,
+            this, [&] (QNetworkReply::NetworkError, const QString &errorStr) {
                 qDebug() << "Error happened while issuing request : " << errorStr;
             });
 
@@ -448,11 +461,11 @@ void PetApiTests::mixedApiCallsTest()
     QTRY_COMPARE_EQ_WITH_TIMEOUT(inventoryFetched, true, 14000);
 
     bool userLoggedOut = false;
-    connect(&apiUser, &QtOAIUserApi::logoutUserFinished, [&]() {
+    connect(&apiUser, &QtOAIUserApi::logoutUserFinished, this, [&]() {
         userLoggedOut = true;
     });
-    connect(&apiUser, &QtOAIUserApi::logoutUserErrorOccurred, [&]
-            (QNetworkReply::NetworkError, const QString &errorStr) {
+    connect(&apiUser, &QtOAIUserApi::logoutUserErrorOccurred,
+            this, [&] (QNetworkReply::NetworkError, const QString &errorStr) {
                 qDebug() << "Error happened while issuing request : " << errorStr;
             });
 
@@ -471,11 +484,12 @@ void PetApiTests::getFilesFromServerTest()
 
     // create pet
     bool petAdded = false;
-    connect(&api, &QtOAIPetApi::addPetFinished, [&](QtOAIPet summary) {
+    connect(&api, &QtOAIPetApi::addPetFinished, this, [&](QtOAIPet summary) {
         petAdded = true;
         QCOMPARE(pet, summary);
     });
-    connect(&api, &QtOAIPetApi::addPetErrorOccurred, [&](QNetworkReply::NetworkError, const QString &errorStr) {
+    connect(&api, &QtOAIPetApi::addPetErrorOccurred,
+            this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
 
@@ -484,14 +498,16 @@ void PetApiTests::getFilesFromServerTest()
 
     // get pet json info file
     bool petFileDownloaded = false;
-    connect(&api, &QtOAIPetApi::getJsonFileFinished, [&](QtOAIHttpFileElement summary) {
+    connect(&api, &QtOAIPetApi::getJsonFileFinished,
+            this, [&](QtOAIHttpFileElement summary) {
         petFileDownloaded = true;
         QCOMPARE("response.json", summary.m_requestFilename);
         QJsonObject fileContent = summary.asJsonValue().toObject();
         QCOMPARE(fileContent.value("file-name").toString(), QString("Hi, I am a response!"));
         QCOMPARE(fileContent.value("value").toInt(), 81);
     });
-    connect(&api, &QtOAIPetApi::getJsonFileErrorOccurred, [&](QNetworkReply::NetworkError, const QString &errorStr) {
+    connect(&api, &QtOAIPetApi::getJsonFileErrorOccurred,
+            this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
 
@@ -500,14 +516,15 @@ void PetApiTests::getFilesFromServerTest()
 
     // get PNG file
     bool petPngDownloaded = false;
-    connect(&api, &QtOAIPetApi::findPetsImageByIdFinished, [&](QString summary) {
+    connect(&api, &QtOAIPetApi::findPetsImageByIdFinished, this, [&](QString summary) {
         petPngDownloaded = true;
         // test file size
         QCOMPARE(summary.size(), 8868);
         // test we can load it normally into QImage object
         QVERIFY2(!QImage::fromData(QByteArray::fromBase64(summary.toUtf8()), "png").isNull(), "Image isn't loaded.");
     });
-    connect(&api, &QtOAIPetApi::findPetsImageByIdErrorOccurred, [&](QNetworkReply::NetworkError, const QString &errorStr) {
+    connect(&api, &QtOAIPetApi::findPetsImageByIdErrorOccurred,
+            this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
 
@@ -538,10 +555,11 @@ void PetApiTests::setNoBasicLoginAndPasswordTest()
     QtOAIPetApi apiNoData;
     QtOAIPet pet = createRandomPet();
     bool petNotAdded = false;
-    connect(&apiNoData, &QtOAIPetApi::addPetFinished, [&]() {
+    connect(&apiNoData, &QtOAIPetApi::addPetFinished, this, [&]() {
         qDebug() << "addPetFinished: no error happened.";
     });
-    connect(&apiNoData, &QtOAIPetApi::addPetErrorOccurred, [&](QNetworkReply::NetworkError, const QString &errorStr) {
+    connect(&apiNoData, &QtOAIPetApi::addPetErrorOccurred,
+            this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
         petNotAdded = true;
         qDebug() << "addPetErrorOccurred: expected error happened while issuing the request : " << errorStr;
     });

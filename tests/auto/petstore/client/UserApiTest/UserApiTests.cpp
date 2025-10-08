@@ -161,11 +161,13 @@ void UserApiTests::loginUserTest() {
     bool userLogged = false;
     QString expectedString;
 
-    connect(&api, &QtOAIUserApi::loginUserFinished, [&](const QString &summary) {
+    connect(&api, &QtOAIUserApi::loginUserFinished,
+            this, [&](const QString &summary) {
         userLogged = true;
         expectedString = summary;
     });
-    connect(&api, &QtOAIUserApi::loginUserErrorOccurred, [&](QNetworkReply::NetworkError, const QString &errorStr) {
+    connect(&api, &QtOAIUserApi::loginUserErrorOccurred,
+            this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
         userLogged = false;
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
