@@ -158,7 +158,7 @@ std::optional<int> QtOAIBaseApi::addServerConfiguration(const QString &operation
  */
 QtOAIBaseApi::ServerError QtOAIBaseApi::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, QtOAIServerVariable> &variables)
 {
-    QtOAIBaseApi::ServerError err;
+    QtOAIBaseApi::ServerError err = ServerError::ServerIndexNotFound;
 
     for (auto keyIt = m_serverIndices.keyBegin(); keyIt != m_serverIndices.keyEnd(); keyIt++) {
         err = setNewServer(*keyIt, url, description, variables);

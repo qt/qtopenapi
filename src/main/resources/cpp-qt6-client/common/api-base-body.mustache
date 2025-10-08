@@ -153,7 +153,7 @@ std::optional<int> {{prefix}}BaseApi::addServerConfiguration(const QString &oper
  */
 {{prefix}}BaseApi::ServerError {{prefix}}BaseApi::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, {{prefix}}ServerVariable> &variables)
 {
-    {{prefix}}BaseApi::ServerError err;
+    {{prefix}}BaseApi::ServerError err = ServerError::ServerIndexNotFound;
 
     for (auto keyIt = m_serverIndices.keyBegin(); keyIt != m_serverIndices.keyEnd(); keyIt++) {
         err = setNewServer(*keyIt, url, description, variables);

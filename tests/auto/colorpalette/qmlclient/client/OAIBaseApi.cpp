@@ -158,7 +158,7 @@ std::optional<int> OAIBaseApi::addServerConfiguration(const QString &operation, 
  */
 OAIBaseApi::ServerError OAIBaseApi::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, OAIServerVariable> &variables)
 {
-    OAIBaseApi::ServerError err;
+    OAIBaseApi::ServerError err = ServerError::ServerIndexNotFound;
 
     for (auto keyIt = m_serverIndices.keyBegin(); keyIt != m_serverIndices.keyEnd(); keyIt++) {
         err = setNewServer(*keyIt, url, description, variables);
