@@ -62,7 +62,7 @@ public:
     void initialize();
     void addVar(const QString &key, const QString &value);
     void addFieldHeaders(const QString &key, const QString &value);
-    void addFile(const QString &variableName, const QString &localFilename, const QString &requestFilename, const QString &mimeType);
+    void addFile(const QString &variableName, const QString &localFilename, const QString &mimeType);
     void addVarLayout(OAIHttpRequestVarLayout layout);
     void setHeaders(const QHttpHeaders &newHeaders);
     void setFormData(bool isForm);

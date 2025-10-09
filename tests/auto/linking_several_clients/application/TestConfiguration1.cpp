@@ -70,8 +70,7 @@ void TestConfiguration1::testLibraries()
 {
     QtOAIClient1TestApi api1;
     QtOAIClient2TestApi api2;
-    QtOAIHttpFileElement object;
-    object.setFileName("NoName.txt");
+    QtOAIHttpFileElement object("NoName.txt");
     bool done = true;
 
     api1.simpleExplodeString("Test String"_L1, this,

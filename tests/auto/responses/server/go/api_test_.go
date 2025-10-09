@@ -10,6 +10,12 @@
 package openapi
 
 import (
+	"bytes"
+	"compress/gzip"
+	"fmt"
+	"net/http"
+	"os"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -36,4 +42,70 @@ func (api *TestAPI) ApplicationJsonStringResponse(c *gin.Context) {
 // Check response type text/plain string
 func (api *TestAPI) TextPlainStringResponse(c *gin.Context) {
 	c.Data(200, "text/plain", []byte("Hello plain text"))
+}
+
+// Get /v2/response/application/pdf/inline/{fileId}
+// Serve pdf inline
+func (api *TestAPI) ApplicationPdfInlineResponse(c *gin.Context) {
+	filePath := "./" + c.Param("fileId")
+
+	pdfContent, err := os.ReadFile(filePath)
+	if err != nil {
+		c.String(500, fmt.Sprintf("Failed to read file: %v", err))
+		return
+	}
+
+	// Send pdf bytes
+	c.Data(200, "application/pdf", pdfContent)
+}
+
+// Get /v2/response/application/pdf/save/{fileId}
+// Save pdf file
+func (api *TestAPI) ApplicationPdfSaveResponse(c *gin.Context) {
+	filePath := "./" + c.Param("fileId")
+
+	pdfContent, err := os.ReadFile(filePath)
+	if err != nil {
+		c.String(500, fmt.Sprintf("Failed to read file: %v", err))
+		return
+	}
+
+	// Force download
+	c.Header("Content-Disposition", `attachment; filename="example1.pdf"`)
+
+	// Send pdf bytes
+	c.Data(200, "application/pdf", pdfContent) // Set the Content-Type header
+}
+
+// Get /v2/response/application/pdf/save/encoded/{fileId}
+// Save encoded pdf file
+func (api *TestAPI) ApplicationEncodedPdfSaveResponse(c *gin.Context) {
+	filePath := "./" + c.Param("fileId")
+
+	pdfContent, err := os.ReadFile(filePath)
+	if err != nil {
+		c.String(500, fmt.Sprintf("Failed to read file: %v", err))
+		return
+	}
+
+	// Compress the content with gzip
+	var buf bytes.Buffer
+	gz := gzip.NewWriter(&buf)
+	if _, err := gz.Write(pdfContent); err != nil {
+		c.String(http.StatusInternalServerError, "gzip compression failed")
+		return
+	}
+	if err := gz.Close(); err != nil {
+		c.String(http.StatusInternalServerError, "gzip close failed")
+		return
+	}
+
+	// Force download
+	c.Header("Content-Disposition", `attachment; filename="compressed_example1.pdf"`)
+
+	// Set encoing header
+	c.Header("Content-Encoding", "gzip")
+
+	// Send pdf bytes
+	c.Data(200, "application/pdf", buf.Bytes()) // Set the Content-Type header
 }

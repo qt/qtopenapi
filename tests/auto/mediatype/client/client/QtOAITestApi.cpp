@@ -126,7 +126,7 @@ void QtOAITestApi::binaryTypeWithDataImpl(const ::QtOpenAPI::OptionalParam<QtOAI
     QtOAIHttpRequestInput input(fullPath, "POST");
     input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/octet-stream"_L1);
     if (body.hasValue()) {
-        QByteArray output = body.value().asByteArray();
+        QByteArray output = body.value().loadFromLocalFile();
         input.m_requestBody.append(output);
     }
     QNetworkRequest request
@@ -1041,7 +1041,7 @@ void QtOAITestApi::postMultiPartDataWithDataImpl(const QString &formId, const QL
     }
     if (formProfileImage.hasValue()) {
         QString contentType;
-        input.addFile("formProfileImage", formProfileImage.value().filename(), formProfileImage.value().requestFilename(), contentType);
+        input.addFile("formProfileImage", formProfileImage.value().filename(), contentType);
     }
     {
         QString contentType;

@@ -24,16 +24,21 @@ namespace QtOpenAPI {
 class QtOAIHttpFileElementShared : public QSharedData
 {
 public:
+    explicit QtOAIHttpFileElementShared(const QString &localFilename)
+        : m_localFilename(localFilename) {}
+    ~QtOAIHttpFileElementShared();
+
     QString m_variableName;
-    QString m_localFilename;
-    QString m_requestFilename;
+    const QString m_localFilename;
     QString m_mimeType;
+    bool m_temporary = false;
 };
 
 class QtOAIHttpFileElement {
 
 public:
     QtOAIHttpFileElement();
+    explicit QtOAIHttpFileElement(const QString &localFilename);
     QtOAIHttpFileElement(const QtOAIHttpFileElement &other);
     QtOAIHttpFileElement(QtOAIHttpFileElement &&other) noexcept : d(std::move(other.d)) {}
     QtOAIHttpFileElement &operator=(const QtOAIHttpFileElement &other);
@@ -46,24 +51,22 @@ public:
     ~QtOAIHttpFileElement();
 
     void setMimeType(const QString &mime);
-    void setFileName(const QString &name);
     void setVariableName(const QString &name);
-    void setRequestFileName(const QString &name);
+    void setTemporary(bool temp);
 
     QString mimeType() const;
     QString filename() const;
     QString variableName() const;
-    QString requestFilename() const;
+    bool isTemporary() const;
 
+    QString requestFilename() const;
     bool isSet() const;
     bool fromStringValue(const QString &instr);
     bool fromJsonValue(const QJsonValue &jval);
-    bool fromByteArray(const QByteArray &bytes);
-    bool saveToFile(const QString &variableName, const QString &localFilename, const QString &requestFilename, const QString &mime, const QByteArray &bytes);
+    bool saveToLocalFile(const QByteArray &bytes);
     QString asJson() const;
     QJsonValue asJsonValue() const;
-    QByteArray asByteArray() const;
-    QByteArray loadFromFile(const QString &variableName, const QString &localFilename, const QString &requestFilename, const QString &mime);
+    QByteArray loadFromLocalFile() const;
 
 private:
     QExplicitlySharedDataPointer<QtOAIHttpFileElementShared> d;

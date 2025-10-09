@@ -24,16 +24,21 @@ namespace OpenAPI {
 class OAIHttpFileElementShared : public QSharedData
 {
 public:
+    explicit OAIHttpFileElementShared(const QString &localFilename)
+        : m_localFilename(localFilename) {}
+    ~OAIHttpFileElementShared();
+
     QString m_variableName;
-    QString m_localFilename;
-    QString m_requestFilename;
+    const QString m_localFilename;
     QString m_mimeType;
+    bool m_temporary = false;
 };
 
 class OAIHttpFileElement {
 
 public:
     OAIHttpFileElement();
+    explicit OAIHttpFileElement(const QString &localFilename);
     OAIHttpFileElement(const OAIHttpFileElement &other);
     OAIHttpFileElement(OAIHttpFileElement &&other) noexcept : d(std::move(other.d)) {}
     OAIHttpFileElement &operator=(const OAIHttpFileElement &other);
@@ -46,24 +51,22 @@ public:
     ~OAIHttpFileElement();
 
     void setMimeType(const QString &mime);
-    void setFileName(const QString &name);
     void setVariableName(const QString &name);
-    void setRequestFileName(const QString &name);
+    void setTemporary(bool temp);
 
     QString mimeType() const;
     QString filename() const;
     QString variableName() const;
-    QString requestFilename() const;
+    bool isTemporary() const;
 
+    QString requestFilename() const;
     bool isSet() const;
     bool fromStringValue(const QString &instr);
     bool fromJsonValue(const QJsonValue &jval);
-    bool fromByteArray(const QByteArray &bytes);
-    bool saveToFile(const QString &variableName, const QString &localFilename, const QString &requestFilename, const QString &mime, const QByteArray &bytes);
+    bool saveToLocalFile(const QByteArray &bytes);
     QString asJson() const;
     QJsonValue asJsonValue() const;
-    QByteArray asByteArray() const;
-    QByteArray loadFromFile(const QString &variableName, const QString &localFilename, const QString &requestFilename, const QString &mime);
+    QByteArray loadFromLocalFile() const;
 
 private:
     QExplicitlySharedDataPointer<OAIHttpFileElementShared> d;

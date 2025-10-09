@@ -10,13 +10,23 @@
 
 #include <QtCore/qdebug.h>
 #include <QtCore/qfile.h>
+#include <QtCore/qfileinfo.h>
 #include <QtCore/qjsondocument.h>
 #include <QtCore/qjsonobject.h>
 
 namespace QtOpenAPI {
 
-QtOAIHttpFileElement::QtOAIHttpFileElement()
-    : d(new QtOAIHttpFileElementShared()){}
+QtOAIHttpFileElement::QtOAIHttpFileElement() = default;
+
+QtOAIHttpFileElementShared::~QtOAIHttpFileElementShared()
+{
+    // Cleanup temporary file when last reference is destroyed
+    if (m_temporary && !m_localFilename.isEmpty() && QFile::exists(m_localFilename))
+        QFile::remove(m_localFilename);
+}
+
+QtOAIHttpFileElement::QtOAIHttpFileElement(const QString &localFilename)
+    : d(new QtOAIHttpFileElementShared(localFilename)){}
 
 QtOAIHttpFileElement::QtOAIHttpFileElement(const QtOAIHttpFileElement &other)
     : d(other.d) {}
@@ -36,22 +46,16 @@ void QtOAIHttpFileElement::setMimeType(const QString &mime)
     d->m_mimeType = mime;
 }
 
-void QtOAIHttpFileElement::setFileName(const QString &name)
-{
-    d.detach();
-    d->m_localFilename = name;
-}
-
 void QtOAIHttpFileElement::setVariableName(const QString &name)
 {
     d.detach();
     d->m_variableName = name;
 }
 
-void QtOAIHttpFileElement::setRequestFileName(const QString &name)
+void QtOAIHttpFileElement::setTemporary(bool temp)
 {
     d.detach();
-    d->m_requestFilename = name;
+    d->m_temporary = temp;
 }
 
 QString QtOAIHttpFileElement::mimeType() const
@@ -71,52 +75,77 @@ QString QtOAIHttpFileElement::variableName() const
 
 QString QtOAIHttpFileElement::requestFilename() const
 {
-    return d->m_requestFilename;
+    return QFileInfo(d->m_localFilename).fileName();
+}
+
+
+bool QtOAIHttpFileElement::isTemporary() const
+{
+    return d->m_temporary;
 }
 
 bool QtOAIHttpFileElement::isSet() const {
-    return !d->m_localFilename.isEmpty() || !d->m_requestFilename.isEmpty();
+    return !d->m_localFilename.isEmpty();
 }
 
+/*!
+    \internal
+
+    Returns the content of the local file as QString.
+*/
 QString QtOAIHttpFileElement::asJson() const
 {
-    const QByteArray data = asByteArray();
+    const QByteArray data = loadFromLocalFile();
     return QString::fromUtf8(data);
 }
 
+/*!
+    \internal
+
+    Returns the content of the local file as QJsonValue.
+*/
 QJsonValue QtOAIHttpFileElement::asJsonValue() const
 {
-    const QByteArray data = asByteArray();
+    const QByteArray data = loadFromLocalFile();
     const QJsonObject object = QJsonDocument::fromJson(data).object();
     return QJsonValue(object);
 }
 
+/*!
+    \internal
+
+    Writes the string \a instr to the file with filename m_localFilename,
+    creating or overwriting it.
+*/
 bool QtOAIHttpFileElement::fromStringValue(const QString &instr)
 {
-    return fromByteArray(instr.toUtf8());
+    return saveToLocalFile(instr.toUtf8());
 }
 
+/*!
+    \internal
+
+    Writes the json value \a jval to the file with filename m_localFilename,
+    creating or overwriting it.
+*/
 bool QtOAIHttpFileElement::fromJsonValue(const QJsonValue &jval)
 {
     const QByteArray content = QJsonDocument(jval.toObject()).toJson(QJsonDocument::Compact);
-    return fromByteArray(content);
+    return saveToLocalFile(content);
 }
 
-QByteArray QtOAIHttpFileElement::asByteArray() const
+/*!
+    \internal
+
+    Creates or overwrites a file with filename m_localFilename,
+    with \a bytes content.
+*/
+bool QtOAIHttpFileElement::saveToLocalFile(const QByteArray &bytes)
 {
-    QFile file(d->m_localFilename);
-    QByteArray bArray;
-    if (file.exists() && file.open(QIODevice::ReadOnly)) {
-        bArray = file.readAll();
-        file.close();
-    } else {
-        qDebug() << "Failed to open the file" << d->m_localFilename;
+    if (d->m_localFilename.isEmpty()) {
+        qDebug() << "Local filename is empty, skipping save.";
+        return false;
     }
-    return bArray;
-}
-
-bool QtOAIHttpFileElement::fromByteArray(const QByteArray &bytes)
-{
     QFile file(d->m_localFilename);
     bool result = file.open(QIODevice::WriteOnly | QIODevice::Truncate);
     if (result) {
@@ -131,24 +160,28 @@ bool QtOAIHttpFileElement::fromByteArray(const QByteArray &bytes)
     return result;
 }
 
-bool QtOAIHttpFileElement::saveToFile(const QString &varName, const QString &localFName, const QString &reqFname, const QString &mime, const QByteArray &bytes)
-{
-    d.detach(); // only once
-    d->m_mimeType = mime;
-    d->m_localFilename = localFName;
-    d->m_variableName = varName;
-    d->m_requestFilename = reqFname;
-    return fromByteArray(bytes);
-}
+/*!
+    \internal
 
-QByteArray QtOAIHttpFileElement::loadFromFile(const QString &varName, const QString &localFName, const QString &reqFname, const QString &mime)
+    Reads the content of the file with filename m_localFilename.
+*/
+QByteArray QtOAIHttpFileElement::loadFromLocalFile() const
 {
-    d.detach(); // only once
-    d->m_mimeType = mime;
-    d->m_localFilename = localFName;
-    d->m_variableName = varName;
-    d->m_requestFilename = reqFname;
-    return asByteArray();
+    QByteArray bArray;
+
+    if (d->m_localFilename.isEmpty()) {
+        qDebug() << "Local filename is empty, skipping reading.";
+        return bArray;
+    }
+
+    QFile file(d->m_localFilename);
+    if (file.exists() && file.open(QIODevice::ReadOnly)) {
+        bArray = file.readAll();
+        file.close();
+    } else {
+        qDebug("Failed to open the file %s", qPrintable(d->m_localFilename));
+    }
+    return bArray;
 }
 
 } // namespace QtOpenAPI

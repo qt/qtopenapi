@@ -38,6 +38,7 @@ target_include_directories(cpp-qt-responses
 target_compile_definitions(cpp-qt-responses
     PRIVATE
         SERVER_PATH="$<TARGET_FILE:responses-server-go>"
+        SERVER_DIR="$<TARGET_FILE_DIR:responses-server-go>"
 )
 
 target_link_libraries(cpp-qt-responses PRIVATE ResponsesClient CommonResponsesClient)

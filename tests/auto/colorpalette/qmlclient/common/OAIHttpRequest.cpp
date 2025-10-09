@@ -86,12 +86,10 @@ void OAIHttpRequestInput::addFieldHeaders(const QString &key, const QString &val
     m_fieldHeaders[key] = value;
 }
 
-void OAIHttpRequestInput::addFile(const QString &variableName, const QString &localFilename, const QString &requestFilename, const QString &mimeType)
+void OAIHttpRequestInput::addFile(const QString &variableName, const QString &localFilename, const QString &mimeType)
 {
-    OAIHttpFileElement file;
+    OAIHttpFileElement file(localFilename);
     file.setVariableName(variableName);
-    file.setFileName(localFilename);
-    file.setRequestFileName(requestFilename);
     file.setMimeType(mimeType);
     m_files.append(file);
 }
@@ -317,49 +315,58 @@ QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<Q
             contentEncodingHdr = QString::fromUtf8(value);
     }
 
-    if (!contentDispositionHdr.isEmpty()) {
+    // Read body first
+    result = reply.networkReply()->readAll();
+
+    // Decompress if needed
+    if (!contentEncodingHdr.isEmpty()) {
+        const auto encoding = contentEncodingHdr.split(u';', Qt::SkipEmptyParts);
+        if (!encoding.isEmpty()) {
+            const auto compressionTypes = encoding.first().split(u',', Qt::SkipEmptyParts);
+            if (compressionTypes.contains("gzip"_L1, Qt::CaseInsensitive)
+                || compressionTypes.contains("deflate"_L1, Qt::CaseInsensitive)) {
+                result = decompress(result);
+            }
+        }
+    }
+
+    const auto contentType = !contentTypeHdr.isEmpty()
+            ? contentTypeHdr.split(u';', Qt::SkipEmptyParts).first().trimmed().toLower()
+            : QStringLiteral("");
+
+    if (contentType == "multipart/form-data"_L1) {
+        // TODO: Handle multipart responses
+    } else if (files) {
+        QString filename = QUuid::createUuid().toString(QUuid::WithoutBraces);
         const auto contentDisposition = contentDispositionHdr.split(u';', Qt::SkipEmptyParts);
-        const auto contentType =
-            !contentTypeHdr.isEmpty() ? contentTypeHdr.split(u';', Qt::SkipEmptyParts).first()
-                                      : QStringLiteral("");
-        if ((contentDisposition.count() > 0) && (contentDisposition.first() == "attachment"_L1)) {
-            QString filename = QUuid::createUuid().toString();
+        bool isAttachment = false;
+
+        if (!contentDisposition.isEmpty()) {
+            isAttachment = contentDisposition.first() == "attachment"_L1;
             for (const auto &file : contentDisposition) {
                 if (file.contains("filename"_L1)) {
                     const auto parts = file.split(u'=', Qt::SkipEmptyParts);
                     if (parts.size() > 1) {
                         filename = parts.at(1);
+                        // RFC says filename value may be quoted: remove the surrounding quotes
+                        if (filename.startsWith('"') && filename.endsWith('"'))
+                            filename = filename.mid(1, filename.size() - 2);
+                        // TODO in QTBUG-141443: - Sanitize the filename
+                        //                       - Distinguish between filename= and filename*=
                         break;
                     }
                 }
             }
-            OAIHttpFileElement felement;
-            felement.saveToFile(QStringLiteral(""), workDir + QDir::separator() + filename, filename, contentType, reply.networkReply()->readAll());
-            if (files)
-                files->insert(filename, felement);
         }
 
-    } else if (!contentTypeHdr.isEmpty()) {
-        const auto contentType = contentTypeHdr.split(u';', Qt::SkipEmptyParts);
-        if ((contentType.count() > 0) && (contentType.first() == "multipart/form-data"_L1)) {
-            // TODO : Handle Multipart responses
-        } else {
-            if (!contentEncodingHdr.isEmpty()) {
-                const auto encoding = contentEncodingHdr.split(u';', Qt::SkipEmptyParts);
-                if (encoding.count() > 0) {
-                    const auto compressionTypes = encoding.first().split(u',', Qt::SkipEmptyParts);
-                    if (compressionTypes.contains("gzip"_L1, Qt::CaseInsensitive)
-                        || compressionTypes.contains("deflate"_L1, Qt::CaseInsensitive)) {
-                        result = decompress(reply.networkReply()->readAll());
-                    } else if (compressionTypes.contains("identity"_L1, Qt::CaseInsensitive)) {
-                        result = reply.networkReply()->readAll();
-                    }
-                }
-            } else {
-                result = reply.networkReply()->readAll();
-            }
-        }
+        OAIHttpFileElement felement(workDir + QDir::separator() + filename);
+        felement.setMimeType(contentType);
+        felement.setTemporary(!isAttachment);
+
+        felement.saveToLocalFile(result);
+        files->insert(filename, felement);
     }
+
     reply.networkReply()->deleteLater();
     return result;
 }
@@ -367,6 +374,8 @@ QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<Q
 QByteArray decompress(const QByteArray& data)
 {
     Q_UNUSED(data);
+    qWarning("Content compression is disabled: contentCompression flag is off. "
+             "Returning an empty QByteArray.");
     return QByteArray();
 }
 
@@ -375,6 +384,8 @@ QByteArray compress(const QByteArray& input, int level, OAICompressionType compr
     Q_UNUSED(input);
     Q_UNUSED(level);
     Q_UNUSED(compressType);
+    qWarning("Content compression is disabled: contentCompression flag is off. "
+             "Returning an empty QByteArray.");
     return QByteArray();
 }
 } // namespace OAIHttpRequestWorker

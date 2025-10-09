@@ -59,3 +59,77 @@ paths:
               schema:
                 type: string
                 example: "string only"
+  /response/application/pdf/inline/{fileId}:
+    get:
+      tags: [test]
+      summary: Serve pdf inline
+      operationId: applicationPdfInlineResponse
+      parameters:
+        - name: fileId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+  /response/application/pdf/save/{fileId}:
+    get:
+      tags: [test]
+      summary: Save pdf file
+      operationId: applicationPdfSaveResponse
+      parameters:
+        - name: fileId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Disposition:
+              description: Suggests the client to save the file
+              schema:
+                type: string
+                example: attachment; filename="example.pdf"
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+  /response/application/pdf/save/encoded/{fileId}:
+    get:
+      tags: [test]
+      summary: Save encoded pdf file
+      operationId: applicationEncodedPdfSaveResponse
+      parameters:
+        - name: fileId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Disposition:
+              description: Suggests the client to save the file
+              schema:
+                type: string
+                example: attachment; filename="example.pdf"
+            Content-Encoding:
+              description: Tells the client which encoding is applied to the response.
+              schema:
+                type: string
+                example: gzip
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary

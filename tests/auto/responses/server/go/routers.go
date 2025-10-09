@@ -86,5 +86,23 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
 			"/v2/response/text/plain/string",
 			handleFunctions.TestAPI.TextPlainStringResponse,
 		},
+		{
+			"ApplicationPdfInlineResponse",
+			http.MethodGet,
+			"/v2/response/application/pdf/inline/:fileId",
+			handleFunctions.TestAPI.ApplicationPdfInlineResponse,
+		},
+		{
+			"ApplicationPdfSaveResponse",
+			http.MethodGet,
+			"/v2/response/application/pdf/save/:fileId",
+			handleFunctions.TestAPI.ApplicationPdfSaveResponse,
+		},
+		{
+			"ApplicationEncodedPdfSaveResponse",
+			http.MethodGet,
+			"/v2/response/application/pdf/save/encoded/:fileId",
+			handleFunctions.TestAPI.ApplicationEncodedPdfSaveResponse,
+		},
 	}
 }

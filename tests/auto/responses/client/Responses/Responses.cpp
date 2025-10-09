@@ -10,11 +10,28 @@
 
 using namespace Qt::StringLiterals;
 
+#define CALL_TEST_PDF_OPERATION(OPERATION, PARAM, EXPECTED_CONTENT, EXPECTED_FILENAME)          \
+{                                                                                               \
+    bool done = false;                                                                          \
+    OPERATION(PARAM, this, [&](const QRestReply &reply, const QtOAIHttpFileElement &summary) {  \
+        if (!(done = reply.isSuccess())) {                                                      \
+            qWarning() << "Error happened while issuing request:" << reply.error()              \
+                       << reply.errorString();                                                  \
+        }                                                                                       \
+        QVERIFY(summary.isSet());                                                               \
+        if (!EXPECTED_FILENAME.startsWith("unnamed"_L1))                                        \
+            QCOMPARE(summary.requestFilename(), EXPECTED_FILENAME);                             \
+        QCOMPARE(summary.loadFromLocalFile(), EXPECTED_CONTENT);                                \
+    });                                                                                         \
+    QTRY_COMPARE_EQ(done, true);                                                                \
+}
+
 namespace QtOpenAPI {
 
 static QProcess serverProcess;
 void startServerProcess()
 {
+    serverProcess.setWorkingDirectory(SERVER_DIR);
     serverProcess.start(SERVER_PATH);
     if (!serverProcess.waitForStarted()) {
         qFatal() << "Couldn't start the server: " << serverProcess.errorString();
@@ -45,6 +62,7 @@ private Q_SLOTS:
     }
     void jsonResponse();
     void textResponse();
+    void pdfResponse();
     void cleanupTestCase();
 };
 
@@ -88,6 +106,27 @@ void Responses::textResponse() {
         QCOMPARE(summary, "Hello plain text"_L1);
     });
     QTRY_COMPARE_EQ(done, true);
+}
+
+void Responses::pdfResponse() {
+    QString filePath = QDir(SERVER_DIR).filePath("test.pdf"_L1);
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly))
+        QFAIL("Failed to open expected PDF file");
+    QByteArray expectedPdfContent = file.readAll();
+    file.close();
+
+    CALL_TEST_PDF_OPERATION(applicationPdfInlineResponse, "test.pdf"_L1, expectedPdfContent,
+                            "unnamed"_L1);
+    CALL_TEST_PDF_OPERATION(applicationPdfSaveResponse, "test.pdf"_L1, expectedPdfContent,
+                            "example1.pdf"_L1);
+
+    // TODO: Change expected content to "expectedPdfContent" when we activate compression
+    //       in a later step. For now compression flag is off.
+    QTest::ignoreMessage(QtWarningMsg, "Content compression is disabled: contentCompression flag "
+                                       "is off. Returning an empty QByteArray.");
+    CALL_TEST_PDF_OPERATION(applicationEncodedPdfSaveResponse, "test.pdf"_L1, "",
+                            "compressed_example1.pdf"_L1);
 }
 
 void Responses::cleanupTestCase()

@@ -41,12 +41,145 @@ void QtOAITestApi::initializeServerConfigs()
     QUrl("http://127.0.0.1:20202/v2"),
     "No description provided",
     QMap<QString, QtOAIServerVariable>()));
+    m_serverConfigs.insert("applicationEncodedPdfSaveResponse", defaultConf);
+    m_serverIndices.insert("applicationEncodedPdfSaveResponse", 0);
     m_serverConfigs.insert("applicationJsonObjectResponse", defaultConf);
     m_serverIndices.insert("applicationJsonObjectResponse", 0);
     m_serverConfigs.insert("applicationJsonStringResponse", defaultConf);
     m_serverIndices.insert("applicationJsonStringResponse", 0);
+    m_serverConfigs.insert("applicationPdfInlineResponse", defaultConf);
+    m_serverIndices.insert("applicationPdfInlineResponse", 0);
+    m_serverConfigs.insert("applicationPdfSaveResponse", defaultConf);
+    m_serverIndices.insert("applicationPdfSaveResponse", 0);
     m_serverConfigs.insert("textPlainStringResponse", defaultConf);
     m_serverIndices.insert("textPlainStringResponse", 0);
+}
+
+/**
+* \fn virtual void QtOAITestApi::applicationEncodedPdfSaveResponse(const QString &fileId)
+* 'applicationEncodedPdfSaveResponse' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] fileId QString [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::applicationEncodedPdfSaveResponse(const QString &fileId, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'applicationEncodedPdfSaveResponse' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    applicationEncodedPdfSaveResponse(fileId, this, [&](const QRestReply &reply, const QtOAIHttpFileElement &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual applicationEncodedPdfSaveResponseWithDataImpl() in derived class.
+* The virtual applicationEncodedPdfSaveResponseWithDataImpl() is being called by the template
+* function.
+
+* @param[in] fileId QString [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::applicationEncodedPdfSaveResponseCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by applicationEncodedPdfSaveResponseFinished() or
+* being returned as a callback parameter of applicationEncodedPdfSaveResponse() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::applicationEncodedPdfSaveResponseWithDataImpl(const QString &fileId, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the applicationEncodedPdfSaveResponse() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking applicationEncodedPdfSaveResponse() operation calls.
+
+* @param[in] fileId QString [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::applicationEncodedPdfSaveResponseWithDataImpl(const QString &fileId, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["applicationEncodedPdfSaveResponse"][m_serverIndices.value("applicationEncodedPdfSaveResponse")].serverUrl();
+    QString fullPath = "/response/application/pdf/save/encoded/{fileId}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString fileIdPathParam = QString("{%1}").arg("fileId");
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, false || false);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, false);
+
+        SerializationOptions opts;
+        opts.style = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"fileId"_s), flags);
+        opts.flags = flags;
+        QString paramString = opts.prefix + opts.suffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(fileId));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == opts.prefix + opts.suffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(fileIdPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            applicationEncodedPdfSaveResponseCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit applicationEncodedPdfSaveResponseErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QtOAIHttpFileElement empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::applicationEncodedPdfSaveResponseCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    QMap<QString, QtOAIHttpFileElement> responseFiles;
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory, &responseFiles);
+    QtOAIHttpFileElement output = QtOAIHttpRequestWorker::getHttpFileElement(responseFiles);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit applicationEncodedPdfSaveResponseFinished(output);
 }
 
 /**
@@ -248,6 +381,260 @@ void QtOAITestApi::applicationJsonStringResponseCallback(const QRestReply &reply
         callerInfo.slot->call(context, argv);
     }
     emit applicationJsonStringResponseFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::applicationPdfInlineResponse(const QString &fileId)
+* 'applicationPdfInlineResponse' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] fileId QString [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::applicationPdfInlineResponse(const QString &fileId, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'applicationPdfInlineResponse' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    applicationPdfInlineResponse(fileId, this, [&](const QRestReply &reply, const QtOAIHttpFileElement &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual applicationPdfInlineResponseWithDataImpl() in derived class.
+* The virtual applicationPdfInlineResponseWithDataImpl() is being called by the template
+* function.
+
+* @param[in] fileId QString [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::applicationPdfInlineResponseCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by applicationPdfInlineResponseFinished() or
+* being returned as a callback parameter of applicationPdfInlineResponse() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::applicationPdfInlineResponseWithDataImpl(const QString &fileId, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the applicationPdfInlineResponse() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking applicationPdfInlineResponse() operation calls.
+
+* @param[in] fileId QString [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::applicationPdfInlineResponseWithDataImpl(const QString &fileId, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["applicationPdfInlineResponse"][m_serverIndices.value("applicationPdfInlineResponse")].serverUrl();
+    QString fullPath = "/response/application/pdf/inline/{fileId}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString fileIdPathParam = QString("{%1}").arg("fileId");
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, false || false);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, false);
+
+        SerializationOptions opts;
+        opts.style = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"fileId"_s), flags);
+        opts.flags = flags;
+        QString paramString = opts.prefix + opts.suffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(fileId));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == opts.prefix + opts.suffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(fileIdPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            applicationPdfInlineResponseCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit applicationPdfInlineResponseErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QtOAIHttpFileElement empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::applicationPdfInlineResponseCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    QMap<QString, QtOAIHttpFileElement> responseFiles;
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory, &responseFiles);
+    QtOAIHttpFileElement output = QtOAIHttpRequestWorker::getHttpFileElement(responseFiles);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit applicationPdfInlineResponseFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::applicationPdfSaveResponse(const QString &fileId)
+* 'applicationPdfSaveResponse' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] fileId QString [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::applicationPdfSaveResponse(const QString &fileId, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'applicationPdfSaveResponse' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    applicationPdfSaveResponse(fileId, this, [&](const QRestReply &reply, const QtOAIHttpFileElement &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual applicationPdfSaveResponseWithDataImpl() in derived class.
+* The virtual applicationPdfSaveResponseWithDataImpl() is being called by the template
+* function.
+
+* @param[in] fileId QString [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::applicationPdfSaveResponseCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by applicationPdfSaveResponseFinished() or
+* being returned as a callback parameter of applicationPdfSaveResponse() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::applicationPdfSaveResponseWithDataImpl(const QString &fileId, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the applicationPdfSaveResponse() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking applicationPdfSaveResponse() operation calls.
+
+* @param[in] fileId QString [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::applicationPdfSaveResponseWithDataImpl(const QString &fileId, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["applicationPdfSaveResponse"][m_serverIndices.value("applicationPdfSaveResponse")].serverUrl();
+    QString fullPath = "/response/application/pdf/save/{fileId}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString fileIdPathParam = QString("{%1}").arg("fileId");
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, false || false);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, false);
+
+        SerializationOptions opts;
+        opts.style = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"fileId"_s), flags);
+        opts.flags = flags;
+        QString paramString = opts.prefix + opts.suffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(fileId));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == opts.prefix + opts.suffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(fileIdPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            applicationPdfSaveResponseCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit applicationPdfSaveResponseErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QtOAIHttpFileElement empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::applicationPdfSaveResponseCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    QMap<QString, QtOAIHttpFileElement> responseFiles;
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory, &responseFiles);
+    QtOAIHttpFileElement output = QtOAIHttpRequestWorker::getHttpFileElement(responseFiles);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit applicationPdfSaveResponseFinished(output);
 }
 
 /**

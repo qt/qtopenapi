@@ -1483,7 +1483,7 @@ void OAIPetApi::uploadFileWithDataImpl(const qint64 &petId, const ::OpenAPI::Opt
     }
     if (file.hasValue()) {
         QString contentType;
-        input.addFile("file", file.value().filename(), file.value().requestFilename(), contentType);
+        input.addFile("file", file.value().filename(), contentType);
     }
     QNetworkRequest request
         = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,

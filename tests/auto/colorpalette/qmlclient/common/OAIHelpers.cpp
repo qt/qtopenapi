@@ -322,7 +322,7 @@ bool fromByteArray(const QByteArray &input, OAIEnum &value)
 
 bool fromByteArray(const QByteArray &input, OAIHttpFileElement &value)
 {
-    return value.fromByteArray(input);
+    return value.saveToLocalFile(input);
 }
 
 bool fromStringValue(const QString &inStr, QString &value)

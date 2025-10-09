@@ -28,8 +28,11 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:20202/v2
 ### QtOAITestApi
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
+|*applicationEncodedPdfSaveResponse* | *GET* /response/application/pdf/save/encoded/{fileId} | Save encoded pdf file.|
 |*applicationJsonObjectResponse* | *GET* /response/application/json/object | Check response type application-json object.|
 |*applicationJsonStringResponse* | *GET* /response/application/json/string | Check response type application-json string.|
+|*applicationPdfInlineResponse* | *GET* /response/application/pdf/inline/{fileId} | Serve pdf inline.|
+|*applicationPdfSaveResponse* | *GET* /response/application/pdf/save/{fileId} | Save pdf file.|
 |*textPlainStringResponse* | *GET* /response/text/plain/string | Check response type text/plain string.|
 
 
@@ -46,9 +49,34 @@ main.cpp:
 
 int main(int argc, char *argv[]) {
     QCoreApplication a(argc, argv);
-    
+    QString fileId;
     QtOAITestApi apiInstance;
 
+
+    /*
+        Handle the 'applicationEncodedPdfSaveResponse()' operation response directly in the callback.
+        Note, the callback should always have the 'QRestReply &reply' as first parameter.
+        The second and subsequent parameters are defined by the 'response' field of operation in your yaml specification.
+    */
+    apiInstance.applicationEncodedPdfSaveResponse(fileId, nullptr, [&](QRestReply &reply, QtOAIHttpFileElement summary) {
+        if (reply.isSuccess())
+            qDebug() << "The server response is: " << summary.asJson();
+            // Proceed with handling the user logic.
+        else
+            qWarning() << "There is an error occurred: " << reply.error();
+    });
+
+    /*
+        Or connect to the operation response 'applicationEncodedPdfSaveResponseFinished()/applicationEncodedPdfSaveResponseErrorOccurred()' signals
+        And call the operation 'applicationEncodedPdfSaveResponse()'
+    */
+    connect(&apiInstance, &QtOAITestApi::applicationEncodedPdfSaveResponseFinished, [&](QtOAIHttpFileElement summary) {
+               // handling the user logic
+           });
+    connect(&apiInstance, &QtOAITestApi::applicationEncodedPdfSaveResponseErrorOccurred, [&](QNetworkReply::NetworkError errorType, const QString &errorStr) {
+               qWarning() << "There is an error occurred: " << errorType << errorStr;
+           });
+    apiInstance.applicationEncodedPdfSaveResponse(fileId);
     return a.exec();
 }
 

@@ -334,7 +334,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{/contentType}}
 {{/consumes}}
 {{#isFile}}
-        input.addFile("{{baseName}}", {{paramName}}{{^required}}.value(){{/required}}.filename(), {{paramName}}{{^required}}.value(){{/required}}.requestFilename(), contentType);
+        input.addFile("{{baseName}}", {{paramName}}{{^required}}.value(){{/required}}.filename(), contentType);
 {{/isFile}}
 {{^isFile}}
 {{#isContainer}}
@@ -413,7 +413,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.asJson().toUtf8();
 {{/isModel}}
 {{#isFile}}
-        QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.asByteArray();
+        QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.loadFromLocalFile();
 {{/isFile}}
         input.m_requestBody.append(output);
 {{/isContainer}}

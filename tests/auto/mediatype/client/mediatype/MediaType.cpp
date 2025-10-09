@@ -11,6 +11,8 @@
 #include <QtNetwork/qrestaccessmanager.h>
 #include <QtTest/qtest.h>
 
+using namespace Qt::StringLiterals;
+
 namespace QtOpenAPI {
 static QProcess serverProcess;
 void startServerProcess()
@@ -318,8 +320,7 @@ void MediaType::testOctetStream()
     bool done = false;
     // We can send text file as a binary file,
     // parse it on server side, check the file content and send the string back.
-    QtOAIHttpFileElement file;
-    file.setFileName(":/file-for-uploading.txt");
+    QtOAIHttpFileElement file(":/file-for-uploading.txt"_L1);
     binaryType(::QtOpenAPI::OptionalParam<QtOAIHttpFileElement>(file), this,
                [&](const QRestReply &reply, const QString &summary) {
         if (!(done = reply.isSuccess()))
@@ -333,8 +334,7 @@ void MediaType::testOctetStream()
     // png is from qtbase auto-tests
     done = false;
     QImage imgFromFile(":/usericon.png");
-    QtOAIHttpFileElement icon;
-    icon.setFileName(":/usericon.png");
+    QtOAIHttpFileElement icon(":/usericon.png"_L1);
     binaryType(::QtOpenAPI::OptionalParam<QtOAIHttpFileElement>(icon), this,
                [&](const QRestReply &reply, const QString &summary) {
         if (!(done = reply.isSuccess()))
@@ -513,9 +513,7 @@ void MediaType::testFormMediaTypes()
     QMap<QString, QtOAIUser> map;
     map.insert("TEXT", user1);
 
-    QtOAIHttpFileElement formFile;
-    formFile.setFileName(":/file-for-uploading.txt");
-    formFile.setRequestFileName(":/file-for-uploading.txt");
+    QtOAIHttpFileElement formFile(":/file-for-uploading.txt");
 
     // 'formId'           - has a string type with uuid format, so it's being treated as 'plain/text'.
     //                      However we set custom `application/json` for this parameter in yaml file.

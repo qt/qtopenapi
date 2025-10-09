@@ -317,7 +317,7 @@ bool fromByteArray(const QByteArray &input, {{prefix}}Enum &value)
 
 bool fromByteArray(const QByteArray &input, {{prefix}}HttpFileElement &value)
 {
-    return value.fromByteArray(input);
+    return value.saveToLocalFile(input);
 }
 
 bool fromStringValue(const QString &inStr, QString &value)

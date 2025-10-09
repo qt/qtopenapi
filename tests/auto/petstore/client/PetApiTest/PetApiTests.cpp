@@ -13,6 +13,8 @@
 #include <QtNetwork/qrestaccessmanager.h>
 #include <QtTest/qtest.h>
 
+using namespace Qt::StringLiterals;
+
 namespace QtOpenAPI {
 const int REPLY_OK = 200;
 
@@ -404,11 +406,9 @@ void PetApiTests::uploadPetFileTest()
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
 
-    QtOAIHttpFileElement fileElement;
-    fileElement.setFileName(":/file-for-uploading.txt");
-    fileElement.setMimeType("txt");
-    fileElement.setVariableName("Variable=100");
-    fileElement.setRequestFileName("file-for-uploading.txt");
+    QtOAIHttpFileElement fileElement(":/file-for-uploading.txt"_L1);
+    fileElement.setVariableName("Variable=100"_L1);
+    fileElement.setMimeType("txt"_L1);
 
     api.uploadFile(id, QString("metadata-info"), fileElement);
     QTRY_COMPARE_EQ_WITH_TIMEOUT(petFileUploaded, true, 5000);
