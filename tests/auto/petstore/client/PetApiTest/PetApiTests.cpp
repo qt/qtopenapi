@@ -6,6 +6,8 @@
 #include "../client/QtOAIUserApi.h"
 
 #include <QtCore/qobject.h>
+#include <QtCore/QProcess>
+#include <QtCore/QThread>
 #include <QtGui/qimage.h>
 #include <QtNetwork/qnetworkrequestfactory.h>
 #include <QtNetwork/qrestaccessmanager.h>
@@ -14,6 +16,19 @@
 namespace QtOpenAPI {
 const int REPLY_OK = 200;
 
+static QProcess serverProcess;
+void startServerProcess()
+{
+    serverProcess.setWorkingDirectory(SERVER_FOLDER);
+    serverProcess.start(SERVER_PATH);
+    if (!serverProcess.waitForStarted()) {
+        qFatal() << "Couldn't start the server: " << serverProcess.errorString();
+        exit(EXIT_FAILURE);
+    }
+    // give the process some time to properly start up the server
+    QThread::currentThread()->msleep(1000);
+}
+
 class PetApiTests : public QObject {
     Q_OBJECT
 
@@ -21,6 +36,11 @@ class PetApiTests : public QObject {
     void connectAddPetApi(QtOAIPetApi *petApi, bool &petCreated);
 
 private Q_SLOTS:
+    void initTestCase()
+    {
+        if (serverProcess.state() != QProcess::ProcessState::Running)
+            startServerProcess();
+    }
     void findPetsByStatusTest();
     void createAndGetPetTest();
     void updatePetTest();
@@ -33,6 +53,7 @@ private Q_SLOTS:
     void sslConfigurationTest();
     void setNoBasicLoginAndPasswordTest();
     void getPatientPetsTest();
+    void cleanupTestCase();
 };
 
 const QString user("User1");
@@ -244,7 +265,7 @@ void PetApiTests::updatePetWithFormTest() {
 
     // create pet
     bool petAdded = false;
-    connect(&api, &QtOAIPetApi::addPetFinished, this, [&](QtOAIPet summary) {
+    connect(&api, &QtOAIPetApi::addPetFinished, this, [&](const QtOAIPet &summary) {
         petAdded = true;
         QCOMPARE(pet, summary);
     });
@@ -492,7 +513,7 @@ void PetApiTests::getFilesFromServerTest()
     api.addPet(pet);
     QTRY_COMPARE_EQ_WITH_TIMEOUT(petAdded, true, 14000);
 
-    // get pet json info file
+     // get pet json info file
     bool petFileDownloaded = false;
     connect(&api, &QtOAIPetApi::getJsonFileFinished,
             this, [&](const QtOAIHttpFileElement &summary) {
@@ -504,8 +525,8 @@ void PetApiTests::getFilesFromServerTest()
     });
     connect(&api, &QtOAIPetApi::getJsonFileErrorOccurred,
             this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
-        qDebug() << "Error happened while issuing request : " << errorStr;
-    });
+                qDebug() << "Error happened while issuing request : " << errorStr;
+            });
 
     api.getJsonFile(id);
     QTRY_COMPARE_EQ_WITH_TIMEOUT(petFileDownloaded, true, 5000);
@@ -622,6 +643,15 @@ void PetApiTests::getPatientPetsTest()
     });
     QTRY_COMPARE_EQ_WITH_TIMEOUT(operationStatus, true, 14000);
 }
+
+void PetApiTests::cleanupTestCase()
+{
+    if (serverProcess.state() == QProcess::ProcessState::Running) {
+        serverProcess.kill();
+        serverProcess.waitForFinished();
+    }
+}
+
 } // QtOpenAPI
 
 QTEST_MAIN(QtOpenAPI::PetApiTests)

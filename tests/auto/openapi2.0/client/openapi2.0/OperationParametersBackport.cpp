@@ -4,11 +4,25 @@
 #include "../client/QtOAIFakeApi.h"
 
 #include <QtCore/qobject.h>
+#include <QtCore/QProcess>
+#include <QtCore/QThread>
 #include <QtNetwork/qnetworkrequestfactory.h>
 #include <QtNetwork/qrestaccessmanager.h>
 #include <QtTest/qtest.h>
 
 namespace QtOpenAPI {
+
+static QProcess serverProcess;
+void startServerProcess()
+{
+    serverProcess.start(SERVER_PATH);
+    if (!serverProcess.waitForStarted()) {
+        qFatal() << "Couldn't start the server: " << serverProcess.errorString();
+        exit(EXIT_FAILURE);
+    }
+    // give the process some time to properly start up the server
+    QThread::currentThread()->msleep(1000);
+}
 
 QString getStatusString(const QString &summary)
 {
@@ -24,7 +38,13 @@ class OperationParametersBackport : public QtOAIFakeApi {
     Q_OBJECT
 
 private Q_SLOTS:
+    void initTestCase()
+    {
+        if (serverProcess.state() != QProcess::ProcessState::Running)
+            startServerProcess();
+    }
     void testCollectionFormats();
+    void cleanupTestCase();
 };
 
 void OperationParametersBackport::testCollectionFormats()
@@ -77,6 +97,14 @@ void OperationParametersBackport::testCollectionFormats()
 
     });
     QTRY_COMPARE_EQ(done, true);
+}
+
+void OperationParametersBackport::cleanupTestCase()
+{
+    if (serverProcess.state() == QProcess::ProcessState::Running) {
+        serverProcess.kill();
+        serverProcess.waitForFinished();
+    }
 }
 
 } // QtOpenAPI

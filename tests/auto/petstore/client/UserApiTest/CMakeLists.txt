@@ -1,14 +1,16 @@
 # Copyright (C) 2025 The Qt Company Ltd.
 # SPDX-License-Identifier: BSD-3-Clause
 
-cmake_minimum_required(VERSION 3.16)
+if(NOT QT_BUILD_STANDALONE_TESTS AND NOT QT_BUILDING_QT)
+    cmake_minimum_required(VERSION 3.16)
+    project(cpp-qt-petstore-userapi LANGUAGES CXX)
+    find_package(Qt6BuildInternals REQUIRED COMPONENTS STANDALONE_TEST)
+endif()
 
-project(cpp-qt-petstore-userapi)
-set(CMAKE_VERBOSE_MAKEFILE ON)
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_AUTOMOC ON)
-
-find_package(Qt6 REQUIRED COMPONENTS Core Network Test)
+if(NOT TARGET petstore-server-go)
+    message(WARNING "No petstore-server-go server in the build.")
+    return()
+endif()
 
 if(MSVC)
   add_compile_options(/W4 /WX)
@@ -16,10 +18,16 @@ else()
   add_compile_options(-Wall -Wextra -Werror=deprecated-declarations)
 endif()
 
-qt_standard_project_setup(REQUIRES 6.8)
-add_executable(cpp-qt-petstore-userapi
-    UserApiTests.cpp
+qt_internal_add_test(cpp-qt-petstore-userapi
+    SOURCES
+        UserApiTests.cpp
+    LIBRARIES
+        Qt::Core
+        Qt::Network
+        Qt::Test
 )
+
+qt_autogen_tools_initial_setup(PetStoreClient)
 
 target_include_directories(cpp-qt-petstore-userapi
     PUBLIC
@@ -27,6 +35,10 @@ target_include_directories(cpp-qt-petstore-userapi
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/../client>
 )
 
-target_link_libraries(cpp-qt-petstore-userapi PRIVATE PetStoreClient Qt::Core Qt::Network Qt::Test)
-enable_testing()
-add_test(NAME cpp-qt-petstore-userapi-test COMMAND cpp-qt-petstore-userapi)
+target_compile_definitions(cpp-qt-petstore-userapi
+    PRIVATE
+        SERVER_PATH="$<TARGET_FILE:petstore-server-go>"
+)
+
+target_link_libraries(cpp-qt-petstore-userapi PRIVATE PetStoreClient)
+add_dependencies(cpp-qt-petstore-userapi petstore-server-go)

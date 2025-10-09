@@ -5,63 +5,22 @@ accept_configuration:
   not_contains_value: Disable
 
 instructions:
-  LicenseCheck:
-  - type: Group
-    instructions:
-      - !include "{{qt/qtbase}}/run_license_check.yaml"
-    enable_if:
-      condition: property
-      property: features
-      contains_value: LicenseCheckV2
-
   Build:
-    - type: ExecuteCommand
-      command: "{{.SourceDir}}/coin/build-openapi-generator-linux.sh"
-      maxTimeInSeconds: 12000
-      maxTimeBetweenOutput: 1200
-      userMessageOnFailure: >
-        Failed to download project data on Linux.
-      enable_if:
-          condition: property
-          property: host.os
-          equals_value: Linux
-
-    - type: ExecuteCommand
-      command: "{{.SourceDir}}/coin/build-openapi-generator-macos.sh"
-      maxTimeInSeconds: 12000
-      maxTimeBetweenOutput: 1200
-      userMessageOnFailure: >
-        Failed to download project data on macOS.
-      enable_if:
-          condition: property
-          property: host.os
-          equals_value: MacOS
+    - type: EnvironmentVariable
+      variableName: VERIFY_SOURCE_SBOM
+      variableValue: "ON"
+    - !include "{{qt/qtbase}}/coin_module_build_template_v2.yaml"
 
   Test:
-    - type: ExecuteCommand
-      command: "{{.SourceDir}}/coin/run-openapi-generator-linux-tests.sh"
-      maxTimeInSeconds: 12000
-      maxTimeBetweenOutput: 1200
-      userMessageOnFailure: >
-        Failed to download project data on Linux.
+    - type: Group
+      instructions:
+        - !include "{{qt/qtbase}}/coin_module_test_template_v3.yaml"
       enable_if:
         condition: and
         conditions:
           - condition: property
             property: host.os
-            equals_value: Linux
+            in_values: [Linux, MacOS]
           - condition: property
-            property: features
-            not_contains_value: LicenseCheckV2
-
-    - type: ExecuteCommand
-      command: "{{.SourceDir}}/coin/run-openapi-generator-macos-tests.sh"
-      maxTimeInSeconds: 12000
-      maxTimeBetweenOutput: 1200
-      userMessageOnFailure: >
-        Failed to download project data on macOS.
-      enable_if:
-          condition: property
-          property: host.os
-          equals_value: MacOS
-
+            property: host.arch
+            equals_property: target.arch

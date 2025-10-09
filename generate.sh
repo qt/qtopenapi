@@ -19,8 +19,6 @@ to perform the actual code generation.
 'l' List options provided by the generator
 'qmlcg' Compile the generator with Qml-enabled option set, and generate the Qml-enabled client code
 'qmldoc' Compile the generator with Qml-enabled option set, generate the Qml-enabled client code and generate doxygen documentation for the client
-'qmltest' Compile the generator with Qml-enabled option set, and run generated code with Qml test application
-'test' Compile the generator and run generated code with C++ test application
 
 Example:
 ./generate.sh cg
@@ -28,7 +26,7 @@ Example:
 **************************
 *** Two options mode: ****
 **************************
-'a/cg/doc/l/qmlcg/qmldoc/qmltest/test' 'specification' Run previously mentioned options for the concrete specification. By default, 'petstore' specification is used.
+'a/cg/doc/l/qmlcg/qmldoc' 'specification' Run previously mentioned options for the concrete specification. By default, 'petstore' specification is used.
 
 Example:
 ./generate.sh cg colorpalette
@@ -36,7 +34,7 @@ Example:
 **************************
 *** Three options mode: ****
 **************************
-'a/cg/doc/l/qmlcg/qmldoc/qmltest/test' 'specification' 'loglevel' Run previously mentioned options with both a specific OpenAPI spec and a custom log level. By default, 'info' log level is used.
+'a/cg/doc/l/qmlcg/qmldoc' 'specification' 'loglevel' Run previously mentioned options with both a specific OpenAPI spec and a custom log level. By default, 'info' log level is used.
 
 Example:
 ./generate.sh cg colorpalette warn
@@ -70,7 +68,7 @@ QML_ADDITIONAL_PROPERTIES=false
 PREFIX_NAME=QtOAI
 CPP_NAMESPACE=QtOpenAPI
 CLIENT_PACKAGE_NAME=ClientName
-if [[ $MODE == "qmltest" ]] || [[ $MODE == "qmldoc" ]] || [[ $MODE == "qmlcg" ]]; then
+if [[ $MODE == "qmldoc" ]] || [[ $MODE == "qmlcg" ]]; then
     QML_ADDITIONAL_PROPERTIES=true
     CLIENTFOLDER_NAME=qmlclient
     PREFIX_NAME=OAI
@@ -154,7 +152,7 @@ fi
 set_paths
 
 # Check for invalid mode vs user_mode combinations
-if [[ $MODE == "qmltest" || $MODE == "qmldoc" ]]; then
+if [[ $MODE == "qmldoc" ]]; then
     if [[ $USER_MODE != "petstore" && $USER_MODE != "colorpalette" ]]; then # only those 2 have qml clients
         die "Skipping: $MODE is not applicable for $USER_MODE."
     fi
@@ -186,7 +184,7 @@ function generate() {
     rm -rf $CLIENT_OUTPUT_DIR/client
 
     java -Dlogback.configurationFile=$LOGBACK_XML_PATH -Dlog.level=$LOG_LEVEL -Dcolor=true \
-    -cp $PWD:$OPENAPI_CLI:$ORIGINAL_GENERATOR_JAR $OPENAPI_CLI_ENTRYPOINT_CLASS \
+    -cp $QT_GENERATOR_PATH:$OPENAPI_CLI:$ORIGINAL_GENERATOR_JAR $OPENAPI_CLI_ENTRYPOINT_CLASS \
     generate -g $ORIGINAL_GENERATOR -i $USER_SPEC -o $CLIENT_OUTPUT_DIR \
     --additional-properties=enableQmlCode=$QML_ADDITIONAL_PROPERTIES,cppNamespace=$CPP_NAMESPACE,modelNamePrefix=$PREFIX_NAME --package-name=$CLIENT_PACKAGE_NAME
 }
@@ -198,29 +196,6 @@ function killServer() {
         echo "Now kill the server by pid:" $exit_pid
         kill -9 $exit_pid
     fi
-}
-
-function run_test() {
-    if [[ $USER_MODE == "colorpalette" ]]; then
-        #build generated code
-        cd $CLIENT_OUTPUT_DIR
-        rm -rf $CLIENT_OUTPUT_DIR/build
-        source build-and-test.bash
-    else
-        # build and run server app
-        cd $SERVER_OUTPUT_DIR
-        rm -rf $SERVER_OUTPUT_DIR/build
-        source build-and-run.bash
-
-        #build and run client test apps
-        cd $CLIENT_OUTPUT_DIR/
-        rm -rf $CLIENT_OUTPUT_DIR/build
-        source build-and-test.bash
-
-        # when the client finished testing, let's kill the server ]:->
-        killServer
-    fi
-    cd $PROJECT_ROOT
 }
 
 function doxygen_compile() {
@@ -242,14 +217,14 @@ function run_all() {
     PREFIX_NAME=QtOAI
     CPP_NAMESPACE=QtOpenAPI
     CLIENT_PACKAGE_NAME=PetStoreClient
-    set_paths && compile && generate && run_test
+    set_paths && compile && generate
 
     QML_ADDITIONAL_PROPERTIES=true
     CLIENTFOLDER_NAME=qmlclient
     PREFIX_NAME=OAI
     CPP_NAMESPACE=OpenAPI
     CLIENT_PACKAGE_NAME=PetStoreClientQml
-    set_paths && compile && generate && run_test
+    set_paths && compile && generate
 
     QML_ADDITIONAL_PROPERTIES=false
     CLIENTFOLDER_NAME=client
@@ -257,14 +232,14 @@ function run_all() {
     PREFIX_NAME=QtOAI
     CPP_NAMESPACE=QtOpenAPI
     CLIENT_PACKAGE_NAME=ColorpaletteClient
-    set_paths && compile && generate && run_test
+    set_paths && compile && generate
 
     QML_ADDITIONAL_PROPERTIES=true
     CLIENTFOLDER_NAME=qmlclient
     PREFIX_NAME=OAI
     CPP_NAMESPACE=OpenAPI
     CLIENT_PACKAGE_NAME=ColorpaletteClientQml
-    set_paths && compile && generate && run_test
+    set_paths && compile && generate
 
     QML_ADDITIONAL_PROPERTIES=false
     CLIENTFOLDER_NAME=client
@@ -272,7 +247,7 @@ function run_all() {
     PREFIX_NAME=QtOAI
     CPP_NAMESPACE=QtOpenAPI
     CLIENT_PACKAGE_NAME=OperationParametersClient
-    set_paths && compile && generate && run_test
+    set_paths && compile && generate
 
     QML_ADDITIONAL_PROPERTIES=false
     CLIENTFOLDER_NAME=client
@@ -280,7 +255,7 @@ function run_all() {
     PREFIX_NAME=QtOAI
     CPP_NAMESPACE=QtOpenAPI
     CLIENT_PACKAGE_NAME=OpenapiBackportClient
-    set_paths && compile && generate && run_test
+    set_paths && compile && generate
 
     QML_ADDITIONAL_PROPERTIES=false
     CLIENTFOLDER_NAME=client
@@ -288,7 +263,7 @@ function run_all() {
     PREFIX_NAME=QtOAI
     CPP_NAMESPACE=QtOpenAPI
     CLIENT_PACKAGE_NAME=MediaTypeClient
-    set_paths && compile && generate && run_test
+    set_paths && compile && generate
 }
 
 #may need to clean up from previous execution
@@ -325,8 +300,6 @@ case "$MODE" in
     l) list ;;
     qmlcg) compile && generate;;
     qmldoc) compile && generate && doxygen_compile ;;
-    qmltest) compile && generate && run_test ;;
-    test) compile && generate && run_test ;;
     all) run_all ;;
     *) usage "Error: mode \"$MODE\" is not recognized." ;;
 esac

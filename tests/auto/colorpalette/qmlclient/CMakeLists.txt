@@ -1,20 +1,26 @@
-cmake_minimum_required(VERSION 3.16)
+# Copyright (C) 2025 The Qt Company Ltd.
+# SPDX-License-Identifier: BSD-3-Clause
 
-project(qml-qt-colorpalette)
-set(CMAKE_VERBOSE_MAKEFILE ON)
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_AUTOMOC ON)
+if(NOT QT_BUILD_STANDALONE_TESTS AND NOT QT_BUILDING_QT)
+    cmake_minimum_required(VERSION 3.16)
+    project(qml-qt-colorpalette LANGUAGES CXX)
+    find_package(Qt6BuildInternals REQUIRED COMPONENTS STANDALONE_TEST)
+endif()
 
-find_package(Qt6 REQUIRED COMPONENTS QuickTest)
-add_subdirectory(client)
-
-qt_standard_project_setup(REQUIRES 6.8)
-qt_add_executable(qml-qt-colorpalette
-    colorpalettetest/main.cpp
+qt_internal_add_test(qml-qt-colorpalette
+    QMLTEST
+    SOURCES
+        colorpalettetest/main.cpp
+    LIBRARIES
+        Qt::Qml
+        Qt::QmlNetwork
+        Qt::QuickTest
 )
 
 qt_policy(SET QTP0001 NEW)
 qt_policy(SET QTP0004 NEW)
+
+qt_autogen_tools_initial_setup(ColorpaletteClientQml)
 
 qt_add_qml_module(qml-qt-colorpalette
     URI main.uri
@@ -29,11 +35,4 @@ target_include_directories(qml-qt-colorpalette
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/client>
 )
 
-target_link_libraries(qml-qt-colorpalette
-    PUBLIC
-        ColorpaletteClientQml
-        Qt::QuickTest
-)
-
-enable_testing()
-add_test(NAME qml-qt-colorpalette-test COMMAND qml-qt-colorpalette)
+target_link_libraries(qml-qt-colorpalette PRIVATE ColorpaletteClientQml)

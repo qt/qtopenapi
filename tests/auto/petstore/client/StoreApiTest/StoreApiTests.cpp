@@ -4,6 +4,8 @@
 #include "../client/QtOAIStoreApi.h"
 
 #include <QtCore/qdebug.h>
+#include <QtCore/QProcess>
+#include <QtCore/QThread>
 #include <QtTest/qtest.h>
 
 using namespace std::chrono_literals;
@@ -11,15 +13,33 @@ using namespace std::chrono_literals;
 namespace QtOpenAPI {
 const QDateTime TestDate(QDateTime::fromString("1.30.1", "M.d.s"));
 
+static QProcess serverProcess;
+void startServerProcess()
+{
+    serverProcess.start(SERVER_PATH);
+    if (!serverProcess.waitForStarted()) {
+        qFatal() << "Couldn't start the server: " << serverProcess.errorString();
+        exit(EXIT_FAILURE);
+    }
+    // give the process some time to properly start up the server
+    QThread::currentThread()->msleep(1000);
+}
+
 class StoreApiTests : public QObject {
     Q_OBJECT
 
 private Q_SLOTS:
+    void initTestCase()
+    {
+        if (serverProcess.state() != QProcess::ProcessState::Running)
+            startServerProcess();
+    }
     void placeOrderTest();
     void getOrderByIdTest();
     void getInventoryTest();
     void deleteOrderTest();
     void timeoutTest();
+    void cleanupTestCase();
 };
 
 void StoreApiTests::placeOrderTest() {
@@ -162,6 +182,15 @@ void StoreApiTests::timeoutTest()
              "Transfers are caneled if no bytes are transferred before the timeout expires.");
     QVERIFY2(errorStr == "Operation canceled", "Operation expected be canceled.");
 }
+
+void StoreApiTests::cleanupTestCase()
+{
+    if (serverProcess.state() == QProcess::ProcessState::Running) {
+        serverProcess.kill();
+        serverProcess.waitForFinished();
+    }
+}
+
 } // QtOpenAPI
 
 QTEST_MAIN(QtOpenAPI::StoreApiTests)

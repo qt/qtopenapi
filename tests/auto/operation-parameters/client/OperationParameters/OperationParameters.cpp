@@ -4,6 +4,8 @@
 #include "../client/QtOAITestApi.h"
 
 #include <QtCore/qobject.h>
+#include <QtCore/QProcess>
+#include <QtCore/QThread>
 #include <QtNetwork/qnetworkrequestfactory.h>
 #include <QtNetwork/qrestaccessmanager.h>
 #include <QtTest/qtest.h>
@@ -83,6 +85,18 @@ using namespace Qt::StringLiterals;
 
 namespace QtOpenAPI {
 
+static QProcess serverProcess;
+void startServerProcess()
+{
+    serverProcess.start(SERVER_PATH);
+    if (!serverProcess.waitForStarted()) {
+        qFatal() << "Couldn't start the server: " << serverProcess.errorString();
+        exit(EXIT_FAILURE);
+    }
+    // give the process some time to properly start up the server
+    QThread::currentThread()->msleep(1000);
+}
+
 static QJsonValue getObjectValue(const QString &summary, const QString &key)
 {
     QJsonDocument doc = QJsonDocument::fromJson(summary.toUtf8());
@@ -115,6 +129,11 @@ class OperationParameters : public QtOAITestApi {
     Q_OBJECT
 
 private Q_SLOTS:
+    void initTestCase()
+    {
+        if (serverProcess.state() != QProcess::ProcessState::Running)
+            startServerProcess();
+    }
     void pathStringParameters_data();
     void pathStringParameters();
     void pathIntParameters_data();
@@ -167,6 +186,7 @@ private Q_SLOTS:
     void cookieMapParameters();
     void severalCookies();
     void cookieInvalidStyle();
+    void cleanupTestCase();
 };
 
 QString invalidExplodeWarningMsg(const QString& paramName, const QString& style, bool explode) {
@@ -2249,6 +2269,14 @@ void OperationParameters::cookieInvalidStyle()
             QVERIFY(getObjectValue(summary, "error"_L1).toString().isEmpty());
         });
     QTRY_COMPARE_EQ(done, true);
+}
+
+void OperationParameters::cleanupTestCase()
+{
+    if (serverProcess.state() == QProcess::ProcessState::Running) {
+        serverProcess.kill();
+        serverProcess.waitForFinished();
+    }
 }
 
 } // QtOpenAPI
