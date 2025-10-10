@@ -61,10 +61,11 @@ function mvn_exists() {
 }
 
 MODE="$1"
-OPENAPI_CLI="openapi_client_generators/openapi-generator-cli-7.15.0.jar"
+QT_GENERATOR_PATH="$PWD/src/tools/qtopenapi-generator/"
+OPENAPI_CLI="$QT_GENERATOR_PATH/openapi_client_generators/openapi-generator-cli-7.15.0.jar"
 OPENAPI_CLI_ENTRYPOINT_CLASS="org.openapitools.codegen.OpenAPIGenerator"
 ORIGINAL_GENERATOR="cpp-qt6-client"
-ORIGINAL_GENERATOR_JAR="$PWD/target/cpp-qt6-client-openapi-generator-1.0.0.jar"
+ORIGINAL_GENERATOR_JAR="$QT_GENERATOR_PATH/target/cpp-qt6-client-openapi-generator-1.0.0.jar"
 QML_ADDITIONAL_PROPERTIES=false
 PREFIX_NAME=QtOAI
 CPP_NAMESPACE=QtOpenAPI
@@ -82,11 +83,11 @@ PROJECT_ROOT=$PWD
 function openapi_generator_download() {
     #### Download openapi installation
     if [[ ! -f "$OPENAPI_CLI" ]]; then
-        mkdir -p $PWD/openapi_client_generators
+        mkdir -p $QT_GENERATOR_PATH/openapi_client_generators
 
         #### Here version should be updated manually
-        wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.15.0/openapi-generator-cli-7.15.0.jar -O $PWD/openapi_client_generators/openapi-generator-cli-7.15.0.jar
-        export PATH=$PATH:$PWD/openapi_client_generators
+        wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.15.0/openapi-generator-cli-7.15.0.jar -O $QT_GENERATOR_PATH/openapi_client_generators/openapi-generator-cli-7.15.0.jar
+        export PATH=$PATH:$QT_GENERATOR_PATH/openapi_client_generators
     fi
     #### Check downloads
     [[ -f "$OPENAPI_CLI" ]] || usage "Error: openapi-generator-cli.jar does not exist: " \""$OPENAPI_CLI"\"
@@ -100,16 +101,18 @@ function compile() {
     fi
     # download openapi generator
     openapi_generator_download ;
+    cd $QT_GENERATOR_PATH
     # Clean previous build result
     mvn clean
     # Compile
     mvn package
+    cd $PROJECT_ROOT
 }
 
 function set_paths() {
     # Validate the value
-    if [[ -f "$PWD/yaml_files/$USER_MODE.yaml" ]]; then
-        USER_SPEC="$PWD/yaml_files/$USER_MODE.yaml"
+    if [[ -f "$PWD/tests/auto/yaml_files/$USER_MODE.yaml" ]]; then
+        USER_SPEC="$PWD/tests/auto/yaml_files/$USER_MODE.yaml"
         SERVER_OUTPUT_DIR="$PWD/tests/auto/$USER_MODE/server"
         CLIENT_OUTPUT_DIR="$PWD/tests/auto/$USER_MODE/$CLIENTFOLDER_NAME"
         if [[ $USER_MODE == "petstore" ]]; then
@@ -136,7 +139,7 @@ function set_paths() {
             fi
         fi
     else
-        echo "Available specifications in $PWD/yaml_files:"
+        echo "Available specifications in $PWD/tests/auto/yaml_files:"
         ls yaml_files/*.yaml 2>/dev/null | xargs -n1 basename | sed 's/^/  /' >&2
         die "Error: user-spec does not exist."
     fi
@@ -159,7 +162,7 @@ fi
 
 # Choose your log level: debug, info, warn, or error
 LOG_LEVEL=${3:-INFO}  # Default to INFO if not provided
-LOGBACK_XML_PATH="$PWD/logback.xml"
+LOGBACK_XML_PATH="$QT_GENERATOR_PATH/logback.xml"
 shopt -s nocasematch # make case insensitive
 if [[  ${3} != ""  && ${3} != "debug" && ${3} != "info" && ${3} != "warn" && ${3} != "error" ]]; then
     die "The log level \"$3\" is not recognized. Please, use: debug, info, warn, or error."

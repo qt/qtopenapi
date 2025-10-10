@@ -23,5 +23,5 @@ tests/auto/*/client/client/doc/latex/
 tests/auto/*/qmlclient/client/doc/html/
 tests/auto/*/qmlclient/client/doc/latex/
 tests/auto/petstore/server/petstore-server-app
-openapi_client_generators/*
+src/tools/qtopenapi-generator/openapi_client_generators/*
 
