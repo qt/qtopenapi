@@ -51,6 +51,10 @@ void QtOAITestApi::initializeServerConfigs()
     m_serverIndices.insert("applicationPdfInlineResponse", 0);
     m_serverConfigs.insert("applicationPdfSaveResponse", defaultConf);
     m_serverIndices.insert("applicationPdfSaveResponse", 0);
+    m_serverConfigs.insert("inlineImageResponse", defaultConf);
+    m_serverIndices.insert("inlineImageResponse", 0);
+    m_serverConfigs.insert("saveImageResponse", defaultConf);
+    m_serverIndices.insert("saveImageResponse", 0);
     m_serverConfigs.insert("textPlainStringResponse", defaultConf);
     m_serverIndices.insert("textPlainStringResponse", 0);
 }
@@ -635,6 +639,260 @@ void QtOAITestApi::applicationPdfSaveResponseCallback(const QRestReply &reply)
         callerInfo.slot->call(context, argv);
     }
     emit applicationPdfSaveResponseFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::inlineImageResponse(const QString &imageId)
+* 'inlineImageResponse' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] imageId QString [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::inlineImageResponse(const QString &imageId, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'inlineImageResponse' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    inlineImageResponse(imageId, this, [&](const QRestReply &reply, const QtOAIHttpFileElement &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual inlineImageResponseWithDataImpl() in derived class.
+* The virtual inlineImageResponseWithDataImpl() is being called by the template
+* function.
+
+* @param[in] imageId QString [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::inlineImageResponseCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by inlineImageResponseFinished() or
+* being returned as a callback parameter of inlineImageResponse() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::inlineImageResponseWithDataImpl(const QString &imageId, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the inlineImageResponse() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking inlineImageResponse() operation calls.
+
+* @param[in] imageId QString [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::inlineImageResponseWithDataImpl(const QString &imageId, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["inlineImageResponse"][m_serverIndices.value("inlineImageResponse")].serverUrl();
+    QString fullPath = "/response/image/inline/{imageId}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString imageIdPathParam = QString("{%1}").arg("imageId");
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, false || false);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, false);
+
+        SerializationOptions opts;
+        opts.style = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"imageId"_s), flags);
+        opts.flags = flags;
+        QString paramString = opts.prefix + opts.suffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(imageId));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == opts.prefix + opts.suffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(imageIdPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            inlineImageResponseCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit inlineImageResponseErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QtOAIHttpFileElement empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::inlineImageResponseCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    QMap<QString, QtOAIHttpFileElement> responseFiles;
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory, &responseFiles);
+    QtOAIHttpFileElement output = QtOAIHttpRequestWorker::getHttpFileElement(responseFiles);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit inlineImageResponseFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::saveImageResponse(const QString &imageId)
+* 'saveImageResponse' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] imageId QString [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::saveImageResponse(const QString &imageId, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'saveImageResponse' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    saveImageResponse(imageId, this, [&](const QRestReply &reply, const QtOAIHttpFileElement &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual saveImageResponseWithDataImpl() in derived class.
+* The virtual saveImageResponseWithDataImpl() is being called by the template
+* function.
+
+* @param[in] imageId QString [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::saveImageResponseCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by saveImageResponseFinished() or
+* being returned as a callback parameter of saveImageResponse() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::saveImageResponseWithDataImpl(const QString &imageId, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the saveImageResponse() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking saveImageResponse() operation calls.
+
+* @param[in] imageId QString [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::saveImageResponseWithDataImpl(const QString &imageId, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["saveImageResponse"][m_serverIndices.value("saveImageResponse")].serverUrl();
+    QString fullPath = "/response/image/save/{imageId}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString imageIdPathParam = QString("{%1}").arg("imageId");
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, false || false);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, false);
+
+        SerializationOptions opts;
+        opts.style = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"imageId"_s), flags);
+        opts.flags = flags;
+        QString paramString = opts.prefix + opts.suffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(imageId));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == opts.prefix + opts.suffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(imageIdPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            saveImageResponseCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit saveImageResponseErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QtOAIHttpFileElement empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::saveImageResponseCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    QMap<QString, QtOAIHttpFileElement> responseFiles;
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory, &responseFiles);
+    QtOAIHttpFileElement output = QtOAIHttpRequestWorker::getHttpFileElement(responseFiles);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit saveImageResponseFinished(output);
 }
 
 /**

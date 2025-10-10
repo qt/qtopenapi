@@ -10,7 +10,7 @@
 
 using namespace Qt::StringLiterals;
 
-#define CALL_TEST_PDF_OPERATION(OPERATION, PARAM, EXPECTED_CONTENT, EXPECTED_FILENAME)          \
+#define CALL_TEST_FILE_OPERATION(OPERATION, PARAM, EXPECTED_CONTENT, EXPECTED_FILENAME)         \
 {                                                                                               \
     bool done = false;                                                                          \
     OPERATION(PARAM, this, [&](const QRestReply &reply, const QtOAIHttpFileElement &summary) {  \
@@ -51,6 +51,21 @@ static QJsonValue getObjectValue(const QString &summary, const QString &key)
     return QJsonValue();
 }
 
+static QByteArray readFile(const QString &filename)
+{
+    QByteArray fileContent;
+    QString filePath = QDir(SERVER_DIR).filePath(filename);
+    QFile file(filePath);
+
+    if (!file.open(QIODevice::ReadOnly))
+        qWarning("Failed to open %s", qPrintable(filename));
+    else
+        fileContent = file.readAll();
+
+    file.close();
+    return fileContent;
+}
+
 class Responses : public QtOAITestApi {
     Q_OBJECT
 
@@ -63,6 +78,7 @@ private Q_SLOTS:
     void jsonResponse();
     void textResponse();
     void pdfResponse();
+    void imageResponse();
     void cleanupTestCase();
 };
 
@@ -109,24 +125,29 @@ void Responses::textResponse() {
 }
 
 void Responses::pdfResponse() {
-    QString filePath = QDir(SERVER_DIR).filePath("test.pdf"_L1);
-    QFile file(filePath);
-    if (!file.open(QIODevice::ReadOnly))
-        QFAIL("Failed to open expected PDF file");
-    QByteArray expectedPdfContent = file.readAll();
-    file.close();
+    QByteArray expectedPdfContent = readFile("test.pdf"_L1);
 
-    CALL_TEST_PDF_OPERATION(applicationPdfInlineResponse, "test.pdf"_L1, expectedPdfContent,
+    CALL_TEST_FILE_OPERATION(applicationPdfInlineResponse, "test.pdf"_L1, expectedPdfContent,
                             "unnamed"_L1);
-    CALL_TEST_PDF_OPERATION(applicationPdfSaveResponse, "test.pdf"_L1, expectedPdfContent,
+    CALL_TEST_FILE_OPERATION(applicationPdfSaveResponse, "test.pdf"_L1, expectedPdfContent,
                             "example1.pdf"_L1);
 
     // TODO: Change expected content to "expectedPdfContent" when we activate compression
     //       in a later step. For now compression flag is off.
     QTest::ignoreMessage(QtWarningMsg, "Content compression is disabled: contentCompression flag "
                                        "is off. Returning an empty QByteArray.");
-    CALL_TEST_PDF_OPERATION(applicationEncodedPdfSaveResponse, "test.pdf"_L1, "",
+    CALL_TEST_FILE_OPERATION(applicationEncodedPdfSaveResponse, "test.pdf"_L1, "",
                             "compressed_example1.pdf"_L1);
+}
+
+void Responses::imageResponse() {
+    QByteArray expectedImage = readFile("testImage.jpg"_L1);
+    CALL_TEST_FILE_OPERATION(inlineImageResponse, "jpegImage"_L1, expectedImage, "unnamed"_L1);
+    CALL_TEST_FILE_OPERATION(saveImageResponse, "jpegImage"_L1, expectedImage, "example2.jpg"_L1);
+
+    expectedImage = readFile("testImage.png"_L1);
+    CALL_TEST_FILE_OPERATION(inlineImageResponse, "pngImage"_L1, expectedImage, "unnamed"_L1);
+    CALL_TEST_FILE_OPERATION(saveImageResponse, "pngImage"_L1, expectedImage, "example3.png"_L1);
 }
 
 void Responses::cleanupTestCase()

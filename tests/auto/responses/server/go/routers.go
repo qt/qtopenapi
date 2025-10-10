@@ -104,5 +104,17 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
 			"/v2/response/application/pdf/save/encoded/:fileId",
 			handleFunctions.TestAPI.ApplicationEncodedPdfSaveResponse,
 		},
+		{
+			"InlineImageResponse",
+			http.MethodGet,
+			"/v2/response/image/inline/:imageId",
+			handleFunctions.TestAPI.InlineImageResponse,
+		},
+		{
+			"SaveImageResponse",
+			http.MethodGet,
+			"/v2/response/image/save/:imageId",
+			handleFunctions.TestAPI.SaveImageResponse,
+		},
 	}
 }

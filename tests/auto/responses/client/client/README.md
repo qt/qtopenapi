@@ -33,6 +33,8 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:20202/v2
 |*applicationJsonStringResponse* | *GET* /response/application/json/string | Check response type application-json string.|
 |*applicationPdfInlineResponse* | *GET* /response/application/pdf/inline/{fileId} | Serve pdf inline.|
 |*applicationPdfSaveResponse* | *GET* /response/application/pdf/save/{fileId} | Save pdf file.|
+|*inlineImageResponse* | *GET* /response/image/inline/{imageId} | Get an image by ID.|
+|*saveImageResponse* | *GET* /response/image/save/{imageId} | Get an image by ID and download it.|
 |*textPlainStringResponse* | *GET* /response/text/plain/string | Check response type text/plain string.|
 
 

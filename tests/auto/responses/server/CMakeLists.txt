@@ -45,5 +45,11 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
             ${CMAKE_CURRENT_SOURCE_DIR}/test.pdf
             ${CMAKE_CURRENT_BINARY_DIR}/test.pdf
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${CMAKE_CURRENT_SOURCE_DIR}/testImage.jpg
+            ${CMAKE_CURRENT_BINARY_DIR}/testImage.jpg
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${CMAKE_CURRENT_SOURCE_DIR}/testImage.png
+            ${CMAKE_CURRENT_BINARY_DIR}/testImage.png
     COMMENT "Installing ${GO_BINARY} to ${CMAKE_CURRENT_BINARY_DIR}"
 )

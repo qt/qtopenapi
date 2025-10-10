@@ -75,6 +75,24 @@ public:
     /**
     * \internal
     * The auto-generated API:
+    * void inlineImageResponse(const QString &imageId);
+    * void inlineImageResponse(const QString &imageId, QObject *object, [&](const QRestReply &reply, const QtOAIHttpFileElement &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(inlineImageResponse, (const QString &imageId), (imageId), (const QtOAIHttpFileElement &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void saveImageResponse(const QString &imageId);
+    * void saveImageResponse(const QString &imageId, QObject *object, [&](const QRestReply &reply, const QtOAIHttpFileElement &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(saveImageResponse, (const QString &imageId), (imageId), (const QtOAIHttpFileElement &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
     * void textPlainStringResponse();
     * void textPlainStringResponse(QObject *object, [&](const QRestReply &reply, const QString &summary){});
     * \endinternal
@@ -102,6 +120,14 @@ Q_SIGNALS:
     void applicationPdfSaveResponseFinished(const QtOAIHttpFileElement &summary);
     /** Signal is emitted, if applicationPdfSaveResponse() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void applicationPdfSaveResponseErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if inlineImageResponse() request completed successfully. The \a summary contains a serialized server response. */
+    void inlineImageResponseFinished(const QtOAIHttpFileElement &summary);
+    /** Signal is emitted, if inlineImageResponse() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void inlineImageResponseErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if saveImageResponse() request completed successfully. The \a summary contains a serialized server response. */
+    void saveImageResponseFinished(const QtOAIHttpFileElement &summary);
+    /** Signal is emitted, if saveImageResponse() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void saveImageResponseErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if textPlainStringResponse() request completed successfully. The \a summary contains a serialized server response. */
     void textPlainStringResponseFinished(const QString &summary);
     /** Signal is emitted, if textPlainStringResponse() request completed with an error. \a errorType and \a errorStr contain an information about the error. */

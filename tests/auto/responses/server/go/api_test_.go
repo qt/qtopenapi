@@ -109,3 +109,68 @@ func (api *TestAPI) ApplicationEncodedPdfSaveResponse(c *gin.Context) {
 	// Send pdf bytes
 	c.Data(200, "application/pdf", buf.Bytes()) // Set the Content-Type header
 }
+
+// Get /v2/response/image/inline/{imageId}
+// Get an image by ID
+func (api *TestAPI) InlineImageResponse(c *gin.Context) {
+	imageID := c.Param("imageId")
+
+	var filePath string
+	var contentType string
+
+	switch imageID {
+	case "jpegImage":
+		filePath = "./testImage.jpg"
+		contentType = "image/jpeg"
+	//case "pngImage":
+	default:
+		// Default to PNG if not specified or not jpeg
+		filePath = "./testImage.png"
+		contentType = "image/png"
+	}
+
+	// Read image file
+	data, err := os.ReadFile(filePath)
+	if err != nil {
+		c.String(http.StatusInternalServerError, fmt.Sprintf("Failed to read image: %v", err))
+		return
+	}
+
+	// Send image as inline content
+	c.Data(http.StatusOK, contentType, data)
+}
+
+// Get /v2/response/image/save/{imageId}
+// Get an image by ID and download it
+func (api *TestAPI) SaveImageResponse(c *gin.Context) {
+	imageID := c.Param("imageId")
+
+	var filePath string
+	var contentType string
+	var contentDisposition string
+
+	switch imageID {
+	case "jpegImage":
+		filePath = "./testImage.jpg"
+		contentType = "image/jpeg"
+		contentDisposition = `attachment; filename="example2.jpg"`
+	//case "pngImage":
+	default:
+		// Default to png if not not jpeg or not specified
+		filePath = "./testImage.png"
+		contentType = "image/png"
+		contentDisposition = `attachment; filename="example3.png"`
+	}
+
+	// Read image file
+	data, err := os.ReadFile(filePath)
+	if err != nil {
+		c.String(http.StatusInternalServerError, fmt.Sprintf("Failed to read image: %v", err))
+		return
+	}
+
+	// Force download
+	c.Header("Content-Disposition", contentDisposition)
+	// Send image as inline content
+	c.Data(http.StatusOK, contentType, data)
+}
