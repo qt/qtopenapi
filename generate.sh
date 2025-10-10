@@ -2,6 +2,8 @@
 # Copyright (C) 2025 The Qt Company Ltd.
 # SPDX-License-Identifier: LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only
 
+set -ex
+
 function usage() {
     cat <<EOF >&2
 Usage: generate [cgl]
@@ -116,7 +118,7 @@ function set_paths() {
             else
                 CLIENT_PACKAGE_NAME=PetStoreClient
             fi
-            SERVER_NAME="cpp-qt-qhttpengine-server"
+            SERVER_NAME="petstore-server-app"
         elif [[ $USER_MODE == "operation-parameters" ]]; then
             CLIENT_PACKAGE_NAME=OperationParametersClient
             SERVER_NAME="server-app"
@@ -188,7 +190,7 @@ function generate() {
 
 function killServer() {
     # when the client finished testing, let's kill server ]:->
-    exit_pid=$(pidof $SERVER_NAME)
+    exit_pid=$(pidof $SERVER_NAME) || true # safe Pattern (avoid script exit on "not found")
     if [[ $exit_pid != "" ]]; then
         echo "Now kill the server by pid:" $exit_pid
         kill -9 $exit_pid
