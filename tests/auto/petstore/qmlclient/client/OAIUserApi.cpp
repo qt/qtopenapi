@@ -38,7 +38,7 @@ void OAIUserApi::initializeServerConfigs()
     QList<OAIServerConfiguration> defaultConf = QList<OAIServerConfiguration>();
     //varying endpoint server
     defaultConf.append(OAIServerConfiguration(
-    QUrl("http://127.0.0.1:9080/v2"),
+    QUrl("http://127.0.0.1:19080/v2"),
     "No description provided",
     QMap<QString, OAIServerVariable>()));
     m_serverConfigs.insert("createInQueryMap", defaultConf);

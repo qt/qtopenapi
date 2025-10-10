@@ -22,7 +22,7 @@ Building the API client library requires:
 ## Getting Started
 
 # Documentation for OpenAPI Petstore 1.0.0 Qt6 Client Cpp
-All URIs are relative to http://127.0.0.1http://127.0.0.1:9080/v2
+All URIs are relative to http://127.0.0.1http://127.0.0.1:19080/v2
 
 ### QtOAIPetApi
 |Method | HTTP request | Description|
