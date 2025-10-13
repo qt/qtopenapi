@@ -116,5 +116,17 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
 			"/v2/response/image/save/:imageId",
 			handleFunctions.TestAPI.SaveImageResponse,
 		},
+		{
+			"ApplicationOctetStreamResponse",
+			http.MethodGet,
+			"/v2/response/application/octet-stream/:fileId",
+			handleFunctions.TestAPI.ApplicationOctetStreamResponse,
+		},
+		{
+			"EmptyResponse",
+			http.MethodGet,
+			"/v2/response/empty",
+			handleFunctions.TestAPI.EmptyResponse,
+		},
 	}
 }

@@ -31,8 +31,10 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:20202/v2
 |*applicationEncodedPdfSaveResponse* | *GET* /response/application/pdf/save/encoded/{fileId} | Save encoded pdf file.|
 |*applicationJsonObjectResponse* | *GET* /response/application/json/object | Check response type application-json object.|
 |*applicationJsonStringResponse* | *GET* /response/application/json/string | Check response type application-json string.|
+|*applicationOctetStreamResponse* | *GET* /response/application/octet-stream/{fileId} | Check response type application/octet-stream.|
 |*applicationPdfInlineResponse* | *GET* /response/application/pdf/inline/{fileId} | Serve pdf inline.|
 |*applicationPdfSaveResponse* | *GET* /response/application/pdf/save/{fileId} | Save pdf file.|
+|*emptyResponse* | *GET* /response/empty | Example of an empty response body.|
 |*inlineImageResponse* | *GET* /response/image/inline/{imageId} | Get an image by ID.|
 |*saveImageResponse* | *GET* /response/image/save/{imageId} | Get an image by ID and download it.|
 |*textPlainStringResponse* | *GET* /response/text/plain/string | Check response type text/plain string.|

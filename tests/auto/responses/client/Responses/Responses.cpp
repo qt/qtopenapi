@@ -79,6 +79,8 @@ private Q_SLOTS:
     void textResponse();
     void pdfResponse();
     void imageResponse();
+    void octetStreamResponse();
+    void emptyResponseBody();
     void cleanupTestCase();
 };
 
@@ -148,6 +150,24 @@ void Responses::imageResponse() {
     expectedImage = readFile("testImage.png"_L1);
     CALL_TEST_FILE_OPERATION(inlineImageResponse, "pngImage"_L1, expectedImage, "unnamed"_L1);
     CALL_TEST_FILE_OPERATION(saveImageResponse, "pngImage"_L1, expectedImage, "example3.png"_L1);
+}
+
+void Responses::octetStreamResponse() {
+    QByteArray expectedBinData = readFile("test.bin"_L1);;
+    CALL_TEST_FILE_OPERATION(applicationOctetStreamResponse, "test.bin"_L1, expectedBinData,
+                             "example.bin"_L1);
+}
+
+void Responses::emptyResponseBody() {
+    bool done = false;
+    emptyResponse(this, [&](const QRestReply &reply) {
+        if (!(done = reply.isSuccess())) {
+            qWarning() << "Error happened while issuing request : " << reply.error()
+                       << reply.errorString();
+        }
+        QCOMPARE(reply.httpStatus(), 204);
+    });
+    QTRY_COMPARE_EQ(done, true);
 }
 
 void Responses::cleanupTestCase()

@@ -174,3 +174,24 @@ func (api *TestAPI) SaveImageResponse(c *gin.Context) {
 	// Send image as inline content
 	c.Data(http.StatusOK, contentType, data)
 }
+
+func (api *TestAPI) ApplicationOctetStreamResponse(c *gin.Context) {
+	filePath := "./" + c.Param("fileId")
+
+	binContent, err := os.ReadFile(filePath)
+	if err != nil {
+		c.String(500, fmt.Sprintf("Failed to read file: %v", err))
+		return
+	}
+
+	// Force download
+	c.Header("Content-Disposition", `attachment; filename="example.bin"`)
+
+	// Send pdf bytes
+	c.Data(200, "application/pdf", binContent) // Set the Content-Type header
+}
+
+func (api *TestAPI) EmptyResponse(c *gin.Context) {
+	// Set HTTP status 204 (No Content)
+	c.Status(204)
+}

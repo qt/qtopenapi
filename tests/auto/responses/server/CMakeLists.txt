@@ -51,5 +51,8 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
             ${CMAKE_CURRENT_SOURCE_DIR}/testImage.png
             ${CMAKE_CURRENT_BINARY_DIR}/testImage.png
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${CMAKE_CURRENT_SOURCE_DIR}/test.bin
+            ${CMAKE_CURRENT_BINARY_DIR}/test.bin
     COMMENT "Installing ${GO_BINARY} to ${CMAKE_CURRENT_BINARY_DIR}"
 )

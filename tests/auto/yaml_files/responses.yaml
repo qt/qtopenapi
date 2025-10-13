@@ -189,3 +189,38 @@ paths:
                 format: binary
         '404':
           description: Image not found
+  /response/application/octet-stream/{fileId}:
+    get:
+      tags: [test]
+      summary: Check response type application/octet-stream
+      operationId: applicationOctetStreamResponse
+      parameters:
+        - name: fileId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a binary file stream (application/octet-stream)
+          headers:
+            Content-Disposition:
+              description: Suggests the client to save the file
+              schema:
+                type: string
+                example: attachment; filename="binaryData.bin"
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: File not found
+  /response/empty:
+    get:
+      tags: [test]
+      summary: Example of an empty response body
+      operationId: emptyResponse
+      responses:
+        '204':
+          description: No content

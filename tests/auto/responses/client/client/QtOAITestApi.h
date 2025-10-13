@@ -57,6 +57,15 @@ public:
     /**
     * \internal
     * The auto-generated API:
+    * void applicationOctetStreamResponse(const QString &fileId);
+    * void applicationOctetStreamResponse(const QString &fileId, QObject *object, [&](const QRestReply &reply, const QtOAIHttpFileElement &summary){});
+    * \endinternal
+    */
+    QtOAI_ADD_OPERATION_IMPL(applicationOctetStreamResponse, (const QString &fileId), (fileId), (const QtOAIHttpFileElement &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
     * void applicationPdfInlineResponse(const QString &fileId);
     * void applicationPdfInlineResponse(const QString &fileId, QObject *object, [&](const QRestReply &reply, const QtOAIHttpFileElement &summary){});
     * \endinternal
@@ -71,6 +80,15 @@ public:
     * \endinternal
     */
     QtOAI_ADD_OPERATION_IMPL(applicationPdfSaveResponse, (const QString &fileId), (fileId), (const QtOAIHttpFileElement &), /* non-deprecated */)
+
+    /**
+    * \internal
+    * The auto-generated API:
+    * void emptyResponse();
+    * void emptyResponse(QObject *object, [&](const QRestReply &reply){});
+    * \endinternal
+    */
+    QtOAI_ADD_EMPTY_OPERATION_IMPL(emptyResponse, /* non-deprecated */)
 
     /**
     * \internal
@@ -112,6 +130,10 @@ Q_SIGNALS:
     void applicationJsonStringResponseFinished(const QString &summary);
     /** Signal is emitted, if applicationJsonStringResponse() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void applicationJsonStringResponseErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if applicationOctetStreamResponse() request completed successfully. The \a summary contains a serialized server response. */
+    void applicationOctetStreamResponseFinished(const QtOAIHttpFileElement &summary);
+    /** Signal is emitted, if applicationOctetStreamResponse() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void applicationOctetStreamResponseErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if applicationPdfInlineResponse() request completed successfully. The \a summary contains a serialized server response. */
     void applicationPdfInlineResponseFinished(const QtOAIHttpFileElement &summary);
     /** Signal is emitted, if applicationPdfInlineResponse() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
@@ -120,6 +142,10 @@ Q_SIGNALS:
     void applicationPdfSaveResponseFinished(const QtOAIHttpFileElement &summary);
     /** Signal is emitted, if applicationPdfSaveResponse() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void applicationPdfSaveResponseErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if emptyResponse() request completed successfully. */
+    void emptyResponseFinished();
+    /** Signal is emitted, if emptyResponse() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void emptyResponseErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if inlineImageResponse() request completed successfully. The \a summary contains a serialized server response. */
     void inlineImageResponseFinished(const QtOAIHttpFileElement &summary);
     /** Signal is emitted, if inlineImageResponse() request completed with an error. \a errorType and \a errorStr contain an information about the error. */

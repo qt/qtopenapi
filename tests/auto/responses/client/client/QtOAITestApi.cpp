@@ -47,10 +47,14 @@ void QtOAITestApi::initializeServerConfigs()
     m_serverIndices.insert("applicationJsonObjectResponse", 0);
     m_serverConfigs.insert("applicationJsonStringResponse", defaultConf);
     m_serverIndices.insert("applicationJsonStringResponse", 0);
+    m_serverConfigs.insert("applicationOctetStreamResponse", defaultConf);
+    m_serverIndices.insert("applicationOctetStreamResponse", 0);
     m_serverConfigs.insert("applicationPdfInlineResponse", defaultConf);
     m_serverIndices.insert("applicationPdfInlineResponse", 0);
     m_serverConfigs.insert("applicationPdfSaveResponse", defaultConf);
     m_serverIndices.insert("applicationPdfSaveResponse", 0);
+    m_serverConfigs.insert("emptyResponse", defaultConf);
+    m_serverIndices.insert("emptyResponse", 0);
     m_serverConfigs.insert("inlineImageResponse", defaultConf);
     m_serverIndices.insert("inlineImageResponse", 0);
     m_serverConfigs.insert("saveImageResponse", defaultConf);
@@ -388,6 +392,133 @@ void QtOAITestApi::applicationJsonStringResponseCallback(const QRestReply &reply
 }
 
 /**
+* \fn virtual void QtOAITestApi::applicationOctetStreamResponse(const QString &fileId)
+* 'applicationOctetStreamResponse' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+* @param[in] fileId QString [required]
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::applicationOctetStreamResponse(const QString &fileId, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'applicationOctetStreamResponse' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    applicationOctetStreamResponse(fileId, this, [&](const QRestReply &reply, const QtOAIHttpFileElement &summary) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual applicationOctetStreamResponseWithDataImpl() in derived class.
+* The virtual applicationOctetStreamResponseWithDataImpl() is being called by the template
+* function.
+
+* @param[in] fileId QString [required]
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::applicationOctetStreamResponseCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by applicationOctetStreamResponseFinished() or
+* being returned as a callback parameter of applicationOctetStreamResponse() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::applicationOctetStreamResponseWithDataImpl(const QString &fileId, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the applicationOctetStreamResponse() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking applicationOctetStreamResponse() operation calls.
+
+* @param[in] fileId QString [required]
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::applicationOctetStreamResponseWithDataImpl(const QString &fileId, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["applicationOctetStreamResponse"][m_serverIndices.value("applicationOctetStreamResponse")].serverUrl();
+    QString fullPath = "/response/application/octet-stream/{fileId}";
+    m_networkFactory->setBaseUrl(serverUrl);
+    {
+        QString fileIdPathParam = QString("{%1}").arg("fileId");
+
+        SerializationFlags flags;
+        flags.setFlag(SerializationFlag::Object, false || false);
+        flags.setFlag(SerializationFlag::NeedPercentEncoding, true);
+        flags.setFlag(SerializationFlag::Explode, false);
+
+        SerializationOptions opts;
+        opts.style = "simple"_L1.isEmpty() ? "simple"_L1 : "simple"_L1;
+        opts.prefix = getParamStylePrefix(opts.style);
+        opts.delimiter = getParamStyleDelimiter(opts.style, flags);
+        opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
+        opts.suffix = getParamStyleSuffix(opts.style, QUrl::toPercentEncoding(u"fileId"_s), flags);
+        opts.flags = flags;
+        QString paramString = opts.prefix + opts.suffix;
+        paramString += QUrl::toPercentEncoding(::QtOpenAPI::toStringValue(fileId));
+        // In case style=matrix and paramString is empty due to any reasons,
+        // we serialize it like undefined value and delete '='.
+        // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
+        if ((paramString == opts.prefix + opts.suffix) && QString("simple") == "matrix"_L1)
+            paramString.chop(1);
+        fullPath.replace(fileIdPathParam, paramString);
+    }
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            applicationOctetStreamResponseCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit applicationOctetStreamResponseErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QtOAIHttpFileElement empty;
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl, &empty };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::applicationOctetStreamResponseCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    QMap<QString, QtOAIHttpFileElement> responseFiles;
+    const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory, &responseFiles);
+    QtOAIHttpFileElement output = QtOAIHttpRequestWorker::getHttpFileElement(responseFiles);
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply), &output };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit applicationOctetStreamResponseFinished(output);
+}
+
+/**
 * \fn virtual void QtOAITestApi::applicationPdfInlineResponse(const QString &fileId)
 * 'applicationPdfInlineResponse' operation sends the request to a server.
 * The request parameters are defined by a specification file.
@@ -639,6 +770,102 @@ void QtOAITestApi::applicationPdfSaveResponseCallback(const QRestReply &reply)
         callerInfo.slot->call(context, argv);
     }
     emit applicationPdfSaveResponseFinished(output);
+}
+
+/**
+* \fn virtual void QtOAITestApi::emptyResponse()
+* 'emptyResponse' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+
+*/
+
+/**
+* \fn template < Functor, > void QtOAITestApi::emptyResponse(const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'emptyResponse' operation sends the request to a server.
+* The request parameters are defined by a specification file.
+*
+* \attention Use the operation with following parameters in the callback:
+* \code {c++}
+*    emptyResponse(this, [&](const QRestReply &reply) { if (reply.isSuccess()) ... });
+* \endcode
+* \note The template function can not be virtual in C++17.
+* If you want to use 'makeOperationsVirtual' option for mocking API,
+* please override virtual emptyResponseWithDataImpl() in derived class.
+* The virtual emptyResponseWithDataImpl() is being called by the template
+* function.
+
+* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] callback Functor && [optional]
+*/
+
+/**
+* \fn void QtOAITestApi::emptyResponseCallback(const QRestReply &reply)
+* Processes a \a reply response from a server.
+* The result of processed data is emitted by emptyResponseFinished() or
+* being returned as a callback parameter of emptyResponse() request.
+* @param[in] reply const QRestReply &
+*/
+
+/**
+* \fn virtual void QtOAITestApi::emptyResponseWithDataImpl(const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the emptyResponse() operation request.
+* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
+* and can be overloaded for mocking emptyResponse() operation calls.
+
+* @param[in] context const QObject * [optional]
+* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+*/
+void QtOAITestApi::emptyResponseWithDataImpl(const QObject *context, QtPrivate::QSlotObjectBase *slot)
+{
+    const QUrl serverUrl = m_serverConfigs["emptyResponse"][m_serverIndices.value("emptyResponse")].serverUrl();
+    QString fullPath = "/response/empty";
+    m_networkFactory->setBaseUrl(serverUrl);
+
+    // set m_testOperationPath for serialization tests
+    m_testOperationPath = fullPath;
+    QtOAIHttpRequestInput input(fullPath, "GET");
+    QNetworkRequest request
+        = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+    QNetworkReply *reply = execute(input, request, m_requestContent);
+    if (reply != nullptr) {
+        reply->setParent(this);
+        m_callerData.insert(reply, QtOAICallerInfo{context, slot});
+        connect(reply, &QNetworkReply::finished, this, [this, reply] {
+            emptyResponseCallback(QRestReply(reply));
+        });
+        connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
+            if (reply) {
+                emit emptyResponseErrorOccurred(reply->error(), reply->errorString());
+                QtOAICallerInfo callerInfo = m_callerData.take(reply);
+                if (callerInfo.slot) {
+                    QRestReply restRepl(reply);
+                    void *argv[] = { nullptr, &restRepl };
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    callerInfo.slot->call(context, argv);
+                }
+            }
+        });
+    }
+}
+
+void QtOAITestApi::emptyResponseCallback(const QRestReply &reply)
+{
+    auto netReply = reply.networkReply();
+    if (netReply)
+        netReply->disconnect(this);
+    if (!reply.isSuccess())
+        return;
+
+    // Check if callback is provided
+    QtOAICallerInfo callerInfo = m_callerData.take(netReply);
+    if (callerInfo.slot) {
+        void *argv[] = { nullptr, const_cast<QRestReply*>(&reply) };
+        QObject *context = callerInfo.contextObject
+                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+        callerInfo.slot->call(context, argv);
+    }
+    emit emptyResponseFinished();
 }
 
 /**
