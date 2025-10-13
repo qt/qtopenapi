@@ -56,7 +56,7 @@ private:
 
 QtOAIPet PetApiTests::createRandomPet(const QString &status, const QString &name) {
     QtOAIPet pet;
-    qint64 id = static_cast<long long>(rand());
+    const qint64 id = static_cast<long long>(rand());
     pet.setName(name);
     pet.setId(id);
 QT_WARNING_PUSH
@@ -95,7 +95,7 @@ void PetApiTests::findPetsByStatusTest() {
     QTRY_COMPARE_EQ_WITH_TIMEOUT(petCreated, true, 5000);
 
     connect(&api, &QtOAIPetApi::findPetsByStatusFinished,
-            this, [&](QList<QtOAIPet> pets) {
+            this, [&](const QList<QtOAIPet> &pets) {
         petFound = true;
         QVERIFY(!pets.isEmpty());
 QT_WARNING_PUSH
@@ -118,13 +118,13 @@ QT_WARNING_POP
 void connectPetByIdApi(QtOAIPetApi *petApi, bool &petFetched, QtOAIPet &petToCheck)
 {
     QObject::connect(petApi, &QtOAIPetApi::getPetByIdFinished,
-                     petApi, [&petFetched, &petToCheck](QtOAIPet summary) {
+                     petApi, [&petFetched, &petToCheck](const QtOAIPet &summary) {
         // pet created
         petFetched = true;
         petToCheck = summary;
     });
-    QObject::connect(petApi, &QtOAIPetApi::getPetByIdErrorOccurred, petApi,
-                     [&](QNetworkReply::NetworkError, const QString &errorStr) {
+    QObject::connect(petApi, &QtOAIPetApi::getPetByIdErrorOccurred,
+                     petApi, [&](QNetworkReply::NetworkError, const QString &errorStr) {
                          qDebug() << "Error happened while issuing request : " << errorStr;
                      });
 }
@@ -140,7 +140,7 @@ void PetApiTests::createAndGetPetTest() {
     QtOAIPet pet = createRandomPet("available", petName);
     qint64 id = pet.getId();
 
-    connect(&api, &QtOAIPetApi::addPetFinished, this, [&](QtOAIPet summary) {
+    connect(&api, &QtOAIPetApi::addPetFinished, this, [&](const QtOAIPet &summary) {
         // pet created
         petCreated = true;
         QCOMPARE(pet, summary);
@@ -182,10 +182,10 @@ void PetApiTests::updatePetTest() {
     api.setPassword(password);
     QtOAIPet pet = createRandomPet();
     QtOAIPet petToCheck;
-    qint64 id = pet.getId();
+    const qint64 id = pet.getId();
     bool petAdded = false;
 
-    connect(&api, &QtOAIPetApi::addPetFinished, this, [&](QtOAIPet summary) {
+    connect(&api, &QtOAIPetApi::addPetFinished, this, [&](const QtOAIPet &summary) {
         petAdded = true;
         QCOMPARE(pet, summary);
     });
@@ -206,7 +206,7 @@ void PetApiTests::updatePetTest() {
 
     // update it
     bool petUpdated = false;
-    connect(&api, &QtOAIPetApi::updatePetFinished, this, [&](QtOAIPet summary) {
+    connect(&api, &QtOAIPetApi::updatePetFinished, this, [&](const QtOAIPet &summary) {
         petUpdated = true;
         pet = summary;
     });
@@ -240,7 +240,7 @@ void PetApiTests::updatePetWithFormTest() {
     api.setPassword(password);
     QtOAIPet pet = createRandomPet();
     QtOAIPet petToCheck;
-    qint64 id = pet.getId();
+    const qint64 id = pet.getId();
 
     // create pet
     bool petAdded = false;
@@ -291,12 +291,11 @@ void PetApiTests::deleteCreatedPetByBearerTest()
     api.setPassword(password);
     api.setBearerToken("BEARER-TOKEN");
     QtOAIPet pet = createRandomPet();
-    QtOAIPet petToCheck;
-    qint64 id = pet.getId();
+    const qint64 id = pet.getId();
 
     // create pet
     bool petAdded = false;
-    connect(&api, &QtOAIPetApi::addPetFinished, this, [&](QtOAIPet summary) {
+    connect(&api, &QtOAIPetApi::addPetFinished, this, [&](const QtOAIPet &summary) {
         petAdded = true;
         QCOMPARE(pet, summary);
     });
@@ -352,12 +351,11 @@ void PetApiTests::uploadPetFileTest()
     api.setUsername(user);
     api.setPassword(password);
     QtOAIPet pet = createRandomPet();
-    QtOAIPet petToCheck;
-    qint64 id = pet.getId();
+    const qint64 id = pet.getId();
 
     // create pet
     bool petAdded = false;
-    connect(&api, &QtOAIPetApi::addPetFinished, this, [&](QtOAIPet summary) {
+    connect(&api, &QtOAIPetApi::addPetFinished, this, [&](const QtOAIPet &summary) {
         petAdded = true;
         QCOMPARE(pet, summary);
     });
@@ -373,7 +371,7 @@ void PetApiTests::uploadPetFileTest()
     bool petFileUploaded = false;
     QString type, message;
     qint32 code = -100;
-    connect(&api, &QtOAIPetApi::uploadFileFinished, this, [&](QtOAIApiResponse response) {
+    connect(&api, &QtOAIPetApi::uploadFileFinished, this, [&](const QtOAIApiResponse &response) {
         petFileUploaded = true;
         type = response.getType();
         code = response.getCode();
@@ -430,7 +428,6 @@ void PetApiTests::mixedApiCallsTest()
     apiUser.setNetworkRequestFactory(factory);
     QtOAIPet pet1 = createRandomPet();
     QtOAIPet pet2 = createRandomPet();
-    QtOAIPet petToCheck;
 
     api1.setApiKey("api_key","special-key");
     bool petCreated = false;
@@ -446,7 +443,7 @@ void PetApiTests::mixedApiCallsTest()
 
     bool inventoryFetched = false;
     connect(&apiStore, &QtOAIStoreApi::getInventoryFinished,
-            this, [&](QMap<QString, qint32> status) {
+            this, [&](const QMap<QString, qint32> &status) {
         inventoryFetched = true;
         for (const auto &key : status.keys()) {
             qDebug() << (key) << " Quantities " << status.value(key);
@@ -479,12 +476,11 @@ void PetApiTests::getFilesFromServerTest()
     api.setUsername(user);
     api.setPassword(password);
     QtOAIPet pet = createRandomPet();
-    QtOAIPet petToCheck;
-    qint64 id = pet.getId();
+    const qint64 id = pet.getId();
 
     // create pet
     bool petAdded = false;
-    connect(&api, &QtOAIPetApi::addPetFinished, this, [&](QtOAIPet summary) {
+    connect(&api, &QtOAIPetApi::addPetFinished, this, [&](const QtOAIPet &summary) {
         petAdded = true;
         QCOMPARE(pet, summary);
     });
@@ -499,7 +495,7 @@ void PetApiTests::getFilesFromServerTest()
     // get pet json info file
     bool petFileDownloaded = false;
     connect(&api, &QtOAIPetApi::getJsonFileFinished,
-            this, [&](QtOAIHttpFileElement summary) {
+            this, [&](const QtOAIHttpFileElement &summary) {
         petFileDownloaded = true;
         QCOMPARE("response.json", summary.m_requestFilename);
         QJsonObject fileContent = summary.asJsonValue().toObject();
@@ -516,7 +512,7 @@ void PetApiTests::getFilesFromServerTest()
 
     // get PNG file
     bool petPngDownloaded = false;
-    connect(&api, &QtOAIPetApi::findPetsImageByIdFinished, this, [&](QString summary) {
+    connect(&api, &QtOAIPetApi::findPetsImageByIdFinished, this, [&](const QString &summary) {
         petPngDownloaded = true;
         // test file size
         QCOMPARE(summary.size(), 8868);
@@ -583,7 +579,7 @@ void PetApiTests::getPatientPetsTest()
 
     // create pet1
     bool operationStatus = false;
-    api.addPet(pet1, nullptr, [&](const QRestReply &reply, const QtOAIPet &summary) {
+    api.addPet(pet1, this, [&](const QRestReply &reply, const QtOAIPet &summary) {
         if (!(operationStatus = reply.isSuccess()))
             qDebug() << "Error happened while issuing request : " << reply.errorString();
 
@@ -595,7 +591,7 @@ void PetApiTests::getPatientPetsTest()
 
     // create pet2
     operationStatus = false;
-    api.addPet(pet2, nullptr, [&](const QRestReply &reply, const QtOAIPet &summary) {
+    api.addPet(pet2, this, [&](const QRestReply &reply, const QtOAIPet &summary) {
         if (!(operationStatus = reply.isSuccess()))
             qDebug() << "Error happened while issuing request : " << reply.errorString();
 
