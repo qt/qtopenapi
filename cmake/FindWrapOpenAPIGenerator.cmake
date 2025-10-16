@@ -8,14 +8,19 @@ endif()
 
 set(WrapOpenAPIGenerator_FOUND FALSE)
 
-find_program(OPENAPI_JAVA_EXECUTABLE java REQUIRED)
-find_program(OPENAPI_GO_EXECUTABLE NAMES go REQUIRED)
+find_program(OPENAPI_JAVA_EXECUTABLE java)
+find_program(OPENAPI_GO_EXECUTABLE NAMES go)
+find_program(OPENAPI_MAVEN_EXECUTABLE NAMES mvn)
 
 if (NOT OPENAPI_GO_EXECUTABLE)
     return()
 endif()
 
 if(NOT OPENAPI_JAVA_EXECUTABLE)
+    return()
+endif()
+
+if(NOT OPENAPI_MAVEN_EXECUTABLE)
     return()
 endif()
 

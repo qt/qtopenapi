@@ -26,12 +26,24 @@ qt_configure_end_summary_section()
 
 qt_configure_add_report_entry(
     TYPE WARNING
+    MESSAGE "The dependency on OpenAPI tools is not met. Skipping qtopenapi build."
+    CONDITION NOT QT_FEATURE_openapi_generator
+)
+
+qt_configure_add_report_entry(
+    TYPE WARNING
     MESSAGE "The dependency on Java is not met. Skipping qtopenapi build."
     CONDITION NOT OPENAPI_JAVA_EXECUTABLE
 )
 
 qt_configure_add_report_entry(
     TYPE WARNING
-    MESSAGE "The dependency on Golang is not met. Skipping qtopenapi build."
-    CONDITION NOT OPENAPI_GO_EXECUTABLE
+    MESSAGE "The dependency on Golang is not met. Skipping qtopenapi tests."
+    CONDITION NOT OPENAPI_GO_EXECUTABLE AND QT_BUILD_TESTS
+)
+
+qt_configure_add_report_entry(
+    TYPE WARNING
+    MESSAGE "The dependency on Maven is not met. Skipping the Qt6 Client code generator build."
+    CONDITION NOT OPENAPI_MAVEN_EXECUTABLE
 )

@@ -109,6 +109,7 @@
                 </executions>
             </plugin>
         </plugins>
+        <directory>${qt.build.dir}</directory>
     </build>
     <dependencies>
         <dependency>
@@ -131,6 +132,7 @@
         </dependency>
     </dependencies>
     <properties>
+        <qt.build.dir>${project.basedir}/target</qt.build.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <openapi-generator-version>7.15.0</openapi-generator-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>

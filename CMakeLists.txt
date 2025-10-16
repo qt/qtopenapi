@@ -17,9 +17,11 @@ find_package(Qt6 ${PROJECT_VERSION} CONFIG REQUIRED COMPONENTS BuildInternals)
 # defined.
 qt_internal_project_setup()
 
-find_package(Qt6 ${PROJECT_VERSION} CONFIG REQUIRED Core Network)
-find_package(Qt6 ${PROJECT_VERSION} CONFIG OPTIONAL_COMPONENTS Gui Widgets Quick
-             QmlNetwork QuickControls2 QuickTest)
+find_package(Qt6 ${PROJECT_VERSION} CONFIG REQUIRED Core)
+find_package(Qt6 ${PROJECT_VERSION} CONFIG OPTIONAL_COMPONENTS
+    Network Gui Widgets Quick
+    QmlNetwork QuickControls2 QuickTest
+)
 
 if(NOT TARGET Qt::Network)
     message(NOTICE "Skipping the build as the condition \"TARGET Qt::Network\" is not met.")
