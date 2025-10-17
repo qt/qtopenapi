@@ -12,6 +12,8 @@ if(NOT TARGET responses-server-go)
     return()
 endif()
 
+find_package(ZLIB REQUIRED)
+
 if(MSVC)
   add_compile_options(/W4 /WX)
 else()
@@ -27,12 +29,12 @@ qt_internal_add_test(cpp-qt-responses
         Qt::Test
 )
 
-qt_autogen_tools_initial_setup(ResponsesClient)
-
-target_include_directories(cpp-qt-responses
-    PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../client>
-        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/../client>
+qt6_add_openapi_client(ResponsesClient
+    SPEC_FILE
+        ${CMAKE_CURRENT_SOURCE_DIR}/responses.yaml
+    GENERATE_COMMON_LIBRARY
+    COMMON_LIBRARY_NAME CommonResponsesClient
+    COMPRESSION_REQUIRED
 )
 
 target_compile_definitions(cpp-qt-responses

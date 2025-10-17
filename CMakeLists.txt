@@ -28,4 +28,6 @@ if(NOT TARGET Qt::Network)
     return()
 endif()
 
+include("${CMAKE_CURRENT_LIST_DIR}/src/openapi/Qt6OpenApiGeneratorMacros.cmake")
+
 qt_build_repo()

@@ -25,14 +25,14 @@ import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETT
 
 public abstract class CppQt6AbstractCodegen extends AbstractCppCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(CppQt6AbstractCodegen.class);
-    protected final String PREFIX = "OAI";
+    protected final String PREFIX = "QtOAI";
     protected String apiVersion = "1.0.0";
     protected static final String CPP_NAMESPACE = "cppNamespace";
     protected static final String CPP_NAMESPACE_DESC = "C++ namespace (convention: name::space::for::api).";
     protected static final String CONTENT_COMPRESSION_ENABLED = "contentCompression";
     protected static final String CONTENT_COMPRESSION_ENABLED_DESC = "Enable Compressed Content Encoding for requests and responses";
     protected Set<String> foundationClasses = new HashSet<>();
-    protected String cppNamespace = "OpenAPI";
+    protected String cppNamespace = "QtOpenAPI";
     protected Map<String, String> namespaces = new HashMap<>();
     protected Set<String> systemIncludes = new HashSet<>();
     protected boolean isContentCompressionEnabled = false;

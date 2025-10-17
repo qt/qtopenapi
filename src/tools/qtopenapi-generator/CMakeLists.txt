@@ -20,29 +20,23 @@ set(QT6_OPENAPI_GENERATOR_CLI
     "${CMAKE_CURRENT_BINARY_DIR}/target/cpp-qt6-client-openapi-generator-${QT_OPENAPI_GENERATOR_VERSION}.jar"
 )
 
-set(CMD_SUFFIX "")
-if(CMAKE_HOST_WIN32)
-    set(CMD_SUFFIX ".cmd")
-endif()
-
-message(STATUS "Starting build of the Qt6 Client Code Generator with Maven.")
-execute_process(
-    COMMAND "${OPENAPI_MAVEN_EXECUTABLE}${CMD_SUFFIX}"
+# Define a custom command to run 'mvn package'
+add_custom_command(
+    OUTPUT "${QT6_OPENAPI_GENERATOR_CLI}"
+    COMMAND "${OPENAPI_MAVEN_EXECUTABLE}"
             -f "${CMAKE_CURRENT_SOURCE_DIR}/pom.xml" package
             -Dqt.build.dir=${CMAKE_CURRENT_BINARY_DIR}/target
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
-    RESULT_VARIABLE maven_result
-    OUTPUT_VARIABLE maven_output
-    ERROR_VARIABLE maven_error
-    OUTPUT_STRIP_TRAILING_WHITESPACE
+    COMMENT "Building the Qt6 Client Code Generator with Maven"
+    VERBATIM
 )
 
-if(maven_result)
-    message(FATAL_ERROR "Failed to build the Qt6 Client Code Generator with Maven:
-        ${maven_error} ${maven_output}")
-else()
-    message(STATUS "Finished (re-)building the Qt6 Client Code Generator with Maven at configure time.")
-endif()
+# Define a custom target that depends on the above output
+add_custom_target(
+    QtOpenAPIGenerator ALL
+    DEPENDS
+        "${QT6_OPENAPI_GENERATOR_CLI}"
+)
 
 add_executable(QtOpenAPIGeneratorJar IMPORTED GLOBAL)
 add_executable("${QT_CMAKE_EXPORT_NAMESPACE}::QtOpenAPIGeneratorJar" ALIAS QtOpenAPIGeneratorJar)

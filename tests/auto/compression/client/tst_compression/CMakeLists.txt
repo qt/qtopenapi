@@ -19,6 +19,8 @@ else()
   add_compile_options(-Wall -Wextra -Werror=deprecated-declarations)
 endif()
 
+find_package(ZLIB REQUIRED)
+
 qt_internal_add_test(cpp-qt-compression
     SOURCES
         tst_compression.cpp
@@ -28,12 +30,12 @@ qt_internal_add_test(cpp-qt-compression
         Qt::Test
 )
 
-qt_autogen_tools_initial_setup(CompressionClient)
-
-target_include_directories(cpp-qt-compression
-    PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../client>
-        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/../client>
+qt6_add_openapi_client(CompressionClient
+    SPEC_FILE
+        ${CMAKE_CURRENT_SOURCE_DIR}/compression.yaml
+    GENERATE_COMMON_LIBRARY
+    COMMON_LIBRARY_NAME CommonCompressionClient
+    COMPRESSION_REQUIRED
 )
 
 # target_compile_definitions(cpp-qt-compression

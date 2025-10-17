@@ -4,6 +4,8 @@
 #include <QtCore/qobject.h>
 #include <QtTest/qtest.h>
 
+#include "QtOAIDefaultApi.h"
+
 namespace QtOpenAPI {
 
 class ColorPaletteTests : public QObject {
@@ -15,9 +17,9 @@ private Q_SLOTS:
 
 void ColorPaletteTests::initialTest() {
     qDebug() << "Nothing to do yet";
+    QtOAIDefaultApi api;
 }
 } // QtOpenAPI
 
 QTEST_MAIN(QtOpenAPI::ColorPaletteTests)
 #include "ColorPaletteTests.moc"
-

@@ -27,14 +27,6 @@ qt_internal_add_test(cpp-qt-petstore-userapi
         Qt::Test
 )
 
-qt_autogen_tools_initial_setup(PetStoreClient)
-
-target_include_directories(cpp-qt-petstore-userapi
-    PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../client>
-        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/../client>
-)
-
 target_compile_definitions(cpp-qt-petstore-userapi
     PRIVATE
         SERVER_PATH="$<TARGET_FILE:petstore-server-go>"

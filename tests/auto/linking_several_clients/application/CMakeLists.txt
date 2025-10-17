@@ -10,11 +10,10 @@ endif()
 find_package(Qt6 REQUIRED COMPONENTS Core Network Test)
 
 if(MSVC)
-  add_compile_options(/W4 /WX)
+    add_compile_options(/W4 /WX)
 else()
-  add_compile_options(-Wall -Wextra -Werror=deprecated-declarations)
+    add_compile_options(-Wall -Wextra -Werror=deprecated-declarations)
 endif()
-
 
 ## application 1:
 ## Client1 produces common-lib on generation.
@@ -28,31 +27,31 @@ qt_internal_add_test(cpp-qt-test-config1-app
         Qt::Test
 )
 
-target_include_directories(cpp-qt-test-config1-app
-    PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../client1>
-        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/../client1>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../client2>
-        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/../client2>
+# client1 generation
+qt6_add_openapi_client(TestClient1
+    SPEC_FILE
+        ${CMAKE_CURRENT_SOURCE_DIR}/linking_several_clients/client1.yaml
+    OUTPUT_DIRECTORY
+        ${CMAKE_CURRENT_BINARY_DIR}/client1
+    GENERATE_COMMON_LIBRARY
+    COMMON_LIBRARY_NAME TestCommon
+)
+
+# client2 generation
+qt6_add_openapi_client(TestClient2
+    SPEC_FILE
+        ${CMAKE_CURRENT_SOURCE_DIR}/linking_several_clients/client2.yaml
+    OUTPUT_DIRECTORY
+        ${CMAKE_CURRENT_BINARY_DIR}/client2
 )
 
 target_include_directories(TestClient2
     PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../client1/common>
-        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/../client1/common>
+       $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/client1/common>
 )
 
-target_link_libraries(TestClient2
-    PRIVATE
-        TestCommon
-)
-
-target_link_libraries(cpp-qt-test-config1-app
-    PRIVATE
-        TestClient1
-        TestClient2
-        TestCommon
-)
+target_link_libraries(TestClient2 PRIVATE TestCommon)
+target_link_libraries(cpp-qt-test-config1-app PRIVATE TestClient1 TestClient2 TestCommon)
 
 if(WIN32)
     add_custom_command(TARGET cpp-qt-test-config1-app POST_BUILD

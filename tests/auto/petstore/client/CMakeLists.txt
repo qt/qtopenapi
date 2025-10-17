@@ -1,8 +1,13 @@
 # Copyright (C) 2025 The Qt Company Ltd.
 # SPDX-License-Identifier: BSD-3-Clause
 
-add_subdirectory(common)
-add_subdirectory(client)
+qt6_add_openapi_client(PetStoreClient
+       SPEC_FILE
+              ${CMAKE_CURRENT_SOURCE_DIR}/petstore.yaml
+       GENERATE_COMMON_LIBRARY
+       COMMON_LIBRARY_NAME CommonPetStoreClient
+)
+
 add_subdirectory(PetApiTest)
 add_subdirectory(StoreApiTest)
 add_subdirectory(UserApiTest)

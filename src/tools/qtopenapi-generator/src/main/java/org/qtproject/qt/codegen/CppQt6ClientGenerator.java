@@ -17,7 +17,14 @@ import org.slf4j.LoggerFactory;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.io.File;
 
 public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements CodegenConfig {
@@ -41,6 +48,10 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
             this.value = value;
         }
     }
+    protected String namePrefix = PREFIX;
+    public static final String USE_CMAKE_FUNCTION = "useCmakeMacro";
+    public static final String USE_CMAKE_FUNCTION_DESC
+            = "The 'qt6_add_openapi_client' function uses the option for CombinedModelsAndAPIs.cpp file generation";
     protected String packageName = "";
     // source folder where to write the files
     protected String sourceFolder = "client";
@@ -54,6 +65,7 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
     @Setter protected boolean enableQmlCode = false;
     @Setter protected String commonLibrary = GENERATION_TYPE.COMMON_LIB.value;
     @Setter protected String commonLibraryName = DEFAULT_PACKAGE_NAME;
+    @Setter protected boolean useCmakeMacro = false;
 
     /**
      * Configures the type of generator.
@@ -142,6 +154,7 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
         addSwitch("addDownloadProgress", "Add support for Qt download progress", this.addDownloadProgress);
         addSwitch(MAKE_OPERATIONS_VIRTUAL_NAME, MAKE_OPERATIONS_VIRTUAL_DESC, this.makeOperationsVirtual);
         addSwitch(MAKE_QML_ENABLED, MAKE_QML_ENABLED_DESC, this.enableQmlCode);
+        addSwitch(USE_CMAKE_FUNCTION, USE_CMAKE_FUNCTION_DESC, this.useCmakeMacro);
         // Common library name allows to choose a unique name for 'commonLibrary=COMMON_LIB' case.
         addOption(COMMON_LIB_NAME_OPTION, "Name of the common client library, if generated.",
                   DEFAULT_COMMON_LIB_NAME);
@@ -199,6 +212,12 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
             additionalProperties.put(MAKE_QML_ENABLED, enableQmlCode);
         }
 
+        if (additionalProperties.containsKey(USE_CMAKE_FUNCTION)) {
+            setUseCmakeMacro(convertPropertyToBooleanAndWriteBack(USE_CMAKE_FUNCTION));
+        } else {
+            additionalProperties.put(USE_CMAKE_FUNCTION, useCmakeMacro);
+        }
+
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         if (additionalProperties.containsKey(COMMON_LIB_OPTION)
                 && !additionalProperties.get(COMMON_LIB_OPTION).toString().isEmpty()) {
@@ -219,14 +238,16 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
         additionalProperties.put(USE_COMMON_LIBRARY,
                                  commonLibrary.equals(GENERATION_TYPE.COMMON_LIB.value));
         supportingFiles.clear();
-        final String namePrefix = additionalProperties.containsKey("modelNamePrefix")
+        namePrefix = additionalProperties.containsKey("modelNamePrefix")
                 ? modelNamePrefix : PREFIX;
         supportingFiles.add(new SupportingFile("README.mustache",
                 sourceFolder, "README.md"));
         supportingFiles.add(new SupportingFile("CMakeConfig.mustache",
                 sourceFolder, "Config.cmake.in"));
-        supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache",
-                sourceFolder, "CMakeLists.txt"));
+        if (!this.useCmakeMacro) {
+            supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache",
+                    sourceFolder, "CMakeLists.txt"));
+        }
         supportingFiles.add(new SupportingFile("exports.mustache",
                 sourceFolder, namePrefix + "Exports.h"));
         supportingFiles.add(new SupportingFile("doc/Doxyfile.in.mustache",
@@ -266,8 +287,10 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
                 commonLibrarySourceFolder, namePrefix + "ServerVariable.h"));
         supportingFiles.add(new SupportingFile("common/CMakeConfig.mustache",
                 commonLibrarySourceFolder, "Config.cmake.in"));
-        supportingFiles.add(new SupportingFile("common/CMakeLists.txt.mustache",
-                commonLibrarySourceFolder, "CMakeLists.txt"));
+        if (!this.useCmakeMacro) {
+            supportingFiles.add(new SupportingFile("common/CMakeLists.txt.mustache",
+                    commonLibrarySourceFolder, "CMakeLists.txt"));
+        }
     }
 
     /**
@@ -325,5 +348,143 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
     @Override
     public String toApiFilename(String name) {
         return modelNamePrefix + sanitizeName(camelize(name)) + "Api";
+    }
+
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        objs = super.postProcessSupportingFileData(objs);
+        // `qt6_add_openapi_client` macro needs to know all file names on configuration step.
+        // The problem is Models and APIs file names are not known before running the generator.
+        // We tried to create a single file with a static name, that includes all Models
+        // and APIs cpp files inside. It doesn't help, because of moc files absence.
+        // The MOC doesn't generate moc files for cpp files included into the resulting cpp file
+        // (there is no such feature).
+        // So, the current solution is to have a single file with a static name which duplicates
+        // the content of Models and APIs files.
+        // The file is re-generated fully each time when generation is called.
+        // The file is being generated only if `useCmakeMacro` option is ON.
+        // The option description warns users that the option is required only for
+        // `qt6_add_openapi_client` macro.
+        // The macro always enables the option. Users don't need to do it manually.
+        // By default, the option is OFF.
+        if (this.useCmakeMacro) {
+            List<Path> apiClassFiles = new ArrayList<>();
+            String apiDir = apiPackage.replace('.', File.separatorChar);
+            ApiInfoMap apiInfo = (ApiInfoMap) objs.get("apiInfo");
+            for (OperationsMap api : apiInfo.getApis()) {
+                OperationMap opsApi = api.getOperations();
+                Path headerPath = Paths.get(outputFolder, apiDir,
+                        sourceFolder
+                                + File.separator + opsApi.getClassname() + ".h");
+                Path cppPath = Paths.get(outputFolder,
+                        apiDir,
+                        sourceFolder + File.separator
+                                + opsApi.getClassname() + ".cpp");
+                apiClassFiles.add(headerPath);
+                apiClassFiles.add(cppPath);
+            }
+
+            List<ModelMap> models = (List<ModelMap>) objs.get("models");
+            List<CodegenModel> codegenModelList = models.stream()
+                    .map(ModelMap::getModel)
+                    .collect(Collectors.toList());
+            List<Path> modelCppFilePaths = new ArrayList<>();
+            List<Path> modelHeaderFilePaths = new ArrayList<>();
+            Path combinedFile = Paths.get(outputFolder,
+                    sourceFolder
+                            + File.separator + namePrefix + "CombinedModelsAndAPIs.cpp");
+            String modelDir = modelPackage.replace('.', File.separatorChar);
+
+            for (CodegenModel codeMod : codegenModelList) {
+                Path headerPath = Paths.get(outputFolder,
+                        modelDir, sourceFolder + File.separator
+                                + codeMod.getClassFilename() + ".h");
+                Path cppPath = Paths.get(outputFolder, modelDir, sourceFolder
+                        + File.separator + codeMod.getClassFilename() + ".cpp");
+                modelHeaderFilePaths.add(headerPath);
+                modelCppFilePaths.add(cppPath);
+            }
+
+            try {
+                BufferedWriter writer = Files.newBufferedWriter(combinedFile, StandardCharsets.UTF_8);
+                List<String> filteredOrdering = new ArrayList<>();
+                Map<String, String> contentMap = new HashMap<>();
+                for (Path path : modelHeaderFilePaths) {
+                    if (Files.exists(path)) {
+                        String content = new String(Files.readAllBytes(path));
+                        contentMap.put(path.getFileName().toString(), content);
+                    } else {
+                        LOGGER.warn("Missing the generated Model file: {}", path);
+                    }
+                }
+
+                // Models should be included in the proper ordering:
+                // If a model includes header of the another model,
+                // included one should be added first.
+                // Result of such filtering is stored into 'filteredOrdering' list.
+                List<String> includedHeaders = new ArrayList<>();
+                for (Map.Entry<String, String> entry : contentMap.entrySet()) {
+                    for (Path path : modelHeaderFilePaths) {
+                        String includeHeader = "#include " + "\"" + path.getFileName().toString() + "\"";
+                        // Model has included models
+                        if (entry.getValue().contains(includeHeader)) {
+                            if (!includedHeaders.contains(path.getFileName().toString())) {
+                                if (!includedHeaders.contains(entry.getKey())) {
+                                    filteredOrdering.add(contentMap.get(path.getFileName().toString()));
+                                    includedHeaders.add(path.getFileName().toString());
+                                } else {
+                                    // if current model was included as a dependency of the another
+                                    // model, but current one also has a dependency,
+                                    // then insert required dependency.
+                                    int index = includedHeaders.indexOf(entry.getKey());
+                                    if (index >= 0 && index < includedHeaders.size()) {
+                                        filteredOrdering.add(index, contentMap.get(path.getFileName().toString()));
+                                        includedHeaders.add(index, path.getFileName().toString());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    // When includes were checked and included, we can insert the header.
+                    if (!includedHeaders.contains(entry.getKey())) {
+                        filteredOrdering.add(entry.getValue());
+                        includedHeaders.add(entry.getKey());
+                    }
+                }
+
+                // Writing the result of filtering.
+                for (int i = 0; i < filteredOrdering.size(); i++) {
+                    writer.write(filteredOrdering.get(i));
+                    writer.write("\n\n");
+                }
+
+                for (Path path : modelCppFilePaths) {
+                    if (Files.exists(path)) {
+                        writer.write("// ===== " + path.getFileName() + " =====\n");
+                        String content = new String(Files.readAllBytes(path));
+                        writer.write(content);
+                        writer.write("\n\n");
+                    } else {
+                        LOGGER.warn("Missing the generated Model file: {}", path);
+                    }
+                }
+
+                for (Path path : apiClassFiles) {
+                    if (Files.exists(path)) {
+                        writer.write("// ===== " + path.getFileName() + " =====\n");
+                        String content = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+                        writer.write(content);
+                        writer.write("\n\n");
+                    } else {
+                        LOGGER.warn("Missing the generated API file: {}", path);
+                    }
+                }
+                writer.write("#include \"" + namePrefix + "CombinedModelsAndAPIs.moc\"");
+                writer.write("\n\n");
+                writer.close();
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to generate CombinedModelsAndAPIs.cpp file, when the option useCmakeMacro is enabled.", e);
+            }
+        }
+        return objs;
     }
 }

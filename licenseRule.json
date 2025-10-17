@@ -72,6 +72,17 @@
             }
         }
     },
+   {
+        "comments": ["Files with the following endings are Apache-2.0 licensed"],
+        "file_pattern_ending": [".yaml"],
+        "location":{
+            "tests/auto/": {
+                "comment": "Default",
+                "file type": "3rd party",
+                "spdx": ["Apache-2.0"]
+            }
+        }
+    },
     {
         "comment": ["All other files",
                      "The licensing is defined only by the file location in the Qt module repository.",
@@ -84,11 +95,6 @@
                 "spdx": ["LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only"]
             },
             "src/tools": {
-                "comment": "",
-                "file type": "3rd party",
-                "spdx": ["Apache-2.0"]
-            },
-            "tests/auto/yaml_files": {
                 "comment": "",
                 "file type": "3rd party",
                 "spdx": ["Apache-2.0"]

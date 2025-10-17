@@ -21,12 +21,11 @@ qt_internal_add_test(cpp-qt-operations-parameters-backport
         Qt::Test
 )
 
-qt_autogen_tools_initial_setup(OpenapiBackportClient)
-
-target_include_directories(cpp-qt-operations-parameters-backport
-    PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../client>
-        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/../client>
+qt6_add_openapi_client(OpenapiBackportClient
+    SPEC_FILE
+        ${CMAKE_CURRENT_SOURCE_DIR}/openapi2.0.yaml
+    GENERATE_COMMON_LIBRARY
+    COMMON_LIBRARY_NAME CommonOpenapiBackportClient
 )
 
 target_compile_definitions(cpp-qt-operations-parameters-backport
@@ -35,6 +34,7 @@ target_compile_definitions(cpp-qt-operations-parameters-backport
 )
 
 add_dependencies(cpp-qt-operations-parameters-backport backport-server-go)
+
 target_link_libraries(cpp-qt-operations-parameters-backport
     PRIVATE
         OpenapiBackportClient

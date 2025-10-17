@@ -17,6 +17,8 @@ qt_internal_add_module(OpenapiPrivate
         Qt::Core
     EXTRA_CMAKE_FILES
         "${CMAKE_CURRENT_SOURCE_DIR}/${QT_CMAKE_EXPORT_NAMESPACE}OpenapiPrivateExtraTargets.cmake"
+        "${CMAKE_CURRENT_SOURCE_DIR}/${QT_CMAKE_EXPORT_NAMESPACE}OpenApiGeneratorMacros.cmake"
     EXTRA_CMAKE_INCLUDES
         "${QT_CMAKE_EXPORT_NAMESPACE}OpenapiPrivateExtraTargets.cmake"
+        "${QT_CMAKE_EXPORT_NAMESPACE}OpenApiGeneratorMacros.cmake"
 )
