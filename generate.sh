@@ -111,7 +111,6 @@ function set_paths() {
     # Validate the value
     if [[ -f "$PWD/tests/auto/yaml_files/$USER_MODE.yaml" ]]; then
         USER_SPEC="$PWD/tests/auto/yaml_files/$USER_MODE.yaml"
-        SERVER_OUTPUT_DIR="$PWD/tests/auto/$USER_MODE/server"
         CLIENT_OUTPUT_DIR="$PWD/tests/auto/$USER_MODE/$CLIENTFOLDER_NAME"
         if [[ $USER_MODE == "petstore" ]]; then
             if [[ $QML_ADDITIONAL_PROPERTIES == true ]]; then
@@ -119,16 +118,12 @@ function set_paths() {
             else
                 CLIENT_PACKAGE_NAME=PetStoreClient
             fi
-            SERVER_NAME="petstore-server-app"
         elif [[ $USER_MODE == "operation-parameters" ]]; then
             CLIENT_PACKAGE_NAME=OperationParametersClient
-            SERVER_NAME="server-app"
         elif [[ $USER_MODE == "openapi2.0" ]]; then
             CLIENT_PACKAGE_NAME=OpenapiBackportClient
-            SERVER_NAME="backport-server-app"
         elif [[ $USER_MODE == "mediatype" ]]; then
             CLIENT_PACKAGE_NAME=MediaTypeClient
-            SERVER_NAME="mediatype-server-app"
         elif [[ $USER_MODE == "colorpalette" ]]; then
             if [[ $QML_ADDITIONAL_PROPERTIES == true ]]; then
                 CLIENT_PACKAGE_NAME=ColorpaletteClientQml
@@ -137,7 +132,6 @@ function set_paths() {
             fi
         elif [[ $USER_MODE == "responses" ]]; then
             CLIENT_PACKAGE_NAME=ResponsesClient
-            SERVER_NAME="responses-server-app"
         elif [[ $USER_MODE == "compression" ]]; then
             CLIENT_PACKAGE_NAME=CompressionClient
         fi
@@ -198,15 +192,6 @@ function generate() {
     -cp $QT_GENERATOR_PATH:$OPENAPI_CLI:$ORIGINAL_GENERATOR_JAR $OPENAPI_CLI_ENTRYPOINT_CLASS \
     generate -g $ORIGINAL_GENERATOR -i $USER_SPEC -o $CLIENT_OUTPUT_DIR \
     --additional-properties=$ADDITIONAL_PROPS --package-name=$CLIENT_PACKAGE_NAME
-}
-
-function killServer() {
-    # when the client finished testing, let's kill server ]:->
-    exit_pid=$(pidof $SERVER_NAME) || true # safe Pattern (avoid script exit on "not found")
-    if [[ $exit_pid != "" ]]; then
-        echo "Now kill the server by pid:" $exit_pid
-        kill -9 $exit_pid
-    fi
 }
 
 function doxygen_compile() {
@@ -292,9 +277,6 @@ function run_all() {
     CLIENT_PACKAGE_NAME=CompressionClient
     set_paths && compile && generate
 }
-
-#may need to clean up from previous execution
-killServer
 
 ####################################
 ### SET THESE VARIABLES MANUALLY ###
