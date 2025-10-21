@@ -1804,6 +1804,7 @@ void OperationParameters::severalHeaderParameters()
                                   QCOMPARE(getHeaderValue(summary, "Object-Parameter"_L1),
                                            "name=object-header,status=Awake!"_L1);
                               });
+    QTRY_COMPARE_EQ(done, true);
 }
 
 void OperationParameters::headerInvalidStyle()
