@@ -138,6 +138,8 @@ function set_paths() {
         elif [[ $USER_MODE == "responses" ]]; then
             CLIENT_PACKAGE_NAME=ResponsesClient
             SERVER_NAME="responses-server-app"
+        elif [[ $USER_MODE == "compression" ]]; then
+            CLIENT_PACKAGE_NAME=CompressionClient
         fi
     else
         echo "Available specifications in $PWD/tests/auto/yaml_files:"
@@ -186,10 +188,16 @@ function generate() {
     echo "Cleaning up old generated files in output directory..."
     rm -rf $CLIENT_OUTPUT_DIR/client
 
+    ADDITIONAL_PROPS="enableQmlCode=$QML_ADDITIONAL_PROPERTIES,cppNamespace=$CPP_NAMESPACE,modelNamePrefix=$PREFIX_NAME"
+    if [[ $USER_MODE == "compression" ]]; then
+        # Enable Compressed Content Encoding for requests and responses.
+        ADDITIONAL_PROPS="$ADDITIONAL_PROPS,contentCompression=true"
+    fi
+
     java -Dlogback.configurationFile=$LOGBACK_XML_PATH -Dlog.level=$LOG_LEVEL -Dcolor=true \
     -cp $QT_GENERATOR_PATH:$OPENAPI_CLI:$ORIGINAL_GENERATOR_JAR $OPENAPI_CLI_ENTRYPOINT_CLASS \
     generate -g $ORIGINAL_GENERATOR -i $USER_SPEC -o $CLIENT_OUTPUT_DIR \
-    --additional-properties=enableQmlCode=$QML_ADDITIONAL_PROPERTIES,cppNamespace=$CPP_NAMESPACE,modelNamePrefix=$PREFIX_NAME --package-name=$CLIENT_PACKAGE_NAME
+    --additional-properties=$ADDITIONAL_PROPS --package-name=$CLIENT_PACKAGE_NAME
 }
 
 function killServer() {
@@ -274,6 +282,14 @@ function run_all() {
     PREFIX_NAME=QtOAI
     CPP_NAMESPACE=QtOpenAPI
     CLIENT_PACKAGE_NAME=ResponsesClient
+    set_paths && compile && generate
+
+    QML_ADDITIONAL_PROPERTIES=false
+    CLIENTFOLDER_NAME=client
+    USER_MODE="compression"
+    PREFIX_NAME=QtOAI
+    CPP_NAMESPACE=QtOpenAPI
+    CLIENT_PACKAGE_NAME=CompressionClient
     set_paths && compile && generate
 }
 

@@ -8,6 +8,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Network {{^enableQmlCode}}Gui{{/enableQmlCode}}{{#enableQmlCode}}Qml{{/enableQmlCode}})
+{{#contentCompression}}
+find_package(ZLIB REQUIRED)
+{{/contentCompression}}
 
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
@@ -80,6 +83,10 @@ target_include_directories(${PROJECT_NAME}
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+{{#contentCompression}}
+    PRIVATE
+        ${ZLIB_INCLUDE_DIRS}
+{{/contentCompression}}
 )
 
 target_link_libraries(${PROJECT_NAME}
@@ -87,9 +94,11 @@ target_link_libraries(${PROJECT_NAME}
         Qt::Core
         Qt::Network{{^enableQmlCode}}
         Qt::Gui{{/enableQmlCode}}{{#enableQmlCode}}
-        Qt::QmlIntegration{{/enableQmlCode}}{{#contentCompression}}
+        Qt::QmlIntegration{{/enableQmlCode}}
+{{#contentCompression}}
     PRIVATE
-        ${ZLIB_LIBRARIES}{{/contentCompression}}
+        ZLIB::ZLIB
+{{/contentCompression}}
 )
 
 configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
