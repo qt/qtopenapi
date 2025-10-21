@@ -416,56 +416,59 @@ QByteArray decompress(const QByteArray& data)
 QByteArray compress(const QByteArray& input, int level, {{prefix}}CompressionType compressType)
 {
 {{#contentCompression}}
-    QByteArray output;
-    static const int GZIP_WINDOW_BIT = 15+16;
-    static const int ZLIB_WINDOW_BIT = 15;
-    static const int CHUNK_SIZE = 8*1024;
+    static constexpr int GZIP_WINDOW_BIT = 15 + 16;
+    static constexpr int ZLIB_WINDOW_BIT = 15;
+    static constexpr int CHUNK_SIZE = 8 * 1024;
+
+    if (input.isEmpty())
+        return {};
+
     int windowBits;
-    if (compressType == {{prefix}}CompressionType::Gzip) {
+    switch (compressType) {
+    case {{prefix}}CompressionType::Gzip:
         windowBits = GZIP_WINDOW_BIT;
-    } else if (compressType == {{prefix}}CompressionType::Zlib) {
+        break;
+    case {{prefix}}CompressionType::Zlib:
         windowBits = ZLIB_WINDOW_BIT;
+        break;
     }
+
+    z_stream strm{};
+
+    if (deflateInit2(&strm, qMax(-1, qMin(9, level)), Z_DEFLATED,
+                     windowBits, 8, Z_DEFAULT_STRATEGY) != Z_OK) {
+        return {};
+    }
+
+    QByteArray output;
+    auto input_data = input.data();
+    qsizetype input_data_left = input.size();
+    int flush = 0;
+    bool hasError = false;
     do {
-        int flush = 0, ret = 0;
-        bool error_sts = false;
-        z_stream strm{};
-        if (input.length() <= 0) {
-            break;
-        }
-        if (deflateInit2(&strm, qMax(-1, qMin(9, level)), Z_DEFLATED, windowBits, 8, Z_DEFAULT_STRATEGY) != Z_OK) {
-            break;
-        }
-        output.clear();
-        auto input_data = input.data();
-        qsizetype input_data_left = input.size();
+        qsizetype chunk_size = qMin((qsizetype)CHUNK_SIZE, input_data_left);
+        strm.next_in = (unsigned char*)input_data;
+        // fine to cast to uInt, since it's not larger than CHUNK_SIZE
+        strm.avail_in = (uInt)chunk_size;
+        input_data += chunk_size;
+        input_data_left -= chunk_size;
+        flush = (input_data_left <= 0 ? Z_FINISH : Z_NO_FLUSH);
         do {
-            qsizetype chunk_size = qMin((qsizetype)CHUNK_SIZE, input_data_left);
-            strm.next_in = (unsigned char*)input_data;
-            // fine to cast to uInt, since it's not larger than CHUNK_SIZE
-            strm.avail_in = (uInt)chunk_size;
-            input_data += chunk_size;
-            input_data_left -= chunk_size;
-            flush = (input_data_left <= 0 ? Z_FINISH : Z_NO_FLUSH);
-            do {
-                char out[CHUNK_SIZE];
-                strm.next_out = (unsigned char*)out;
-                strm.avail_out = (uInt)CHUNK_SIZE;
-                ret = deflate(&strm, flush);
-                if (ret == Z_STREAM_ERROR) {
-                    error_sts = true;
-                    break;
-                }
-                // fine to truncate avail_out to int, because it cannot be
-                // larger than CHUNK_SIZE
-                const qsizetype processed = (CHUNK_SIZE - (int)strm.avail_out);
-                if (processed > 0) {
-                    output.append(out, processed);
-                }
-            } while (strm.avail_out == 0);
-        } while ((flush != Z_FINISH) && !(error_sts));
-        deflateEnd(&strm);
-    } while(false);
+            char out[CHUNK_SIZE];
+            strm.next_out = (unsigned char*)out;
+            strm.avail_out = (uInt)CHUNK_SIZE;
+            hasError = deflate(&strm, flush) < Z_OK; // can return Z_STREAM_END
+            if (hasError)
+                break;
+            // fine to truncate avail_out to int, because it cannot be
+            // larger than CHUNK_SIZE
+            const qsizetype processed = (CHUNK_SIZE - (int)strm.avail_out);
+            if (processed > 0)
+                output.append(out, processed);
+        } while (strm.avail_out == 0);
+    } while ((flush != Z_FINISH) && !hasError);
+    deflateEnd(&strm);
+
     return output;
 {{/contentCompression}}
 {{^contentCompression}}
