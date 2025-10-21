@@ -363,33 +363,49 @@ QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<Q
 QByteArray decompress(const QByteArray& data)
 {
 {{#contentCompression}}
+    static constexpr uInt MaxUInt = std::numeric_limits<uInt>::max();
+    static constexpr int CHUNK_SIZE = 8*1024;
+
+    qsizetype inputLeft = data.size();
+    if (inputLeft <= 4)
+        return {};
+
     QByteArray result;
-    bool sts = false;
-    do {
+    bool success = false;
+
+    qsizetype offset = 0;
+    while (inputLeft > 0) {
+        // expand to quint64 to do the proper comparison
+        uInt inputBlockSize = (quint64)inputLeft > (quint64)MaxUInt ? MaxUInt : uInt(inputLeft);
+
+        success = false;
+
         z_stream strm{};
-        static const int CHUNK_SIZE = 8*1024;
+        strm.avail_in = inputBlockSize;
+        strm.next_in = (Bytef*)(data.data() + offset);
+
+        success = inflateInit2(&strm, 15 + 32) == Z_OK;
+        if (!success)
+            break;
+
         char out[CHUNK_SIZE];
-        if (data.size() <= 4) {
-            break;
-        }
-        strm.avail_in = data.size();
-        strm.next_in = (Bytef*)(data.data());
-        if (Z_OK != inflateInit2(&strm, 15 + 32)) {
-            break;
-        }
         do {
-            sts = false;
             strm.avail_out = CHUNK_SIZE;
             strm.next_out = (Bytef*)(out);
-            if (inflate(&strm, Z_NO_FLUSH) < Z_OK) {
-                break;
-            }
-            result.append(out, CHUNK_SIZE - strm.avail_out);
-            sts = true;
+            success = inflate(&strm, Z_NO_FLUSH) >= Z_OK; // can return Z_STREAM_END
+            if (success)
+                result.append(out, CHUNK_SIZE - (int)strm.avail_out);
         } while (strm.avail_out == 0);
-        inflateEnd(&strm);
-    } while(false);
-    return sts ? result : QByteArray();
+        if (success)
+            success = inflateEnd(&strm) == Z_OK;
+
+        if (!success)
+            break;
+
+        offset += qsizetype(inputBlockSize);
+        inputLeft -= qsizetype(inputBlockSize);
+    }
+    return success ? result : QByteArray();
 {{/contentCompression}}
 {{^contentCompression}}
     Q_UNUSED(data);
@@ -422,26 +438,29 @@ QByteArray compress(const QByteArray& input, int level, {{prefix}}CompressionTyp
         }
         output.clear();
         auto input_data = input.data();
-        int input_data_left = input.length();
+        qsizetype input_data_left = input.size();
         do {
-            int chunk_size = qMin(CHUNK_SIZE, input_data_left);
+            qsizetype chunk_size = qMin((qsizetype)CHUNK_SIZE, input_data_left);
             strm.next_in = (unsigned char*)input_data;
-            strm.avail_in = chunk_size;
+            // fine to cast to uInt, since it's not larger than CHUNK_SIZE
+            strm.avail_in = (uInt)chunk_size;
             input_data += chunk_size;
             input_data_left -= chunk_size;
             flush = (input_data_left <= 0 ? Z_FINISH : Z_NO_FLUSH);
             do {
                 char out[CHUNK_SIZE];
                 strm.next_out = (unsigned char*)out;
-                strm.avail_out = CHUNK_SIZE;
+                strm.avail_out = (uInt)CHUNK_SIZE;
                 ret = deflate(&strm, flush);
                 if (ret == Z_STREAM_ERROR) {
                     error_sts = true;
                     break;
                 }
-                auto have = (CHUNK_SIZE - strm.avail_out);
-                if (have > 0) {
-                    output.append((char*)out, have);
+                // fine to truncate avail_out to int, because it cannot be
+                // larger than CHUNK_SIZE
+                const qsizetype processed = (CHUNK_SIZE - (int)strm.avail_out);
+                if (processed > 0) {
+                    output.append(out, processed);
                 }
             } while (strm.avail_out == 0);
         } while ((flush != Z_FINISH) && !(error_sts));
