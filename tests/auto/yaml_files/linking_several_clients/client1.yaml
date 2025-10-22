@@ -1,0 +1,36 @@
+# Copyright (C) 2025 The Qt Company Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+openapi: 3.1.1
+servers:
+  - url: 'http://127.0.0.1:10205/v2'
+info:
+  title: Client with 'QtOpenAPICommon' option Test
+  description: >
+    This specification is intended for testing purposes.
+  version: 1.0.0
+tags:
+  - name: client1Test
+    description: test client 1. It will be generated with 'QtOpenAPICommon' option.
+
+paths:
+  /path/string/simple-explode/{stringParameter}:
+    get:
+      tags: [client1Test]
+      operationId: simpleExplodeString
+      summary: Simple style with explode set to true for string path parameter.
+      parameters:
+        - name: stringParameter
+          in: path
+          required: true
+          style: simple
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string

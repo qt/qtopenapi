@@ -68,6 +68,7 @@ QML_ADDITIONAL_PROPERTIES=false
 PREFIX_NAME=QtOAI
 CPP_NAMESPACE=QtOpenAPI
 CLIENT_PACKAGE_NAME=ClientName
+COMMON_GENERATION_MODE=Use-Common-Lib
 if [[ $MODE == "qmldoc" ]] || [[ $MODE == "qmlcg" ]]; then
     QML_ADDITIONAL_PROPERTIES=true
     CLIENTFOLDER_NAME=qmlclient
@@ -112,28 +113,38 @@ function set_paths() {
     if [[ -f "$PWD/tests/auto/yaml_files/$USER_MODE.yaml" ]]; then
         USER_SPEC="$PWD/tests/auto/yaml_files/$USER_MODE.yaml"
         CLIENT_OUTPUT_DIR="$PWD/tests/auto/$USER_MODE/$CLIENTFOLDER_NAME"
+        rm -rf CLIENT_OUTPUT_DIR/client
         if [[ $USER_MODE == "petstore" ]]; then
             if [[ $QML_ADDITIONAL_PROPERTIES == true ]]; then
                 CLIENT_PACKAGE_NAME=PetStoreClientQml
+                COMMON_LIBRARY_NAME=CommonPetStoreClientQml
             else
                 CLIENT_PACKAGE_NAME=PetStoreClient
+                COMMON_LIBRARY_NAME=CommonPetStoreClient
             fi
         elif [[ $USER_MODE == "operation-parameters" ]]; then
             CLIENT_PACKAGE_NAME=OperationParametersClient
+            COMMON_LIBRARY_NAME=CommonOperationParametersClient
         elif [[ $USER_MODE == "openapi2.0" ]]; then
             CLIENT_PACKAGE_NAME=OpenapiBackportClient
+            COMMON_LIBRARY_NAME=CommonOpenapiBackportClient
         elif [[ $USER_MODE == "mediatype" ]]; then
             CLIENT_PACKAGE_NAME=MediaTypeClient
+            COMMON_LIBRARY_NAME=CommonMediaTypeClient
         elif [[ $USER_MODE == "colorpalette" ]]; then
             if [[ $QML_ADDITIONAL_PROPERTIES == true ]]; then
                 CLIENT_PACKAGE_NAME=ColorpaletteClientQml
+                COMMON_LIBRARY_NAME=CommonColorpaletteClientQml
             else
                 CLIENT_PACKAGE_NAME=ColorpaletteClient
+                COMMON_LIBRARY_NAME=CommonColorpaletteClient
             fi
         elif [[ $USER_MODE == "responses" ]]; then
             CLIENT_PACKAGE_NAME=ResponsesClient
+            COMMON_LIBRARY_NAME=CommonResponsesClient
         elif [[ $USER_MODE == "compression" ]]; then
             CLIENT_PACKAGE_NAME=CompressionClient
+            COMMON_LIBRARY_NAME=CommonCompressionClient
         fi
     else
         echo "Available specifications in $PWD/tests/auto/yaml_files:"
@@ -182,7 +193,7 @@ function generate() {
     echo "Cleaning up old generated files in output directory..."
     rm -rf $CLIENT_OUTPUT_DIR/client
 
-    ADDITIONAL_PROPS="enableQmlCode=$QML_ADDITIONAL_PROPERTIES,cppNamespace=$CPP_NAMESPACE,modelNamePrefix=$PREFIX_NAME"
+    ADDITIONAL_PROPS="enableQmlCode=$QML_ADDITIONAL_PROPERTIES,cppNamespace=$CPP_NAMESPACE,modelNamePrefix=$PREFIX_NAME,commonLibrary=$COMMON_GENERATION_MODE,commonLibraryName=$COMMON_LIBRARY_NAME"
     if [[ $USER_MODE == "compression" ]]; then
         # Enable Compressed Content Encoding for requests and responses.
         ADDITIONAL_PROPS="$ADDITIONAL_PROPS,contentCompression=true"
@@ -203,6 +214,33 @@ function doxygen_compile() {
 function list() {
     generator_exists ;
     java -classpath $PWD:$OPENAPI_CLI:$ORIGINAL_GENERATOR_JAR $OPENAPI_CLI_ENTRYPOINT_CLASS config-help -g $ORIGINAL_GENERATOR
+}
+
+function run_linkage_test() {
+    QML_ADDITIONAL_PROPERTIES=false
+    CLIENTFOLDER_NAME=client1
+    USER_MODE="linking_several_clients/client1"
+    USER_SPEC="$PWD/tests/auto/yaml_files/$USER_MODE.yaml"
+    CLIENT_OUTPUT_DIR="$PWD/tests/auto/linking_several_clients/$CLIENTFOLDER_NAME"
+    rm -rf CLIENT_OUTPUT_DIR/client
+    PREFIX_NAME=QtOAI
+    CPP_NAMESPACE=QtOpenAPI
+    COMMON_GENERATION_MODE=Use-Common-Lib
+    CLIENT_PACKAGE_NAME=TestClient1
+    COMMON_LIBRARY_NAME=TestCommon
+    compile && generate
+
+    QML_ADDITIONAL_PROPERTIES=false
+    CLIENTFOLDER_NAME=client2
+    USER_MODE="linking_several_clients/client2"
+    USER_SPEC="$PWD/tests/auto/yaml_files/$USER_MODE.yaml"
+    CLIENT_OUTPUT_DIR="$PWD/tests/auto/linking_several_clients/$CLIENTFOLDER_NAME"
+    rm -rf CLIENT_OUTPUT_DIR/client
+    PREFIX_NAME=QtOAI
+    CPP_NAMESPACE=QtOpenAPI
+    COMMON_GENERATION_MODE=Skip-Common-Files
+    CLIENT_PACKAGE_NAME=TestClient2
+    compile && generate
 }
 
 # usefull to re-genarate all clients by 1 command
@@ -309,7 +347,8 @@ case "$MODE" in
     l) list ;;
     qmlcg) compile && generate;;
     qmldoc) compile && generate && doxygen_compile ;;
-    all) run_all ;;
+    linkage-test) run_linkage_test ;;
+    all) run_all && run_linkage_test ;;
     *) usage "Error: mode \"$MODE\" is not recognized." ;;
 esac
 

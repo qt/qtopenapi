@@ -7,10 +7,8 @@ CMakeLists.txt.user
 target/
 tests/auto/*/client/build/
 tests/auto/*/qmlclient/build/
-tests/auto/*/client/.openapi-generator*
-tests/auto/*/qmlclient/.openapi-generator*
+.openapi-generator*
 tests/auto/*/server/build/
-tests/auto/*/server/.openapi-generator*
 tests/auto/*/server/Dockerfile
 tests/auto/*/server/api/*.yaml
 tests/auto/*/server/go/README.md
