@@ -2,12 +2,11 @@ cmake_minimum_required(VERSION 3.16)
 
 project(ResponsesClient VERSION 0.1 LANGUAGES CXX)
 
-set(CMAKE_AUTOMOC ON)
-
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Network Gui)
+qt_standard_project_setup()
 
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
@@ -15,26 +14,16 @@ include(CMakePackageConfigHelpers)
 qt_add_library(${PROJECT_NAME}
     QtOAIApplicationJsonObjectResponse_200_response.h
     QtOAITestApi.h
-    QtOAIBaseApi.h
-    QtOAIHelpers.h
-    QtOAIHttpRequest.h
-    QtOAIObject.h
-    QtOAIEnum.h
-    QtOAIHttpFileElement.h
-    QtOAIServerConfiguration.h
-    QtOAIServerVariable.h
     QtOAIApplicationJsonObjectResponse_200_response.cpp
     QtOAITestApi.cpp
-    QtOAIBaseApi.cpp
-    QtOAIHelpers.cpp
-    QtOAIHttpRequest.cpp
-    QtOAIHttpFileElement.cpp
 )
 
 target_include_directories(${PROJECT_NAME}
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../common>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/../common>
 )
 
 target_link_libraries(${PROJECT_NAME}
@@ -42,6 +31,8 @@ target_link_libraries(${PROJECT_NAME}
         Qt::Core
         Qt::Network
         Qt::Gui
+    PRIVATE
+        CommonResponsesClient
 )
 
 configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in

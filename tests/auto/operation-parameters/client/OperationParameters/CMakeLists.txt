@@ -34,5 +34,5 @@ target_compile_definitions(cpp-qt-operation-parameters
         SERVER_PATH="$<TARGET_FILE:op-server-go>"
 )
 
-target_link_libraries(cpp-qt-operation-parameters PRIVATE OperationParametersClient)
+target_link_libraries(cpp-qt-operation-parameters PRIVATE OperationParametersClient CommonOperationParametersClient)
 add_dependencies(cpp-qt-operation-parameters op-server-go)

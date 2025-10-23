@@ -38,5 +38,6 @@ add_dependencies(cpp-qt-operations-parameters-backport backport-server-go)
 target_link_libraries(cpp-qt-operations-parameters-backport
     PRIVATE
         OpenapiBackportClient
+        CommonOpenapiBackportClient
 )
 

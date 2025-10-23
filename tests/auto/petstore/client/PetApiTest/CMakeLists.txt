@@ -53,5 +53,5 @@ qt_add_resources(cpp-qt-petstore-petapi "cpp-qt-petstore-petapi"
         ${cpp_qt_petstore_resource_files}
 )
 
-target_link_libraries(cpp-qt-petstore-petapi PRIVATE PetStoreClient)
+target_link_libraries(cpp-qt-petstore-petapi PRIVATE PetStoreClient CommonPetStoreClient)
 add_dependencies(cpp-qt-petstore-petapi petstore-server-go)

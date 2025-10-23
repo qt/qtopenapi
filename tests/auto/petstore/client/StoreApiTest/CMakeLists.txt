@@ -40,5 +40,5 @@ target_compile_definitions(cpp-qt-petstore-storeapi
         SERVER_PATH="$<TARGET_FILE:petstore-server-go>"
 )
 
-target_link_libraries(cpp-qt-petstore-storeapi PRIVATE PetStoreClient)
+target_link_libraries(cpp-qt-petstore-storeapi PRIVATE PetStoreClient CommonPetStoreClient)
 add_dependencies(cpp-qt-petstore-storeapi petstore-server-go)

@@ -53,5 +53,5 @@ target_include_directories(cpp-qt-mediatype
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/../client>
 )
 
-target_link_libraries(cpp-qt-mediatype PRIVATE MediaTypeClient)
+target_link_libraries(cpp-qt-mediatype PRIVATE MediaTypeClient CommonMediaTypeClient)
 add_dependencies(cpp-qt-mediatype mediatype-server-go)

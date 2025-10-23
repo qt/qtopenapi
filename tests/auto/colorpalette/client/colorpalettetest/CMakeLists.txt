@@ -24,7 +24,7 @@ qt_internal_add_test(cpp-qt-colorpalette-app
 
 qt_autogen_tools_initial_setup(ColorpaletteClient)
 
-target_link_libraries(cpp-qt-colorpalette-app PRIVATE ColorpaletteClient)
+target_link_libraries(cpp-qt-colorpalette-app PRIVATE ColorpaletteClient CommonColorpaletteClient)
 
 target_include_directories(cpp-qt-colorpalette-app
     PUBLIC

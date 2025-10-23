@@ -2,12 +2,11 @@ cmake_minimum_required(VERSION 3.16)
 
 project(ColorpaletteClientQml VERSION 0.1 LANGUAGES CXX)
 
-set(CMAKE_AUTOMOC ON)
-
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Network Qml)
+qt_standard_project_setup()
 
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
@@ -24,14 +23,6 @@ qt_add_library(${PROJECT_NAME}
     OAIDefaultApi.h
     OAIRegisterApi.h
     OAIUsersApi.h
-    OAIBaseApi.h
-    OAIHelpers.h
-    OAIHttpRequest.h
-    OAIObject.h
-    OAIEnum.h
-    OAIHttpFileElement.h
-    OAIServerConfiguration.h
-    OAIServerVariable.h
     OAIColor.cpp
     OAIColorPage.cpp
     OAITestObject.cpp
@@ -43,10 +34,6 @@ qt_add_library(${PROJECT_NAME}
     OAIDefaultApi.cpp
     OAIRegisterApi.cpp
     OAIUsersApi.cpp
-    OAIBaseApi.cpp
-    OAIHelpers.cpp
-    OAIHttpRequest.cpp
-    OAIHttpFileElement.cpp
 )
 
 qt_policy(SET QTP0001 NEW)
@@ -78,6 +65,8 @@ target_include_directories(${PROJECT_NAME}
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../common>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/../common>
 )
 
 target_link_libraries(${PROJECT_NAME}
@@ -85,6 +74,8 @@ target_link_libraries(${PROJECT_NAME}
         Qt::Core
         Qt::Network
         Qt::QmlIntegration
+    PRIVATE
+        CommonColorpaletteClientQml
 )
 
 configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in

@@ -41,5 +41,5 @@ target_include_directories(cpp-qt-compression
 #         SERVER_PATH="$<TARGET_FILE:compression-server-go>"
 # )
 
-target_link_libraries(cpp-qt-compression PRIVATE CompressionClient)
+target_link_libraries(cpp-qt-compression PRIVATE CompressionClient CommonCompressionClient)
 # add_dependencies(cpp-qt-compression compression-server-go)

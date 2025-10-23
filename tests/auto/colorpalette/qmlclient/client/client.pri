@@ -14,14 +14,6 @@ HEADERS += \
     $${PWD}/OAIDefaultApi.h \
     $${PWD}/OAIRegisterApi.h \
     $${PWD}/OAIUsersApi.h \
-# Others
-    $${PWD}/OAIHelpers.h \
-    $${PWD}/OAIHttpRequest.h \
-    $${PWD}/OAIObject.h \
-    $${PWD}/OAIEnum.h \
-    $${PWD}/OAIHttpFileElement.h \
-    $${PWD}/OAIServerConfiguration.h \
-    $${PWD}/OAIServerVariable.h
 
 SOURCES += \
 # Models
@@ -37,7 +29,3 @@ SOURCES += \
     $${PWD}/OAIDefaultApi.cpp \
     $${PWD}/OAIRegisterApi.cpp \
     $${PWD}/OAIUsersApi.cpp \
-# Others
-    $${PWD}/OAIHelpers.cpp \
-    $${PWD}/OAIHttpRequest.cpp \
-    $${PWD}/OAIHttpFileElement.cpp

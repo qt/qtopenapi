@@ -12,14 +12,6 @@ HEADERS += \
     $${PWD}/OAIPetApi.h \
     $${PWD}/OAIStoreApi.h \
     $${PWD}/OAIUserApi.h \
-# Others
-    $${PWD}/OAIHelpers.h \
-    $${PWD}/OAIHttpRequest.h \
-    $${PWD}/OAIObject.h \
-    $${PWD}/OAIEnum.h \
-    $${PWD}/OAIHttpFileElement.h \
-    $${PWD}/OAIServerConfiguration.h \
-    $${PWD}/OAIServerVariable.h
 
 SOURCES += \
 # Models
@@ -33,7 +25,3 @@ SOURCES += \
     $${PWD}/OAIPetApi.cpp \
     $${PWD}/OAIStoreApi.cpp \
     $${PWD}/OAIUserApi.cpp \
-# Others
-    $${PWD}/OAIHelpers.cpp \
-    $${PWD}/OAIHttpRequest.cpp \
-    $${PWD}/OAIHttpFileElement.cpp

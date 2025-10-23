@@ -40,5 +40,5 @@ target_compile_definitions(cpp-qt-responses
         SERVER_PATH="$<TARGET_FILE:responses-server-go>"
 )
 
-target_link_libraries(cpp-qt-responses PRIVATE ResponsesClient)
+target_link_libraries(cpp-qt-responses PRIVATE ResponsesClient CommonResponsesClient)
 add_dependencies(cpp-qt-responses responses-server-go)

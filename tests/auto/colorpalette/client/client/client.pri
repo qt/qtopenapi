@@ -14,14 +14,6 @@ HEADERS += \
     $${PWD}/QtOAIDefaultApi.h \
     $${PWD}/QtOAIRegisterApi.h \
     $${PWD}/QtOAIUsersApi.h \
-# Others
-    $${PWD}/QtOAIHelpers.h \
-    $${PWD}/QtOAIHttpRequest.h \
-    $${PWD}/QtOAIObject.h \
-    $${PWD}/QtOAIEnum.h \
-    $${PWD}/QtOAIHttpFileElement.h \
-    $${PWD}/QtOAIServerConfiguration.h \
-    $${PWD}/QtOAIServerVariable.h
 
 SOURCES += \
 # Models
@@ -37,7 +29,3 @@ SOURCES += \
     $${PWD}/QtOAIDefaultApi.cpp \
     $${PWD}/QtOAIRegisterApi.cpp \
     $${PWD}/QtOAIUsersApi.cpp \
-# Others
-    $${PWD}/QtOAIHelpers.cpp \
-    $${PWD}/QtOAIHttpRequest.cpp \
-    $${PWD}/QtOAIHttpFileElement.cpp
