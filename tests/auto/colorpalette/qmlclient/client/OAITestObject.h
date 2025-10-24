@@ -15,6 +15,7 @@
 #ifndef OAITestObject_H
 #define OAITestObject_H
 
+#include "OAIExports.h"
 #include "OAIObject.h"
 #include <QtQmlIntegration/qqmlintegration.h>
 
@@ -22,7 +23,7 @@
 
 namespace OpenAPI {
 
-class OAITestObject : public OAIObject {
+class OAI_EXPORT OAITestObject : public OAIObject {
     Q_GADGET
     QML_VALUE_TYPE(dataOAITestObject)
 

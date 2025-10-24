@@ -9,13 +9,15 @@
 #ifndef OAI_OBJECT_H
 #define OAI_OBJECT_H
 
+#include "OAICommonExports.h"
+
 #include <QtCore/qjsondocument.h>
 #include <QtCore/qjsonobject.h>
 #include <QtCore/qstring.h>
 
 namespace OpenAPI {
 
-class OAIObject {
+class OAI_COMMON_EXPORT OAIObject {
 public:
     OAIObject() {}
 

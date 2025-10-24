@@ -15,6 +15,7 @@
 #ifndef OAIColor_H
 #define OAIColor_H
 
+#include "OAIExports.h"
 #include "OAIObject.h"
 #include <QtQmlIntegration/qqmlintegration.h>
 
@@ -22,7 +23,7 @@
 
 namespace OpenAPI {
 
-class OAIColor : public OAIObject {
+class OAI_EXPORT OAIColor : public OAIObject {
     Q_GADGET
     QML_VALUE_TYPE(dataOAIColor)
 

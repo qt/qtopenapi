@@ -9,6 +9,7 @@
 #ifndef OAI_BASEAPI_H
 #define OAI_BASEAPI_H
 
+#include "OAICommonExports.h"
 #include "OAIHelpers.h"
 #include "OAIHttpRequest.h"
 #include "OAIServerConfiguration.h"
@@ -162,7 +163,7 @@ DEPRECATED void OPERATION(OAI_VA_LIST PARAMS, const ContextTypeForFunctor<Functo
 
 namespace OpenAPI {
 
-class OAIBaseApi : public QObject {
+class OAI_COMMON_EXPORT OAIBaseApi : public QObject {
     Q_OBJECT
     QML_ELEMENT
 public:

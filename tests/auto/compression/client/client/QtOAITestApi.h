@@ -10,13 +10,14 @@
 #define QtOAI_QtOAITestApi_H
 
 #include "QtOAIBaseApi.h"
+#include "QtOAIExports.h"
 #include <QtNetwork/qrestreply.h>
 
 #include <QString>
 
 namespace QtOpenAPI {
 
-class QtOAITestApi : public QtOAIBaseApi {
+class QtOAI_EXPORT QtOAITestApi : public QtOAIBaseApi {
     Q_OBJECT
 public:
     QtOAITestApi() : QtOAITestApi(nullptr) {}

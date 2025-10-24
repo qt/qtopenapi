@@ -15,13 +15,14 @@
 #ifndef QtOAITestOperation_request_H
 #define QtOAITestOperation_request_H
 
+#include "QtOAIExports.h"
 #include "QtOAIObject.h"
 
 #include <QString>
 
 namespace QtOpenAPI {
 
-class QtOAITestOperation_request : public QtOAIObject {
+class QtOAI_EXPORT QtOAITestOperation_request : public QtOAIObject {
     Q_GADGET
 
     Q_PROPERTY(QString getEmail READ getEmail WRITE setEmail)

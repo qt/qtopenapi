@@ -9,13 +9,15 @@
 #ifndef QtOAI_ENUM_H
 #define QtOAI_ENUM_H
 
+#include "QtOAICommonExports.h"
+
 #include <QtCore/qjsonvalue.h>
 #include <QtCore/qmetatype.h>
 #include <QtCore/qstring.h>
 
 namespace QtOpenAPI {
 
-class QtOAIEnum {
+class QtOAI_COMMON_EXPORT QtOAIEnum {
 public:
     QtOAIEnum() {}
 

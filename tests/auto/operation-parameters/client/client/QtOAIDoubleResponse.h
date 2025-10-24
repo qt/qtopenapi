@@ -15,13 +15,14 @@
 #ifndef QtOAIDoubleResponse_H
 #define QtOAIDoubleResponse_H
 
+#include "QtOAIExports.h"
 #include "QtOAIObject.h"
 
 #include <QString>
 
 namespace QtOpenAPI {
 
-class QtOAIDoubleResponse : public QtOAIObject {
+class QtOAI_EXPORT QtOAIDoubleResponse : public QtOAIObject {
     Q_GADGET
 
     Q_PROPERTY(QString getStringValue READ getStringValue WRITE setStringValue)

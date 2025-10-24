@@ -15,13 +15,14 @@
 #ifndef QtOAIPostMultiPartData_request_formObject_H
 #define QtOAIPostMultiPartData_request_formObject_H
 
+#include "QtOAIExports.h"
 #include "QtOAIObject.h"
 
 #include <QString>
 
 namespace QtOpenAPI {
 
-class QtOAIPostMultiPartData_request_formObject : public QtOAIObject {
+class QtOAI_EXPORT QtOAIPostMultiPartData_request_formObject : public QtOAIObject {
     Q_GADGET
 
     Q_PROPERTY(qint32 getObjectId READ getObjectId WRITE setObjectId)

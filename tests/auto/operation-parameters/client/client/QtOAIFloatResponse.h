@@ -15,13 +15,14 @@
 #ifndef QtOAIFloatResponse_H
 #define QtOAIFloatResponse_H
 
+#include "QtOAIExports.h"
 #include "QtOAIObject.h"
 
 #include <QString>
 
 namespace QtOpenAPI {
 
-class QtOAIFloatResponse : public QtOAIObject {
+class QtOAI_EXPORT QtOAIFloatResponse : public QtOAIObject {
     Q_GADGET
 
     Q_PROPERTY(QString getStringValue READ getStringValue WRITE setStringValue)

@@ -15,13 +15,14 @@
 #ifndef QtOAITag_H
 #define QtOAITag_H
 
+#include "QtOAIExports.h"
 #include "QtOAIObject.h"
 
 #include <QString>
 
 namespace QtOpenAPI {
 
-class QtOAITag : public QtOAIObject {
+class QtOAI_EXPORT QtOAITag : public QtOAIObject {
     Q_GADGET
 
     Q_PROPERTY(qint64 getId READ getId WRITE setId)

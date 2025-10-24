@@ -15,13 +15,14 @@
 #ifndef QtOAIApplicationJsonObjectResponse_200_response_H
 #define QtOAIApplicationJsonObjectResponse_200_response_H
 
+#include "QtOAIExports.h"
 #include "QtOAIObject.h"
 
 #include <QString>
 
 namespace QtOpenAPI {
 
-class QtOAIApplicationJsonObjectResponse_200_response : public QtOAIObject {
+class QtOAI_EXPORT QtOAIApplicationJsonObjectResponse_200_response : public QtOAIObject {
     Q_GADGET
 
     Q_PROPERTY(QString getStatus READ getStatus WRITE setStatus)

@@ -2,6 +2,8 @@
 #ifndef {{prefix}}_ENUM_H
 #define {{prefix}}_ENUM_H
 
+#include "{{prefix}}CommonExports.h"
+
 #include <QtCore/qjsonvalue.h>
 #include <QtCore/qmetatype.h>
 #include <QtCore/qstring.h>
@@ -10,7 +12,7 @@
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
-class {{prefix}}Enum {
+class {{prefix}}_COMMON_EXPORT {{prefix}}Enum {
 public:
     {{prefix}}Enum() {}
 

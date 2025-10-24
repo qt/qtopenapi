@@ -15,13 +15,14 @@
 #ifndef QtOAIColor_H
 #define QtOAIColor_H
 
+#include "QtOAIExports.h"
 #include "QtOAIObject.h"
 
 #include <QString>
 
 namespace QtOpenAPI {
 
-class QtOAIColor : public QtOAIObject {
+class QtOAI_EXPORT QtOAIColor : public QtOAIObject {
     Q_GADGET
 
     Q_PROPERTY(qint64 getId READ getId WRITE setId)

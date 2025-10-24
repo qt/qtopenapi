@@ -15,6 +15,7 @@
 #ifndef QtOAIPet_H
 #define QtOAIPet_H
 
+#include "QtOAIExports.h"
 #include "QtOAIObject.h"
 
 #include "QtOAICategory.h"
@@ -26,7 +27,7 @@ namespace QtOpenAPI {
 class QtOAICategory;
 class QtOAITag;
 
-class QtOAIPet : public QtOAIObject {
+class QtOAI_EXPORT QtOAIPet : public QtOAIObject {
     Q_GADGET
 
     Q_PROPERTY(qint64 getId READ getId WRITE setId)

@@ -227,6 +227,8 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
                 sourceFolder, "Config.cmake.in"));
         supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache",
                 sourceFolder, "CMakeLists.txt"));
+        supportingFiles.add(new SupportingFile("exports.mustache",
+                sourceFolder, namePrefix + "Exports.h"));
         supportingFiles.add(new SupportingFile("doc/Doxyfile.in.mustache",
                 sourceFolder, "doc/Doxyfile.in"));
         typeMapping.put("file", namePrefix + "HttpFileElement");
@@ -256,6 +258,8 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
                 commonLibrarySourceFolder, namePrefix + "Object.h"));
         supportingFiles.add(new SupportingFile("common/enum.mustache",
                 commonLibrarySourceFolder, namePrefix + "Enum.h"));
+        supportingFiles.add(new SupportingFile("common/common-exports.mustache",
+                commonLibrarySourceFolder, namePrefix + "CommonExports.h"));
         supportingFiles.add(new SupportingFile("common/ServerConfiguration.mustache",
                 commonLibrarySourceFolder, namePrefix + "ServerConfiguration.h"));
         supportingFiles.add(new SupportingFile("common/ServerVariable.mustache",

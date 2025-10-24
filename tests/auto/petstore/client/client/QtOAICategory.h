@@ -15,13 +15,14 @@
 #ifndef QtOAICategory_H
 #define QtOAICategory_H
 
+#include "QtOAIExports.h"
 #include "QtOAIObject.h"
 
 #include <QString>
 
 namespace QtOpenAPI {
 
-class QtOAICategory : public QtOAIObject {
+class QtOAI_EXPORT QtOAICategory : public QtOAIObject {
     Q_GADGET
 
     Q_PROPERTY(qint64 getId READ getId WRITE setId)

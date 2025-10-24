@@ -10,6 +10,7 @@
 #define OAI_OAIPetApi_H
 
 #include "OAIBaseApi.h"
+#include "OAIExports.h"
 #include <QtNetwork/qrestreply.h>
 #include <QtQmlIntegration/qqmlintegration.h>
 
@@ -20,7 +21,7 @@
 
 namespace OpenAPI {
 
-class OAIPetApi : public OAIBaseApi {
+class OAI_EXPORT OAIPetApi : public OAIBaseApi {
     Q_OBJECT
     QML_ELEMENT
 public:

@@ -15,6 +15,7 @@
 #ifndef QtOAIOrder_H
 #define QtOAIOrder_H
 
+#include "QtOAIExports.h"
 #include "QtOAIObject.h"
 
 #include <QDateTime>
@@ -22,7 +23,7 @@
 
 namespace QtOpenAPI {
 
-class QtOAIOrder : public QtOAIObject {
+class QtOAI_EXPORT QtOAIOrder : public QtOAIObject {
     Q_GADGET
 
     Q_PROPERTY(qint64 getId READ getId WRITE setId)

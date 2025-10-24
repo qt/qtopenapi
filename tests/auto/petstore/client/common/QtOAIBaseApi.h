@@ -9,6 +9,7 @@
 #ifndef QtOAI_BASEAPI_H
 #define QtOAI_BASEAPI_H
 
+#include "QtOAICommonExports.h"
 #include "QtOAIHelpers.h"
 #include "QtOAIHttpRequest.h"
 #include "QtOAIServerConfiguration.h"
@@ -161,7 +162,7 @@ DEPRECATED void OPERATION(QtOAI_VA_LIST PARAMS, const ContextTypeForFunctor<Func
 
 namespace QtOpenAPI {
 
-class QtOAIBaseApi : public QObject {
+class QtOAI_COMMON_EXPORT QtOAIBaseApi : public QObject {
     Q_OBJECT
 public:
     using ServerError = QtOAIServerVariable::ServerError;

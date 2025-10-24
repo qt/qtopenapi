@@ -1,0 +1,17 @@
+{{>licenseInfo}}
+#ifndef {{prefix}}_EXPORTS_H
+#define {{prefix}}_EXPORTS_H
+
+#include <QtCore/qtconfigmacros.h>
+
+#if defined({{prefix}}_LIB_SHARED) || !defined({{prefix}}_LIB_STATIC)
+#  if defined({{prefix}}_BUILD_LIB)
+#    define {{prefix}}_EXPORT Q_DECL_EXPORT
+#  else
+#    define {{prefix}}_EXPORT Q_DECL_IMPORT
+#  endif
+#else
+#  define {{prefix}}_EXPORT
+#endif
+
+#endif // {{prefix}}_EXPORTS_H

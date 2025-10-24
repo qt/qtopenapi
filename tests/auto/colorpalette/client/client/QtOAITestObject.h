@@ -15,13 +15,14 @@
 #ifndef QtOAITestObject_H
 #define QtOAITestObject_H
 
+#include "QtOAIExports.h"
 #include "QtOAIObject.h"
 
 #include <QString>
 
 namespace QtOpenAPI {
 
-class QtOAITestObject : public QtOAIObject {
+class QtOAI_EXPORT QtOAITestObject : public QtOAIObject {
     Q_GADGET
 
     Q_PROPERTY(qint32 getId READ getId WRITE setId)

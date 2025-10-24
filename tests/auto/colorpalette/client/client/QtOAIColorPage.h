@@ -15,6 +15,7 @@
 #ifndef QtOAIColorPage_H
 #define QtOAIColorPage_H
 
+#include "QtOAIExports.h"
 #include "QtOAIObject.h"
 
 #include "QtOAIColor.h"
@@ -23,7 +24,7 @@
 namespace QtOpenAPI {
 class QtOAIColor;
 
-class QtOAIColorPage : public QtOAIObject {
+class QtOAI_EXPORT QtOAIColorPage : public QtOAIObject {
     Q_GADGET
 
     Q_PROPERTY(qint32 getPage READ getPage WRITE setPage)

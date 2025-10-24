@@ -15,6 +15,7 @@
 #ifndef OAIPet_H
 #define OAIPet_H
 
+#include "OAIExports.h"
 #include "OAIObject.h"
 #include <QtQmlIntegration/qqmlintegration.h>
 
@@ -27,7 +28,7 @@ namespace OpenAPI {
 class OAICategory;
 class OAITag;
 
-class OAIPet : public OAIObject {
+class OAI_EXPORT OAIPet : public OAIObject {
     Q_GADGET
     QML_VALUE_TYPE(dataOAIPet)
 

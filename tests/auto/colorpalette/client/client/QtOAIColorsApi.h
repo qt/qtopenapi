@@ -10,6 +10,7 @@
 #define QtOAI_QtOAIColorsApi_H
 
 #include "QtOAIBaseApi.h"
+#include "QtOAIExports.h"
 #include <QtNetwork/qrestreply.h>
 
 #include "QtOAIColor.h"
@@ -18,7 +19,7 @@
 
 namespace QtOpenAPI {
 
-class QtOAIColorsApi : public QtOAIBaseApi {
+class QtOAI_EXPORT QtOAIColorsApi : public QtOAIBaseApi {
     Q_OBJECT
 public:
     QtOAIColorsApi() : QtOAIColorsApi(nullptr) {}

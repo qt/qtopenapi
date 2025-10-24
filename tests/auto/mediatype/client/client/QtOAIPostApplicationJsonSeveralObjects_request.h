@@ -15,6 +15,7 @@
 #ifndef QtOAIPostApplicationJsonSeveralObjects_request_H
 #define QtOAIPostApplicationJsonSeveralObjects_request_H
 
+#include "QtOAIExports.h"
 #include "QtOAIObject.h"
 
 #include "QtOAIUser.h"
@@ -22,7 +23,7 @@
 
 namespace QtOpenAPI {
 
-class QtOAIPostApplicationJsonSeveralObjects_request : public QtOAIObject {
+class QtOAI_EXPORT QtOAIPostApplicationJsonSeveralObjects_request : public QtOAIObject {
     Q_GADGET
 
     Q_PROPERTY(QString getUuid READ getUuid WRITE setUuid)

@@ -10,6 +10,7 @@
 #define OAI_OAIColorsApi_H
 
 #include "OAIBaseApi.h"
+#include "OAIExports.h"
 #include <QtNetwork/qrestreply.h>
 #include <QtQmlIntegration/qqmlintegration.h>
 
@@ -19,7 +20,7 @@
 
 namespace OpenAPI {
 
-class OAIColorsApi : public OAIBaseApi {
+class OAI_EXPORT OAIColorsApi : public OAIBaseApi {
     Q_OBJECT
     QML_ELEMENT
 public:

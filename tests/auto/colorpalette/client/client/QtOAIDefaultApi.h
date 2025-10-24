@@ -10,6 +10,7 @@
 #define QtOAI_QtOAIDefaultApi_H
 
 #include "QtOAIBaseApi.h"
+#include "QtOAIExports.h"
 #include <QtNetwork/qrestreply.h>
 
 #include "QtOAITestObject.h"
@@ -18,7 +19,7 @@
 
 namespace QtOpenAPI {
 
-class QtOAIDefaultApi : public QtOAIBaseApi {
+class QtOAI_EXPORT QtOAIDefaultApi : public QtOAIBaseApi {
     Q_OBJECT
 public:
     QtOAIDefaultApi() : QtOAIDefaultApi(nullptr) {}

@@ -15,6 +15,7 @@
 #ifndef OAIUser_H
 #define OAIUser_H
 
+#include "OAIExports.h"
 #include "OAIObject.h"
 #include <QtQmlIntegration/qqmlintegration.h>
 
@@ -22,7 +23,7 @@
 
 namespace OpenAPI {
 
-class OAIUser : public OAIObject {
+class OAI_EXPORT OAIUser : public OAIObject {
     Q_GADGET
     QML_VALUE_TYPE(dataOAIUser)
 

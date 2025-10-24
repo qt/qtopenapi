@@ -15,6 +15,7 @@
 #ifndef OAIOrder_H
 #define OAIOrder_H
 
+#include "OAIExports.h"
 #include "OAIObject.h"
 #include <QtQmlIntegration/qqmlintegration.h>
 
@@ -23,7 +24,7 @@
 
 namespace OpenAPI {
 
-class OAIOrder : public OAIObject {
+class OAI_EXPORT OAIOrder : public OAIObject {
     Q_GADGET
     QML_VALUE_TYPE(dataOAIOrder)
 

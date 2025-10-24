@@ -15,6 +15,7 @@
 #ifndef QtOAIUserPage_H
 #define QtOAIUserPage_H
 
+#include "QtOAIExports.h"
 #include "QtOAIObject.h"
 
 #include "QtOAIUser.h"
@@ -23,7 +24,7 @@
 namespace QtOpenAPI {
 class QtOAIUser;
 
-class QtOAIUserPage : public QtOAIObject {
+class QtOAI_EXPORT QtOAIUserPage : public QtOAIObject {
     Q_GADGET
 
     Q_PROPERTY(qint32 getPage READ getPage WRITE setPage)

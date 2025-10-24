@@ -15,13 +15,14 @@
 #ifndef QtOAIApiResponse_H
 #define QtOAIApiResponse_H
 
+#include "QtOAIExports.h"
 #include "QtOAIObject.h"
 
 #include <QString>
 
 namespace QtOpenAPI {
 
-class QtOAIApiResponse : public QtOAIObject {
+class QtOAI_EXPORT QtOAIApiResponse : public QtOAIObject {
     Q_GADGET
 
     Q_PROPERTY(qint32 getCode READ getCode WRITE setCode)

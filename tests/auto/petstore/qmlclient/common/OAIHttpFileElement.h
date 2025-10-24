@@ -9,6 +9,8 @@
 #ifndef OAI_HTTP_FILE_ELEMENT_H
 #define OAI_HTTP_FILE_ELEMENT_H
 
+#include "OAICommonExports.h"
+
 #include <QtCore/qjsonvalue.h>
 #include <QtCore/qmetatype.h>
 #include <QtCore/qshareddata.h>
@@ -34,7 +36,7 @@ public:
     bool m_temporary = false;
 };
 
-class OAIHttpFileElement {
+class OAI_COMMON_EXPORT OAIHttpFileElement {
 
 public:
     OAIHttpFileElement();

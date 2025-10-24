@@ -15,6 +15,7 @@
 #ifndef OAI_HTTPREQUESTWORKER_H
 #define OAI_HTTPREQUESTWORKER_H
 
+#include "OAICommonExports.h"
 #include "OAIHttpFileElement.h"
 
 #include <QtCore/qmap.h>
@@ -41,7 +42,7 @@ enum OAIHttpRequestVarLayout {
     MULTIPART
 };
 
-class OAIHttpRequestInput {
+class OAI_COMMON_EXPORT OAIHttpRequestInput {
 public:
     QString m_urlStr;
     QString m_httpMethod;
@@ -69,17 +70,17 @@ public:
 };
 
 namespace OAIHttpRequestWorker {
-    OAIHttpFileElement getHttpFileElement(const QMap<QString, OAIHttpFileElement> &files, const QString &fieldname = QStringLiteral(""));
-    QByteArray *getMultiPartField(const QMap<QString, QByteArray *> &multiPartFields, const QString &fieldname = QStringLiteral(""));
-    QNetworkRequest getNetworkRequest(OAIHttpRequestInput &input, QByteArray &requestContent, std::shared_ptr<QNetworkRequestFactory> factory, bool responseCompressionEnabled, bool requestCompressionEnabled);
-    QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<QString, OAIHttpFileElement> *files = nullptr);
+    OAI_COMMON_EXPORT OAIHttpFileElement getHttpFileElement(const QMap<QString, OAIHttpFileElement> &files, const QString &fieldname = QStringLiteral(""));
+    OAI_COMMON_EXPORT QByteArray *getMultiPartField(const QMap<QString, QByteArray *> &multiPartFields, const QString &fieldname = QStringLiteral(""));
+    OAI_COMMON_EXPORT QNetworkRequest getNetworkRequest(OAIHttpRequestInput &input, QByteArray &requestContent, std::shared_ptr<QNetworkRequestFactory> factory, bool responseCompressionEnabled, bool requestCompressionEnabled);
+    OAI_COMMON_EXPORT QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<QString, OAIHttpFileElement> *files = nullptr);
 
     enum OAICompressionType{
         Zlib,
         Gzip
     };
-    QByteArray decompress(const QByteArray& data);
-    QByteArray compress(const QByteArray& input, int level, OAICompressionType compressType);
+    OAI_COMMON_EXPORT QByteArray decompress(const QByteArray& data);
+    OAI_COMMON_EXPORT QByteArray compress(const QByteArray& input, int level, OAICompressionType compressType);
 } // namespace OAIHttpRequestWorker
 
 } // namespace OpenAPI

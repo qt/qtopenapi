@@ -44,6 +44,14 @@ target_include_directories(${PROJECT_NAME}
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/../common>
 )
 
+get_target_property(target_type ${PROJECT_NAME} TYPE)
+if(target_type STREQUAL "SHARED_LIBRARY" OR target_type STREQUAL "MODULE_LIBRARY")
+    target_compile_definitions(${PROJECT_NAME} PRIVATE QtOAI_LIB_SHARED)
+elseif(target_type STREQUAL "STATIC_LIBRARY")
+    target_compile_definitions(${PROJECT_NAME} PRIVATE QtOAI_LIB_STATIC)
+endif()
+target_compile_definitions(${PROJECT_NAME} PRIVATE QtOAI_BUILD_LIB)
+
 target_link_libraries(${PROJECT_NAME}
     PUBLIC
         Qt::Core

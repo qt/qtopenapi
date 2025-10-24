@@ -10,13 +10,14 @@
 #define QtOAI_QtOAIFakeApi_H
 
 #include "QtOAIBaseApi.h"
+#include "QtOAIExports.h"
 #include <QtNetwork/qrestreply.h>
 
 #include <QString>
 
 namespace QtOpenAPI {
 
-class QtOAIFakeApi : public QtOAIBaseApi {
+class QtOAI_EXPORT QtOAIFakeApi : public QtOAIBaseApi {
     Q_OBJECT
 public:
     QtOAIFakeApi() : QtOAIFakeApi(nullptr) {}

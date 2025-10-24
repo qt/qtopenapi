@@ -15,6 +15,7 @@
 #ifndef OAICategory_H
 #define OAICategory_H
 
+#include "OAIExports.h"
 #include "OAIObject.h"
 #include <QtQmlIntegration/qqmlintegration.h>
 
@@ -22,7 +23,7 @@
 
 namespace OpenAPI {
 
-class OAICategory : public OAIObject {
+class OAI_EXPORT OAICategory : public OAIObject {
     Q_GADGET
     QML_VALUE_TYPE(dataOAICategory)
 

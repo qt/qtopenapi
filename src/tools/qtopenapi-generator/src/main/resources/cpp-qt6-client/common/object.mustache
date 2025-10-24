@@ -2,6 +2,8 @@
 #ifndef {{prefix}}_OBJECT_H
 #define {{prefix}}_OBJECT_H
 
+#include "{{prefix}}CommonExports.h"
+
 #include <QtCore/qjsondocument.h>
 #include <QtCore/qjsonobject.h>
 #include <QtCore/qstring.h>
@@ -10,7 +12,7 @@
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
-class {{prefix}}Object {
+class {{prefix}}_COMMON_EXPORT {{prefix}}Object {
 public:
     {{prefix}}Object() {}
 

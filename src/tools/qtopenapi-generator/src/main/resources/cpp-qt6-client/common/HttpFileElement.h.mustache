@@ -2,6 +2,8 @@
 #ifndef {{prefix}}_HTTP_FILE_ELEMENT_H
 #define {{prefix}}_HTTP_FILE_ELEMENT_H
 
+#include "{{prefix}}CommonExports.h"
+
 #include <QtCore/qjsonvalue.h>
 #include <QtCore/qmetatype.h>
 #include <QtCore/qshareddata.h>
@@ -29,7 +31,7 @@ public:
     bool m_temporary = false;
 };
 
-class {{prefix}}HttpFileElement {
+class {{prefix}}_COMMON_EXPORT {{prefix}}HttpFileElement {
 
 public:
     {{prefix}}HttpFileElement();

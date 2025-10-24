@@ -15,6 +15,7 @@
 #ifndef OAIApiResponse_H
 #define OAIApiResponse_H
 
+#include "OAIExports.h"
 #include "OAIObject.h"
 #include <QtQmlIntegration/qqmlintegration.h>
 
@@ -22,7 +23,7 @@
 
 namespace OpenAPI {
 
-class OAIApiResponse : public OAIObject {
+class OAI_EXPORT OAIApiResponse : public OAIObject {
     Q_GADGET
     QML_VALUE_TYPE(dataOAIApiResponse)
 

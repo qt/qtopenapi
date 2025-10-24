@@ -15,6 +15,7 @@
 #ifndef OAIColorPage_H
 #define OAIColorPage_H
 
+#include "OAIExports.h"
 #include "OAIObject.h"
 #include <QtQmlIntegration/qqmlintegration.h>
 
@@ -24,7 +25,7 @@
 namespace OpenAPI {
 class OAIColor;
 
-class OAIColorPage : public OAIObject {
+class OAI_EXPORT OAIColorPage : public OAIObject {
     Q_GADGET
     QML_VALUE_TYPE(dataOAIColorPage)
 

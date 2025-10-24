@@ -15,13 +15,14 @@
 #ifndef QtOAIUpdateUser_request_H
 #define QtOAIUpdateUser_request_H
 
+#include "QtOAIExports.h"
 #include "QtOAIObject.h"
 
 #include <QString>
 
 namespace QtOpenAPI {
 
-class QtOAIUpdateUser_request : public QtOAIObject {
+class QtOAI_EXPORT QtOAIUpdateUser_request : public QtOAIObject {
     Q_GADGET
 
     Q_PROPERTY(QString getAvatar READ getAvatar WRITE setAvatar)

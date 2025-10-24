@@ -2,6 +2,7 @@
 #ifndef {{prefix}}_HELPERS_H
 #define {{prefix}}_HELPERS_H
 
+#include "{{prefix}}CommonExports.h"
 #include "{{prefix}}Enum.h"
 #include "{{prefix}}HttpFileElement.h"
 #include "{{prefix}}Object.h"
@@ -22,8 +23,8 @@
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
-bool setDateTimeFormat(const QString &format);
-bool setDateTimeFormat(const Qt::DateFormat &format);
+{{prefix}}_COMMON_EXPORT bool setDateTimeFormat(const QString &format);
+{{prefix}}_COMMON_EXPORT bool setDateTimeFormat(const Qt::DateFormat &format);
 
 template <typename T>
 QString toStringValue(const QList<T> &val, QAnyStringView delimiter = ",");
@@ -58,19 +59,19 @@ bool fromJsonValue(QSet<T> &val, const QJsonValue &jval);
 template <typename T>
 bool fromJsonValue(QMap<QString, T> &val, const QJsonValue &jval);
 
-QString toStringValue(const QVariant &value);
-QString toStringValue(const QString &value);
-QString toStringValue(const QDateTime &value);
-QString toStringValue(const QByteArray &value);
-QString toStringValue(const QDate &value);
-QString toStringValue(qint32 value);
-QString toStringValue(qint64 value);
-QString toStringValue(bool value);
-QString toStringValue(float value);
-QString toStringValue(double value);
-QString toStringValue(const {{prefix}}Object &value);
-QString toStringValue(const {{prefix}}Enum &value);
-QString toStringValue(const {{prefix}}HttpFileElement &value);
+{{prefix}}_COMMON_EXPORT QString toStringValue(const QVariant &value);
+{{prefix}}_COMMON_EXPORT QString toStringValue(const QString &value);
+{{prefix}}_COMMON_EXPORT QString toStringValue(const QDateTime &value);
+{{prefix}}_COMMON_EXPORT QString toStringValue(const QByteArray &value);
+{{prefix}}_COMMON_EXPORT QString toStringValue(const QDate &value);
+{{prefix}}_COMMON_EXPORT QString toStringValue(qint32 value);
+{{prefix}}_COMMON_EXPORT QString toStringValue(qint64 value);
+{{prefix}}_COMMON_EXPORT QString toStringValue(bool value);
+{{prefix}}_COMMON_EXPORT QString toStringValue(float value);
+{{prefix}}_COMMON_EXPORT QString toStringValue(double value);
+{{prefix}}_COMMON_EXPORT QString toStringValue(const {{prefix}}Object &value);
+{{prefix}}_COMMON_EXPORT QString toStringValue(const {{prefix}}Enum &value);
+{{prefix}}_COMMON_EXPORT QString toStringValue(const {{prefix}}HttpFileElement &value);
 
 template <typename T>
 QString toStringValue(const QSet<T> &val) {
@@ -82,19 +83,19 @@ QString toStringValue(const QSet<T> &val) {
     return strArray;
 }
 
-QJsonValue toJsonValue(const QString &value);
-QJsonValue toJsonValue(const QDateTime &value);
-QJsonValue toJsonValue(const QByteArray &value);
-QJsonValue toJsonValue(const QDate &value);
-QJsonValue toJsonValue(qint32 value);
-QJsonValue toJsonValue(qint64 value);
-QJsonValue toJsonValue(bool value);
-QJsonValue toJsonValue(float value);
-QJsonValue toJsonValue(double value);
-QJsonValue toJsonValue(const {{prefix}}Object &value);
-QJsonValue toJsonValue(const {{prefix}}Enum &value);
-QJsonValue toJsonValue(const {{prefix}}HttpFileElement &value);
-QJsonValue toJsonValue(const QJsonValue &value);
+{{prefix}}_COMMON_EXPORT QJsonValue toJsonValue(const QString &value);
+{{prefix}}_COMMON_EXPORT QJsonValue toJsonValue(const QDateTime &value);
+{{prefix}}_COMMON_EXPORT QJsonValue toJsonValue(const QByteArray &value);
+{{prefix}}_COMMON_EXPORT QJsonValue toJsonValue(const QDate &value);
+{{prefix}}_COMMON_EXPORT QJsonValue toJsonValue(qint32 value);
+{{prefix}}_COMMON_EXPORT QJsonValue toJsonValue(qint64 value);
+{{prefix}}_COMMON_EXPORT QJsonValue toJsonValue(bool value);
+{{prefix}}_COMMON_EXPORT QJsonValue toJsonValue(float value);
+{{prefix}}_COMMON_EXPORT QJsonValue toJsonValue(double value);
+{{prefix}}_COMMON_EXPORT QJsonValue toJsonValue(const {{prefix}}Object &value);
+{{prefix}}_COMMON_EXPORT QJsonValue toJsonValue(const {{prefix}}Enum &value);
+{{prefix}}_COMMON_EXPORT QJsonValue toJsonValue(const {{prefix}}HttpFileElement &value);
+{{prefix}}_COMMON_EXPORT QJsonValue toJsonValue(const QJsonValue &value);
 
 template <typename T>
 QJsonValue toJsonValue(const QList<T> &val) {
@@ -120,31 +121,31 @@ QJsonValue toJsonValue(const QMap<QString, T> &val) {
     return jObject;
 }
 
-bool fromByteArray(const QByteArray &input, QString &value);
-bool fromByteArray(const QByteArray &input, QDateTime &value);
-bool fromByteArray(const QByteArray &input, QByteArray &value);
-bool fromByteArray(const QByteArray &input, QDate &value);
-bool fromByteArray(const QByteArray &input, qint32 &value);
-bool fromByteArray(const QByteArray &input, qint64 &value);
-bool fromByteArray(const QByteArray &input, bool &value);
-bool fromByteArray(const QByteArray &input, float &value);
-bool fromByteArray(const QByteArray &input, double &value);
-bool fromByteArray(const QByteArray &input, {{prefix}}Object &value);
-bool fromByteArray(const QByteArray &input, {{prefix}}Enum &value);
-bool fromByteArray(const QByteArray &input, {{prefix}}HttpFileElement &value);
+{{prefix}}_COMMON_EXPORT bool fromByteArray(const QByteArray &input, QString &value);
+{{prefix}}_COMMON_EXPORT bool fromByteArray(const QByteArray &input, QDateTime &value);
+{{prefix}}_COMMON_EXPORT bool fromByteArray(const QByteArray &input, QByteArray &value);
+{{prefix}}_COMMON_EXPORT bool fromByteArray(const QByteArray &input, QDate &value);
+{{prefix}}_COMMON_EXPORT bool fromByteArray(const QByteArray &input, qint32 &value);
+{{prefix}}_COMMON_EXPORT bool fromByteArray(const QByteArray &input, qint64 &value);
+{{prefix}}_COMMON_EXPORT bool fromByteArray(const QByteArray &input, bool &value);
+{{prefix}}_COMMON_EXPORT bool fromByteArray(const QByteArray &input, float &value);
+{{prefix}}_COMMON_EXPORT bool fromByteArray(const QByteArray &input, double &value);
+{{prefix}}_COMMON_EXPORT bool fromByteArray(const QByteArray &input, {{prefix}}Object &value);
+{{prefix}}_COMMON_EXPORT bool fromByteArray(const QByteArray &input, {{prefix}}Enum &value);
+{{prefix}}_COMMON_EXPORT bool fromByteArray(const QByteArray &input, {{prefix}}HttpFileElement &value);
 
-bool fromStringValue(const QString &inStr, QString &value);
-bool fromStringValue(const QString &inStr, QDateTime &value);
-bool fromStringValue(const QString &inStr, QByteArray &value);
-bool fromStringValue(const QString &inStr, QDate &value);
-bool fromStringValue(const QString &inStr, qint32 &value);
-bool fromStringValue(const QString &inStr, qint64 &value);
-bool fromStringValue(const QString &inStr, bool &value);
-bool fromStringValue(const QString &inStr, float &value);
-bool fromStringValue(const QString &inStr, double &value);
-bool fromStringValue(const QString &inStr, {{prefix}}Object &value);
-bool fromStringValue(const QString &inStr, {{prefix}}Enum &value);
-bool fromStringValue(const QString &inStr, {{prefix}}HttpFileElement &value);
+{{prefix}}_COMMON_EXPORT bool fromStringValue(const QString &inStr, QString &value);
+{{prefix}}_COMMON_EXPORT bool fromStringValue(const QString &inStr, QDateTime &value);
+{{prefix}}_COMMON_EXPORT bool fromStringValue(const QString &inStr, QByteArray &value);
+{{prefix}}_COMMON_EXPORT bool fromStringValue(const QString &inStr, QDate &value);
+{{prefix}}_COMMON_EXPORT bool fromStringValue(const QString &inStr, qint32 &value);
+{{prefix}}_COMMON_EXPORT bool fromStringValue(const QString &inStr, qint64 &value);
+{{prefix}}_COMMON_EXPORT bool fromStringValue(const QString &inStr, bool &value);
+{{prefix}}_COMMON_EXPORT bool fromStringValue(const QString &inStr, float &value);
+{{prefix}}_COMMON_EXPORT bool fromStringValue(const QString &inStr, double &value);
+{{prefix}}_COMMON_EXPORT bool fromStringValue(const QString &inStr, {{prefix}}Object &value);
+{{prefix}}_COMMON_EXPORT bool fromStringValue(const QString &inStr, {{prefix}}Enum &value);
+{{prefix}}_COMMON_EXPORT bool fromStringValue(const QString &inStr, {{prefix}}HttpFileElement &value);
 
 template <typename T>
 bool fromStringValue(const QList<QString> &inStr, QList<T> &val) {
@@ -179,19 +180,19 @@ bool fromStringValue(const QMap<QString, QString> &inStr, QMap<QString, T> &val)
     return ok;
 }
 
-bool fromJsonValue(QString &value, const QJsonValue &jval);
-bool fromJsonValue(QDateTime &value, const QJsonValue &jval);
-bool fromJsonValue(QByteArray &value, const QJsonValue &jval);
-bool fromJsonValue(QDate &value, const QJsonValue &jval);
-bool fromJsonValue(qint32 &value, const QJsonValue &jval);
-bool fromJsonValue(qint64 &value, const QJsonValue &jval);
-bool fromJsonValue(bool &value, const QJsonValue &jval);
-bool fromJsonValue(float &value, const QJsonValue &jval);
-bool fromJsonValue(double &value, const QJsonValue &jval);
-bool fromJsonValue({{prefix}}Object &value, const QJsonValue &jval);
-bool fromJsonValue({{prefix}}Enum &value, const QJsonValue &jval);
-bool fromJsonValue({{prefix}}HttpFileElement &value, const QJsonValue &jval);
-bool fromJsonValue(QJsonValue &value, const QJsonValue &jval);
+{{prefix}}_COMMON_EXPORT bool fromJsonValue(QString &value, const QJsonValue &jval);
+{{prefix}}_COMMON_EXPORT bool fromJsonValue(QDateTime &value, const QJsonValue &jval);
+{{prefix}}_COMMON_EXPORT bool fromJsonValue(QByteArray &value, const QJsonValue &jval);
+{{prefix}}_COMMON_EXPORT bool fromJsonValue(QDate &value, const QJsonValue &jval);
+{{prefix}}_COMMON_EXPORT bool fromJsonValue(qint32 &value, const QJsonValue &jval);
+{{prefix}}_COMMON_EXPORT bool fromJsonValue(qint64 &value, const QJsonValue &jval);
+{{prefix}}_COMMON_EXPORT bool fromJsonValue(bool &value, const QJsonValue &jval);
+{{prefix}}_COMMON_EXPORT bool fromJsonValue(float &value, const QJsonValue &jval);
+{{prefix}}_COMMON_EXPORT bool fromJsonValue(double &value, const QJsonValue &jval);
+{{prefix}}_COMMON_EXPORT bool fromJsonValue({{prefix}}Object &value, const QJsonValue &jval);
+{{prefix}}_COMMON_EXPORT bool fromJsonValue({{prefix}}Enum &value, const QJsonValue &jval);
+{{prefix}}_COMMON_EXPORT bool fromJsonValue({{prefix}}HttpFileElement &value, const QJsonValue &jval);
+{{prefix}}_COMMON_EXPORT bool fromJsonValue(QJsonValue &value, const QJsonValue &jval);
 
 template <typename T>
 bool fromJsonValue(QList<T> &val, const QJsonValue &jval) {
@@ -252,7 +253,7 @@ inline constexpr bool isPrimitiveMediaType<QString> = true;
 template <>
 inline constexpr bool isPrimitiveMediaType<QByteArray> = true;
 
-QString convertJsonValueToString(const QJsonValue &jsonValue);
+{{prefix}}_COMMON_EXPORT QString convertJsonValueToString(const QJsonValue &jsonValue);
 
 // multipart/form-data and application/x-www-form-urlencoded Media types
 // provide possibility to encode each field in a specific way,
@@ -345,12 +346,12 @@ struct SerializationOptions
     SerializationFlags flags;
 };
 
-QString getParamStylePrefix(const QString &style);
-QString getParamStyleSuffix(const QString &style, const QString &name, SerializationFlags flags);
-QString getParamStyleDelimiter(const QString &style, SerializationFlags flags);
-QString getParamStyleAssignOperator(const QString &style, SerializationFlags flags);
+{{prefix}}_COMMON_EXPORT QString getParamStylePrefix(const QString &style);
+{{prefix}}_COMMON_EXPORT QString getParamStyleSuffix(const QString &style, const QString &name, SerializationFlags flags);
+{{prefix}}_COMMON_EXPORT QString getParamStyleDelimiter(const QString &style, SerializationFlags flags);
+{{prefix}}_COMMON_EXPORT QString getParamStyleAssignOperator(const QString &style, SerializationFlags flags);
 
-QString serializeJsonValue(const QJsonValue &value, const SerializationOptions &opts);
+{{prefix}}_COMMON_EXPORT QString serializeJsonValue(const QJsonValue &value, const SerializationOptions &opts);
 
 template<typename T>
 QString serializeArrayValue(const QList<T> &value, const SerializationOptions &opts)

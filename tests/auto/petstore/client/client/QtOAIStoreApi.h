@@ -10,6 +10,7 @@
 #define QtOAI_QtOAIStoreApi_H
 
 #include "QtOAIBaseApi.h"
+#include "QtOAIExports.h"
 #include <QtNetwork/qrestreply.h>
 
 #include <QMap>
@@ -18,7 +19,7 @@
 
 namespace QtOpenAPI {
 
-class QtOAIStoreApi : public QtOAIBaseApi {
+class QtOAI_EXPORT QtOAIStoreApi : public QtOAIBaseApi {
     Q_OBJECT
 public:
     QtOAIStoreApi() : QtOAIStoreApi(nullptr) {}
