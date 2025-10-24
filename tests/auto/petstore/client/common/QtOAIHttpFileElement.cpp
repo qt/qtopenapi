@@ -15,28 +15,67 @@
 
 namespace QtOpenAPI {
 
+QtOAIHttpFileElement::QtOAIHttpFileElement()
+    : d(new QtOAIHttpFileElementShared()){}
+
+QtOAIHttpFileElement::QtOAIHttpFileElement(const QtOAIHttpFileElement &other)
+    : d(other.d) {}
+
+QtOAIHttpFileElement &QtOAIHttpFileElement::operator=(const QtOAIHttpFileElement &other)
+{
+    if (this != &other)
+        d = other.d;
+    return *this;
+}
+
+QtOAIHttpFileElement::~QtOAIHttpFileElement() = default;
+
 void QtOAIHttpFileElement::setMimeType(const QString &mime)
 {
-    m_mimeType = mime;
+    d.detach();
+    d->m_mimeType = mime;
 }
 
 void QtOAIHttpFileElement::setFileName(const QString &name)
 {
-    m_localFilename = name;
+    d.detach();
+    d->m_localFilename = name;
 }
 
 void QtOAIHttpFileElement::setVariableName(const QString &name)
 {
-    m_variableName = name;
+    d.detach();
+    d->m_variableName = name;
 }
 
 void QtOAIHttpFileElement::setRequestFileName(const QString &name)
 {
-    m_requestFilename = name;
+    d.detach();
+    d->m_requestFilename = name;
+}
+
+QString QtOAIHttpFileElement::mimeType() const
+{
+    return d->m_mimeType;
+}
+
+QString QtOAIHttpFileElement::filename() const
+{
+    return d->m_localFilename;
+}
+
+QString QtOAIHttpFileElement::variableName() const
+{
+    return d->m_variableName;
+}
+
+QString QtOAIHttpFileElement::requestFilename() const
+{
+    return d->m_requestFilename;
 }
 
 bool QtOAIHttpFileElement::isSet() const {
-    return !m_localFilename.isEmpty() || !m_requestFilename.isEmpty();
+    return !d->m_localFilename.isEmpty() || !d->m_requestFilename.isEmpty();
 }
 
 QString QtOAIHttpFileElement::asJson() const
@@ -65,48 +104,50 @@ bool QtOAIHttpFileElement::fromJsonValue(const QJsonValue &jval)
 
 QByteArray QtOAIHttpFileElement::asByteArray() const
 {
-    QFile file(m_localFilename);
+    QFile file(d->m_localFilename);
     QByteArray bArray;
     if (file.exists() && file.open(QIODevice::ReadOnly)) {
         bArray = file.readAll();
         file.close();
     } else {
-        qDebug() << "Failed to open the file" << m_localFilename;
+        qDebug() << "Failed to open the file" << d->m_localFilename;
     }
     return bArray;
 }
 
 bool QtOAIHttpFileElement::fromByteArray(const QByteArray &bytes)
 {
-    QFile file(m_localFilename);
+    QFile file(d->m_localFilename);
     bool result = file.open(QIODevice::WriteOnly | QIODevice::Truncate);
     if (result) {
         const qint64 written = file.write(bytes);
         file.close();
         result = (written == bytes.size());
         if (!result)
-            qDebug() << "Failed to write data to the file" << m_localFilename;
+            qDebug() << "Failed to write data to the file" << d->m_localFilename;
     } else {
-        qDebug() << "Failed to create the file" << m_localFilename;
+        qDebug() << "Failed to create the file" << d->m_localFilename;
     }
     return result;
 }
 
 bool QtOAIHttpFileElement::saveToFile(const QString &varName, const QString &localFName, const QString &reqFname, const QString &mime, const QByteArray &bytes)
 {
-    setMimeType(mime);
-    setFileName(localFName);
-    setVariableName(varName);
-    setRequestFileName(reqFname);
+    d.detach(); // only once
+    d->m_mimeType = mime;
+    d->m_localFilename = localFName;
+    d->m_variableName = varName;
+    d->m_requestFilename = reqFname;
     return fromByteArray(bytes);
 }
 
 QByteArray QtOAIHttpFileElement::loadFromFile(const QString &varName, const QString &localFName, const QString &reqFname, const QString &mime)
 {
-    setMimeType(mime);
-    setFileName(localFName);
-    setVariableName(varName);
-    setRequestFileName(reqFname);
+    d.detach(); // only once
+    d->m_mimeType = mime;
+    d->m_localFilename = localFName;
+    d->m_variableName = varName;
+    d->m_requestFilename = reqFname;
     return asByteArray();
 }
 

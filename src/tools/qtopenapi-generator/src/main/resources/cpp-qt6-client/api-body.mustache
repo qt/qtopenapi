@@ -334,7 +334,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{/contentType}}
 {{/consumes}}
 {{#isFile}}
-        input.addFile("{{baseName}}", {{paramName}}{{^required}}.value(){{/required}}.m_localFilename, {{paramName}}{{^required}}.value(){{/required}}.m_requestFilename, contentType);
+        input.addFile("{{baseName}}", {{paramName}}{{^required}}.value(){{/required}}.filename(), {{paramName}}{{^required}}.value(){{/required}}.requestFilename(), contentType);
 {{/isFile}}
 {{^isFile}}
 {{#isContainer}}

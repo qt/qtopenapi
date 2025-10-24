@@ -1041,7 +1041,7 @@ void QtOAITestApi::postMultiPartDataWithDataImpl(const QString &formId, const QL
     }
     if (formProfileImage.hasValue()) {
         QString contentType;
-        input.addFile("formProfileImage", formProfileImage.value().m_localFilename, formProfileImage.value().m_requestFilename, contentType);
+        input.addFile("formProfileImage", formProfileImage.value().filename(), formProfileImage.value().requestFilename(), contentType);
     }
     {
         QString contentType;

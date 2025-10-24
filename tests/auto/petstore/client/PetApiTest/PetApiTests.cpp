@@ -518,7 +518,7 @@ void PetApiTests::getFilesFromServerTest()
     connect(&api, &QtOAIPetApi::getJsonFileFinished,
             this, [&](const QtOAIHttpFileElement &summary) {
         petFileDownloaded = true;
-        QCOMPARE("response.json", summary.m_requestFilename);
+                QCOMPARE("response.json", summary.requestFilename());
         QJsonObject fileContent = summary.asJsonValue().toObject();
         QCOMPARE(fileContent.value("file-name").toString(), QString("Hi, I am a response!"));
         QCOMPARE(fileContent.value("value").toInt(), 81);

@@ -11,21 +11,50 @@
 
 #include <QtCore/qjsonvalue.h>
 #include <QtCore/qmetatype.h>
+#include <QtCore/qshareddata.h>
 #include <QtCore/qstring.h>
 
 namespace QtOpenAPI {
 
-class QtOAIHttpFileElement {
+// NOTE: Normally, QtOAIHttpFileElementShared would be forward-declared and
+// defined in the cpp file with QT_DECLARE/DEFINE_QESDP_SPECIALIZATION_DTOR(),
+// but since those macros are internal, we define it here instead.
+// The class enables implicit sharing via QExplicitlySharedDataPointer.
 
+class QtOAIHttpFileElementShared : public QSharedData
+{
 public:
     QString m_variableName;
     QString m_localFilename;
     QString m_requestFilename;
     QString m_mimeType;
+};
+
+class QtOAIHttpFileElement {
+
+public:
+    QtOAIHttpFileElement();
+    QtOAIHttpFileElement(const QtOAIHttpFileElement &other);
+    QtOAIHttpFileElement(QtOAIHttpFileElement &&other) noexcept : d(std::move(other.d)) {}
+    QtOAIHttpFileElement &operator=(const QtOAIHttpFileElement &other);
+    QtOAIHttpFileElement &operator=(QtOAIHttpFileElement &&other) noexcept
+    {
+        if (this != &other)
+            d = std::move(other.d);
+        return *this;
+    }
+    ~QtOAIHttpFileElement();
+
     void setMimeType(const QString &mime);
     void setFileName(const QString &name);
     void setVariableName(const QString &name);
     void setRequestFileName(const QString &name);
+
+    QString mimeType() const;
+    QString filename() const;
+    QString variableName() const;
+    QString requestFilename() const;
+
     bool isSet() const;
     bool fromStringValue(const QString &instr);
     bool fromJsonValue(const QJsonValue &jval);
@@ -35,6 +64,9 @@ public:
     QJsonValue asJsonValue() const;
     QByteArray asByteArray() const;
     QByteArray loadFromFile(const QString &variableName, const QString &localFilename, const QString &requestFilename, const QString &mime);
+
+private:
+    QExplicitlySharedDataPointer<QtOAIHttpFileElementShared> d;
 };
 
 } // namespace QtOpenAPI

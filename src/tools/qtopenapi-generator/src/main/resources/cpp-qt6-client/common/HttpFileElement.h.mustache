@@ -4,23 +4,52 @@
 
 #include <QtCore/qjsonvalue.h>
 #include <QtCore/qmetatype.h>
+#include <QtCore/qshareddata.h>
 #include <QtCore/qstring.h>
 
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
-class {{prefix}}HttpFileElement {
+// NOTE: Normally, {{prefix}}HttpFileElementShared would be forward-declared and
+// defined in the cpp file with QT_DECLARE/DEFINE_QESDP_SPECIALIZATION_DTOR(),
+// but since those macros are internal, we define it here instead.
+// The class enables implicit sharing via QExplicitlySharedDataPointer.
 
+class {{prefix}}HttpFileElementShared : public QSharedData
+{
 public:
     QString m_variableName;
     QString m_localFilename;
     QString m_requestFilename;
     QString m_mimeType;
+};
+
+class {{prefix}}HttpFileElement {
+
+public:
+    {{prefix}}HttpFileElement();
+    {{prefix}}HttpFileElement(const {{prefix}}HttpFileElement &other);
+    {{prefix}}HttpFileElement({{prefix}}HttpFileElement &&other) noexcept : d(std::move(other.d)) {}
+    {{prefix}}HttpFileElement &operator=(const {{prefix}}HttpFileElement &other);
+    {{prefix}}HttpFileElement &operator=({{prefix}}HttpFileElement &&other) noexcept
+    {
+        if (this != &other)
+            d = std::move(other.d);
+        return *this;
+    }
+    ~{{prefix}}HttpFileElement();
+
     void setMimeType(const QString &mime);
     void setFileName(const QString &name);
     void setVariableName(const QString &name);
     void setRequestFileName(const QString &name);
+
+    QString mimeType() const;
+    QString filename() const;
+    QString variableName() const;
+    QString requestFilename() const;
+
     bool isSet() const;
     bool fromStringValue(const QString &instr);
     bool fromJsonValue(const QJsonValue &jval);
@@ -30,6 +59,9 @@ public:
     QJsonValue asJsonValue() const;
     QByteArray asByteArray() const;
     QByteArray loadFromFile(const QString &variableName, const QString &localFilename, const QString &requestFilename, const QString &mime);
+
+private:
+    QExplicitlySharedDataPointer<{{prefix}}HttpFileElementShared> d;
 };
 
 {{#cppNamespaceDeclarations}}
