@@ -39,6 +39,8 @@ QString toFormUrlEncoding(const QString &input)
     initialize();
 }
 
+{{prefix}}HttpRequestInput::~{{prefix}}HttpRequestInput() = default;
+
 {{prefix}}HttpRequestInput::{{prefix}}HttpRequestInput(const QString &vUrlStr, const QString &vHttpMethod)
 {
     initialize();

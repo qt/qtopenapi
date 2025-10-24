@@ -56,6 +56,7 @@ public:
     bool m_isFormData;
 
     QtOAIHttpRequestInput();
+    ~QtOAIHttpRequestInput();
     QtOAIHttpRequestInput(const QString &vUrlStr, const QString &vHttpMethod);
     QtOAIHttpRequestInput(QtOAIHttpRequestInput &other);
     void initialize();

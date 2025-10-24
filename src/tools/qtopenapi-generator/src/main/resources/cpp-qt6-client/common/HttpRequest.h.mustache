@@ -51,6 +51,7 @@ public:
     bool m_isFormData;
 
     {{prefix}}HttpRequestInput();
+    ~{{prefix}}HttpRequestInput();
     {{prefix}}HttpRequestInput(const QString &vUrlStr, const QString &vHttpMethod);
     {{prefix}}HttpRequestInput({{prefix}}HttpRequestInput &other);
     void initialize();

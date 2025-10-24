@@ -41,6 +41,8 @@ OAIHttpRequestInput::OAIHttpRequestInput()
     initialize();
 }
 
+OAIHttpRequestInput::~OAIHttpRequestInput() = default;
+
 OAIHttpRequestInput::OAIHttpRequestInput(const QString &vUrlStr, const QString &vHttpMethod)
 {
     initialize();

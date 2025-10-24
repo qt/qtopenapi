@@ -56,6 +56,7 @@ public:
     bool m_isFormData;
 
     OAIHttpRequestInput();
+    ~OAIHttpRequestInput();
     OAIHttpRequestInput(const QString &vUrlStr, const QString &vHttpMethod);
     OAIHttpRequestInput(OAIHttpRequestInput &other);
     void initialize();
