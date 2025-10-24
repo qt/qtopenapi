@@ -15,12 +15,3 @@ instructions:
     - type: Group
       instructions:
         - !include "{{qt/qtbase}}/coin_module_test_template_v3.yaml"
-      enable_if:
-        condition: and
-        conditions:
-          - condition: property
-            property: host.os
-            in_values: [Linux, MacOS]
-          - condition: property
-            property: host.arch
-            equals_property: target.arch
