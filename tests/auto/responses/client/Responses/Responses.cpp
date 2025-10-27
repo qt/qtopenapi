@@ -99,9 +99,9 @@ void Responses::jsonResponse() {
 
     done = false;
 
-    applicationJsonObjectResponse(
+    applicationJsonEncodedObjectResponse(
         this, [&](const QRestReply &reply,
-                  const QtOAIApplicationJsonObjectResponse_200_response &summary) {
+                  const QtOAIApplicationJsonEncodedObjectResponse_200_response &summary) {
         if (!(done = reply.isSuccess())) {
             qWarning() << "Error happened while issuing request : " << reply.error()
                        << reply.errorString();
@@ -134,11 +134,7 @@ void Responses::pdfResponse() {
     CALL_TEST_FILE_OPERATION(applicationPdfSaveResponse, "test.pdf"_L1, expectedPdfContent,
                             "example1.pdf"_L1);
 
-    // TODO: Change expected content to "expectedPdfContent" when we activate compression
-    //       in a later step. For now compression flag is off.
-    QTest::ignoreMessage(QtWarningMsg, "Content compression is disabled: contentCompression flag "
-                                       "is off. Returning an empty QByteArray.");
-    CALL_TEST_FILE_OPERATION(applicationEncodedPdfSaveResponse, "test.pdf"_L1, "",
+    CALL_TEST_FILE_OPERATION(applicationEncodedPdfSaveResponse, "test.pdf"_L1, expectedPdfContent,
                             "compressed_example1.pdf"_L1);
 }
 

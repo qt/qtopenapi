@@ -30,10 +30,16 @@ paths:
     get:
       tags: [test]
       summary: Check response type application-json object
-      operationId: applicationJsonObjectResponse
+      operationId: applicationJsonEncodedObjectResponse
       responses:
         '200':
-          description: Successful object response
+          description: Successful json object response (may be encoded if the server applies a Content-Encoding).
+          headers:
+            Content-Encoding:
+              description: Tells the client which encoding is applied to the response.
+              schema:
+                type: string
+                example: gzip
           content:
             application/json:
               schema:

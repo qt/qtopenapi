@@ -76,11 +76,12 @@ namespace QtOAIHttpRequestWorker {
     QtOAI_COMMON_EXPORT QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<QString, QtOAIHttpFileElement> *files = nullptr);
 
     enum QtOAICompressionType{
-        Zlib,
-        Gzip
+        Deflate,
+        Gzip,
+        None,
     };
-    QtOAI_COMMON_EXPORT QByteArray decompress(const QByteArray& data);
-    QtOAI_COMMON_EXPORT QByteArray compress(const QByteArray& input, int level, QtOAICompressionType compressType);
+    QtOAI_COMMON_EXPORT QByteArray decompress(const QByteArray &data, QtOAICompressionType compressionType);
+    QtOAI_COMMON_EXPORT QByteArray compress(const QByteArray &input, int level, QtOAICompressionType compressionType);
 } // namespace QtOAIHttpRequestWorker
 
 } // namespace QtOpenAPI

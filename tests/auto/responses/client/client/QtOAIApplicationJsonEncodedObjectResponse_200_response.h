@@ -7,13 +7,13 @@
  */
 
 /*
- * QtOAIApplicationJsonObjectResponse_200_response.h
+ * QtOAIApplicationJsonEncodedObjectResponse_200_response.h
  *
  * 
  */
 
-#ifndef QtOAIApplicationJsonObjectResponse_200_response_H
-#define QtOAIApplicationJsonObjectResponse_200_response_H
+#ifndef QtOAIApplicationJsonEncodedObjectResponse_200_response_H
+#define QtOAIApplicationJsonEncodedObjectResponse_200_response_H
 
 #include "QtOAIExports.h"
 #include "QtOAIObject.h"
@@ -22,15 +22,15 @@
 
 namespace QtOpenAPI {
 
-class QtOAI_EXPORT QtOAIApplicationJsonObjectResponse_200_response : public QtOAIObject {
+class QtOAI_EXPORT QtOAIApplicationJsonEncodedObjectResponse_200_response : public QtOAIObject {
     Q_GADGET
 
     Q_PROPERTY(QString getStatus READ getStatus WRITE setStatus)
     Q_PROPERTY(qint64 getValue READ getValue WRITE setValue)
 public:
-    QtOAIApplicationJsonObjectResponse_200_response();
-    QtOAIApplicationJsonObjectResponse_200_response(const QString &json);
-    ~QtOAIApplicationJsonObjectResponse_200_response() override;
+    QtOAIApplicationJsonEncodedObjectResponse_200_response();
+    QtOAIApplicationJsonEncodedObjectResponse_200_response(const QString &json);
+    ~QtOAIApplicationJsonEncodedObjectResponse_200_response() override;
 
     QString asJson() const override;
     QJsonObject asJsonObject() const override;
@@ -64,6 +64,6 @@ private:
 
 } // namespace QtOpenAPI
 
-Q_DECLARE_METATYPE(QtOpenAPI::QtOAIApplicationJsonObjectResponse_200_response)
+Q_DECLARE_METATYPE(QtOpenAPI::QtOAIApplicationJsonEncodedObjectResponse_200_response)
 
-#endif // QtOAIApplicationJsonObjectResponse_200_response_H
+#endif // QtOAIApplicationJsonEncodedObjectResponse_200_response_H

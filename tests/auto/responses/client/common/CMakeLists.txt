@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Network)
+find_package(ZLIB REQUIRED)
 qt_standard_project_setup()
 
 include(GNUInstallDirs)
@@ -30,6 +31,8 @@ target_include_directories(${PROJECT_NAME}
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+    PRIVATE
+        ${ZLIB_INCLUDE_DIRS}
 )
 
 get_target_property(target_type ${PROJECT_NAME} TYPE)
@@ -44,6 +47,8 @@ target_link_libraries(${PROJECT_NAME}
     PUBLIC
         Qt::Core
         Qt::Network
+    PRIVATE
+        ZLIB::ZLIB
 )
 
 configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in

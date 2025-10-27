@@ -3,6 +3,7 @@
 
 #include "../client/QtOAITestApi.h"
 
+#include "QtCore/qmetaobject.h"
 #include <QtCore/qobject.h>
 #include <QtCore/QProcess>
 #include <QtCore/QThread>
@@ -26,7 +27,7 @@ void tst_Compression::localCompressionRoundtrip_data()
     QTest::addColumn<QtOAICompressionType>("compressionType");
 
     QTest::newRow("gzip") << QtOAICompressionType::Gzip;
-    QTest::newRow("zlib") << QtOAICompressionType::Zlib;
+    QTest::newRow("deflate") << QtOAICompressionType::Deflate;
 }
 
 void tst_Compression::localCompressionRoundtrip()
@@ -45,7 +46,8 @@ void tst_Compression::localCompressionRoundtrip()
 
     const QByteArray compressed = compress(originalData, 9, compressionType);
     QCOMPARE_LE(compressed.size(), originalData.size());
-    const QByteArray decompressed = decompress(compressed);
+
+    const QByteArray decompressed = decompress(compressed, compressionType);
 
     QCOMPARE(decompressed, originalData);
 }

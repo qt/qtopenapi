@@ -71,11 +71,12 @@ namespace {{prefix}}HttpRequestWorker {
     {{prefix}}_COMMON_EXPORT QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<QString, {{prefix}}HttpFileElement> *files = nullptr);
 
     enum {{prefix}}CompressionType{
-        Zlib,
-        Gzip
+        Deflate,
+        Gzip,
+        None,
     };
-    {{prefix}}_COMMON_EXPORT QByteArray decompress(const QByteArray& data);
-    {{prefix}}_COMMON_EXPORT QByteArray compress(const QByteArray& input, int level, {{prefix}}CompressionType compressType);
+    {{prefix}}_COMMON_EXPORT QByteArray decompress(const QByteArray &data, {{prefix}}CompressionType compressionType);
+    {{prefix}}_COMMON_EXPORT QByteArray compress(const QByteArray &input, int level, {{prefix}}CompressionType compressionType);
 } // namespace {{prefix}}HttpRequestWorker
 
 {{#cppNamespaceDeclarations}}

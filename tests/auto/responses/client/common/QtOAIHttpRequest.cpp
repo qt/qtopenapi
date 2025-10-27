@@ -20,6 +20,7 @@
 #include <QtNetwork/qnetworkrequestfactory.h>
 #include <QtNetwork/qrestaccessmanager.h>
 
+#include <zlib.h>
 
 namespace QtOpenAPI {
 
@@ -290,6 +291,21 @@ QNetworkRequest getNetworkRequest(QtOAIHttpRequestInput &input, QByteArray &requ
     return request;
 }
 
+static QtOAICompressionType encodingFormatToCompressionType(const QString &encodingFormat)
+{
+    if (encodingFormat.compare("identity"_L1, Qt::CaseInsensitive) == 0 || encodingFormat.isEmpty())
+        return QtOAICompressionType::None;
+
+    if (encodingFormat.compare("gzip"_L1, Qt::CaseInsensitive) == 0)
+        return QtOAICompressionType::Gzip;
+
+    if (encodingFormat.compare("deflate"_L1, Qt::CaseInsensitive) == 0)
+        return QtOAICompressionType::Deflate;
+
+    qWarning() << "Unsupported Content-Encoding:" << encodingFormat;
+    return QtOAICompressionType::None;
+}
+
 QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<QString, QtOAIHttpFileElement> *files)
 {
     QByteArray result;
@@ -320,13 +336,13 @@ QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<Q
 
     // Decompress if needed
     if (!contentEncodingHdr.isEmpty()) {
-        const auto encoding = contentEncodingHdr.split(u';', Qt::SkipEmptyParts);
-        if (!encoding.isEmpty()) {
-            const auto compressionTypes = encoding.first().split(u',', Qt::SkipEmptyParts);
-            if (compressionTypes.contains("gzip"_L1, Qt::CaseInsensitive)
-                || compressionTypes.contains("deflate"_L1, Qt::CaseInsensitive)) {
-                result = decompress(result);
-            }
+        const auto encodings = contentEncodingHdr.split(u';', Qt::SkipEmptyParts).first()
+                                                 .split(u',', Qt::SkipEmptyParts);
+        for (auto it = encodings.rbegin(); it != encodings.rend(); ++it) {
+            const QString encoding = it->trimmed();
+            if (encoding.compare("identity"_L1, Qt::CaseInsensitive) == 0)
+                continue;
+            result = decompress(result, encodingFormatToCompressionType(encoding));
         }
     }
 
@@ -371,22 +387,123 @@ QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<Q
     return result;
 }
 
-QByteArray decompress(const QByteArray& data)
+static QByteArray decompressGzipOrDeflate(const QByteArray &data)
 {
-    Q_UNUSED(data);
-    qWarning("Content compression is disabled: contentCompression flag is off. "
-             "Returning an empty QByteArray.");
-    return QByteArray();
+    static constexpr uInt MaxUInt = std::numeric_limits<uInt>::max();
+    static constexpr int CHUNK_SIZE = 8*1024;
+
+    qsizetype inputLeft = data.size();
+    if (inputLeft <= 4)
+        return {};
+
+    QByteArray result;
+    bool success = false;
+
+    qsizetype offset = 0;
+    while (inputLeft > 0) {
+        // expand to quint64 to do the proper comparison
+        uInt inputBlockSize = (quint64)inputLeft > (quint64)MaxUInt ? MaxUInt : uInt(inputLeft);
+
+        success = false;
+
+        z_stream strm{};
+        strm.avail_in = inputBlockSize;
+        strm.next_in = (Bytef*)(data.data() + offset);
+
+        success = inflateInit2(&strm, 15 + 32) == Z_OK;
+        if (!success)
+            break;
+
+        char out[CHUNK_SIZE];
+        do {
+            strm.avail_out = CHUNK_SIZE;
+            strm.next_out = (Bytef*)(out);
+            success = inflate(&strm, Z_NO_FLUSH) >= Z_OK; // can return Z_STREAM_END
+            if (success)
+                result.append(out, CHUNK_SIZE - (int)strm.avail_out);
+        } while (strm.avail_out == 0);
+        if (success)
+            success = inflateEnd(&strm) == Z_OK;
+
+        if (!success)
+            break;
+
+        offset += qsizetype(inputBlockSize);
+        inputLeft -= qsizetype(inputBlockSize);
+    }
+    return success ? result : QByteArray();
 }
 
-QByteArray compress(const QByteArray& input, int level, QtOAICompressionType compressType)
+QByteArray decompress(const QByteArray &data, QtOAICompressionType compressionType)
 {
-    Q_UNUSED(input);
-    Q_UNUSED(level);
-    Q_UNUSED(compressType);
-    qWarning("Content compression is disabled: contentCompression flag is off. "
-             "Returning an empty QByteArray.");
-    return QByteArray();
+    switch (compressionType) {
+    case QtOAICompressionType::Gzip:
+    case QtOAICompressionType::Deflate:
+        return decompressGzipOrDeflate(data);
+    case QtOAICompressionType::None:
+    default:
+        return data;
+    }
+}
+
+QByteArray compress(const QByteArray &input, int level, QtOAICompressionType compressionType)
+{
+    static constexpr int GZIP_WINDOW_BIT = 15 + 16;
+    static constexpr int ZLIB_WINDOW_BIT = 15;
+    static constexpr int CHUNK_SIZE = 8 * 1024;
+
+    if (input.isEmpty())
+        return {};
+
+    int windowBits;
+    switch (compressionType) {
+    case QtOAICompressionType::Gzip:
+        windowBits = GZIP_WINDOW_BIT;
+        break;
+    case QtOAICompressionType::Deflate:
+        windowBits = ZLIB_WINDOW_BIT;
+        break;
+    case QtOAICompressionType::None:
+        return input;
+    }
+
+    z_stream strm{};
+
+    if (deflateInit2(&strm, qMax(-1, qMin(9, level)), Z_DEFLATED,
+                     windowBits, 8, Z_DEFAULT_STRATEGY) != Z_OK) {
+        return {};
+    }
+
+    QByteArray output;
+    auto input_data = input.data();
+    qsizetype input_data_left = input.size();
+    int flush = 0;
+    bool hasError = false;
+    do {
+        qsizetype chunk_size = qMin((qsizetype)CHUNK_SIZE, input_data_left);
+        strm.next_in = (unsigned char*)input_data;
+        // fine to cast to uInt, since it's not larger than CHUNK_SIZE
+        strm.avail_in = (uInt)chunk_size;
+        input_data += chunk_size;
+        input_data_left -= chunk_size;
+        flush = (input_data_left <= 0 ? Z_FINISH : Z_NO_FLUSH);
+        do {
+            char out[CHUNK_SIZE];
+            strm.next_out = (unsigned char*)out;
+            strm.avail_out = (uInt)CHUNK_SIZE;
+            hasError = deflate(&strm, flush) < Z_OK; // can return Z_STREAM_END
+            if (hasError)
+                break;
+            // fine to truncate avail_out to int, because it cannot be
+            // larger than CHUNK_SIZE
+            const qsizetype processed = (CHUNK_SIZE - (int)strm.avail_out);
+            if (processed > 0)
+                output.append(out, processed);
+        } while (strm.avail_out == 0);
+    } while ((flush != Z_FINISH) && !hasError);
+    deflateEnd(&strm);
+
+    return output;
 }
 } // namespace QtOAIHttpRequestWorker
 

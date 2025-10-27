@@ -290,6 +290,21 @@ QNetworkRequest getNetworkRequest(QtOAIHttpRequestInput &input, QByteArray &requ
     return request;
 }
 
+static QtOAICompressionType encodingFormatToCompressionType(const QString &encodingFormat)
+{
+    if (encodingFormat.compare("identity"_L1, Qt::CaseInsensitive) == 0 || encodingFormat.isEmpty())
+        return QtOAICompressionType::None;
+
+    if (encodingFormat.compare("gzip"_L1, Qt::CaseInsensitive) == 0)
+        return QtOAICompressionType::Gzip;
+
+    if (encodingFormat.compare("deflate"_L1, Qt::CaseInsensitive) == 0)
+        return QtOAICompressionType::Deflate;
+
+    qWarning() << "Unsupported Content-Encoding:" << encodingFormat;
+    return QtOAICompressionType::None;
+}
+
 QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<QString, QtOAIHttpFileElement> *files)
 {
     QByteArray result;
@@ -320,13 +335,13 @@ QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<Q
 
     // Decompress if needed
     if (!contentEncodingHdr.isEmpty()) {
-        const auto encoding = contentEncodingHdr.split(u';', Qt::SkipEmptyParts);
-        if (!encoding.isEmpty()) {
-            const auto compressionTypes = encoding.first().split(u',', Qt::SkipEmptyParts);
-            if (compressionTypes.contains("gzip"_L1, Qt::CaseInsensitive)
-                || compressionTypes.contains("deflate"_L1, Qt::CaseInsensitive)) {
-                result = decompress(result);
-            }
+        const auto encodings = contentEncodingHdr.split(u';', Qt::SkipEmptyParts).first()
+                                                 .split(u',', Qt::SkipEmptyParts);
+        for (auto it = encodings.rbegin(); it != encodings.rend(); ++it) {
+            const QString encoding = it->trimmed();
+            if (encoding.compare("identity"_L1, Qt::CaseInsensitive) == 0)
+                continue;
+            result = decompress(result, encodingFormatToCompressionType(encoding));
         }
     }
 
@@ -371,19 +386,21 @@ QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<Q
     return result;
 }
 
-QByteArray decompress(const QByteArray& data)
+
+QByteArray decompress(const QByteArray &data, QtOAICompressionType compressionType)
 {
     Q_UNUSED(data);
+    Q_UNUSED(compressionType);
     qWarning("Content compression is disabled: contentCompression flag is off. "
              "Returning an empty QByteArray.");
     return QByteArray();
 }
 
-QByteArray compress(const QByteArray& input, int level, QtOAICompressionType compressType)
+QByteArray compress(const QByteArray &input, int level, QtOAICompressionType compressionType)
 {
     Q_UNUSED(input);
     Q_UNUSED(level);
-    Q_UNUSED(compressType);
+    Q_UNUSED(compressionType);
     qWarning("Content compression is disabled: contentCompression flag is off. "
              "Returning an empty QByteArray.");
     return QByteArray();

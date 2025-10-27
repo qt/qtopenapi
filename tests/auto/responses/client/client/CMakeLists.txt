@@ -12,9 +12,9 @@ include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
 qt_add_library(${PROJECT_NAME}
-    QtOAIApplicationJsonObjectResponse_200_response.h
+    QtOAIApplicationJsonEncodedObjectResponse_200_response.h
     QtOAITestApi.h
-    QtOAIApplicationJsonObjectResponse_200_response.cpp
+    QtOAIApplicationJsonEncodedObjectResponse_200_response.cpp
     QtOAITestApi.cpp
 )
 

@@ -288,6 +288,21 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
     return request;
 }
 
+static {{prefix}}CompressionType encodingFormatToCompressionType(const QString &encodingFormat)
+{
+    if (encodingFormat.compare("identity"_L1, Qt::CaseInsensitive) == 0 || encodingFormat.isEmpty())
+        return {{prefix}}CompressionType::None;
+
+    if (encodingFormat.compare("gzip"_L1, Qt::CaseInsensitive) == 0)
+        return {{prefix}}CompressionType::Gzip;
+
+    if (encodingFormat.compare("deflate"_L1, Qt::CaseInsensitive) == 0)
+        return {{prefix}}CompressionType::Deflate;
+
+    qWarning() << "Unsupported Content-Encoding:" << encodingFormat;
+    return {{prefix}}CompressionType::None;
+}
+
 QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<QString, {{prefix}}HttpFileElement> *files)
 {
     QByteArray result;
@@ -318,13 +333,13 @@ QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<Q
 
     // Decompress if needed
     if (!contentEncodingHdr.isEmpty()) {
-        const auto encoding = contentEncodingHdr.split(u';', Qt::SkipEmptyParts);
-        if (!encoding.isEmpty()) {
-            const auto compressionTypes = encoding.first().split(u',', Qt::SkipEmptyParts);
-            if (compressionTypes.contains("gzip"_L1, Qt::CaseInsensitive)
-                || compressionTypes.contains("deflate"_L1, Qt::CaseInsensitive)) {
-                result = decompress(result);
-            }
+        const auto encodings = contentEncodingHdr.split(u';', Qt::SkipEmptyParts).first()
+                                                 .split(u',', Qt::SkipEmptyParts);
+        for (auto it = encodings.rbegin(); it != encodings.rend(); ++it) {
+            const QString encoding = it->trimmed();
+            if (encoding.compare("identity"_L1, Qt::CaseInsensitive) == 0)
+                continue;
+            result = decompress(result, encodingFormatToCompressionType(encoding));
         }
     }
 
@@ -369,9 +384,9 @@ QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<Q
     return result;
 }
 
-QByteArray decompress(const QByteArray& data)
-{
 {{#contentCompression}}
+static QByteArray decompressGzipOrDeflate(const QByteArray &data)
+{
     static constexpr uInt MaxUInt = std::numeric_limits<uInt>::max();
     static constexpr int CHUNK_SIZE = 8*1024;
 
@@ -415,16 +430,31 @@ QByteArray decompress(const QByteArray& data)
         inputLeft -= qsizetype(inputBlockSize);
     }
     return success ? result : QByteArray();
+}
+{{/contentCompression}}
+
+QByteArray decompress(const QByteArray &data, {{prefix}}CompressionType compressionType)
+{
+{{#contentCompression}}
+    switch (compressionType) {
+    case {{prefix}}CompressionType::Gzip:
+    case {{prefix}}CompressionType::Deflate:
+        return decompressGzipOrDeflate(data);
+    case {{prefix}}CompressionType::None:
+    default:
+        return data;
+    }
 {{/contentCompression}}
 {{^contentCompression}}
     Q_UNUSED(data);
+    Q_UNUSED(compressionType);
     qWarning("Content compression is disabled: contentCompression flag is off. "
              "Returning an empty QByteArray.");
     return QByteArray();
 {{/contentCompression}}
 }
 
-QByteArray compress(const QByteArray& input, int level, {{prefix}}CompressionType compressType)
+QByteArray compress(const QByteArray &input, int level, {{prefix}}CompressionType compressionType)
 {
 {{#contentCompression}}
     static constexpr int GZIP_WINDOW_BIT = 15 + 16;
@@ -435,13 +465,15 @@ QByteArray compress(const QByteArray& input, int level, {{prefix}}CompressionTyp
         return {};
 
     int windowBits;
-    switch (compressType) {
+    switch (compressionType) {
     case {{prefix}}CompressionType::Gzip:
         windowBits = GZIP_WINDOW_BIT;
         break;
-    case {{prefix}}CompressionType::Zlib:
+    case {{prefix}}CompressionType::Deflate:
         windowBits = ZLIB_WINDOW_BIT;
         break;
+    case {{prefix}}CompressionType::None:
+        return input;
     }
 
     z_stream strm{};
@@ -485,7 +517,7 @@ QByteArray compress(const QByteArray& input, int level, {{prefix}}CompressionTyp
 {{^contentCompression}}
     Q_UNUSED(input);
     Q_UNUSED(level);
-    Q_UNUSED(compressType);
+    Q_UNUSED(compressionType);
     qWarning("Content compression is disabled: contentCompression flag is off. "
              "Returning an empty QByteArray.");
     return QByteArray();

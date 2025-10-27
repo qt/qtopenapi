@@ -291,6 +291,21 @@ QNetworkRequest getNetworkRequest(QtOAIHttpRequestInput &input, QByteArray &requ
     return request;
 }
 
+static QtOAICompressionType encodingFormatToCompressionType(const QString &encodingFormat)
+{
+    if (encodingFormat.compare("identity"_L1, Qt::CaseInsensitive) == 0 || encodingFormat.isEmpty())
+        return QtOAICompressionType::None;
+
+    if (encodingFormat.compare("gzip"_L1, Qt::CaseInsensitive) == 0)
+        return QtOAICompressionType::Gzip;
+
+    if (encodingFormat.compare("deflate"_L1, Qt::CaseInsensitive) == 0)
+        return QtOAICompressionType::Deflate;
+
+    qWarning() << "Unsupported Content-Encoding:" << encodingFormat;
+    return QtOAICompressionType::None;
+}
+
 QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<QString, QtOAIHttpFileElement> *files)
 {
     QByteArray result;
@@ -321,13 +336,13 @@ QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<Q
 
     // Decompress if needed
     if (!contentEncodingHdr.isEmpty()) {
-        const auto encoding = contentEncodingHdr.split(u';', Qt::SkipEmptyParts);
-        if (!encoding.isEmpty()) {
-            const auto compressionTypes = encoding.first().split(u',', Qt::SkipEmptyParts);
-            if (compressionTypes.contains("gzip"_L1, Qt::CaseInsensitive)
-                || compressionTypes.contains("deflate"_L1, Qt::CaseInsensitive)) {
-                result = decompress(result);
-            }
+        const auto encodings = contentEncodingHdr.split(u';', Qt::SkipEmptyParts).first()
+                                                 .split(u',', Qt::SkipEmptyParts);
+        for (auto it = encodings.rbegin(); it != encodings.rend(); ++it) {
+            const QString encoding = it->trimmed();
+            if (encoding.compare("identity"_L1, Qt::CaseInsensitive) == 0)
+                continue;
+            result = decompress(result, encodingFormatToCompressionType(encoding));
         }
     }
 
@@ -372,7 +387,7 @@ QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<Q
     return result;
 }
 
-QByteArray decompress(const QByteArray& data)
+static QByteArray decompressGzipOrDeflate(const QByteArray &data)
 {
     static constexpr uInt MaxUInt = std::numeric_limits<uInt>::max();
     static constexpr int CHUNK_SIZE = 8*1024;
@@ -419,7 +434,19 @@ QByteArray decompress(const QByteArray& data)
     return success ? result : QByteArray();
 }
 
-QByteArray compress(const QByteArray& input, int level, QtOAICompressionType compressType)
+QByteArray decompress(const QByteArray &data, QtOAICompressionType compressionType)
+{
+    switch (compressionType) {
+    case QtOAICompressionType::Gzip:
+    case QtOAICompressionType::Deflate:
+        return decompressGzipOrDeflate(data);
+    case QtOAICompressionType::None:
+    default:
+        return data;
+    }
+}
+
+QByteArray compress(const QByteArray &input, int level, QtOAICompressionType compressionType)
 {
     static constexpr int GZIP_WINDOW_BIT = 15 + 16;
     static constexpr int ZLIB_WINDOW_BIT = 15;
@@ -429,13 +456,15 @@ QByteArray compress(const QByteArray& input, int level, QtOAICompressionType com
         return {};
 
     int windowBits;
-    switch (compressType) {
+    switch (compressionType) {
     case QtOAICompressionType::Gzip:
         windowBits = GZIP_WINDOW_BIT;
         break;
-    case QtOAICompressionType::Zlib:
+    case QtOAICompressionType::Deflate:
         windowBits = ZLIB_WINDOW_BIT;
         break;
+    case QtOAICompressionType::None:
+        return input;
     }
 
     z_stream strm{};

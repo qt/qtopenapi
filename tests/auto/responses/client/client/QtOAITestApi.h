@@ -14,7 +14,7 @@
 #include <QtNetwork/qrestreply.h>
 
 #include <QString>
-#include "QtOAIApplicationJsonObjectResponse_200_response.h"
+#include "QtOAIApplicationJsonEncodedObjectResponse_200_response.h"
 #include "QtOAIHttpFileElement.h"
 
 namespace QtOpenAPI {
@@ -40,11 +40,11 @@ public:
     /**
     * \internal
     * The auto-generated API:
-    * void applicationJsonObjectResponse();
-    * void applicationJsonObjectResponse(QObject *object, [&](const QRestReply &reply, const QtOAIApplicationJsonObjectResponse_200_response &summary){});
+    * void applicationJsonEncodedObjectResponse();
+    * void applicationJsonEncodedObjectResponse(QObject *object, [&](const QRestReply &reply, const QtOAIApplicationJsonEncodedObjectResponse_200_response &summary){});
     * \endinternal
     */
-    QtOAI_ADD_NO_PARAMS_OPERATION_WITH_RESPONSE_IMPL(applicationJsonObjectResponse, (const QtOAIApplicationJsonObjectResponse_200_response &), /* non-deprecated */)
+    QtOAI_ADD_NO_PARAMS_OPERATION_WITH_RESPONSE_IMPL(applicationJsonEncodedObjectResponse, (const QtOAIApplicationJsonEncodedObjectResponse_200_response &), /* non-deprecated */)
 
     /**
     * \internal
@@ -123,10 +123,10 @@ Q_SIGNALS:
     void applicationEncodedPdfSaveResponseFinished(const QtOAIHttpFileElement &summary);
     /** Signal is emitted, if applicationEncodedPdfSaveResponse() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
     void applicationEncodedPdfSaveResponseErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
-    /** Signal is emitted, if applicationJsonObjectResponse() request completed successfully. The \a summary contains a serialized server response. */
-    void applicationJsonObjectResponseFinished(const QtOAIApplicationJsonObjectResponse_200_response &summary);
-    /** Signal is emitted, if applicationJsonObjectResponse() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
-    void applicationJsonObjectResponseErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
+    /** Signal is emitted, if applicationJsonEncodedObjectResponse() request completed successfully. The \a summary contains a serialized server response. */
+    void applicationJsonEncodedObjectResponseFinished(const QtOAIApplicationJsonEncodedObjectResponse_200_response &summary);
+    /** Signal is emitted, if applicationJsonEncodedObjectResponse() request completed with an error. \a errorType and \a errorStr contain an information about the error. */
+    void applicationJsonEncodedObjectResponseErrorOccurred(QNetworkReply::NetworkError errorType, const QString &errorStr);
     /** Signal is emitted, if applicationJsonStringResponse() request completed successfully. The \a summary contains a serialized server response. */
     void applicationJsonStringResponseFinished(const QString &summary);
     /** Signal is emitted, if applicationJsonStringResponse() request completed with an error. \a errorType and \a errorStr contain an information about the error. */

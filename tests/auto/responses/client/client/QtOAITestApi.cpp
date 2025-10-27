@@ -43,8 +43,8 @@ void QtOAITestApi::initializeServerConfigs()
     QMap<QString, QtOAIServerVariable>()));
     m_serverConfigs.insert("applicationEncodedPdfSaveResponse", defaultConf);
     m_serverIndices.insert("applicationEncodedPdfSaveResponse", 0);
-    m_serverConfigs.insert("applicationJsonObjectResponse", defaultConf);
-    m_serverIndices.insert("applicationJsonObjectResponse", 0);
+    m_serverConfigs.insert("applicationJsonEncodedObjectResponse", defaultConf);
+    m_serverIndices.insert("applicationJsonEncodedObjectResponse", 0);
     m_serverConfigs.insert("applicationJsonStringResponse", defaultConf);
     m_serverIndices.insert("applicationJsonStringResponse", 0);
     m_serverConfigs.insert("applicationOctetStreamResponse", defaultConf);
@@ -191,25 +191,25 @@ void QtOAITestApi::applicationEncodedPdfSaveResponseCallback(const QRestReply &r
 }
 
 /**
-* \fn virtual void QtOAITestApi::applicationJsonObjectResponse()
-* 'applicationJsonObjectResponse' operation sends the request to a server.
+* \fn virtual void QtOAITestApi::applicationJsonEncodedObjectResponse()
+* 'applicationJsonEncodedObjectResponse' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 
 */
 
 /**
-* \fn template < Functor, > void QtOAITestApi::applicationJsonObjectResponse(const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
-* 'applicationJsonObjectResponse' operation sends the request to a server.
+* \fn template < Functor, > void QtOAITestApi::applicationJsonEncodedObjectResponse(const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* 'applicationJsonEncodedObjectResponse' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
 * \attention Use the operation with following parameters in the callback:
 * \code {c++}
-*    applicationJsonObjectResponse(this, [&](const QRestReply &reply, const QtOAIApplicationJsonObjectResponse_200_response &summary) { if (reply.isSuccess()) ... });
+*    applicationJsonEncodedObjectResponse(this, [&](const QRestReply &reply, const QtOAIApplicationJsonEncodedObjectResponse_200_response &summary) { if (reply.isSuccess()) ... });
 * \endcode
 * \note The template function can not be virtual in C++17.
 * If you want to use 'makeOperationsVirtual' option for mocking API,
-* please override virtual applicationJsonObjectResponseWithDataImpl() in derived class.
-* The virtual applicationJsonObjectResponseWithDataImpl() is being called by the template
+* please override virtual applicationJsonEncodedObjectResponseWithDataImpl() in derived class.
+* The virtual applicationJsonEncodedObjectResponseWithDataImpl() is being called by the template
 * function.
 
 * @param[in] context const ContextTypeForFunctor< Functor > * [optional]
@@ -217,25 +217,25 @@ void QtOAITestApi::applicationEncodedPdfSaveResponseCallback(const QRestReply &r
 */
 
 /**
-* \fn void QtOAITestApi::applicationJsonObjectResponseCallback(const QRestReply &reply)
+* \fn void QtOAITestApi::applicationJsonEncodedObjectResponseCallback(const QRestReply &reply)
 * Processes a \a reply response from a server.
-* The result of processed data is emitted by applicationJsonObjectResponseFinished() or
-* being returned as a callback parameter of applicationJsonObjectResponse() request.
+* The result of processed data is emitted by applicationJsonEncodedObjectResponseFinished() or
+* being returned as a callback parameter of applicationJsonEncodedObjectResponse() request.
 * @param[in] reply const QRestReply &
 */
 
 /**
-* \fn virtual void QtOAITestApi::applicationJsonObjectResponseWithDataImpl(const QObject *context, QtPrivate::QSlotObjectBase *slot)
-* Implements the applicationJsonObjectResponse() operation request.
+* \fn virtual void QtOAITestApi::applicationJsonEncodedObjectResponseWithDataImpl(const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* Implements the applicationJsonEncodedObjectResponse() operation request.
 * \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
-* and can be overloaded for mocking applicationJsonObjectResponse() operation calls.
+* and can be overloaded for mocking applicationJsonEncodedObjectResponse() operation calls.
 
 * @param[in] context const QObject * [optional]
 * @param[in] slot QtPrivate::QSlotObjectBase * [optional]
 */
-void QtOAITestApi::applicationJsonObjectResponseWithDataImpl(const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void QtOAITestApi::applicationJsonEncodedObjectResponseWithDataImpl(const QObject *context, QtPrivate::QSlotObjectBase *slot)
 {
-    const QUrl serverUrl = m_serverConfigs["applicationJsonObjectResponse"][m_serverIndices.value("applicationJsonObjectResponse")].serverUrl();
+    const QUrl serverUrl = m_serverConfigs["applicationJsonEncodedObjectResponse"][m_serverIndices.value("applicationJsonEncodedObjectResponse")].serverUrl();
     QString fullPath = "/response/application/json/object";
     m_networkFactory->setBaseUrl(serverUrl);
 
@@ -250,14 +250,14 @@ void QtOAITestApi::applicationJsonObjectResponseWithDataImpl(const QObject *cont
         reply->setParent(this);
         m_callerData.insert(reply, QtOAICallerInfo{context, slot});
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
-            applicationJsonObjectResponseCallback(QRestReply(reply));
+            applicationJsonEncodedObjectResponseCallback(QRestReply(reply));
         });
         connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
             if (reply) {
-                emit applicationJsonObjectResponseErrorOccurred(reply->error(), reply->errorString());
+                emit applicationJsonEncodedObjectResponseErrorOccurred(reply->error(), reply->errorString());
                 QtOAICallerInfo callerInfo = m_callerData.take(reply);
                 if (callerInfo.slot) {
-                    QtOAIApplicationJsonObjectResponse_200_response empty;
+                    QtOAIApplicationJsonEncodedObjectResponse_200_response empty;
                     QRestReply restRepl(reply);
                     void *argv[] = { nullptr, &restRepl, &empty };
                     QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
@@ -268,7 +268,7 @@ void QtOAITestApi::applicationJsonObjectResponseWithDataImpl(const QObject *cont
     }
 }
 
-void QtOAITestApi::applicationJsonObjectResponseCallback(const QRestReply &reply)
+void QtOAITestApi::applicationJsonEncodedObjectResponseCallback(const QRestReply &reply)
 {
     auto netReply = reply.networkReply();
     if (netReply)
@@ -277,7 +277,7 @@ void QtOAITestApi::applicationJsonObjectResponseCallback(const QRestReply &reply
         return;
 
     const QByteArray response = QtOAIHttpRequestWorker::parseResponse(reply, m_workingDirectory);
-    QtOAIApplicationJsonObjectResponse_200_response output(response);
+    QtOAIApplicationJsonEncodedObjectResponse_200_response output(response);
     // Check if callback is provided
     QtOAICallerInfo callerInfo = m_callerData.take(netReply);
     if (callerInfo.slot) {
@@ -286,7 +286,7 @@ void QtOAITestApi::applicationJsonObjectResponseCallback(const QRestReply &reply
                         ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
         callerInfo.slot->call(context, argv);
     }
-    emit applicationJsonObjectResponseFinished(output);
+    emit applicationJsonEncodedObjectResponseFinished(output);
 }
 
 /**

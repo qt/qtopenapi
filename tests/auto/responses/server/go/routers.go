@@ -69,10 +69,10 @@ type ApiHandleFunctions struct {
 func getRoutes(handleFunctions ApiHandleFunctions) []Route {
 	return []Route{
 		{
-			"ApplicationJsonObjectResponse",
+			"ApplicationJsonEncodedObjectResponse",
 			http.MethodGet,
 			"/v2/response/application/json/object",
-			handleFunctions.TestAPI.ApplicationJsonObjectResponse,
+			handleFunctions.TestAPI.ApplicationJsonEncodedObjectResponse,
 		},
 		{
 			"ApplicationJsonStringResponse",

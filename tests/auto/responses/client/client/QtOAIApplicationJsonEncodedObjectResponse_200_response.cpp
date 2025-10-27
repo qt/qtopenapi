@@ -6,29 +6,29 @@
  * Do not edit the class manually.
  */
 
-#include "QtOAIApplicationJsonObjectResponse_200_response.h"
+#include "QtOAIApplicationJsonEncodedObjectResponse_200_response.h"
 #include "QtOAIHelpers.h"
 
 #include <QtCore/qdebug.h>
 
 namespace QtOpenAPI {
 
-QtOAIApplicationJsonObjectResponse_200_response::QtOAIApplicationJsonObjectResponse_200_response(const QString &json)
+QtOAIApplicationJsonEncodedObjectResponse_200_response::QtOAIApplicationJsonEncodedObjectResponse_200_response(const QString &json)
 {
     this->initializeModel();
     this->fromJson(json);
 }
 
-QtOAIApplicationJsonObjectResponse_200_response::QtOAIApplicationJsonObjectResponse_200_response()
+QtOAIApplicationJsonEncodedObjectResponse_200_response::QtOAIApplicationJsonEncodedObjectResponse_200_response()
 {
     this->initializeModel();
 }
 
-QtOAIApplicationJsonObjectResponse_200_response::~QtOAIApplicationJsonObjectResponse_200_response()
+QtOAIApplicationJsonEncodedObjectResponse_200_response::~QtOAIApplicationJsonEncodedObjectResponse_200_response()
 {
 }
 
-void QtOAIApplicationJsonObjectResponse_200_response::initializeModel()
+void QtOAIApplicationJsonEncodedObjectResponse_200_response::initializeModel()
 {
 
     m_statusIsSet = false;
@@ -38,7 +38,7 @@ void QtOAIApplicationJsonObjectResponse_200_response::initializeModel()
     m_valueIsValid = false;
 }
 
-void QtOAIApplicationJsonObjectResponse_200_response::fromJson(const QString &jsonString)
+void QtOAIApplicationJsonEncodedObjectResponse_200_response::fromJson(const QString &jsonString)
 {
     QByteArray array(jsonString.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
@@ -46,7 +46,7 @@ void QtOAIApplicationJsonObjectResponse_200_response::fromJson(const QString &js
     this->fromJsonObject(jsonObject);
 }
 
-void QtOAIApplicationJsonObjectResponse_200_response::fromJsonObject(const QJsonObject &json)
+void QtOAIApplicationJsonEncodedObjectResponse_200_response::fromJsonObject(const QJsonObject &json)
 {
 
     m_statusIsValid = ::QtOpenAPI::fromJsonValue(m_status, json[QString("status")]);
@@ -56,7 +56,7 @@ void QtOAIApplicationJsonObjectResponse_200_response::fromJsonObject(const QJson
     m_valueIsSet = !json[QString("value")].isNull() && m_valueIsValid;
 }
 
-QString QtOAIApplicationJsonObjectResponse_200_response::asJson() const
+QString QtOAIApplicationJsonEncodedObjectResponse_200_response::asJson() const
 {
     QJsonObject obj = this->asJsonObject();
     QJsonDocument doc(obj);
@@ -64,7 +64,7 @@ QString QtOAIApplicationJsonObjectResponse_200_response::asJson() const
     return QString(bytes);
 }
 
-QJsonObject QtOAIApplicationJsonObjectResponse_200_response::asJsonObject() const
+QJsonObject QtOAIApplicationJsonEncodedObjectResponse_200_response::asJsonObject() const
 {
     QJsonObject obj;
     if (m_statusIsSet) {
@@ -76,47 +76,47 @@ QJsonObject QtOAIApplicationJsonObjectResponse_200_response::asJsonObject() cons
     return obj;
 }
 
-QString QtOAIApplicationJsonObjectResponse_200_response::getStatus() const
+QString QtOAIApplicationJsonEncodedObjectResponse_200_response::getStatus() const
 {
     return m_status;
 }
-void QtOAIApplicationJsonObjectResponse_200_response::setStatus(const QString &status)
+void QtOAIApplicationJsonEncodedObjectResponse_200_response::setStatus(const QString &status)
 {
     m_status = status;
     m_statusIsSet = true;
 }
 
-bool QtOAIApplicationJsonObjectResponse_200_response::isStatusSet() const
+bool QtOAIApplicationJsonEncodedObjectResponse_200_response::isStatusSet() const
 {
     return m_statusIsSet;
 }
 
-bool QtOAIApplicationJsonObjectResponse_200_response::isStatusValid() const
+bool QtOAIApplicationJsonEncodedObjectResponse_200_response::isStatusValid() const
 {
     return m_statusIsValid;
 }
 
-qint64 QtOAIApplicationJsonObjectResponse_200_response::getValue() const
+qint64 QtOAIApplicationJsonEncodedObjectResponse_200_response::getValue() const
 {
     return m_value;
 }
-void QtOAIApplicationJsonObjectResponse_200_response::setValue(const qint64 &value)
+void QtOAIApplicationJsonEncodedObjectResponse_200_response::setValue(const qint64 &value)
 {
     m_value = value;
     m_valueIsSet = true;
 }
 
-bool QtOAIApplicationJsonObjectResponse_200_response::isValueSet() const
+bool QtOAIApplicationJsonEncodedObjectResponse_200_response::isValueSet() const
 {
     return m_valueIsSet;
 }
 
-bool QtOAIApplicationJsonObjectResponse_200_response::isValueValid() const
+bool QtOAIApplicationJsonEncodedObjectResponse_200_response::isValueValid() const
 {
     return m_valueIsValid;
 }
 
-bool QtOAIApplicationJsonObjectResponse_200_response::isSet() const
+bool QtOAIApplicationJsonEncodedObjectResponse_200_response::isSet() const
 {
     bool isObjectUpdated = false;
     do {
@@ -133,7 +133,7 @@ bool QtOAIApplicationJsonObjectResponse_200_response::isSet() const
     return isObjectUpdated;
 }
 
-bool QtOAIApplicationJsonObjectResponse_200_response::isValid() const
+bool QtOAIApplicationJsonEncodedObjectResponse_200_response::isValid() const
 {
     // only required properties are required for the object to be considered valid
     return true;

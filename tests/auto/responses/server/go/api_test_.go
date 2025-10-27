@@ -12,6 +12,8 @@ package openapi
 import (
 	"bytes"
 	"compress/gzip"
+	"compress/zlib"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"os"
@@ -24,12 +26,45 @@ type TestAPI struct {
 
 // Get /v2/response/application/json/object
 // Check response type application-json object
-func (api *TestAPI) ApplicationJsonObjectResponse(c *gin.Context) {
+func (api *TestAPI) ApplicationJsonEncodedObjectResponse(c *gin.Context) {
 	resp := ApplicationJsonObjectResponse200Response{
 		Status: "OK",
 		Value:  22,
 	}
-	c.JSON(200, resp)
+
+	jsonBytes, err := json.Marshal(resp)
+	if err != nil {
+		c.String(http.StatusInternalServerError, "failed to marshal JSON")
+		return
+	}
+
+	// Step1: Gzip compress
+	var gzipBuf bytes.Buffer
+	gz := gzip.NewWriter(&gzipBuf)
+	if _, err := gz.Write(jsonBytes); err != nil {
+		c.String(http.StatusInternalServerError, "gzip compression failed")
+		return
+	}
+	if err := gz.Close(); err != nil {
+		c.String(http.StatusInternalServerError, "gzip close failed")
+		return
+	}
+
+	// Step2: Deflate compress
+	var deflateBuf bytes.Buffer
+	def := zlib.NewWriter(&deflateBuf)
+	if _, err := def.Write(gzipBuf.Bytes()); err != nil {
+		c.String(http.StatusInternalServerError, "deflate compression failed")
+		return
+	}
+	if err := def.Close(); err != nil {
+		c.String(http.StatusInternalServerError, "deflate close failed")
+		return
+	}
+
+	// List in order of compression application
+	c.Header("Content-Encoding", "gzip, deflate")
+	c.Data(http.StatusOK, "application/json", deflateBuf.Bytes())
 }
 
 // Get /v2/response/application/json/string

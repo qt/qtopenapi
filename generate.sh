@@ -194,7 +194,7 @@ function generate() {
     rm -rf $CLIENT_OUTPUT_DIR/client
 
     ADDITIONAL_PROPS="enableQmlCode=$QML_ADDITIONAL_PROPERTIES,cppNamespace=$CPP_NAMESPACE,modelNamePrefix=$PREFIX_NAME,commonLibrary=$COMMON_GENERATION_MODE,commonLibraryName=$COMMON_LIBRARY_NAME"
-    if [[ $USER_MODE == "compression" ]]; then
+    if [[ $USER_MODE == "compression" ]] || [[ $USER_MODE == "responses" ]]; then
         # Enable Compressed Content Encoding for requests and responses.
         ADDITIONAL_PROPS="$ADDITIONAL_PROPS,contentCompression=true"
     fi
