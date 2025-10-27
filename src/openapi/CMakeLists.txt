@@ -7,8 +7,12 @@
 
 qt_internal_add_module(OpenapiPrivate
     INTERNAL_MODULE
-    HEADER_MODULE
-    NO_GENERATE_CPP_EXPORTS
-    NO_MODULE_HEADERS
+    #HEADER_MODULE
+    #NO_GENERATE_CPP_EXPORTS
+    #NO_MODULE_HEADERS
     NO_ADDITIONAL_TARGET_INFO
+    SOURCES
+        dummy.cpp
+    PUBLIC_LIBRARIES
+        Qt::Core
 )
