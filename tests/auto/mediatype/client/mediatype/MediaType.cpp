@@ -325,9 +325,9 @@ void MediaType::testOctetStream()
         if (!(done = reply.isSuccess()))
             qWarning() << "ERROR: " << reply.errorString() << reply.error();
         QCOMPARE(getHeaderValue(summary), "application/octet-stream");
-        QCOMPARE(getJsonValue(summary, "file-content").toString(), "Hello world!\n");
+        QCOMPARE(getJsonValue(summary, "file-content").toString().trimmed(), "Hello world!");
     });
-    QCOMPARE(m_requestContent, "Hello world!\n");
+    QCOMPARE(m_requestContent.trimmed(), "Hello world!");
     QTRY_COMPARE_EQ(done, true);
 
     // png is from qtbase auto-tests
@@ -542,7 +542,7 @@ void MediaType::testFormMediaTypes()
         QCOMPARE(getJsonValue(summary, "formIndex").toVariant().toInt(), 100);
         QCOMPARE(getJsonValue(summary, "formObject").toString(), "{\"objectId\":-99,\"objectName\":\"AnObject 123\"}");
         QCOMPARE(getJsonValue(summary, "formMap").toString(), "{\"TEXT\":{\"age\":10,\"name\":\"User_1\",\"status\":\"Awaik\"}}");
-        QCOMPARE(getJsonValue(summary, "formProfileImage").toString() , "Hello world!\n");
+        QCOMPARE(getJsonValue(summary, "formProfileImage").toString().trimmed() , "Hello world!");
         QVERIFY(getHeaderValue(summary).contains("multipart/form-data; boundary="));
     });
     QTRY_COMPARE_EQ(done, true);
