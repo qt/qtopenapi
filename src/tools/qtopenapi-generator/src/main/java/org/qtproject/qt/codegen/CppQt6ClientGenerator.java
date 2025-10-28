@@ -21,7 +21,6 @@ import java.util.*;
 import java.io.File;
 
 public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements CodegenConfig {
-    public static final String OPTIONAL_PROJECT_FILE_DESC = "Generate client.pri.";
     public static final String DEFAULT_PACKAGE_NAME = "Qt6OpenAPIClient";
     public static final String COMMON_LIB_NAME_OPTION = "commonLibraryName";
     public static final String DEFAULT_COMMON_LIB_NAME = "QtOpenAPICommon";
@@ -50,7 +49,6 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
     protected String apiVersion = "1.0.0";
     protected static final String USE_COMMON_LIBRARY = "enableCommonLibGeneration";
     private final Logger LOGGER = LoggerFactory.getLogger(CppQt6ClientGenerator.class);
-    @Setter protected boolean optionalProjectFileFlag = true;
     @Setter protected boolean addDownloadProgress = false;
     @Setter protected boolean makeOperationsVirtual = true;
     @Setter protected boolean enableQmlCode = false;
@@ -141,7 +139,6 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
 
         // CLI options
         addOption(CodegenConstants.PACKAGE_NAME, "C++ package (library) name.", DEFAULT_PACKAGE_NAME);
-        addSwitch(CodegenConstants.OPTIONAL_PROJECT_FILE, OPTIONAL_PROJECT_FILE_DESC, this.optionalProjectFileFlag);
         addSwitch("addDownloadProgress", "Add support for Qt download progress", this.addDownloadProgress);
         addSwitch(MAKE_OPERATIONS_VIRTUAL_NAME, MAKE_OPERATIONS_VIRTUAL_DESC, this.makeOperationsVirtual);
         addSwitch(MAKE_QML_ENABLED, MAKE_QML_ENABLED_DESC, this.enableQmlCode);
@@ -190,12 +187,6 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
         commonLibraryName = (String) additionalProperties.getOrDefault(COMMON_LIB_NAME_OPTION,
                                                                        DEFAULT_COMMON_LIB_NAME);
 
-        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_FILE)) {
-            setOptionalProjectFileFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_PROJECT_FILE));
-        } else {
-            additionalProperties.put(CodegenConstants.OPTIONAL_PROJECT_FILE, optionalProjectFileFlag);
-        }
-
         if (additionalProperties.containsKey(MAKE_OPERATIONS_VIRTUAL_NAME)) {
             setMakeOperationsVirtual(convertPropertyToBooleanAndWriteBack(MAKE_OPERATIONS_VIRTUAL_NAME));
         } else {
@@ -241,10 +232,6 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
         typeMapping.put("file", namePrefix + "HttpFileElement");
         importMapping.put(namePrefix + "HttpFileElement", "#include \""
                           + namePrefix + "HttpFileElement.h\"");
-        if (optionalProjectFileFlag) {
-            supportingFiles.add(new SupportingFile("Project.mustache",
-                    sourceFolder, "client.pri"));
-        }
         if (commonLibrary.equals(GENERATION_TYPE.NO_FILES.value)) {
             LOGGER.info("Skipping ./common/* templates generation. 'Skip-Common-Files' is ON.");
             return;
