@@ -23,6 +23,7 @@ qt_internal_add_test(cpp-qt-mediatype
         MediaType.cpp
     LIBRARIES
         Qt::Core
+        Qt::Gui
         Qt::Network
         Qt::Test
 )

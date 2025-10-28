@@ -5,7 +5,7 @@ project(PetStoreClient VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Network Gui)
+find_package(Qt6 REQUIRED COMPONENTS Core Network)
 qt_standard_project_setup()
 
 include(GNUInstallDirs)
@@ -44,7 +44,6 @@ target_link_libraries(${PROJECT_NAME}
     PUBLIC
         Qt::Core
         Qt::Network
-        Qt::Gui
     PRIVATE
         CommonPetStoreClient
 )
