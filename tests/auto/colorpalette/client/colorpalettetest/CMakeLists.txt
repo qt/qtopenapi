@@ -32,3 +32,14 @@ target_include_directories(cpp-qt-colorpalette-app
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/../client>
 )
 
+if(WIN32)
+    add_custom_command(TARGET cpp-qt-colorpalette-app POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_FILE:CommonColorpaletteClient>
+            ${CMAKE_CURRENT_BINARY_DIR}
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_FILE:ColorpaletteClient>
+            ${CMAKE_CURRENT_BINARY_DIR}
+        VERBATIM)
+endif()
+

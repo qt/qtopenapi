@@ -41,3 +41,13 @@ target_link_libraries(cpp-qt-operations-parameters-backport
         CommonOpenapiBackportClient
 )
 
+if(WIN32)
+    add_custom_command(TARGET cpp-qt-operations-parameters-backport POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_FILE:CommonOpenapiBackportClient>
+            ${CMAKE_CURRENT_BINARY_DIR}
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_FILE:OpenapiBackportClient>
+            ${CMAKE_CURRENT_BINARY_DIR}
+        VERBATIM)
+endif()

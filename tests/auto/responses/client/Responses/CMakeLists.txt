@@ -42,3 +42,14 @@ target_compile_definitions(cpp-qt-responses
 
 target_link_libraries(cpp-qt-responses PRIVATE ResponsesClient CommonResponsesClient)
 add_dependencies(cpp-qt-responses responses-server-go)
+
+if(WIN32)
+    add_custom_command(TARGET cpp-qt-responses POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_FILE:CommonResponsesClient>
+            ${CMAKE_CURRENT_BINARY_DIR}
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_FILE:ResponsesClient>
+            ${CMAKE_CURRENT_BINARY_DIR}
+        VERBATIM)
+endif()

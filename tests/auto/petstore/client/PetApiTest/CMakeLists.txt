@@ -56,3 +56,14 @@ qt_add_resources(cpp-qt-petstore-petapi "cpp-qt-petstore-petapi"
 
 target_link_libraries(cpp-qt-petstore-petapi PRIVATE PetStoreClient CommonPetStoreClient)
 add_dependencies(cpp-qt-petstore-petapi petstore-server-go)
+
+if(WIN32)
+    add_custom_command(TARGET cpp-qt-petstore-petapi POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_FILE:CommonPetStoreClient>
+            ${CMAKE_CURRENT_BINARY_DIR}
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_FILE:PetStoreClient>
+            ${CMAKE_CURRENT_BINARY_DIR}
+        VERBATIM)
+endif()

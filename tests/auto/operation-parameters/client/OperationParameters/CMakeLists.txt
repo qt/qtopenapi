@@ -36,3 +36,14 @@ target_compile_definitions(cpp-qt-operation-parameters
 
 target_link_libraries(cpp-qt-operation-parameters PRIVATE OperationParametersClient CommonOperationParametersClient)
 add_dependencies(cpp-qt-operation-parameters op-server-go)
+
+if(WIN32)
+    add_custom_command(TARGET cpp-qt-operation-parameters POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_FILE:CommonOperationParametersClient>
+            ${CMAKE_CURRENT_BINARY_DIR}
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_FILE:OperationParametersClient>
+            ${CMAKE_CURRENT_BINARY_DIR}
+        VERBATIM)
+endif()

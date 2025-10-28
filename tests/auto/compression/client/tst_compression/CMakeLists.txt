@@ -43,3 +43,14 @@ target_include_directories(cpp-qt-compression
 
 target_link_libraries(cpp-qt-compression PRIVATE CompressionClient CommonCompressionClient)
 # add_dependencies(cpp-qt-compression compression-server-go)
+
+if(WIN32)
+    add_custom_command(TARGET cpp-qt-compression POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_FILE:CommonCompressionClient>
+            ${CMAKE_CURRENT_BINARY_DIR}
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_FILE:CompressionClient>
+            ${CMAKE_CURRENT_BINARY_DIR}
+        VERBATIM)
+endif()
