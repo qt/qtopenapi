@@ -87,7 +87,6 @@ private Q_SLOTS:
 void Responses::jsonResponse() {
     bool done = false;
 
-    // JSON response
     applicationJsonStringResponse(this, [&](const QRestReply &reply, const QString &summary) {
         if (!(done = reply.isSuccess())) {
                 qWarning() << "Error happened while issuing request : " << reply.error()
@@ -97,8 +96,42 @@ void Responses::jsonResponse() {
     });
     QTRY_COMPARE_EQ(done, true);
 
-    done = false;
+    QtOAIUser user1, user2;
+    user1.setName("user1");
+    user1.setId(1);
+    user2.setName("user2");
+    user2.setId(2);
 
+    done = false;
+    applicationJsonArrayResponse(this, [&](const QRestReply &reply,
+                                           const QList<QtOAIUser> &summary) {
+        if (!(done = reply.isSuccess())) {
+            qWarning() << "Error happened while issuing request : " << reply.error()
+                       << reply.errorString();
+        }
+        QCOMPARE(summary[0].getName(), user1.getName());
+        QCOMPARE(summary[0].getId(), user1.getId());
+        QCOMPARE(summary[1].getName(), user2.getName());
+        QCOMPARE(summary[1].getId(), user2.getId());
+    });
+    QTRY_COMPARE_EQ(done, true);
+
+    done = false;
+    applicationJsonMapResponse(this, [&](const QRestReply &reply,
+                                           const QMap<QString, QtOAIUser> &summary) {
+        if (!(done = reply.isSuccess())) {
+            qWarning() << "Error happened while issuing request : " << reply.error()
+                       << reply.errorString();
+        }
+        QVERIFY(summary.size() == 2);
+        QCOMPARE(summary["first"].getName(), user1.getName());
+        QCOMPARE(summary["first"].getId(), user1.getId());
+        QCOMPARE(summary["second"].getName(), user2.getName());
+        QCOMPARE(summary["second"].getId(), user2.getId());
+    });
+    QTRY_COMPARE_EQ(done, true);
+
+    done = false;
     applicationJsonEncodedObjectResponse(
         this, [&](const QRestReply &reply,
                   const QtOAIApplicationJsonEncodedObjectResponse_200_response &summary) {

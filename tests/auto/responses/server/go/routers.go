@@ -81,6 +81,18 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
 			handleFunctions.TestAPI.ApplicationJsonStringResponse,
 		},
 		{
+			"ApplicationJsonArrayResponse",
+			http.MethodGet,
+			"/v2/response/application/json/array",
+			handleFunctions.TestAPI.ApplicationJsonArrayResponse,
+		},
+		{
+			"ApplicationJsonMapResponse",
+			http.MethodGet,
+			"/v2/response/application/json/map",
+			handleFunctions.TestAPI.ApplicationJsonMapResponse,
+		},
+		{
 			"TextPlainStringResponse",
 			http.MethodGet,
 			"/v2/response/text/plain/string",

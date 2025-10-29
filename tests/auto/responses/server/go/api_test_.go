@@ -73,6 +73,25 @@ func (api *TestAPI) ApplicationJsonStringResponse(c *gin.Context) {
 	c.JSON(200, gin.H{"status": "OK"})
 }
 
+// Get /v2/response/application/json/array
+// Check response type application-json array
+func (api *TestAPI) ApplicationJsonArrayResponse(c *gin.Context) {
+	userRes1 := User{Name: "user1", Id: 1}
+	userRes2 := User{Name: "user2", Id: 2}
+
+	users := []User{userRes1, userRes2}
+	c.JSON(200, users)
+}
+
+// Get /v2/response/application/json/map
+// Check response type application-json map
+func (api *TestAPI) ApplicationJsonMapResponse(c *gin.Context) {
+	userRes1 := User{Name: "user1", Id: 1}
+	userRes2 := User{Name: "user2", Id: 2}
+
+	c.JSON(200, gin.H{"first": userRes1, "second": userRes2})
+}
+
 // Get /v2/response/text/plain/string
 // Check response type text/plain string
 func (api *TestAPI) TextPlainStringResponse(c *gin.Context) {

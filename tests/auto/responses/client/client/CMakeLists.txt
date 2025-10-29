@@ -13,8 +13,10 @@ include(CMakePackageConfigHelpers)
 
 qt_add_library(${PROJECT_NAME}
     QtOAIApplicationJsonEncodedObjectResponse_200_response.h
+    QtOAIUser.h
     QtOAITestApi.h
     QtOAIApplicationJsonEncodedObjectResponse_200_response.cpp
+    QtOAIUser.cpp
     QtOAITestApi.cpp
 )
 

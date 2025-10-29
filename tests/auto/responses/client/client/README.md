@@ -29,7 +29,9 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:20202/v2
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |*applicationEncodedPdfSaveResponse* | *GET* /response/application/pdf/save/encoded/{fileId} | Save encoded pdf file.|
+|*applicationJsonArrayResponse* | *GET* /response/application/json/array | Check response type application-json array.|
 |*applicationJsonEncodedObjectResponse* | *GET* /response/application/json/object | Check response type application-json object.|
+|*applicationJsonMapResponse* | *GET* /response/application/json/map | Check response type application-json map.|
 |*applicationJsonStringResponse* | *GET* /response/application/json/string | Check response type application-json string.|
 |*applicationOctetStreamResponse* | *GET* /response/application/octet-stream/{fileId} | Check response type application/octet-stream.|
 |*applicationPdfInlineResponse* | *GET* /response/application/pdf/inline/{fileId} | Serve pdf inline.|
@@ -44,6 +46,7 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:20202/v2
 |Class | Description|
 |------------- | -------------|
 |*QtOAIApplicationJsonEncodedObjectResponse_200_response* | |
+|*QtOAIUser* | |
 
 
 main.cpp:
