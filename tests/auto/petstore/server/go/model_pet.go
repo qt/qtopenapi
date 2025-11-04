@@ -24,7 +24,7 @@ type Pet struct {
 
 	// pet status in the store
 	// Deprecated
-	Status string `json:"status,omitempty"`
+	Status PetStatus `json:"status,omitempty"`
 
 	Age int32 `json:"age,omitempty"`
 

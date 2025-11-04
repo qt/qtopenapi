@@ -150,7 +150,7 @@ func (api *PetAPI) FindPetsByStatus(c *gin.Context) {
 
 	var foundPets []Pet
 	for _, pet := range api.Pets {
-		if slices.Contains(statuses, pet.Status) {
+		if slices.Contains(statuses, string(pet.Status)) {
 			foundPets = append(foundPets, pet)
 		}
 	}
@@ -294,7 +294,7 @@ func (api *PetAPI) UpdatePetWithForm(c *gin.Context) {
 
 	newStatus, ok := c.GetPostForm("status")
 	if ok {
-		pet.Status = newStatus
+		pet.Status = PetStatus(newStatus)
 	}
 
 	api.Pets[petId] = pet

@@ -124,8 +124,9 @@ void PetApiTests::findPetsByStatusTest() {
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
         for (const QtOAIPet &pet: pets) {
-            qDebug() << "Pet id = " << pet.getId() << "status = " << pet.getStatus();
-            QVERIFY(pet.getStatus() == "available" || pet.getStatus() == "sold");
+            const QString statusString = pet.getStatus().asJson();
+            qDebug() << "Pet id = " << pet.getId() << "status = " << statusString;
+            QVERIFY(statusString == "available"_L1 || statusString == "sold"_L1);
         }
 QT_WARNING_POP
     });
@@ -253,7 +254,7 @@ QT_WARNING_POP
     QVERIFY2(pet.getId() == petToCheck.getId(), "pet isn't found");
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
-    QVERIFY2(pet.getStatus().compare(petToCheck.getStatus()) == 0, "status isn't updated");
+    QCOMPARE_EQ(pet.getStatus().asJson(), petToCheck.getStatus().asJson());
 QT_WARNING_POP
 }
 

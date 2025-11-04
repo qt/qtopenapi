@@ -9,8 +9,15 @@
 #define {{classname}}_H
 
 #include "{{prefix}}Exports.h"
-#include "{{prefix}}Object.h"{{#enableQmlCode}}
-#include <QtQmlIntegration/qqmlintegration.h>{{/enableQmlCode}}
+{{#isEnum}}
+#include "{{prefix}}Enum.h"
+{{/isEnum}}
+{{^isEnum}}
+#include "{{prefix}}Object.h"
+{{/isEnum}}
+{{#enableQmlCode}}
+#include <QtQmlIntegration/qqmlintegration.h>
+{{/enableQmlCode}}
 
 {{/model}}{{/models}}{{#imports}}{{{import}}}
 {{/imports}}
@@ -52,11 +59,11 @@ public:
         * {{.}}
         */
         {{/enumDescription}}
-        {{{name}}}{{^-last}}, {{/-last}}
+        {{{name}}}{{^-last}},{{/-last}}
     {{/enumVars}}
     };{{/allowableValues}}
     {{classname}}::e{{classname}} getValue() const;
-    void setValue(const {{classname}}::e{{classname}}& value);{{/isEnum}}
+    void setValue({{classname}}::e{{classname}} value);{{/isEnum}}
     virtual bool isSet() const override;
     virtual bool isValid() const override;
 

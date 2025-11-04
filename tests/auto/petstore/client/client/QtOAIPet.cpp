@@ -118,7 +118,7 @@ QJsonObject QtOAIPet::asJsonObject() const
     if (m_tags.size() > 0) {
         obj.insert(QString("tags"), ::QtOpenAPI::toJsonValue(m_tags));
     }
-    if (m_statusIsSet) {
+    if (m_status.isSet()) {
         obj.insert(QString("status"), ::QtOpenAPI::toJsonValue(m_status));
     }
     if (m_ageIsSet) {
@@ -230,11 +230,11 @@ bool QtOAIPet::isTagsValid() const
     return m_tagsIsValid;
 }
 
-QString QtOAIPet::getStatus() const
+QtOAIPetStatus QtOAIPet::getStatus() const
 {
     return m_status;
 }
-void QtOAIPet::setStatus(const QString &status)
+void QtOAIPet::setStatus(const QtOAIPetStatus &status)
 {
     m_status = status;
     m_statusIsSet = true;
@@ -319,7 +319,7 @@ bool QtOAIPet::isSet() const
             break;
         }
 
-        if (m_statusIsSet) {
+        if (m_status.isSet()) {
             isObjectUpdated = true;
             break;
         }

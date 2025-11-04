@@ -786,6 +786,12 @@ components:
           type: string
       xml:
         name: Tag
+    PetStatus:
+      type: string
+      enum:
+        - available
+        - pending
+        - sold
     Pet:
       title: a Pet
       description: A pet for sale in the pet store
@@ -817,13 +823,9 @@ components:
           items:
             $ref: '#/components/schemas/Tag'
         status:
-          type: string
           description: pet status in the store
           deprecated: true
-          enum:
-            - available
-            - pending
-            - sold
+          $ref: '#/components/schemas/PetStatus'
         age:
           type: integer
           format: int32

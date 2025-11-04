@@ -16,6 +16,7 @@ qt_add_library(${PROJECT_NAME}
     OAICategory.h
     OAIOrder.h
     OAIPet.h
+    OAIPetStatus.h
     OAITag.h
     OAIUser.h
     OAIPetApi.h
@@ -25,6 +26,7 @@ qt_add_library(${PROJECT_NAME}
     OAICategory.cpp
     OAIOrder.cpp
     OAIPet.cpp
+    OAIPetStatus.cpp
     OAITag.cpp
     OAIUser.cpp
     OAIPetApi.cpp

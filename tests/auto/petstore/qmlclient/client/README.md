@@ -68,6 +68,7 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:19080/v2
 |*OAICategory* | A category for a pet|
 |*OAIOrder* | An order for a pets from the pet store|
 |*OAIPet* | A pet for sale in the pet store|
+|*OAIPetStatus* | |
 |*OAITag* | A tag for a pet|
 |*OAIUser* | A User who is purchasing from the pet store|
 

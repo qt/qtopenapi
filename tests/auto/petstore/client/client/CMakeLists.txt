@@ -16,6 +16,7 @@ qt_add_library(${PROJECT_NAME}
     QtOAICategory.h
     QtOAIOrder.h
     QtOAIPet.h
+    QtOAIPetStatus.h
     QtOAITag.h
     QtOAIUser.h
     QtOAIPetApi.h
@@ -25,6 +26,7 @@ qt_add_library(${PROJECT_NAME}
     QtOAICategory.cpp
     QtOAIOrder.cpp
     QtOAIPet.cpp
+    QtOAIPetStatus.cpp
     QtOAITag.cpp
     QtOAIUser.cpp
     QtOAIPetApi.cpp

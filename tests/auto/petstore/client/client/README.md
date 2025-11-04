@@ -68,6 +68,7 @@ All URIs are relative to http://127.0.0.1http://127.0.0.1:19080/v2
 |*QtOAICategory* | A category for a pet|
 |*QtOAIOrder* | An order for a pets from the pet store|
 |*QtOAIPet* | A pet for sale in the pet store|
+|*QtOAIPetStatus* | |
 |*QtOAITag* | A tag for a pet|
 |*QtOAIUser* | A User who is purchasing from the pet store|
 

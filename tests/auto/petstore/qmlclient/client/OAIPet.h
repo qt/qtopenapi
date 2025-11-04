@@ -20,6 +20,7 @@
 #include <QtQmlIntegration/qqmlintegration.h>
 
 #include "OAICategory.h"
+#include "OAIPetStatus.h"
 #include "OAITag.h"
 #include <QList>
 #include <QString>
@@ -37,7 +38,7 @@ class OAI_EXPORT OAIPet : public OAIObject {
     Q_PROPERTY(QString getName READ getName WRITE setName)
     Q_PROPERTY(QList<QString> getPhotoUrls READ getPhotoUrls WRITE setPhotoUrls)
     Q_PROPERTY(QList<OAITag> getTags READ getTags WRITE setTags)
-    Q_PROPERTY(QString getStatus READ getStatus WRITE setStatus)
+    Q_PROPERTY(OAIPetStatus getStatus READ getStatus WRITE setStatus)
     Q_PROPERTY(qint32 getAge READ getAge WRITE setAge)
     Q_PROPERTY(qint32 getPatience READ getPatience WRITE setPatience)
 public:
@@ -75,8 +76,8 @@ public:
     bool isTagsSet() const;
     bool isTagsValid() const;
 
-    Q_DECL_DEPRECATED QString getStatus() const;
-    Q_DECL_DEPRECATED void setStatus(const QString &status);
+    Q_DECL_DEPRECATED OAIPetStatus getStatus() const;
+    Q_DECL_DEPRECATED void setStatus(const OAIPetStatus &status);
     Q_DECL_DEPRECATED bool isStatusSet() const;
     Q_DECL_DEPRECATED bool isStatusValid() const;
 
@@ -116,7 +117,7 @@ private:
     bool m_tagsIsSet;
     bool m_tagsIsValid;
 
-    QString m_status;
+    OAIPetStatus m_status;
     bool m_statusIsSet;
     bool m_statusIsValid;
 
