@@ -1,0 +1,24 @@
+include($QT_INSTALL_DOCS/global/qt-module-defaults.qdocconf)
+
+project                 = QtOpenAPI
+description             = Qt OpenAPI Reference Documentation
+version                 = $QT_VERSION
+
+qhp.projects            = QtOpenAPI
+
+qhp.QtOpenAPI.file             = qtopenapi.qhp
+qhp.QtOpenAPI.namespace        = org.qt-project.qtopenapi.$QT_VERSION_TAG
+qhp.QtOpenAPI.virtualFolder    = qtopenapi
+qhp.QtOpenAPI.indexTitle       = Qt OpenAPI Generator
+qhp.QtOpenAPI.indexRoot        =
+
+moduleheader =
+
+sourcedirs += ..
+
+depends += qtdoc qtcmake qtcore qtnetwork
+
+navigation.landingpage = "Qt OpenAPI Generator"
+
+# Fail the documentation build if there are more warnings than the limit
+warninglimit = 10

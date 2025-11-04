@@ -34,3 +34,7 @@ qt_record_extra_third_party_dependency(OpenApi WrapOpenAPIGenerator::WrapOpenAPI
 if(TARGET Qt::OpenApiCommon)
     qt_internal_register_target_dependencies(OpenApi PUBLIC Qt::OpenApiCommon)
 endif()
+
+qt_internal_add_docs(OpenApi
+    doc/qtopenapi.qdocconf
+)
