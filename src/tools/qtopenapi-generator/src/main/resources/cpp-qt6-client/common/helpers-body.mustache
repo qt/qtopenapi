@@ -714,17 +714,17 @@ QString serializeJsonValue(const QJsonValue &value, const SerializationOptions &
         if (map.size() > 0) {
             if (opts.style == "deepObject"_L1) {
                 qsizetype index = 0;
-                for (const auto &[key, value] : map.asKeyValueRange()) {
+                for (const auto &[key, val] : map.asKeyValueRange()) {
                     if (index > 0)
                         paramString.append(opts.delimiter);
                     if (percentEncode) {
                         paramString.append(opts.suffix
                                            + QUrl::toPercentEncoding(u"[%1]"_s.arg(key))
                                            + opts.assignOperator
-                                           + QUrl::toPercentEncoding(toStringValue(value)));
+                                           + QUrl::toPercentEncoding(toStringValue(val)));
                     } else {
                         paramString.append(opts.suffix  + u"[%1]"_s.arg(key)
-                                           + opts.assignOperator + toStringValue(value));
+                                           + opts.assignOperator + toStringValue(val));
                     }
                     ++index;
                 }

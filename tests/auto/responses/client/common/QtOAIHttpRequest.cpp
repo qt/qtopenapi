@@ -455,7 +455,7 @@ QByteArray compress(const QByteArray &input, int level, QtOAICompressionType com
     if (input.isEmpty())
         return {};
 
-    int windowBits;
+    int windowBits = 0;
     switch (compressionType) {
     case QtOAICompressionType::Gzip:
         windowBits = GZIP_WINDOW_BIT;
