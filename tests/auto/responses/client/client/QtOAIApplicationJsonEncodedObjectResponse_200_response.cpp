@@ -84,6 +84,7 @@ void QtOAIApplicationJsonEncodedObjectResponse_200_response::setStatus(const QSt
 {
     m_status = status;
     m_statusIsSet = true;
+    m_statusIsValid = true;
 }
 
 bool QtOAIApplicationJsonEncodedObjectResponse_200_response::isStatusSet() const
@@ -104,6 +105,7 @@ void QtOAIApplicationJsonEncodedObjectResponse_200_response::setValue(const qint
 {
     m_value = value;
     m_valueIsSet = true;
+    m_valueIsValid = true;
 }
 
 bool QtOAIApplicationJsonEncodedObjectResponse_200_response::isValueSet() const

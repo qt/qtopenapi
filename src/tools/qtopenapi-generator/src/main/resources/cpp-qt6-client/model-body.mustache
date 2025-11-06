@@ -160,7 +160,8 @@ QJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}} {{classname}}::asJs
 void {{classname}}::{{setter}}(const {{{dataType}}} &{{name}})
 {
     m_{{name}} = {{name}};
-    m_{{name}}IsSet = true;
+    m_{{name}}IsSet = true{{#complexType}}{{^isContainer}} && {{name}}.isSet(){{/isContainer}}{{/complexType}};
+    m_{{name}}IsValid = true{{#complexType}}{{^isContainer}} && {{name}}.isValid(){{/isContainer}}{{/complexType}};
 }
 
 bool {{classname}}::is{{#camelcase}}{{name}}{{/camelcase}}Set() const

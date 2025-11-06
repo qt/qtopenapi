@@ -84,6 +84,7 @@ void OAITestOperation_request::setEmail(const QString &email)
 {
     m_email = email;
     m_emailIsSet = true;
+    m_emailIsValid = true;
 }
 
 bool OAITestOperation_request::isEmailSet() const
@@ -104,6 +105,7 @@ void OAITestOperation_request::setPassword(const QString &password)
 {
     m_password = password;
     m_passwordIsSet = true;
+    m_passwordIsValid = true;
 }
 
 bool OAITestOperation_request::isPasswordSet() const

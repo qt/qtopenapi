@@ -111,6 +111,7 @@ void OAIColor::setId(const qint64 &id)
 {
     m_id = id;
     m_idIsSet = true;
+    m_idIsValid = true;
 }
 
 bool OAIColor::isIdSet() const
@@ -131,6 +132,7 @@ void OAIColor::setName(const QString &name)
 {
     m_name = name;
     m_nameIsSet = true;
+    m_nameIsValid = true;
 }
 
 bool OAIColor::isNameSet() const
@@ -151,6 +153,7 @@ void OAIColor::setYear(const qint32 &year)
 {
     m_year = year;
     m_yearIsSet = true;
+    m_yearIsValid = true;
 }
 
 bool OAIColor::isYearSet() const
@@ -171,6 +174,7 @@ void OAIColor::setColor(const QString &color)
 {
     m_color = color;
     m_colorIsSet = true;
+    m_colorIsValid = true;
 }
 
 bool OAIColor::isColorSet() const
@@ -191,6 +195,7 @@ void OAIColor::setPantoneValue(const QString &pantoneValue)
 {
     m_pantoneValue = pantoneValue;
     m_pantoneValueIsSet = true;
+    m_pantoneValueIsValid = true;
 }
 
 bool OAIColor::isPantoneValueSet() const

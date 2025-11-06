@@ -111,6 +111,7 @@ void OAIUser::setId(const qint64 &id)
 {
     m_id = id;
     m_idIsSet = true;
+    m_idIsValid = true;
 }
 
 bool OAIUser::isIdSet() const
@@ -131,6 +132,7 @@ void OAIUser::setEmail(const QString &email)
 {
     m_email = email;
     m_emailIsSet = true;
+    m_emailIsValid = true;
 }
 
 bool OAIUser::isEmailSet() const
@@ -151,6 +153,7 @@ void OAIUser::setFirstName(const QString &firstName)
 {
     m_firstName = firstName;
     m_firstNameIsSet = true;
+    m_firstNameIsValid = true;
 }
 
 bool OAIUser::isFirstNameSet() const
@@ -171,6 +174,7 @@ void OAIUser::setLastName(const QString &lastName)
 {
     m_lastName = lastName;
     m_lastNameIsSet = true;
+    m_lastNameIsValid = true;
 }
 
 bool OAIUser::isLastNameSet() const
@@ -191,6 +195,7 @@ void OAIUser::setAvatar(const QString &avatar)
 {
     m_avatar = avatar;
     m_avatarIsSet = true;
+    m_avatarIsValid = true;
 }
 
 bool OAIUser::isAvatarSet() const

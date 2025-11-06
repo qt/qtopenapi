@@ -84,6 +84,7 @@ void QtOAIPostApplicationJsonSeveralObjects_request::setUuid(const QString &uuid
 {
     m_uuid = uuid;
     m_uuidIsSet = true;
+    m_uuidIsValid = true;
 }
 
 bool QtOAIPostApplicationJsonSeveralObjects_request::isUuidSet() const
@@ -104,6 +105,7 @@ void QtOAIPostApplicationJsonSeveralObjects_request::setUser(const QtOAIUser &us
 {
     m_user = user;
     m_userIsSet = true;
+    m_userIsValid = true;
 }
 
 bool QtOAIPostApplicationJsonSeveralObjects_request::isUserSet() const

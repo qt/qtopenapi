@@ -84,6 +84,7 @@ void OAITestObject::setId(const qint32 &id)
 {
     m_id = id;
     m_idIsSet = true;
+    m_idIsValid = true;
 }
 
 bool OAITestObject::isIdSet() const
@@ -104,6 +105,7 @@ void OAITestObject::setName(const QString &name)
 {
     m_name = name;
     m_nameIsSet = true;
+    m_nameIsValid = true;
 }
 
 bool OAITestObject::isNameSet() const

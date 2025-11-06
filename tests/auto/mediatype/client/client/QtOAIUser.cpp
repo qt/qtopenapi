@@ -93,6 +93,7 @@ void QtOAIUser::setName(const QString &name)
 {
     m_name = name;
     m_nameIsSet = true;
+    m_nameIsValid = true;
 }
 
 bool QtOAIUser::isNameSet() const
@@ -113,6 +114,7 @@ void QtOAIUser::setStatus(const QString &status)
 {
     m_status = status;
     m_statusIsSet = true;
+    m_statusIsValid = true;
 }
 
 bool QtOAIUser::isStatusSet() const
@@ -133,6 +135,7 @@ void QtOAIUser::setAge(const qint32 &age)
 {
     m_age = age;
     m_ageIsSet = true;
+    m_ageIsValid = true;
 }
 
 bool QtOAIUser::isAgeSet() const

@@ -84,6 +84,7 @@ void QtOAIDoubleResponse::setStringValue(const QString &stringValue)
 {
     m_stringValue = stringValue;
     m_stringValueIsSet = true;
+    m_stringValueIsValid = true;
 }
 
 bool QtOAIDoubleResponse::isStringValueSet() const
@@ -104,6 +105,7 @@ void QtOAIDoubleResponse::setValue(const double &value)
 {
     m_value = value;
     m_valueIsSet = true;
+    m_valueIsValid = true;
 }
 
 bool QtOAIDoubleResponse::isValueSet() const

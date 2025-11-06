@@ -93,6 +93,7 @@ void OAIApiResponse::setCode(const qint32 &code)
 {
     m_code = code;
     m_codeIsSet = true;
+    m_codeIsValid = true;
 }
 
 bool OAIApiResponse::isCodeSet() const
@@ -113,6 +114,7 @@ void OAIApiResponse::setType(const QString &type)
 {
     m_type = type;
     m_typeIsSet = true;
+    m_typeIsValid = true;
 }
 
 bool OAIApiResponse::isTypeSet() const
@@ -133,6 +135,7 @@ void OAIApiResponse::setMessage(const QString &message)
 {
     m_message = message;
     m_messageIsSet = true;
+    m_messageIsValid = true;
 }
 
 bool OAIApiResponse::isMessageSet() const

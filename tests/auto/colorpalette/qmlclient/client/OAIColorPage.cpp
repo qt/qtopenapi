@@ -111,6 +111,7 @@ void OAIColorPage::setPage(const qint32 &page)
 {
     m_page = page;
     m_pageIsSet = true;
+    m_pageIsValid = true;
 }
 
 bool OAIColorPage::isPageSet() const
@@ -131,6 +132,7 @@ void OAIColorPage::setPerPage(const qint32 &perPage)
 {
     m_perPage = perPage;
     m_perPageIsSet = true;
+    m_perPageIsValid = true;
 }
 
 bool OAIColorPage::isPerPageSet() const
@@ -151,6 +153,7 @@ void OAIColorPage::setTotal(const qint32 &total)
 {
     m_total = total;
     m_totalIsSet = true;
+    m_totalIsValid = true;
 }
 
 bool OAIColorPage::isTotalSet() const
@@ -171,6 +174,7 @@ void OAIColorPage::setTotalPages(const qint32 &totalPages)
 {
     m_totalPages = totalPages;
     m_totalPagesIsSet = true;
+    m_totalPagesIsValid = true;
 }
 
 bool OAIColorPage::isTotalPagesSet() const
@@ -191,6 +195,7 @@ void OAIColorPage::setData(const QList<OAIColor> &data)
 {
     m_data = data;
     m_dataIsSet = true;
+    m_dataIsValid = true;
 }
 
 bool OAIColorPage::isDataSet() const

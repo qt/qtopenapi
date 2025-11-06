@@ -111,6 +111,7 @@ void QtOAIColorPage::setPage(const qint32 &page)
 {
     m_page = page;
     m_pageIsSet = true;
+    m_pageIsValid = true;
 }
 
 bool QtOAIColorPage::isPageSet() const
@@ -131,6 +132,7 @@ void QtOAIColorPage::setPerPage(const qint32 &perPage)
 {
     m_perPage = perPage;
     m_perPageIsSet = true;
+    m_perPageIsValid = true;
 }
 
 bool QtOAIColorPage::isPerPageSet() const
@@ -151,6 +153,7 @@ void QtOAIColorPage::setTotal(const qint32 &total)
 {
     m_total = total;
     m_totalIsSet = true;
+    m_totalIsValid = true;
 }
 
 bool QtOAIColorPage::isTotalSet() const
@@ -171,6 +174,7 @@ void QtOAIColorPage::setTotalPages(const qint32 &totalPages)
 {
     m_totalPages = totalPages;
     m_totalPagesIsSet = true;
+    m_totalPagesIsValid = true;
 }
 
 bool QtOAIColorPage::isTotalPagesSet() const
@@ -191,6 +195,7 @@ void QtOAIColorPage::setData(const QList<QtOAIColor> &data)
 {
     m_data = data;
     m_dataIsSet = true;
+    m_dataIsValid = true;
 }
 
 bool QtOAIColorPage::isDataSet() const

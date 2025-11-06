@@ -138,6 +138,7 @@ void QtOAIPet::setId(const qint64 &id)
 {
     m_id = id;
     m_idIsSet = true;
+    m_idIsValid = true;
 }
 
 bool QtOAIPet::isIdSet() const
@@ -157,7 +158,8 @@ QtOAICategory QtOAIPet::getCategory() const
 void QtOAIPet::setCategory(const QtOAICategory &category)
 {
     m_category = category;
-    m_categoryIsSet = true;
+    m_categoryIsSet = true && category.isSet();
+    m_categoryIsValid = true && category.isValid();
 }
 
 bool QtOAIPet::isCategorySet() const
@@ -178,6 +180,7 @@ void QtOAIPet::setName(const QString &name)
 {
     m_name = name;
     m_nameIsSet = true;
+    m_nameIsValid = true;
 }
 
 bool QtOAIPet::isNameSet() const
@@ -198,6 +201,7 @@ void QtOAIPet::setPhotoUrls(const QList<QString> &photoUrls)
 {
     m_photoUrls = photoUrls;
     m_photoUrlsIsSet = true;
+    m_photoUrlsIsValid = true;
 }
 
 bool QtOAIPet::isPhotoUrlsSet() const
@@ -218,6 +222,7 @@ void QtOAIPet::setTags(const QList<QtOAITag> &tags)
 {
     m_tags = tags;
     m_tagsIsSet = true;
+    m_tagsIsValid = true;
 }
 
 bool QtOAIPet::isTagsSet() const
@@ -237,7 +242,8 @@ QtOAIPetStatus QtOAIPet::getStatus() const
 void QtOAIPet::setStatus(const QtOAIPetStatus &status)
 {
     m_status = status;
-    m_statusIsSet = true;
+    m_statusIsSet = true && status.isSet();
+    m_statusIsValid = true && status.isValid();
 }
 
 bool QtOAIPet::isStatusSet() const
@@ -258,6 +264,7 @@ void QtOAIPet::setAge(const qint32 &age)
 {
     m_age = age;
     m_ageIsSet = true;
+    m_ageIsValid = true;
 }
 
 bool QtOAIPet::isAgeSet() const
@@ -278,6 +285,7 @@ void QtOAIPet::setPatience(const qint32 &patience)
 {
     m_patience = patience;
     m_patienceIsSet = true;
+    m_patienceIsValid = true;
 }
 
 bool QtOAIPet::isPatienceSet() const

@@ -138,6 +138,7 @@ void QtOAIUser::setId(const qint64 &id)
 {
     m_id = id;
     m_idIsSet = true;
+    m_idIsValid = true;
 }
 
 bool QtOAIUser::isIdSet() const
@@ -158,6 +159,7 @@ void QtOAIUser::setUsername(const QString &username)
 {
     m_username = username;
     m_usernameIsSet = true;
+    m_usernameIsValid = true;
 }
 
 bool QtOAIUser::isUsernameSet() const
@@ -178,6 +180,7 @@ void QtOAIUser::setFirstName(const QString &firstName)
 {
     m_firstName = firstName;
     m_firstNameIsSet = true;
+    m_firstNameIsValid = true;
 }
 
 bool QtOAIUser::isFirstNameSet() const
@@ -198,6 +201,7 @@ void QtOAIUser::setLastName(const QString &lastName)
 {
     m_lastName = lastName;
     m_lastNameIsSet = true;
+    m_lastNameIsValid = true;
 }
 
 bool QtOAIUser::isLastNameSet() const
@@ -218,6 +222,7 @@ void QtOAIUser::setEmail(const QString &email)
 {
     m_email = email;
     m_emailIsSet = true;
+    m_emailIsValid = true;
 }
 
 bool QtOAIUser::isEmailSet() const
@@ -238,6 +243,7 @@ void QtOAIUser::setPassword(const QString &password)
 {
     m_password = password;
     m_passwordIsSet = true;
+    m_passwordIsValid = true;
 }
 
 bool QtOAIUser::isPasswordSet() const
@@ -258,6 +264,7 @@ void QtOAIUser::setPhone(const QString &phone)
 {
     m_phone = phone;
     m_phoneIsSet = true;
+    m_phoneIsValid = true;
 }
 
 bool QtOAIUser::isPhoneSet() const
@@ -278,6 +285,7 @@ void QtOAIUser::setUserStatus(const qint32 &userStatus)
 {
     m_userStatus = userStatus;
     m_userStatusIsSet = true;
+    m_userStatusIsValid = true;
 }
 
 bool QtOAIUser::isUserStatusSet() const

@@ -84,6 +84,7 @@ void QtOAIFloatResponse::setStringValue(const QString &stringValue)
 {
     m_stringValue = stringValue;
     m_stringValueIsSet = true;
+    m_stringValueIsValid = true;
 }
 
 bool QtOAIFloatResponse::isStringValueSet() const
@@ -104,6 +105,7 @@ void QtOAIFloatResponse::setValue(const float &value)
 {
     m_value = value;
     m_valueIsSet = true;
+    m_valueIsValid = true;
 }
 
 bool QtOAIFloatResponse::isValueSet() const

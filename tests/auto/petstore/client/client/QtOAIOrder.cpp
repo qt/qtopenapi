@@ -120,6 +120,7 @@ void QtOAIOrder::setId(const qint64 &id)
 {
     m_id = id;
     m_idIsSet = true;
+    m_idIsValid = true;
 }
 
 bool QtOAIOrder::isIdSet() const
@@ -140,6 +141,7 @@ void QtOAIOrder::setPetId(const qint64 &petId)
 {
     m_petId = petId;
     m_petIdIsSet = true;
+    m_petIdIsValid = true;
 }
 
 bool QtOAIOrder::isPetIdSet() const
@@ -160,6 +162,7 @@ void QtOAIOrder::setQuantity(const qint32 &quantity)
 {
     m_quantity = quantity;
     m_quantityIsSet = true;
+    m_quantityIsValid = true;
 }
 
 bool QtOAIOrder::isQuantitySet() const
@@ -180,6 +183,7 @@ void QtOAIOrder::setShipDate(const QDateTime &shipDate)
 {
     m_shipDate = shipDate;
     m_shipDateIsSet = true;
+    m_shipDateIsValid = true;
 }
 
 bool QtOAIOrder::isShipDateSet() const
@@ -200,6 +204,7 @@ void QtOAIOrder::setStatus(const QString &status)
 {
     m_status = status;
     m_statusIsSet = true;
+    m_statusIsValid = true;
 }
 
 bool QtOAIOrder::isStatusSet() const
@@ -220,6 +225,7 @@ void QtOAIOrder::setComplete(const bool &complete)
 {
     m_complete = complete;
     m_completeIsSet = true;
+    m_completeIsValid = true;
 }
 
 bool QtOAIOrder::isCompleteSet() const

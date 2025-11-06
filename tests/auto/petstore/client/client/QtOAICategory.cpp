@@ -84,6 +84,7 @@ void QtOAICategory::setId(const qint64 &id)
 {
     m_id = id;
     m_idIsSet = true;
+    m_idIsValid = true;
 }
 
 bool QtOAICategory::isIdSet() const
@@ -104,6 +105,7 @@ void QtOAICategory::setName(const QString &name)
 {
     m_name = name;
     m_nameIsSet = true;
+    m_nameIsValid = true;
 }
 
 bool QtOAICategory::isNameSet() const

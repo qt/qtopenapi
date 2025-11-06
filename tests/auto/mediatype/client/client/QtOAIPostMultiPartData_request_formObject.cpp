@@ -84,6 +84,7 @@ void QtOAIPostMultiPartData_request_formObject::setObjectId(const qint32 &object
 {
     m_objectId = objectId;
     m_objectIdIsSet = true;
+    m_objectIdIsValid = true;
 }
 
 bool QtOAIPostMultiPartData_request_formObject::isObjectIdSet() const
@@ -104,6 +105,7 @@ void QtOAIPostMultiPartData_request_formObject::setObjectName(const QString &obj
 {
     m_objectName = objectName;
     m_objectNameIsSet = true;
+    m_objectNameIsValid = true;
 }
 
 bool QtOAIPostMultiPartData_request_formObject::isObjectNameSet() const

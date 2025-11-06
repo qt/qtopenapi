@@ -111,6 +111,7 @@ void QtOAIUserPage::setPage(const qint32 &page)
 {
     m_page = page;
     m_pageIsSet = true;
+    m_pageIsValid = true;
 }
 
 bool QtOAIUserPage::isPageSet() const
@@ -131,6 +132,7 @@ void QtOAIUserPage::setPerPage(const qint32 &perPage)
 {
     m_perPage = perPage;
     m_perPageIsSet = true;
+    m_perPageIsValid = true;
 }
 
 bool QtOAIUserPage::isPerPageSet() const
@@ -151,6 +153,7 @@ void QtOAIUserPage::setTotal(const qint32 &total)
 {
     m_total = total;
     m_totalIsSet = true;
+    m_totalIsValid = true;
 }
 
 bool QtOAIUserPage::isTotalSet() const
@@ -171,6 +174,7 @@ void QtOAIUserPage::setTotalPages(const qint32 &totalPages)
 {
     m_totalPages = totalPages;
     m_totalPagesIsSet = true;
+    m_totalPagesIsValid = true;
 }
 
 bool QtOAIUserPage::isTotalPagesSet() const
@@ -191,6 +195,7 @@ void QtOAIUserPage::setData(const QList<QtOAIUser> &data)
 {
     m_data = data;
     m_dataIsSet = true;
+    m_dataIsValid = true;
 }
 
 bool QtOAIUserPage::isDataSet() const

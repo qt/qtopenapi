@@ -120,6 +120,7 @@ void OAIOrder::setId(const qint64 &id)
 {
     m_id = id;
     m_idIsSet = true;
+    m_idIsValid = true;
 }
 
 bool OAIOrder::isIdSet() const
@@ -140,6 +141,7 @@ void OAIOrder::setPetId(const qint64 &petId)
 {
     m_petId = petId;
     m_petIdIsSet = true;
+    m_petIdIsValid = true;
 }
 
 bool OAIOrder::isPetIdSet() const
@@ -160,6 +162,7 @@ void OAIOrder::setQuantity(const qint32 &quantity)
 {
     m_quantity = quantity;
     m_quantityIsSet = true;
+    m_quantityIsValid = true;
 }
 
 bool OAIOrder::isQuantitySet() const
@@ -180,6 +183,7 @@ void OAIOrder::setShipDate(const QDateTime &shipDate)
 {
     m_shipDate = shipDate;
     m_shipDateIsSet = true;
+    m_shipDateIsValid = true;
 }
 
 bool OAIOrder::isShipDateSet() const
@@ -200,6 +204,7 @@ void OAIOrder::setStatus(const QString &status)
 {
     m_status = status;
     m_statusIsSet = true;
+    m_statusIsValid = true;
 }
 
 bool OAIOrder::isStatusSet() const
@@ -220,6 +225,7 @@ void OAIOrder::setComplete(const bool &complete)
 {
     m_complete = complete;
     m_completeIsSet = true;
+    m_completeIsValid = true;
 }
 
 bool OAIOrder::isCompleteSet() const

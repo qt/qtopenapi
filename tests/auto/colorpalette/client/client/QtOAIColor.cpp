@@ -111,6 +111,7 @@ void QtOAIColor::setId(const qint64 &id)
 {
     m_id = id;
     m_idIsSet = true;
+    m_idIsValid = true;
 }
 
 bool QtOAIColor::isIdSet() const
@@ -131,6 +132,7 @@ void QtOAIColor::setName(const QString &name)
 {
     m_name = name;
     m_nameIsSet = true;
+    m_nameIsValid = true;
 }
 
 bool QtOAIColor::isNameSet() const
@@ -151,6 +153,7 @@ void QtOAIColor::setYear(const qint32 &year)
 {
     m_year = year;
     m_yearIsSet = true;
+    m_yearIsValid = true;
 }
 
 bool QtOAIColor::isYearSet() const
@@ -171,6 +174,7 @@ void QtOAIColor::setColor(const QString &color)
 {
     m_color = color;
     m_colorIsSet = true;
+    m_colorIsValid = true;
 }
 
 bool QtOAIColor::isColorSet() const
@@ -191,6 +195,7 @@ void QtOAIColor::setPantoneValue(const QString &pantoneValue)
 {
     m_pantoneValue = pantoneValue;
     m_pantoneValueIsSet = true;
+    m_pantoneValueIsValid = true;
 }
 
 bool QtOAIColor::isPantoneValueSet() const

@@ -84,6 +84,7 @@ void OAICategory::setId(const qint64 &id)
 {
     m_id = id;
     m_idIsSet = true;
+    m_idIsValid = true;
 }
 
 bool OAICategory::isIdSet() const
@@ -104,6 +105,7 @@ void OAICategory::setName(const QString &name)
 {
     m_name = name;
     m_nameIsSet = true;
+    m_nameIsValid = true;
 }
 
 bool OAICategory::isNameSet() const

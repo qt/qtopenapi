@@ -75,6 +75,7 @@ void QtOAIUpdateUser_request::setAvatar(const QString &avatar)
 {
     m_avatar = avatar;
     m_avatarIsSet = true;
+    m_avatarIsValid = true;
 }
 
 bool QtOAIUpdateUser_request::isAvatarSet() const
