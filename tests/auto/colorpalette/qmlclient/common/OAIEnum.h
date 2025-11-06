@@ -12,7 +12,6 @@
 #include "OAICommonExports.h"
 
 #include <QtCore/qjsonvalue.h>
-#include <QtCore/qmetatype.h>
 #include <QtCore/qstring.h>
 
 namespace OpenAPI {
@@ -20,43 +19,27 @@ namespace OpenAPI {
 class OAI_COMMON_EXPORT OAIEnum {
 public:
     OAIEnum() {}
-
-    OAIEnum(const QString &jsonString) {
-        fromJson(jsonString);
-    }
-
     virtual ~OAIEnum() {}
 
-    virtual QJsonValue asJsonValue() const {
-        return QJsonValue(m_jstr);
-    }
-
-    virtual QString asJson() const {
-        return m_jstr;
-    }
-
-    virtual void fromJson(const QString &jsonString) {
-        m_jstr = jsonString;
-    }
-
-    virtual void fromJsonValue(const QJsonValue &jval) {
-        m_jstr = jval.toString();
-    }
-
-    virtual bool isSet() const {
-        return false;
-    }
-
-    virtual bool isValid() const {
-        return true;
-    }
+    virtual QJsonValue asJsonValue() const = 0;
+    virtual QString asJson() const = 0;
+    virtual void fromJson(const QString &jsonString) = 0;
+    virtual void fromJsonValue(const QJsonValue &jval) = 0;
+    virtual bool isSet() const = 0;
+    virtual bool isValid() const = 0;
 
 private:
-    QString m_jstr;
+    friend bool operator==(const OAIEnum &lhs, const OAIEnum &rhs)
+    { return lhs.asJsonValue() == rhs.asJsonValue(); }
+    friend bool operator!=(const OAIEnum &lhs, const OAIEnum &rhs)
+    { return !operator==(lhs, rhs); }
+
+    friend size_t qHash(const OAIEnum &val, size_t seed)
+    { return qHash(val.asJsonValue(), seed); }
+    friend size_t qHash(const OAIEnum &val)
+    { return qHash(val, 0); }
 };
 
 } // namespace OpenAPI
-
-Q_DECLARE_METATYPE(OpenAPI::OAIEnum)
 
 #endif // OAI_ENUM_H
