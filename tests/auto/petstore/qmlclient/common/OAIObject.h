@@ -11,7 +11,6 @@
 
 #include "OAICommonExports.h"
 
-#include <QtCore/qjsondocument.h>
 #include <QtCore/qjsonobject.h>
 #include <QtCore/qstring.h>
 
@@ -20,53 +19,27 @@ namespace OpenAPI {
 class OAI_COMMON_EXPORT OAIObject {
 public:
     OAIObject() {}
-
-    OAIObject(const QString &jsonString) {
-        fromJson(jsonString);
-    }
-
     virtual ~OAIObject() {}
 
-    virtual QJsonObject asJsonObject() const {
-        return m_jObj;
-    }
-
-    virtual QString asJson() const {
-        QJsonDocument doc(m_jObj);
-        return doc.toJson(QJsonDocument::Compact);
-    }
-
-    virtual void fromJson(const QString &jsonString) {
-        QJsonDocument doc = QJsonDocument::fromJson(jsonString.toUtf8());
-        m_jObj = doc.object();
-    }
-
-    virtual void fromJsonObject(const QJsonObject &json) {
-        m_jObj = json;
-    }
-
-    virtual bool isSet() const {
-        return false;
-    }
-
-    virtual bool isValid() const {
-        return true;
-    }
+    virtual QJsonObject asJsonObject() const = 0;
+    virtual QString asJson() const = 0;
+    virtual void fromJson(const QString &jsonString) = 0;
+    virtual void fromJsonObject(const QJsonObject &json) = 0;
+    virtual bool isSet() const = 0;
+    virtual bool isValid() const = 0;
 
 private:
-    QJsonObject m_jObj;
+    friend bool operator==(const OAIObject &lhs, const OAIObject &rhs)
+    { return lhs.asJsonObject() == rhs.asJsonObject(); }
+    friend bool operator!=(const OAIObject &lhs, const OAIObject &rhs)
+    { return !operator==(lhs, rhs); }
+
+    friend size_t qHash(const OAIObject &obj, size_t seed)
+    { return qHash(obj.asJsonObject(), seed); }
+    friend size_t qHash(const OAIObject &obj)
+    { return qHash(obj, 0); }
 };
 
-inline bool operator==(const OAIObject& left, const OAIObject& right) {
-    return (left.asJsonObject() == right.asJsonObject());
-}
-
-inline size_t qHash(const OAIObject& obj, uint seed = 0) noexcept {
-    return qHash(obj.asJsonObject(), seed);
-}
-
 } // namespace OpenAPI
-
-Q_DECLARE_METATYPE(OpenAPI::OAIObject)
 
 #endif // OAI_OBJECT_H
