@@ -44,8 +44,8 @@ public:
     };
     OAIPetStatus::eOAIPetStatus getValue() const;
     void setValue(OAIPetStatus::eOAIPetStatus value);
-    virtual bool isSet() const override;
-    virtual bool isValid() const override;
+    bool isSet() const override;
+    bool isValid() const override;
 
 private:
     void initializeModel();

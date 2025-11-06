@@ -49,8 +49,8 @@ public:
     bool isNameSet() const;
     bool isNameValid() const;
 
-    virtual bool isSet() const override;
-    virtual bool isValid() const override;
+    bool isSet() const override;
+    bool isValid() const override;
 
 private:
     void initializeModel();
