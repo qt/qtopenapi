@@ -10,18 +10,12 @@ if (NOT OPENAPI_GO_EXECUTABLE)
     return()
 endif()
 
+include(../../common/BuildGoExecutable.cmake)
+
 set(GO_BINARY responses-server-app)
 set(GO_SOURCE main.go)
 
-add_custom_command(
-    OUTPUT ${GO_BINARY}
-    COMMAND go mod tidy
-    COMMAND go build -o ${GO_BINARY} ${GO_SOURCE}
-    DEPENDS ${GO_SOURCE}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    COMMENT "Generating the golang server: ${GO_BINARY}"
-    VERBATIM
-)
+build_go_executable(${GO_BINARY} ${GO_SOURCE})
 
 # Custom target that depends on the output binary
 add_custom_target(responses-server-build ALL
@@ -32,16 +26,13 @@ add_executable(responses-server-go IMPORTED)
 add_dependencies(responses-server-go responses-server-build)
 set_target_properties(responses-server-go PROPERTIES
     IMPORTED_LOCATION
-        "${CMAKE_CURRENT_BINARY_DIR}/responses-server-go"
+        "${CMAKE_CURRENT_BINARY_DIR}/responses-server-app"
     IMPORTED_GLOBAL TRUE
 )
 
 add_custom_command(
     TARGET responses-server-build
     POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            ${CMAKE_CURRENT_SOURCE_DIR}/${GO_BINARY}
-            ${CMAKE_CURRENT_BINARY_DIR}/responses-server-go
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
             ${CMAKE_CURRENT_SOURCE_DIR}/test.pdf
             ${CMAKE_CURRENT_BINARY_DIR}/test.pdf
@@ -54,5 +45,5 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
             ${CMAKE_CURRENT_SOURCE_DIR}/test.bin
             ${CMAKE_CURRENT_BINARY_DIR}/test.bin
-    COMMENT "Installing ${GO_BINARY} to ${CMAKE_CURRENT_BINARY_DIR}"
+    COMMENT "Copying test files to ${CMAKE_CURRENT_BINARY_DIR}"
 )
