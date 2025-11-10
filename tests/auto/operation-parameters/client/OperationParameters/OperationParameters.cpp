@@ -190,8 +190,13 @@ private Q_SLOTS:
 };
 
 QString invalidExplodeWarningMsg(const QString& paramName, const QString& style, bool explode) {
+#ifdef Q_OS_WIN
+    return QString("Invalid combination for query parameter '%1': style=%2, explode=%3.\r\n"
+                   "Using valid explode=%4 instead.")
+#else
     return QString("Invalid combination for query parameter '%1': style=%2, explode=%3.\n"
                    "Using valid explode=%4 instead.")
+#endif
         .arg(paramName, style, explode ? "true" : "false", explode ? "false" : "true");
 }
 
@@ -1077,9 +1082,15 @@ void OperationParameters::pathNACombinations()
 {
     // style=form, explode=true, type=string : Invalid style for path parameters.
     // Falling back to the default style simple instead.
+#ifdef Q_OS_WIN
+    const char *warningMsg = "'form' style is invalid for path parameters.\r\n"
+                             "Allowed styles are: 'matrix', 'label' and 'simple'.\r\n"
+                             "Falling back to the default style 'simple'.";
+#else
     const char *warningMsg = "'form' style is invalid for path parameters.\nAllowed styles are: "
                              "'matrix', 'label' and 'simple'.\nFalling back to the default style "
                              "'simple'.";
+#endif
     QTest::ignoreMessage(QtWarningMsg, warningMsg);
     CALL_TEST_OPERATION(invalidFormExplodeString, QString("Test!*%"),
                         "/v2/path/string/invalid-form-explode/formExplodeString/Test%21%2A%25");
@@ -1099,8 +1110,13 @@ void OperationParameters::queryNACombinations()
     QString warningMsg;
 
     // style=spaceDelimited, explode=false, type=string
+#ifdef Q_OS_WIN
+    warningMsg = "'spaceDelimited' style is invalid for primitive parameters.\r\n"
+                 "Falling back to the default style: 'form'.";
+#else
     warningMsg = "'spaceDelimited' style is invalid for primitive parameters.\n"
                  "Falling back to the default style: 'form'.";
+#endif
     QTest::ignoreMessage(QtWarningMsg, warningMsg.toLatin1());
     CALL_TEST_OPERATION(spaceDelimitedNotExplodeString, QString("string * test!"_L1),
                         "/v2/query/string/spaceDelimited-not-explode/spaceDelimitedNotExplodeString?stringParameter=string%20%2A%20test%21");
@@ -1195,9 +1211,15 @@ void OperationParameters::queryNACombinations()
 
     // style=matrix, explode=true, type=string : Invalid style for query parameters.
     // Falling back to the default style form instead.
+#ifdef Q_OS_WIN
+    warningMsg = "'matrix' style is invalid for query parameters.\r\nAllowed styles are: 'form', "
+                 "'spaceDelimited', 'pipeDelimited' and 'deepObject'.\r\nFalling back to the "
+                 "default style 'form'.";
+#else
     warningMsg = "'matrix' style is invalid for query parameters.\nAllowed styles are: 'form', "
                  "'spaceDelimited', 'pipeDelimited' and 'deepObject'.\nFalling back to the default "
                  "style 'form'.";
+#endif
     QTest::ignoreMessage(QtWarningMsg, warningMsg.toLatin1());
     CALL_TEST_POST_OPERATION(invalidMatrixExplodeString, QString("Test!"),
                         "/v2/query/string/invalid-matrix-explode/matrixExplodeString?stringParameter=Test%21");
@@ -1448,12 +1470,21 @@ void OperationParameters::pathAndQueryParameters()
 
     // style=form, explode=true, type=string : Invalid style for path parameters => use simple style
     // style=label, explode=true, type=array : Invalid style for query parameters => use form style
+#ifdef Q_OS_WIN
+    const char *pathWarningMsg = "'form' style is invalid for path parameters.\r\nAllowed styles "
+                                 "are: 'matrix', 'label' and 'simple'.\r\nFalling back to the "
+                                 "default style 'simple'.";
+    const char *queryWarningMsg = "'label' style is invalid for query parameters.\r\nAllowed "
+                                  "styles are: 'form', 'spaceDelimited', 'pipeDelimited' and "
+                                  "'deepObject'.\r\nFalling back to the default style 'form'.";
+#else
     const char *pathWarningMsg = "'form' style is invalid for path parameters.\nAllowed styles are:"
                                  " 'matrix', 'label' and 'simple'.\nFalling back to the default "
                                  "style 'simple'.";
     const char *queryWarningMsg = "'label' style is invalid for query parameters.\nAllowed styles "
                                   "are: 'form', 'spaceDelimited', 'pipeDelimited' and 'deepObject'."
                                   "\nFalling back to the default style 'form'.";
+#endif
     QTest::ignoreMessage(QtWarningMsg, pathWarningMsg);
     QTest::ignoreMessage(QtWarningMsg, queryWarningMsg);
     expectedResult = "/v2/path/string/invalid-form-explode/str%20%2A%20param/query/array/invalid-label-explode?arrayParameter=22&arrayParameter=-150&arrayParameter=0"_L1;
@@ -1812,8 +1843,13 @@ void OperationParameters::headerInvalidStyle()
     const QString stringValue = "Just some random string"_L1;
     bool done = false;
 
+#ifdef Q_OS_WIN
+    const char *warningMsg = "'label' style is invalid for header parameters.\r\n"
+                             "Falling back to the default style 'simple'.";
+#else
     const char *warningMsg = "'label' style is invalid for header parameters.\n"
                              "Falling back to the default style 'simple'.";
+#endif
     QTest::ignoreMessage(QtWarningMsg, warningMsg);
     headerInvalidLabelNotExplodeString(stringValue, this,
         [&](const QRestReply &reply, const QString &summary) {
@@ -2260,8 +2296,13 @@ void OperationParameters::cookieInvalidStyle()
     const QString expectedCookie = "stringParameter=Just some random string"_L1;
     bool done = false;
 
+#ifdef Q_OS_WIN
+    const char *warningMsg = "'simple' style is invalid for cookie parameters.\r\n"
+                             "Falling back to the default style 'form'.";
+#else
     const char *warningMsg = "'simple' style is invalid for cookie parameters.\n"
                              "Falling back to the default style 'form'.";
+#endif
     QTest::ignoreMessage(QtWarningMsg, warningMsg);
     cookieNotExplodeStringInvalidStyle(stringValue, this,
         [&](const QRestReply &reply, const QString &summary) {
