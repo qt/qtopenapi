@@ -32,9 +32,6 @@ OAI_COMMON_EXPORT bool setDateTimeFormat(const QString &format);
 OAI_COMMON_EXPORT bool setDateTimeFormat(const Qt::DateFormat &format);
 
 template <typename T>
-QString toStringValue(const QList<T> &val, QAnyStringView delimiter = ",");
-
-template <typename T>
 QString toStringValue(const QSet<T> &val);
 
 template <typename T>
