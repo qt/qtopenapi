@@ -119,7 +119,7 @@ void OAIPetApi::addPetWithDataImpl(const OAIPet &oAIPet, const QObject *context,
     if (!m_username.isEmpty() && !m_password.isEmpty()) {
         QByteArray b64;
         b64.append(m_username.toUtf8() + ":" + m_password.toUtf8());
-        setHeader(QHttpHeaders::WellKnownHeader::Authorization, QAnyStringView("Basic "_L1 + b64.toBase64()));
+        setHeader(QHttpHeaders::WellKnownHeader::Authorization, "Basic "_L1 + b64.toBase64());
     }
 
     // set m_testOperationPath for serialization tests
@@ -232,7 +232,7 @@ void OAIPetApi::deletePetWithDataImpl(const qint64 &petId, const ::OpenAPI::Opti
     QString fullPath = "/pet/{petId}";
     m_networkFactory->setBaseUrl(serverUrl);
     if (!m_bearerToken.isEmpty())
-        setHeader(QHttpHeaders::WellKnownHeader::Authorization, QAnyStringView("Bearer "_L1 + m_bearerToken));
+        setHeader(QHttpHeaders::WellKnownHeader::Authorization, "Bearer "_L1 + m_bearerToken);
     {
         QString petIdPathParam = QString("{%1}").arg("petId");
 
@@ -279,7 +279,7 @@ void OAIPetApi::deletePetWithDataImpl(const qint64 &petId, const ::OpenAPI::Opti
 
         const QString headerString = toStringValue(apiKey.value());
         if (!headerString.isEmpty())
-            input.m_headers.replaceOrAppend("api_key"_L1, QAnyStringView(headerString));
+            input.m_headers.replaceOrAppend("api_key"_L1, headerString);
     }
     QNetworkRequest request
         = OAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -1051,7 +1051,7 @@ void OAIPetApi::getPetByIdWithDataImpl(const qint64 &petId, const QObject *conte
     QString fullPath = "/pet/{petId}";
     m_networkFactory->setBaseUrl(serverUrl);
     if (m_apiKeys.contains("api_key"_L1)) {
-        setHeader("api_key"_L1, QAnyStringView(m_apiKeys.find("api_key"_L1).value()));
+        setHeader("api_key"_L1, m_apiKeys.find("api_key"_L1).value());
     }
     {
         QString petIdPathParam = QString("{%1}").arg("petId");

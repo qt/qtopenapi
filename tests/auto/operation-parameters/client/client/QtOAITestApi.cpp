@@ -385,8 +385,7 @@ void QtOAITestApi::cookieExplodeAnytypeWithDataImpl(const QJsonValue &anytypePar
         // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
         if (cookieString.isEmpty())
             cookieString = u"anytypeParameter="_s;
-        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
-                               QAnyStringView(cookieString));
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie, cookieString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -514,8 +513,7 @@ void QtOAITestApi::cookieExplodeArrayWithDataImpl(const QList<qint32> &arrayPara
         // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
         if (cookieString.isEmpty())
             cookieString = u"arrayParameter="_s;
-        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
-                               QAnyStringView(cookieString));
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie, cookieString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -671,8 +669,7 @@ void QtOAITestApi::cookieExplodeIntWithDataImpl(const ::QtOpenAPI::OptionalParam
         // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
         if (cookieString.isEmpty())
             cookieString = u"intParameter="_s;
-        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
-                               QAnyStringView(cookieString));
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie, cookieString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -801,8 +798,7 @@ void QtOAITestApi::cookieExplodeObjectWithDataImpl(const QtOAITestObject &object
         // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
         if (cookieString.isEmpty())
             cookieString = u"objectParameter="_s;
-        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
-                               QAnyStringView(cookieString));
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie, cookieString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -957,8 +953,7 @@ void QtOAITestApi::cookieExplodeStringWithDataImpl(const QString &stringParamete
         // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
         if (cookieString.isEmpty())
             cookieString = u"stringParameter="_s;
-        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
-                               QAnyStringView(cookieString));
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie, cookieString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -1086,8 +1081,7 @@ void QtOAITestApi::cookieExplodeStringMapWithDataImpl(const QMap<QString, QStrin
         // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
         if (cookieString.isEmpty())
             cookieString = u"mapParameter="_s;
-        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
-                               QAnyStringView(cookieString));
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie, cookieString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -1215,8 +1209,7 @@ void QtOAITestApi::cookieNotExplodeAnytypeWithDataImpl(const ::QtOpenAPI::Option
         // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
         if (cookieString.isEmpty())
             cookieString = u"anytypeParameter="_s;
-        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
-                               QAnyStringView(cookieString));
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie, cookieString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -1344,8 +1337,7 @@ void QtOAITestApi::cookieNotExplodeArrayWithDataImpl(const ::QtOpenAPI::Optional
         // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
         if (cookieString.isEmpty())
             cookieString = u"arrayParameter="_s;
-        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
-                               QAnyStringView(cookieString));
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie, cookieString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -1501,8 +1493,7 @@ void QtOAITestApi::cookieNotExplodeIntWithDataImpl(const QString &queryParameter
         // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
         if (cookieString.isEmpty())
             cookieString = u"intParameter="_s;
-        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
-                               QAnyStringView(cookieString));
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie, cookieString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -1631,8 +1622,7 @@ void QtOAITestApi::cookieNotExplodeObjectWithDataImpl(const ::QtOpenAPI::Optiona
         // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
         if (cookieString.isEmpty())
             cookieString = u"objectParameter="_s;
-        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
-                               QAnyStringView(cookieString));
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie, cookieString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -1787,8 +1777,7 @@ void QtOAITestApi::cookieNotExplodeStringWithDataImpl(const QString &pathParam, 
         // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
         if (cookieString.isEmpty())
             cookieString = u"stringParameter="_s;
-        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
-                               QAnyStringView(cookieString));
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie, cookieString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -1917,8 +1906,7 @@ void QtOAITestApi::cookieNotExplodeStringInvalidStyleWithDataImpl(const ::QtOpen
         // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
         if (cookieString.isEmpty())
             cookieString = u"stringParameter="_s;
-        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
-                               QAnyStringView(cookieString));
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie, cookieString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -2046,8 +2034,7 @@ void QtOAITestApi::cookieNotExplodeStringMapWithDataImpl(const ::QtOpenAPI::Opti
         // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
         if (cookieString.isEmpty())
             cookieString = u"mapParameter="_s;
-        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
-                               QAnyStringView(cookieString));
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie, cookieString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -5676,7 +5663,7 @@ void QtOAITestApi::headerInvalidLabelNotExplodeStringWithDataImpl(const ::QtOpen
 
         const QString headerString = toStringValue(stringParameter.value());
         if (!headerString.isEmpty())
-            input.m_headers.replaceOrAppend("String-Parameter"_L1, QAnyStringView(headerString));
+            input.m_headers.replaceOrAppend("String-Parameter"_L1, headerString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -5829,7 +5816,7 @@ void QtOAITestApi::headerSimpleExplodeAnytypeWithDataImpl(const QJsonValue &anyT
 
         const QString headerString = serializeJsonValue(anyTypeParameter, opts);
         if (!headerString.isEmpty())
-            input.m_headers.replaceOrAppend("Any-Type-Parameter"_L1, QAnyStringView(headerString));
+            input.m_headers.replaceOrAppend("Any-Type-Parameter"_L1, headerString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -5982,7 +5969,7 @@ void QtOAITestApi::headerSimpleExplodeArrayWithDataImpl(const QList<qint32> &arr
 
         const QString headerString = serializeArrayValue(arrayParameter, opts);
         if (!headerString.isEmpty())
-            input.m_headers.replaceOrAppend("Array-Parameter"_L1, QAnyStringView(headerString));
+            input.m_headers.replaceOrAppend("Array-Parameter"_L1, headerString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -6135,7 +6122,7 @@ void QtOAITestApi::headerSimpleExplodeMapWithDataImpl(const QMap<QString, QStrin
 
         const QString headerString = serializeMapValue(mapParameter, opts);
         if (!headerString.isEmpty())
-            input.m_headers.replaceOrAppend("Map-Parameter"_L1, QAnyStringView(headerString));
+            input.m_headers.replaceOrAppend("Map-Parameter"_L1, headerString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -6289,7 +6276,7 @@ void QtOAITestApi::headerSimpleExplodeObjectWithDataImpl(const QtOAITestObject &
         const QJsonObject parameter = objectParameter.asJsonObject();
         const QString headerString = serializeJsonValue(parameter, opts);
         if (!headerString.isEmpty())
-            input.m_headers.replaceOrAppend("Object-Parameter"_L1, QAnyStringView(headerString));
+            input.m_headers.replaceOrAppend("Object-Parameter"_L1, headerString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -6442,7 +6429,7 @@ void QtOAITestApi::headerSimpleExplodeStringWithDataImpl(const QString &stringPa
 
         const QString headerString = toStringValue(stringParameter);
         if (!headerString.isEmpty())
-            input.m_headers.replaceOrAppend("String-Parameter"_L1, QAnyStringView(headerString));
+            input.m_headers.replaceOrAppend("String-Parameter"_L1, headerString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -6595,7 +6582,7 @@ void QtOAITestApi::headerSimpleNotExplodeAnytypeWithDataImpl(const ::QtOpenAPI::
 
         const QString headerString = serializeJsonValue(anyTypeParameter.value(), opts);
         if (!headerString.isEmpty())
-            input.m_headers.replaceOrAppend("Any-Type-Parameter"_L1, QAnyStringView(headerString));
+            input.m_headers.replaceOrAppend("Any-Type-Parameter"_L1, headerString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -6748,7 +6735,7 @@ void QtOAITestApi::headerSimpleNotExplodeArrayWithDataImpl(const ::QtOpenAPI::Op
 
         const QString headerString = serializeArrayValue(arrayParameter.value(), opts);
         if (!headerString.isEmpty())
-            input.m_headers.replaceOrAppend("Array-Parameter"_L1, QAnyStringView(headerString));
+            input.m_headers.replaceOrAppend("Array-Parameter"_L1, headerString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -6873,7 +6860,7 @@ void QtOAITestApi::headerSimpleNotExplodeContentTypeWithDataImpl(const QString &
 
         const QString headerString = toStringValue(contentType);
         if (!headerString.isEmpty())
-            input.m_headers.replaceOrAppend("Content-Type"_L1, QAnyStringView(headerString));
+            input.m_headers.replaceOrAppend("Content-Type"_L1, headerString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -6998,7 +6985,7 @@ void QtOAITestApi::headerSimpleNotExplodeCustomWithDataImpl(const ::QtOpenAPI::O
 
         const QString headerString = toStringValue(stringParameter.value());
         if (!headerString.isEmpty())
-            input.m_headers.replaceOrAppend("String-Parameter"_L1, QAnyStringView(headerString));
+            input.m_headers.replaceOrAppend("String-Parameter"_L1, headerString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -7151,7 +7138,7 @@ void QtOAITestApi::headerSimpleNotExplodeMapWithDataImpl(const ::QtOpenAPI::Opti
 
         const QString headerString = serializeMapValue(mapParameter.value(), opts);
         if (!headerString.isEmpty())
-            input.m_headers.replaceOrAppend("Map-Parameter"_L1, QAnyStringView(headerString));
+            input.m_headers.replaceOrAppend("Map-Parameter"_L1, headerString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -7305,7 +7292,7 @@ void QtOAITestApi::headerSimpleNotExplodeObjectWithDataImpl(const ::QtOpenAPI::O
         const QJsonObject parameter = objectParameter.value().asJsonObject();
         const QString headerString = serializeJsonValue(parameter, opts);
         if (!headerString.isEmpty())
-            input.m_headers.replaceOrAppend("Object-Parameter"_L1, QAnyStringView(headerString));
+            input.m_headers.replaceOrAppend("Object-Parameter"_L1, headerString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -7458,7 +7445,7 @@ void QtOAITestApi::headerSimpleNotExplodeStringWithDataImpl(const ::QtOpenAPI::O
 
         const QString headerString = toStringValue(stringParameter.value());
         if (!headerString.isEmpty())
-            input.m_headers.replaceOrAppend("String-Parameter"_L1, QAnyStringView(headerString));
+            input.m_headers.replaceOrAppend("String-Parameter"_L1, headerString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -14320,8 +14307,7 @@ void QtOAITestApi::severalExplodeCookiesWithDataImpl(const ::QtOpenAPI::Optional
         // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
         if (cookieString.isEmpty())
             cookieString = u"mapParameter="_s;
-        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
-                               QAnyStringView(cookieString));
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie, cookieString);
     }
     if (intParameter.hasValue())
     {
@@ -14344,8 +14330,7 @@ void QtOAITestApi::severalExplodeCookiesWithDataImpl(const ::QtOpenAPI::Optional
         // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
         if (cookieString.isEmpty())
             cookieString = u"intParameter="_s;
-        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
-                               QAnyStringView(cookieString));
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie, cookieString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -14476,7 +14461,7 @@ void QtOAITestApi::severalHeaderParametersOpWithDataImpl(const ::QtOpenAPI::Opti
 
         const QString headerString = toStringValue(stringParameter.value());
         if (!headerString.isEmpty())
-            input.m_headers.replaceOrAppend("String-Parameter"_L1, QAnyStringView(headerString));
+            input.m_headers.replaceOrAppend("String-Parameter"_L1, headerString);
     }
     if (intParameter.hasValue())
     {
@@ -14496,7 +14481,7 @@ void QtOAITestApi::severalHeaderParametersOpWithDataImpl(const ::QtOpenAPI::Opti
 
         const QString headerString = toStringValue(intParameter.value());
         if (!headerString.isEmpty())
-            input.m_headers.replaceOrAppend("int-Parameter"_L1, QAnyStringView(headerString));
+            input.m_headers.replaceOrAppend("int-Parameter"_L1, headerString);
     }
     if (objectParameter.hasValue())
     {
@@ -14517,7 +14502,7 @@ void QtOAITestApi::severalHeaderParametersOpWithDataImpl(const ::QtOpenAPI::Opti
         const QJsonObject parameter = objectParameter.value().asJsonObject();
         const QString headerString = serializeJsonValue(parameter, opts);
         if (!headerString.isEmpty())
-            input.m_headers.replaceOrAppend("Object-Parameter"_L1, QAnyStringView(headerString));
+            input.m_headers.replaceOrAppend("Object-Parameter"_L1, headerString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
@@ -14648,8 +14633,7 @@ void QtOAITestApi::severalNotExplodeCookiesWithDataImpl(const ::QtOpenAPI::Optio
         // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
         if (cookieString.isEmpty())
             cookieString = u"mapParameter="_s;
-        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
-                               QAnyStringView(cookieString));
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie, cookieString);
     }
     if (intParameter.hasValue())
     {
@@ -14672,8 +14656,7 @@ void QtOAITestApi::severalNotExplodeCookiesWithDataImpl(const ::QtOpenAPI::Optio
         // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
         if (cookieString.isEmpty())
             cookieString = u"intParameter="_s;
-        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
-                               QAnyStringView(cookieString));
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie, cookieString);
     }
     QNetworkRequest request
         = QtOAIHttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,

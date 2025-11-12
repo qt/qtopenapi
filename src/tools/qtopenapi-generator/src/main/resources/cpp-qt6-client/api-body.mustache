@@ -125,7 +125,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{#isApiKey}}
 {{#isKeyInHeader}}
     if (m_apiKeys.contains("{{name}}"_L1)) {
-        setHeader("{{name}}"_L1, QAnyStringView(m_apiKeys.find("{{name}}"_L1).value()));
+        setHeader("{{name}}"_L1, m_apiKeys.find("{{name}}"_L1).value());
     }
 {{/isKeyInHeader}}
 {{#isKeyInQuery}}
@@ -140,13 +140,13 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{/isApiKey}}
 {{#isBasicBearer}}
     if (!m_bearerToken.isEmpty())
-        setHeader(QHttpHeaders::WellKnownHeader::Authorization, QAnyStringView("Bearer "_L1 + m_bearerToken));
+        setHeader(QHttpHeaders::WellKnownHeader::Authorization, "Bearer "_L1 + m_bearerToken);
 {{/isBasicBearer}}
 {{#isBasicBasic}}
     if (!m_username.isEmpty() && !m_password.isEmpty()) {
         QByteArray b64;
         b64.append(m_username.toUtf8() + ":" + m_password.toUtf8());
-        setHeader(QHttpHeaders::WellKnownHeader::Authorization, QAnyStringView("Basic "_L1 + b64.toBase64()));
+        setHeader(QHttpHeaders::WellKnownHeader::Authorization, "Basic "_L1 + b64.toBase64());
     }
 {{/isBasicBasic}}
 {{/authMethods}}
@@ -458,7 +458,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         const QString headerString = serializeArrayValue({{paramName}}{{^required}}.value(){{/required}}, opts);
 {{/isArray}}
         if (!headerString.isEmpty())
-            input.m_headers.replaceOrAppend("{{baseName}}"_L1, QAnyStringView(headerString));
+            input.m_headers.replaceOrAppend("{{baseName}}"_L1, headerString);
     }
 {{/headerParams}}
 {{#cookieParams}}
@@ -501,8 +501,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
         if (cookieString.isEmpty())
             cookieString = u"{{baseName}}="_s;
-        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie,
-                               QAnyStringView(cookieString));
+        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie, cookieString);
     }
 {{/cookieParams}}
     QNetworkRequest request

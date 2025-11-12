@@ -250,7 +250,7 @@ void QtOAIUserApi::createUserWithDataImpl(const QtOAIUser &qtOAIUser, const QObj
     QString fullPath = "/user";
     m_networkFactory->setBaseUrl(serverUrl);
     if (m_apiKeys.contains("api_key"_L1)) {
-        setHeader("api_key"_L1, QAnyStringView(m_apiKeys.find("api_key"_L1).value()));
+        setHeader("api_key"_L1, m_apiKeys.find("api_key"_L1).value());
     }
 
     // set m_testOperationPath for serialization tests
@@ -357,7 +357,7 @@ void QtOAIUserApi::createUsersWithArrayInputWithDataImpl(const QList<QtOAIUser> 
     QString fullPath = "/user/createWithArray";
     m_networkFactory->setBaseUrl(serverUrl);
     if (m_apiKeys.contains("api_key"_L1)) {
-        setHeader("api_key"_L1, QAnyStringView(m_apiKeys.find("api_key"_L1).value()));
+        setHeader("api_key"_L1, m_apiKeys.find("api_key"_L1).value());
     }
 
     // set m_testOperationPath for serialization tests
@@ -465,7 +465,7 @@ void QtOAIUserApi::createUsersWithListInputWithDataImpl(const QList<QtOAIUser> &
     QString fullPath = "/user/createWithList";
     m_networkFactory->setBaseUrl(serverUrl);
     if (m_apiKeys.contains("api_key"_L1)) {
-        setHeader("api_key"_L1, QAnyStringView(m_apiKeys.find("api_key"_L1).value()));
+        setHeader("api_key"_L1, m_apiKeys.find("api_key"_L1).value());
     }
 
     // set m_testOperationPath for serialization tests
@@ -573,7 +573,7 @@ void QtOAIUserApi::deleteUserWithDataImpl(const QtOAIUser &username, const QObje
     QString fullPath = "/user/{username}";
     m_networkFactory->setBaseUrl(serverUrl);
     if (m_apiKeys.contains("api_key"_L1)) {
-        setHeader("api_key"_L1, QAnyStringView(m_apiKeys.find("api_key"_L1).value()));
+        setHeader("api_key"_L1, m_apiKeys.find("api_key"_L1).value());
     }
     {
         QString usernamePathParam = QString("{%1}").arg("username");
@@ -1005,7 +1005,7 @@ void QtOAIUserApi::logoutUserWithDataImpl(const QJsonValue &username, const QObj
     QString fullPath = "/user/logout";
     m_networkFactory->setBaseUrl(serverUrl);
     if (m_apiKeys.contains("api_key"_L1)) {
-        setHeader("api_key"_L1, QAnyStringView(m_apiKeys.find("api_key"_L1).value()));
+        setHeader("api_key"_L1, m_apiKeys.find("api_key"_L1).value());
     }
     int queryParamCounter = 0;
     {
@@ -1149,7 +1149,7 @@ void QtOAIUserApi::updateUserWithDataImpl(const QString &username, const QtOAIUs
     QString fullPath = "/user/{username}";
     m_networkFactory->setBaseUrl(serverUrl);
     if (m_apiKeys.contains("api_key"_L1)) {
-        setHeader("api_key"_L1, QAnyStringView(m_apiKeys.find("api_key"_L1).value()));
+        setHeader("api_key"_L1, m_apiKeys.find("api_key"_L1).value());
     }
     {
         QString usernamePathParam = QString("{%1}").arg("username");
