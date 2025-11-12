@@ -4,7 +4,9 @@
 #include <QtCore/qobject.h>
 #include <QtTest/qtest.h>
 
-#include "QtOAIDefaultApi.h"
+#include "QtOAIUsersApi.h"
+#include "QtOAIColorsApi.h"
+#include "QtOAIRegisterApi.h"
 
 namespace QtOpenAPI {
 
@@ -17,7 +19,9 @@ private Q_SLOTS:
 
 void ColorPaletteTests::initialTest() {
     qDebug() << "Nothing to do yet";
-    QtOAIDefaultApi api;
+    QtOAIUsersApi usersApi;
+    QtOAIColorsApi colorsApi;
+    QtOAIRegisterApi registerApi;
 }
 } // QtOpenAPI
 

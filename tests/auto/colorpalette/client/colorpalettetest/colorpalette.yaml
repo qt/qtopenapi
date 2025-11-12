@@ -22,37 +22,6 @@ tags:
     description: Modify and create new colors & List colors
 
 paths:
-  /test/{path_param}:
-    post:
-      operationId: testOperation
-      parameters: # example: 'https://reqres.in/api/test/1?query_param0=true&id=0&name=string&query_param2=q1&query_param2=q2'
-        - in: path
-          name: path_param
-          required: true
-          schema:
-            type: integer
-        - in: query
-          name: query_param0
-          required: false
-          schema:
-            type: boolean
-        - in: query
-          name: query_param1
-          required: false
-          schema:
-            $ref: '#/components/schemas/TestObject' #  This is a nullable type thanks to oneof
-        - in: query
-          name: query_param2
-          required: false
-          schema:
-            type: array
-            items:
-              type: integer
-      requestBody:
-        $ref: '#/components/requestBodies/Credentials'
-      responses:
-        '200':
-          description: done
   /register:
     post:
       tags:
@@ -65,9 +34,8 @@ paths:
           description: Token received
           content:
             application/json:
-              example:
-                id: 4
-                token: "QpwL5tke4Pnpja7X4"
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
         '400':
           description: Undefined users
           content:
@@ -123,6 +91,8 @@ paths:
         - users
       summary: Update the user's avatar
       operationId: updateUser
+      security:
+        - token: []
       parameters:
         - in: path
           name: id
@@ -150,8 +120,8 @@ paths:
           description: Token received
           content:
             application/json:
-              example:
-                token: "QpwL5tke4Pnpjaaaa"
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
         '400':
           description: Invalid credentials supplied
   /logout:
@@ -160,10 +130,13 @@ paths:
         - users
       summary: Logs out current logged in user session
       operationId: logoutUser
+      security:
+        - token: []
       responses:
         '200':
           description: Successful operation
-  /colors:
+  /unknown:
+    description: unknown is used instead of colors to be compatible with Qt colorpalette RESTful API Server.
     get:
       tags:
         - colors
@@ -190,6 +163,8 @@ paths:
         - colors
       summary: Add a color
       operationId: addColor
+      security:
+        - token: []
       requestBody:
         required: true
         content:
@@ -203,7 +178,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Color'
-  /colors/{id}:
+  /unknown/{id}:
+    description: This path represents colors/{id}. unknown is used instead of colors resource to be compatible with Qt colorpalette RESTful API Server.
     get:
       tags:
         - colors
@@ -225,11 +201,13 @@ paths:
                 $ref: '#/components/schemas/Color'
         '404':
           description: Color not found
-    put: #update partially using patch
+    put:
       tags:
         - colors
       summary: Update an existing color
       operationId: updateColorById
+      security:
+        - token: []
       parameters:
         - in: path
           name: id
@@ -249,9 +227,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Color'
+                $ref: '#/components/schemas/Color'
         '400':
           description: Invalid input
         '404':
@@ -261,6 +237,8 @@ paths:
         - colors
       summary: Delete an existing color by Id
       operationId: deleteColorById
+      security:
+        - token: []
       parameters:
         - in: path
           name: id
@@ -272,24 +250,19 @@ paths:
         '204':
           description: Deleted successfully
 components:
+  securitySchemes:
+    token:
+      type: apiKey
+      in: header
+      name: token
   requestBodies:
     Credentials:
+      description: User's credentials
+      required: true
       content:
         application/json:
           schema:
-              oneOf:
-              - type: object
-                properties:
-                  email:
-                    type: string
-                    example: "eve.holt@reqres.in"
-                    description: The email for login
-                  password:
-                    type: string
-                    example: "cityslicka"
-                    description: The password
-              - type: 'null'
-      description: User's credentials
+            $ref: '#/components/schemas/Credentials'
     UpdateAvatarRequest:
       content:
         application/json:
@@ -351,10 +324,10 @@ components:
         email:
           type: string
           example: "michael.lawson@reqres.in"
-        first_Name:
+        first_name:
           type: string
           example: "Michael"
-        last_Name:
+        last_name:
           type: string
           example: "Lawson"
         avatar:
@@ -383,12 +356,23 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/User'
-    TestObject:
-      oneOf:
-        - type: object
-          properties:
-            id:
-              type: integer
-            name:
-              type: string
-        - type: 'null'
+    Credentials:
+      type: object
+      properties:
+          email:
+            type: string
+            example: "eve.holt@reqres.in"
+            description: The email for login
+          password:
+            type: string
+            example: "cityslicka"
+            description: The password
+    TokenResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: User Id
+        token:
+          type: string
+          description: Authentication token returned after login
