@@ -178,9 +178,8 @@ void StoreApiTests::timeoutTest()
         }
     });
     QTRY_COMPARE_EQ_WITH_TIMEOUT(orderDeleted, false, 14000);
-    QVERIFY2(netError == QNetworkReply::OperationCanceledError,
-             "Transfers are caneled if no bytes are transferred before the timeout expires.");
-    QVERIFY2(errorStr == "Operation canceled", "Operation expected be canceled.");
+    QCOMPARE_EQ(netError, QNetworkReply::TimeoutError);
+    QCOMPARE_EQ(errorStr, "Operation timed out");
 }
 
 void StoreApiTests::cleanupTestCase()
