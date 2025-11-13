@@ -3,10 +3,8 @@
 #include "{{prefix}}Helpers.h"
 
 #include <QtCore/qdebug.h>
-{{#isEnum}}
 
 using namespace Qt::StringLiterals;
-{{/isEnum}}
 
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
@@ -68,12 +66,12 @@ void {{classname}}::fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnu
 {
 {{^isEnum}}
 {{#vars}}{{^isContainer}}
-    m_{{name}}IsValid = ::{{cppNamespace}}::fromJsonValue(m_{{name}}, json[QString("{{baseName}}")]);
-    m_{{name}}IsSet = !json[QString("{{baseName}}")].isNull() && m_{{name}}IsValid;{{/isContainer}}{{#isContainer}}{{^items.isContainer}}
-    m_{{name}}IsValid = ::{{cppNamespace}}::fromJsonValue(m_{{name}}, json[QString("{{baseName}}")]);
-    m_{{name}}IsSet = !json[QString("{{baseName}}")].isNull() && m_{{name}}IsValid;{{/items.isContainer}}{{#items.isContainer}}{{#isArray}}
-    if (json["{{baseName}}"].isArray()) {
-        auto arr = json["{{baseName}}"].toArray();
+    m_{{name}}IsValid = ::{{cppNamespace}}::fromJsonValue(m_{{name}}, json[u"{{baseName}}"_s]);
+    m_{{name}}IsSet = !json[u"{{baseName}}"_s].isNull() && m_{{name}}IsValid;{{/isContainer}}{{#isContainer}}{{^items.isContainer}}
+    m_{{name}}IsValid = ::{{cppNamespace}}::fromJsonValue(m_{{name}}, json[u"{{baseName}}"_s]);
+    m_{{name}}IsSet = !json[u"{{baseName}}"_s].isNull() && m_{{name}}IsValid;{{/items.isContainer}}{{#items.isContainer}}{{#isArray}}
+    if (json[u"{{baseName}}"_s].isArray()) {
+        auto arr = json[u"{{baseName}}"_s].toArray();
         m_{{name}}IsValid = true;
         if (arr.count() > 0) {
             for (const QJsonValue jval : arr) {
@@ -84,8 +82,8 @@ void {{classname}}::fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnu
             }
         }
     }{{/isArray}}{{#isMap}}
-    if (json["{{baseName}}"].isObject()) {
-        auto varmap = json["{{baseName}}"].toObject().toVariantMap();
+    if (json[u"{{baseName}}"_s].isObject()) {
+        auto varmap = json[u"{{baseName}}"_s].toObject().toVariantMap();
         m_{{name}}IsValid = true;
         if (varmap.count() > 0) {
             for(auto val : varmap.keys()) {
@@ -140,11 +138,11 @@ QJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}} {{classname}}::asJs
     QJsonObject obj;{{#vars}}{{^isContainer}}{{#complexType}}
     if (m_{{name}}.isSet()){{/complexType}}{{^complexType}}
     if (m_{{name}}IsSet){{/complexType}} {
-        obj.insert(QString("{{baseName}}"), ::{{cppNamespace}}::toJsonValue(m_{{name}}));
+        obj.insert(u"{{baseName}}"_s, ::{{cppNamespace}}::toJsonValue(m_{{name}}));
     }{{/isContainer}}{{#isContainer}}
     if (m_{{name}}.size() > 0) {
-        {{^items.isContainer}}obj.insert(QString("{{baseName}}"), ::{{cppNamespace}}::toJsonValue(m_{{name}}));{{/items.isContainer}}{{#items.isContainer}}
-        obj.insert(QString("{{baseName}}"), toJsonValue(m_{{name}}));{{/items.isContainer}}
+        {{^items.isContainer}}obj.insert(u"{{baseName}}"_s, ::{{cppNamespace}}::toJsonValue(m_{{name}}));{{/items.isContainer}}{{#items.isContainer}}
+        obj.insert(u"{{baseName}}"_s, toJsonValue(m_{{name}}));{{/items.isContainer}}
     }{{/isContainer}}{{/vars}}
     return obj;
 {{/isEnum}}

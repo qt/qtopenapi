@@ -152,7 +152,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{/authMethods}}
 {{#pathParams}}
     {
-        QString {{paramName}}PathParam = QString("{%1}").arg("{{baseName}}");
+        QString {{paramName}}PathParam = QString("{%1}").arg(u"{{baseName}}"_s);
 {{#vendorExtensions.x-warningMessage}}
         qWarning("{{{vendorExtensions.x-warningMessage}}}");
 {{/vendorExtensions.x-warningMessage}}
@@ -334,7 +334,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{/contentType}}
 {{/consumes}}
 {{#isFile}}
-        input.addFile("{{baseName}}", {{paramName}}{{^required}}.value(){{/required}}.filename(), contentType);
+        input.addFile(u"{{baseName}}"_s, {{paramName}}{{^required}}.value(){{/required}}.filename(), contentType);
 {{/isFile}}
 {{^isFile}}
 {{#isContainer}}
@@ -458,7 +458,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         const QString headerString = serializeArrayValue({{paramName}}{{^required}}.value(){{/required}}, opts);
 {{/isArray}}
         if (!headerString.isEmpty())
-            input.m_headers.replaceOrAppend("{{baseName}}"_L1, headerString);
+            input.m_headers.replaceOrAppend(u"{{baseName}}"_s, headerString);
     }
 {{/headerParams}}
 {{#cookieParams}}
