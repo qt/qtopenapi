@@ -602,89 +602,89 @@ QString convertJsonValueToString(const QJsonValue &jsonValue)
 }
 
 // Param prefix - the first parameter related symbol in a serialization string.
-QString getParamStylePrefix(const QString &style)
+QString getParamStylePrefix(std::string_view style)
 {
-    if (style == "matrix"_L1) {
+    if (style == "matrix") {
         return ";"_L1;
-    } else if (style == "label"_L1) {
+    } else if (style == "label") {
         return "."_L1;
-    } else if (style == "form"_L1) {
+    } else if (style == "form") {
         return "?"_L1;
-    } else if (style == "simple"_L1) {
+    } else if (style == "simple") {
         return ""_L1;
-    } else if (style == "spaceDelimited"_L1) {
+    } else if (style == "spaceDelimited") {
         return "?"_L1;
-    } else if (style == "pipeDelimited"_L1) {
+    } else if (style == "pipeDelimited") {
         return "?"_L1;
-    } else if (style == "deepObject"_L1) {
+    } else if (style == "deepObject") {
         return "?"_L1;
     }
     Q_UNREACHABLE_RETURN(QString());
 }
 
-QString getParamStyleSuffix(const QString &style, const QString &name, SerializationFlags flags)
+QString getParamStyleSuffix(std::string_view style, const QString &name, SerializationFlags flags)
 {
     const bool isExplode = flags.testFlag(SerializationFlag::Explode);
     const bool isObject = flags.testFlag(SerializationFlag::Object);
-    if (style == "matrix"_L1) {
+    if (style == "matrix") {
         // for undefined cases "=" will be deleted on serialization.
         return (isExplode && isObject) ? QString() : name + QString::fromUtf8("=");
-    } else if (style == "label"_L1) {
+    } else if (style == "label") {
         return ""_L1;
-    } else if (style == "form"_L1) {
+    } else if (style == "form") {
         return (isExplode && isObject) ? QString() : name + QString::fromUtf8("=");
-    } else if (style == "simple"_L1) {
+    } else if (style == "simple") {
         return ""_L1;
-    } else if (style == "spaceDelimited"_L1) {
+    } else if (style == "spaceDelimited") {
         return name + "="_L1;
-    } else if (style == "pipeDelimited"_L1) {
+    } else if (style == "pipeDelimited") {
         return name + "="_L1;
-    } else if (style == "deepObject"_L1) {
+    } else if (style == "deepObject") {
         return name;
     }
     Q_UNREACHABLE_RETURN(QString());
 }
 
-QString getParamStyleDelimiter(const QString &style, SerializationFlags flags)
+QString getParamStyleDelimiter(std::string_view style, SerializationFlags flags)
 {
     const bool isExplode = flags.testFlag(SerializationFlag::Explode);
-    if (style == "matrix"_L1) {
+    if (style == "matrix") {
         return (isExplode) ? ";"_L1 : ","_L1;
-    } else if (style == "label"_L1) {
+    } else if (style == "label") {
         return (isExplode) ? "."_L1 : ","_L1;
-    } else if (style == "form"_L1) {
+    } else if (style == "form") {
         return (isExplode) ? "&"_L1 : ","_L1;
-    } else if (style == "simple"_L1) {
+    } else if (style == "simple") {
         return ","_L1;
-    } else if (style == "spaceDelimited"_L1) {
+    } else if (style == "spaceDelimited") {
         return QString::fromUtf8(QUrl::toPercentEncoding(" "_L1));
-    } else if (style == "pipeDelimited"_L1) {
+    } else if (style == "pipeDelimited") {
         return QString::fromUtf8(QUrl::toPercentEncoding("|"_L1));
-    } else if (style == "deepObject"_L1) {
+    } else if (style == "deepObject") {
         return "&"_L1;
     }
     Q_UNREACHABLE_RETURN(QString());
 }
 
-QString getParamStyleAssignOperator(const QString &style, SerializationFlags flags)
+QString getParamStyleAssignOperator(std::string_view style, SerializationFlags flags)
 {
     const bool isExplode = flags.testFlag(SerializationFlag::Explode);
     const bool isObject = flags.testFlag(SerializationFlag::Object);
     if (!isObject)
         return ""_L1;
-    if (style == "matrix"_L1) {
+    if (style == "matrix") {
         return (isExplode) ? "="_L1 : ","_L1;
-    } else if (style == "label"_L1) {
+    } else if (style == "label") {
         return (isExplode) ? "="_L1 : ","_L1;
-    } else if (style == "form"_L1) {
+    } else if (style == "form") {
         return (isExplode) ? "="_L1 : ","_L1;
-    } else if (style == "simple"_L1) {
+    } else if (style == "simple") {
         return (isExplode) ? "="_L1 : ","_L1;
-    } else if (style == "spaceDelimited"_L1) {
+    } else if (style == "spaceDelimited") {
         return QString::fromUtf8(QUrl::toPercentEncoding(" "_L1));
-    } else if (style == "pipeDelimited"_L1) {
+    } else if (style == "pipeDelimited") {
         return QString::fromUtf8(QUrl::toPercentEncoding("|"_L1));
-    } else if (style == "deepObject"_L1) {
+    } else if (style == "deepObject") {
         return "="_L1;
     }
     Q_UNREACHABLE_RETURN(QString());
@@ -712,7 +712,7 @@ QString serializeJsonValue(const QJsonValue &value, const SerializationOptions &
     {
         QVariantMap map = value.toObject().toVariantMap();
         if (map.size() > 0) {
-            if (opts.style == "deepObject"_L1) {
+            if (opts.style == "deepObject") {
                 qsizetype index = 0;
                 for (const auto &[key, val] : map.asKeyValueRange()) {
                     if (index > 0)

@@ -11,7 +11,11 @@
 #include <QtNetwork/qnetworkrequestfactory.h>
 #include <QtNetwork/qrestaccessmanager.h>
 
+#include <string_view>
+
 using namespace Qt::StringLiterals;
+using namespace std::string_view_literals;
+
 {{#cppCommonNamespaceDeclarations}}
 using namespace {{this}};
 {{/cppCommonNamespaceDeclarations}}
@@ -166,7 +170,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         flags.setFlag(SerializationFlag::Explode, {{isExplode}});
 
         SerializationOptions opts;
-        opts.style = "{{style}}"_L1.isEmpty() ? "simple"_L1 : "{{style}}"_L1;
+        opts.style = "{{style}}"sv.empty() ? "simple" : "{{style}}";
         opts.prefix = getParamStylePrefix(opts.style);
         opts.delimiter = getParamStyleDelimiter(opts.style, flags);
         opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
@@ -200,7 +204,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         // In case style=matrix and paramString is empty due to any reasons,
         // we serialize it like undefined value and delete '='.
         // Described here: https://spec.openapis.org/oas/v3.1.1.html#style-values
-        if ((paramString == opts.prefix + opts.suffix) && QString("{{style}}") == "matrix"_L1)
+        if ((paramString == opts.prefix + opts.suffix) && opts.style == "matrix")
             paramString.chop(1);
         fullPath.replace({{paramName}}PathParam, paramString);
     }
@@ -220,7 +224,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         flags.setFlag(SerializationFlag::Explode, {{isExplode}});
 
         SerializationOptions opts;
-        opts.style = "{{style}}"_L1.isEmpty() ? "form"_L1 : "{{style}}"_L1;
+        opts.style = "{{style}}"sv.empty() ? "form" : "{{style}}";
         opts.prefix = getParamStylePrefix(opts.style);
         opts.delimiter = getParamStyleDelimiter(opts.style, flags);
         opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
@@ -241,16 +245,16 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{#isAnyType}}
             const QJsonValue::Type paramType = {{paramName}}{{^required}}.value(){{/required}}.type();
             if (paramType != QJsonValue::Object) {
-                if (opts.style == "deepObject"_L1) {
+                if (opts.style == "deepObject") {
                     qWarning("Be aware that 'deepObject' style is only valid for parameters of "
                              "type 'object'. The generated result will not conform to the OpenAPI "
                              "standard.");
                 } else if (paramType != QJsonValue::Array
-                           && (opts.style == "pipeDelimited"_L1
-                               || opts.style == "spaceDelimited"_L1)) {
+                           && (opts.style == "pipeDelimited"
+                               || opts.style == "spaceDelimited")) {
                     qWarning("Be aware that '%s' style is invalid for primitive parameters. "
                              "The generated result will not conform to the OpenAPI standard.",
-                             qPrintable(opts.style));
+                             opts.style.c_str());
                 }
             }
             paramString = serializeJsonValue({{paramName}}{{^required}}.value(){{/required}}, opts);
@@ -274,7 +278,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
                           " OpenAPI standard.";
 {{/content}}
 {{/additionalProperties.isModel}}
-            if (opts.style == "deepObject"_L1) {
+            if (opts.style == "deepObject") {
                 qsizetype index = 0;
                 if ({{paramName}}{{^required}}.value(){{/required}}.isEmpty())
                     qWarning() << "Map is empty!";
@@ -437,7 +441,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         flags.setFlag(SerializationFlag::Explode, {{isExplode}});
 
         SerializationOptions opts;
-        opts.style = "{{style}}"_L1.isEmpty() ? "simple"_L1 : "{{style}}"_L1;
+        opts.style = "{{style}}"sv.empty() ? "simple" : "{{style}}";
         opts.prefix = getParamStylePrefix(opts.style);
         opts.delimiter = getParamStyleDelimiter(opts.style, flags);
         opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);
@@ -477,7 +481,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         flags.setFlag(SerializationFlag::Explode, {{isExplode}});
 
         SerializationOptions opts;
-        opts.style = "{{style}}"_L1.isEmpty() ? "form"_L1 : "{{style}}"_L1;
+        opts.style = "{{style}}"sv.empty() ? "form" : "{{style}}";
         opts.prefix = getParamStylePrefix(opts.style);
         opts.delimiter = getParamStyleDelimiter(opts.style, flags);
         opts.assignOperator = getParamStyleAssignOperator(opts.style, flags);

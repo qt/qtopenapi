@@ -18,6 +18,8 @@
 #include <QtCore/qvariant.h>
 
 #include <optional>
+#include <string>
+#include <string_view>
 
 {{#cppCommonNamespaceDeclarations}}
 namespace {{this}} {
@@ -335,7 +337,7 @@ Q_DECLARE_FLAGS(SerializationFlags, SerializationFlag)
 
 struct SerializationOptions
 {
-    QString style;
+    std::string style;
     QString prefix;
     QString suffix;
     QString assignOperator;
@@ -343,10 +345,10 @@ struct SerializationOptions
     SerializationFlags flags;
 };
 
-{{prefix}}_COMMON_EXPORT QString getParamStylePrefix(const QString &style);
-{{prefix}}_COMMON_EXPORT QString getParamStyleSuffix(const QString &style, const QString &name, SerializationFlags flags);
-{{prefix}}_COMMON_EXPORT QString getParamStyleDelimiter(const QString &style, SerializationFlags flags);
-{{prefix}}_COMMON_EXPORT QString getParamStyleAssignOperator(const QString &style, SerializationFlags flags);
+{{prefix}}_COMMON_EXPORT QString getParamStylePrefix(std::string_view style);
+{{prefix}}_COMMON_EXPORT QString getParamStyleSuffix(std::string_view style, const QString &name, SerializationFlags flags);
+{{prefix}}_COMMON_EXPORT QString getParamStyleDelimiter(std::string_view style, SerializationFlags flags);
+{{prefix}}_COMMON_EXPORT QString getParamStyleAssignOperator(std::string_view style, SerializationFlags flags);
 
 {{prefix}}_COMMON_EXPORT QString serializeJsonValue(const QJsonValue &value, const SerializationOptions &opts);
 
@@ -363,7 +365,7 @@ QString serializeArrayValue(const QList<T> &value, const SerializationOptions &o
     for (const T &t : value) {
         if (index > 0)
             paramString.append(opts.delimiter);
-        if ((opts.style == "matrix"_L1 || opts.style == "form"_L1) && isExplode && index > 0)
+        if ((opts.style == "matrix" || opts.style == "form") && isExplode && index > 0)
             paramString.append(opts.suffix);
         const QString resultValue = toStringValue(t);
         paramString.append(percentEncode ? QString::fromUtf8(QUrl::toPercentEncoding(resultValue)) : resultValue);
