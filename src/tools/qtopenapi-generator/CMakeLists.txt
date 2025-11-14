@@ -27,6 +27,7 @@ add_custom_command(
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
     COMMENT "Building the Qt6 Client Code Generator with Maven"
     VERBATIM
+    USES_TERMINAL
 )
 
 # Define a custom target that depends on the above output
