@@ -168,10 +168,16 @@ function(qt6_add_openapi_client target)
     set(run_client_cmd
         "${openapi_generator_cli_dir}${path_separator}${openapi_generator_cli_jar_file}${path_separator}${generator_path}")
 
-    set(extra_dependencies "")
+    set(extra_dependencies
+        DEPENDS
+            "${openapi_generator_cli_jar_file}"
+            "${generator_path}"
+    )
     if(TARGET QtOpenAPIGenerator)
         # otherwise add_custom_command tries to run generator, that is not created yet
-        set(extra_dependencies DEPENDS QtOpenAPIGenerator)
+        list(APPEND extra_dependencies
+            QtOpenAPIGenerator
+        )
     endif()
 
     # if target is already created, no need to use package_name option for generator
