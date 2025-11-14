@@ -21,3 +21,6 @@ qt_internal_add_module(OpenapiPrivate
         "${QT_CMAKE_EXPORT_NAMESPACE}OpenApiGeneratorMacros.cmake"
 )
 set_target_properties(OpenapiPrivate PROPERTIES AUTOMOC OFF)
+
+qt_record_extra_third_party_dependency(OpenapiPrivate WrapOpenAPIJava::WrapOpenAPIJava)
+qt_record_extra_third_party_dependency(OpenapiPrivate WrapOpenAPIGenerator::WrapOpenAPIGenerator)
