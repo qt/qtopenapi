@@ -7,10 +7,8 @@
 
 qt_internal_add_module(OpenapiPrivate
     INTERNAL_MODULE
-    #HEADER_MODULE
-    #NO_GENERATE_CPP_EXPORTS
-    #NO_MODULE_HEADERS
     NO_ADDITIONAL_TARGET_INFO
+    NO_GENERATE_METATYPES
     SOURCES
         dummy.cpp
     PUBLIC_LIBRARIES
@@ -22,3 +20,4 @@ qt_internal_add_module(OpenapiPrivate
         "${QT_CMAKE_EXPORT_NAMESPACE}OpenapiPrivateExtraTargets.cmake"
         "${QT_CMAKE_EXPORT_NAMESPACE}OpenApiGeneratorMacros.cmake"
 )
+set_target_properties(OpenapiPrivate PROPERTIES AUTOMOC OFF)
