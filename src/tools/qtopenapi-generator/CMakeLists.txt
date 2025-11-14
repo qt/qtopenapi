@@ -13,6 +13,41 @@ set(QT6_OPENAPI_GENERATOR_CLI
     "${CMAKE_CURRENT_BINARY_DIR}/target/cpp-qt6-client-openapi-generator-${QT_OPENAPI_GENERATOR_VERSION}.jar"
 )
 
+set(source_files
+    src/main/java/org/qtproject/qt/codegen/CppQt6AbstractCodegen.java
+    src/main/java/org/qtproject/qt/codegen/CppQt6ClientGenerator.java
+    src/main/resources/META-INF/services/org.openapitools.codegen.CodegenConfig
+    src/main/resources/cpp-qt6-client/CMakeConfig.mustache
+    src/main/resources/cpp-qt6-client/CMakeLists.txt.mustache
+    src/main/resources/cpp-qt6-client/README.mustache
+    src/main/resources/cpp-qt6-client/api-body.mustache
+    src/main/resources/cpp-qt6-client/api-header.mustache
+    src/main/resources/cpp-qt6-client/common/CMakeConfig.mustache
+    src/main/resources/cpp-qt6-client/common/CMakeLists.txt.mustache
+    src/main/resources/cpp-qt6-client/common/HttpFileElement.cpp.mustache
+    src/main/resources/cpp-qt6-client/common/HttpFileElement.h.mustache
+    src/main/resources/cpp-qt6-client/common/HttpRequest.cpp.mustache
+    src/main/resources/cpp-qt6-client/common/HttpRequest.h.mustache
+    src/main/resources/cpp-qt6-client/common/ServerConfiguration.mustache
+    src/main/resources/cpp-qt6-client/common/ServerVariable.mustache
+    src/main/resources/cpp-qt6-client/common/api-base-body.mustache
+    src/main/resources/cpp-qt6-client/common/api-base-header.mustache
+    src/main/resources/cpp-qt6-client/common/common-exports.mustache
+    src/main/resources/cpp-qt6-client/common/enum.mustache
+    src/main/resources/cpp-qt6-client/common/helpers-body.mustache
+    src/main/resources/cpp-qt6-client/common/helpers-header.mustache
+    src/main/resources/cpp-qt6-client/common/object.mustache
+    src/main/resources/cpp-qt6-client/doc/Doxyfile.in.mustache
+    src/main/resources/cpp-qt6-client/exports.mustache
+    src/main/resources/cpp-qt6-client/licenseInfo.mustache
+    src/main/resources/cpp-qt6-client/model-body.mustache
+    src/main/resources/cpp-qt6-client/model-header.mustache
+    src/test/java/org/qtproject/qt/codegen/CppQt6ClientGeneratorTest.java
+    pom.xml
+    logback.xml
+)
+
+
 # Define a custom command to run 'mvn package'
 add_custom_command(
     OUTPUT "${QT6_OPENAPI_GENERATOR_CLI}"
@@ -24,6 +59,8 @@ add_custom_command(
     COMMAND "${CMAKE_COMMAND}" -E copy_if_different
             "${QT6_OPENAPI_GENERATOR_CLI}"
             "${QT_BUILD_DIR}/${INSTALL_LIBEXECDIR}"
+    DEPENDS
+        ${source_files}
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
     COMMENT "Building the Qt6 Client Code Generator with Maven"
     VERBATIM
