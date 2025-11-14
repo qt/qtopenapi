@@ -12,7 +12,10 @@ find_package(Qt6 REQUIRED COMPONENTS Core Network Test)
 if(MSVC)
     add_compile_options(/W4 /WX)
 else()
-    add_compile_options(-Wall -Wextra -Werror=deprecated-declarations)
+    add_compile_options(-Wall -Wextra)
+    if(WARNINGS_ARE_ERRORS)
+        add_compile_options(-Werror=deprecated-declarations)
+    endif()
 endif()
 
 ## application 1:

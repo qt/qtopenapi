@@ -15,9 +15,12 @@ endif()
 find_package(ZLIB REQUIRED)
 
 if(MSVC)
-  add_compile_options(/W4 /WX)
+    add_compile_options(/W4 /WX)
 else()
-  add_compile_options(-Wall -Wextra -Werror=deprecated-declarations)
+    add_compile_options(-Wall -Wextra)
+    if(WARNINGS_ARE_ERRORS)
+        add_compile_options(-Werror=deprecated-declarations)
+    endif()
 endif()
 
 qt_internal_add_test(cpp-qt-responses
