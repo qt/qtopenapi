@@ -1,20 +1,13 @@
 # Copyright (C) 2025 The Qt Company Ltd.
 # SPDX-License-Identifier: BSD-3-Clause
 
-find_program(OPENAPI_JAVA_EXECUTABLE NAMES java)
-find_program(OPENAPI_MAVEN_EXECUTABLE NAMES mvn)
-
-if(NOT QT_FEATURE_openapi_generator)
-    return()
+if(NOT Java_JAVAC_EXECUTABLE)
+    message(FATAL_ERROR "Missing Java_JAVAC_EXECUTABLE to be set.")
 endif()
 
-if (NOT OPENAPI_JAVA_EXECUTABLE)
-    return()
-endif()
-
-if (NOT OPENAPI_MAVEN_EXECUTABLE)
-    return()
-endif()
+if(NOT OPENAPI_MAVEN_EXECUTABLE)
+     message(FATAL_ERROR "Missing OPENAPI_MAVEN_EXECUTABLE to be set.")
+ endif()
 
 set(QT6_OPENAPI_GENERATOR_CLI
     "${CMAKE_CURRENT_BINARY_DIR}/target/cpp-qt6-client-openapi-generator-${QT_OPENAPI_GENERATOR_VERSION}.jar"
