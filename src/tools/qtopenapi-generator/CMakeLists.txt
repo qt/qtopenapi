@@ -26,6 +26,11 @@ add_custom_command(
     COMMAND "${OPENAPI_MAVEN_EXECUTABLE}"
             -f "${CMAKE_CURRENT_SOURCE_DIR}/pom.xml" package
             -Dqt.build.dir=${CMAKE_CURRENT_BINARY_DIR}/target
+    # Copy the built generator to libexec build dir, so that standalone tests work with no-prefix
+    # builds as well.
+    COMMAND "${CMAKE_COMMAND}" -E copy_if_different
+            "${QT6_OPENAPI_GENERATOR_CLI}"
+            "${QT_BUILD_DIR}/${INSTALL_LIBEXECDIR}"
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
     COMMENT "Building the Qt6 Client Code Generator with Maven"
     VERBATIM
