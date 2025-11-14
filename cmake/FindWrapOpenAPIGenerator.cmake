@@ -6,37 +6,28 @@ if(TARGET WrapOpenAPIGenerator::WrapOpenAPIGenerator)
     return()
 endif()
 
-set(WrapOpenAPIGenerator_FOUND FALSE)
-
-find_program(OPENAPI_JAVA_EXECUTABLE java)
-find_program(OPENAPI_GO_EXECUTABLE NAMES go)
-find_program(OPENAPI_MAVEN_EXECUTABLE NAMES mvn)
-
-if (NOT OPENAPI_GO_EXECUTABLE)
-    return()
-endif()
-
-if(NOT OPENAPI_JAVA_EXECUTABLE)
-    return()
-endif()
-
-if(NOT OPENAPI_MAVEN_EXECUTABLE)
-    return()
-endif()
-
-find_file(OPENAPI_GENERATOR_CLI
-    NAMES openapi-generator-cli.jar
+# We don't use find_jar, because that passes NO_DEFAULT_PATH to find_path, and we want to search
+# inside PATH env.
+find_file(OPENAPI_GENERATOR_CLI_JAR
+    NAMES
+        openapi-generator-cli.jar
+    PATHS
+        # These are the paths that find_jar would search by default
+        /usr/share/java
+        /usr/local/share/java
+        ${Java_JAR_PATHS}
 )
 
-if(OPENAPI_GENERATOR_CLI AND EXISTS "${OPENAPI_GENERATOR_CLI}")
-    set(WrapOpenAPIGenerator_FOUND TRUE)
-    set(OPENAPI_GENERATOR_CLI_JAR "${OPENAPI_GENERATOR_CLI}")
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(WrapOpenAPIGenerator
+    REQUIRED_VARS
+        OPENAPI_GENERATOR_CLI_JAR
+)
+
+if(WrapOpenAPIGenerator_FOUND)
+    add_library(WrapOpenAPIGenerator::WrapOpenAPIGenerator INTERFACE IMPORTED)
+    set_target_properties(WrapOpenAPIGenerator::WrapOpenAPIGenerator PROPERTIES
+        INTERFACE_OPENAPI_GENERATOR_CLI_JAR "${OPENAPI_GENERATOR_CLI_JAR}"
+    )
 endif()
 
-# Define IMPORTED INTERFACE target
-add_library(WrapOpenAPIGenerator::WrapOpenAPIGenerator INTERFACE IMPORTED)
-
-# Set properties (for documentation; you can extend as needed)
-set_target_properties(WrapOpenAPIGenerator::WrapOpenAPIGenerator PROPERTIES
-    INTERFACE_OPENAPI_GENERATOR_CLI_JAR "${OPENAPI_GENERATOR_CLI_JAR}"
-)
