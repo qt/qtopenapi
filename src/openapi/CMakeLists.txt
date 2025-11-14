@@ -5,22 +5,21 @@
 ## OpenapiPrivate Module:
 #####################################################################
 
-qt_internal_add_module(OpenapiPrivate
-    INTERNAL_MODULE
+qt_internal_add_module(OpenApi
+    HEADER_MODULE
+    NO_MODULE_HEADERS
+    NO_PRIVATE_MODULE
+    NO_GENERATE_CPP_EXPORTS
     NO_ADDITIONAL_TARGET_INFO
     NO_GENERATE_METATYPES
-    SOURCES
-        dummy.cpp
-    PUBLIC_LIBRARIES
-        Qt::Core
     EXTRA_CMAKE_FILES
-        "${CMAKE_CURRENT_SOURCE_DIR}/${QT_CMAKE_EXPORT_NAMESPACE}OpenapiPrivateExtraTargets.cmake"
+        "${CMAKE_CURRENT_SOURCE_DIR}/${QT_CMAKE_EXPORT_NAMESPACE}OpenApiExtraTargets.cmake"
         "${CMAKE_CURRENT_SOURCE_DIR}/${QT_CMAKE_EXPORT_NAMESPACE}OpenApiGeneratorMacros.cmake"
     EXTRA_CMAKE_INCLUDES
-        "${QT_CMAKE_EXPORT_NAMESPACE}OpenapiPrivateExtraTargets.cmake"
+        "${QT_CMAKE_EXPORT_NAMESPACE}OpenApiExtraTargets.cmake"
         "${QT_CMAKE_EXPORT_NAMESPACE}OpenApiGeneratorMacros.cmake"
 )
-set_target_properties(OpenapiPrivate PROPERTIES AUTOMOC OFF)
+set_target_properties(OpenApi PROPERTIES AUTOMOC OFF)
 
-qt_record_extra_third_party_dependency(OpenapiPrivate WrapOpenAPIJava::WrapOpenAPIJava)
-qt_record_extra_third_party_dependency(OpenapiPrivate WrapOpenAPIGenerator::WrapOpenAPIGenerator)
+qt_record_extra_third_party_dependency(OpenApi WrapOpenAPIJava::WrapOpenAPIJava)
+qt_record_extra_third_party_dependency(OpenApi WrapOpenAPIGenerator::WrapOpenAPIGenerator)
