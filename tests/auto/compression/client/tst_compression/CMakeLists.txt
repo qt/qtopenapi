@@ -42,7 +42,8 @@ qt6_add_openapi_client(CompressionClient
 #     PRIVATE
 #         SERVER_PATH="$<TARGET_FILE:compression-server-go>"
 # )
-
+qt_autogen_tools_initial_setup(CompressionClient)
+qt_autogen_tools_initial_setup(CommonCompressionClient)
 target_link_libraries(cpp-qt-compression PRIVATE CompressionClient CommonCompressionClient)
 # add_dependencies(cpp-qt-compression compression-server-go)
 

@@ -34,7 +34,8 @@ target_compile_definitions(cpp-qt-operations-parameters-backport
 )
 
 add_dependencies(cpp-qt-operations-parameters-backport backport-server-go)
-
+qt_autogen_tools_initial_setup(OpenapiBackportClient)
+qt_autogen_tools_initial_setup(CommonOpenapiBackportClient)
 target_link_libraries(cpp-qt-operations-parameters-backport
     PRIVATE
         OpenapiBackportClient

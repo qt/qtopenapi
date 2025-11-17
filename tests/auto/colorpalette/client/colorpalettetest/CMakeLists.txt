@@ -28,7 +28,8 @@ qt6_add_openapi_client(ColorpaletteClient
     GENERATE_COMMON_LIBRARY
     COMMON_LIBRARY_NAME CommonColorpaletteClient
 )
-
+qt_autogen_tools_initial_setup(ColorpaletteClient)
+qt_autogen_tools_initial_setup(CommonColorpaletteClient)
 target_link_libraries(cpp-qt-colorpalette-app PRIVATE ColorpaletteClient CommonColorpaletteClient)
 
 if(WIN32)

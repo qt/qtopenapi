@@ -50,6 +50,10 @@ target_include_directories(TestClient2
        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/client1/common>
 )
 
+qt_autogen_tools_initial_setup(TestClient1)
+qt_autogen_tools_initial_setup(TestClient2)
+qt_autogen_tools_initial_setup(TestCommon)
+
 target_link_libraries(TestClient2 PRIVATE TestCommon)
 target_link_libraries(cpp-qt-test-config1-app PRIVATE TestClient1 TestClient2 TestCommon)
 

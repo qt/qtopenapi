@@ -32,7 +32,8 @@ target_compile_definitions(cpp-qt-operation-parameters
     PRIVATE
         SERVER_PATH="$<TARGET_FILE:op-server-go>"
 )
-
+qt_autogen_tools_initial_setup(OperationParametersClient)
+qt_autogen_tools_initial_setup(CommonOperationParametersClient)
 target_link_libraries(cpp-qt-operation-parameters PRIVATE
     OperationParametersClient CommonOperationParametersClient)
 add_dependencies(cpp-qt-operation-parameters op-server-go)

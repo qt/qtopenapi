@@ -7,6 +7,8 @@ qt6_add_openapi_client(PetStoreClient
        GENERATE_COMMON_LIBRARY
        COMMON_LIBRARY_NAME CommonPetStoreClient
 )
+qt_autogen_tools_initial_setup(PetStoreClient)
+qt_autogen_tools_initial_setup(CommonPetStoreClient)
 
 add_subdirectory(PetApiTest)
 add_subdirectory(StoreApiTest)

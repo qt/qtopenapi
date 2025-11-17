@@ -52,7 +52,8 @@ target_compile_definitions(cpp-qt-mediatype
     PRIVATE
         SERVER_PATH="$<TARGET_FILE:mediatype-server-go>"
 )
-
+qt_autogen_tools_initial_setup(MediaTypeClient)
+qt_autogen_tools_initial_setup(CommonMediaTypeClient)
 target_link_libraries(cpp-qt-mediatype PRIVATE MediaTypeClient CommonMediaTypeClient)
 add_dependencies(cpp-qt-mediatype mediatype-server-go)
 
