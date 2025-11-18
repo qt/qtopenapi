@@ -11,15 +11,11 @@
                      ],
         "file_pattern_ending": ["CMakeLists.txt", ".cmake", ".pro", ".pri", ".prf",
                      "configure", "configure.bat", "cmake.in", "plist.in", "CMakeLists.txt.in",
-                     ".cmake.conf", ".tag", "ci_config_linux.json"],
+                     ".cmake.conf", ".tag", "ci_config_linux.json", "dependencies.yaml",
+                     "coin/module_config.yaml"],
         "location": {
             "": {
                 "comment": "Default",
-                "file type": "build system",
-                "spdx": ["BSD-3-Clause"]
-            },
-            "cmake/FindWrapOpenAPIGenerator.cmake": {
-                "comment": "MIT licensed copied parts",
                 "file type": "build system",
                 "spdx": ["BSD-3-Clause"]
             },
@@ -72,28 +68,12 @@
             }
         }
     },
-   {
-        "comments": ["Files with the following endings are Apache-2.0 licensed"],
-        "file_pattern_ending": [".yaml"],
-        "location":{
-            "tests/auto/": {
-                "comment": "Default",
-                "file type": "3rd party",
-                "spdx": ["Apache-2.0"]
-            }
-        }
-    },
     {
         "comment": ["All other files",
                      "The licensing is defined only by the file location in the Qt module repository.",
                      "NO <file_pattern_ending> key for this case!",
                      "This needs to be the last entry of the file."],
         "location": {
-            "": {
-                "comment": "Default",
-                "file type": "3rd party",
-                "spdx": ["LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only"]
-            },
             "src/tools": {
                 "comment": "",
                 "file type": "3rd party",
