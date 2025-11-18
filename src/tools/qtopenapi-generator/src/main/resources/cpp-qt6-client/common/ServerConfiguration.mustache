@@ -9,10 +9,7 @@
 
 #include <QtCore/qstring.h>
 #include <QtCore/qmap.h>
-#include <QtCore/qregularexpression.h>
 #include <QtCore/qurl.h>
-
-#include <optional>
 
 {{#cppCommonNamespaceDeclarations}}
 namespace {{this}} {
@@ -35,6 +32,8 @@ public:
     /**
     * Original URL
     *
+    * If the URL contains variables, they are not substituted.
+    *
     * @return Original URL.
     */
     const QUrl serverUrl() const { return m_url; }
@@ -42,25 +41,24 @@ public:
     /**
      * Format URL template using server's variables.
      *
-     * @return Formatted URL.
+     * @return URL, where the server variables are substituted with actual values.
      */
-    std::optional<QString> URL() {
+    QUrl url() const {
+        if (m_variables.empty())
+            return m_url; // nothing to do
+
         QString url = m_url.toString();
-        if (!m_variables.empty()) {
-            // go through variables and replace placeholders
-            for (const auto &[name, serverVariable] : m_variables.asKeyValueRange()) {
-                const QString value = serverVariable.m_defaultValue;
-                if (!serverVariable.m_enumValues.empty() && !serverVariable.m_enumValues.contains(value)) {
-                    qWarning("The variable %s in the server URL has an invalid value %s.",
-                             qPrintable(name), qPrintable(value));
-                    return std::nullopt;
-                }
-                const QRegularExpression regex(QString::fromUtf8("\\{") + name + QString::fromUtf8("\\}"));
-                url = url.replace(regex, value);
+        // go through variables and replace placeholders
+        for (const auto &[name, serverVariable] : m_variables.asKeyValueRange()) {
+            const QString value = serverVariable.m_defaultValue;
+            if (!serverVariable.m_enumValues.empty() && !serverVariable.m_enumValues.contains(value)) {
+                qWarning("The variable %s in the server URL has an invalid value %s.",
+                          qPrintable(name), qPrintable(value));
             }
-            return url;
+            const QString varTemplate = u'{' + name + u'}';
+            url = url.replace(varTemplate, value);
         }
-        return url;
+        return QUrl(url);
     }
 
     {{prefix}}ServerVariable::ServerError setDefaultValue(const QString &variable, const QString &value) {
