@@ -282,7 +282,7 @@ function(qt6_add_openapi_client target)
         set(copied_headers_timestamp_file
             "${arg_OUTPUT_DIRECTORY}/openapi_client_copied_headers_timestamp.txt")
         set(copy_headers_script
-            "${__qt_openapi_macros_module_base_dir}/Qt6OpenApiCopyHeadersScript.cmake")
+            "${__qt_openapi_macros_module_base_dir}/Qt6OpenApiToolsCopyHeadersScript.cmake")
 
         add_custom_command(
             OUTPUT "${copied_headers_timestamp_file}"
