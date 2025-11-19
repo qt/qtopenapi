@@ -3,10 +3,7 @@
 
 #include "../client/QtOAITestApi.h"
 
-#include "QtCore/qmetaobject.h"
 #include <QtCore/qobject.h>
-#include <QtCore/QProcess>
-#include <QtCore/QThread>
 #include <QtTest/qtest.h>
 
 using namespace Qt::StringLiterals;
