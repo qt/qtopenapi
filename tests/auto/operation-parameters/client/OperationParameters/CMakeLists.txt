@@ -21,11 +21,12 @@ qt_internal_add_test(cpp-qt-operation-parameters
         Qt::Test
 )
 
+qt_add_library(OperationParametersClient)
+qt_add_library(CommonOperationParametersClient)
 qt6_add_openapi_client(OperationParametersClient
     SPEC_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/operation-parameters.yaml
-    GENERATE_COMMON_LIBRARY
-    COMMON_LIBRARY_NAME CommonOperationParametersClient
+    COMMON_LIBRARY_TARGET CommonOperationParametersClient
 )
 
 target_compile_definitions(cpp-qt-operation-parameters

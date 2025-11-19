@@ -31,11 +31,12 @@ qt_internal_add_test(cpp-qt-mediatype
         Qt::Test
 )
 
+qt_add_library(MediaTypeClient)
+qt_add_library(CommonMediaTypeClient)
 qt6_add_openapi_client(MediaTypeClient
     SPEC_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/mediatype.yaml
-    GENERATE_COMMON_LIBRARY
-    COMMON_LIBRARY_NAME CommonMediaTypeClient
+    COMMON_LIBRARY_TARGET CommonMediaTypeClient
 )
 
 # Resources:

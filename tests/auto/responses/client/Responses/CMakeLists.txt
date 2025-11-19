@@ -32,11 +32,12 @@ qt_internal_add_test(cpp-qt-responses
         Qt::Test
 )
 
+qt_add_library(ResponsesClient)
+qt_add_library(CommonResponsesClient)
 qt6_add_openapi_client(ResponsesClient
     SPEC_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/responses.yaml
-    GENERATE_COMMON_LIBRARY
-    COMMON_LIBRARY_NAME CommonResponsesClient
+    COMMON_LIBRARY_TARGET CommonResponsesClient
     COMPRESSION_REQUIRED
 )
 

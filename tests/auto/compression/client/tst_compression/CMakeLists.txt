@@ -33,11 +33,12 @@ qt_internal_add_test(cpp-qt-compression
         Qt::Test
 )
 
+qt_add_library(CompressionClient)
+qt_add_library(CommonCompressionClient)
 qt6_add_openapi_client(CompressionClient
     SPEC_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/compression.yaml
-    GENERATE_COMMON_LIBRARY
-    COMMON_LIBRARY_NAME CommonCompressionClient
+    COMMON_LIBRARY_TARGET CommonCompressionClient
     COMPRESSION_REQUIRED
 )
 

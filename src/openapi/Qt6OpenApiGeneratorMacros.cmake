@@ -30,14 +30,13 @@ endfunction()
 
 function(qt6_add_openapi_client target)
     set(options
-        GENERATE_COMMON_LIBRARY
         COMPRESSION_REQUIRED
     )
     set(oneValueArgs
         SPEC_FILE
         CPP_NAMESPACE
         MODEL_NAME_PREFIX
-        COMMON_LIBRARY_NAME
+        COMMON_LIBRARY_TARGET
         OUTPUT_DIRECTORY
     )
     set(multiValueArgs "")
@@ -51,6 +50,20 @@ function(qt6_add_openapi_client target)
 
     if(NOT arg_OUTPUT_DIRECTORY)
         set(arg_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
+    endif()
+
+    if(NOT TARGET "${target}")
+        message(FATAL_ERROR "qt6_add_openapi_client: "
+            "Target '${target}' does not exist. "
+            "Please create it before calling qt6_add_openapi_client. "
+            "You can use qt_add_library or qt_add_executable to create the target.")
+    endif()
+
+    if(arg_COMMON_LIBRARY_TARGET AND NOT TARGET "${arg_COMMON_LIBRARY_TARGET}")
+        message(FATAL_ERROR "qt6_add_openapi_client: "
+            "COMMON_LIBRARY_TARGET '${arg_COMMON_LIBRARY_TARGET}' does not exist. "
+            "Please create it before calling qt6_add_openapi_client. "
+            "You can use qt_add_library to create the target.")
     endif()
 
     if (NOT TARGET "${QT_CMAKE_EXPORT_NAMESPACE}::QtOpenAPIGeneratorJar")
@@ -95,16 +108,13 @@ function(qt6_add_openapi_client target)
 
     # The default commonLibGenerationType is defined in CppQt6ClientGenerator.java:
     # String commonLibrary = GENERATION_TYPE.COMMON_LIB.value;
-    if(arg_GENERATE_COMMON_LIBRARY)
+    if(arg_COMMON_LIBRARY_TARGET)
         set(common_lib_generation_type "Use-Common-Lib")
     else()
         set(common_lib_generation_type "Skip-Common-Files")
     endif()
 
-    if(arg_GENERATE_COMMON_LIBRARY AND NOT arg_COMMON_LIBRARY_NAME)
-        message(FATAL_ERROR "Please, set common library name via COMMON_LIBRARY_NAME argument.")
-    endif()
-    set(common_lib_target "${arg_COMMON_LIBRARY_NAME}")
+    set(common_lib_target "${arg_COMMON_LIBRARY_TARGET}")
 
     # ZLIB is used for copression, by default compression is false
     set(compression_required "false")
@@ -142,7 +152,7 @@ function(qt6_add_openapi_client target)
     list(APPEND client_sources "${client_dir_path}${model_name_prefix}CombinedModelsAndAPIs.cpp")
     list(APPEND client_sources "${client_dir_path}${model_name_prefix}Exports.h")
     list(APPEND generating_sources ${client_sources})
-    if(arg_GENERATE_COMMON_LIBRARY)
+    if(arg_COMMON_LIBRARY_TARGET)
         list(APPEND common_sources "${common_dir_path}${model_name_prefix}CommonExports.h")
         list(APPEND common_sources "${common_dir_path}${model_name_prefix}BaseApi.h")
         list(APPEND common_sources "${common_dir_path}${model_name_prefix}BaseApi.cpp")
@@ -206,25 +216,23 @@ function(qt6_add_openapi_client target)
     set(is_shared FALSE)
     set(is_static FALSE)
     set(is_executable FALSE)
-    if(NOT TARGET ${target})
-        qt_add_library(${target})
-        set_property(TARGET ${target} PROPERTY AUTOMOC "ON")
-        target_link_libraries(${target} PRIVATE
+
+    set_property(TARGET ${target} PROPERTY AUTOMOC "ON")
+    target_link_libraries(${target} PRIVATE
+        ${QT_CMAKE_EXPORT_NAMESPACE}::Core
+        ${QT_CMAKE_EXPORT_NAMESPACE}::Network
+    )
+
+    if(arg_COMMON_LIBRARY_TARGET)
+        set_property(TARGET ${common_lib_target} PROPERTY AUTOMOC "ON")
+        target_link_libraries(${common_lib_target} PRIVATE
             ${QT_CMAKE_EXPORT_NAMESPACE}::Core
             ${QT_CMAKE_EXPORT_NAMESPACE}::Network
         )
-        if(arg_GENERATE_COMMON_LIBRARY)
-            qt_add_library(${common_lib_target})
-            set_property(TARGET ${common_lib_target} PROPERTY AUTOMOC "ON")
-            target_link_libraries(${common_lib_target} PRIVATE
-                ${QT_CMAKE_EXPORT_NAMESPACE}::Core
-                ${QT_CMAKE_EXPORT_NAMESPACE}::Network
-            )
-            if(arg_COMPRESSION_REQUIRED)
-                target_link_libraries(${common_lib_target} PRIVATE ZLIB::ZLIB)
-            endif()
-            target_link_libraries(${target} PRIVATE ${common_lib_target})
+        if(arg_COMPRESSION_REQUIRED)
+            target_link_libraries(${common_lib_target} PRIVATE ZLIB::ZLIB)
         endif()
+        target_link_libraries(${target} PRIVATE ${common_lib_target})
     endif()
 
     _qt_internal_openapi_detect_target_type(${target}
@@ -242,7 +250,7 @@ function(qt6_add_openapi_client target)
             ${model_name_prefix}_BUILD_LIB)
     endif()
 
-    if(arg_GENERATE_COMMON_LIBRARY)
+    if(arg_COMMON_LIBRARY_TARGET)
         _qt_internal_openapi_detect_target_type(${common_lib_target}
             is_shared is_static is_executable)
         if(is_shared)
@@ -262,7 +270,7 @@ function(qt6_add_openapi_client target)
         "$<BUILD_INTERFACE:${arg_OUTPUT_DIRECTORY}>")
     target_include_directories(${target} PUBLIC
         "$<BUILD_INTERFACE:${arg_OUTPUT_DIRECTORY}/${client_dir}>")
-    if(arg_GENERATE_COMMON_LIBRARY)
+    if(arg_COMMON_LIBRARY_TARGET)
         target_include_directories(${target} PUBLIC
             "$<BUILD_INTERFACE:${arg_OUTPUT_DIRECTORY}/${common_dir}>")
     endif()
@@ -272,7 +280,7 @@ function(qt6_add_openapi_client target)
     endif()
 
     target_sources(${target} PRIVATE ${client_sources})
-    if(arg_GENERATE_COMMON_LIBRARY)
+    if(arg_COMMON_LIBRARY_TARGET)
         target_sources(${common_lib_target} PRIVATE ${common_sources})
     endif()
 endfunction()

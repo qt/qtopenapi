@@ -31,16 +31,18 @@ qt_internal_add_test(cpp-qt-test-config1-app
 )
 
 # client1 generation
+qt_add_library(TestClient1)
+qt_add_library(TestCommon)
 qt6_add_openapi_client(TestClient1
     SPEC_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/linking_several_clients/client1.yaml
     OUTPUT_DIRECTORY
         ${CMAKE_CURRENT_BINARY_DIR}/client1
-    GENERATE_COMMON_LIBRARY
-    COMMON_LIBRARY_NAME TestCommon
+    COMMON_LIBRARY_TARGET TestCommon
 )
 
 # client2 generation
+qt_add_library(TestClient2)
 qt6_add_openapi_client(TestClient2
     SPEC_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/linking_several_clients/client2.yaml

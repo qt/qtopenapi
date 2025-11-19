@@ -25,11 +25,12 @@ qt_internal_add_test(cpp-qt-colorpalette-app
         Qt::Test
 )
 
+qt_add_library(ColorpaletteClient)
+qt_add_library(CommonColorpaletteClient)
 qt6_add_openapi_client(ColorpaletteClient
     SPEC_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/colorpalette.yaml
-    GENERATE_COMMON_LIBRARY
-    COMMON_LIBRARY_NAME CommonColorpaletteClient
+    COMMON_LIBRARY_TARGET CommonColorpaletteClient
 )
 qt_autogen_tools_initial_setup(ColorpaletteClient)
 qt_autogen_tools_initial_setup(CommonColorpaletteClient)
