@@ -14,9 +14,9 @@
 
 #include <optional>
 
-{{#cppNamespaceDeclarations}}
+{{#cppCommonNamespaceDeclarations}}
 namespace {{this}} {
-{{/cppNamespaceDeclarations}}
+{{/cppCommonNamespaceDeclarations}}
 
 class {{prefix}}ServerConfiguration {
 public:
@@ -74,8 +74,8 @@ public:
     QUrl m_url;
 };
 
-{{#cppNamespaceDeclarations}}
+{{#cppCommonNamespaceDeclarations}}
 } // namespace {{this}}
-{{/cppNamespaceDeclarations}}
+{{/cppCommonNamespaceDeclarations}}
 
 #endif // {{prefix}}_SERVERVCONFIGURATION_H

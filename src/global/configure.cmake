@@ -14,6 +14,7 @@ set(golang_value "<not found>")
 set(maven_value "<not found>")
 set(openapi_generator_value "<not found>")
 set(build_all_tests_value "no")
+set(zlib_value "no")
 
 # Helper variables to track found dependencies.
 set(java_runtime_found FALSE)
@@ -21,8 +22,33 @@ set(java_compiler_found FALSE)
 set(golang_found FALSE)
 set(maven_found FALSE)
 set(openapi_generator_found FALSE)
+set(zlib_found FALSE)
+
+# Look for zlib, which is a required dependency for the soon-to-be generated OpenAPI Common
+# library.
+# Handle the conditional finding of either system zlib or qt zlib.
+if(NOT QT_FEATURE_system_zlib)
+    find_package(Qt6 COMPONENTS ZlibPrivate)
+elseif(NOT TARGET WrapZLIB::WrapZLIB)
+    qt_find_package(WrapZLIB PROVIDED_TARGETS WrapZLIB::WrapZLIB)
+endif()
 
 if(NOT QT_CONFIGURE_RUNNING)
+    # Check which zlib was found.
+    if(TARGET Qt6::ZlibPrivate)
+        set(zlib_value "Qt zlib")
+        set(zlib_found TRUE)
+    elseif(TARGET WrapZLIB::WrapZLIB)
+        set(zlib_path "")
+        if(ZLIB_LIBRARY)
+            set(zlib_path "${ZLIB_LIBRARY}")
+        else()
+            set(zlib_path "system zlib")
+        endif()
+        set(zlib_value "${zlib_path} version (${ZLIB_VERSION})")
+        set(zlib_found TRUE)
+    endif()
+
     # Look for the java compiler, used to build the qt openapi generator plugin.
     find_package(Java COMPONENTS Development)
     if(Java_JAVAC_EXECUTABLE)
@@ -73,7 +99,9 @@ if(NOT QT_CONFIGURE_RUNNING)
             AND java_compiler_found
             AND golang_found
             AND maven_found
-            AND openapi_generator_found)
+            AND openapi_generator_found
+            AND zlib_found
+        )
         set(build_all_tests_value "yes")
     endif()
 endif()
@@ -90,6 +118,13 @@ qt_feature("openapi_generator" PRIVATE
         AND OPENAPI_MAVEN_EXECUTABLE
 )
 
+qt_feature("openapi_common_library" PRIVATE
+    LABEL "Build Qt OpenAPI common library"
+    CONDITION
+        QT_FEATURE_openapi_generator
+        AND zlib_found
+)
+
 qt_configure_add_summary_section(NAME "Qt OpenAPI dependencies")
 qt_configure_add_summary_entry(ARGS "java" TYPE "message" MESSAGE "${java_runtime_value}")
 qt_configure_add_summary_entry(ARGS "javac" TYPE "message" MESSAGE "${java_compiler_value}")
@@ -97,6 +132,7 @@ qt_configure_add_summary_entry(ARGS "go (for tests)" TYPE "message" MESSAGE "${g
 qt_configure_add_summary_entry(ARGS "maven" TYPE "message" MESSAGE "${maven_value}")
 qt_configure_add_summary_entry(ARGS "Upstream OpenAPI generator CLI" TYPE "message"
     MESSAGE "${openapi_generator_value}")
+qt_configure_add_summary_entry(ARGS "zlib" TYPE "message" MESSAGE "${zlib_value}")
 qt_configure_end_summary_section()
 
 qt_configure_add_summary_section(NAME "Qt OpenAPI")
@@ -144,5 +180,17 @@ if(NOT openapi_generator_found)
     qt_configure_add_report_entry(
         TYPE WARNING
         MESSAGE "${openapi_generator_check_msg}"
+    )
+endif()
+
+if(NOT zlib_found)
+    string(CONCAT zlib_check_msg
+        "The zlib library was not found. Skipping building the OpenAPI common library. "
+        "Note that all generated clients depend on this library, so building clients for "
+        "examples / tests will fail. "
+    )
+    qt_configure_add_report_entry(
+        TYPE WARNING
+        MESSAGE "${zlib_check_msg}"
     )
 endif()

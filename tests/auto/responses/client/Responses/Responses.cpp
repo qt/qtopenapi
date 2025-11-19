@@ -9,6 +9,7 @@
 #include <QtTest/qtest.h>
 
 using namespace Qt::StringLiterals;
+using namespace QtCommonOpenAPI;
 
 #define CALL_TEST_FILE_OPERATION(OPERATION, PARAM, EXPECTED_CONTENT, EXPECTED_FILENAME)         \
 {                                                                                               \

@@ -7,9 +7,9 @@
 #include <QtCore/qjsonvalue.h>
 #include <QtCore/qstring.h>
 
-{{#cppNamespaceDeclarations}}
+{{#cppCommonNamespaceDeclarations}}
 namespace {{this}} {
-{{/cppNamespaceDeclarations}}
+{{/cppCommonNamespaceDeclarations}}
 
 class {{prefix}}_COMMON_EXPORT {{prefix}}Enum {
 public:
@@ -35,8 +35,8 @@ private:
     { return qHash(val, 0); }
 };
 
-{{#cppNamespaceDeclarations}}
+{{#cppCommonNamespaceDeclarations}}
 } // namespace {{this}}
-{{/cppNamespaceDeclarations}}
+{{/cppCommonNamespaceDeclarations}}
 
 #endif // {{prefix}}_ENUM_H

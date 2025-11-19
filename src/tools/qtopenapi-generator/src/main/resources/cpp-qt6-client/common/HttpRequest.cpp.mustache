@@ -17,9 +17,9 @@
 #include <zlib.h>
 {{/contentCompression}}
 
-{{#cppNamespaceDeclarations}}
+{{#cppCommonNamespaceDeclarations}}
 namespace {{this}} {
-{{/cppNamespaceDeclarations}}
+{{/cppCommonNamespaceDeclarations}}
 
 using namespace Qt::StringLiterals;
 
@@ -525,6 +525,6 @@ QByteArray compress(const QByteArray &input, int level, {{prefix}}CompressionTyp
 
 
 
-{{#cppNamespaceDeclarations}}
+{{#cppCommonNamespaceDeclarations}}
 } // namespace {{this}}
-{{/cppNamespaceDeclarations}}
+{{/cppCommonNamespaceDeclarations}}

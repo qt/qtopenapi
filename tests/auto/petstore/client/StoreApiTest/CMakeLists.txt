@@ -35,14 +35,11 @@ target_compile_definitions(cpp-qt-petstore-storeapi
         SERVER_PATH="$<TARGET_FILE:petstore-server-go>"
 )
 
-target_link_libraries(cpp-qt-petstore-storeapi PRIVATE PetStoreClient CommonPetStoreClient)
+target_link_libraries(cpp-qt-petstore-storeapi PRIVATE PetStoreClient)
 add_dependencies(cpp-qt-petstore-storeapi petstore-server-go)
 
 if(WIN32)
     add_custom_command(TARGET cpp-qt-petstore-storeapi POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            $<TARGET_FILE:CommonPetStoreClient>
-            ${CMAKE_CURRENT_BINARY_DIR}
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             $<TARGET_FILE:PetStoreClient>
             ${CMAKE_CURRENT_BINARY_DIR}

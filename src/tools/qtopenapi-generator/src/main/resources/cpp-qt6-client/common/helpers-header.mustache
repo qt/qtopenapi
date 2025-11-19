@@ -19,9 +19,9 @@
 
 #include <optional>
 
-{{#cppNamespaceDeclarations}}
+{{#cppCommonNamespaceDeclarations}}
 namespace {{this}} {
-{{/cppNamespaceDeclarations}}
+{{/cppCommonNamespaceDeclarations}}
 
 {{prefix}}_COMMON_EXPORT bool setDateTimeFormat(const QString &format);
 {{prefix}}_COMMON_EXPORT bool setDateTimeFormat(const Qt::DateFormat &format);
@@ -263,14 +263,14 @@ QString serializeMediaTypeContentField(const QString &contentType, const T &valu
 {
     if (contentType.isEmpty()) {
         if constexpr (isPrimitiveMediaType<T>)
-            return ::{{cppNamespace}}::toStringValue(value);
+            return ::{{cppCommonNamespace}}::toStringValue(value);
         else
-            return ::{{cppNamespace}}::convertJsonValueToString(::{{cppNamespace}}::toJsonValue(value));
+            return ::{{cppCommonNamespace}}::convertJsonValueToString(::{{cppCommonNamespace}}::toJsonValue(value));
     }
     if (contentType == QLatin1StringView("application/json"))
-        return ::{{cppNamespace}}::convertJsonValueToString(::{{cppNamespace}}::toJsonValue(value));
+        return ::{{cppCommonNamespace}}::convertJsonValueToString(::{{cppCommonNamespace}}::toJsonValue(value));
     else
-        return ::{{cppNamespace}}::toStringValue(value);
+        return ::{{cppCommonNamespace}}::toStringValue(value);
 }
 
 template <typename T>
@@ -392,8 +392,8 @@ QString serializeMapValue(const QMap<QString, T> &val, const SerializationOption
     return strMap;
 }
 
-{{#cppNamespaceDeclarations}}
+{{#cppCommonNamespaceDeclarations}}
 } // namespace {{this}}
-{{/cppNamespaceDeclarations}}
+{{/cppCommonNamespaceDeclarations}}
 
 #endif // {{prefix}}_HELPERS_H

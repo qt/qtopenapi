@@ -9,6 +9,7 @@
 #include <QtTest/qtest.h>
 
 using namespace Qt::StringLiterals;
+using namespace QtCommonOpenAPI;
 
 namespace QtOpenAPI {
 static QProcess serverProcess;
@@ -208,7 +209,7 @@ void UserApiTests::loginUserTest() {
     QCOMPARE(expectedString, "123456789"); // Username is empty; only password is returned.
 
     userLogged = false;
-    api.loginUser(user_name, QtOpenAPI::OptionalParam<QString>("123456789"));
+    api.loginUser(user_name, OptionalParam<QString>("123456789"));
     QTRY_COMPARE_EQ_WITH_TIMEOUT(userLogged, true, 14000);
     QCOMPARE(expectedString, "johndoe123456789"); // Username and password are non-empty; both are returned concatenated.
 }

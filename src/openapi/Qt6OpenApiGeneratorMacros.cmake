@@ -30,13 +30,12 @@ endfunction()
 
 function(qt6_add_openapi_client target)
     set(options
-        COMPRESSION_REQUIRED
+        __QT_INTERNAL_GENERATE_COMMON_LIBRARY_TARGET
     )
     set(oneValueArgs
         SPEC_FILE
         CPP_NAMESPACE
         MODEL_NAME_PREFIX
-        COMMON_LIBRARY_TARGET
         OUTPUT_DIRECTORY
     )
     set(multiValueArgs "")
@@ -59,11 +58,10 @@ function(qt6_add_openapi_client target)
             "You can use qt_add_library or qt_add_executable to create the target.")
     endif()
 
-    if(arg_COMMON_LIBRARY_TARGET AND NOT TARGET "${arg_COMMON_LIBRARY_TARGET}")
+    if(arg___QT_INTERNAL_GENERATE_COMMON_LIBRARY_TARGET AND NOT QT_BUILDING_QT)
         message(FATAL_ERROR "qt6_add_openapi_client: "
-            "COMMON_LIBRARY_TARGET '${arg_COMMON_LIBRARY_TARGET}' does not exist. "
-            "Please create it before calling qt6_add_openapi_client. "
-            "You can use qt_add_library to create the target.")
+            "__QT_INTERNAL_GENERATE_COMMON_LIBRARY_TARGET is an internal option, and shouldn't be "
+            "used outside of the Qt build.")
     endif()
 
     if (NOT TARGET "${QT_CMAKE_EXPORT_NAMESPACE}::QtOpenAPIGeneratorJar")
@@ -75,6 +73,8 @@ function(qt6_add_openapi_client target)
 
     get_target_property(openapi_generator_cli_jar_file
         WrapOpenAPIGenerator::WrapOpenAPIGenerator INTERFACE_OPENAPI_GENERATOR_CLI_JAR)
+    get_target_property(qtcore_comomn_namespace
+            ${QT_CMAKE_EXPORT_NAMESPACE}::Core QT_NAMESPACE)
 
     if(NOT openapi_generator_cli_jar_file)
         message(FATAL_ERROR "qt6_add_openapi_client: "
@@ -98,49 +98,43 @@ function(qt6_add_openapi_client target)
         set(model_name_prefix "${arg_MODEL_NAME_PREFIX}")
     endif()
 
+    # For qt macro: either QtCommonOpenAPI or QtNameSpace::QtCommonOpenAPI
+    if(qtcore_comomn_namespace)
+        set(cpp_common_namespace "${qtcore_comomn_namespace}::QtCommonOpenAPI")
+    else()
+        set(cpp_common_namespace "QtCommonOpenAPI")
+    endif()
+
     # The default namespace is defined in CppQt6AbstractCodegen.java:
     # cppNamespace = "QtOpenAPI"
-    if(NOT arg_CPP_NAMESPACE)
-        set(cpp_namespace "QtOpenAPI")
-    else()
+    if(arg_CPP_NAMESPACE)
         set(cpp_namespace "${arg_CPP_NAMESPACE}")
+    else()
+        set(cpp_namespace "QtOpenAPI")
     endif()
 
     # The default commonLibGenerationType is defined in CppQt6ClientGenerator.java:
     # String commonLibrary = GENERATION_TYPE.COMMON_LIB.value;
-    if(arg_COMMON_LIBRARY_TARGET)
-        set(common_lib_generation_type "Use-Common-Lib")
+    if(arg___QT_INTERNAL_GENERATE_COMMON_LIBRARY_TARGET)
+        set(common_lib_generation_type "Gen-Common-Lib")
     else()
-        set(common_lib_generation_type "Skip-Common-Files")
+        set(common_lib_generation_type "Gen-Client-Lib")
     endif()
 
-    set(common_lib_target "${arg_COMMON_LIBRARY_TARGET}")
+    set(common_lib_name "CommonLibrary")
 
-    # ZLIB is used for copression, by default compression is false
-    set(compression_required "false")
-    if(arg_COMPRESSION_REQUIRED)
-        set(compression_required "true")
-    endif()
+    # The common library always needs compression support.
+    set(compression_required "true")
 
     string(JOIN "," additional_properties
         "--additional-properties=useCmakeMacro=true"
         "cppNamespace=${cpp_namespace}"
+        "cppCommonNamespace=${cpp_common_namespace}"
         "modelNamePrefix=${model_name_prefix}"
         "commonLibrary=${common_lib_generation_type}"
-        "commonLibraryName=${common_lib_target}"
+        "commonLibraryName=${common_lib_name}"
         "contentCompression=${compression_required}"
     )
-
-    if(compression_required)
-        if(NOT TARGET ZLIB::ZLIB)
-            message(FATAL_ERROR
-                "Client generation requires compression support, but the ZLIB::ZLIB "
-                "target was not found. Please add find_package(ZLIB) to the top "
-                "of your project CMakeLists.txt and ensure the headers and library "
-                "can be found by CMake."
-                )
-        endif()
-    endif()
 
     set(generating_sources "")
     set(common_sources "")
@@ -149,10 +143,7 @@ function(qt6_add_openapi_client target)
     set(client_dir "client")
     set(client_dir_path "${arg_OUTPUT_DIRECTORY}/${client_dir}/")
     set(common_dir_path "${arg_OUTPUT_DIRECTORY}/${common_dir}/")
-    list(APPEND client_sources "${client_dir_path}${model_name_prefix}CombinedModelsAndAPIs.cpp")
-    list(APPEND client_sources "${client_dir_path}${model_name_prefix}Exports.h")
-    list(APPEND generating_sources ${client_sources})
-    if(arg_COMMON_LIBRARY_TARGET)
+    if(arg___QT_INTERNAL_GENERATE_COMMON_LIBRARY_TARGET)
         list(APPEND common_sources "${common_dir_path}${model_name_prefix}CommonExports.h")
         list(APPEND common_sources "${common_dir_path}${model_name_prefix}BaseApi.h")
         list(APPEND common_sources "${common_dir_path}${model_name_prefix}BaseApi.cpp")
@@ -167,6 +158,11 @@ function(qt6_add_openapi_client target)
         list(APPEND common_sources "${common_dir_path}${model_name_prefix}ServerConfiguration.h")
         list(APPEND common_sources "${common_dir_path}${model_name_prefix}ServerVariable.h")
         list(APPEND generating_sources ${common_sources})
+    else()
+        list(APPEND client_sources
+            "${client_dir_path}${model_name_prefix}CombinedModelsAndAPIs.cpp")
+        list(APPEND client_sources "${client_dir_path}${model_name_prefix}Exports.h")
+        list(APPEND generating_sources ${client_sources})
     endif()
 
     if(CMAKE_HOST_WIN32)
@@ -197,6 +193,12 @@ function(qt6_add_openapi_client target)
         set(target_lib_name "--package-name=${target}")
     endif()
 
+    if(arg___QT_INTERNAL_GENERATE_COMMON_LIBRARY_TARGET)
+        set(comment "Generating the Qt6 Common Library code with the generator: ${generator_name}")
+    else()
+        set(comment "Generating the Qt6 Client code with the generator: ${generator_name}")
+    endif()
+
     add_custom_command(
         OUTPUT ${generating_sources}
         COMMAND java -cp
@@ -208,7 +210,7 @@ function(qt6_add_openapi_client target)
             ${target_lib_name}
             ${additional_properties}
         ${extra_dependencies}
-        COMMENT "Generating the Qt6 Client code with the generator: ${generator_name}"
+        COMMENT "${comment}"
         VERBATIM
         COMMAND_EXPAND_LISTS
     )
@@ -217,61 +219,45 @@ function(qt6_add_openapi_client target)
     set(is_static FALSE)
     set(is_executable FALSE)
 
-    set_property(TARGET ${target} PROPERTY AUTOMOC "ON")
-    target_link_libraries(${target} PRIVATE
-        ${QT_CMAKE_EXPORT_NAMESPACE}::Core
-        ${QT_CMAKE_EXPORT_NAMESPACE}::Network
-    )
-
-    if(arg_COMMON_LIBRARY_TARGET)
-        set_property(TARGET ${common_lib_target} PROPERTY AUTOMOC "ON")
-        target_link_libraries(${common_lib_target} PRIVATE
+    if(NOT arg___QT_INTERNAL_GENERATE_COMMON_LIBRARY_TARGET)
+        set_property(TARGET ${target} PROPERTY AUTOMOC "ON")
+        target_link_libraries(${target} PRIVATE
             ${QT_CMAKE_EXPORT_NAMESPACE}::Core
             ${QT_CMAKE_EXPORT_NAMESPACE}::Network
         )
-        if(arg_COMPRESSION_REQUIRED)
-            target_link_libraries(${common_lib_target} PRIVATE ZLIB::ZLIB)
-        endif()
-        target_link_libraries(${target} PRIVATE ${common_lib_target})
+
+        # This is PUBLIC, because the consumer of the client library
+        # needs to get also the common library includes.
+        target_link_libraries(${target} PUBLIC Qt6::OpenApiCommon)
     endif()
 
     _qt_internal_openapi_detect_target_type(${target}
         is_shared is_static is_executable)
 
+    set(define_infix "")
+    if(arg___QT_INTERNAL_GENERATE_COMMON_LIBRARY_TARGET)
+        set(define_infix "_COMMON")
+    endif()
+
     if(is_shared)
         target_compile_definitions(${target} PRIVATE
-            ${model_name_prefix}_LIB_SHARED)
+            ${model_name_prefix}${define_infix}_LIB_SHARED)
     elseif(is_static OR is_executable)
         target_compile_definitions(${target} PRIVATE
-            ${model_name_prefix}_LIB_STATIC)
+            ${model_name_prefix}${define_infix}_LIB_STATIC)
     endif()
     if(NOT is_executable)
         target_compile_definitions(${target} PRIVATE
-            ${model_name_prefix}_BUILD_LIB)
-    endif()
-
-    if(arg_COMMON_LIBRARY_TARGET)
-        _qt_internal_openapi_detect_target_type(${common_lib_target}
-            is_shared is_static is_executable)
-        if(is_shared)
-            target_compile_definitions(${common_lib_target} PRIVATE
-                ${model_name_prefix}_COMMON_LIB_SHARED)
-        elseif(is_static OR is_executable)
-            target_compile_definitions(${common_lib_target} PRIVATE
-                ${model_name_prefix}_COMMON_LIB_STATIC)
-        endif()
-        if(NOT is_executable)
-            target_compile_definitions(${common_lib_target} PRIVATE
-                ${model_name_prefix}_BUILD_COMMON_LIB)
-        endif()
+            ${model_name_prefix}_BUILD${define_infix}_LIB)
     endif()
 
     target_include_directories(${target} PUBLIC
         "$<BUILD_INTERFACE:${arg_OUTPUT_DIRECTORY}>")
     target_include_directories(${target} PUBLIC
         "$<BUILD_INTERFACE:${arg_OUTPUT_DIRECTORY}/${client_dir}>")
-    if(arg_COMMON_LIBRARY_TARGET)
-        target_include_directories(${target} PUBLIC
+
+    if(arg___QT_INTERNAL_GENERATE_COMMON_LIBRARY_TARGET)
+        target_include_directories(${target} PRIVATE
             "$<BUILD_INTERFACE:${arg_OUTPUT_DIRECTORY}/${common_dir}>")
     endif()
 
@@ -279,9 +265,10 @@ function(qt6_add_openapi_client target)
         add_dependencies(${target} QtOpenAPIGenerator)
     endif()
 
-    target_sources(${target} PRIVATE ${client_sources})
-    if(arg_COMMON_LIBRARY_TARGET)
-        target_sources(${common_lib_target} PRIVATE ${common_sources})
+    if(arg___QT_INTERNAL_GENERATE_COMMON_LIBRARY_TARGET)
+        target_sources(${target} PRIVATE ${common_sources})
+    else()
+        target_sources(${target} PRIVATE ${client_sources})
     endif()
 endfunction()
 

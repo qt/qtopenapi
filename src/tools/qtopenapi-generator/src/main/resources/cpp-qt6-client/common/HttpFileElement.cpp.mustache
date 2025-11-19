@@ -7,9 +7,9 @@
 #include <QtCore/qjsondocument.h>
 #include <QtCore/qjsonobject.h>
 
-{{#cppNamespaceDeclarations}}
+{{#cppCommonNamespaceDeclarations}}
 namespace {{this}} {
-{{/cppNamespaceDeclarations}}
+{{/cppCommonNamespaceDeclarations}}
 
 {{prefix}}HttpFileElement::{{prefix}}HttpFileElement() = default;
 
@@ -179,6 +179,6 @@ QByteArray {{prefix}}HttpFileElement::loadFromLocalFile() const
     return bArray;
 }
 
-{{#cppNamespaceDeclarations}}
+{{#cppCommonNamespaceDeclarations}}
 } // namespace {{this}}
-{{/cppNamespaceDeclarations}}
+{{/cppCommonNamespaceDeclarations}}

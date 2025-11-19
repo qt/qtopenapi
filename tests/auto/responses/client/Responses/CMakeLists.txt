@@ -33,12 +33,9 @@ qt_internal_add_test(cpp-qt-responses
 )
 
 qt_add_library(ResponsesClient)
-qt_add_library(CommonResponsesClient)
 qt6_add_openapi_client(ResponsesClient
     SPEC_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/responses.yaml
-    COMMON_LIBRARY_TARGET CommonResponsesClient
-    COMPRESSION_REQUIRED
 )
 
 target_compile_definitions(cpp-qt-responses
@@ -47,15 +44,11 @@ target_compile_definitions(cpp-qt-responses
         SERVER_DIR="$<TARGET_FILE_DIR:responses-server-go>"
 )
 qt_autogen_tools_initial_setup(ResponsesClient)
-qt_autogen_tools_initial_setup(CommonResponsesClient)
-target_link_libraries(cpp-qt-responses PRIVATE ResponsesClient CommonResponsesClient)
+target_link_libraries(cpp-qt-responses PRIVATE ResponsesClient)
 add_dependencies(cpp-qt-responses responses-server-go)
 
 if(WIN32)
     add_custom_command(TARGET cpp-qt-responses POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            $<TARGET_FILE:CommonResponsesClient>
-            ${CMAKE_CURRENT_BINARY_DIR}
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             $<TARGET_FILE:ResponsesClient>
             ${CMAKE_CURRENT_BINARY_DIR}

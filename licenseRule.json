@@ -74,10 +74,15 @@
                      "NO <file_pattern_ending> key for this case!",
                      "This needs to be the last entry of the file."],
         "location": {
-            "src/tools": {
+            "src/tools/qtopenapi-generator": {
                 "comment": "",
                 "file type": "3rd party",
                 "spdx": ["Apache-2.0"]
+            },
+            "src/tools/qtopenapicommon": {
+                "comment": "",
+                "file type": "module and plugin",
+                "spdx": ["LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only"]
             },
             "tests/auto": {
                 "comment": "Default",

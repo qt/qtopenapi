@@ -12,6 +12,9 @@
 #include <QtNetwork/qrestaccessmanager.h>
 
 using namespace Qt::StringLiterals;
+{{#cppCommonNamespaceDeclarations}}
+using namespace {{this}};
+{{/cppCommonNamespaceDeclarations}}
 
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
@@ -68,7 +71,7 @@ void {{classname}}::initializeServerConfigs()
 {{#operations}}
 {{#operation}}
 /**
-* \fn {{#makeOperationsVirtual}}virtual {{/makeOperationsVirtual}}void {{classname}}::{{nickname}}({{#hasParams}}{{#allParams}}const {{#required}}{{{dataType}}} &{{/required}}{{^required}}::{{cppNamespace}}::OptionalParam<{{{dataType}}}> &{{/required}}{{paramName}}{{^required}} = ::{{cppNamespace}}::OptionalParam<{{{dataType}}}>(){{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/hasParams}})
+* \fn {{#makeOperationsVirtual}}virtual {{/makeOperationsVirtual}}void {{classname}}::{{nickname}}({{#hasParams}}{{#allParams}}const {{#required}}{{{dataType}}} &{{/required}}{{^required}}::{{cppCommonNamespace}}::OptionalParam<{{{dataType}}}> &{{/required}}{{paramName}}{{^required}} = ::{{cppCommonNamespace}}::OptionalParam<{{{dataType}}}>(){{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/hasParams}})
 * {{#isDeprecated}}\deprecated {{/isDeprecated}}'{{nickname}}' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 {{#hasParams}}{{#allParams}}{{#required}}
@@ -77,7 +80,7 @@ void {{classname}}::initializeServerConfigs()
 */
 
 /**
-* \fn template < Functor, > void {{classname}}::{{nickname}}({{#allParams}}const {{#required}}{{{dataType}}} &{{/required}}{{^required}}::{{cppNamespace}}::OptionalParam<{{{dataType}}}> &{{/required}}{{paramName}}{{^required}} = ::{{cppNamespace}}::OptionalParam<{{{dataType}}}>(){{/required}}, {{/allParams}}const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* \fn template < Functor, > void {{classname}}::{{nickname}}({{#allParams}}const {{#required}}{{{dataType}}} &{{/required}}{{^required}}::{{cppNamespace}}::OptionalParam<{{{dataType}}}> &{{/required}}{{paramName}}{{^required}} = ::{{cppCommonNamespace}}::OptionalParam<{{{dataType}}}>(){{/required}}, {{/allParams}}const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
 * {{#isDeprecated}}\deprecated {{/isDeprecated}}'{{nickname}}' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
@@ -106,7 +109,7 @@ void {{classname}}::initializeServerConfigs()
 */
 
 /**
-* \fn {{#makeOperationsVirtual}}virtual {{/makeOperationsVirtual}}void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{{dataType}}} &{{/required}}{{^required}}::{{cppNamespace}}::OptionalParam<{{{dataType}}}> &{{/required}}{{paramName}}, {{/allParams}}const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn {{#makeOperationsVirtual}}virtual {{/makeOperationsVirtual}}void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{{dataType}}} &{{/required}}{{^required}}::{{cppCommonNamespace}}::OptionalParam<{{{dataType}}}> &{{/required}}{{paramName}}, {{/allParams}}const QObject *context, QtPrivate::QSlotObjectBase *slot)
 * Implements the {{nickname}}() operation request.
 * \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
 * and can be overloaded for mocking {{nickname}}() operation calls.
@@ -116,7 +119,7 @@ void {{classname}}::initializeServerConfigs()
 * @param[in] context const QObject * [optional]
 * @param[in] slot QtPrivate::QSlotObjectBase * [optional]
 */
-void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{{dataType}}} &{{/required}}{{^required}}::{{cppNamespace}}::OptionalParam<{{{dataType}}}> &{{/required}}{{paramName}}, {{/allParams}}const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{{dataType}}} &{{/required}}{{^required}}::{{cppCommonNamespace}}::OptionalParam<{{{dataType}}}> &{{/required}}{{paramName}}, {{/allParams}}const QObject *context, QtPrivate::QSlotObjectBase *slot)
 {
     const QUrl serverUrl = m_serverConfigs["{{nickname}}"][m_serverIndices.value("{{nickname}}")].serverUrl();
     QString fullPath = "{{{path}}}";
@@ -189,7 +192,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         paramString.append(serializeMapValue({{paramName}}, opts));
 {{/isMap}}
 {{#isPrimitiveType}}
-        paramString += QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}}));
+        paramString += QUrl::toPercentEncoding(::{{cppCommonNamespace}}::toStringValue({{paramName}}));
 {{/isPrimitiveType}}
 {{#isArray}}
         paramString = opts.prefix + serializeArrayValue({{paramName}}, opts);
@@ -278,7 +281,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
                 for (const auto &[key, value] : {{paramName}}{{^required}}.value(){{/required}}.asKeyValueRange()) {
                     if (index > 0)
                         paramString.append(opts.delimiter);
-                    paramString.append(opts.suffix + QUrl::toPercentEncoding(u"[%1]"_s.arg(key)) + opts.assignOperator + QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue(value)));
+                    paramString.append(opts.suffix + QUrl::toPercentEncoding(u"[%1]"_s.arg(key)) + opts.assignOperator + QUrl::toPercentEncoding(::{{cppCommonNamespace}}::toStringValue(value)));
                     index++;
                 }
             } else {
@@ -287,7 +290,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
             fullPath.append(paramString);
 {{/isMap}}
 {{#isPrimitiveType}}
-            fullPath.append(opts.suffix + QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value(){{/required}})));
+            fullPath.append(opts.suffix + QUrl::toPercentEncoding(::{{cppCommonNamespace}}::toStringValue({{paramName}}{{^required}}.value(){{/required}})));
 {{/isPrimitiveType}}
 {{#isArray}}
             fullPath.append(serializeArrayValue({{paramName}}{{^required}}.value(){{/required}}, opts));
@@ -346,11 +349,11 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         if (contentType == "application/json"_L1
             || (contentType.isEmpty() && !isPrimitiveMediaType<VT>)) {
             input.addFieldHeaders(u"{{baseName}}"_s, "application/json"_L1);
-            input.addVar(u"{{baseName}}"_s, ::{{cppNamespace}}::convertJsonValueToString(::{{cppNamespace}}::toJsonValue({{paramName}}{{^required}}.value(){{/required}})));
+            input.addVar(u"{{baseName}}"_s, ::{{cppCommonNamespace}}::convertJsonValueToString(::{{cppCommonNamespace}}::toJsonValue({{paramName}}{{^required}}.value(){{/required}})));
         } else {
             // if none of the above - serialize according to the content type of items
             for (const auto &item : {{paramName}}{{^required}}.value(){{/required}}) {
-                input.addVar(u"{{baseName}}"_s, ::{{cppNamespace}}::serializeMediaTypeContentField(contentType, item));
+                input.addVar(u"{{baseName}}"_s, ::{{cppCommonNamespace}}::serializeMediaTypeContentField(contentType, item));
             }
             input.addFieldHeaders(u"{{baseName}}"_s, "text/plain"_L1);
         }
@@ -361,11 +364,11 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         if (contentType == "application/json"_L1
             || (contentType.isEmpty() && !isPrimitiveMediaType<VT>)) {
             input.addFieldHeaders(u"{{baseName}}"_s, "application/json"_L1);
-            input.addVar(u"{{baseName}}"_s, ::{{cppNamespace}}::convertJsonValueToString(::{{cppNamespace}}::toJsonValue({{paramName}}{{^required}}.value(){{/required}})));
+            input.addVar(u"{{baseName}}"_s, ::{{cppCommonNamespace}}::convertJsonValueToString(::{{cppCommonNamespace}}::toJsonValue({{paramName}}{{^required}}.value(){{/required}})));
         } else {
             // if none of the above - serialize according to the content type of items
             for (const auto &[key, value] : {{paramName}}{{^required}}.value(){{/required}}.asKeyValueRange()) {
-                input.addVar(key, ::{{cppNamespace}}::serializeMediaTypeContentField(contentType, value));
+                input.addVar(key, ::{{cppCommonNamespace}}::serializeMediaTypeContentField(contentType, value));
             }
             input.addFieldHeaders(u"{{baseName}}"_s, "text/plain"_L1);
         }
@@ -374,7 +377,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{^isContainer}}
         using VT = std::decay_t<decltype({{paramName}}{{^required}}.value(){{/required}})>;
         input.addFieldHeaders(u"{{baseName}}"_s, addContentField<VT>(contentType));
-        input.addVar(u"{{baseName}}"_s, ::{{cppNamespace}}::serializeMediaTypeContentField(contentType, {{paramName}}{{^required}}.value(){{/required}}));
+        input.addVar(u"{{baseName}}"_s, ::{{cppCommonNamespace}}::serializeMediaTypeContentField(contentType, {{paramName}}{{^required}}.value(){{/required}}));
 {{/isContainer}}
 {{/isFile}}
     }
@@ -388,10 +391,10 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
     {{^required}}if ({{paramName}}.hasValue()) {{/required}}{
 {{#isContainer}}
 {{#isArray}}
-        QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}{{^required}}.value(){{/required}}).toArray());
+        QJsonDocument doc(::{{cppCommonNamespace}}::toJsonValue({{paramName}}{{^required}}.value(){{/required}}).toArray());
 {{/isArray}}
 {{#isMap}}
-        QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}{{^required}}.value(){{/required}}).toObject());
+        QJsonDocument doc(::{{cppCommonNamespace}}::toJsonValue({{paramName}}{{^required}}.value(){{/required}}).toObject());
 {{/isMap}}
         QByteArray bytes = doc.toJson(QJsonDocument::Compact);
         input.m_requestBody.append(bytes);
@@ -407,7 +410,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         QByteArray output = QByteArray::number({{paramName}}{{^required}}.value(){{/required}});
 {{/isNumeric}}
 {{#isBoolean}}
-        QByteArray output = ::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value(){{/required}}).toUtf8();
+        QByteArray output = ::{{cppCommonNamespace}}::toStringValue({{paramName}}{{^required}}.value(){{/required}}).toUtf8();
 {{/isBoolean}}
 {{#isModel}}
         QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.asJson().toUtf8();
@@ -553,7 +556,7 @@ void {{classname}}::{{nickname}}Callback(const QRestReply &reply)
         const QJsonArray jsonArray = doc.array();
         for (const QJsonValue &obj : jsonArray) {
             {{{returnBaseType}}} val;
-            const bool ok = ::{{cppNamespace}}::fromJsonValue(val, obj);
+            const bool ok = ::{{cppCommonNamespace}}::fromJsonValue(val, obj);
             if (!ok)
                 qWarning("%s: Failed to convert QJsonValue to {{returnBaseType}}.", Q_FUNC_INFO);
             {{#uniqueItems}}
@@ -571,7 +574,7 @@ void {{classname}}::{{nickname}}Callback(const QRestReply &reply)
 {{^isMap}}
 {{#returnTypeIsPrimitive}}
     {{{returnType}}} output;
-    const bool ok = ::{{cppNamespace}}::fromByteArray(response, output);
+    const bool ok = ::{{cppCommonNamespace}}::fromByteArray(response, output);
     if (!ok)
         qWarning("%s: Failed to convert the response to {{returnType}}.", Q_FUNC_INFO);
 {{/returnTypeIsPrimitive}}
@@ -583,7 +586,7 @@ void {{classname}}::{{nickname}}Callback(const QRestReply &reply)
         const QJsonObject obj = doc.object();
         for (const QString &key : obj.keys()) {
             {{returnBaseType}} val;
-            const bool ok = ::{{cppNamespace}}::fromJsonValue(val, obj[key]);
+            const bool ok = ::{{cppCommonNamespace}}::fromJsonValue(val, obj[key]);
             if (!ok)
                 qWarning("%s: Failed to convert QJsonValue to {{returnBaseType}}.", Q_FUNC_INFO);
             output.insert(key, val);

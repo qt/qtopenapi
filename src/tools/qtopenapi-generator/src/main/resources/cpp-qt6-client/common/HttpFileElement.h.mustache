@@ -9,16 +9,16 @@
 #include <QtCore/qshareddata.h>
 #include <QtCore/qstring.h>
 
-{{#cppNamespaceDeclarations}}
+{{#cppCommonNamespaceDeclarations}}
 namespace {{this}} {
-{{/cppNamespaceDeclarations}}
+{{/cppCommonNamespaceDeclarations}}
 
 // NOTE: Normally, {{prefix}}HttpFileElementShared would be forward-declared and
 // defined in the cpp file with QT_DECLARE/DEFINE_QESDP_SPECIALIZATION_DTOR(),
 // but since those macros are internal, we define it here instead.
 // The class enables implicit sharing via QExplicitlySharedDataPointer.
 
-class {{prefix}}HttpFileElementShared : public QSharedData
+class {{prefix}}_COMMON_EXPORT {{prefix}}HttpFileElementShared : public QSharedData
 {
 public:
     explicit {{prefix}}HttpFileElementShared(const QString &localFilename)
@@ -69,10 +69,10 @@ private:
     QExplicitlySharedDataPointer<{{prefix}}HttpFileElementShared> d;
 };
 
-{{#cppNamespaceDeclarations}}
+{{#cppCommonNamespaceDeclarations}}
 } // namespace {{this}}
-{{/cppNamespaceDeclarations}}
+{{/cppCommonNamespaceDeclarations}}
 
-Q_DECLARE_METATYPE({{#cppNamespaceDeclarations}}{{this}}::{{/cppNamespaceDeclarations}}{{prefix}}HttpFileElement)
+Q_DECLARE_METATYPE({{#cppCommonNamespaceDeclarations}}{{this}}::{{/cppCommonNamespaceDeclarations}}{{prefix}}HttpFileElement)
 
 #endif // {{prefix}}_HTTP_FILE_ELEMENT_H

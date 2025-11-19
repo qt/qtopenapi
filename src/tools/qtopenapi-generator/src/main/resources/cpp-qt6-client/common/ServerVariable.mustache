@@ -8,9 +8,9 @@
 #include <QtCore/qset.h>
 #include <QtCore/qstring.h>
 
-{{#cppNamespaceDeclarations}}
+{{#cppCommonNamespaceDeclarations}}
 namespace {{this}} {
-{{/cppNamespaceDeclarations}}
+{{/cppCommonNamespaceDeclarations}}
 
 class {{prefix}}ServerVariable {
 public:
@@ -52,8 +52,8 @@ public:
     QSet<QString> m_enumValues;
 };
 
-{{#cppNamespaceDeclarations}}
+{{#cppCommonNamespaceDeclarations}}
 } // namespace {{this}}
-{{/cppNamespaceDeclarations}}
+{{/cppCommonNamespaceDeclarations}}
 
 #endif // {{prefix}}_SERVERVARIABLE_H

@@ -3,6 +3,9 @@
 #include "{{prefix}}Helpers.h"
 
 using namespace Qt::StringLiterals;
+{{#cppCommonNamespaceDeclarations}}
+using namespace {{this}};
+{{/cppCommonNamespaceDeclarations}}
 
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
@@ -64,9 +67,9 @@ void {{classname}}::fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnu
 {
 {{^isEnum}}
 {{#vars}}{{^isContainer}}
-    m_{{name}}IsValid = ::{{cppNamespace}}::fromJsonValue(m_{{name}}, json[u"{{baseName}}"_s]);
+    m_{{name}}IsValid = ::{{cppCommonNamespace}}::fromJsonValue(m_{{name}}, json[u"{{baseName}}"_s]);
     m_{{name}}IsSet = !json[u"{{baseName}}"_s].isNull() && m_{{name}}IsValid;{{/isContainer}}{{#isContainer}}{{^items.isContainer}}
-    m_{{name}}IsValid = ::{{cppNamespace}}::fromJsonValue(m_{{name}}, json[u"{{baseName}}"_s]);
+    m_{{name}}IsValid = ::{{cppCommonNamespace}}::fromJsonValue(m_{{name}}, json[u"{{baseName}}"_s]);
     m_{{name}}IsSet = !json[u"{{baseName}}"_s].isNull() && m_{{name}}IsValid;{{/items.isContainer}}{{#items.isContainer}}{{#isArray}}
     if (json[u"{{baseName}}"_s].isArray()) {
         auto arr = json[u"{{baseName}}"_s].toArray();
@@ -74,7 +77,7 @@ void {{classname}}::fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnu
         if (arr.count() > 0) {
             for (const QJsonValue jval : arr) {
                 {{^items.isContainer}}{{items.baseType}}{{/items.isContainer}}{{#items.isArray}}QList<{{items.items.baseType}}>{{/items.isArray}}{{#items.isMap}}QMap<QString, {{items.items.baseType}}>{{/items.isMap}} item;
-                m_{{name}}IsValid &= ::{{cppNamespace}}::fromJsonValue(item, jval);
+                m_{{name}}IsValid &= ::{{cppCommonNamespace}}::fromJsonValue(item, jval);
                 m_{{name}}IsSet = !jval.isNull() && m_{{name}}IsValid;
                 m_{{name}}.push_back(item);
             }
@@ -87,7 +90,7 @@ void {{classname}}::fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnu
             for(auto val : varmap.keys()) {
                 {{^items.isContainer}}{{items.baseType}}{{/items.isContainer}}{{#items.isArray}}QList<{{items.items.baseType}}>{{/items.isArray}}{{#items.isMap}}QMap<QString, {{items.items.baseType}}>{{/items.isMap}} item;
                 auto jval = QJsonValue::fromVariant(varmap.value(val));
-                m_{{name}}IsValid &= ::{{cppNamespace}}::fromJsonValue(item, jval);
+                m_{{name}}IsValid &= ::{{cppCommonNamespace}}::fromJsonValue(item, jval);
                 m_{{name}}IsSet &= !jval.isNull() && m_{{name}}IsValid;
                 m_{{name}}.insert(m_{{name}}.end(), val, item);
             }
@@ -136,10 +139,10 @@ QJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}} {{classname}}::asJs
     QJsonObject obj;{{#vars}}{{^isContainer}}{{#complexType}}
     if (m_{{name}}.isSet()){{/complexType}}{{^complexType}}
     if (m_{{name}}IsSet){{/complexType}} {
-        obj.insert(u"{{baseName}}"_s, ::{{cppNamespace}}::toJsonValue(m_{{name}}));
+        obj.insert(u"{{baseName}}"_s, ::{{cppCommonNamespace}}::toJsonValue(m_{{name}}));
     }{{/isContainer}}{{#isContainer}}
     if (m_{{name}}.size() > 0) {
-        {{^items.isContainer}}obj.insert(u"{{baseName}}"_s, ::{{cppNamespace}}::toJsonValue(m_{{name}}));{{/items.isContainer}}{{#items.isContainer}}
+        {{^items.isContainer}}obj.insert(u"{{baseName}}"_s, ::{{cppCommonNamespace}}::toJsonValue(m_{{name}}));{{/items.isContainer}}{{#items.isContainer}}
         obj.insert(u"{{baseName}}"_s, toJsonValue(m_{{name}}));{{/items.isContainer}}
     }{{/isContainer}}{{/vars}}
     return obj;

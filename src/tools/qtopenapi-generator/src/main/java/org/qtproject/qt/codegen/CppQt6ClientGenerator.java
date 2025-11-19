@@ -5,6 +5,8 @@
 
 package org.qtproject.qt.codegen;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
 import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.*;
@@ -14,6 +16,7 @@ import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.templating.mustache.CamelCaseAndSanitizeLambda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import io.swagger.v3.oas.models.info.License;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -38,10 +41,14 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
             "This makes it easy to mock the generated API class for testing purposes.";
     public static final String MAKE_QML_ENABLED = "enableQmlCode";
     public static final String MAKE_QML_ENABLED_DESC = "Enable registering C++ Types with the QML Type System";
+    protected static final String CPP_COMMON_NAMESPACE = "cppCommonNamespace";
+    protected static final String CPP_COMMON_NAMESPACE_DESC
+            = "C++ namespace (convention: name::space::for::api) for the common library.";
+    protected String cppCommonNamespace = "QtCommonOpenAPI";
 
     public enum GENERATION_TYPE {
-        COMMON_LIB("Use-Common-Lib"),
-        NO_FILES("Skip-Common-Files");
+        COMMON_LIB("Gen-Common-Lib"),
+        CLIENT_LIB("Gen-Client-Lib");
 
         public final String value;
         GENERATION_TYPE(String value) {
@@ -63,9 +70,10 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
     @Setter protected boolean addDownloadProgress = false;
     @Setter protected boolean makeOperationsVirtual = true;
     @Setter protected boolean enableQmlCode = false;
-    @Setter protected String commonLibrary = GENERATION_TYPE.COMMON_LIB.value;
+    @Setter protected String commonLibrary = GENERATION_TYPE.CLIENT_LIB.value;
     @Setter protected String commonLibraryName = DEFAULT_PACKAGE_NAME;
     @Setter protected boolean useCmakeMacro = false;
+    @Setter protected String licenseName = "";
 
     /**
      * Configures the type of generator.
@@ -150,6 +158,7 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
                     ".cpp");       // the extension for each file to write
 
         // CLI options
+        addOption(CPP_COMMON_NAMESPACE, CPP_COMMON_NAMESPACE_DESC, this.cppCommonNamespace);
         addOption(CodegenConstants.PACKAGE_NAME, "C++ package (library) name.", DEFAULT_PACKAGE_NAME);
         addSwitch("addDownloadProgress", "Add support for Qt download progress", this.addDownloadProgress);
         addSwitch(MAKE_OPERATIONS_VIRTUAL_NAME, MAKE_OPERATIONS_VIRTUAL_DESC, this.makeOperationsVirtual);
@@ -161,17 +170,19 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
         // 'commonLibrary' option allows to choose the generation mode for common resources.
         // Possible generation modes:
         // 'COMMON_LIB' - generates common files as a separate library.
-        // 'NO_FILES' - doesn't generate common files at all.
+        // 'CLIENT_LIB' - generate client lib as a separate library.
         CliOption commonLib = new CliOption(COMMON_LIB_OPTION,
                 "Generate common library for the client or not.");
         Map<String, String> commonLibOptions = new HashMap<>();
         commonLibOptions.put(GENERATION_TYPE.COMMON_LIB.value,
                 "The common resources will be generated as a Common library.");
-        commonLibOptions.put(GENERATION_TYPE.NO_FILES.value,
+        commonLibOptions.put(GENERATION_TYPE.CLIENT_LIB.value,
                 "The Client will be generated without common files at all.");
         commonLib.setEnum(commonLibOptions);
         commonLib.setDefault(this.commonLibrary);
         this.cliOptions.add(commonLib);
+        this.cliOptions.add(new CliOption(CodegenConstants.LICENSE_NAME,
+            CodegenConstants.LICENSE_NAME_DESC).defaultValue(this.licenseName));
 
         /**
          * Template Location.  This is the location which templates will be read from.  The generator
@@ -190,15 +201,40 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
          */
         additionalProperties.put("apiVersion", apiVersion);
         additionalProperties.put("camelcase", new CamelCaseAndSanitizeLambda(false).generator(this));
+        additionalProperties.put("cppCommonNamespace", cppCommonNamespace);
+    }
+
+    @Override
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
+        if (openAPI.getInfo() != null) {
+            Info info = openAPI.getInfo();
+            // when licenceName is not specified, use info.license
+            if (additionalProperties.get(CodegenConstants.LICENSE_NAME) == null && info.getLicense() != null) {
+                License license = info.getLicense();
+                licenseName = license.getName();
+            }
+        }
+
+        additionalProperties.put(CodegenConstants.LICENSE_NAME, licenseName);
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
 
+        if (additionalProperties.containsKey("cppCommonNamespace")) {
+            cppCommonNamespace = (String) additionalProperties.get("cppCommonNamespace");
+        }
+        additionalProperties.put("cppCommonNamespaceDeclarations", cppCommonNamespace.split("\\::"));
+
         packageName = (String) additionalProperties.getOrDefault(CodegenConstants.PACKAGE_NAME, DEFAULT_PACKAGE_NAME);
         commonLibraryName = (String) additionalProperties.getOrDefault(COMMON_LIB_NAME_OPTION,
                                                                        DEFAULT_COMMON_LIB_NAME);
+
+        if (additionalProperties.containsKey(CodegenConstants.LICENSE_NAME)) {
+            setLicenseName(((String) additionalProperties.get(CodegenConstants.LICENSE_NAME)));
+        }
 
         if (additionalProperties.containsKey(MAKE_OPERATIONS_VIRTUAL_NAME)) {
             setMakeOperationsVirtual(convertPropertyToBooleanAndWriteBack(MAKE_OPERATIONS_VIRTUAL_NAME));
@@ -254,42 +290,48 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
                 sourceFolder, "doc/Doxyfile.in"));
         typeMapping.put("file", namePrefix + "HttpFileElement");
         importMapping.put(namePrefix + "HttpFileElement", "#include \""
-                          + namePrefix + "HttpFileElement.h\"");
-        if (commonLibrary.equals(GENERATION_TYPE.NO_FILES.value)) {
+                + namePrefix + "HttpFileElement.h\"");
+
+        if (commonLibrary.equals(GENERATION_TYPE.CLIENT_LIB.value)) {
             LOGGER.info("Skipping ./common/* templates generation. 'Skip-Common-Files' is ON.");
             return;
-        }
-        supportingFiles.add(new SupportingFile("common/api-base-header.mustache",
-                commonLibrarySourceFolder, namePrefix + "BaseApi.h"));
-        supportingFiles.add(new SupportingFile("common/api-base-body.mustache",
-                commonLibrarySourceFolder, namePrefix + "BaseApi.cpp"));
-        supportingFiles.add(new SupportingFile("common/helpers-header.mustache",
-                commonLibrarySourceFolder, namePrefix + "Helpers.h"));
-        supportingFiles.add(new SupportingFile("common/helpers-body.mustache",
-                commonLibrarySourceFolder, namePrefix + "Helpers.cpp"));
-        supportingFiles.add(new SupportingFile("common/HttpRequest.h.mustache",
-                commonLibrarySourceFolder, namePrefix + "HttpRequest.h"));
-        supportingFiles.add(new SupportingFile("common/HttpRequest.cpp.mustache",
-                commonLibrarySourceFolder, namePrefix + "HttpRequest.cpp"));
-        supportingFiles.add(new SupportingFile("common/HttpFileElement.h.mustache",
-                commonLibrarySourceFolder, namePrefix + "HttpFileElement.h"));
-        supportingFiles.add(new SupportingFile("common/HttpFileElement.cpp.mustache",
-                commonLibrarySourceFolder, namePrefix + "HttpFileElement.cpp"));
-        supportingFiles.add(new SupportingFile("common/object.mustache",
-                commonLibrarySourceFolder, namePrefix + "Object.h"));
-        supportingFiles.add(new SupportingFile("common/enum.mustache",
-                commonLibrarySourceFolder, namePrefix + "Enum.h"));
-        supportingFiles.add(new SupportingFile("common/common-exports.mustache",
-                commonLibrarySourceFolder, namePrefix + "CommonExports.h"));
-        supportingFiles.add(new SupportingFile("common/ServerConfiguration.mustache",
-                commonLibrarySourceFolder, namePrefix + "ServerConfiguration.h"));
-        supportingFiles.add(new SupportingFile("common/ServerVariable.mustache",
-                commonLibrarySourceFolder, namePrefix + "ServerVariable.h"));
-        supportingFiles.add(new SupportingFile("common/CMakeConfig.mustache",
-                commonLibrarySourceFolder, "Config.cmake.in"));
-        if (!this.useCmakeMacro) {
-            supportingFiles.add(new SupportingFile("common/CMakeLists.txt.mustache",
-                    commonLibrarySourceFolder, "CMakeLists.txt"));
+        } else {
+            if (this.useCmakeMacro) {
+                modelTemplateFiles.clear();
+                apiTemplateFiles.clear();
+            }
+            supportingFiles.add(new SupportingFile("common/api-base-header.mustache",
+                    commonLibrarySourceFolder, namePrefix + "BaseApi.h"));
+            supportingFiles.add(new SupportingFile("common/api-base-body.mustache",
+                    commonLibrarySourceFolder, namePrefix + "BaseApi.cpp"));
+            supportingFiles.add(new SupportingFile("common/helpers-header.mustache",
+                    commonLibrarySourceFolder, namePrefix + "Helpers.h"));
+            supportingFiles.add(new SupportingFile("common/helpers-body.mustache",
+                    commonLibrarySourceFolder, namePrefix + "Helpers.cpp"));
+            supportingFiles.add(new SupportingFile("common/HttpRequest.h.mustache",
+                    commonLibrarySourceFolder, namePrefix + "HttpRequest.h"));
+            supportingFiles.add(new SupportingFile("common/HttpRequest.cpp.mustache",
+                    commonLibrarySourceFolder, namePrefix + "HttpRequest.cpp"));
+            supportingFiles.add(new SupportingFile("common/HttpFileElement.h.mustache",
+                    commonLibrarySourceFolder, namePrefix + "HttpFileElement.h"));
+            supportingFiles.add(new SupportingFile("common/HttpFileElement.cpp.mustache",
+                    commonLibrarySourceFolder, namePrefix + "HttpFileElement.cpp"));
+            supportingFiles.add(new SupportingFile("common/object.mustache",
+                    commonLibrarySourceFolder, namePrefix + "Object.h"));
+            supportingFiles.add(new SupportingFile("common/enum.mustache",
+                    commonLibrarySourceFolder, namePrefix + "Enum.h"));
+            supportingFiles.add(new SupportingFile("common/common-exports.mustache",
+                    commonLibrarySourceFolder, namePrefix + "CommonExports.h"));
+            supportingFiles.add(new SupportingFile("common/ServerConfiguration.mustache",
+                    commonLibrarySourceFolder, namePrefix + "ServerConfiguration.h"));
+            supportingFiles.add(new SupportingFile("common/ServerVariable.mustache",
+                    commonLibrarySourceFolder, namePrefix + "ServerVariable.h"));
+            supportingFiles.add(new SupportingFile("common/CMakeConfig.mustache",
+                    commonLibrarySourceFolder, "Config.cmake.in"));
+            if (!this.useCmakeMacro) {
+                supportingFiles.add(new SupportingFile("common/CMakeLists.txt.mustache",
+                        commonLibrarySourceFolder, "CMakeLists.txt"));
+            }
         }
     }
 
@@ -366,7 +408,7 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
         // `qt6_add_openapi_client` macro.
         // The macro always enables the option. Users don't need to do it manually.
         // By default, the option is OFF.
-        if (this.useCmakeMacro) {
+        if (this.useCmakeMacro && commonLibrary.equals(GENERATION_TYPE.CLIENT_LIB.value)) {
             List<Path> apiClassFiles = new ArrayList<>();
             String apiDir = apiPackage.replace('.', File.separatorChar);
             ApiInfoMap apiInfo = (ApiInfoMap) objs.get("apiInfo");

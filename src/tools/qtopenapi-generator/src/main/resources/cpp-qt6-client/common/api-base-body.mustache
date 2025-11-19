@@ -10,11 +10,13 @@
 #include <QtNetwork/qnetworkrequestfactory.h>
 #include <QtNetwork/qrestaccessmanager.h>
 
+QT_BEGIN_NAMESPACE
 using namespace Qt::StringLiterals;
+QT_END_NAMESPACE
 
-{{#cppNamespaceDeclarations}}
+{{#cppCommonNamespaceDeclarations}}
 namespace {{this}} {
-{{/cppNamespaceDeclarations}}
+{{/cppCommonNamespaceDeclarations}}
 
 {{prefix}}BaseApi::{{prefix}}BaseApi(QObject *parent)
     : QObject(parent),
@@ -255,7 +257,7 @@ QNetworkReply *{{prefix}}BaseApi::execute({{prefix}}HttpRequestInput &input, QNe
     return reply;
 }
 
-{{#cppNamespaceDeclarations}}
+{{#cppCommonNamespaceDeclarations}}
 } // namespace {{this}}
-{{/cppNamespaceDeclarations}}
+{{/cppCommonNamespaceDeclarations}}
 

@@ -22,11 +22,9 @@ qt_internal_add_test(cpp-qt-operation-parameters
 )
 
 qt_add_library(OperationParametersClient)
-qt_add_library(CommonOperationParametersClient)
 qt6_add_openapi_client(OperationParametersClient
     SPEC_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/operation-parameters.yaml
-    COMMON_LIBRARY_TARGET CommonOperationParametersClient
 )
 
 target_compile_definitions(cpp-qt-operation-parameters
@@ -34,16 +32,12 @@ target_compile_definitions(cpp-qt-operation-parameters
         SERVER_PATH="$<TARGET_FILE:op-server-go>"
 )
 qt_autogen_tools_initial_setup(OperationParametersClient)
-qt_autogen_tools_initial_setup(CommonOperationParametersClient)
 target_link_libraries(cpp-qt-operation-parameters PRIVATE
-    OperationParametersClient CommonOperationParametersClient)
+    OperationParametersClient)
 add_dependencies(cpp-qt-operation-parameters op-server-go)
 
 if(WIN32)
     add_custom_command(TARGET cpp-qt-operation-parameters POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            $<TARGET_FILE:CommonOperationParametersClient>
-            ${CMAKE_CURRENT_BINARY_DIR}
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             $<TARGET_FILE:OperationParametersClient>
             ${CMAKE_CURRENT_BINARY_DIR}

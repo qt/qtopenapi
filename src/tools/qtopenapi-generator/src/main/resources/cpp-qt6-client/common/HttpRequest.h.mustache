@@ -26,9 +26,9 @@ class QRestAccessManager;
 class QHttpMultiPart;
 QT_END_NAMESPACE
 
-{{#cppNamespaceDeclarations}}
+{{#cppCommonNamespaceDeclarations}}
 namespace {{this}} {
-{{/cppNamespaceDeclarations}}
+{{/cppCommonNamespaceDeclarations}}
 
 enum {{prefix}}HttpRequestVarLayout {
     NOT_SET,
@@ -79,8 +79,8 @@ namespace {{prefix}}HttpRequestWorker {
     {{prefix}}_COMMON_EXPORT QByteArray compress(const QByteArray &input, int level, {{prefix}}CompressionType compressionType);
 } // namespace {{prefix}}HttpRequestWorker
 
-{{#cppNamespaceDeclarations}}
+{{#cppCommonNamespaceDeclarations}}
 } // namespace {{this}}
-{{/cppNamespaceDeclarations}}
+{{/cppCommonNamespaceDeclarations}}
 
 #endif // {{prefix}}_HTTPREQUESTWORKER_H

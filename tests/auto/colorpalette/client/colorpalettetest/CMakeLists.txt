@@ -26,21 +26,15 @@ qt_internal_add_test(cpp-qt-colorpalette-app
 )
 
 qt_add_library(ColorpaletteClient)
-qt_add_library(CommonColorpaletteClient)
 qt6_add_openapi_client(ColorpaletteClient
     SPEC_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/colorpalette.yaml
-    COMMON_LIBRARY_TARGET CommonColorpaletteClient
 )
 qt_autogen_tools_initial_setup(ColorpaletteClient)
-qt_autogen_tools_initial_setup(CommonColorpaletteClient)
-target_link_libraries(cpp-qt-colorpalette-app PRIVATE ColorpaletteClient CommonColorpaletteClient)
+target_link_libraries(cpp-qt-colorpalette-app PRIVATE ColorpaletteClient)
 
 if(WIN32)
     add_custom_command(TARGET cpp-qt-colorpalette-app POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            $<TARGET_FILE:CommonColorpaletteClient>
-            ${CMAKE_CURRENT_BINARY_DIR}
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             $<TARGET_FILE:ColorpaletteClient>
             ${CMAKE_CURRENT_BINARY_DIR}

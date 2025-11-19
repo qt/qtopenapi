@@ -154,9 +154,9 @@ DEPRECATED void OPERATION({{prefix}}_VA_LIST PARAMS, const ContextTypeForFunctor
     QtPrivate::makeCallableObject<{{prefix}}EmptyCallbackReply>(std::forward<Functor>(callback))); \
 }                                                                                                  \
 
-{{#cppNamespaceDeclarations}}
+{{#cppCommonNamespaceDeclarations}}
 namespace {{this}} {
-{{/cppNamespaceDeclarations}}
+{{/cppCommonNamespaceDeclarations}}
 
 class {{prefix}}_COMMON_EXPORT {{prefix}}BaseApi : public QObject {
     Q_OBJECT{{#enableQmlCode}}
@@ -226,8 +226,8 @@ protected:
     std::shared_ptr<{{prefix}}HttpRequestInput> m_latestInput;
 };
 
-{{#cppNamespaceDeclarations}}
+{{#cppCommonNamespaceDeclarations}}
 } // namespace {{this}}
-{{/cppNamespaceDeclarations}}
+{{/cppCommonNamespaceDeclarations}}
 #endif
 

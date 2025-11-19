@@ -12,6 +12,7 @@
 #include <QtTest/qtest.h>
 
 using namespace Qt::StringLiterals;
+using namespace QtCommonOpenAPI;
 
 namespace QtOpenAPI {
 static QProcess serverProcess;

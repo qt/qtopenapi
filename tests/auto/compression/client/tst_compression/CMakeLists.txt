@@ -34,12 +34,9 @@ qt_internal_add_test(cpp-qt-compression
 )
 
 qt_add_library(CompressionClient)
-qt_add_library(CommonCompressionClient)
 qt6_add_openapi_client(CompressionClient
     SPEC_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/compression.yaml
-    COMMON_LIBRARY_TARGET CommonCompressionClient
-    COMPRESSION_REQUIRED
 )
 
 # target_compile_definitions(cpp-qt-compression
@@ -47,15 +44,11 @@ qt6_add_openapi_client(CompressionClient
 #         SERVER_PATH="$<TARGET_FILE:compression-server-go>"
 # )
 qt_autogen_tools_initial_setup(CompressionClient)
-qt_autogen_tools_initial_setup(CommonCompressionClient)
-target_link_libraries(cpp-qt-compression PRIVATE CompressionClient CommonCompressionClient)
+target_link_libraries(cpp-qt-compression PRIVATE CompressionClient)
 # add_dependencies(cpp-qt-compression compression-server-go)
 
 if(WIN32)
     add_custom_command(TARGET cpp-qt-compression POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            $<TARGET_FILE:CommonCompressionClient>
-            ${CMAKE_CURRENT_BINARY_DIR}
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             $<TARGET_FILE:CompressionClient>
             ${CMAKE_CURRENT_BINARY_DIR}

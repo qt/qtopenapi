@@ -4,9 +4,9 @@
 #include <QtCore/qdebug.h>
 #include <QtCore/QJsonParseError>
 
-{{#cppNamespaceDeclarations}}
+{{#cppCommonNamespaceDeclarations}}
 namespace {{this}} {
-{{/cppNamespaceDeclarations}}
+{{/cppCommonNamespaceDeclarations}}
 
 using namespace Qt::StringLiterals;
 
@@ -746,6 +746,6 @@ QString serializeJsonValue(const QJsonValue &value, const SerializationOptions &
     return paramString;
 }
 
-{{#cppNamespaceDeclarations}}
+{{#cppCommonNamespaceDeclarations}}
 } // namespace {{this}}
-{{/cppNamespaceDeclarations}}
+{{/cppCommonNamespaceDeclarations}}

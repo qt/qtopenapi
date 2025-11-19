@@ -3,4 +3,7 @@
 
 if(QT_FEATURE_openapi_generator)
     add_subdirectory(qtopenapi-generator)
+    if(QT_FEATURE_openapi_common_library)
+        add_subdirectory(qtopenapicommon)
+    endif()
 endif()

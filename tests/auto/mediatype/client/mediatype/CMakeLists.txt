@@ -32,11 +32,9 @@ qt_internal_add_test(cpp-qt-mediatype
 )
 
 qt_add_library(MediaTypeClient)
-qt_add_library(CommonMediaTypeClient)
 qt6_add_openapi_client(MediaTypeClient
     SPEC_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/mediatype.yaml
-    COMMON_LIBRARY_TARGET CommonMediaTypeClient
 )
 
 # Resources:
@@ -57,15 +55,11 @@ target_compile_definitions(cpp-qt-mediatype
         SERVER_PATH="$<TARGET_FILE:mediatype-server-go>"
 )
 qt_autogen_tools_initial_setup(MediaTypeClient)
-qt_autogen_tools_initial_setup(CommonMediaTypeClient)
-target_link_libraries(cpp-qt-mediatype PRIVATE MediaTypeClient CommonMediaTypeClient)
+target_link_libraries(cpp-qt-mediatype PRIVATE MediaTypeClient)
 add_dependencies(cpp-qt-mediatype mediatype-server-go)
 
 if(WIN32)
     add_custom_command(TARGET cpp-qt-mediatype POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            $<TARGET_FILE:CommonMediaTypeClient>
-            ${CMAKE_CURRENT_BINARY_DIR}
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             $<TARGET_FILE:MediaTypeClient>
             ${CMAKE_CURRENT_BINARY_DIR}
