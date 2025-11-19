@@ -37,7 +37,7 @@ void {{classname}}::initializeServerConfigs()
     //varying endpoint server
 {{#vendorExtensions.x-cpp-global-server-list}}
     defaultConf.append({{prefix}}ServerConfiguration(
-    QUrl("{{{url}}}"),
+    u"{{{url}}}"_s,
     "{{{description}}}{{^description}}No description provided{{/description}}",
     {{#variables}}{{#-first}}QMap<QString, {{prefix}}ServerVariable>{ {{/-first}}
     {"{{{name}}}", {{prefix}}ServerVariable("{{{description}}}{{^description}}No description provided{{/description}}","{{{defaultValue}}}",
@@ -54,7 +54,7 @@ void {{classname}}::initializeServerConfigs()
     {
         QList<{{prefix}}ServerConfiguration> serverConf = QList<{{prefix}}ServerConfiguration>();
         serverConf.append({{prefix}}ServerConfiguration(
-        QUrl("{{{url}}}"),
+        u"{{{url}}}"_s,
         "{{{description}}}{{^description}}No description provided{{/description}}",
         {{#variables}}{{#-first}}QMap<QString, {{prefix}}ServerVariable>{ {{/-first}}
         {"{{{name}}}", {{prefix}}ServerVariable("{{{description}}}{{^description}}No description provided{{/description}}","{{{defaultValue}}}",
@@ -121,7 +121,7 @@ void {{classname}}::initializeServerConfigs()
 */
 void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{{dataType}}} &{{/required}}{{^required}}::{{cppCommonNamespace}}::OptionalParam<{{{dataType}}}> &{{/required}}{{paramName}}, {{/allParams}}const QObject *context, QtPrivate::QSlotObjectBase *slot)
 {
-    const QUrl serverUrl = m_serverConfigs["{{nickname}}"][m_serverIndices.value("{{nickname}}")].serverUrl();
+    const QUrl serverUrl = m_serverConfigs["{{nickname}}"][m_serverIndices.value("{{nickname}}")].url();
     QString fullPath = "{{{path}}}";
     m_networkFactory->setBaseUrl(serverUrl);
 {{#authMethods}}

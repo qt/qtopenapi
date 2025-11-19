@@ -20,6 +20,7 @@ if(TARGET ${QT_CMAKE_EXPORT_NAMESPACE}::QtOpenAPIGeneratorJar
     add_subdirectory(petstore)
     add_subdirectory(responses)
     add_subdirectory(cmake)
+    add_subdirectory(server_configuration)
 else()
     set(missing_text "")
     if(NOT TARGET ${QT_CMAKE_EXPORT_NAMESPACE}::QtOpenAPIGeneratorJar)

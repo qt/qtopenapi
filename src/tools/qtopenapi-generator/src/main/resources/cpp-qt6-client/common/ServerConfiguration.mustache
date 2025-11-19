@@ -18,25 +18,23 @@ namespace {{this}} {
 class {{prefix}}ServerConfiguration {
 public:
     /**
-     * @param url A URL to the target host.
+     * @param urlTemplate A URL template to the target host.
      * @param description A description of the host designated by the URL.
      * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
      */
-    {{prefix}}ServerConfiguration(const QUrl &url, const QString &description, const QMap<QString, {{prefix}}ServerVariable> &variables)
+    {{prefix}}ServerConfiguration(const QString &urlTemplate, const QString &description, const QMap<QString, {{prefix}}ServerVariable> &variables)
     : m_description(description),
       m_variables(variables),
-      m_url(url) {}
+      m_urlTemplate(urlTemplate) {}
     {{prefix}}ServerConfiguration() {}
     ~{{prefix}}ServerConfiguration() {}
 
     /**
-    * Original URL
+    * Original URL template
     *
-    * If the URL contains variables, they are not substituted.
-    *
-    * @return Original URL.
+    * @return Original URL template.
     */
-    const QUrl serverUrl() const { return m_url; }
+    QString urlTemplate() const { return m_urlTemplate; }
 
     /**
      * Format URL template using server's variables.
@@ -45,9 +43,9 @@ public:
      */
     QUrl url() const {
         if (m_variables.empty())
-            return m_url; // nothing to do
+            return QUrl(m_urlTemplate); // nothing to substitute
 
-        QString url = m_url.toString();
+        QString url = m_urlTemplate;
         // go through variables and replace placeholders
         for (const auto &[name, serverVariable] : m_variables.asKeyValueRange()) {
             const QString value = serverVariable.m_defaultValue;
@@ -69,7 +67,7 @@ public:
 
     QString m_description;
     QMap<QString, {{prefix}}ServerVariable> m_variables;
-    QUrl m_url;
+    QString m_urlTemplate;
 };
 
 {{#cppCommonNamespaceDeclarations}}

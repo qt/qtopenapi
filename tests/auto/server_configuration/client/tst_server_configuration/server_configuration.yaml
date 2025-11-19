@@ -1,0 +1,36 @@
+# Copyright (C) 2025 The Qt Company Ltd.
+# SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
+
+openapi: 3.1.1
+servers:
+  - url: 'http://127.0.0.1:{port}/{basePath}'
+    variables:
+      port:
+        default: '20303'
+      basePath:
+        enum:
+          - v1
+          - v2
+        default: v1
+info:
+  title: Server Configuration Test
+  description: >
+    This specification is needed to check how various server configurations are handled.
+  version: 1.0.0
+tags:
+  - name: test
+    description: test operations
+
+paths:
+  /operations/dummy:
+    post:
+      tags: [test]
+      operationId: dummyOperation
+      summary: "not used for now"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string

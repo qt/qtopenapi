@@ -182,9 +182,9 @@ public:
     void setWorkingDirectory(const QString &path);
     void setNetworkAccessResources(std::shared_ptr<QNetworkAccessManager> manager, std::shared_ptr<QRestAccessManager> ram);
     void setNetworkRequestFactory(std::shared_ptr<QNetworkRequestFactory> factory);
-    std::optional<int> addServerConfiguration(const QString &operation, const QUrl &url, const QString &description = QString(), const QMap<QString, {{prefix}}ServerVariable> &variables = QMap<QString, {{prefix}}ServerVariable>());
-    ServerError setNewServerForAllOperations(const QUrl &url, const QString &description = QString(), const QMap<QString, {{prefix}}ServerVariable> &variables = QMap<QString, {{prefix}}ServerVariable>());
-    ServerError setNewServer(const QString &operation, const QUrl &url, const QString &description = QString(), const QMap<QString, {{prefix}}ServerVariable> &variables = QMap<QString, {{prefix}}ServerVariable>());
+    std::optional<int> addServerConfiguration(const QString &operation, const QString &urlTemplate, const QString &description = QString(), const QMap<QString, {{prefix}}ServerVariable> &variables = QMap<QString, {{prefix}}ServerVariable>());
+    ServerError setNewServerForAllOperations(const QString &urlTemplate, const QString &description = QString(), const QMap<QString, {{prefix}}ServerVariable> &variables = QMap<QString, {{prefix}}ServerVariable>());
+    ServerError setNewServer(const QString &operation, const QString &urlTemplate, const QString &description = QString(), const QMap<QString, {{prefix}}ServerVariable> &variables = QMap<QString, {{prefix}}ServerVariable>());
     void setHeader(QHttpHeaders::WellKnownHeader key, QAnyStringView value);
     void setHeader(QAnyStringView key, QAnyStringView value);
     void enableRequestCompression();
