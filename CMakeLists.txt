@@ -21,6 +21,7 @@ find_package(Qt6 ${PROJECT_VERSION} CONFIG REQUIRED Core)
 find_package(Qt6 ${PROJECT_VERSION} CONFIG OPTIONAL_COMPONENTS
     Network Gui Widgets Quick
     QmlNetwork QuickControls2
+    TestInternalsPrivate
 )
 
 if(NOT TARGET Qt::Network)

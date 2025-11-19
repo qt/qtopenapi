@@ -1,6 +1,8 @@
 # Copyright (C) 2025 The Qt Company Ltd.
 # SPDX-License-Identifier: BSD-3-Clause
 
+set(__qt_openapi_macros_module_base_dir "${CMAKE_CURRENT_LIST_DIR}" CACHE INTERNAL "")
+
 function(_qt_internal_openapi_detect_target_type target
     out_is_shared out_is_static out_is_executable)
     cmake_parse_arguments(PARSE_ARGV 1 arg
@@ -37,6 +39,8 @@ function(qt6_add_openapi_client target)
         CPP_NAMESPACE
         MODEL_NAME_PREFIX
         OUTPUT_DIRECTORY
+        OUTPUT_PUBLIC_HEADERS_DIR
+        OUTPUT_PRIVATE_HEADERS_DIR
     )
     set(multiValueArgs "")
     cmake_parse_arguments(PARSE_ARGV 1 arg
@@ -269,6 +273,39 @@ function(qt6_add_openapi_client target)
         target_sources(${target} PRIVATE ${common_sources})
     else()
         target_sources(${target} PRIVATE ${client_sources})
+    endif()
+
+    if(arg_OUTPUT_PUBLIC_HEADERS_DIR OR arg_OUTPUT_PRIVATE_HEADERS_DIR)
+        set(client_public_headers_dir "${arg_OUTPUT_DIRECTORY}/${client_dir}_public_headers")
+        set(client_private_headers_dir "${arg_OUTPUT_DIRECTORY}/${client_dir}_private_headers")
+        set(copied_headers_timestamp_file
+            "${arg_OUTPUT_DIRECTORY}/openapi_client_copied_headers_timestamp.txt")
+        set(copy_headers_script
+            "${__qt_openapi_macros_module_base_dir}/Qt6OpenApiCopyHeadersScript.cmake")
+
+        add_custom_command(
+            OUTPUT "${copied_headers_timestamp_file}"
+            DEPENDS
+                "${copy_headers_script}"
+                ${generating_sources}
+            COMMAND "${CMAKE_COMMAND}"
+                "-DTIMESTAMP_PATH=${copied_headers_timestamp_file}"
+                "-DCLIENT_DIR=${client_dir_path}"
+                "-DOUTPUT_PUBLIC_HEADERS_DIR=${client_public_headers_dir}"
+                "-DOUTPUT_PRIVATE_HEADERS_DIR=${client_private_headers_dir}"
+                -P "${copy_headers_script}"
+            COMMENT "Copying generated OpenApi headers for target '${target}'"
+            VERBATIM
+            COMMAND_EXPAND_LISTS
+        )
+        target_sources(${target} PRIVATE "${copied_headers_timestamp_file}")
+    endif()
+
+    if(arg_OUTPUT_PUBLIC_HEADERS_DIR)
+        set(${arg_OUTPUT_PUBLIC_HEADERS_DIR} "${client_public_headers_dir}" PARENT_SCOPE)
+    endif()
+    if(arg_OUTPUT_PRIVATE_HEADERS_DIR)
+        set(${arg_OUTPUT_PRIVATE_HEADERS_DIR} "${client_private_headers_dir}" PARENT_SCOPE)
     endif()
 endfunction()
 
