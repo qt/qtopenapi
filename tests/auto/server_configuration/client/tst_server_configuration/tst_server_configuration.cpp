@@ -29,6 +29,8 @@ private Q_SLOTS:
     void cleanupTestCase();
     void substituteEnumVariable_data();
     void substituteEnumVariable();
+    void substituteNormalVariable_data();
+    void substituteNormalVariable();
 
 private:
     QProcess m_process;
@@ -86,6 +88,48 @@ void tst_ServerConfiguration::substituteEnumVariable()
             QCOMPARE(getJsonValue(summary).toString(), expectedString);
         });
         QTRY_COMPARE_EQ(done, true);
+    }
+}
+
+void tst_ServerConfiguration::substituteNormalVariable_data()
+{
+    QTest::addColumn<QString>("port");
+    QTest::addColumn<bool>("expectSuccess");
+
+    QTest::addRow("20303_correct") << u"20303"_s << true;
+    QTest::addRow("20304_wrong") << u"20304"_s << false;
+}
+
+void tst_ServerConfiguration::substituteNormalVariable()
+{
+    QFETCH(const QString, port);
+    QFETCH(const bool, expectSuccess);
+
+    // First, set basePath to "v1" to have a consistent result
+    QCOMPARE_EQ(setDefaultServerValue(0, u"dummyOperation"_s, u"basePath"_s, u"v1"_s),
+                QtOAITestApi::ServerError::NoError);
+
+    // Now set the port. Since the variable does not have an enum in its
+    // definition, any value should be accepted.
+    QCOMPARE_EQ(setDefaultServerValue(0, u"dummyOperation"_s, u"port"_s, port),
+                QtOAITestApi::ServerError::NoError);
+
+    // Then if the port is correct, the operation executes successfully.
+    // Otherwise we fail to connect to the server.
+    if (expectSuccess) {
+        bool done = false;
+        dummyOperation(this, [&](const QRestReply &reply, const QString &summary) {
+            if (!(done = reply.isSuccess()))
+                qWarning() << "ERROR: " << reply.errorString() << reply.error();
+            QCOMPARE(getJsonValue(summary).toString(), u"/v1/operations/dummy"_s);
+        });
+        QTRY_COMPARE_EQ(done, true);
+    } else {
+        QNetworkReply::NetworkError error = QNetworkReply::NoError;
+        dummyOperation(this, [&](const QRestReply &reply, const QString &) {
+            error = reply.error();
+        });
+        QTRY_COMPARE_NE(error, QNetworkReply::NoError);
     }
 }
 

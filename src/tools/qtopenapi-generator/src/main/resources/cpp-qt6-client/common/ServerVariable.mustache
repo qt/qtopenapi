@@ -37,11 +37,11 @@ public:
     ~{{prefix}}ServerVariable() {}
 
     ServerError setDefaultValue(const QString& value) {
-      if ( m_enumValues.contains(value)) {
+        if (!m_enumValues.empty() && !m_enumValues.contains(value))
+            return ServerError::EnumValueNotFound;
+
         m_defaultValue = value;
         return ServerError::NoError;
-      }
-      return ServerError::EnumValueNotFound;
     }
 
     QString getDefaultValue() { return m_defaultValue; }
