@@ -31,7 +31,7 @@ QString toFormUrlEncoding(const QString &input)
     // Alphanumeric characters (a–z, A–Z, 0–9) → left as-is
     // The following characters are always percent-encoded in x-www-form-urlencoded:
     // "!" / "$" / "&" / "'" / "(" / ")" / "*" / "+" / "," / ";" / "="
-    return QUrl::toPercentEncoding(input).replace("%20", "+");
+    return QString::fromUtf8(QUrl::toPercentEncoding(input).replace("%20", "+"));
 }
 
 {{prefix}}HttpRequestInput::{{prefix}}HttpRequestInput()
@@ -212,7 +212,7 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
     }
     QNetworkRequest request = factory->createRequest(input.m_urlStr);
     if (request.header(QNetworkRequest::UserAgentHeader).isNull())
-        request.setHeader(QNetworkRequest::UserAgentHeader, "{{httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{apiVersion}}/cpp-qt{{/httpUserAgent}}");
+        request.setHeader(QNetworkRequest::UserAgentHeader, QString::fromUtf8("{{httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{apiVersion}}/cpp-qt{{/httpUserAgent}}"));
 
     for (int i = 0; i < input.m_headers.size(); i++) {
         const auto name = input.m_headers.nameAt(i);

@@ -267,7 +267,7 @@ QString serializeMediaTypeContentField(const QString &contentType, const T &valu
         else
             return ::{{cppNamespace}}::convertJsonValueToString(::{{cppNamespace}}::toJsonValue(value));
     }
-    if (contentType == "application/json")
+    if (contentType == QLatin1StringView("application/json"))
         return ::{{cppNamespace}}::convertJsonValueToString(::{{cppNamespace}}::toJsonValue(value));
     else
         return ::{{cppNamespace}}::toStringValue(value);
@@ -278,9 +278,9 @@ QString addContentField(const QString &contentType)
 {
     if (contentType.isEmpty()) {
         if constexpr (isPrimitiveMediaType<T>)
-            return QString("text/plain");
+            return QString::fromUtf8("text/plain");
         else
-            return QString("application/json");
+            return QString::fromUtf8("application/json");
     }
     return contentType;
 }
@@ -366,7 +366,7 @@ QString serializeArrayValue(const QList<T> &value, const SerializationOptions &o
         if ((opts.style == "matrix"_L1 || opts.style == "form"_L1) && isExplode && index > 0)
             paramString.append(opts.suffix);
         const QString resultValue = toStringValue(t);
-        paramString.append(percentEncode ? QUrl::toPercentEncoding(resultValue) : resultValue);
+        paramString.append(percentEncode ? QString::fromUtf8(QUrl::toPercentEncoding(resultValue)) : resultValue);
         ++index;
     }
     return paramString;
