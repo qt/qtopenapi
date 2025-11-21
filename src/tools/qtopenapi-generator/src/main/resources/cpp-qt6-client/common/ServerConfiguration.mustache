@@ -55,7 +55,7 @@ public:
                              qPrintable(name), qPrintable(value));
                     return std::nullopt;
                 }
-                const QRegularExpression regex(QString("\\{" + name + "\\}"));
+                const QRegularExpression regex(QString::fromUtf8("\\{") + name + QString::fromUtf8("\\}"));
                 url = url.replace(regex, value);
             }
             return url;

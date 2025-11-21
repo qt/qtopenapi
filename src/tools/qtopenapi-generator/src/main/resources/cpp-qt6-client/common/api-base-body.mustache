@@ -230,21 +230,21 @@ QNetworkReply *{{prefix}}BaseApi::execute({{prefix}}HttpRequestInput &input, QNe
 {
     bool isMultiPartMode = (input.m_multiPart.get() && input.m_varLayout == {{prefix}}HttpRequestVarLayout::MULTIPART);
     QNetworkReply *reply = nullptr;
-    if (input.m_httpMethod == "GET") {
+    if (input.m_httpMethod == "GET"_L1) {
         reply = m_restManager->get(request);
-    } else if (input.m_httpMethod == "POST") {
+    } else if (input.m_httpMethod == "POST"_L1) {
         if (isMultiPartMode)
             reply = m_restManager->post(request, input.m_multiPart.release());
         else
             reply = m_restManager->post(request, requestContent);
-    } else if (input.m_httpMethod == "PUT") {
+    } else if (input.m_httpMethod == "PUT"_L1) {
         if (isMultiPartMode)
             reply = m_restManager->put(request, input.m_multiPart.release());
         else
             reply = m_restManager->put(request, requestContent);
-    } else if (input.m_httpMethod == "HEAD") {
+    } else if (input.m_httpMethod == "HEAD"_L1) {
         reply = m_restManager->head(request);
-    } else if (input.m_httpMethod == "DELETE") {
+    } else if (input.m_httpMethod == "DELETE"_L1) {
         reply = m_restManager->deleteResource(request);
     } else {
         if (isMultiPartMode)

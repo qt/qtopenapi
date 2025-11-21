@@ -378,8 +378,9 @@ QString serializeMapValue(const QMap<QString, T> &val, const SerializationOption
     QString strMap;
     for (const auto &[key, value] : val.asKeyValueRange()) {
         if (percentEncode) {
-            strMap.append(QUrl::toPercentEncoding(key) + opts.assignOperator
-                          + QUrl::toPercentEncoding(toStringValue(value))
+            strMap.append(QString::fromUtf8(QUrl::toPercentEncoding(key))
+                          + opts.assignOperator
+                          + QString::fromUtf8(QUrl::toPercentEncoding(toStringValue(value)))
                           + opts.delimiter);
         } else {
             strMap.append(key + opts.assignOperator + toStringValue(value)

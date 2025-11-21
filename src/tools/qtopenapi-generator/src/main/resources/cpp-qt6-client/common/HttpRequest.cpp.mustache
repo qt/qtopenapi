@@ -274,7 +274,7 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
         // Using the message without Content-Type triggers the Qt warning.
         if (!input.m_headers.contains(QHttpHeaders::WellKnownHeader::ContentType)) {
             request.setHeader(QNetworkRequest::ContentTypeHeader,
-                              "application/x-www-form-urlencoded");
+                              "application/x-www-form-urlencoded"_L1);
         }
     }
 
@@ -360,7 +360,7 @@ QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<Q
                     if (parts.size() > 1) {
                         filename = parts.at(1);
                         // RFC says filename value may be quoted: remove the surrounding quotes
-                        if (filename.startsWith('"') && filename.endsWith('"'))
+                        if (filename.startsWith(QString::fromUtf8("\"")) && filename.endsWith(QString::fromUtf8("\"")))
                             filename = filename.mid(1, filename.size() - 2);
                         // TODO in QTBUG-141443: - Sanitize the filename
                         //                       - Distinguish between filename= and filename*=
