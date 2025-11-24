@@ -1,5 +1,5 @@
 # Copyright (C) 2025 The Qt Company Ltd.
-# SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
+# SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
 openapi: 3.1.0
 info:
@@ -9,10 +9,10 @@ info:
   version: 1.0.0
 
 servers:
-  - url: https://reqres.in/api
-    description: Public REST API test service
   - url: http://127.0.0.1:49425/api
     description: Qt-based REST API server
+  - url: https://reqres.in/api
+    description: Public REST API test service
 tags:
   - name: register
     description: Register new users
@@ -146,7 +146,7 @@ paths:
         - name: page
           in: query
           description: The page number to retrieve.
-          required: false
+          required: true
           schema:
             type: integer
             default: 1

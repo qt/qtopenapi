@@ -9,7 +9,6 @@ if(TARGET ${QT_CMAKE_EXPORT_NAMESPACE}::QtOpenAPIGeneratorJar
         AND TARGET WrapOpenAPIGenerator::WrapOpenAPIGenerator
         AND TARGET Qt::OpenApiCommon
     )
-    add_subdirectory(colorpalette)
     add_subdirectory(compression)
     add_subdirectory(linking_several_clients)
     if(TARGET Qt::Gui)

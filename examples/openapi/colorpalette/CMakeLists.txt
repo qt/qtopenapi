@@ -1,0 +1,51 @@
+# Copyright (C) 2025 The Qt Company Ltd.
+# SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
+
+cmake_minimum_required(VERSION 3.16)
+project(colorpaletteApp LANGUAGES CXX)
+
+if(NOT DEFINED INSTALL_EXAMPLESDIR)
+    set(INSTALL_EXAMPLESDIR "examples")
+endif()
+
+set(INSTALL_EXAMPLEDIR "${INSTALL_EXAMPLESDIR}")
+
+find_package(Qt6 REQUIRED COMPONENTS Core Network Gui Qml Quick OpenApi)
+
+qt_standard_project_setup(REQUIRES 6.10)
+
+qt_add_executable(colorpaletteApp
+    main.cpp
+)
+
+qt_add_qml_module(colorpaletteApp
+    URI ColorPalette
+    VERSION 1.0
+    QML_FILES
+        ColorPalette/Main.qml
+        ColorPalette/ColorView.qml
+    SOURCES
+        foreigncolorsapi.h
+)
+
+qt_add_library(ColorpaletteClientExample)
+
+qt6_add_openapi_client(ColorpaletteClientExample
+    SPEC_FILE
+        ${CMAKE_CURRENT_SOURCE_DIR}/colorpalette.yaml
+)
+
+target_link_libraries(colorpaletteApp PRIVATE
+    Qt6::Core
+    Qt6::Network
+    Qt6::Gui
+    Qt6::Qml
+    Qt6::Quick
+    ColorpaletteClientExample
+)
+
+install(TARGETS colorpaletteApp
+    BUNDLE  DESTINATION "${INSTALL_EXAMPLEDIR}"
+    RUNTIME DESTINATION "${INSTALL_EXAMPLEDIR}"
+    LIBRARY DESTINATION "${INSTALL_EXAMPLEDIR}"
+)
