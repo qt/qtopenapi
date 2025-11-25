@@ -24,5 +24,12 @@ qt_internal_add_module(OpenApi
 )
 set_target_properties(OpenApi PROPERTIES AUTOMOC OFF)
 
+# Make find_package(Qt6 COMPONENTS OpenApi) also find the java runtime and the upstream generator.
 qt_record_extra_third_party_dependency(OpenApi WrapOpenAPIJava::WrapOpenAPIJava)
 qt_record_extra_third_party_dependency(OpenApi WrapOpenAPIGenerator::WrapOpenAPIGenerator)
+
+# Make find_package(Qt6 COMPONENTS OpenApi) lookup the OpenApiCommon library as a dependency as
+# well.
+if(TARGET Qt::OpenApiCommon)
+    qt_internal_register_target_dependencies(OpenApi PUBLIC Qt::OpenApiCommon)
+endif()

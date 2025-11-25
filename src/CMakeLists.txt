@@ -7,8 +7,15 @@
 # undesirable.
 add_subdirectory(global)
 
+# First build the generator tool, before the common library is created.
+add_subdirectory(tools)
+
 if(QT_FEATURE_openapi_generator)
+    if(QT_FEATURE_openapi_common_library)
+        add_subdirectory(openapicommon)
+    endif()
+
+    # We create the openapi module last, because we want to add a dependency on the common library
+    # on the CMake package level.
     add_subdirectory(openapi)
 endif()
-
-add_subdirectory(tools)
