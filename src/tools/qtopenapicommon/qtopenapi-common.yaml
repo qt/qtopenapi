@@ -3,8 +3,9 @@
 
 openapi: 3.1.0
 info:
-  description: >-
-    This specification defines the Qt6 Common library API required for auto-generated Qt6 Http Clients.
+  description: >
+    The Qt6 Common library is auto-generated and available to users under the same
+    license as the Qt which it is used with or built with. See available licenses below.
   version: 1.0.0
   title: Qt6 Common library
   license:
