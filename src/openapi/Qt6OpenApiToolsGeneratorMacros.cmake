@@ -32,6 +32,7 @@ endfunction()
 
 function(qt6_add_openapi_client target)
     set(options
+        GENERATE_DOCUMENTATION
         __QT_INTERNAL_GENERATE_COMMON_LIBRARY_TARGET
     )
     set(oneValueArgs
@@ -39,6 +40,7 @@ function(qt6_add_openapi_client target)
         CPP_NAMESPACE
         CLIENT_PREFIX
         OUTPUT_DIRECTORY
+        DOCUMENTATION_OUTPUT_DIRECTORY
         OUTPUT_PUBLIC_HEADERS_DIR
         OUTPUT_PRIVATE_HEADERS_DIR
     )
@@ -87,6 +89,9 @@ function(qt6_add_openapi_client target)
     endif()
 
     file(MAKE_DIRECTORY "${arg_OUTPUT_DIRECTORY}")
+    if(NOT arg_DOCUMENTATION_OUTPUT_DIRECTORY)
+        set(arg_DOCUMENTATION_OUTPUT_DIRECTORY "${arg_OUTPUT_DIRECTORY}")
+    endif()
     set(openapi_cli_entrypoint_class "org.openapitools.codegen.OpenAPIGenerator")
     set(generator_name ${QT_OPENAPI_GENERATOR_NAME})
     get_filename_component(openapi_generator_cli_dir
@@ -175,6 +180,7 @@ function(qt6_add_openapi_client target)
         list(APPEND client_sources
             "${client_dir_path}${target_lower_case}combinedmodelsandapis.cpp")
         list(APPEND client_sources "${client_dir_path}${target_lower_case}exports.h")
+        list(APPEND client_sources "${client_dir_path}doc/Doxyfile.in")
         list(APPEND generating_sources ${client_sources})
     endif()
 
@@ -285,6 +291,43 @@ function(qt6_add_openapi_client target)
         target_sources(${target} PRIVATE ${common_sources})
     else()
         target_sources(${target} PRIVATE ${client_sources})
+    endif()
+
+    # Generate Doxygen documentation for the Client.
+    if(arg_GENERATE_DOCUMENTATION)
+        # If Doxygen is not installed, then just skipping.
+        if(TARGET Doxygen::doxygen)
+            file(MAKE_DIRECTORY "${arg_DOCUMENTATION_OUTPUT_DIRECTORY}")
+            set(configure_doxygen_script
+            "${__qt_openapi_macros_module_base_dir}/Qt6OpenApiConfigureDoxygenScript.cmake")
+            set(MAIN_GEN_DOC_FILE
+                "${arg_DOCUMENTATION_OUTPUT_DIRECTORY}/doc/html/index.html")
+            set(DOXYGEN_FILE "${client_dir_path}doc/Doxyfile")
+            add_custom_command(
+                OUTPUT "${MAIN_GEN_DOC_FILE}"
+                COMMAND "${CMAKE_COMMAND}"
+                    "-DDOXYGEN_IN_FILE_PATH=${DOXYGEN_FILE}.in"
+                    "-DDOXYGEN_OUT_FILE_PATH=${DOXYGEN_FILE}"
+                    "-DEXCLUDE_FILE=${client_dir_path}${target_lower_case}combinedmodelsandapis.cpp"
+                    "-DINPUT_DIR=${client_dir_path}"
+                    "-DOUTPUT_DIR=${arg_DOCUMENTATION_OUTPUT_DIRECTORY}/doc"
+                    -P "${configure_doxygen_script}"
+                COMMAND $<TARGET_FILE:Doxygen::doxygen> "${DOXYGEN_FILE}"
+                ${extra_dependencies}
+                ${generating_sources}
+                COMMENT "Generating doxygen documentation for target '${target}'"
+                VERBATIM
+                COMMAND_EXPAND_LISTS
+            )
+            add_custom_target(${target}_openapi_docs ALL
+                DEPENDS "${MAIN_GEN_DOC_FILE}"
+            )
+        else()
+            message(WARNING "Could not find doxygen to generate documentation. "
+                    "Either install it or make sure it's added to PATH and then call "
+                    "find_package(Doxygen) in your project."
+                    "Skipping documentation generation.")
+        endif()
     endif()
 
     if(arg_OUTPUT_PUBLIC_HEADERS_DIR OR arg_OUTPUT_PRIVATE_HEADERS_DIR)
