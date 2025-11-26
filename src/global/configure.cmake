@@ -13,6 +13,7 @@ set(java_compiler_value "<not found>")
 set(golang_value "<not found>")
 set(maven_value "<not found>")
 set(openapi_generator_value "<not found>")
+set(doxygen_value "<not found>")
 set(build_all_tests_value "no")
 set(zlib_value "no")
 
@@ -23,6 +24,7 @@ set(golang_found FALSE)
 set(maven_found FALSE)
 set(openapi_generator_found FALSE)
 set(zlib_found FALSE)
+set(doxygen_found FALSE)
 
 # Look for zlib, which is a required dependency for the soon-to-be generated OpenAPI Common
 # library.
@@ -68,6 +70,13 @@ if(NOT QT_CONFIGURE_RUNNING)
     if(OPENAPI_GO_EXECUTABLE)
         set(golang_value "${OPENAPI_GO_EXECUTABLE}")
         set(golang_found TRUE)
+    endif()
+
+    # Look for doxygen, used to create documentation for the generated code
+    find_package(Doxygen)
+    if (DOXYGEN_EXECUTABLE)
+        set(doxygen_value "${DOXYGEN_EXECUTABLE}")
+        set(doxygen_found TRUE)
     endif()
 
     # We need to find the upstream OpenAPI generator in order to build the OpenApiCommon
@@ -139,6 +148,7 @@ qt_configure_add_summary_section(NAME "Qt OpenAPI")
 qt_configure_add_summary_entry(ARGS "openapi_generator")
 qt_configure_add_summary_entry(ARGS "All test dependencies found" TYPE "message"
     MESSAGE "${build_all_tests_value}")
+qt_configure_add_summary_entry(ARGS "doxygen" TYPE "message" MESSAGE "${doxygen_value}")
 qt_configure_end_summary_section()
 
 qt_configure_add_report_entry(
@@ -192,5 +202,16 @@ if(NOT zlib_found)
     qt_configure_add_report_entry(
         TYPE WARNING
         MESSAGE "${zlib_check_msg}"
+    )
+endif()
+
+if(NOT doxygen_found)
+    string(CONCAT doxygen_msg
+        "The doxygen was not found. The GEN_DOXYGEN_DOCS option of the qt6_add_openapi_client "
+        "function will be ignored. It means no doxygen documentation will be generated."
+    )
+    qt_configure_add_report_entry(
+        TYPE WARNING
+        MESSAGE "${doxygen_msg}"
     )
 endif()

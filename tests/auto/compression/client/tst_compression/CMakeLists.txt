@@ -22,6 +22,8 @@ else()
     endif()
 endif()
 
+find_package(Doxygen)
+
 qt_internal_add_test(cpp-qt-compression
     SOURCES
         tst_compression.cpp
@@ -35,6 +37,7 @@ qt_add_library(CompressionClient)
 qt6_add_openapi_client(CompressionClient
     SPEC_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/compression.yaml
+    GENERATE_DOCUMENTATION
 )
 
 # target_compile_definitions(cpp-qt-compression
