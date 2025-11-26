@@ -46,6 +46,7 @@ function(qt6_add_openapi_client target)
     cmake_parse_arguments(PARSE_ARGV 1 arg
         "${options}" "${oneValueArgs}" "${multiValueArgs}"
     )
+    _qt_internal_validate_all_args_are_parsed(arg)
 
     if(NOT arg_SPEC_FILE)
         message(FATAL_ERROR "qt6_add_openapi_client: SPEC_FILE is required.")

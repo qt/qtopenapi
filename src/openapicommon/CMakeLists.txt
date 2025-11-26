@@ -25,16 +25,8 @@ elseif(NOT TARGET WrapZLIB::WrapZLIB)
     qt_find_package(WrapZLIB PROVIDED_TARGETS WrapZLIB::WrapZLIB)
 endif()
 
-get_target_property(qtcore_namespace Qt6::Core QT_NAMESPACE)
-if(qtcore_namespace)
-    list(PREPEND "${qtcore_namespace}::QtCommonOpenAPI" CPP_COMMON_NAMESPACE)
-else()
-    list(PREPEND "QtCommonOpenAPI" CPP_COMMON_NAMESPACE)
-endif()
-
 qt6_add_openapi_client(OpenApiCommon
     SPEC_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/qtopenapi-common.yaml
     __QT_INTERNAL_GENERATE_COMMON_LIBRARY_TARGET
-    ${qtcore_namespace}
 )
