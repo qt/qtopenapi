@@ -70,9 +70,8 @@ if(NOT QT_CONFIGURE_RUNNING)
         set(golang_found TRUE)
     endif()
 
-    # We don't need this for the build, but we need to find it to be able to create a dependency
-    # on the WrapOpenAPIGenerator for the OpenapiPrivate module package, and also
-    # for the tests.
+    # We need to find the upstream OpenAPI generator in order to build the OpenApiCommon
+    # library and to be able to generate any client library
     qt_find_package(WrapOpenAPIGenerator PROVIDED_TARGETS WrapOpenAPIGenerator::WrapOpenAPIGenerator)
     if(TARGET WrapOpenAPIGenerator::WrapOpenAPIGenerator)
         get_target_property(openapi_generator_path
@@ -116,6 +115,7 @@ qt_feature("openapi_generator" PRIVATE
     CONDITION
         Java_JAVAC_EXECUTABLE
         AND OPENAPI_MAVEN_EXECUTABLE
+        AND TARGET WrapOpenAPIGenerator::WrapOpenAPIGenerator
 )
 
 qt_feature("openapi_common_library" PRIVATE
