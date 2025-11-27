@@ -510,9 +510,13 @@ void OperationParameters::pathArrayParameters()
 
 void OperationParameters::pathAnyTypeParameters_data()
 {
+    // Use "ΣΨ" to test non-ascii characters.
+    // They're encoded as 0xCE 0xA3 0xCE 0xA8 in UTF-8, and should be %-encoded
+    // similarly.
+
     QtOAITestObject obj;
     obj.setName("Super*+,;=!$&'()Puper");
-    obj.setStatus("Awake or Not $");
+    obj.setStatus("Awake or Not $ΣΨ");
 
     QTest::addColumn<QJsonValue>("jsonValue");
     QTest::addColumn<QString>("expectedSimpleExplode");
@@ -521,13 +525,13 @@ void OperationParameters::pathAnyTypeParameters_data()
     QTest::addColumn<QString>("expectedLabelNotExplode");
     QTest::addColumn<QString>("expectedMatrixExplode");
     QTest::addColumn<QString>("expectedMatrixNotExplode");
-    QTest::newRow("QJsonValue(string)") << QJsonValue("*+,;=!$&'()John Doe")
-                                        << "/v2/path/anytype/simple-explode/%2A%2B%2C%3B%3D%21%24%26%27%28%29John%20Doe"
-                                        << "/v2/path/anytype/simple-not-explode/%2A%2B%2C%3B%3D%21%24%26%27%28%29John%20Doe"
-                                        << "/v2/path/anytype/label-explode/.%2A%2B%2C%3B%3D%21%24%26%27%28%29John%20Doe"
-                                        << "/v2/path/anytype/label-not-explode/.%2A%2B%2C%3B%3D%21%24%26%27%28%29John%20Doe"
-                                        << "/v2/path/anytype/matrix-explode/;anytypeParameter=%2A%2B%2C%3B%3D%21%24%26%27%28%29John%20Doe"
-                                        << "/v2/path/anytype/matrix-not-explode/;anytypeParameter=%2A%2B%2C%3B%3D%21%24%26%27%28%29John%20Doe";
+    QTest::newRow("QJsonValue(string)") << QJsonValue("ΣΨ*+,;=!$&'()John Doe")
+                                        << "/v2/path/anytype/simple-explode/%CE%A3%CE%A8%2A%2B%2C%3B%3D%21%24%26%27%28%29John%20Doe"
+                                        << "/v2/path/anytype/simple-not-explode/%CE%A3%CE%A8%2A%2B%2C%3B%3D%21%24%26%27%28%29John%20Doe"
+                                        << "/v2/path/anytype/label-explode/.%CE%A3%CE%A8%2A%2B%2C%3B%3D%21%24%26%27%28%29John%20Doe"
+                                        << "/v2/path/anytype/label-not-explode/.%CE%A3%CE%A8%2A%2B%2C%3B%3D%21%24%26%27%28%29John%20Doe"
+                                        << "/v2/path/anytype/matrix-explode/;anytypeParameter=%CE%A3%CE%A8%2A%2B%2C%3B%3D%21%24%26%27%28%29John%20Doe"
+                                        << "/v2/path/anytype/matrix-not-explode/;anytypeParameter=%CE%A3%CE%A8%2A%2B%2C%3B%3D%21%24%26%27%28%29John%20Doe";
     QTest::newRow("QJsonValue(int)")    << QJsonValue(100)
                                      << "/v2/path/anytype/simple-explode/100"
                                      << "/v2/path/anytype/simple-not-explode/100"
@@ -535,20 +539,20 @@ void OperationParameters::pathAnyTypeParameters_data()
                                      << "/v2/path/anytype/label-not-explode/.100"
                                      << "/v2/path/anytype/matrix-explode/;anytypeParameter=100"
                                      << "/v2/path/anytype/matrix-not-explode/;anytypeParameter=100";
-    QTest::newRow("QJsonValue(array)")  << QJsonValue({ 1, 2.2, QString("Strange*+,;=!$&'()")})
-                                       << "/v2/path/anytype/simple-explode/1,2.2,Strange%2A%2B%2C%3B%3D%21%24%26%27%28%29"
-                                       << "/v2/path/anytype/simple-not-explode/1,2.2,Strange%2A%2B%2C%3B%3D%21%24%26%27%28%29"
-                                       << "/v2/path/anytype/label-explode/.1.2.2.Strange%2A%2B%2C%3B%3D%21%24%26%27%28%29"
-                                       << "/v2/path/anytype/label-not-explode/.1,2.2,Strange%2A%2B%2C%3B%3D%21%24%26%27%28%29"
-                                       << "/v2/path/anytype/matrix-explode/;anytypeParameter=1;anytypeParameter=2.2;anytypeParameter=Strange%2A%2B%2C%3B%3D%21%24%26%27%28%29"
-                                       << "/v2/path/anytype/matrix-not-explode/;anytypeParameter=1,2.2,Strange%2A%2B%2C%3B%3D%21%24%26%27%28%29";
+    QTest::newRow("QJsonValue(array)")  << QJsonValue({ 1, 2.2, QString("ΣΨStrange*+,;=!$&'()")})
+                                       << "/v2/path/anytype/simple-explode/1,2.2,%CE%A3%CE%A8Strange%2A%2B%2C%3B%3D%21%24%26%27%28%29"
+                                       << "/v2/path/anytype/simple-not-explode/1,2.2,%CE%A3%CE%A8Strange%2A%2B%2C%3B%3D%21%24%26%27%28%29"
+                                       << "/v2/path/anytype/label-explode/.1.2.2.%CE%A3%CE%A8Strange%2A%2B%2C%3B%3D%21%24%26%27%28%29"
+                                       << "/v2/path/anytype/label-not-explode/.1,2.2,%CE%A3%CE%A8Strange%2A%2B%2C%3B%3D%21%24%26%27%28%29"
+                                       << "/v2/path/anytype/matrix-explode/;anytypeParameter=1;anytypeParameter=2.2;anytypeParameter=%CE%A3%CE%A8Strange%2A%2B%2C%3B%3D%21%24%26%27%28%29"
+                                       << "/v2/path/anytype/matrix-not-explode/;anytypeParameter=1,2.2,%CE%A3%CE%A8Strange%2A%2B%2C%3B%3D%21%24%26%27%28%29";
     QTest::newRow("QJsonValue(object)") << QJsonValue(obj.asJsonObject())
-                                        << "/v2/path/anytype/simple-explode/name=Super%2A%2B%2C%3B%3D%21%24%26%27%28%29Puper,status=Awake%20or%20Not%20%24"
-                                        << "/v2/path/anytype/simple-not-explode/name,Super%2A%2B%2C%3B%3D%21%24%26%27%28%29Puper,status,Awake%20or%20Not%20%24"
-                                        << "/v2/path/anytype/label-explode/.name=Super%2A%2B%2C%3B%3D%21%24%26%27%28%29Puper.status=Awake%20or%20Not%20%24"
-                                        << "/v2/path/anytype/label-not-explode/.name,Super%2A%2B%2C%3B%3D%21%24%26%27%28%29Puper,status,Awake%20or%20Not%20%24"
-                                        << "/v2/path/anytype/matrix-explode/;name=Super%2A%2B%2C%3B%3D%21%24%26%27%28%29Puper;status=Awake%20or%20Not%20%24"
-                                        << "/v2/path/anytype/matrix-not-explode/;anytypeParameter=name,Super%2A%2B%2C%3B%3D%21%24%26%27%28%29Puper,status,Awake%20or%20Not%20%24";
+                                        << "/v2/path/anytype/simple-explode/name=Super%2A%2B%2C%3B%3D%21%24%26%27%28%29Puper,status=Awake%20or%20Not%20%24%CE%A3%CE%A8"
+                                        << "/v2/path/anytype/simple-not-explode/name,Super%2A%2B%2C%3B%3D%21%24%26%27%28%29Puper,status,Awake%20or%20Not%20%24%CE%A3%CE%A8"
+                                        << "/v2/path/anytype/label-explode/.name=Super%2A%2B%2C%3B%3D%21%24%26%27%28%29Puper.status=Awake%20or%20Not%20%24%CE%A3%CE%A8"
+                                        << "/v2/path/anytype/label-not-explode/.name,Super%2A%2B%2C%3B%3D%21%24%26%27%28%29Puper,status,Awake%20or%20Not%20%24%CE%A3%CE%A8"
+                                        << "/v2/path/anytype/matrix-explode/;name=Super%2A%2B%2C%3B%3D%21%24%26%27%28%29Puper;status=Awake%20or%20Not%20%24%CE%A3%CE%A8"
+                                        << "/v2/path/anytype/matrix-not-explode/;anytypeParameter=name,Super%2A%2B%2C%3B%3D%21%24%26%27%28%29Puper,status,Awake%20or%20Not%20%24%CE%A3%CE%A8";
 }
 
 void OperationParameters::pathAnyTypeParameters()
@@ -608,15 +612,15 @@ void OperationParameters::pathObjectParameters_data()
                                                                << "/v2/path/object/label-not-explode/.name,TestName123,status,Maybe-Awake"
                                                                << "/v2/path/object/matrix-explode/;name=TestName123;status=Maybe-Awake"
                                                                << "/v2/path/object/matrix-not-explode/;objectParameter=name,TestName123,status,Maybe-Awake";
-    object.setName("SoMe");
+    object.setName("SoMeΣΨ");
     object.setStatus(" *+,;=!$&'()");
-    QTest::newRow("QtOAITestObject({SoMe, ' *+,;=!$&'()'})") << object
-                                                << "/v2/path/object/simple-explode/name=SoMe,status=%20%2A%2B%2C%3B%3D%21%24%26%27%28%29"
-                                                << "/v2/path/object/simple-not-explode/name,SoMe,status,%20%2A%2B%2C%3B%3D%21%24%26%27%28%29"
-                                                << "/v2/path/object/label-explode/.name=SoMe.status=%20%2A%2B%2C%3B%3D%21%24%26%27%28%29"
-                                                << "/v2/path/object/label-not-explode/.name,SoMe,status,%20%2A%2B%2C%3B%3D%21%24%26%27%28%29"
-                                                << "/v2/path/object/matrix-explode/;name=SoMe;status=%20%2A%2B%2C%3B%3D%21%24%26%27%28%29"
-                                                << "/v2/path/object/matrix-not-explode/;objectParameter=name,SoMe,status,%20%2A%2B%2C%3B%3D%21%24%26%27%28%29";
+    QTest::newRow("QtOAITestObject({SoMeΣΨ, ' *+,;=!$&'()'})") << object
+                                                << "/v2/path/object/simple-explode/name=SoMe%CE%A3%CE%A8,status=%20%2A%2B%2C%3B%3D%21%24%26%27%28%29"
+                                                << "/v2/path/object/simple-not-explode/name,SoMe%CE%A3%CE%A8,status,%20%2A%2B%2C%3B%3D%21%24%26%27%28%29"
+                                                << "/v2/path/object/label-explode/.name=SoMe%CE%A3%CE%A8.status=%20%2A%2B%2C%3B%3D%21%24%26%27%28%29"
+                                                << "/v2/path/object/label-not-explode/.name,SoMe%CE%A3%CE%A8,status,%20%2A%2B%2C%3B%3D%21%24%26%27%28%29"
+                                                << "/v2/path/object/matrix-explode/;name=SoMe%CE%A3%CE%A8;status=%20%2A%2B%2C%3B%3D%21%24%26%27%28%29"
+                                                << "/v2/path/object/matrix-not-explode/;objectParameter=name,SoMe%CE%A3%CE%A8,status,%20%2A%2B%2C%3B%3D%21%24%26%27%28%29";
 
 }
 
@@ -701,6 +705,21 @@ void OperationParameters::pathStringMapParameters_data()
         << "/v2/path/map/string-mapping/matrix-explode/;"_L1 + urlEncodedKey2 + "=str2;key1=str1"_L1
         << "/v2/path/map/string-mapping/matrix-not-explode/;mapParameter="_L1 + urlEncodedKey2 +
                ",str2,key1,str1"_L1;
+
+    const QString nonAsciiKey = QStringLiteral("πσ"); // 0xcf 0x80 0xcf 0x83
+    const QString nonAsciiValue = QStringLiteral("ΣΨ"); // 0xce 0xa3 0xce 0xa8
+
+    QMap<QString, QString> nonAsciiMap;
+    nonAsciiMap[nonAsciiKey] = nonAsciiValue;
+    nonAsciiMap[QStringLiteral("key")] = QStringLiteral("value");
+    QTest::newRow("non-ascii-map")
+            << nonAsciiMap
+            << u"/v2/path/map/string-mapping/simple-explode/key=value,%CF%80%CF%83=%CE%A3%CE%A8"_s
+            << u"/v2/path/map/string-mapping/simple-not-explode/key,value,%CF%80%CF%83,%CE%A3%CE%A8"_s
+            << u"/v2/path/map/string-mapping/label-explode/.key=value.%CF%80%CF%83=%CE%A3%CE%A8"_s
+            << u"/v2/path/map/string-mapping/label-not-explode/.key,value,%CF%80%CF%83,%CE%A3%CE%A8"_s
+            << u"/v2/path/map/string-mapping/matrix-explode/;key=value;%CF%80%CF%83=%CE%A3%CE%A8"_s
+            << u"/v2/path/map/string-mapping/matrix-not-explode/;mapParameter=key,value,%CF%80%CF%83,%CE%A3%CE%A8"_s;
 }
 
 void OperationParameters::pathStringMapParameters()

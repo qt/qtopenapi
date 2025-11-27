@@ -419,6 +419,9 @@ void MediaType::testUrlEncodedType()
                          });
     QTRY_COMPARE_EQ(done, true);
 
+    // Use "ΣΨ" to test non-ascii characters.
+    // They're encoded as 0xCE 0xA3 0xCE 0xA8 in UTF-8, and should be %-encoded
+    // similarly.
     done = false;
     // NOTE: - 'user' field is being serialized as application/json.
     // NOTE: - 'comment' field is being serialized as text/plain.
@@ -427,20 +430,21 @@ void MediaType::testUrlEncodedType()
     // https://spec.openapis.org/oas/v3.1.1.html#example-url-encoded-form-with-json-values
     QtOAIUser enUrlUser;
     enUrlUser.setName("Tatiana");
-    enUrlUser.setStatus("is working");
+    enUrlUser.setStatus("is working ΣΨ");
     enUrlUser.setAge(100);
-    postUrlEncodedNestedObject(enUrlUser, ::QtOpenAPI::OptionalParam<QString>("Test String "),
+    const QString stringParam = QStringLiteral(u"Test String ΣΨ");
+    postUrlEncodedNestedObject(enUrlUser, ::QtOpenAPI::OptionalParam<QString>(stringParam),
                                this, [&](const QRestReply &reply, const QString &summary) {
         if (!(done = reply.isSuccess()))
             qWarning() << "ERROR: " << reply.errorString() << reply.error();
         QtOAIUser received;
         received.fromJson(getJsonValue(summary, "user").toString());
         QCOMPARE(received, enUrlUser);
-        QCOMPARE(getJsonValue(summary, "comment").toString(), "Test String ");
+        QCOMPARE(getJsonValue(summary, "comment").toString(), stringParam);
         QCOMPARE(getHeaderValue(summary), "application/x-www-form-urlencoded");
     });
-    QCOMPARE(m_requestContent, "user=%7B%22age%22%3A100%2C%22name%22%3A%22Tatiana%22%2C%22status%22%3A%22is+working%22%7D&comment=Test+String+");
-    QCOMPARE(fromFormUrlEncoding(m_requestContent), "user={\"age\":100,\"name\":\"Tatiana\",\"status\":\"is working\"}&comment=Test String ");
+    QCOMPARE(m_requestContent, "user=%7B%22age%22%3A100%2C%22name%22%3A%22Tatiana%22%2C%22status%22%3A%22is+working+%CE%A3%CE%A8%22%7D&comment=Test+String+%CE%A3%CE%A8");
+    QCOMPARE(fromFormUrlEncoding(m_requestContent), u"user={\"age\":100,\"name\":\"Tatiana\",\"status\":\"is working ΣΨ\"}&comment=Test String ΣΨ"_s);
     QTRY_COMPARE_EQ(done, true);
 
     // EMPTY requestContent, but header still needs to be sent.

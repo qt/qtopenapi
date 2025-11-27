@@ -628,11 +628,11 @@ QString getParamStyleSuffix(std::string_view style, const QString &name, Seriali
     const bool isObject = flags.testFlag(SerializationFlag::Object);
     if (style == "matrix") {
         // for undefined cases "=" will be deleted on serialization.
-        return (isExplode && isObject) ? QString() : name + QString::fromUtf8("=");
+        return (isExplode && isObject) ? QString() : name + QString::fromLatin1("=");
     } else if (style == "label") {
         return ""_L1;
     } else if (style == "form") {
-        return (isExplode && isObject) ? QString() : name + QString::fromUtf8("=");
+        return (isExplode && isObject) ? QString() : name + QString::fromLatin1("=");
     } else if (style == "simple") {
         return ""_L1;
     } else if (style == "spaceDelimited") {
@@ -657,9 +657,9 @@ QString getParamStyleDelimiter(std::string_view style, SerializationFlags flags)
     } else if (style == "simple") {
         return ","_L1;
     } else if (style == "spaceDelimited") {
-        return QString::fromUtf8(QUrl::toPercentEncoding(" "_L1));
+        return QString::fromLatin1(QUrl::toPercentEncoding(" "_L1));
     } else if (style == "pipeDelimited") {
-        return QString::fromUtf8(QUrl::toPercentEncoding("|"_L1));
+        return QString::fromLatin1(QUrl::toPercentEncoding("|"_L1));
     } else if (style == "deepObject") {
         return "&"_L1;
     }
@@ -681,9 +681,9 @@ QString getParamStyleAssignOperator(std::string_view style, SerializationFlags f
     } else if (style == "simple") {
         return (isExplode) ? "="_L1 : ","_L1;
     } else if (style == "spaceDelimited") {
-        return QString::fromUtf8(QUrl::toPercentEncoding(" "_L1));
+        return QString::fromLatin1(QUrl::toPercentEncoding(" "_L1));
     } else if (style == "pipeDelimited") {
-        return QString::fromUtf8(QUrl::toPercentEncoding("|"_L1));
+        return QString::fromLatin1(QUrl::toPercentEncoding("|"_L1));
     } else if (style == "deepObject") {
         return "="_L1;
     }
@@ -701,7 +701,8 @@ QString serializeJsonValue(const QJsonValue &value, const SerializationOptions &
     {
         paramString = opts.suffix;
         const QString stringValue = toStringValue(value.toVariant());
-        paramString.append(percentEncode ? QString::fromUtf8(QUrl::toPercentEncoding(stringValue)) : stringValue);
+        paramString.append(percentEncode ? QString::fromLatin1(QUrl::toPercentEncoding(stringValue))
+                                         : stringValue);
     } break;
     case QJsonValue::Array:
     {
@@ -719,9 +720,9 @@ QString serializeJsonValue(const QJsonValue &value, const SerializationOptions &
                         paramString.append(opts.delimiter);
                     if (percentEncode) {
                         paramString.append(opts.suffix
-                                           + QString::fromUtf8(QUrl::toPercentEncoding(u"[%1]"_s.arg(key)))
+                                           + QString::fromLatin1(QUrl::toPercentEncoding(u"[%1]"_s.arg(key)))
                                            + opts.assignOperator
-                                           + QString::fromUtf8(QUrl::toPercentEncoding(toStringValue(val))));
+                                           + QString::fromLatin1(QUrl::toPercentEncoding(toStringValue(val))));
                     } else {
                         paramString.append(opts.suffix  + u"[%1]"_s.arg(key)
                                            + opts.assignOperator + toStringValue(val));

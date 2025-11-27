@@ -31,7 +31,7 @@ QString toFormUrlEncoding(const QString &input)
     // Alphanumeric characters (a–z, A–Z, 0–9) → left as-is
     // The following characters are always percent-encoded in x-www-form-urlencoded:
     // "!" / "$" / "&" / "'" / "(" / ")" / "*" / "+" / "," / ";" / "="
-    return QString::fromUtf8(QUrl::toPercentEncoding(input).replace("%20", "+"));
+    return QString::fromLatin1(QUrl::toPercentEncoding(input).replace("%20", "+"));
 }
 
 {{prefix}}HttpRequestInput::{{prefix}}HttpRequestInput()
@@ -360,7 +360,7 @@ QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<Q
                     if (parts.size() > 1) {
                         filename = parts.at(1);
                         // RFC says filename value may be quoted: remove the surrounding quotes
-                        if (filename.startsWith(QString::fromUtf8("\"")) && filename.endsWith(QString::fromUtf8("\"")))
+                        if (filename.startsWith(u'"') && filename.endsWith(u'"'))
                             filename = filename.mid(1, filename.size() - 2);
                         // TODO in QTBUG-141443: - Sanitize the filename
                         //                       - Distinguish between filename= and filename*=

@@ -280,9 +280,9 @@ QString addContentField(const QString &contentType)
 {
     if (contentType.isEmpty()) {
         if constexpr (isPrimitiveMediaType<T>)
-            return QString::fromUtf8("text/plain");
+            return QStringLiteral("text/plain");
         else
-            return QString::fromUtf8("application/json");
+            return QStringLiteral("application/json");
     }
     return contentType;
 }
@@ -368,7 +368,7 @@ QString serializeArrayValue(const QList<T> &value, const SerializationOptions &o
         if ((opts.style == "matrix" || opts.style == "form") && isExplode && index > 0)
             paramString.append(opts.suffix);
         const QString resultValue = toStringValue(t);
-        paramString.append(percentEncode ? QString::fromUtf8(QUrl::toPercentEncoding(resultValue)) : resultValue);
+        paramString.append(percentEncode ? QString::fromLatin1(QUrl::toPercentEncoding(resultValue)) : resultValue);
         ++index;
     }
     return paramString;
@@ -380,9 +380,9 @@ QString serializeMapValue(const QMap<QString, T> &val, const SerializationOption
     QString strMap;
     for (const auto &[key, value] : val.asKeyValueRange()) {
         if (percentEncode) {
-            strMap.append(QString::fromUtf8(QUrl::toPercentEncoding(key))
+            strMap.append(QString::fromLatin1(QUrl::toPercentEncoding(key))
                           + opts.assignOperator
-                          + QString::fromUtf8(QUrl::toPercentEncoding(toStringValue(value)))
+                          + QString::fromLatin1(QUrl::toPercentEncoding(toStringValue(value)))
                           + opts.delimiter);
         } else {
             strMap.append(key + opts.assignOperator + toStringValue(value)
