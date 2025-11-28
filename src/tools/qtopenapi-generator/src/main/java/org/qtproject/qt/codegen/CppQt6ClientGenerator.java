@@ -316,10 +316,14 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
                     commonLibrarySourceFolder, namePrefix + "HttpFileElement.h"));
             supportingFiles.add(new SupportingFile("common/HttpFileElement.cpp.mustache",
                     commonLibrarySourceFolder, namePrefix + "HttpFileElement.cpp"));
-            supportingFiles.add(new SupportingFile("common/object.mustache",
+            supportingFiles.add(new SupportingFile("common/object-header.mustache",
                     commonLibrarySourceFolder, namePrefix + "Object.h"));
-            supportingFiles.add(new SupportingFile("common/enum.mustache",
+                    supportingFiles.add(new SupportingFile("common/object-body.mustache",
+                    commonLibrarySourceFolder, namePrefix + "Object.cpp"));
+            supportingFiles.add(new SupportingFile("common/enum-header.mustache",
                     commonLibrarySourceFolder, namePrefix + "Enum.h"));
+                    supportingFiles.add(new SupportingFile("common/enum-body.mustache",
+                    commonLibrarySourceFolder, namePrefix + "Enum.cpp"));
             supportingFiles.add(new SupportingFile("common/common-exports.mustache",
                     commonLibrarySourceFolder, namePrefix + "CommonExports.h"));
             supportingFiles.add(new SupportingFile("common/ServerConfiguration.mustache",

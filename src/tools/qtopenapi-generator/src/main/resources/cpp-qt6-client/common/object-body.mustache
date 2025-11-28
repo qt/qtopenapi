@@ -1,0 +1,14 @@
+{{>licenseInfo}}
+#include "{{prefix}}Object.h"
+
+{{#cppCommonNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppCommonNamespaceDeclarations}}
+
+{{prefix}}Object::{{prefix}}Object() = default;
+
+{{prefix}}Object::~{{prefix}}Object() = default;
+
+{{#cppCommonNamespaceDeclarations}}
+} // namespace {{this}}
+{{/cppCommonNamespaceDeclarations}}
