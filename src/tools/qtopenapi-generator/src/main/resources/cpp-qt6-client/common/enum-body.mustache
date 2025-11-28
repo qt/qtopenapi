@@ -1,0 +1,14 @@
+{{>licenseInfo}}
+#include "{{prefix}}Enum.h"
+
+{{#cppCommonNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppCommonNamespaceDeclarations}}
+
+{{prefix}}Enum::{{prefix}}Enum() = default;
+
+{{prefix}}Enum::~{{prefix}}Enum() = default;
+
+{{#cppCommonNamespaceDeclarations}}
+} // namespace {{this}}
+{{/cppCommonNamespaceDeclarations}}

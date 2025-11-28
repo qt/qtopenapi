@@ -13,8 +13,8 @@ namespace {{this}} {
 
 class {{prefix}}_COMMON_EXPORT {{prefix}}Enum {
 public:
-    {{prefix}}Enum() {}
-    virtual ~{{prefix}}Enum() {}
+    {{prefix}}Enum();
+    virtual ~{{prefix}}Enum();
 
     virtual QJsonValue asJsonValue() const = 0;
     virtual QString asJson() const = 0;
