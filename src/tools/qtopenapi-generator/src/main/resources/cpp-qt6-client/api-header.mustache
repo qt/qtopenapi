@@ -27,7 +27,7 @@ public:
     ~{{classname}}() override;
 
     void initializeServerConfigs();
-{{#operations}}public{{#enableQmlCode}} Q_SLOTS{{/enableQmlCode}}:{{#operation}}
+{{#operations}}{{#operation}}
     /**
     * \internal
     * The auto-generated API:
