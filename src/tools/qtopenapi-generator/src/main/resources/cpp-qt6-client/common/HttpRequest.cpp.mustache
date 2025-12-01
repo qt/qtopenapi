@@ -205,7 +205,7 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
     if (input.m_requestBody.size() > 0) {
         requestContent.clear();
         if (!input.m_isFormData && requestCompressionEnabled) {
-            requestContent.append(compress(input.m_requestBody, 7, {{prefix}}CompressionType::Gzip));
+            requestContent.append(compressData(input.m_requestBody, 7, {{prefix}}CompressionType::Gzip));
         } else {
             requestContent.append(input.m_requestBody);
         }
@@ -337,7 +337,7 @@ QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<Q
             const QString encoding = it->trimmed();
             if (encoding.compare("identity"_L1, Qt::CaseInsensitive) == 0)
                 continue;
-            result = decompress(result, encodingFormatToCompressionType(encoding));
+            result = decompressData(result, encodingFormatToCompressionType(encoding));
         }
     }
 
@@ -431,7 +431,7 @@ static QByteArray decompressGzipOrDeflate(const QByteArray &data)
 }
 {{/contentCompression}}
 
-QByteArray decompress(const QByteArray &data, {{prefix}}CompressionType compressionType)
+QByteArray decompressData(const QByteArray &data, {{prefix}}CompressionType compressionType)
 {
 {{#contentCompression}}
     switch (compressionType) {
@@ -452,7 +452,7 @@ QByteArray decompress(const QByteArray &data, {{prefix}}CompressionType compress
 {{/contentCompression}}
 }
 
-QByteArray compress(const QByteArray &input, int level, {{prefix}}CompressionType compressionType)
+QByteArray compressData(const QByteArray &input, int level, {{prefix}}CompressionType compressionType)
 {
 {{#contentCompression}}
     static constexpr int GZIP_WINDOW_BIT = 15 + 16;

@@ -42,10 +42,10 @@ void tst_Compression::localCompressionRoundtrip()
     using namespace QtOAIHttpRequestWorker;
     QFETCH(const QtOAICompressionType, compressionType);
 
-    const QByteArray compressed = compress(originalData, 9, compressionType);
+    const QByteArray compressed = compressData(originalData, 9, compressionType);
     QCOMPARE_LE(compressed.size(), originalData.size());
 
-    const QByteArray decompressed = decompress(compressed, compressionType);
+    const QByteArray decompressed = decompressData(compressed, compressionType);
 
     QCOMPARE(decompressed, originalData);
 }

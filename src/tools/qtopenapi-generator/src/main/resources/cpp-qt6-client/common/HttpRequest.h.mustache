@@ -70,8 +70,8 @@ namespace {{prefix}}HttpRequestWorker {
         Gzip,
         None,
     };
-    {{prefix}}_COMMON_EXPORT QByteArray decompress(const QByteArray &data, {{prefix}}CompressionType compressionType);
-    {{prefix}}_COMMON_EXPORT QByteArray compress(const QByteArray &input, int level, {{prefix}}CompressionType compressionType);
+    {{prefix}}_COMMON_EXPORT QByteArray decompressData(const QByteArray &data, {{prefix}}CompressionType compressionType);
+    {{prefix}}_COMMON_EXPORT QByteArray compressData(const QByteArray &input, int level, {{prefix}}CompressionType compressionType);
 } // namespace {{prefix}}HttpRequestWorker
 
 {{#cppCommonNamespaceDeclarations}}
