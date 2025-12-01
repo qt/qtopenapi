@@ -12,7 +12,6 @@ qt_internal_add_module(OpenApiCommon
     LIBRARIES
         Qt::CorePrivate
         Qt::NetworkPrivate
-        WrapZLIB::WrapZLIB
     PUBLIC_LIBRARIES
         Qt::Core
         Qt::Network
@@ -21,8 +20,13 @@ qt_internal_add_module(OpenApiCommon
 # Handle the conditional finding of either system zlib or qt zlib.
 if(NOT QT_FEATURE_system_zlib)
     find_package(Qt6 COMPONENTS ZlibPrivate)
+    qt_internal_extend_target(OpenApiCommon LIBRARIES Qt::ZlibPrivate)
 elseif(NOT TARGET WrapZLIB::WrapZLIB)
     qt_find_package(WrapZLIB PROVIDED_TARGETS WrapZLIB::WrapZLIB)
+endif()
+
+if(TARGET WrapZLIB::WrapZLIB)
+    qt_internal_extend_target(OpenApiCommon LIBRARIES WrapZLIB::WrapZLIB)
 endif()
 
 qt6_add_openapi_client(OpenApiCommon

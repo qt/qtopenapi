@@ -12,8 +12,6 @@ if(NOT TARGET responses-server-go)
     return()
 endif()
 
-find_package(ZLIB REQUIRED)
-
 if(MSVC)
     add_compile_options(/W4 /WX)
 else()

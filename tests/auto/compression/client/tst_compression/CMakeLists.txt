@@ -22,8 +22,6 @@ else()
     endif()
 endif()
 
-find_package(ZLIB REQUIRED)
-
 qt_internal_add_test(cpp-qt-compression
     SOURCES
         tst_compression.cpp
