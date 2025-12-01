@@ -47,12 +47,12 @@ paths:
       tags:
         - users
       summary: Get the list of users from the database.
-      operationId: getUsersByPage # or refreshUsersPage
+      operationId: getUsersByPage
       parameters:
-        - name: page
-          in: query # Query params appear at the end of a URL following a question mark. They are optional and nonunique e.g. /users?page=1
+        - name: page # e.g. /users?page=1
+          in: query
           description: The page number to retrieve.
-          required: false
+          required: true
           schema:
             type: [integer, 'null'] # adding null for testing purpose
             default: 1
@@ -141,7 +141,7 @@ paths:
       tags:
         - colors
       summary: Get the list of colors from the database.
-      operationId: getColors # or refreshColorsPage
+      operationId: getColors
       parameters:
         - name: page
           in: query

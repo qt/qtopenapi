@@ -93,6 +93,11 @@
                 "comment": "Default",
                 "file type": "examples and snippets",
                 "spdx": ["LicenseRef-Qt-Commercial OR BSD-3-Clause"]
+            },
+            "examples/openapi/colorpalette/icons/": {
+                "comment": "",
+                "file type": "3rd party",
+                "spdx": ["Apache-2.0"]
             }
         }
     }

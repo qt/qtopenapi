@@ -18,14 +18,24 @@ qt_add_executable(colorpaletteApp
     main.cpp
 )
 
+add_subdirectory(QtExampleStyle)
+
 qt_add_qml_module(colorpaletteApp
     URI ColorPalette
     VERSION 1.0
     QML_FILES
         ColorPalette/Main.qml
         ColorPalette/ColorView.qml
+        ColorPalette/UserMenu.qml
     SOURCES
-        foreigncolorsapi.h
+        ApiBridges.h
+    RESOURCES
+        icons/userMask.svg
+        icons/user.svg
+        icons/qt.png
+        icons/login.svg
+        icons/logout.svg
+        icons/qt_attribution.json
 )
 
 qt_add_library(ColorpaletteClientExample)

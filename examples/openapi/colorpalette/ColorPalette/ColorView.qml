@@ -2,8 +2,10 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
 import QtQuick
-import QtQuick.Layouts
 import QtQuick.Controls
+import QtQuick.Effects
+import QtQuick.Layouts
+import QtQuick.Shapes
 
 import ColorPalette
 
@@ -14,6 +16,10 @@ Item {
 
     property int currentColorPage: 1
     property int totalColorPages: 0
+
+    property bool loggedIn: false
+    property int userId: -1
+    property string currentUserAvatar: ""
 
     ListModel {
         id: colorListModel
@@ -27,7 +33,7 @@ Item {
     Connections {
         target: ColorsApi
 
-        function onGetColorsFinished(summary) { // summary is the QtOAIColorPage
+        function onGetColorsFinished(summary) { // summary is a QtOAIColorPage
             for (var i = 0; i < summary.getData.length; i++) {
                 colorListModel.append({
                     id: summary.getData[i].getId,
@@ -41,20 +47,176 @@ Item {
         }
 
         function onGetColorsErrorOccurred(errorType, errorStr) {
-            console.warn("Error message:", errorStr);
-            root.resetState();
-            connectionErrorPopup.open()
+            root.handleError(errorStr)
+        }
+    }
+
+    Connections {
+        target: UsersApi
+
+        function onGetUserByIdFinished(summary) { // summary is a QtOAIUser
+            // Check if the user id from the response matches the currently logged-in user id:
+            if (summary.getId === root.userId) {
+                root.currentUserAvatar = summary.getAvatar
+            } else {
+                // This means an old request completed after a new login/logout.
+                console.log("Ignored old user data for id: ", summary.getId, " Current ID: ",
+                            root.userId)
+            }
+        }
+
+        function onGetUsersByPageErrorOccurred(errorType, errorStr) {
+            root.handleError(errorStr)
+        }
+
+        function onLoginUserFinished(summary) { // summary is a QtOAIToken
+            root.userId = summary.getId
+            UsersApi.getUserById(root.userId)
+
+            root.loggedIn = true
+
+            UsersApi.setApiKey("token", summary.getToken)
+            ColorsApi.setApiKey("token", summary.getToken)
+        }
+
+        function onLoginUserErrorOccurred(errorType, errorStr) {
+            root.handleError(errorStr)
+        }
+
+        function onLogoutUserFinished() {
+            root.loggedIn = false
+            root.userId = -1
+            UsersApi.setApiKey("token", "")
+            ColorsApi.setApiKey("token", "")
+        }
+
+        function onLogoutUserErrorOccurred(errorType, errorStr) {
+            root.handleError(errorStr)
         }
     }
 
     // load colors for first page
     Component.onCompleted: fetchColors(root.currentColorPage)
 
-    onCurrentColorPageChanged: fetchColors(currentColorPage)
+    onCurrentColorPageChanged: fetchColors(root.currentColorPage)
 
     ColumnLayout {
         // The main application layout
         anchors.fill :parent
+
+        ToolBar {
+            Layout.fillWidth: true
+            Layout.minimumHeight: 25 + 4
+
+            UserMenu {
+                id: userMenu
+                loggedInValue: root.loggedIn
+                loggedInUserId: root.userId
+                onConnectionError: (errorStr) => root.handleError(errorStr)
+            }
+
+            RowLayout {
+                anchors.fill: parent
+                Text {
+                    text: qsTr("QHTTP Server")
+                    font.pixelSize: 8
+                    color: "#667085"
+                }
+                Item { Layout.fillWidth: true }
+
+                AbstractButton {
+                    id: loginButton
+                    Layout.preferredWidth: 25
+                    Layout.preferredHeight: 25
+                    Item {
+                        id: userImageCliped
+                        anchors.left: parent.left
+                        anchors.verticalCenter: parent.verticalCenter
+                        width: 25
+                        height: 25
+
+                        Image {
+                            id: userImage
+                            anchors.fill: parent
+                            source: root.loggedIn ? root.currentUserAvatar
+                                                  : "qrc:/qt/qml/ColorPalette/icons/user.svg"
+                            visible: false
+                        }
+
+                        Image {
+                            id: userMask
+                            source: "qrc:/qt/qml/ColorPalette/icons/userMask.svg"
+                            anchors.fill: userImage
+                            anchors.margins: 4
+                            visible: false
+                        }
+
+                        MultiEffect {
+                            source: userImage
+                            anchors.fill: userImage
+                            maskSource: userMask
+                            maskEnabled: true
+                        }
+                    }
+
+                    onClicked: {
+                        userMenu.fetchUsers(userMenu.currentUserPage);
+                        userMenu.open()
+                        var pos = mapToGlobal(Qt.point(x, y))
+                        pos = userMenu.parent.mapFromGlobal(pos)
+                        userMenu.x = x - userMenu.width + 25 + 3
+                        userMenu.y = y + 25 + 3
+                    }
+
+                    Shape {
+                       id: bubble
+                       x: -text.width - 25
+                       anchors.margins: 3
+
+                       preferredRendererType: Shape.CurveRenderer
+
+                       visible: !root.loggedIn
+
+                       ShapePath {
+                           strokeWidth: 0
+                           fillColor: "#667085"
+                           startX: 5; startY: 0
+                           PathLine { x: 5 + text.width + 6; y: 0 }
+                           PathArc { x: 10 + text.width + 6; y: 5; radiusX: 5; radiusY: 5}
+                           // arrow
+                           PathLine { x: 10 + text.width + 6; y: 8 + text.height / 2 - 6 }
+                           PathLine { x: 10 + text.width + 6 + 6; y: 8 + text.height / 2 }
+                           PathLine { x: 10 + text.width + 6; y: 8 + text.height / 2 + 6}
+                           PathLine { x: 10 + text.width + 6; y: 5 + text.height + 6 }
+                           // end arrow
+                           PathArc { x: 5 + text.width + 6; y: 10 + text.height + 6 ; radiusX: 5; radiusY: 5}
+                           PathLine { x: 5; y: 10 + text.height + 6 }
+                           PathArc { x: 0; y: 5 + text.height + 6 ; radiusX: 5; radiusY: 5}
+                           PathLine { x: 0; y: 5 }
+                           PathArc { x: 5; y: 0 ; radiusX: 5; radiusY: 5}
+                       }
+                       Text {
+                           x: 8
+                           y: 8
+                           id: text
+                           color: "white"
+                           text: qsTr("Log in to edit")
+                           font.bold: true
+                           horizontalAlignment: Qt.AlignHCenter
+                           verticalAlignment: Qt.AlignVCenter
+                       }
+                   }
+                }
+            }
+
+            Image {
+                anchors.centerIn: parent
+                source: "qrc:/qt/qml/ColorPalette/icons/qt.png"
+                fillMode: Image.PreserveAspectFit
+                height: 25
+            }
+
+        }
 
         ListView {
             id: colorListView
@@ -229,6 +391,7 @@ Item {
                     onClicked: {
                         connectionErrorPopup.close()
                         root.fetchColors(root.currentColorPage)
+                        userMenu.fetchUsers(userMenu.currentUserPage)
                     }
                 }
             }
@@ -238,8 +401,27 @@ Item {
         console.log("Resetting application state due to server disconnection/issue.");
 
         colorListModel.clear();
+        userMenu.currentUsers.clear()
 
         root.currentColorPage = 1;
         root.totalColorPages = 0;
+        userMenu.currentUserPage = 1;
+        userMenu.totalUserPages = 0;
+
+        // reset user session state
+        root.loggedIn = false;
+        root.userId = -1;
+        root.currentUserAvatar = "";
+
+        UsersApi.setApiKey("token", "");
+        ColorsApi.setApiKey("token", "");
+
+        userMenu.close()
+    }
+
+    function handleError(errorStr) {
+        console.warn("Error message:", errorStr);
+        root.resetState();
+        connectionErrorPopup.open()
     }
 }

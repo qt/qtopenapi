@@ -5,7 +5,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
-#include "foreigncolorsapi.h"
+#include "ApiBridges.h"
 
 int main(int argc, char *argv[])
 {
@@ -13,6 +13,9 @@ int main(int argc, char *argv[])
 
     QtOpenAPI::QtOAIColorsApi colorsApiInstance;
     ForeignColorsAPI::s_singletonInstance = &colorsApiInstance;
+
+    QtOpenAPI::QtOAIUsersApi usersApiInstance;
+    ForeignUsersAPI::s_singletonInstance = &usersApiInstance;
 
     QQmlApplicationEngine engine;
 
