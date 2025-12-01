@@ -172,7 +172,7 @@ public:
     {{prefix}}BaseApi() : {{prefix}}BaseApi(nullptr) {}
     explicit {{prefix}}BaseApi(QObject *parent);
     ~{{prefix}}BaseApi() override;
-{{#enableQmlCode}}public Q_SLOTS:{{/enableQmlCode}}
+public Q_SLOTS:
     ServerError setDefaultServerValue(int serverIndex,const QString &operation, const QString &variable,const QString &val);
     ServerError setServerIndex(const QString &operation, int serverIndex);
     void setApiKey(const QString &apiKeyName, const QString &apiKey);
