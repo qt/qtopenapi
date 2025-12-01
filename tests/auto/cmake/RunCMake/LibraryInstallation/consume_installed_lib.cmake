@@ -35,7 +35,7 @@ target_link_libraries(cpp-qt-compression PRIVATE
 if(WIN32)
     add_custom_command(TARGET cpp-qt-compression POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            $<TARGET_FILE:CompressionClient>
+            $<TARGET_FILE:CompressionClient::CompressionClient>
             ${CMAKE_CURRENT_BINARY_DIR}
         VERBATIM)
 endif()
