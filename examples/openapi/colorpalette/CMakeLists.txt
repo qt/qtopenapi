@@ -29,6 +29,7 @@ qt_add_qml_module(colorpaletteApp
         ColorPalette/UserMenu.qml
         ColorPalette/ColorDialogDelete.qml
         ColorPalette/ColorDialogEditor.qml
+        ColorPalette/ServerSelection.qml
     SOURCES
         ApiBridges.h
     RESOURCES
