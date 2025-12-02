@@ -22,6 +22,8 @@ Item {
     property int userId: -1
     property string currentUserAvatar: ""
 
+    signal errorOccurred()
+
     ListModel {
         id: colorListModel
     }
@@ -125,9 +127,6 @@ Item {
             root.handleError(errorStr)
         }
     }
-
-    // load colors for first page
-    Component.onCompleted: fetchColors(root.currentColorPage)
 
     onCurrentColorPageChanged: fetchColors(root.currentColorPage)
 
@@ -489,66 +488,6 @@ Item {
         }
     }
 
-    Popup {
-            id: connectionErrorPopup
-            padding: 10
-            modal: true
-            focus: true
-            anchors.centerIn: parent
-            closePolicy: Popup.CloseOnEscape
-
-            background: Rectangle {
-                color: "#F2F3F5"
-                radius: 20
-                border.color: "#000000"
-                border.width: 1
-            }
-
-            ColumnLayout {
-                Layout.preferredWidth: 280
-
-                Label {
-                    Layout.alignment: Qt.AlignHCenter
-                    text: qsTr("Connection Failure!")
-                    font.pixelSize: 20
-                    font.bold: true
-                    color: "#F44336"
-                    Layout.topMargin: 10
-                }
-
-                Label {
-                    text: qsTr("The application could not retrieve data from the server.")
-                    font.pixelSize: 11
-                    wrapMode: Text.WordWrap
-                    Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignHCenter
-                    Layout.topMargin: 20
-                    horizontalAlignment: Text.AlignHCenter
-                }
-
-                Label {
-                    text: qsTr("Please check your server connection.")
-                    font.pixelSize: 12
-                    font.bold: true
-                    wrapMode: Text.WordWrap
-                    Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignHCenter
-                    horizontalAlignment: Text.AlignHCenter
-                }
-
-                Button {
-                    text: qsTr("Try Again")
-                    Layout.alignment: Qt.AlignHCenter
-                    Layout.topMargin: 15
-                    onClicked: {
-                        connectionErrorPopup.close()
-                        root.fetchColors(root.currentColorPage)
-                        userMenu.fetchUsers(userMenu.currentUserPage)
-                    }
-                }
-            }
-    }
-
     function resetState() {
         console.log("Resetting application state due to server disconnection/issue.");
 
@@ -572,8 +511,10 @@ Item {
     }
 
     function handleError(errorStr) {
+        if (!root.visible)
+            return;
         console.warn("Error message:", errorStr);
         root.resetState();
-        connectionErrorPopup.open()
+        root.errorOccurred()
     }
 }
