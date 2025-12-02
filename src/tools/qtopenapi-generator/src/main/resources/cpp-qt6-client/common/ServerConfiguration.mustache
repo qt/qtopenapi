@@ -48,8 +48,9 @@ public:
         QString url = m_urlTemplate;
         // go through variables and replace placeholders
         for (const auto &[name, serverVariable] : m_variables.asKeyValueRange()) {
-            const QString value = serverVariable.m_value;
-            if (!serverVariable.m_enumValues.empty() && !serverVariable.m_enumValues.contains(value)) {
+            const QString value = serverVariable.value();
+            const auto enumValues = serverVariable.enumValues();
+            if (!enumValues.empty() && !enumValues.contains(value)) {
                 qWarning("The variable %s in the server URL has an invalid value %s.",
                           qPrintable(name), qPrintable(value));
             }
