@@ -44,9 +44,11 @@ public:
         return ServerError::NoError;
     }
 
-    QString getValue() { return m_value; }
-    QSet<QString> getEnumValues() { return m_enumValues; }
+    QString value() const { return m_value; }
+    QSet<QString> enumValues() const { return m_enumValues; }
+    QString description() const { return m_description; }
 
+private:
     QString m_value;
     QString m_description;
     QSet<QString> m_enumValues;
