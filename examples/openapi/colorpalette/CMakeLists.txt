@@ -27,9 +27,11 @@ qt_add_qml_module(colorpaletteApp
         ColorPalette/Main.qml
         ColorPalette/ColorView.qml
         ColorPalette/UserMenu.qml
+        ColorPalette/ColorDialogDelete.qml
     SOURCES
         ApiBridges.h
     RESOURCES
+        icons/delete.svg
         icons/userMask.svg
         icons/user.svg
         icons/qt.png

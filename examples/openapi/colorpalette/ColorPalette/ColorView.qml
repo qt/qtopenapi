@@ -8,6 +8,7 @@ import QtQuick.Layouts
 import QtQuick.Shapes
 
 import ColorPalette
+import QtExampleStyle
 
 pragma ComponentBehavior: Bound
 
@@ -41,12 +42,26 @@ Item {
                     color: summary.getData[i].getColor,
                     pantone_value: summary.getData[i].getPantoneValue
                 });
+            }
+
+            if (summary.getData.length > 0) {
                 root.currentColorPage = summary.getPage
                 root.totalColorPages = summary.getTotalPages
+            } else if (root.totalColorPages > 0) { // summary.getData.length == 0
+                root.totalColorPages--;
+                root.currentColorPage = root.totalColorPages;
             }
         }
 
         function onGetColorsErrorOccurred(errorType, errorStr) {
+            root.handleError(errorStr)
+        }
+
+        function onDeleteColorByIdFinished() {
+            root.fetchColors(root.currentColorPage)
+        }
+
+        function onDeleteColorByIdErrorOccurred(errorType, errorStr) {
             root.handleError(errorStr)
         }
     }
@@ -99,6 +114,13 @@ Item {
     Component.onCompleted: fetchColors(root.currentColorPage)
 
     onCurrentColorPageChanged: fetchColors(root.currentColorPage)
+
+    ColorDialogDelete {
+        id: colorDeletePopup
+        onDeleteClicked: (cid) => {
+            ColorsApi.deleteColorById(cid)
+        }
+    }
 
     ColumnLayout {
         // The main application layout
@@ -305,6 +327,22 @@ Item {
                         Layout.preferredWidth: colorInfo.width * 0.25
                         horizontalAlignment: Qt.AlignHCenter
                         text: colorInfo.modelData.pantone_value
+                    }
+
+                    Item {
+                        Layout.maximumHeight: 28
+                        implicitHeight: buttonBox.implicitHeight
+                        implicitWidth: buttonBox.implicitWidth
+
+                        RowLayout {
+                            id: buttonBox
+                            anchors.fill: parent
+                            ToolButton {
+                                icon.source: UIStyle.iconPath("delete")
+                                enabled: root.loggedIn
+                                onClicked: colorDeletePopup.maybeDelete(colorInfo.modelData)
+                            }
+                        }
                     }
                 }
             }

@@ -1,7 +1,7 @@
 version = 1
 
 [[annotations]]
-path = ["login.svg", "logout.svg", "user.svg"]
+path = ["login.svg", "logout.svg", "user.svg", "delete.svg"]
 comment = "files listed in the qt_attribution.json file"
 precedence = "closest"
 SPDX-FileCopyrightText = "Copyright 2018 Google, Inc. All Rights Reserved."

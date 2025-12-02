@@ -18,6 +18,7 @@ qt_add_qml_module(qtexamplestyle
     URI QtExampleStyle
     PLUGIN_TARGET qtexamplestyle
     QML_FILES
+        Button.qml
         UIStyle.qml
 )
 

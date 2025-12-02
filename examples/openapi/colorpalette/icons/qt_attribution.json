@@ -6,7 +6,7 @@
     "QtParts": [
         "examples"
     ],
-    "Files": "login.svg logout.svg user.svg",
+    "Files": "login.svg logout.svg user.svg delete.svg",
     "Homepage": "https://fonts.google.com/icons",
     "License": "Apache License Version 2.0",
     "LicenseId": "Apache-2.0",
