@@ -64,6 +64,22 @@ Item {
         function onDeleteColorByIdErrorOccurred(errorType, errorStr) {
             root.handleError(errorStr)
         }
+
+        function onAddColorFinished() {
+            root.fetchColors(root.currentColorPage)
+        }
+
+        function onAddColorErrorOccurred(errorType, errorStr) {
+            root.handleError(errorStr)
+        }
+
+        function onUpdateColorByIdFinished() {
+            root.fetchColors(root.currentColorPage)
+        }
+
+        function onUpdateColorByIdErrorOccurred(errorType, errorStr) {
+            root.handleError(errorStr)
+        }
     }
 
     Connections {
@@ -114,6 +130,29 @@ Item {
     Component.onCompleted: fetchColors(root.currentColorPage)
 
     onCurrentColorPageChanged: fetchColors(root.currentColorPage)
+
+    ColorDialogEditor {
+        id: colorPopup
+        onColorAdded: (colorNameField, colorRGBField, colorPantoneField) => {
+            const colorData = {
+                "name" : colorNameField,
+                "color" : colorRGBField,
+                "pantone_value" : colorPantoneField,
+            }
+            var color = Color.create(colorData)
+            ColorsApi.addColor(color)
+        }
+
+        onColorUpdated: (colorNameField, colorRGBField, colorPantoneField, cid) => {
+            const colorData = {
+                "name" : colorNameField,
+                "color" : colorRGBField,
+                "pantone_value" : colorPantoneField,
+            }
+            var color = Color.create(colorData)
+            ColorsApi.updateColorById(cid, color)
+        }
+    }
 
     ColorDialogDelete {
         id: colorDeletePopup
@@ -240,6 +279,76 @@ Item {
 
         }
 
+        ToolBar {
+            Layout.fillWidth: true
+            Layout.minimumHeight: 32
+
+            RowLayout {
+                anchors.fill: parent
+                Text {
+                    Layout.alignment: Qt.AlignVCenter
+                    text: qsTr("Color Palette")
+                    font.pixelSize: 14
+                    font.bold: true
+                    color: "#667085"
+                }
+
+                Item { Layout.fillWidth: true }
+
+                AbstractButton {
+                    Layout.preferredWidth: 25
+                    Layout.preferredHeight: 25
+                    Layout.alignment: Qt.AlignVCenter
+
+                    Rectangle {
+                        anchors.fill: parent
+                        radius: 4
+                        color: "#192CDE85"
+                        border.color: "#DDE2E8"
+                        border.width: 1
+                    }
+
+                    Image {
+                        source: UIStyle.iconPath("plus")
+                        fillMode: Image.PreserveAspectFit
+                        anchors.fill: parent
+                        sourceSize.width: width
+                        sourceSize.height: height
+
+                    }
+                    visible: root.loggedIn
+                    onClicked: colorPopup.createNewColor()
+                }
+
+                AbstractButton {
+                    Layout.preferredWidth: 25
+                    Layout.preferredHeight: 25
+                    Layout.alignment: Qt.AlignVCenter
+
+                    Rectangle {
+                        anchors.fill: parent
+                        radius: 4
+                        color: "#192CDE85"
+                        border.color: "#DDE2E8"
+                        border.width: 1
+                    }
+
+                    Image {
+                        source: UIStyle.iconPath("update")
+                        fillMode: Image.PreserveAspectFit
+                        anchors.fill: parent
+                        sourceSize.width: width
+                        sourceSize.height: height
+                    }
+
+                    onClicked: {
+                        root.fetchColors(root.currentColorPage)
+                        userMenu.fetchUsers(userMenu.currentUserPage)
+                    }
+                }
+            }
+        }
+
         ListView {
             id: colorListView
             model: colorListModel
@@ -341,6 +450,11 @@ Item {
                                 icon.source: UIStyle.iconPath("delete")
                                 enabled: root.loggedIn
                                 onClicked: colorDeletePopup.maybeDelete(colorInfo.modelData)
+                            }
+                            ToolButton {
+                                icon.source: UIStyle.iconPath("edit")
+                                enabled: root.loggedIn
+                                onClicked: colorPopup.updateColor(colorInfo.modelData)
                             }
                         }
                     }

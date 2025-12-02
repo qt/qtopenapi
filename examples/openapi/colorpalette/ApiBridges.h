@@ -8,6 +8,7 @@
 #include <QtQml/qjsengine.h>
 #include <QtQml/qqml.h>
 
+#include "QtOAIColor.h"
 #include "QtOAIColorsApi.h"
 #include "QtOAICredentials.h"
 #include "QtOAIUsersApi.h"
@@ -94,6 +95,20 @@ public:
         credentials.setEmail(email);
         credentials.setPassword(password);
         return credentials;
+    }
+};
+
+class Color: public QObject
+{
+    Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
+public:
+    Q_INVOKABLE QtOpenAPI::QtOAIColor create(const QJsonObject &json)
+    {
+        QtOpenAPI::QtOAIColor color;
+        color.fromJsonObject(json);
+        return color;
     }
 };
 
