@@ -18,7 +18,7 @@ namespace {{this}} {
 using namespace {{this}};
 {{/cppCommonNamespaceDeclarations}}
 
-class {{prefix}}_EXPORT {{classname}} : public {{cppCommonNamespace}}::{{prefix}}BaseApi {
+class {{prefix}}_EXPORT {{classname}} : public {{prefix}}BaseApi {
     Q_OBJECT{{#enableQmlCode}}
     QML_ELEMENT{{/enableQmlCode}}
 public:
