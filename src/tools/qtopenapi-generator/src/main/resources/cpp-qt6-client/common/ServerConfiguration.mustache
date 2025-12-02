@@ -48,7 +48,7 @@ public:
         QString url = m_urlTemplate;
         // go through variables and replace placeholders
         for (const auto &[name, serverVariable] : m_variables.asKeyValueRange()) {
-            const QString value = serverVariable.m_defaultValue;
+            const QString value = serverVariable.m_value;
             if (!serverVariable.m_enumValues.empty() && !serverVariable.m_enumValues.contains(value)) {
                 qWarning("The variable %s in the server URL has an invalid value %s.",
                           qPrintable(name), qPrintable(value));
@@ -61,7 +61,7 @@ public:
 
     {{prefix}}ServerVariable::ServerError setDefaultValue(const QString &variable, const QString &value) {
       if (m_variables.contains(variable))
-        return m_variables[variable].setDefaultValue(value);
+        return m_variables[variable].setValue(value);
       return {{prefix}}ServerVariable::ServerError::ServerVariableNotFound;
     }
 

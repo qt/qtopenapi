@@ -29,25 +29,25 @@ public:
      * @param enumValues An enumeration of string values to be used if the substitution options are from a limited set.
      */
     {{prefix}}ServerVariable(const QString &description, const QString &defaultValue, const QSet<QString> &enumValues)
-    : m_defaultValue(defaultValue),
+    : m_value(defaultValue),
       m_description(description),
       m_enumValues(enumValues) {}
 
     {{prefix}}ServerVariable() {}
     ~{{prefix}}ServerVariable() {}
 
-    ServerError setDefaultValue(const QString& value) {
+    ServerError setValue(const QString& value) {
         if (!m_enumValues.empty() && !m_enumValues.contains(value))
             return ServerError::EnumValueNotFound;
 
-        m_defaultValue = value;
+        m_value = value;
         return ServerError::NoError;
     }
 
-    QString getDefaultValue() { return m_defaultValue; }
+    QString getValue() { return m_value; }
     QSet<QString> getEnumValues() { return m_enumValues; }
 
-    QString m_defaultValue;
+    QString m_value;
     QString m_description;
     QSet<QString> m_enumValues;
 };
