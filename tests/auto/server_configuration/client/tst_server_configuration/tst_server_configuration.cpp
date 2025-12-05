@@ -31,6 +31,8 @@ private Q_SLOTS:
     void substituteEnumVariable();
     void substituteNormalVariable_data();
     void substituteNormalVariable();
+    void serversForOperations_data();
+    void serversForOperations();
 
 private:
     QProcess m_process;
@@ -131,6 +133,38 @@ void tst_ServerConfiguration::substituteNormalVariable()
         });
         QTRY_COMPARE_NE(error, QNetworkReply::NoError);
     }
+}
+
+void tst_ServerConfiguration::serversForOperations_data()
+{
+    QTest::addColumn<QString>("operation");
+    QTest::addColumn<QList<QString>>("serverUrlTemplates");
+
+    // The urls are taken from the yaml file!
+    QTest::addRow("default_servers") << u"dummyOperation"_s
+                                     << QList{ u"http://127.0.0.1:{port}/{basePath}"_s };
+    QTest::addRow("path_specific") << u"customServersGet"_s
+                                   << QList{ u"http://{user}.some.server:{port}/api"_s,
+                                             u"http://other.server/api"_s };
+    QTest::addRow("operation_specific") << u"customServersPost"_s
+                                        << QList{ u"http://127.0.0.1:20303/{basePath}"_s,
+                                                  u"http://fake.server/api"_s };
+}
+
+void tst_ServerConfiguration::serversForOperations()
+{
+    // This test directly accesses the protected members now.
+    // Need to rewrite to use the public API in scope of QTBUG-142269.
+
+    QFETCH(const QString, operation);
+    QFETCH(const QList<QString>, serverUrlTemplates);
+
+    const auto &configs = m_serverConfigs[operation];
+    // create a new list that has only url templates
+    QList<QString> urls;
+    for (const auto &conf : configs)
+        urls.append(conf.urlTemplate());
+    QCOMPARE_EQ(urls, serverUrlTemplates);
 }
 
 } // namespace QtOpenAPI
