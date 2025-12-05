@@ -49,25 +49,31 @@ void {{classname}}::initializeServerConfigs()
         {{/variables}}{{^variables}}QMap<QString, {{prefix}}ServerVariable>()));{{/variables}}
 {{/vendorExtensions.x-cpp-global-server-list}}
 {{#operations}}
-   {{#operation}}
-   {{^servers}}
-    m_serverConfigs.insert(u"{{nickname}}"_s, defaultConf);
-    m_serverIndices.insert(u"{{nickname}}"_s, 0);
-    {{/servers}}
-    {{#servers}}
+{{#operation}}
     {
-        QList<{{prefix}}ServerConfiguration> serverConf = QList<{{prefix}}ServerConfiguration>();
-        serverConf.append({{prefix}}ServerConfiguration(
+{{^servers}}
+        m_serverConfigs.insert(u"{{nickname}}"_s, defaultConf);
+        m_serverIndices.insert(u"{{nickname}}"_s, 0);
+{{/servers}}
+{{#servers}}
+{{#-first}}
+        QList<{{prefix}}ServerConfiguration> serversForOperation;
+
+{{/-first}}
+        serversForOperation.append({{prefix}}ServerConfiguration(
             u"{{{url}}}"_s,
             u"{{{description}}}{{^description}}No description provided{{/description}}"_s,
             {{#variables}}{{#-first}}QMap<QString, {{prefix}}ServerVariable>{ {{/-first}}
             {u"{{{name}}}"_s, {{prefix}}ServerVariable(u"{{{description}}}{{^description}}No description provided{{/description}}"_s, u"{{{defaultValue}}}"_s,
-            QSet<QString>{ {{#enumValues}}{u"{{{.}}}"_s}{{#-last}} })}, {{/-last}}{{^-last}}, {{/-last}}{{/enumValues}}{{^enumValues}}/* empty */ })},{{/enumValues}}{{#-last}} }));{{/-last}}
+            QSet<QString>{ {{#enumValues}}{u"{{{.}}}"_s}{{#-last}} })},{{/-last}}{{^-last}}, {{/-last}}{{/enumValues}}{{^enumValues}}/* empty */ })},{{/enumValues}}{{#-last}} }));{{/-last}}
             {{/variables}}{{^variables}}QMap<QString, {{prefix}}ServerVariable>()));{{/variables}}
-        {{#-last}}m_serverConfigs.insert(u"{{nickname}}"_s, serverConf);
-        m_serverIndices.insert(u"{{nickname}}"_s, 0);{{/-last}}
-    }
+{{#-last}}
+
+        m_serverConfigs.insert(u"{{nickname}}"_s, serversForOperation);
+        m_serverIndices.insert(u"{{nickname}}"_s, 0);
+{{/-last}}
 {{/servers}}
+    }
 {{/operation}}
 {{/operations}}
 }
