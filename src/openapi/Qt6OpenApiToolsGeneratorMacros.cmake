@@ -183,6 +183,7 @@ function(qt6_add_openapi_client target)
         DEPENDS
             "${openapi_generator_cli_jar_file}"
             "${generator_path}"
+            "${arg_SPEC_FILE}"
     )
     if(TARGET QtOpenAPIGenerator)
         # otherwise add_custom_command tries to run generator, that is not created yet
