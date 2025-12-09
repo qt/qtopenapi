@@ -33,6 +33,7 @@ private Q_SLOTS:
     void substituteNormalVariable();
     void serversForOperations_data();
     void serversForOperations();
+    void allOperations();
 
 private:
     QProcess m_process;
@@ -165,6 +166,17 @@ void tst_ServerConfiguration::serversForOperations()
     for (const auto &conf : configs)
         urls.append(conf.urlTemplate());
     QCOMPARE_EQ(urls, serverUrlTemplates);
+}
+
+void tst_ServerConfiguration::allOperations()
+{
+    const auto ops = operations();
+    const QList expectedList {
+        u"customServersGet"_s,
+        u"customServersPost"_s,
+        u"dummyOperation"_s
+    };
+    QCOMPARE_EQ(ops, expectedList);
 }
 
 } // namespace QtOpenAPI

@@ -42,6 +42,11 @@ namespace {{this}} {
 {
 }
 
+QList<QString> {{prefix}}BaseApi::operations() const
+{
+    return m_serverConfigs.keys();
+}
+
 {{prefix}}BaseApi::ServerError {{prefix}}BaseApi::setDefaultServerValue(int serverIndex, const QString &operation, const QString &variable, const QString &value)
 {
     auto it = m_serverConfigs.find(operation);
