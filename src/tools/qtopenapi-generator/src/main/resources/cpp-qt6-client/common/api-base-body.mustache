@@ -47,6 +47,14 @@ QList<QString> {{prefix}}BaseApi::operations() const
     return m_serverConfigs.keys();
 }
 
+QList<{{prefix}}ServerConfiguration> {{prefix}}BaseApi::serverConfigurations(const QString &operation) const
+{
+    const auto it = m_serverConfigs.find(operation);
+    if (it != m_serverConfigs.cend())
+        return it.value();
+    return {};
+}
+
 {{prefix}}BaseApi::ServerError {{prefix}}BaseApi::setDefaultServerValue(int serverIndex, const QString &operation, const QString &variable, const QString &value)
 {
     auto it = m_serverConfigs.find(operation);

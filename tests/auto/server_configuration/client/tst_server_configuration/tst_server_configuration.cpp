@@ -150,17 +150,15 @@ void tst_ServerConfiguration::serversForOperations_data()
     QTest::addRow("operation_specific") << u"customServersPost"_s
                                         << QList{ u"http://127.0.0.1:20303/{basePath}"_s,
                                                   u"http://fake.server/api"_s };
+    QTest::addRow("non-existing_operation") << u"unknown"_s << QList<QString>{};
 }
 
 void tst_ServerConfiguration::serversForOperations()
 {
-    // This test directly accesses the protected members now.
-    // Need to rewrite to use the public API in scope of QTBUG-142269.
-
     QFETCH(const QString, operation);
     QFETCH(const QList<QString>, serverUrlTemplates);
 
-    const auto &configs = m_serverConfigs[operation];
+    const auto &configs = serverConfigurations(operation);
     // create a new list that has only url templates
     QList<QString> urls;
     for (const auto &conf : configs)
