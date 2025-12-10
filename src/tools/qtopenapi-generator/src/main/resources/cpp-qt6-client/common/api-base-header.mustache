@@ -179,6 +179,8 @@ public Q_SLOTS:
     ServerError setServerVariable(const QString &operation, qsizetype serverIndex,
                                   const QString &variable, const QString &value);
     ServerError setServer(const QString &operation, qsizetype serverIndex);
+    std::optional<qsizetype> activeServer(const QString &operation) const;
+
     void setApiKey(const QString &apiKeyName, const QString &apiKey);
     void setBearerToken(const QString &token);
     void setUsername(const QString &username);

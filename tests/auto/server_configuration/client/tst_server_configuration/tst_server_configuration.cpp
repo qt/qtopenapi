@@ -229,17 +229,15 @@ void tst_ServerConfiguration::serverSelection()
     QFETCH(const qsizetype, serverIndex);
     QFETCH(const QtOAITestApi::ServerError, expectedResult);
 
-    qsizetype prevServerIndex = -1;
-    if (expectedResult != QtOAITestApi::ServerError::OperationNotFound)
-        prevServerIndex = m_serverIndices[operation];
+    const std::optional<qsizetype> prevServerIndex = activeServer(operation);
 
     QCOMPARE_EQ(setServer(operation, serverIndex), expectedResult);
     if (expectedResult == QtOAITestApi::ServerError::NoError) {
         // verify that the server index has changed in case of success
-        QCOMPARE_EQ(m_serverIndices[operation], serverIndex);
-    } else if (expectedResult != QtOAITestApi::ServerError::OperationNotFound) {
+        QCOMPARE_EQ(*activeServer(operation), serverIndex);
+    } else {
         // otherwise it does not change
-        QCOMPARE_EQ(m_serverIndices[operation], prevServerIndex);
+        QCOMPARE_EQ(activeServer(operation), prevServerIndex);
     }
 }
 
