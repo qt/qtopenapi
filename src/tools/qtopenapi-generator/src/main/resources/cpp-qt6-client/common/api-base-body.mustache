@@ -86,6 +86,14 @@ QList<{{prefix}}ServerConfiguration> {{prefix}}BaseApi::serverConfigurations(con
     return ServerError::NoError;
 }
 
+std::optional<qsizetype> {{prefix}}BaseApi::activeServer(const QString &operation) const
+{
+    const auto it = m_serverIndices.find(operation);
+    if (it == m_serverIndices.cend())
+        return std::nullopt;
+    return it.value();
+}
+
 void {{prefix}}BaseApi::setApiKey(const QString &apiKeyName, const QString &apiKey)
 {
     m_apiKeys.insert(apiKeyName, apiKey);
