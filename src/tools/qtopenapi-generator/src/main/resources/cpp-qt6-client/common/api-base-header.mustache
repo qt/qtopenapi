@@ -176,7 +176,8 @@ public Q_SLOTS:
     QList<QString> operations() const;
     QList<{{prefix}}ServerConfiguration> serverConfigurations(const QString &operation) const;
 
-    ServerError setDefaultServerValue(int serverIndex,const QString &operation, const QString &variable,const QString &val);
+    ServerError setServerVariable(const QString &operation, qsizetype serverIndex,
+                                  const QString &variable, const QString &value);
     ServerError setServerIndex(const QString &operation, int serverIndex);
     void setApiKey(const QString &apiKeyName, const QString &apiKey);
     void setBearerToken(const QString &token);

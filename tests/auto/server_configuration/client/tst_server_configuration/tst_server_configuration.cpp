@@ -34,6 +34,7 @@ private Q_SLOTS:
     void serversForOperations_data();
     void serversForOperations();
     void allOperations();
+    void serverVariableErrorCases();
 
 private:
     QProcess m_process;
@@ -76,7 +77,7 @@ void tst_ServerConfiguration::substituteEnumVariable()
     QFETCH(const bool, expectSuccess);
 
     // If the value is not in the enum, the variable simply won't be changed.
-    const auto error = setDefaultServerValue(0, u"dummyOperation"_s, u"basePath"_s, basePath);
+    const auto error = setServerVariable(u"dummyOperation"_s, 0, u"basePath"_s, basePath);
     if (expectSuccess)
         QCOMPARE_EQ(error, QtOAITestApi::ServerError::NoError);
     else
@@ -109,12 +110,12 @@ void tst_ServerConfiguration::substituteNormalVariable()
     QFETCH(const bool, expectSuccess);
 
     // First, set basePath to "v1" to have a consistent result
-    QCOMPARE_EQ(setDefaultServerValue(0, u"dummyOperation"_s, u"basePath"_s, u"v1"_s),
+    QCOMPARE_EQ(setServerVariable(u"dummyOperation"_s, 0, u"basePath"_s, u"v1"_s),
                 QtOAITestApi::ServerError::NoError);
 
     // Now set the port. Since the variable does not have an enum in its
     // definition, any value should be accepted.
-    QCOMPARE_EQ(setDefaultServerValue(0, u"dummyOperation"_s, u"port"_s, port),
+    QCOMPARE_EQ(setServerVariable(u"dummyOperation"_s, 0, u"port"_s, port),
                 QtOAITestApi::ServerError::NoError);
 
     // Then if the port is correct, the operation executes successfully.
@@ -175,6 +176,29 @@ void tst_ServerConfiguration::allOperations()
         u"dummyOperation"_s
     };
     QCOMPARE_EQ(ops, expectedList);
+}
+
+void tst_ServerConfiguration::serverVariableErrorCases()
+{
+    // setting a variable for an unknown operations
+    QCOMPARE_EQ(setServerVariable(u"unknown"_s, 0, u"basePath"_s, u"v1"_s),
+                QtOAITestApi::ServerError::OperationNotFound);
+
+    // setting a variable for an incorrect server index (dummyOperation only
+    // has a signle server)
+    QCOMPARE_EQ(setServerVariable(u"dummyOperation"_s, 1, u"basePath"_s, u"v1"_s),
+                QtOAITestApi::ServerError::ServerIndexNotFound);
+    // and also testing negative index
+    QCOMPARE_EQ(setServerVariable(u"dummyOperation"_s, -1, u"basePath"_s, u"v1"_s),
+                QtOAITestApi::ServerError::ServerIndexNotFound);
+
+    // using an incorrect variable name
+    QCOMPARE_EQ(setServerVariable(u"dummyOperation"_s, 0, u"unknown"_s, u"v1"_s),
+                QtOAITestApi::ServerError::ServerVariableNotFound);
+
+    // setting an incorrect enum value
+    QCOMPARE_EQ(setServerVariable(u"dummyOperation"_s, 0, u"basePath"_s, u"invalid"_s),
+                QtOAITestApi::ServerError::EnumValueNotFound);
 }
 
 } // namespace QtOpenAPI
