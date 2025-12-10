@@ -55,17 +55,20 @@ QList<{{prefix}}ServerConfiguration> {{prefix}}BaseApi::serverConfigurations(con
     return {};
 }
 
-{{prefix}}BaseApi::ServerError {{prefix}}BaseApi::setDefaultServerValue(int serverIndex, const QString &operation, const QString &variable, const QString &value)
+{{prefix}}BaseApi::ServerError
+{{prefix}}BaseApi::setServerVariable(const QString &operation, qsizetype serverIndex,
+                                     const QString &variable, const QString &value)
 {
     auto it = m_serverConfigs.find(operation);
 
-    if (it == m_serverConfigs.end()) {
+    if (it == m_serverConfigs.end())
         return ServerError::OperationNotFound;
-    } else if (serverIndex  >= it.value().size()) {
-        return ServerError::ServerIndexNotFound;
-    }
 
-    return m_serverConfigs[operation][serverIndex].setDefaultValue(variable,value);
+    auto &configs = it.value();
+    if (serverIndex < 0 || serverIndex >= configs.size())
+        return ServerError::ServerIndexNotFound;
+
+    return configs[serverIndex].setDefaultValue(variable, value);
 }
 
 {{prefix}}BaseApi::ServerError {{prefix}}BaseApi::setServerIndex(const QString &operation, int serverIndex)
