@@ -153,63 +153,6 @@ void {{prefix}}BaseApi::setNetworkRequestFactory(std::shared_ptr<QNetworkRequest
     m_networkFactory = factory;
 }
 
-/**
- * Appends a new ServerConfiguration to the config map for a specific operation.
- * @param operation The id to the target operation.
- * @param urlTemplate A string that contains the URL template of the server
- * @param description A String that describes the server
- * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
- * returns the index of the new server config on success and std::nullopt if the operation is not found
- */
-std::optional<int> {{prefix}}BaseApi::addServerConfiguration(const QString &operation, const QString &urlTemplate, const QString &description, const QMap<QString, {{prefix}}ServerVariable> &variables)
-{
-    if (m_serverConfigs.contains(operation)) {
-        m_serverConfigs[operation].append({{prefix}}ServerConfiguration(
-                    urlTemplate,
-                    description,
-                    variables));
-        return m_serverConfigs[operation].size()-1;
-    }
-
-    return std::nullopt; // ServerError::OperationNotFound
-}
-
-/**
- * Appends a new ServerConfiguration to the config map for all operations and sets the index to that server.
- * @param urlTemplate A string that contains the URL template of the server
- * @param description A String that describes the server
- * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
- */
-{{prefix}}BaseApi::ServerError {{prefix}}BaseApi::setNewServerForAllOperations(const QString &urlTemplate, const QString &description, const QMap<QString, {{prefix}}ServerVariable> &variables)
-{
-    {{prefix}}BaseApi::ServerError err = ServerError::ServerIndexNotFound;
-
-    for (auto keyIt = m_serverIndices.keyBegin(); keyIt != m_serverIndices.keyEnd(); keyIt++) {
-        err = setNewServer(*keyIt, urlTemplate, description, variables);
-        if (err != ServerError::NoError) // Mark failure but continue with other operations
-            qWarning() <<"Failed to set server configuration for " << *keyIt << " operation. Error:" << errorString(err);
-    }
-
-    return err;
-}
-
-/**
- * Appends a new ServerConfiguration to the config map for an operation and sets the index to that server.
- * @param operation A name of user operation
- * @param urlTemplate A string that contains the URL template of the server
- * @param description A String that describes the server
- * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
- */
-{{prefix}}BaseApi::ServerError {{prefix}}BaseApi::setNewServer(const QString &operation, const QString &urlTemplate, const QString &description, const QMap<QString, {{prefix}}ServerVariable> &variables)
-{
-    std::optional<int> serverIndex = addServerConfiguration(operation, urlTemplate, description, variables);
-
-    if (!serverIndex.has_value()) // operation was not found in m_serverConfigs
-        return ServerError::OperationNotFound;
-
-    return setServer(operation, serverIndex.value());
-}
-
 void {{prefix}}BaseApi::setHeader(QHttpHeaders::WellKnownHeader key, QAnyStringView value)
 {
     if (m_networkFactory->commonHeaders().values(key).contains(value))
