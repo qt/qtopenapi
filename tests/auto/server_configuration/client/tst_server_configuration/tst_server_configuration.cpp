@@ -35,6 +35,8 @@ private Q_SLOTS:
     void serversForOperations();
     void allOperations();
     void serverVariableErrorCases();
+    void serverSelection_data();
+    void serverSelection();
 
 private:
     QProcess m_process;
@@ -199,6 +201,46 @@ void tst_ServerConfiguration::serverVariableErrorCases()
     // setting an incorrect enum value
     QCOMPARE_EQ(setServerVariable(u"dummyOperation"_s, 0, u"basePath"_s, u"invalid"_s),
                 QtOAITestApi::ServerError::EnumValueNotFound);
+}
+
+void tst_ServerConfiguration::serverSelection_data()
+{
+    QTest::addColumn<QString>("operation");
+    QTest::addColumn<qsizetype>("serverIndex");
+    QTest::addColumn<QtOAITestApi::ServerError>("expectedResult");
+
+    QTest::newRow("invalid_operation")
+            << u"unknown"_s << qsizetype(0)
+            << QtOAITestApi::ServerError::OperationNotFound;
+    QTest::newRow("too_large_index")
+            << u"dummyOperation"_s << qsizetype(1)
+            << QtOAITestApi::ServerError::ServerIndexNotFound;
+    QTest::newRow("negative_index")
+            << u"dummyOperation"_s << qsizetype(-1)
+            << QtOAITestApi::ServerError::ServerIndexNotFound;
+    QTest::newRow("valid_update")
+            << u"customServersGet"_s << qsizetype(1)
+            << QtOAITestApi::ServerError::NoError;
+}
+
+void tst_ServerConfiguration::serverSelection()
+{
+    QFETCH(const QString, operation);
+    QFETCH(const qsizetype, serverIndex);
+    QFETCH(const QtOAITestApi::ServerError, expectedResult);
+
+    qsizetype prevServerIndex = -1;
+    if (expectedResult != QtOAITestApi::ServerError::OperationNotFound)
+        prevServerIndex = m_serverIndices[operation];
+
+    QCOMPARE_EQ(setServer(operation, serverIndex), expectedResult);
+    if (expectedResult == QtOAITestApi::ServerError::NoError) {
+        // verify that the server index has changed in case of success
+        QCOMPARE_EQ(m_serverIndices[operation], serverIndex);
+    } else if (expectedResult != QtOAITestApi::ServerError::OperationNotFound) {
+        // otherwise it does not change
+        QCOMPARE_EQ(m_serverIndices[operation], prevServerIndex);
+    }
 }
 
 } // namespace QtOpenAPI

@@ -178,7 +178,7 @@ public Q_SLOTS:
 
     ServerError setServerVariable(const QString &operation, qsizetype serverIndex,
                                   const QString &variable, const QString &value);
-    ServerError setServerIndex(const QString &operation, int serverIndex);
+    ServerError setServer(const QString &operation, qsizetype serverIndex);
     void setApiKey(const QString &apiKeyName, const QString &apiKey);
     void setBearerToken(const QString &token);
     void setUsername(const QString &username);
@@ -217,7 +217,7 @@ protected:
     template <typename Functor>
     using if_compatible_callback = std::enable_if_t<QtPrivate::AreFunctionsCompatible<{{prefix}}EmptyCallbackReply, Functor>::value, bool>;
 
-    QMap<QString, int> m_serverIndices;
+    QMap<QString, qsizetype> m_serverIndices;
     QMap<QString, QList<{{prefix}}ServerConfiguration>> m_serverConfigs;
     QMap<QString, QString> m_apiKeys;
     QMap<QNetworkReply *, {{prefix}}CallerInfo> m_callerData;

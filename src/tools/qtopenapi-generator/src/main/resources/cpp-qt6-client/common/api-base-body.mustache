@@ -71,12 +71,15 @@ QList<{{prefix}}ServerConfiguration> {{prefix}}BaseApi::serverConfigurations(con
     return configs[serverIndex].setDefaultValue(variable, value);
 }
 
-{{prefix}}BaseApi::ServerError {{prefix}}BaseApi::setServerIndex(const QString &operation, int serverIndex)
+{{prefix}}BaseApi::ServerError
+{{prefix}}BaseApi::setServer(const QString &operation, qsizetype serverIndex)
 {
-    if (!m_serverIndices.contains(operation))
+    const auto it = m_serverConfigs.constFind(operation);
+
+    if (it == m_serverConfigs.cend())
         return ServerError::OperationNotFound;
 
-    if (serverIndex >= m_serverConfigs.find(operation).value().size())
+    if (serverIndex < 0 || serverIndex >= it.value().size())
         return ServerError::ServerIndexNotFound;
 
     m_serverIndices[operation] = serverIndex;
@@ -196,7 +199,7 @@ std::optional<int> {{prefix}}BaseApi::addServerConfiguration(const QString &oper
     if (!serverIndex.has_value()) // operation was not found in m_serverConfigs
         return ServerError::OperationNotFound;
 
-    return setServerIndex(operation, serverIndex.value());
+    return setServer(operation, serverIndex.value());
 }
 
 void {{prefix}}BaseApi::setHeader(QHttpHeaders::WellKnownHeader key, QAnyStringView value)
