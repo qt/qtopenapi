@@ -29,7 +29,8 @@ set(source_files
     src/main/resources/cpp-qt6-client/common/httprequest.cpp.mustache
     src/main/resources/cpp-qt6-client/common/httprequest.h.mustache
     src/main/resources/cpp-qt6-client/common/serverconfiguration.mustache
-    src/main/resources/cpp-qt6-client/common/servervariable.mustache
+    src/main/resources/cpp-qt6-client/common/servervariable.cpp.mustache
+    src/main/resources/cpp-qt6-client/common/servervariable.h.mustache
     src/main/resources/cpp-qt6-client/common/api-base-body.mustache
     src/main/resources/cpp-qt6-client/common/api-base-header.mustache
     src/main/resources/cpp-qt6-client/common/common-exports.mustache
