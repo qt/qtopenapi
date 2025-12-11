@@ -18,4 +18,7 @@ if(QT_FEATURE_openapi_generator)
     # We create the openapi module last, because we want to add a dependency on the common library
     # on the CMake package level.
     add_subdirectory(openapi)
+else()
+    # Enable documentation build only
+    add_subdirectory(openapi/doc)
 endif()
