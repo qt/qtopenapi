@@ -9,7 +9,7 @@ qhp.projects            = QtOpenAPI
 qhp.QtOpenAPI.file             = qtopenapi.qhp
 qhp.QtOpenAPI.namespace        = org.qt-project.qtopenapi.$QT_VERSION_TAG
 qhp.QtOpenAPI.virtualFolder    = qtopenapi
-qhp.QtOpenAPI.indexTitle       = Qt OpenAPI Generator
+qhp.QtOpenAPI.indexTitle       = Qt OpenAPI
 qhp.QtOpenAPI.indexRoot        =
 
 moduleheader =
@@ -18,7 +18,7 @@ sourcedirs += ..
 
 depends += qtdoc qtcmake qtcore qtnetwork
 
-navigation.landingpage = "Qt OpenAPI Generator"
+navigation.landingpage = "Qt OpenAPI"
 
 # Fail the documentation build if there are more warnings than the limit
 warninglimit = 10
