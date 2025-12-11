@@ -3,7 +3,7 @@
 #define {{prefix}}_{{classname}}_H
 
 #include "{{prefix}}BaseApi.h"
-#include "{{prefix}}Exports.h"
+#include "{{packageName}}Exports.h"
 #include <QtNetwork/qrestreply.h>{{#enableQmlCode}}
 #include <QtQmlIntegration/qqmlintegration.h>{{/enableQmlCode}}
 
@@ -18,7 +18,7 @@ namespace {{this}} {
 using namespace {{this}};
 {{/cppCommonNamespaceDeclarations}}
 
-class {{prefix}}_EXPORT {{classname}} : public {{prefix}}BaseApi {
+class {{packageNameUpperCase}}_EXPORT {{classname}} : public {{prefix}}BaseApi {
     Q_OBJECT{{#enableQmlCode}}
     QML_ELEMENT{{/enableQmlCode}}
 public:

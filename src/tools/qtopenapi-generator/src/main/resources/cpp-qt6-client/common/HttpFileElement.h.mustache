@@ -2,7 +2,7 @@
 #ifndef {{prefix}}_HTTP_FILE_ELEMENT_H
 #define {{prefix}}_HTTP_FILE_ELEMENT_H
 
-#include "{{prefix}}CommonExports.h"
+#include "{{packageName}}CommonExports.h"
 
 #include <QtCore/qjsonvalue.h>
 #include <QtCore/qmetatype.h>
@@ -18,7 +18,7 @@ namespace {{this}} {
 // but since those macros are internal, we define it here instead.
 // The class enables implicit sharing via QExplicitlySharedDataPointer.
 
-class {{prefix}}_COMMON_EXPORT {{prefix}}HttpFileElementShared : public QSharedData
+class {{packageNameUpperCase}}_COMMON_EXPORT {{prefix}}HttpFileElementShared : public QSharedData
 {
 public:
     explicit {{prefix}}HttpFileElementShared(const QString &localFilename)
@@ -31,7 +31,7 @@ public:
     bool m_temporary = false;
 };
 
-class {{prefix}}_COMMON_EXPORT {{prefix}}HttpFileElement {
+class {{packageNameUpperCase}}_COMMON_EXPORT {{prefix}}HttpFileElement {
 
 public:
     {{prefix}}HttpFileElement();

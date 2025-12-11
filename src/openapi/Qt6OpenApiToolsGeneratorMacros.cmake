@@ -133,6 +133,7 @@ function(qt6_add_openapi_client target)
 
     string(JOIN "," additional_properties
         "--additional-properties=useCmakeMacro=true"
+        "packageName=${target}"
         "cppNamespace=${cpp_namespace}"
         "cppCommonNamespace=${cpp_common_namespace}"
         "modelNamePrefix=${model_name_prefix}"
@@ -149,7 +150,7 @@ function(qt6_add_openapi_client target)
     set(client_dir_path "${arg_OUTPUT_DIRECTORY}/${client_dir}/")
     set(common_dir_path "${arg_OUTPUT_DIRECTORY}/${common_dir}/")
     if(arg___QT_INTERNAL_GENERATE_COMMON_LIBRARY_TARGET)
-        list(APPEND common_sources "${common_dir_path}${model_name_prefix}CommonExports.h")
+        list(APPEND common_sources "${common_dir_path}${target}CommonExports.h")
         list(APPEND common_sources "${common_dir_path}${model_name_prefix}BaseApi.h")
         list(APPEND common_sources "${common_dir_path}${model_name_prefix}BaseApi.cpp")
         list(APPEND common_sources "${common_dir_path}${model_name_prefix}Helpers.h")
@@ -167,8 +168,8 @@ function(qt6_add_openapi_client target)
         list(APPEND generating_sources ${common_sources})
     else()
         list(APPEND client_sources
-            "${client_dir_path}${model_name_prefix}CombinedModelsAndAPIs.cpp")
-        list(APPEND client_sources "${client_dir_path}${model_name_prefix}Exports.h")
+            "${client_dir_path}${target}CombinedModelsAndAPIs.cpp")
+        list(APPEND client_sources "${client_dir_path}${target}Exports.h")
         list(APPEND generating_sources ${client_sources})
     endif()
 
@@ -247,16 +248,18 @@ function(qt6_add_openapi_client target)
         set(define_infix "_COMMON")
     endif()
 
+    set(target_export ${target})
+    string(TOUPPER ${target} target_export)
     if(is_shared)
         target_compile_definitions(${target} PRIVATE
-            ${model_name_prefix}${define_infix}_LIB_SHARED)
+            ${target_export}${define_infix}_LIB_SHARED)
     elseif(is_static OR is_executable)
         target_compile_definitions(${target} PRIVATE
-            ${model_name_prefix}${define_infix}_LIB_STATIC)
+            ${target_export}${define_infix}_LIB_STATIC)
     endif()
     if(NOT is_executable)
         target_compile_definitions(${target} PRIVATE
-            ${model_name_prefix}_BUILD${define_infix}_LIB)
+            ${target_export}_BUILD${define_infix}_LIB)
     endif()
 
     target_include_directories(${target} PUBLIC

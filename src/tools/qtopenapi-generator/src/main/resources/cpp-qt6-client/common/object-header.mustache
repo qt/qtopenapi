@@ -2,7 +2,7 @@
 #ifndef {{prefix}}_OBJECT_H
 #define {{prefix}}_OBJECT_H
 
-#include "{{prefix}}CommonExports.h"
+#include "{{packageName}}CommonExports.h"
 
 #include <QtCore/qjsonobject.h>
 #include <QtCore/qstring.h>
@@ -11,7 +11,7 @@
 namespace {{this}} {
 {{/cppCommonNamespaceDeclarations}}
 
-class {{prefix}}_COMMON_EXPORT {{prefix}}Object {
+class {{packageNameUpperCase}}_COMMON_EXPORT {{prefix}}Object {
 public:
     {{prefix}}Object();
     virtual ~{{prefix}}Object();
