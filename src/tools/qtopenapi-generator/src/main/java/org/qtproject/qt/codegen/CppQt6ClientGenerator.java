@@ -255,6 +255,7 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
         }
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
+        additionalProperties.put("packageNameUpperCase", packageName.toUpperCase());
         if (additionalProperties.containsKey(COMMON_LIB_OPTION)
                 && !additionalProperties.get(COMMON_LIB_OPTION).toString().isEmpty()) {
             setCommonLibrary(additionalProperties.get(COMMON_LIB_OPTION).toString());
@@ -285,7 +286,7 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
                     sourceFolder, "CMakeLists.txt"));
         }
         supportingFiles.add(new SupportingFile("exports.mustache",
-                sourceFolder, namePrefix + "Exports.h"));
+                sourceFolder, packageName + "Exports.h"));
         supportingFiles.add(new SupportingFile("doc/Doxyfile.in.mustache",
                 sourceFolder, "doc/Doxyfile.in"));
         typeMapping.put("file", namePrefix + "HttpFileElement");
@@ -325,7 +326,7 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
                     supportingFiles.add(new SupportingFile("common/enum-body.mustache",
                     commonLibrarySourceFolder, namePrefix + "Enum.cpp"));
             supportingFiles.add(new SupportingFile("common/common-exports.mustache",
-                    commonLibrarySourceFolder, namePrefix + "CommonExports.h"));
+                    commonLibrarySourceFolder, packageName + "CommonExports.h"));
             supportingFiles.add(new SupportingFile("common/ServerConfiguration.mustache",
                     commonLibrarySourceFolder, namePrefix + "ServerConfiguration.h"));
             supportingFiles.add(new SupportingFile("common/ServerVariable.mustache",
@@ -437,7 +438,7 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
             List<Path> modelHeaderFilePaths = new ArrayList<>();
             Path combinedFile = Paths.get(outputFolder,
                     sourceFolder
-                            + File.separator + namePrefix + "CombinedModelsAndAPIs.cpp");
+                            + File.separator + packageName + "CombinedModelsAndAPIs.cpp");
             String modelDir = modelPackage.replace('.', File.separatorChar);
 
             for (CodegenModel codeMod : codegenModelList) {
@@ -524,7 +525,7 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
                         LOGGER.warn("Missing the generated API file: {}", path);
                     }
                 }
-                writer.write("#include \"" + namePrefix + "CombinedModelsAndAPIs.moc\"");
+                writer.write("#include \"" + packageName + "CombinedModelsAndAPIs.moc\"");
                 writer.write("\n\n");
                 writer.close();
             } catch (IOException e) {

@@ -8,7 +8,7 @@
 #ifndef {{classname}}_H
 #define {{classname}}_H
 
-#include "{{prefix}}Exports.h"
+#include "{{packageName}}Exports.h"
 {{#isEnum}}
 #include "{{prefix}}Enum.h"
 {{/isEnum}}
@@ -30,7 +30,7 @@ namespace {{this}} {
 {{#vendorExtensions.x-has-forward-declarations}}
 {{#vendorExtensions.x-forward-declarations}}{{.}}
 {{/vendorExtensions.x-forward-declarations}}{{/vendorExtensions.x-has-forward-declarations}}
-class {{prefix}}_EXPORT {{classname}} : public {{cppCommonNamespace}}::{{prefix}}{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Enum{{/isEnum}} {
+class {{packageNameUpperCase}}_EXPORT {{classname}} : public {{cppCommonNamespace}}::{{prefix}}{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Enum{{/isEnum}} {
     Q_GADGET{{#enableQmlCode}}
     QML_VALUE_TYPE(data{{classname}}){{/enableQmlCode}}
 {{^isEnum}}{{#vars}}

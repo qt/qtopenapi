@@ -2,7 +2,7 @@
 #ifndef {{prefix}}_BASEAPI_H
 #define {{prefix}}_BASEAPI_H
 
-#include "{{prefix}}CommonExports.h"
+#include "{{packageName}}CommonExports.h"
 #include "{{prefix}}Helpers.h"
 #include "{{prefix}}HttpRequest.h"
 #include "{{prefix}}ServerConfiguration.h"
@@ -162,7 +162,7 @@ DEPRECATED void OPERATION({{prefix}}_VA_LIST PARAMS, const ContextTypeForFunctor
 namespace {{this}} {
 {{/cppCommonNamespaceDeclarations}}
 
-class {{prefix}}_COMMON_EXPORT {{prefix}}BaseApi : public QObject {
+class {{packageNameUpperCase}}_COMMON_EXPORT {{prefix}}BaseApi : public QObject {
     Q_OBJECT{{#enableQmlCode}}
     QML_ELEMENT{{/enableQmlCode}}
 public:
