@@ -11,10 +11,10 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
-    QtOpenAPI::QtOAIColorsApi colorsApiInstance;
+    QtOpenAPI::ColorsApi colorsApiInstance;
     ForeignColorsAPI::s_singletonInstance = &colorsApiInstance;
 
-    QtOpenAPI::QtOAIUsersApi usersApiInstance;
+    QtOpenAPI::UsersApi usersApiInstance;
     ForeignUsersAPI::s_singletonInstance = &usersApiInstance;
 
     QQmlApplicationEngine engine;

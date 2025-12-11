@@ -1,7 +1,7 @@
 // Copyright (C) 2025 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "../client/QtOAITestApi.h"
+#include "../client/TestApi.h"
 
 #include <QtCore/qobject.h>
 #include <QtCore/QProcess>
@@ -61,10 +61,10 @@ QString getHeaderValue(const QString &summary)
     return QString();
 }
 
-QtOAIUser getUserByStatusObject(const QString &summary)
+User getUserByStatusObject(const QString &summary)
 {
     QJsonDocument doc = QJsonDocument::fromJson(summary.toUtf8());
-    QtOAIUser user;
+    User user;
     if (!doc.isNull() && doc.isObject()) {
         QJsonObject obj = doc.object();
         if (obj.value("json-object").isObject())
@@ -73,7 +73,7 @@ QtOAIUser getUserByStatusObject(const QString &summary)
     return user;
 }
 
-class MediaType : public QtOAITestApi {
+class MediaType : public TestApi {
     Q_OBJECT
 
 private Q_SLOTS:
@@ -159,9 +159,9 @@ void MediaType::testJsonMediaType()
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
-    QList<QtOAIUser> users;
+    QList<User> users;
     for (qsizetype i = 0; i < 4; i++) {
-        QtOAIUser user;
+        User user;
         user.setName(QString("UserName%1").arg(i));
         user.setStatus("a child");
         user.setAge(i);
@@ -175,7 +175,7 @@ void MediaType::testJsonMediaType()
         QJsonArray array = getJsonValue(summary, "users").toArray();
         QCOMPARE(array.size(), users.size());
         for (qsizetype i = 0; i < array.size(); i++) {
-            QtOAIUser user;
+            User user;
             user.fromJsonObject(array.at(i).toObject());
             QVERIFY(users.contains(user));
         }
@@ -186,7 +186,7 @@ void MediaType::testJsonMediaType()
 
     // EMPTY requestContent, but header still needs to be sent.
     done = false;
-    QList<QtOAIUser> empty;
+    QList<User> empty;
     postApplicationJsonArray(empty, this,
                              [&](const QRestReply &reply, const QString &summary) {
                                  if (!(done = reply.isSuccess()))
@@ -199,8 +199,8 @@ void MediaType::testJsonMediaType()
 
     done = false;
     QString expectedUser("{\"First-User\":{\"age\":8778,\"name\":\"Tatiana\",\"status\":\"is working\"}}");
-    QMap<QString, QtOAIUser> mapOfUsers;
-    QtOAIUser mapUser;
+    QMap<QString, User> mapOfUsers;
+    User mapUser;
     mapUser.setName("Tatiana");
     mapUser.setStatus("is working");
     mapUser.setAge(8778);
@@ -218,7 +218,7 @@ void MediaType::testJsonMediaType()
 
     // EMPTY requestContent, but header still needs to be sent.
     done = false;
-    postApplicationJsonMap(QMap<QString, QtOAIUser>(),
+    postApplicationJsonMap(QMap<QString, User>(),
                            this, [&](const QRestReply &reply, const QString &summary) {
                                if (!(done = reply.isSuccess()))
                                    qWarning() << "ERROR: " << reply.errorString() << reply.error();
@@ -229,7 +229,7 @@ void MediaType::testJsonMediaType()
 
     // JSON object
     done = false;
-    QtOAIUser user;
+    User user;
     user.setName("Tatiana");
     user.setStatus("is working");
     user.setAge(99);
@@ -244,7 +244,7 @@ void MediaType::testJsonMediaType()
 
     // EMPTY requestContent, but header still needs to be sent.
     done = false;
-    postApplicationJsonObject(QtOAIUser(),
+    postApplicationJsonObject(User(),
                               this, [&](const QRestReply &reply, const QString &summary) {
                                   if (!(done = reply.isSuccess()))
                                       qWarning() << "ERROR: " << reply.errorString() << reply.error();
@@ -255,17 +255,17 @@ void MediaType::testJsonMediaType()
 
     // JSON nested object
     done = false;
-    QtOAIUser nestedObject;
+    User nestedObject;
     nestedObject.setName("User Userovich");
     nestedObject.setStatus("is resting");
     nestedObject.setAge(76);
-    QtOAIPostApplicationJsonSeveralObjects_request request;
+    PostApplicationJsonSeveralObjects_request request;
     request.setUuid("f81d4fae-7dec-11d0-a765-00a0c91e6bf6");
     request.setUser(nestedObject);
     postApplicationJsonSeveralObjects(request, this, [&](const QRestReply &reply, const QString &summary) {
         if (!(done = reply.isSuccess()))
             qWarning() << "ERROR: " << reply.errorString() << reply.error();
-        QtOAIPostApplicationJsonSeveralObjects_request response;
+        PostApplicationJsonSeveralObjects_request response;
         response.fromJsonObject(getJsonValue(summary, "nested-object").toObject());
         QCOMPARE(response, request);
         QCOMPARE(getHeaderValue(summary), appJsonHeader);
@@ -276,7 +276,7 @@ void MediaType::testJsonMediaType()
 
     // EMPTY requestContent, but header still needs to be sent.
     done = false;
-    postApplicationJsonSeveralObjects(QtOAIPostApplicationJsonSeveralObjects_request(),
+    postApplicationJsonSeveralObjects(PostApplicationJsonSeveralObjects_request(),
                                       this, [&](const QRestReply &reply, const QString &summary) {
                                           if (!(done = reply.isSuccess()))
                                               qWarning() << "ERROR: " << reply.errorString() << reply.error();
@@ -370,18 +370,18 @@ void MediaType::testOctetStream()
 void MediaType::testUrlEncodedType()
 {
     bool done = false;
-    QtOAIUser user;
+    User user;
     user.setName("Lazy Cat");
     user.setStatus("Sleeping Beeping *+,;=!$&'()");
     user.setAge(101);
     QList<QString> days = {"Monday", "Sunday", "*+,;=!$&'()"};
-    QMap<QString, QtOAIUser> userMap;
+    QMap<QString, User> userMap;
     userMap.insert("PET", user);
     postUrlEncodedFields(::QtOpenAPI::OptionalParam<QString>("John *+,;=!$&'()"),
                          ::QtOpenAPI::OptionalParam<qint32>(98665),
                          ::QtOpenAPI::OptionalParam<bool>(true),
                          ::QtOpenAPI::OptionalParam<QList<QString>>(days),
-                         ::QtOpenAPI::OptionalParam<QMap<QString, QtOAIUser>>(userMap),
+                         ::QtOpenAPI::OptionalParam<QMap<QString, User>>(userMap),
                          this, [&](const QRestReply &reply, const QString &summary) {
         if (!(done = reply.isSuccess()))
             qWarning() << "ERROR: " << reply.errorString() << reply.error();
@@ -389,7 +389,7 @@ void MediaType::testUrlEncodedType()
         QCOMPARE(getJsonValue(summary, "name").toString(), "John *+,;=!$&'()");
         QCOMPARE(getJsonValue(summary, "availability").toVariant().toBool(), true);
         QCOMPARE(getHeaderValue(summary), "application/x-www-form-urlencoded");
-        QtOAIUser receivedUser;
+        User receivedUser;
         receivedUser.fromJsonObject(getJsonValue(getJsonValue(summary, "mapfield").toString(), "PET").toObject());
         QCOMPARE(receivedUser, user);
         QJsonArray array = getJsonValue(summary, "visits").toArray();
@@ -410,7 +410,7 @@ void MediaType::testUrlEncodedType()
                          ::QtOpenAPI::OptionalParam<qint32>(),
                          ::QtOpenAPI::OptionalParam<bool>(),
                          ::QtOpenAPI::OptionalParam<QList<QString>>(),
-                         ::QtOpenAPI::OptionalParam<QMap<QString, QtOAIUser>>(),
+                         ::QtOpenAPI::OptionalParam<QMap<QString, User>>(),
                          this, [&](const QRestReply &reply, const QString &summary) {
                              if (!(done = reply.isSuccess()))
                                  qWarning() << "ERROR: " << reply.errorString() << reply.error();
@@ -428,7 +428,7 @@ void MediaType::testUrlEncodedType()
     // Each field of application/x-www-form-urlencoded object are
     // being treated based on rules, which depend on a field DATA type. See example:
     // https://spec.openapis.org/oas/v3.1.1.html#example-url-encoded-form-with-json-values
-    QtOAIUser enUrlUser;
+    User enUrlUser;
     enUrlUser.setName("Tatiana");
     enUrlUser.setStatus("is working ΣΨ");
     enUrlUser.setAge(100);
@@ -437,7 +437,7 @@ void MediaType::testUrlEncodedType()
                                this, [&](const QRestReply &reply, const QString &summary) {
         if (!(done = reply.isSuccess()))
             qWarning() << "ERROR: " << reply.errorString() << reply.error();
-        QtOAIUser received;
+        User received;
         received.fromJson(getJsonValue(summary, "user").toString());
         QCOMPARE(received, enUrlUser);
         QCOMPARE(getJsonValue(summary, "comment").toString(), stringParam);
@@ -449,12 +449,12 @@ void MediaType::testUrlEncodedType()
 
     // EMPTY requestContent, but header still needs to be sent.
     done = false;
-    QtOAIUser emptyUser;
+    User emptyUser;
     postUrlEncodedNestedObject(emptyUser, ::QtOpenAPI::OptionalParam<QString>(),
                                this, [&](const QRestReply &reply, const QString &summary) {
                                    if (!(done = reply.isSuccess()))
                                        qWarning() << "ERROR: " << reply.errorString() << reply.error();
-                                   QtOAIUser received;
+                                   User received;
                                    received.fromJson(getJsonValue(summary, "user").toString());
                                    QCOMPARE(received, emptyUser);
                                    QCOMPARE(getHeaderValue(summary), "application/x-www-form-urlencoded");
@@ -502,7 +502,7 @@ void MediaType::testUrlEncodedType()
 void MediaType::testFormMediaTypes()
 {
     bool done = false;
-    QtOAIUser user1, user2;
+    User user1, user2;
     user1.setName("User_1");
     user1.setStatus("Awaik");
     user1.setAge(10);
@@ -510,12 +510,12 @@ void MediaType::testFormMediaTypes()
     user2.setStatus("Sleeping");
     user2.setAge(11);
 
-    QtOAIPostMultiPartData_request_formObject object;
+    PostMultiPartData_request_formObject object;
     object.setObjectId(-99);
     object.setObjectName("AnObject 123");
 
-    QList<QtOAIUser> multiList = {user1, user2};
-    QMap<QString, QtOAIUser> map;
+    QList<User> multiList = {user1, user2};
+    QMap<QString, User> map;
     map.insert("TEXT", user1);
 
     QtOAIHttpFileElement formFile(":/file-for-uploading.txt");
@@ -533,8 +533,8 @@ void MediaType::testFormMediaTypes()
                       multiList,
                       ::QtOpenAPI::OptionalParam<qint32>(100),
                       ::QtOpenAPI::OptionalParam<QtOAIHttpFileElement>(formFile),
-                      ::QtOpenAPI::OptionalParam<QtOAIPostMultiPartData_request_formObject>(object),
-                      ::QtOpenAPI::OptionalParam<QMap<QString, QtOAIUser>>(map),
+                      ::QtOpenAPI::OptionalParam<PostMultiPartData_request_formObject>(object),
+                      ::QtOpenAPI::OptionalParam<QMap<QString, User>>(map),
                       this, [&](const QRestReply &reply, const QString &summary){
         if (!(done = reply.isSuccess()))
             qWarning() << "ERROR: " << reply.errorString() << reply.error();
@@ -552,11 +552,11 @@ void MediaType::testFormMediaTypes()
 
     done = false;
     postMultiPartData(QString("\"\""), // json string
-                      QList<QtOAIUser>(),
+                      QList<User>(),
                       ::QtOpenAPI::OptionalParam<qint32>(),
                       ::QtOpenAPI::OptionalParam<QtOAIHttpFileElement>(),
-                      ::QtOpenAPI::OptionalParam<QtOAIPostMultiPartData_request_formObject>(),
-                      ::QtOpenAPI::OptionalParam<QMap<QString, QtOAIUser>>(),
+                      ::QtOpenAPI::OptionalParam<PostMultiPartData_request_formObject>(),
+                      ::QtOpenAPI::OptionalParam<QMap<QString, User>>(),
                       this, [&](const QRestReply &reply, const QString &summary) {
                           if (!(done = reply.isSuccess()))
                               qWarning() << "ERROR: " << reply.errorString() << reply.error();

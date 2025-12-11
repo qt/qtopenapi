@@ -1,9 +1,9 @@
 // Copyright (C) 2025 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "../client/QtOAIPetApi.h"
-#include "../client/QtOAIStoreApi.h"
-#include "../client/QtOAIUserApi.h"
+#include "../client/PetApi.h"
+#include "../client/StoreApi.h"
+#include "../client/UserApi.h"
 
 #include <QtCore/qobject.h>
 #include <QtCore/QProcess>
@@ -35,8 +35,8 @@ void startServerProcess()
 class PetApiTests : public QObject {
     Q_OBJECT
 
-    QtOAIPet createRandomPet(const QString &status = "freaky", const QString &name = "monster");
-    void connectAddPetApi(QtOAIPetApi *petApi, bool &petCreated);
+    Pet createRandomPet(const QString &status = "freaky", const QString &name = "monster");
+    void connectAddPetApi(PetApi *petApi, bool &petCreated);
 
 private Q_SLOTS:
     void initTestCase()
@@ -62,24 +62,24 @@ private Q_SLOTS:
 const QString user("User1");
 const QString password("1234");
 
-class QtOAIPetApiInheritageTest: public QtOAIPetApi
+class PetApiInheritageTest: public PetApi
 {
 public:
-    QtOAIPetApiInheritageTest(QObject *parent = nullptr)
-        : QtOAIPetApi(parent){}
+    PetApiInheritageTest(QObject *parent = nullptr)
+        : PetApi(parent){}
 
     bool m_testCheck = false;
 private:
     // Template operation function will call this overriten method
-    void addPetWithDataImpl(const QtOAIPet &QtOAIPet, const QObject *context, QtPrivate::QSlotObjectBase *slot) override
+    void addPetWithDataImpl(const Pet &Pet, const QObject *context, QtPrivate::QSlotObjectBase *slot) override
     {
         m_testCheck = true;
-        QtOAIPetApi::addPetWithDataImpl(QtOAIPet, context, slot);
+        PetApi::addPetWithDataImpl(Pet, context, slot);
     }
 };
 
-QtOAIPet PetApiTests::createRandomPet(const QString &status, const QString &name) {
-    QtOAIPet pet;
+Pet PetApiTests::createRandomPet(const QString &status, const QString &name) {
+    Pet pet;
     const qint64 id = static_cast<long long>(rand());
     pet.setName(name);
     pet.setId(id);
@@ -93,17 +93,17 @@ QT_WARNING_POP
 }
 
 void PetApiTests::findPetsByStatusTest() {
-    QtOAIPetApi api;
+    PetApi api;
     bool petFound = false;
     bool petCreated = false;
     api.setUsername(user);
     api.setPassword(password);
     api.setApiKey("api_key","special-key");
 
-    QtOAIPet randomPet = createRandomPet();
-    QtOAIPet availablePet = createRandomPet("available", "avaialble_pet");
+    Pet randomPet = createRandomPet();
+    Pet availablePet = createRandomPet("available", "avaialble_pet");
     availablePet.setId(1111);
-    QtOAIPet sold_pet = createRandomPet("sold", "sold_pet");
+    Pet sold_pet = createRandomPet("sold", "sold_pet");
     sold_pet.setId(2222);
 
     connectAddPetApi(&api, petCreated);
@@ -118,20 +118,20 @@ void PetApiTests::findPetsByStatusTest() {
     api.addPet(sold_pet);
     QTRY_COMPARE_EQ_WITH_TIMEOUT(petCreated, true, 5000);
 
-    connect(&api, &QtOAIPetApi::findPetsByStatusFinished,
-            this, [&](const QList<QtOAIPet> &pets) {
+    connect(&api, &PetApi::findPetsByStatusFinished,
+            this, [&](const QList<Pet> &pets) {
         petFound = true;
         QVERIFY(!pets.isEmpty());
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
-        for (const QtOAIPet &pet: pets) {
+        for (const Pet &pet: pets) {
             const QString statusString = pet.getStatus().asJson();
             qDebug() << "Pet id = " << pet.getId() << "status = " << statusString;
             QVERIFY(statusString == "available"_L1 || statusString == "sold"_L1);
         }
 QT_WARNING_POP
     });
-    connect(&api, &QtOAIPetApi::findPetsByStatusErrorOccurred,
+    connect(&api, &PetApi::findPetsByStatusErrorOccurred,
             this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
@@ -140,37 +140,37 @@ QT_WARNING_POP
     QTRY_COMPARE_EQ_WITH_TIMEOUT(petFound, true, 5000);
 }
 
-void connectPetByIdApi(QtOAIPetApi *petApi, bool &petFetched, QtOAIPet &petToCheck)
+void connectPetByIdApi(PetApi *petApi, bool &petFetched, Pet &petToCheck)
 {
-    QObject::connect(petApi, &QtOAIPetApi::getPetByIdFinished,
-                     petApi, [&petFetched, &petToCheck](const QtOAIPet &summary) {
+    QObject::connect(petApi, &PetApi::getPetByIdFinished,
+                     petApi, [&petFetched, &petToCheck](const Pet &summary) {
         // pet created
         petFetched = true;
         petToCheck = summary;
     });
-    QObject::connect(petApi, &QtOAIPetApi::getPetByIdErrorOccurred,
+    QObject::connect(petApi, &PetApi::getPetByIdErrorOccurred,
                      petApi, [&](QNetworkReply::NetworkError, const QString &errorStr) {
                          qDebug() << "Error happened while issuing request : " << errorStr;
                      });
 }
 
 void PetApiTests::createAndGetPetTest() {
-    QtOAIPetApi api;
+    PetApi api;
     api.setUsername(user);
     api.setPassword(password);
     api.setApiKey("api_key","special-key");
     bool petCreated = false;
 
     const QString petName("Exclusive name");
-    QtOAIPet pet = createRandomPet("available", petName);
+    Pet pet = createRandomPet("available", petName);
     qint64 id = pet.getId();
 
-    connect(&api, &QtOAIPetApi::addPetFinished, this, [&](const QtOAIPet &summary) {
+    connect(&api, &PetApi::addPetFinished, this, [&](const Pet &summary) {
         // pet created
         petCreated = true;
         QCOMPARE(pet, summary);
     });
-    connect(&api, &QtOAIPetApi::addPetErrorOccurred, this,
+    connect(&api, &PetApi::addPetErrorOccurred, this,
             [&](QNetworkReply::NetworkError, const QString &errorStr) {
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
@@ -178,19 +178,19 @@ void PetApiTests::createAndGetPetTest() {
     QTRY_COMPARE_EQ_WITH_TIMEOUT(petCreated, true, 14000);
 
     bool petFetched = false;
-    QtOAIPet petToCheck;
+    Pet petToCheck;
     connectPetByIdApi(&api, petFetched, petToCheck);
     api.getPetById(id);
 
     QTRY_COMPARE_EQ_WITH_TIMEOUT(petFetched, true, 14000);
     QVERIFY2(petToCheck.getName().compare(petName) == 0, "pet isn't found.");
 
-    QtOAIPetApiInheritageTest mockedApi;
+    PetApiInheritageTest mockedApi;
     mockedApi.setUsername(user);
     mockedApi.setPassword(password);
     mockedApi.setApiKey("api_key","special-key");
     petCreated = false;
-    mockedApi.addPet(pet, this, [&](const QRestReply &reply, const QtOAIPet &newPet) {
+    mockedApi.addPet(pet, this, [&](const QRestReply &reply, const Pet &newPet) {
         if (!(petCreated = reply.isSuccess())) {
             qWarning() << "Not successful" << reply.errorString();
         } else {
@@ -202,19 +202,19 @@ void PetApiTests::createAndGetPetTest() {
 }
 
 void PetApiTests::updatePetTest() {
-    QtOAIPetApi api;
+    PetApi api;
     api.setUsername(user);
     api.setPassword(password);
-    QtOAIPet pet = createRandomPet();
-    QtOAIPet petToCheck;
+    Pet pet = createRandomPet();
+    Pet petToCheck;
     const qint64 id = pet.getId();
     bool petAdded = false;
 
-    connect(&api, &QtOAIPetApi::addPetFinished, this, [&](const QtOAIPet &summary) {
+    connect(&api, &PetApi::addPetFinished, this, [&](const Pet &summary) {
         petAdded = true;
         QCOMPARE(pet, summary);
     });
-    connect(&api, &QtOAIPetApi::addPetErrorOccurred,
+    connect(&api, &PetApi::addPetErrorOccurred,
             this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
@@ -231,11 +231,11 @@ void PetApiTests::updatePetTest() {
 
     // update it
     bool petUpdated = false;
-    connect(&api, &QtOAIPetApi::updatePetFinished, this, [&](const QtOAIPet &summary) {
+    connect(&api, &PetApi::updatePetFinished, this, [&](const Pet &summary) {
         petUpdated = true;
         pet = summary;
     });
-    connect(&api, &QtOAIPetApi::updatePetErrorOccurred,
+    connect(&api, &PetApi::updatePetErrorOccurred,
             this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
@@ -260,20 +260,20 @@ QT_WARNING_POP
 }
 
 void PetApiTests::updatePetWithFormTest() {
-    QtOAIPetApi api;
+    PetApi api;
     api.setUsername(user);
     api.setPassword(password);
-    QtOAIPet pet = createRandomPet();
-    QtOAIPet petToCheck;
+    Pet pet = createRandomPet();
+    Pet petToCheck;
     const qint64 id = pet.getId();
 
     // create pet
     bool petAdded = false;
-    connect(&api, &QtOAIPetApi::addPetFinished, this, [&](const QtOAIPet &summary) {
+    connect(&api, &PetApi::addPetFinished, this, [&](const Pet &summary) {
         petAdded = true;
         QCOMPARE(pet, summary);
     });
-    connect(&api, &QtOAIPetApi::addPetErrorOccurred,
+    connect(&api, &PetApi::addPetErrorOccurred,
             this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
@@ -289,10 +289,10 @@ void PetApiTests::updatePetWithFormTest() {
 
     // update it
     bool petUpdated = false;
-    connect(&api, &QtOAIPetApi::updatePetWithFormFinished, this, [&]() {
+    connect(&api, &PetApi::updatePetWithFormFinished, this, [&]() {
         petUpdated = true;
     });
-    connect(&api, &QtOAIPetApi::updatePetWithFormErrorOccurred,
+    connect(&api, &PetApi::updatePetWithFormErrorOccurred,
             this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
@@ -311,20 +311,20 @@ void PetApiTests::updatePetWithFormTest() {
 // see https://swagger.io/docs/specification/v3_0/authentication/bearer-authentication
 void PetApiTests::deleteCreatedPetByBearerTest()
 {
-    QtOAIPetApi api;
+    PetApi api;
     api.setUsername(user);
     api.setPassword(password);
     api.setBearerToken("BEARER-TOKEN");
-    QtOAIPet pet = createRandomPet();
+    Pet pet = createRandomPet();
     const qint64 id = pet.getId();
 
     // create pet
     bool petAdded = false;
-    connect(&api, &QtOAIPetApi::addPetFinished, this, [&](const QtOAIPet &summary) {
+    connect(&api, &PetApi::addPetFinished, this, [&](const Pet &summary) {
         petAdded = true;
         QCOMPARE(pet, summary);
     });
-    connect(&api, &QtOAIPetApi::addPetErrorOccurred,
+    connect(&api, &PetApi::addPetErrorOccurred,
             this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
@@ -334,10 +334,10 @@ void PetApiTests::deleteCreatedPetByBearerTest()
 
     // delete created pet
     bool petDeleted = false;
-    connect(&api, &QtOAIPetApi::deletePetFinished, this, [&]() {
+    connect(&api, &PetApi::deletePetFinished, this, [&]() {
         petDeleted = true;
     });
-    connect(&api, &QtOAIPetApi::deletePetErrorOccurred,
+    connect(&api, &PetApi::deletePetErrorOccurred,
             this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
@@ -350,14 +350,14 @@ void PetApiTests::deleteCreatedPetByBearerTest()
 // see https://swagger.io/docs/specification/v3_0/authentication/bearer-authentication
 void PetApiTests::deleteCreatedPetNoBearerTest()
 {
-    QtOAIPetApi apiNoBearer;
+    PetApi apiNoBearer;
     // delete created pet
     bool petNotDeleted = false;
     int errorOccurredCounter = 0;
-    connect(&apiNoBearer, &QtOAIPetApi::deletePetFinished, this, [&]() {
+    connect(&apiNoBearer, &PetApi::deletePetFinished, this, [&]() {
         qDebug() << "deletePetFinished: No error happened";
     });
-    connect(&apiNoBearer, &QtOAIPetApi::deletePetErrorOccurred,
+    connect(&apiNoBearer, &PetApi::deletePetErrorOccurred,
             this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
                 qDebug() << "deletePetErrorOccurred: expected error happened while issuing the request : " << errorStr;
                 petNotDeleted = true;
@@ -372,19 +372,19 @@ void PetApiTests::deleteCreatedPetNoBearerTest()
 
 void PetApiTests::uploadPetFileTest()
 {
-    QtOAIPetApi api;
+    PetApi api;
     api.setUsername(user);
     api.setPassword(password);
-    QtOAIPet pet = createRandomPet();
+    Pet pet = createRandomPet();
     const qint64 id = pet.getId();
 
     // create pet
     bool petAdded = false;
-    connect(&api, &QtOAIPetApi::addPetFinished, this, [&](const QtOAIPet &summary) {
+    connect(&api, &PetApi::addPetFinished, this, [&](const Pet &summary) {
         petAdded = true;
         QCOMPARE(pet, summary);
     });
-    connect(&api, &QtOAIPetApi::addPetErrorOccurred,
+    connect(&api, &PetApi::addPetErrorOccurred,
             this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
@@ -396,14 +396,14 @@ void PetApiTests::uploadPetFileTest()
     bool petFileUploaded = false;
     QString type, message;
     qint32 code = -100;
-    connect(&api, &QtOAIPetApi::uploadFileFinished, this, [&](const QtOAIApiResponse &response) {
+    connect(&api, &PetApi::uploadFileFinished, this, [&](const ApiResponse &response) {
         petFileUploaded = true;
         type = response.getType();
         code = response.getCode();
         message = response.getMessage();
         qWarning() << type << code << message;
     });
-    connect(&api, &QtOAIPetApi::uploadFileErrorOccurred,
+    connect(&api, &PetApi::uploadFileErrorOccurred,
             this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
@@ -417,13 +417,13 @@ void PetApiTests::uploadPetFileTest()
     QVERIFY2(code != -100, "didn't finish within timeout");
 }
 
-void PetApiTests::connectAddPetApi(QtOAIPetApi *petApi, bool &petCreated)
+void PetApiTests::connectAddPetApi(PetApi *petApi, bool &petCreated)
 {
-    QObject::connect(petApi, &QtOAIPetApi::addPetFinished, this, [&petCreated]() {
+    QObject::connect(petApi, &PetApi::addPetFinished, this, [&petCreated]() {
         // pet created
         petCreated = true;
     });
-    QObject::connect(petApi, &QtOAIPetApi::addPetErrorOccurred,
+    QObject::connect(petApi, &PetApi::addPetErrorOccurred,
                      this, [&] (QNetworkReply::NetworkError, const QString &errorStr) {
                          qDebug() << "Error happened while issuing request : " << errorStr;
                      });
@@ -436,21 +436,21 @@ void PetApiTests::mixedApiCallsTest()
         = std::make_shared<QRestAccessManager>(manager.get(), this);
     std::shared_ptr<QNetworkRequestFactory> factory = std::make_shared<QNetworkRequestFactory>();;
 
-    QtOAIPetApi api1, api2;
+    PetApi api1, api2;
     api1.setUsername(user);
     api1.setPassword(password);
     api2.setUsername(user);
     api2.setPassword(password);
-    QtOAIStoreApi apiStore;
-    QtOAIUserApi apiUser;
+    StoreApi apiStore;
+    UserApi apiUser;
 
     // test resource re-setting
     apiStore.setNetworkAccessResources(manager, restManager);
     apiStore.setNetworkRequestFactory(factory);
     apiUser.setNetworkAccessResources(manager, restManager);
     apiUser.setNetworkRequestFactory(factory);
-    QtOAIPet pet1 = createRandomPet();
-    QtOAIPet pet2 = createRandomPet();
+    Pet pet1 = createRandomPet();
+    Pet pet2 = createRandomPet();
 
     api1.setApiKey("api_key","special-key");
     bool petCreated = false;
@@ -465,14 +465,14 @@ void PetApiTests::mixedApiCallsTest()
     QTRY_COMPARE_EQ_WITH_TIMEOUT(petCreated, true, 14000);
 
     bool inventoryFetched = false;
-    connect(&apiStore, &QtOAIStoreApi::getInventoryFinished,
+    connect(&apiStore, &StoreApi::getInventoryFinished,
             this, [&](const QMap<QString, qint32> &status) {
         inventoryFetched = true;
         for (const auto &key : status.keys()) {
             qDebug() << (key) << " Quantities " << status.value(key);
         }
     });
-    connect(&apiStore, &QtOAIStoreApi::getInventoryErrorOccurred,
+    connect(&apiStore, &StoreApi::getInventoryErrorOccurred,
             this, [&] (QNetworkReply::NetworkError, const QString &errorStr) {
                 qDebug() << "Error happened while issuing request : " << errorStr;
             });
@@ -481,10 +481,10 @@ void PetApiTests::mixedApiCallsTest()
     QTRY_COMPARE_EQ_WITH_TIMEOUT(inventoryFetched, true, 14000);
 
     bool userLoggedOut = false;
-    connect(&apiUser, &QtOAIUserApi::logoutUserFinished, this, [&]() {
+    connect(&apiUser, &UserApi::logoutUserFinished, this, [&]() {
         userLoggedOut = true;
     });
-    connect(&apiUser, &QtOAIUserApi::logoutUserErrorOccurred,
+    connect(&apiUser, &UserApi::logoutUserErrorOccurred,
             this, [&] (QNetworkReply::NetworkError, const QString &errorStr) {
                 qDebug() << "Error happened while issuing request : " << errorStr;
             });
@@ -495,19 +495,19 @@ void PetApiTests::mixedApiCallsTest()
 
 void PetApiTests::getFilesFromServerTest()
 {
-    QtOAIPetApi api;
+    PetApi api;
     api.setUsername(user);
     api.setPassword(password);
-    QtOAIPet pet = createRandomPet();
+    Pet pet = createRandomPet();
     const qint64 id = pet.getId();
 
     // create pet
     bool petAdded = false;
-    connect(&api, &QtOAIPetApi::addPetFinished, this, [&](const QtOAIPet &summary) {
+    connect(&api, &PetApi::addPetFinished, this, [&](const Pet &summary) {
         petAdded = true;
         QCOMPARE(pet, summary);
     });
-    connect(&api, &QtOAIPetApi::addPetErrorOccurred,
+    connect(&api, &PetApi::addPetErrorOccurred,
             this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
@@ -517,7 +517,7 @@ void PetApiTests::getFilesFromServerTest()
 
      // get pet json info file
     bool petFileDownloaded = false;
-    connect(&api, &QtOAIPetApi::getJsonFileFinished,
+    connect(&api, &PetApi::getJsonFileFinished,
             this, [&](const QtOAIHttpFileElement &summary) {
         petFileDownloaded = true;
                 QCOMPARE("response.json", summary.requestFilename());
@@ -525,7 +525,7 @@ void PetApiTests::getFilesFromServerTest()
         QCOMPARE(fileContent.value("file-name").toString(), QString("Hi, I am a response!"));
         QCOMPARE(fileContent.value("value").toInt(), 81);
     });
-    connect(&api, &QtOAIPetApi::getJsonFileErrorOccurred,
+    connect(&api, &PetApi::getJsonFileErrorOccurred,
             this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
                 qDebug() << "Error happened while issuing request : " << errorStr;
             });
@@ -535,14 +535,14 @@ void PetApiTests::getFilesFromServerTest()
 
     // get PNG file
     bool petPngDownloaded = false;
-    connect(&api, &QtOAIPetApi::findPetsImageByIdFinished, this, [&](const QString &summary) {
+    connect(&api, &PetApi::findPetsImageByIdFinished, this, [&](const QString &summary) {
         petPngDownloaded = true;
         // test file size
         QCOMPARE(summary.size(), 8868);
         // test we can load it normally into QImage object
         QVERIFY2(!QImage::fromData(QByteArray::fromBase64(summary.toUtf8()), "png").isNull(), "Image isn't loaded.");
     });
-    connect(&api, &QtOAIPetApi::findPetsImageByIdErrorOccurred,
+    connect(&api, &PetApi::findPetsImageByIdErrorOccurred,
             this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
@@ -554,7 +554,7 @@ void PetApiTests::getFilesFromServerTest()
 void PetApiTests::sslConfigurationTest()
 {
 #if QT_CONFIG(ssl)
-    QtOAIPetApi api;
+    PetApi api;
     std::shared_ptr<QNetworkRequestFactory> factory = std::make_shared<QNetworkRequestFactory>();
     auto config = QSslConfiguration::defaultConfiguration();
     config.setProtocol(QSsl::TlsV1_2OrLater);
@@ -571,13 +571,13 @@ void PetApiTests::sslConfigurationTest()
 // Testing if no data provided
 void PetApiTests::setNoBasicLoginAndPasswordTest()
 {
-    QtOAIPetApi apiNoData;
-    QtOAIPet pet = createRandomPet();
+    PetApi apiNoData;
+    Pet pet = createRandomPet();
     bool petNotAdded = false;
-    connect(&apiNoData, &QtOAIPetApi::addPetFinished, this, [&]() {
+    connect(&apiNoData, &PetApi::addPetFinished, this, [&]() {
         qDebug() << "addPetFinished: no error happened.";
     });
-    connect(&apiNoData, &QtOAIPetApi::addPetErrorOccurred,
+    connect(&apiNoData, &PetApi::addPetErrorOccurred,
             this, [&](QNetworkReply::NetworkError, const QString &errorStr) {
         petNotAdded = true;
         qDebug() << "addPetErrorOccurred: expected error happened while issuing the request : " << errorStr;
@@ -589,20 +589,20 @@ void PetApiTests::setNoBasicLoginAndPasswordTest()
 
 void PetApiTests::getPatientPetsTest()
 {
-    QtOAIPetApi api;
+    PetApi api;
     api.setUsername(user);
     api.setPassword(password);
 
-    QtOAIPet pet1 = createRandomPet("sold", "Poops_Baraboops");
+    Pet pet1 = createRandomPet("sold", "Poops_Baraboops");
     pet1.setAge(100); // oddly old cat though
 
-    QtOAIPet pet2 = createRandomPet("notsold", "TheThing");
+    Pet pet2 = createRandomPet("notsold", "TheThing");
     pet2.setAge(33); // also oddly old cat though
     pet2.setPatience(0);
 
     // create pet1
     bool operationStatus = false;
-    api.addPet(pet1, this, [&](const QRestReply &reply, const QtOAIPet &summary) {
+    api.addPet(pet1, this, [&](const QRestReply &reply, const Pet &summary) {
         if (!(operationStatus = reply.isSuccess()))
             qDebug() << "Error happened while issuing request : " << reply.errorString();
 
@@ -614,7 +614,7 @@ void PetApiTests::getPatientPetsTest()
 
     // create pet2
     operationStatus = false;
-    api.addPet(pet2, this, [&](const QRestReply &reply, const QtOAIPet &summary) {
+    api.addPet(pet2, this, [&](const QRestReply &reply, const Pet &summary) {
         if (!(operationStatus = reply.isSuccess()))
             qDebug() << "Error happened while issuing request : " << reply.errorString();
 
@@ -631,14 +631,14 @@ void PetApiTests::getPatientPetsTest()
     petData.append(pet2.getAge());
     petData.append(pet2.getPatience());
     operationStatus = false;
-    api.findPetsByAgeAndPatience(petData, this, [&](const QRestReply &reply, const QList<QtOAIPet> &summary) {
+    api.findPetsByAgeAndPatience(petData, this, [&](const QRestReply &reply, const QList<Pet> &summary) {
         if (!(operationStatus = reply.isSuccess()))
             qDebug() << "Error happened while issuing request : " << reply.errorString();
 
         QVERIFY(operationStatus);
         QCOMPARE(REPLY_OK, reply.httpStatus());
         QVERIFY(summary.count() == 2);
-        const std::array<QtOAIPet, 2> expectedPets = {pet1, pet2};
+        const std::array<Pet, 2> expectedPets = {pet1, pet2};
         QVERIFY(std::is_permutation(summary.cbegin(), summary.cend(),
                                     expectedPets.cbegin(), expectedPets.cend()));
 

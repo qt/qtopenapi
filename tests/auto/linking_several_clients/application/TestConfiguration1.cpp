@@ -1,8 +1,8 @@
 // Copyright (C) 2025 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "QtOAIClient1TestApi.h"
-#include "QtOAIClient2TestApi.h"
+#include "Client1TestApi.h"
+#include "Client2TestApi.h"
 
 #include <QtCore/qobject.h>
 #include <QtTest/qtest.h>
@@ -69,8 +69,8 @@ private Q_SLOTS:
 
 void TestConfiguration1::testLibraries()
 {
-    QtOAIClient1TestApi api1;
-    QtOAIClient2TestApi api2;
+    Client1TestApi api1;
+    Client2TestApi api2;
     QtOAIHttpFileElement object("NoName.txt");
     bool done = true;
 

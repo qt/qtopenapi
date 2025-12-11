@@ -37,7 +37,7 @@ function(qt6_add_openapi_client target)
     set(oneValueArgs
         SPEC_FILE
         CPP_NAMESPACE
-        MODEL_NAME_PREFIX
+        CLIENT_PREFIX
         OUTPUT_DIRECTORY
         OUTPUT_PUBLIC_HEADERS_DIR
         OUTPUT_PRIVATE_HEADERS_DIR
@@ -94,15 +94,16 @@ function(qt6_add_openapi_client target)
     get_target_property(generator_path
         "${QT_CMAKE_EXPORT_NAMESPACE}::QtOpenAPIGeneratorJar" IMPORTED_LOCATION)
 
-    # The modelNamePrefix affects names of generated files.
-    # The default prefix is defined in CppQt6AbstractCodegen.java:
-    # PREFIX = "QtOAI"
-    if(NOT arg_MODEL_NAME_PREFIX)
-        set(model_name_prefix "QtOAI")
-    else()
-        set(model_name_prefix "${arg_MODEL_NAME_PREFIX}")
+    # The modelNamePrefix affects names of model and api files.
+    set(model_and_api_name_prefix "")
+    if(arg_CLIENT_PREFIX)
+        set(model_and_api_name_prefix "${arg_CLIENT_PREFIX}")
     endif()
 
+    # Qt pre-generated qt common library always uses QtOAI
+    # prefix, for generating different common library,
+    # please call the generator manually.
+    set(qt_commonlib_prefix "QtOAI")
     # For qt macro: either QtCommonOpenAPI or QtNameSpace::QtCommonOpenAPI
     if(qtcore_comomn_namespace)
         set(cpp_common_namespace "${qtcore_comomn_namespace}::QtCommonOpenAPI")
@@ -136,7 +137,8 @@ function(qt6_add_openapi_client target)
         "packageName=${target}"
         "cppNamespace=${cpp_namespace}"
         "cppCommonNamespace=${cpp_common_namespace}"
-        "modelNamePrefix=${model_name_prefix}"
+        "modelNamePrefix=${model_and_api_name_prefix}"
+        "prefix=${qt_commonlib_prefix}"
         "commonLibrary=${common_lib_generation_type}"
         "commonLibraryName=${common_lib_name}"
         "contentCompression=${compression_required}"
@@ -151,20 +153,20 @@ function(qt6_add_openapi_client target)
     set(common_dir_path "${arg_OUTPUT_DIRECTORY}/${common_dir}/")
     if(arg___QT_INTERNAL_GENERATE_COMMON_LIBRARY_TARGET)
         list(APPEND common_sources "${common_dir_path}${target}CommonExports.h")
-        list(APPEND common_sources "${common_dir_path}${model_name_prefix}BaseApi.h")
-        list(APPEND common_sources "${common_dir_path}${model_name_prefix}BaseApi.cpp")
-        list(APPEND common_sources "${common_dir_path}${model_name_prefix}Helpers.h")
-        list(APPEND common_sources "${common_dir_path}${model_name_prefix}Helpers.cpp")
-        list(APPEND common_sources "${common_dir_path}${model_name_prefix}HttpRequest.h")
-        list(APPEND common_sources "${common_dir_path}${model_name_prefix}HttpRequest.cpp")
-        list(APPEND common_sources "${common_dir_path}${model_name_prefix}HttpFileElement.h")
-        list(APPEND common_sources "${common_dir_path}${model_name_prefix}HttpFileElement.cpp")
-        list(APPEND common_sources "${common_dir_path}${model_name_prefix}Object.h")
-        list(APPEND common_sources "${common_dir_path}${model_name_prefix}Object.cpp")
-        list(APPEND common_sources "${common_dir_path}${model_name_prefix}Enum.h")
-        list(APPEND common_sources "${common_dir_path}${model_name_prefix}Enum.cpp")
-        list(APPEND common_sources "${common_dir_path}${model_name_prefix}ServerConfiguration.h")
-        list(APPEND common_sources "${common_dir_path}${model_name_prefix}ServerVariable.h")
+        list(APPEND common_sources "${common_dir_path}${qt_commonlib_prefix}BaseApi.h")
+        list(APPEND common_sources "${common_dir_path}${qt_commonlib_prefix}BaseApi.cpp")
+        list(APPEND common_sources "${common_dir_path}${qt_commonlib_prefix}Helpers.h")
+        list(APPEND common_sources "${common_dir_path}${qt_commonlib_prefix}Helpers.cpp")
+        list(APPEND common_sources "${common_dir_path}${qt_commonlib_prefix}HttpRequest.h")
+        list(APPEND common_sources "${common_dir_path}${qt_commonlib_prefix}HttpRequest.cpp")
+        list(APPEND common_sources "${common_dir_path}${qt_commonlib_prefix}HttpFileElement.h")
+        list(APPEND common_sources "${common_dir_path}${qt_commonlib_prefix}HttpFileElement.cpp")
+        list(APPEND common_sources "${common_dir_path}${qt_commonlib_prefix}Object.h")
+        list(APPEND common_sources "${common_dir_path}${qt_commonlib_prefix}Object.cpp")
+        list(APPEND common_sources "${common_dir_path}${qt_commonlib_prefix}Enum.h")
+        list(APPEND common_sources "${common_dir_path}${qt_commonlib_prefix}Enum.cpp")
+        list(APPEND common_sources "${common_dir_path}${qt_commonlib_prefix}ServerConfiguration.h")
+        list(APPEND common_sources "${common_dir_path}${qt_commonlib_prefix}ServerVariable.h")
         list(APPEND generating_sources ${common_sources})
     else()
         list(APPEND client_sources

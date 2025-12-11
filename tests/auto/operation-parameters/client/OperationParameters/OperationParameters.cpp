@@ -1,7 +1,7 @@
 // Copyright (C) 2025 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "../client/QtOAITestApi.h"
+#include "../client/TestApi.h"
 
 #include <QtCore/qobject.h>
 #include <QtCore/QProcess>
@@ -125,7 +125,7 @@ static QString getHeaderValue(const QString &summary,
     return QString();
 }
 
-class OperationParameters : public QtOAITestApi {
+class OperationParameters : public TestApi {
     Q_OBJECT
 
 private Q_SLOTS:
@@ -360,7 +360,7 @@ void OperationParameters::pathFloatParameters()
     QFETCH(QString, expectedMatrixExplode);
     QFETCH(QString, expectedMatrixNotExplode);
 
-    QtOAIFloatResponse res;
+    FloatResponse res;
     res.setValue(floatValue);
 
     // style=simple, explode=true, type=number, format=float
@@ -425,7 +425,7 @@ void OperationParameters::pathDoubleParameters()
     QFETCH(QString, expectedMatrixExplode);
     QFETCH(QString, expectedMatrixNotExplode);
 
-    QtOAIDoubleResponse res;
+    DoubleResponse res;
     res.setValue(doubleValue);
 
     // style=simple, explode=true, type=number, format=double
@@ -514,7 +514,7 @@ void OperationParameters::pathAnyTypeParameters_data()
     // They're encoded as 0xCE 0xA3 0xCE 0xA8 in UTF-8, and should be %-encoded
     // similarly.
 
-    QtOAITestObject obj;
+    TestObject obj;
     obj.setName("Super*+,;=!$&'()Puper");
     obj.setStatus("Awake or Not $ΣΨ");
 
@@ -586,17 +586,17 @@ void OperationParameters::pathAnyTypeParameters()
 
 void OperationParameters::pathObjectParameters_data()
 {
-    QtOAITestObject object;
+    TestObject object;
     object.setName("Igor");
     object.setStatus("Sleep");
-    QTest::addColumn<QtOAITestObject>("objectValue");
+    QTest::addColumn<TestObject>("objectValue");
     QTest::addColumn<QString>("expectedSimpleExplode");
     QTest::addColumn<QString>("expectedSimpleNotExplode");
     QTest::addColumn<QString>("expectedLabelExplode");
     QTest::addColumn<QString>("expectedLabelNotExplode");
     QTest::addColumn<QString>("expectedMatrixExplode");
     QTest::addColumn<QString>("expectedMatrixNotExplode");
-    QTest::newRow("QtOAITestObject({Igor, Sleep})") << object
+    QTest::newRow("TestObject({Igor, Sleep})") << object
                                                   << "/v2/path/object/simple-explode/name=Igor,status=Sleep"
                                                   << "/v2/path/object/simple-not-explode/name,Igor,status,Sleep"
                                                   << "/v2/path/object/label-explode/.name=Igor.status=Sleep"
@@ -605,7 +605,7 @@ void OperationParameters::pathObjectParameters_data()
                                                   << "/v2/path/object/matrix-not-explode/;objectParameter=name,Igor,status,Sleep";
     object.setName("TestName123");
     object.setStatus("Maybe-Awake");
-    QTest::newRow("QtOAITestObject({TestName123, Maybe-Awake})") << object
+    QTest::newRow("TestObject({TestName123, Maybe-Awake})") << object
                                                                << "/v2/path/object/simple-explode/name=TestName123,status=Maybe-Awake"
                                                                << "/v2/path/object/simple-not-explode/name,TestName123,status,Maybe-Awake"
                                                                << "/v2/path/object/label-explode/.name=TestName123.status=Maybe-Awake"
@@ -626,7 +626,7 @@ void OperationParameters::pathObjectParameters_data()
 
 void OperationParameters::pathObjectParameters()
 {
-    QFETCH(QtOAITestObject, objectValue);
+    QFETCH(TestObject, objectValue);
     QFETCH(QString, expectedSimpleExplode);
     QFETCH(QString, expectedSimpleNotExplode);
     QFETCH(QString, expectedLabelExplode);
@@ -755,12 +755,12 @@ void OperationParameters::pathStringMapParameters()
 // In OpenAPI terminology, a string to model mapping refers to a map with string keys and object values.
 void OperationParameters::pathModelMapParameters()
 {
-    QMap<QString, QtOAITestObject> mapValue;
-    QtOAITestObject obj1;
+    QMap<QString, TestObject> mapValue;
+    TestObject obj1;
     obj1.setName("Azer"_L1);
     obj1.setStatus("Ready"_L1);
     mapValue["key1"_L1] = obj1;
-    QtOAITestObject obj2;
+    TestObject obj2;
     obj2.setName("Celine"_L1);
     obj2.setStatus("Present"_L1);
     mapValue["key2"_L1] = obj2;
@@ -872,7 +872,7 @@ void OperationParameters::queryParameters()
 
     // style=form, explode=true, type=number, format=float
     float f_val = 22.0123f;
-    QtOAIFloatResponse f_res;
+    FloatResponse f_res;
     f_res.setValue(f_val);
     QString strVal = QString::number(f_val, 'g', QLocale::FloatingPointShortest);
     QString expectedPath = "/v2/query/float/form-explode/formExplodeFloat?floatParameter="_L1 +
@@ -890,7 +890,7 @@ void OperationParameters::queryParameters()
 
     double d_val = 2.987653212346578627e9;
     strVal = QString::number(d_val, 'g', QLocale::FloatingPointShortest);
-    QtOAIDoubleResponse d_res;
+    DoubleResponse d_res;
     d_res.setValue(d_val);
 
     // style=form, explode=true, type=number, format=double
@@ -906,7 +906,7 @@ void OperationParameters::queryParameters()
                                 d_res);
 
     // style=form, explode=true, type=object
-    QtOAITestObject formObj;
+    TestObject formObj;
     formObj.setName("TestName+123");
     formObj.setStatus("Awake");
     CALL_TEST_POST_OPERATION(formExplodeObject, formObj,
@@ -933,12 +933,12 @@ void OperationParameters::queryParameters()
                              "/v2/query/map/string-mapping/form-not-explode/formNotExplodeMap?"
                              "mapParameter=key1,"_L1 + urlEncodedVal1 + ","_L1 + urlEncodedKey2 + ",str2");
 
-    QMap<QString, QtOAITestObject> mapValue;
-    QtOAITestObject obj1;
+    QMap<QString, TestObject> mapValue;
+    TestObject obj1;
     obj1.setName("Azer"_L1);
     obj1.setStatus("Ready"_L1);
     mapValue["key1"_L1] = obj1;
-    QtOAITestObject obj2;
+    TestObject obj2;
     obj2.setName("Celine"_L1);
     obj2.setStatus("Present"_L1);
     mapValue["key2"_L1] = obj2;
@@ -960,7 +960,7 @@ void OperationParameters::queryParameters()
                              "/v2/query/array/spaceDelimited-not-explode/spaceDelimitedNotExplodeArray?arrayParameter=1%202%20-9%2090");
 
     // style=spaceDelimited, explode=false, type=object
-    QtOAITestObject spaceDelimitedObj;
+    TestObject spaceDelimitedObj;
     spaceDelimitedObj.setName("TestName 123 *+,;=!$&'()");
     spaceDelimitedObj.setStatus("Awake!");
     CALL_TEST_POST_OPERATION(spaceDelimitedNotExplodeObject, spaceDelimitedObj,
@@ -994,7 +994,7 @@ void OperationParameters::queryParameters()
                              "/v2/query/array/pipeDelimited-not-explode/pipeDelimitedNotExplodeArray?arrayParameter=1%7C2%7C-9%7C90");
 
     // style=pipeDelimited, explode=false, type=object
-    QtOAITestObject pipeDelimitedObj;
+    TestObject pipeDelimitedObj;
     pipeDelimitedObj.setName("pipeDelimited=TestName");
     pipeDelimitedObj.setStatus("pipeDelimited-Sleeping *+,;=!$&'()");
     CALL_TEST_POST_OPERATION(pipeDelimitedNotExplodeObject, pipeDelimitedObj,
@@ -1023,7 +1023,7 @@ void OperationParameters::queryParameters()
                              "/v2/query/anytype/pipeDelimited-not-explode/pipeDelimitedNotExplodeAnytype?anytypeParameter=name%7CpipeDelimited%3DTestName%7Cstatus%7CpipeDelimited-Sleeping%20%2A%2B%2C%3B%3D%21%24%26%27%28%29");
 
     // style=deepObject, explode=true, type=object
-    QtOAITestObject deepObjectObj;
+    TestObject deepObjectObj;
     deepObjectObj.setName("deepObject *+,;=!$&'()-TestName");
     deepObjectObj.setStatus("deepObject-Sleeping");
     CALL_TEST_POST_OPERATION(deepObjectExplodeObject, deepObjectObj,
@@ -1050,7 +1050,7 @@ void OperationParameters::queryParameters()
 
 void OperationParameters::queryAnyTypeParameters_data()
 {
-    QtOAITestObject obj;
+    TestObject obj;
     obj.setName("Super Puper *+,;=!$&'()");
     obj.setStatus("Awake!");
 
@@ -1177,7 +1177,7 @@ void OperationParameters::queryNACombinations()
                              "/v2/query/array/pipeDelimited-explode/pipeDelimitedExplodeArray?arrayParameter=");
 
     // style=spaceDelimited, explode=true, type=object
-    QtOAITestObject spaceDelimitedObj;
+    TestObject spaceDelimitedObj;
     spaceDelimitedObj.setName("TestName123");
     spaceDelimitedObj.setStatus("Awake");
     warningMsg = invalidExplodeWarningMsg("objectParameter"_L1 , "spaceDelimited"_L1, true);
@@ -1186,7 +1186,7 @@ void OperationParameters::queryNACombinations()
                              "/v2/query/object/spaceDelimited-explode/spaceDelimitedExplodeObject?objectParameter=name%20TestName123%20status%20Awake");
 
     // style=pipeDelimited, explode=true, type=object
-    QtOAITestObject pipeDelimitedObj;
+    TestObject pipeDelimitedObj;
     pipeDelimitedObj.setName("pipeDelimited-TestName");
     pipeDelimitedObj.setStatus("pipeDelimited-Sleeping");
     warningMsg = invalidExplodeWarningMsg("objectParameter"_L1 , "pipeDelimited"_L1, true);
@@ -1195,7 +1195,7 @@ void OperationParameters::queryNACombinations()
                              "/v2/query/object/pipeDelimited-explode/pipeDelimitedExplodeObject?objectParameter=name%7CpipeDelimited-TestName%7Cstatus%7CpipeDelimited-Sleeping");
 
     // style=deepObject, explode=false, type=object
-    QtOAITestObject deepObjectObj;
+    TestObject deepObjectObj;
     deepObjectObj.setName("deepObject-TestName");
     deepObjectObj.setStatus("deepObject-Sleeping");
     warningMsg = invalidExplodeWarningMsg("objectParameter"_L1 , "deepObject"_L1, false);
@@ -1283,12 +1283,12 @@ void OperationParameters::pathAndQueryUndefined()
 
     // undefined case for form with empty object
     // style=form, explode=false, type=object
-    CALL_TEST_POST_OPERATION(formNotExplodeObject, QtOAITestObject(),
+    CALL_TEST_POST_OPERATION(formNotExplodeObject, TestObject(),
                              "/v2/query/object/form-not-explode/formNotExplodeObject?objectParameter=");
 
     // undefined case for form with empty object
     // style=form, explode=true, type=empty object
-    CALL_TEST_POST_OPERATION(formExplodeObject, QtOAITestObject(),
+    CALL_TEST_POST_OPERATION(formExplodeObject, TestObject(),
                              "/v2/query/object/form-explode/formExplodeObject?objectParameter=");
 
     // style=form, explode=true, type=empty array
@@ -1447,11 +1447,11 @@ void OperationParameters::severalQueryParametersPerOPeration()
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
-    QtOAITestObject testObject;
+    TestObject testObject;
     testObject.setName("John");
     testObject.setStatus("Sleepy");
     testObject.setAge(12);
-    formExplodeDifferentOptions(50, OptionalParam<QtOAITestObject>(testObject),
+    formExplodeDifferentOptions(50, OptionalParam<TestObject>(testObject),
                                 this, [&](const QRestReply &reply, const QString &summary) {
                                     done = reply.isSuccess();
                                     QCOMPARE(getStatusString(summary), "/v2/query/strings/form-explode/formExplodeDifferentOptions?age=12&name=John&status=Sleepy&stringParameterB=50");
@@ -1460,7 +1460,7 @@ void OperationParameters::severalQueryParametersPerOPeration()
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
-    formExplodeDifferentOptions(50, OptionalParam<QtOAITestObject>(),
+    formExplodeDifferentOptions(50, OptionalParam<TestObject>(),
                                 this, [&](const QRestReply &reply, const QString &summary) {
                                     done = reply.isSuccess();
                                     QCOMPARE(getStatusString(summary), "/v2/query/strings/form-explode/formExplodeDifferentOptions?stringParameterB=50");
@@ -1470,7 +1470,7 @@ void OperationParameters::severalQueryParametersPerOPeration()
     // NOTE: Parameter is not nullable in yaml file, so it's being excluded
     // from the serialization, even if Null is passed as a 2d argument.
     done = false;
-    formExplodeDifferentOptions(50, OptionalParam<QtOAITestObject>(OptionalParam<QtOAITestObject>::IsNull), this,
+    formExplodeDifferentOptions(50, OptionalParam<TestObject>(OptionalParam<TestObject>::IsNull), this,
                                 [&](const QRestReply &reply, const QString &summary) {
                                     done = reply.isSuccess();
                                     QCOMPARE(getStatusString(summary), "/v2/query/strings/form-explode/formExplodeDifferentOptions?stringParameterB=50");
@@ -1570,7 +1570,7 @@ void OperationParameters::pathAndQueryParameters()
  */
 void OperationParameters::headerAnyTypeParameters_data()
 {
-    QtOAITestObject obj;
+    TestObject obj;
     obj.setName("Super Puper *+,;=!$&'()");
     obj.setStatus("Awake!");
 
@@ -1706,13 +1706,13 @@ void OperationParameters::headerArrayParameters()
 
 void OperationParameters::headerObjectParameters_data()
 {
-    QtOAITestObject obj1, obj2, obj3;
+    TestObject obj1, obj2, obj3;
     obj1.setName("Super Puper *+,;=!$&'()");
     obj1.setStatus("Awake!");
     obj2.setName("Simple123456789");
     obj2.setStatus("Sleeping");
 
-    QTest::addColumn<QtOAITestObject>("objectValue");
+    QTest::addColumn<TestObject>("objectValue");
     QTest::addColumn<QString>("expectedExplodeResult");
     QTest::addColumn<QString>("expectedNotExplodeResult");
 
@@ -1728,7 +1728,7 @@ void OperationParameters::headerObjectParameters_data()
 
 void OperationParameters::headerObjectParameters()
 {
-    QFETCH(QtOAITestObject, objectValue);
+    QFETCH(TestObject, objectValue);
     QFETCH(QString, expectedExplodeResult);
     QFETCH(QString, expectedNotExplodeResult);
     bool done = false;
@@ -1841,7 +1841,7 @@ void OperationParameters::headerAdditionalCases()
 void OperationParameters::severalHeaderParameters()
 {
     bool done = false;
-    QtOAITestObject obj;
+    TestObject obj;
     obj.setName("object-header"_L1);
     obj.setStatus("Awake!"_L1);
 
@@ -1940,7 +1940,7 @@ void OperationParameters::headerInvalidStyle()
  */
 void OperationParameters::cookieAnyTypeParameters_data()
 {
-    QtOAITestObject obj;
+    TestObject obj;
     obj.setName("Super Puper");
     obj.setStatus("Awake!");
 
@@ -2107,13 +2107,13 @@ void OperationParameters::cookieArrayParameters()
 
 void OperationParameters::cookieObjectParameters_data()
 {
-    QtOAITestObject obj1, obj2, obj3;
+    TestObject obj1, obj2, obj3;
     obj1.setName("Super Puper");
     obj1.setStatus("Awake!");
     obj2.setName("Simple123456789");
     obj2.setStatus("Sleeping");
 
-    QTest::addColumn<QtOAITestObject>("objectValue");
+    QTest::addColumn<TestObject>("objectValue");
     QTest::addColumn<QString>("expectedExplodeResult");
     QTest::addColumn<QString>("expectedNotExplodeResult");
 
@@ -2132,7 +2132,7 @@ void OperationParameters::cookieObjectParameters_data()
 
 void OperationParameters::cookieObjectParameters()
 {
-    QFETCH(QtOAITestObject, objectValue);
+    QFETCH(TestObject, objectValue);
     QFETCH(QString, expectedExplodeResult);
     QFETCH(QString, expectedNotExplodeResult);
     bool done = false;

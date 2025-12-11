@@ -8,22 +8,22 @@
 #include <QtQml/qjsengine.h>
 #include <QtQml/qqml.h>
 
-#include "QtOAIColor.h"
-#include "QtOAIColorsApi.h"
-#include "QtOAICredentials.h"
-#include "QtOAIUsersApi.h"
+#include "Color.h"
+#include "ColorsApi.h"
+#include "Credentials.h"
+#include "UsersApi.h"
 
 struct ForeignColorsAPI
 {
     Q_GADGET
-    QML_FOREIGN(QtOpenAPI::QtOAIColorsApi)
+    QML_FOREIGN(QtOpenAPI::ColorsApi)
     QML_SINGLETON
     QML_NAMED_ELEMENT(ColorsApi)
 
 public:
-    inline static QtOpenAPI::QtOAIColorsApi *s_singletonInstance = nullptr;
+    inline static QtOpenAPI::ColorsApi *s_singletonInstance = nullptr;
 
-    static QtOpenAPI::QtOAIColorsApi *create(QQmlEngine *, QJSEngine *engine)
+    static QtOpenAPI::ColorsApi *create(QQmlEngine *, QJSEngine *engine)
     {
         // The instance has to exist before it is used. We cannot replace it.
         Q_ASSERT(s_singletonInstance);
@@ -51,14 +51,14 @@ private:
 struct ForeignUsersAPI
 {
     Q_GADGET
-    QML_FOREIGN(QtOpenAPI::QtOAIUsersApi)
+    QML_FOREIGN(QtOpenAPI::UsersApi)
     QML_SINGLETON
     QML_NAMED_ELEMENT(UsersApi)
 
 public:
-    inline static QtOpenAPI::QtOAIUsersApi *s_singletonInstance = nullptr;
+    inline static QtOpenAPI::UsersApi *s_singletonInstance = nullptr;
 
-    static QtOpenAPI::QtOAIUsersApi *create(QQmlEngine *, QJSEngine *engine)
+    static QtOpenAPI::UsersApi *create(QQmlEngine *, QJSEngine *engine)
     {
         // The instance has to exist before it is used. We cannot replace it.
         Q_ASSERT(s_singletonInstance);
@@ -89,9 +89,9 @@ class Credentials: public QObject
     QML_ELEMENT
     QML_SINGLETON
 public:
-    Q_INVOKABLE QtOpenAPI::QtOAICredentials create(const QString &email, const QString &password)
+    Q_INVOKABLE QtOpenAPI::Credentials create(const QString &email, const QString &password)
     {
-        QtOpenAPI::QtOAICredentials credentials;
+        QtOpenAPI::Credentials credentials;
         credentials.setEmail(email);
         credentials.setPassword(password);
         return credentials;
@@ -104,9 +104,9 @@ class Color: public QObject
     QML_ELEMENT
     QML_SINGLETON
 public:
-    Q_INVOKABLE QtOpenAPI::QtOAIColor create(const QJsonObject &json)
+    Q_INVOKABLE QtOpenAPI::Color create(const QJsonObject &json)
     {
-        QtOpenAPI::QtOAIColor color;
+        QtOpenAPI::Color color;
         color.fromJsonObject(json);
         return color;
     }

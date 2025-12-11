@@ -25,7 +25,6 @@ import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETT
 
 public abstract class CppQt6AbstractCodegen extends AbstractCppCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(CppQt6AbstractCodegen.class);
-    protected final String PREFIX = "QtOAI";
     protected String apiVersion = "1.0.0";
     protected static final String CPP_NAMESPACE = "cppNamespace";
     protected static final String CPP_NAMESPACE_DESC = "C++ namespace (convention: name::space::for::api).";
@@ -59,10 +58,6 @@ public abstract class CppQt6AbstractCodegen extends AbstractCppCodegen implement
                 )
         );
 
-        // set modelNamePrefix as default for QHttpEngine Server
-        if (StringUtils.isEmpty(modelNamePrefix)) {
-            modelNamePrefix = PREFIX;
-        }
         // CLI options
         addOption(CPP_NAMESPACE, CPP_NAMESPACE_DESC, this.cppNamespace);
         addOption(CodegenConstants.MODEL_NAME_PREFIX, CodegenConstants.MODEL_NAME_PREFIX_DESC, this.modelNamePrefix);
@@ -73,7 +68,6 @@ public abstract class CppQt6AbstractCodegen extends AbstractCppCodegen implement
          * are available in models, apis, and supporting files
          */
         additionalProperties.put("apiVersion", apiVersion);
-        additionalProperties().put("prefix", PREFIX);
 
         // Write defaults namespace in properties so that it can be accessible in templates.
         // At this point command line has not been parsed so if value is given
@@ -112,7 +106,6 @@ public abstract class CppQt6AbstractCodegen extends AbstractCppCodegen implement
         typeMapping.put("array", "QList");
         typeMapping.put("map", "QMap");
         typeMapping.put("set", "QSet");
-        typeMapping.put("object", PREFIX + "Object");
         // mapped as "file" type for OAS 3.0
         typeMapping.put("ByteArray", "QByteArray");
         //   UUID support - possible enhancement : use QUuid instead of QString.
@@ -147,8 +140,7 @@ public abstract class CppQt6AbstractCodegen extends AbstractCppCodegen implement
         additionalProperties.put("cppNamespaceDeclarations", cppNamespace.split("\\::"));
         if (additionalProperties.containsKey("modelNamePrefix")) {
             modelNamePrefix = (String) additionalProperties.get("modelNamePrefix");
-            typeMapping.put("object", modelNamePrefix + "Object");
-            additionalProperties().put("prefix", modelNamePrefix);
+            additionalProperties().put("modelNamePrefix", modelNamePrefix);
         }
         if (additionalProperties.containsKey(CONTENT_COMPRESSION_ENABLED)) {
             setContentCompressionEnabled(convertPropertyToBooleanAndWriteBack(CONTENT_COMPRESSION_ENABLED));

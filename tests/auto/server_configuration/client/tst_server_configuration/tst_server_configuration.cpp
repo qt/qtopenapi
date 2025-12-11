@@ -1,7 +1,7 @@
 // Copyright (C) 2025 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "../client/QtOAITestApi.h"
+#include "../client/TestApi.h"
 
 #include <QtCore/qobject.h>
 #include <QtCore/qprocess.h>
@@ -21,7 +21,7 @@ static QJsonValue getJsonValue(const QString &summary, const QString &key = "sta
     return QJsonValue();
 }
 
-class tst_ServerConfiguration : public QtOAITestApi {
+class tst_ServerConfiguration : public TestApi {
     Q_OBJECT
 
 private Q_SLOTS:
@@ -81,9 +81,9 @@ void tst_ServerConfiguration::substituteEnumVariable()
     // If the value is not in the enum, the variable simply won't be changed.
     const auto error = setServerVariable(u"dummyOperation"_s, 0, u"basePath"_s, basePath);
     if (expectSuccess)
-        QCOMPARE_EQ(error, QtOAITestApi::ServerError::NoError);
+        QCOMPARE_EQ(error, TestApi::ServerError::NoError);
     else
-        QCOMPARE_EQ(error, QtOAITestApi::ServerError::EnumValueNotFound);
+        QCOMPARE_EQ(error, TestApi::ServerError::EnumValueNotFound);
 
     if (expectSuccess) {
         bool done = false;
@@ -113,12 +113,12 @@ void tst_ServerConfiguration::substituteNormalVariable()
 
     // First, set basePath to "v1" to have a consistent result
     QCOMPARE_EQ(setServerVariable(u"dummyOperation"_s, 0, u"basePath"_s, u"v1"_s),
-                QtOAITestApi::ServerError::NoError);
+                TestApi::ServerError::NoError);
 
     // Now set the port. Since the variable does not have an enum in its
     // definition, any value should be accepted.
     QCOMPARE_EQ(setServerVariable(u"dummyOperation"_s, 0, u"port"_s, port),
-                QtOAITestApi::ServerError::NoError);
+                TestApi::ServerError::NoError);
 
     // Then if the port is correct, the operation executes successfully.
     // Otherwise we fail to connect to the server.
@@ -184,55 +184,55 @@ void tst_ServerConfiguration::serverVariableErrorCases()
 {
     // setting a variable for an unknown operations
     QCOMPARE_EQ(setServerVariable(u"unknown"_s, 0, u"basePath"_s, u"v1"_s),
-                QtOAITestApi::ServerError::OperationNotFound);
+                TestApi::ServerError::OperationNotFound);
 
     // setting a variable for an incorrect server index (dummyOperation only
     // has a signle server)
     QCOMPARE_EQ(setServerVariable(u"dummyOperation"_s, 1, u"basePath"_s, u"v1"_s),
-                QtOAITestApi::ServerError::ServerIndexNotFound);
+                TestApi::ServerError::ServerIndexNotFound);
     // and also testing negative index
     QCOMPARE_EQ(setServerVariable(u"dummyOperation"_s, -1, u"basePath"_s, u"v1"_s),
-                QtOAITestApi::ServerError::ServerIndexNotFound);
+                TestApi::ServerError::ServerIndexNotFound);
 
     // using an incorrect variable name
     QCOMPARE_EQ(setServerVariable(u"dummyOperation"_s, 0, u"unknown"_s, u"v1"_s),
-                QtOAITestApi::ServerError::ServerVariableNotFound);
+                TestApi::ServerError::ServerVariableNotFound);
 
     // setting an incorrect enum value
     QCOMPARE_EQ(setServerVariable(u"dummyOperation"_s, 0, u"basePath"_s, u"invalid"_s),
-                QtOAITestApi::ServerError::EnumValueNotFound);
+                TestApi::ServerError::EnumValueNotFound);
 }
 
 void tst_ServerConfiguration::serverSelection_data()
 {
     QTest::addColumn<QString>("operation");
     QTest::addColumn<qsizetype>("serverIndex");
-    QTest::addColumn<QtOAITestApi::ServerError>("expectedResult");
+    QTest::addColumn<TestApi::ServerError>("expectedResult");
 
     QTest::newRow("invalid_operation")
             << u"unknown"_s << qsizetype(0)
-            << QtOAITestApi::ServerError::OperationNotFound;
+            << TestApi::ServerError::OperationNotFound;
     QTest::newRow("too_large_index")
             << u"dummyOperation"_s << qsizetype(1)
-            << QtOAITestApi::ServerError::ServerIndexNotFound;
+            << TestApi::ServerError::ServerIndexNotFound;
     QTest::newRow("negative_index")
             << u"dummyOperation"_s << qsizetype(-1)
-            << QtOAITestApi::ServerError::ServerIndexNotFound;
+            << TestApi::ServerError::ServerIndexNotFound;
     QTest::newRow("valid_update")
             << u"customServersGet"_s << qsizetype(1)
-            << QtOAITestApi::ServerError::NoError;
+            << TestApi::ServerError::NoError;
 }
 
 void tst_ServerConfiguration::serverSelection()
 {
     QFETCH(const QString, operation);
     QFETCH(const qsizetype, serverIndex);
-    QFETCH(const QtOAITestApi::ServerError, expectedResult);
+    QFETCH(const TestApi::ServerError, expectedResult);
 
     const std::optional<qsizetype> prevServerIndex = activeServer(operation);
 
     QCOMPARE_EQ(setServer(operation, serverIndex), expectedResult);
-    if (expectedResult == QtOAITestApi::ServerError::NoError) {
+    if (expectedResult == TestApi::ServerError::NoError) {
         // verify that the server index has changed in case of success
         QCOMPARE_EQ(*activeServer(operation), serverIndex);
     } else {
