@@ -1,7 +1,7 @@
 // Copyright (C) 2025 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "QtOAITestApi.h"
+#include "TestApi.h"
 
 #include <QtCore/qobject.h>
 #include <QtTest/qtest.h>
@@ -11,7 +11,7 @@ using namespace QtCommonOpenAPI;
 
 namespace QtOpenAPI {
 
-class tst_Compression : public QtOAITestApi {
+class tst_Compression : public TestApi {
     Q_OBJECT
 
 private Q_SLOTS:

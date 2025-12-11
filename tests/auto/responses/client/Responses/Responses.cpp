@@ -1,7 +1,7 @@
 // Copyright (C) 2025 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "../client/QtOAITestApi.h"
+#include "../client/TestApi.h"
 
 #include <QtCore/qobject.h>
 #include <QtCore/QProcess>
@@ -67,7 +67,7 @@ static QByteArray readFile(const QString &filename)
     return fileContent;
 }
 
-class Responses : public QtOAITestApi {
+class Responses : public TestApi {
     Q_OBJECT
 
 private Q_SLOTS:
@@ -97,7 +97,7 @@ void Responses::jsonResponse() {
     });
     QTRY_COMPARE_EQ(done, true);
 
-    QtOAIUser user1, user2;
+    User user1, user2;
     user1.setName("user1");
     user1.setId(1);
     user2.setName("user2");
@@ -105,7 +105,7 @@ void Responses::jsonResponse() {
 
     done = false;
     applicationJsonArrayResponse(this, [&](const QRestReply &reply,
-                                           const QList<QtOAIUser> &summary) {
+                                           const QList<User> &summary) {
         if (!(done = reply.isSuccess())) {
             qWarning() << "Error happened while issuing request : " << reply.error()
                        << reply.errorString();
@@ -119,7 +119,7 @@ void Responses::jsonResponse() {
 
     done = false;
     applicationJsonMapResponse(this, [&](const QRestReply &reply,
-                                           const QMap<QString, QtOAIUser> &summary) {
+                                           const QMap<QString, User> &summary) {
         if (!(done = reply.isSuccess())) {
             qWarning() << "Error happened while issuing request : " << reply.error()
                        << reply.errorString();
@@ -135,7 +135,7 @@ void Responses::jsonResponse() {
     done = false;
     applicationJsonEncodedObjectResponse(
         this, [&](const QRestReply &reply,
-                  const QtOAIApplicationJsonEncodedObjectResponse_200_response &summary) {
+                  const ApplicationJsonEncodedObjectResponse_200_response &summary) {
         if (!(done = reply.isSuccess())) {
             qWarning() << "Error happened while issuing request : " << reply.error()
                        << reply.errorString();

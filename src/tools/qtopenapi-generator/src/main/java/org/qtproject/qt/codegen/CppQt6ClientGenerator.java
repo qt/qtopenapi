@@ -55,7 +55,7 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
             this.value = value;
         }
     }
-    protected String namePrefix = PREFIX;
+    protected String namePrefix;
     public static final String USE_CMAKE_FUNCTION = "useCmakeMacro";
     public static final String USE_CMAKE_FUNCTION_DESC
             = "The 'qt6_add_openapi_client' function uses the option for CombinedModelsAndAPIs.cpp file generation";
@@ -200,6 +200,7 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
          * are available in models, apis, and supporting files
          */
         additionalProperties.put("apiVersion", apiVersion);
+        additionalProperties.put("prefix", namePrefix);
         additionalProperties.put("camelcase", new CamelCaseAndSanitizeLambda(false).generator(this));
         additionalProperties.put("cppCommonNamespace", cppCommonNamespace);
     }
@@ -274,9 +275,11 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
         // common library generation.
         additionalProperties.put(USE_COMMON_LIBRARY,
                                  commonLibrary.equals(GENERATION_TYPE.COMMON_LIB.value));
+
+        if (additionalProperties.containsKey("prefix")) {
+            namePrefix = additionalProperties.get("prefix").toString();
+        }
         supportingFiles.clear();
-        namePrefix = additionalProperties.containsKey("modelNamePrefix")
-                ? modelNamePrefix : PREFIX;
         supportingFiles.add(new SupportingFile("README.mustache",
                 sourceFolder, "README.md"));
         supportingFiles.add(new SupportingFile("CMakeConfig.mustache",
@@ -289,6 +292,7 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
                 sourceFolder, packageName + "Exports.h"));
         supportingFiles.add(new SupportingFile("doc/Doxyfile.in.mustache",
                 sourceFolder, "doc/Doxyfile.in"));
+        typeMapping.put("object", namePrefix + "Object");
         typeMapping.put("file", namePrefix + "HttpFileElement");
         importMapping.put(namePrefix + "HttpFileElement", "#include \""
                 + namePrefix + "HttpFileElement.h\"");

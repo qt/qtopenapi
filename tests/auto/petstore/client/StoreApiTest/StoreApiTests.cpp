@@ -1,7 +1,7 @@
 // Copyright (C) 2025 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "../client/QtOAIStoreApi.h"
+#include "../client/StoreApi.h"
 
 #include <QtCore/qdebug.h>
 #include <QtCore/QProcess>
@@ -43,16 +43,16 @@ private Q_SLOTS:
 };
 
 void StoreApiTests::placeOrderTest() {
-    QtOAIStoreApi api;
+    StoreApi api;
     bool orderPlaced = false;
-    QtOAIOrder order;
+    Order order;
     order.setId(500);
     order.setQuantity(10);
     order.setPetId(10000);
     order.setComplete(false);
     order.setStatus("shipping");
     order.setShipDate(QDateTime::currentDateTimeUtc());
-    api.placeOrder(order, this, [&](const QRestReply &reply, const QtOAIOrder &respval) {
+    api.placeOrder(order, this, [&](const QRestReply &reply, const Order &respval) {
         if ((orderPlaced = reply.isSuccess())) {
             QCOMPARE(respval.getShipDate(), TestDate);
         } else {
@@ -63,10 +63,10 @@ void StoreApiTests::placeOrderTest() {
 }
 
 void StoreApiTests::getOrderByIdTest() {
-    QtOAIStoreApi api;
+    StoreApi api;
     api.setApiKey("api_key_2","testKey");
     bool orderFetched = false;
-    api.getOrderById(500, nullptr, [&](const QRestReply &reply, const QtOAIOrder &respval) {
+    api.getOrderById(500, nullptr, [&](const QRestReply &reply, const Order &respval) {
         if ((orderFetched = reply.isSuccess())) {
             QVERIFY(respval.getPetId() == 10000);
             QVERIFY(respval.getId() == 500);
@@ -78,7 +78,7 @@ void StoreApiTests::getOrderByIdTest() {
 }
 
 void StoreApiTests::getInventoryTest() {
-    QtOAIStoreApi api;
+    StoreApi api;
     api.setApiKey("api_key","special-key");
     bool inventoryFetched = false;
     api.getInventory(this, [&](const QRestReply &reply, const QMap<QString, qint32> &respval) {
@@ -96,16 +96,16 @@ void StoreApiTests::getInventoryTest() {
 
 void StoreApiTests::deleteOrderTest()
 {
-    QtOAIStoreApi api;
+    StoreApi api;
     bool orderPlaced = false;
-    QtOAIOrder order;
+    Order order;
     order.setId(600);
     order.setQuantity(10);
     order.setPetId(20000);
     order.setComplete(false);
     order.setStatus("shipping");
     order.setShipDate(QDateTime::currentDateTimeUtc());
-    api.placeOrder(order, this, [&](const QRestReply &reply, const QtOAIOrder &respval) {
+    api.placeOrder(order, this, [&](const QRestReply &reply, const Order &respval) {
         if ((orderPlaced = reply.isSuccess())) {
             QCOMPARE(respval.getShipDate(), TestDate);
         } else {
@@ -135,7 +135,7 @@ void StoreApiTests::deleteOrderTest()
 
 void StoreApiTests::timeoutTest()
 {
-    QtOAIOrder order;
+    Order order;
     order.setId(600);
     order.setQuantity(10);
     order.setPetId(20000);
@@ -143,7 +143,7 @@ void StoreApiTests::timeoutTest()
     order.setStatus("shipping");
     order.setShipDate(QDateTime::currentDateTimeUtc());
 
-    QtOAIStoreApi api;
+    StoreApi api;
     bool orderPlaced = false;
     api.placeOrder(order, this, [&](const QRestReply &summary) {
         orderPlaced = summary.isSuccess();

@@ -1,7 +1,7 @@
 // Copyright (C) 2025 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "../client/QtOAIFakeApi.h"
+#include "../client/FakeApi.h"
 
 #include <QtCore/qobject.h>
 #include <QtCore/QProcess>
@@ -34,7 +34,7 @@ QString getStatusString(const QString &summary)
     return QString();
 }
 
-class OperationParametersBackport : public QtOAIFakeApi {
+class OperationParametersBackport : public FakeApi {
     Q_OBJECT
 
 private Q_SLOTS:
