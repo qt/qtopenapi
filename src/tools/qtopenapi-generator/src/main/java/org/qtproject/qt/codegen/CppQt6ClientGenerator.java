@@ -338,8 +338,10 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
                     commonLibrarySourceFolder, lowerPackageName + "commonexports.h"));
             supportingFiles.add(new SupportingFile("common/serverconfiguration.mustache",
                     commonLibrarySourceFolder, lowerCasePrefix + "serverconfiguration.h"));
-            supportingFiles.add(new SupportingFile("common/servervariable.mustache",
+            supportingFiles.add(new SupportingFile("common/servervariable.h.mustache",
                     commonLibrarySourceFolder, lowerCasePrefix + "servervariable.h"));
+            supportingFiles.add(new SupportingFile("common/servervariable.cpp.mustache",
+                    commonLibrarySourceFolder, lowerCasePrefix + "servervariable.cpp"));
             supportingFiles.add(new SupportingFile("common/CMakeConfig.mustache",
                     commonLibrarySourceFolder, "config.cmake.in"));
             if (!this.useCmakeMacro) {
