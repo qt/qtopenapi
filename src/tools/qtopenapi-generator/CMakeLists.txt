@@ -24,12 +24,12 @@ set(source_files
     src/main/resources/cpp-qt6-client/api-header.mustache
     src/main/resources/cpp-qt6-client/common/CMakeConfig.mustache
     src/main/resources/cpp-qt6-client/common/CMakeLists.txt.mustache
-    src/main/resources/cpp-qt6-client/common/HttpFileElement.cpp.mustache
-    src/main/resources/cpp-qt6-client/common/HttpFileElement.h.mustache
-    src/main/resources/cpp-qt6-client/common/HttpRequest.cpp.mustache
-    src/main/resources/cpp-qt6-client/common/HttpRequest.h.mustache
-    src/main/resources/cpp-qt6-client/common/ServerConfiguration.mustache
-    src/main/resources/cpp-qt6-client/common/ServerVariable.mustache
+    src/main/resources/cpp-qt6-client/common/httpfileelement.cpp.mustache
+    src/main/resources/cpp-qt6-client/common/httpfileelement.h.mustache
+    src/main/resources/cpp-qt6-client/common/httprequest.cpp.mustache
+    src/main/resources/cpp-qt6-client/common/httprequest.h.mustache
+    src/main/resources/cpp-qt6-client/common/serverconfiguration.mustache
+    src/main/resources/cpp-qt6-client/common/servervariable.mustache
     src/main/resources/cpp-qt6-client/common/api-base-body.mustache
     src/main/resources/cpp-qt6-client/common/api-base-header.mustache
     src/main/resources/cpp-qt6-client/common/common-exports.mustache

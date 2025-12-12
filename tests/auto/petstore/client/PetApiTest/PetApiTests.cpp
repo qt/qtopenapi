@@ -1,9 +1,9 @@
 // Copyright (C) 2025 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "../client/PetApi.h"
-#include "../client/StoreApi.h"
-#include "../client/UserApi.h"
+#include "../client/petapi.h"
+#include "../client/storeapi.h"
+#include "../client/userapi.h"
 
 #include <QtCore/qobject.h>
 #include <QtCore/QProcess>

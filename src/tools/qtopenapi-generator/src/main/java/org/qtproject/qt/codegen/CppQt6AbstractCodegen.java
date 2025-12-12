@@ -167,7 +167,7 @@ public abstract class CppQt6AbstractCodegen extends AbstractCppCodegen implement
         if (!folder.isEmpty())
             folder += File.separator;
 
-        return "#include \"" + folder + name + ".h\"";
+        return "#include \"" + folder + name.toLowerCase() + ".h\"";
     }
 
     /**
@@ -236,7 +236,7 @@ public abstract class CppQt6AbstractCodegen extends AbstractCppCodegen implement
 
     @Override
     public String toModelFilename(String name) {
-        return toModelName(name);
+        return toModelName(name).toLowerCase();
     }
 
     /**

@@ -8,10 +8,10 @@
 #include <QtQml/qjsengine.h>
 #include <QtQml/qqml.h>
 
-#include "Color.h"
-#include "ColorsApi.h"
-#include "Credentials.h"
-#include "UsersApi.h"
+#include "color.h"
+#include "colorsapi.h"
+#include "credentials.h"
+#include "usersapi.h"
 
 struct ForeignColorsAPI
 {
