@@ -408,7 +408,7 @@ void PetApiTests::uploadPetFileTest()
         qDebug() << "Error happened while issuing request : " << errorStr;
     });
 
-    QtOAIHttpFileElement fileElement(":/file-for-uploading.txt"_L1);
+    QOAIHttpFileElement fileElement(":/file-for-uploading.txt"_L1);
     fileElement.setVariableName("Variable=100"_L1);
     fileElement.setMimeType("txt"_L1);
 
@@ -518,7 +518,7 @@ void PetApiTests::getFilesFromServerTest()
      // get pet json info file
     bool petFileDownloaded = false;
     connect(&api, &PetApi::getJsonFileFinished,
-            this, [&](const QtOAIHttpFileElement &summary) {
+            this, [&](const QOAIHttpFileElement &summary) {
         petFileDownloaded = true;
                 QCOMPARE("response.json", summary.requestFilename());
         QJsonObject fileContent = summary.asJsonValue().toObject();

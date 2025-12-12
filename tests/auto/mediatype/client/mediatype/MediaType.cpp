@@ -321,8 +321,8 @@ void MediaType::testOctetStream()
     bool done = false;
     // We can send text file as a binary file,
     // parse it on server side, check the file content and send the string back.
-    QtOAIHttpFileElement file(":/file-for-uploading.txt"_L1);
-    binaryType(::QtOpenAPI::OptionalParam<QtOAIHttpFileElement>(file), this,
+    QOAIHttpFileElement file(":/file-for-uploading.txt"_L1);
+    binaryType(::QtOpenAPI::OptionalParam<QOAIHttpFileElement>(file), this,
                [&](const QRestReply &reply, const QString &summary) {
         if (!(done = reply.isSuccess()))
             qWarning() << "ERROR: " << reply.errorString() << reply.error();
@@ -335,8 +335,8 @@ void MediaType::testOctetStream()
     // png is from qtbase auto-tests
     done = false;
     QImage imgFromFile(":/usericon.png");
-    QtOAIHttpFileElement icon(":/usericon.png"_L1);
-    binaryType(::QtOpenAPI::OptionalParam<QtOAIHttpFileElement>(icon), this,
+    QOAIHttpFileElement icon(":/usericon.png"_L1);
+    binaryType(::QtOpenAPI::OptionalParam<QOAIHttpFileElement>(icon), this,
                [&](const QRestReply &reply, const QString &summary) {
         if (!(done = reply.isSuccess()))
             qWarning() << "ERROR: " << reply.errorString() << reply.error();
@@ -349,7 +349,7 @@ void MediaType::testOctetStream()
 
     // EMPTY requestContent, but header still needs to be sent.
     done = false;
-    binaryType(::QtOpenAPI::OptionalParam<QtOAIHttpFileElement>(), this,
+    binaryType(::QtOpenAPI::OptionalParam<QOAIHttpFileElement>(), this,
                [&](const QRestReply &reply, const QString &summary) {
                    if (!(done = reply.isSuccess()))
                        qWarning() << "ERROR: " << reply.errorString() << reply.error();
@@ -518,7 +518,7 @@ void MediaType::testFormMediaTypes()
     QMap<QString, User> map;
     map.insert("TEXT", user1);
 
-    QtOAIHttpFileElement formFile(":/file-for-uploading.txt");
+    QOAIHttpFileElement formFile(":/file-for-uploading.txt");
 
     // 'formId'           - has a string type with uuid format, so it's being treated as 'plain/text'.
     //                      However we set custom `application/json` for this parameter in yaml file.
@@ -532,7 +532,7 @@ void MediaType::testFormMediaTypes()
     postMultiPartData(QString("\"f81d4fae-7dec-11d0-a765-00a0c91e6bf6\""), // json string
                       multiList,
                       ::QtOpenAPI::OptionalParam<qint32>(100),
-                      ::QtOpenAPI::OptionalParam<QtOAIHttpFileElement>(formFile),
+                      ::QtOpenAPI::OptionalParam<QOAIHttpFileElement>(formFile),
                       ::QtOpenAPI::OptionalParam<PostMultiPartData_request_formObject>(object),
                       ::QtOpenAPI::OptionalParam<QMap<QString, User>>(map),
                       this, [&](const QRestReply &reply, const QString &summary){
@@ -554,7 +554,7 @@ void MediaType::testFormMediaTypes()
     postMultiPartData(QString("\"\""), // json string
                       QList<User>(),
                       ::QtOpenAPI::OptionalParam<qint32>(),
-                      ::QtOpenAPI::OptionalParam<QtOAIHttpFileElement>(),
+                      ::QtOpenAPI::OptionalParam<QOAIHttpFileElement>(),
                       ::QtOpenAPI::OptionalParam<PostMultiPartData_request_formObject>(),
                       ::QtOpenAPI::OptionalParam<QMap<QString, User>>(),
                       this, [&](const QRestReply &reply, const QString &summary) {

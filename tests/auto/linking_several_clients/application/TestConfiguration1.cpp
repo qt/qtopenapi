@@ -42,8 +42,8 @@ namespace QtOpenAPI {
  * It means the Qt6 OpenAPI generator generates the following library:
  * - TestClient2 library
  *
- * For receiving access to common resources, like QtOAIBaseApi
- * or QtOAIHttpRequestInput classes, the TestClient2 library
+ * For receiving access to common resources, like QOAIBaseApi
+ * or QOAIHttpRequestInput classes, the TestClient2 library
  * links to the TestCommon library.
  *
  * See in the CMakeLists.txt:
@@ -71,7 +71,7 @@ void TestConfiguration1::testLibraries()
 {
     Client1TestApi api1;
     Client2TestApi api2;
-    QtOAIHttpFileElement object("NoName.txt");
+    QOAIHttpFileElement object("NoName.txt");
     bool done = true;
 
     api1.simpleExplodeString("Test String"_L1, this,
