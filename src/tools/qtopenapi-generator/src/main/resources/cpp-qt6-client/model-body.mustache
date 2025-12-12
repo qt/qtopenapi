@@ -1,6 +1,6 @@
 {{>licenseInfo}}{{#models}}{{#model}}
-#include "{{classname}}.h"
-#include "{{prefix}}Helpers.h"
+#include "{{#lambda.lowercase}}{{{classname}}}{{/lambda.lowercase}}.h"
+#include "{{prefixLowerCase}}helpers.h"
 
 using namespace Qt::StringLiterals;
 {{#cppCommonNamespaceDeclarations}}

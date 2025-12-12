@@ -8,12 +8,12 @@
 #ifndef {{classname}}_H
 #define {{classname}}_H
 
-#include "{{packageName}}Exports.h"
+#include "{{packageNameLowerCase}}exports.h"
 {{#isEnum}}
-#include "{{prefix}}Enum.h"
+#include "{{prefixLowerCase}}enum.h"
 {{/isEnum}}
 {{^isEnum}}
-#include "{{prefix}}Object.h"
+#include "{{prefixLowerCase}}object.h"
 {{/isEnum}}
 {{#enableQmlCode}}
 #include <QtQmlIntegration/qqmlintegration.h>

@@ -55,7 +55,7 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
             this.value = value;
         }
     }
-    protected String namePrefix;
+    protected String namePrefix = "";
     public static final String USE_CMAKE_FUNCTION = "useCmakeMacro";
     public static final String USE_CMAKE_FUNCTION_DESC
             = "The 'qt6_add_openapi_client' function uses the option for CombinedModelsAndAPIs.cpp file generation";
@@ -256,6 +256,8 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
         }
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
+        final String lowerPackageName = packageName.toLowerCase();
+        additionalProperties.put("packageNameLowerCase", lowerPackageName);
         additionalProperties.put("packageNameUpperCase", packageName.toUpperCase());
         if (additionalProperties.containsKey(COMMON_LIB_OPTION)
                 && !additionalProperties.get(COMMON_LIB_OPTION).toString().isEmpty()) {
@@ -276,26 +278,29 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
         additionalProperties.put(USE_COMMON_LIBRARY,
                                  commonLibrary.equals(GENERATION_TYPE.COMMON_LIB.value));
 
+        String lowerCasePrefix = "";
         if (additionalProperties.containsKey("prefix")) {
             namePrefix = additionalProperties.get("prefix").toString();
+            lowerCasePrefix = namePrefix.toLowerCase();
+            additionalProperties.put("prefixLowerCase", lowerCasePrefix);
         }
         supportingFiles.clear();
         supportingFiles.add(new SupportingFile("README.mustache",
                 sourceFolder, "README.md"));
         supportingFiles.add(new SupportingFile("CMakeConfig.mustache",
-                sourceFolder, "Config.cmake.in"));
+                sourceFolder, "config.cmake.in"));
         if (!this.useCmakeMacro) {
             supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache",
                     sourceFolder, "CMakeLists.txt"));
         }
         supportingFiles.add(new SupportingFile("exports.mustache",
-                sourceFolder, packageName + "Exports.h"));
+                sourceFolder, lowerPackageName + "exports.h"));
         supportingFiles.add(new SupportingFile("doc/Doxyfile.in.mustache",
                 sourceFolder, "doc/Doxyfile.in"));
         typeMapping.put("object", namePrefix + "Object");
         typeMapping.put("file", namePrefix + "HttpFileElement");
         importMapping.put(namePrefix + "HttpFileElement", "#include \""
-                + namePrefix + "HttpFileElement.h\"");
+                + lowerCasePrefix + "httpfileelement.h\"");
 
         if (commonLibrary.equals(GENERATION_TYPE.CLIENT_LIB.value)) {
             LOGGER.info("Skipping ./common/* templates generation. 'Skip-Common-Files' is ON.");
@@ -306,37 +311,37 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
                 apiTemplateFiles.clear();
             }
             supportingFiles.add(new SupportingFile("common/api-base-header.mustache",
-                    commonLibrarySourceFolder, namePrefix + "BaseApi.h"));
+                    commonLibrarySourceFolder, lowerCasePrefix + "baseapi.h"));
             supportingFiles.add(new SupportingFile("common/api-base-body.mustache",
-                    commonLibrarySourceFolder, namePrefix + "BaseApi.cpp"));
+                    commonLibrarySourceFolder, lowerCasePrefix + "baseapi.cpp"));
             supportingFiles.add(new SupportingFile("common/helpers-header.mustache",
-                    commonLibrarySourceFolder, namePrefix + "Helpers.h"));
+                    commonLibrarySourceFolder, lowerCasePrefix + "helpers.h"));
             supportingFiles.add(new SupportingFile("common/helpers-body.mustache",
-                    commonLibrarySourceFolder, namePrefix + "Helpers.cpp"));
-            supportingFiles.add(new SupportingFile("common/HttpRequest.h.mustache",
-                    commonLibrarySourceFolder, namePrefix + "HttpRequest.h"));
-            supportingFiles.add(new SupportingFile("common/HttpRequest.cpp.mustache",
-                    commonLibrarySourceFolder, namePrefix + "HttpRequest.cpp"));
-            supportingFiles.add(new SupportingFile("common/HttpFileElement.h.mustache",
-                    commonLibrarySourceFolder, namePrefix + "HttpFileElement.h"));
-            supportingFiles.add(new SupportingFile("common/HttpFileElement.cpp.mustache",
-                    commonLibrarySourceFolder, namePrefix + "HttpFileElement.cpp"));
+                    commonLibrarySourceFolder, lowerCasePrefix + "helpers.cpp"));
+            supportingFiles.add(new SupportingFile("common/httprequest.h.mustache",
+                    commonLibrarySourceFolder, lowerCasePrefix + "httprequest.h"));
+            supportingFiles.add(new SupportingFile("common/httprequest.cpp.mustache",
+                    commonLibrarySourceFolder, lowerCasePrefix + "httprequest.cpp"));
+            supportingFiles.add(new SupportingFile("common/httpfileelement.h.mustache",
+                    commonLibrarySourceFolder, lowerCasePrefix + "httpfileelement.h"));
+            supportingFiles.add(new SupportingFile("common/httpfileelement.cpp.mustache",
+                    commonLibrarySourceFolder, lowerCasePrefix + "httpfileelement.cpp"));
             supportingFiles.add(new SupportingFile("common/object-header.mustache",
-                    commonLibrarySourceFolder, namePrefix + "Object.h"));
+                    commonLibrarySourceFolder, lowerCasePrefix + "object.h"));
                     supportingFiles.add(new SupportingFile("common/object-body.mustache",
-                    commonLibrarySourceFolder, namePrefix + "Object.cpp"));
+                    commonLibrarySourceFolder, lowerCasePrefix + "object.cpp"));
             supportingFiles.add(new SupportingFile("common/enum-header.mustache",
-                    commonLibrarySourceFolder, namePrefix + "Enum.h"));
+                    commonLibrarySourceFolder, lowerCasePrefix + "enum.h"));
                     supportingFiles.add(new SupportingFile("common/enum-body.mustache",
-                    commonLibrarySourceFolder, namePrefix + "Enum.cpp"));
+                    commonLibrarySourceFolder, lowerCasePrefix + "enum.cpp"));
             supportingFiles.add(new SupportingFile("common/common-exports.mustache",
-                    commonLibrarySourceFolder, packageName + "CommonExports.h"));
-            supportingFiles.add(new SupportingFile("common/ServerConfiguration.mustache",
-                    commonLibrarySourceFolder, namePrefix + "ServerConfiguration.h"));
-            supportingFiles.add(new SupportingFile("common/ServerVariable.mustache",
-                    commonLibrarySourceFolder, namePrefix + "ServerVariable.h"));
+                    commonLibrarySourceFolder, lowerPackageName + "commonexports.h"));
+            supportingFiles.add(new SupportingFile("common/serverconfiguration.mustache",
+                    commonLibrarySourceFolder, lowerCasePrefix + "serverconfiguration.h"));
+            supportingFiles.add(new SupportingFile("common/servervariable.mustache",
+                    commonLibrarySourceFolder, lowerCasePrefix + "servervariable.h"));
             supportingFiles.add(new SupportingFile("common/CMakeConfig.mustache",
-                    commonLibrarySourceFolder, "Config.cmake.in"));
+                    commonLibrarySourceFolder, "config.cmake.in"));
             if (!this.useCmakeMacro) {
                 supportingFiles.add(new SupportingFile("common/CMakeLists.txt.mustache",
                         commonLibrarySourceFolder, "CMakeLists.txt"));
@@ -398,7 +403,8 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
 
     @Override
     public String toApiFilename(String name) {
-        return modelNamePrefix + sanitizeName(camelize(name)) + "Api";
+        final String apiFile = modelNamePrefix + sanitizeName(name) + "Api";
+        return apiFile.toLowerCase();
     }
 
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
@@ -418,18 +424,20 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
         // The macro always enables the option. Users don't need to do it manually.
         // By default, the option is OFF.
         if (this.useCmakeMacro && commonLibrary.equals(GENERATION_TYPE.CLIENT_LIB.value)) {
+            final String lowerPackageName = packageName.toLowerCase();
             List<Path> apiClassFiles = new ArrayList<>();
             String apiDir = apiPackage.replace('.', File.separatorChar);
             ApiInfoMap apiInfo = (ApiInfoMap) objs.get("apiInfo");
             for (OperationsMap api : apiInfo.getApis()) {
                 OperationMap opsApi = api.getOperations();
+                final String apiFileName = opsApi.getClassname().toLowerCase();
                 Path headerPath = Paths.get(outputFolder, apiDir,
                         sourceFolder
-                                + File.separator + opsApi.getClassname() + ".h");
+                                + File.separator + apiFileName + ".h");
                 Path cppPath = Paths.get(outputFolder,
                         apiDir,
                         sourceFolder + File.separator
-                                + opsApi.getClassname() + ".cpp");
+                                + apiFileName + ".cpp");
                 apiClassFiles.add(headerPath);
                 apiClassFiles.add(cppPath);
             }
@@ -442,15 +450,16 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
             List<Path> modelHeaderFilePaths = new ArrayList<>();
             Path combinedFile = Paths.get(outputFolder,
                     sourceFolder
-                            + File.separator + packageName + "CombinedModelsAndAPIs.cpp");
+                            + File.separator + lowerPackageName + "combinedmodelsandapis.cpp");
             String modelDir = modelPackage.replace('.', File.separatorChar);
 
             for (CodegenModel codeMod : codegenModelList) {
+                final String modelFileName = codeMod.getClassFilename().toLowerCase();
                 Path headerPath = Paths.get(outputFolder,
                         modelDir, sourceFolder + File.separator
-                                + codeMod.getClassFilename() + ".h");
+                                + modelFileName + ".h");
                 Path cppPath = Paths.get(outputFolder, modelDir, sourceFolder
-                        + File.separator + codeMod.getClassFilename() + ".cpp");
+                        + File.separator + modelFileName + ".cpp");
                 modelHeaderFilePaths.add(headerPath);
                 modelCppFilePaths.add(cppPath);
             }
@@ -529,11 +538,11 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
                         LOGGER.warn("Missing the generated API file: {}", path);
                     }
                 }
-                writer.write("#include \"" + packageName + "CombinedModelsAndAPIs.moc\"");
+                writer.write("#include \"" + lowerPackageName + "combinedmodelsandapis.moc\"");
                 writer.write("\n\n");
                 writer.close();
             } catch (IOException e) {
-                throw new RuntimeException("Failed to generate CombinedModelsAndAPIs.cpp file, when the option useCmakeMacro is enabled.", e);
+                throw new RuntimeException("Failed to generate combinedmodelsandapis.cpp file, when the option useCmakeMacro is enabled.", e);
             }
         }
         return objs;

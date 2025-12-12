@@ -15,20 +15,20 @@ include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
 qt_add_library(${PROJECT_NAME}
-    {{prefix}}BaseApi.h
-    {{prefix}}Helpers.h
-    {{prefix}}HttpRequest.h
-    {{prefix}}Object.h
-    {{prefix}}Enum.h
-    {{prefix}}HttpFileElement.h
-    {{prefix}}ServerConfiguration.h
-    {{prefix}}ServerVariable.h
-    {{prefix}}BaseApi.cpp
-    {{prefix}}Helpers.cpp
-    {{prefix}}HttpRequest.cpp
-    {{prefix}}Object.cpp
-    {{prefix}}Enum.cpp
-    {{prefix}}HttpFileElement.cpp
+    {{prefixLowerCase}}baseapi.h
+    {{prefixLowerCase}}helpers.h
+    {{prefixLowerCase}}httprequest.h
+    {{prefixLowerCase}}object.h
+    {{prefixLowerCase}}enum.h
+    {{prefixLowerCase}}httpfileelement.h
+    {{prefixLowerCase}}serverconfiguration.h
+    {{prefixLowerCase}}servervariable.h
+    {{prefixLowerCase}}baseapi.cpp
+    {{prefixLowerCase}}helpers.cpp
+    {{prefixLowerCase}}httprequest.cpp
+    {{prefixLowerCase}}object.cpp
+    {{prefixLowerCase}}enum.cpp
+    {{prefixLowerCase}}httpfileelement.cpp
 )
 
 target_include_directories(${PROJECT_NAME}
