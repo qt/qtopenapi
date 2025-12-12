@@ -193,4 +193,4 @@ void StoreApiTests::cleanupTestCase()
 } // QtOpenAPI
 
 QTEST_MAIN(QtOpenAPI::StoreApiTests)
-#include "StoreApiTests.moc"
+#include "tst_storeapitests.moc"

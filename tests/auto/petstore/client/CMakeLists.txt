@@ -9,7 +9,7 @@ qt6_add_openapi_client(PetStoreClient
 qt_autogen_tools_initial_setup(PetStoreClient)
 
 if(TARGET Qt::Gui)
-    add_subdirectory(PetApiTest)
+    add_subdirectory(petapitest)
 endif()
-add_subdirectory(StoreApiTest)
-add_subdirectory(UserApiTest)
+add_subdirectory(storeapitest)
+add_subdirectory(userapitest)

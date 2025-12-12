@@ -23,7 +23,7 @@ endif()
 
 qt_internal_add_test(cpp-qt-responses
     SOURCES
-        Responses.cpp
+        tst_responses.cpp
     LIBRARIES
         Qt::Core
         Qt::Network

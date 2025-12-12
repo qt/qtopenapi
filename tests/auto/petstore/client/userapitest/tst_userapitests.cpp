@@ -273,4 +273,4 @@ void UserApiTests::cleanupTestCase()
 } // QtOpenAPI
 
 QTEST_MAIN(QtOpenAPI::UserApiTests)
-#include "UserApiTests.moc"
+#include "tst_userapitests.moc"

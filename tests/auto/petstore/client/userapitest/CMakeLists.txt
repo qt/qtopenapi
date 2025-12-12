@@ -23,7 +23,7 @@ endif()
 
 qt_internal_add_test(cpp-qt-petstore-userapi
     SOURCES
-        UserApiTests.cpp
+        tst_userapitests.cpp
     LIBRARIES
         Qt::Core
         Qt::Network

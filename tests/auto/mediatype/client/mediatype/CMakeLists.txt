@@ -23,7 +23,7 @@ endif()
 
 qt_internal_add_test(cpp-qt-mediatype
     SOURCES
-        MediaType.cpp
+        tst_mediatype.cpp
     LIBRARIES
         Qt::Core
         Qt::Gui
