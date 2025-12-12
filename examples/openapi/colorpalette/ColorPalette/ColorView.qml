@@ -36,7 +36,7 @@ Item {
     Connections {
         target: ColorsApi
 
-        function onGetColorsFinished(summary) { // summary is a QtOAIColorPage
+        function onGetColorsFinished(summary) {
             for (var i = 0; i < summary.getData.length; i++) {
                 colorListModel.append({
                     id: summary.getData[i].getId,
@@ -87,7 +87,7 @@ Item {
     Connections {
         target: UsersApi
 
-        function onGetUserByIdFinished(summary) { // summary is a QtOAIUser
+        function onGetUserByIdFinished(summary) {
             // Check if the user id from the response matches the currently logged-in user id:
             if (summary.getId === root.userId) {
                 root.currentUserAvatar = summary.getAvatar
@@ -102,7 +102,7 @@ Item {
             root.handleError(errorStr)
         }
 
-        function onLoginUserFinished(summary) { // summary is a QtOAIToken
+        function onLoginUserFinished(summary) {
             root.userId = summary.getId
             UsersApi.getUserById(root.userId)
 
