@@ -576,4 +576,4 @@ void MediaType::cleanupTestCase()
 } // QtOpenAPI
 
 QTEST_MAIN(QtOpenAPI::MediaType)
-#include "MediaType.moc"
+#include "tst_mediatype.moc"

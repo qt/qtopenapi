@@ -657,4 +657,4 @@ void PetApiTests::cleanupTestCase()
 } // QtOpenAPI
 
 QTEST_MAIN(QtOpenAPI::PetApiTests)
-#include "PetApiTests.moc"
+#include "tst_petapitests.moc"

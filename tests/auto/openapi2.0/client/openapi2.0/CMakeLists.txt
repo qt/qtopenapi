@@ -14,7 +14,7 @@ endif()
 
 qt_internal_add_test(cpp-qt-operations-parameters-backport
     SOURCES
-        OperationParametersBackport.cpp
+        tst_openapi2_0.cpp
     LIBRARIES
         Qt::Core
         Qt::Network

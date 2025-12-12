@@ -211,4 +211,4 @@ void Responses::cleanupTestCase()
 } // namespace QtOpenAPI
 
 QTEST_MAIN(QtOpenAPI::Responses)
-#include "Responses.moc"
+#include "tst_responses.moc"

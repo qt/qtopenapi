@@ -2343,4 +2343,4 @@ void OperationParameters::cleanupTestCase()
 } // QtOpenAPI
 
 QTEST_MAIN(QtOpenAPI::OperationParameters)
-#include "OperationParameters.moc"
+#include "tst_operationparameters.moc"

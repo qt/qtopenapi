@@ -110,4 +110,4 @@ void OperationParametersBackport::cleanupTestCase()
 } // QtOpenAPI
 
 QTEST_MAIN(QtOpenAPI::OperationParametersBackport)
-#include "OperationParametersBackport.moc"
+#include "tst_openapi2_0.moc"

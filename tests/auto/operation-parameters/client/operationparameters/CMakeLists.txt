@@ -14,7 +14,7 @@ endif()
 
 qt_internal_add_test(cpp-qt-operation-parameters
     SOURCES
-        OperationParameters.cpp
+        tst_operationparameters.cpp
     LIBRARIES
         Qt::Core
         Qt::Network
