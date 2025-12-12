@@ -34,7 +34,7 @@ Popup {
     Connections {
         target: UsersApi
 
-        function onGetUsersByPageFinished(summary) { // summary is a QtOAIUserPage
+        function onGetUsersByPageFinished(summary) {
             for (let i = 0; i < summary.getData.length; i++) {
                 usersListModel.append({
                     id: summary.getData[i].getId,
