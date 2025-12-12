@@ -21,11 +21,11 @@ private Q_SLOTS:
 
 void tst_Compression::localCompressionRoundtrip_data()
 {
-    using namespace QtOAIHttpRequestWorker;
-    QTest::addColumn<QtOAICompressionType>("compressionType");
+    using namespace QOAIHttpRequestWorker;
+    QTest::addColumn<QOAICompressionType>("compressionType");
 
-    QTest::newRow("gzip") << QtOAICompressionType::Gzip;
-    QTest::newRow("deflate") << QtOAICompressionType::Deflate;
+    QTest::newRow("gzip") << QOAICompressionType::Gzip;
+    QTest::newRow("deflate") << QOAICompressionType::Deflate;
 }
 
 void tst_Compression::localCompressionRoundtrip()
@@ -39,8 +39,8 @@ void tst_Compression::localCompressionRoundtrip()
     for (uchar c = 0; c < MaxUChar; ++c)
         originalData.append(BlockSize, c);
 
-    using namespace QtOAIHttpRequestWorker;
-    QFETCH(const QtOAICompressionType, compressionType);
+    using namespace QOAIHttpRequestWorker;
+    QFETCH(const QOAICompressionType, compressionType);
 
     const QByteArray compressed = compressData(originalData, 9, compressionType);
     QCOMPARE_LE(compressed.size(), originalData.size());

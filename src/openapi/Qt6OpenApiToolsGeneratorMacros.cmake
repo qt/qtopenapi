@@ -100,10 +100,10 @@ function(qt6_add_openapi_client target)
         set(model_and_api_name_prefix "${arg_CLIENT_PREFIX}")
     endif()
 
-    # Qt pre-generated qt common library always uses QtOAI
+    # Qt pre-generated qt common library always uses QOAI
     # prefix, for generating different common library,
     # please call the generator manually.
-    set(qt_commonlib_prefix "QtOAI")
+    set(qt_commonlib_prefix "QOAI")
     # For qt macro: either QtCommonOpenAPI or QtNameSpace::QtCommonOpenAPI
     if(qtcore_comomn_namespace)
         set(cpp_common_namespace "${qtcore_comomn_namespace}::QtCommonOpenAPI")

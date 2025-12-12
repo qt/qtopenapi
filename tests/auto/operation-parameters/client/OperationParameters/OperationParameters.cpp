@@ -614,7 +614,7 @@ void OperationParameters::pathObjectParameters_data()
                                                                << "/v2/path/object/matrix-not-explode/;objectParameter=name,TestName123,status,Maybe-Awake";
     object.setName("SoMeΣΨ");
     object.setStatus(" *+,;=!$&'()");
-    QTest::newRow("QtOAITestObject({SoMeΣΨ, ' *+,;=!$&'()'})") << object
+    QTest::newRow("QOAITestObject({SoMeΣΨ, ' *+,;=!$&'()'})") << object
                                                 << "/v2/path/object/simple-explode/name=SoMe%CE%A3%CE%A8,status=%20%2A%2B%2C%3B%3D%21%24%26%27%28%29"
                                                 << "/v2/path/object/simple-not-explode/name,SoMe%CE%A3%CE%A8,status,%20%2A%2B%2C%3B%3D%21%24%26%27%28%29"
                                                 << "/v2/path/object/label-explode/.name=SoMe%CE%A3%CE%A8.status=%20%2A%2B%2C%3B%3D%21%24%26%27%28%29"

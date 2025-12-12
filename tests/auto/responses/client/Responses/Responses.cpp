@@ -14,7 +14,7 @@ using namespace QtCommonOpenAPI;
 #define CALL_TEST_FILE_OPERATION(OPERATION, PARAM, EXPECTED_CONTENT, EXPECTED_FILENAME)         \
 {                                                                                               \
     bool done = false;                                                                          \
-    OPERATION(PARAM, this, [&](const QRestReply &reply, const QtOAIHttpFileElement &summary) {  \
+    OPERATION(PARAM, this, [&](const QRestReply &reply, const QOAIHttpFileElement &summary) {  \
         if (!(done = reply.isSuccess())) {                                                      \
             qWarning() << "Error happened while issuing request:" << reply.error()              \
                        << reply.errorString();                                                  \
