@@ -12,10 +12,16 @@
         "file_pattern_ending": ["CMakeLists.txt", ".cmake", ".pro", ".pri", ".prf",
                      "configure", "configure.bat", "cmake.in", "plist.in", "CMakeLists.txt.in",
                      ".cmake.conf", ".tag", "ci_config_linux.json", "dependencies.yaml",
-                     "coin/module_config.yaml"],
+                     "module_config.yaml", "make_openapi_generator_cli_as_debian.sh",
+                     "changelog", "control", "install", "rules", "source/format"],
         "location": {
             "": {
                 "comment": "Default",
+                "file type": "build system",
+                "spdx": ["BSD-3-Clause"]
+            },
+            "coin/": {
+                "comment": "Debian packaging rules",
                 "file type": "build system",
                 "spdx": ["BSD-3-Clause"]
             },
