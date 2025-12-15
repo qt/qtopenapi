@@ -68,7 +68,7 @@ QList<{{prefix}}ServerConfiguration> {{prefix}}BaseApi::serverConfigurations(con
     if (serverIndex < 0 || serverIndex >= configs.size())
         return ServerError::ServerIndexNotFound;
 
-    return configs[serverIndex].setDefaultValue(variable, value);
+    return configs[serverIndex].setVariableValue(variable, value);
 }
 
 {{prefix}}BaseApi::ServerError
