@@ -121,18 +121,6 @@ namespace {{prefix}}HttpRequestWorker {
     return {{prefix}}HttpFileElement();
 }
 
-QByteArray *getMultiPartField(const QMap<QString, QByteArray *> &multiPartFields, const QString &fieldname)
-{
-    if (!multiPartFields.isEmpty()) {
-        if (fieldname.isEmpty()) {
-            return multiPartFields.first();
-        } else if (multiPartFields.contains(fieldname)) {
-            return multiPartFields[fieldname];
-        }
-    }
-    return nullptr;
-}
-
 QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray &requestContent, std::shared_ptr<QNetworkRequestFactory> factory, bool responseCompressionEnabled, bool requestCompressionEnabled)
 {
     // reset variables
