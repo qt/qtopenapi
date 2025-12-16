@@ -326,15 +326,15 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{#hasFormParams}}
 {{#consumes}}
 {{#-first}}
-    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "{{{mediaType}}}"_L1);
+    input.headers().replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "{{{mediaType}}}"_L1);
 {{/-first}}
 {{/consumes}}
-    input.setFormData(true);
+    input.setIsFormData(true);
 {{#isMultipart}}
     input.setVariableLayout({{prefix}}HttpRequestInput::VariableLayout::Multipart);
 {{/isMultipart}}
 {{^isMultipart}}
-    input.setVariableLayout(input.m_httpMethod == "GET"_L1 || input.m_httpMethod == "HEAD"_L1
+    input.setVariableLayout(input.httpMethod() == "GET"_L1 || input.httpMethod() == "HEAD"_L1
                        ? {{prefix}}HttpRequestInput::VariableLayout::Address
                        : {{prefix}}HttpRequestInput::VariableLayout::UrlEncoded);
 {{/isMultipart}}
@@ -396,7 +396,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{#bodyParams}}
 {{#consumes}}
 {{#-first}}
-    input.m_headers.replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "{{{mediaType}}}"_L1);
+    input.headers().replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "{{{mediaType}}}"_L1);
 {{/-first}}
 {{/consumes}}
     {{^required}}if ({{paramName}}.hasValue()) {{/required}}{
@@ -408,7 +408,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         QJsonDocument doc(::{{cppCommonNamespace}}::toJsonValue({{paramName}}{{^required}}.value(){{/required}}).toObject());
 {{/isMap}}
         QByteArray bytes = doc.toJson(QJsonDocument::Compact);
-        input.m_requestBody.append(bytes);
+        input.setRequestBody(bytes);
 {{/isContainer}}
 {{^isContainer}}
 {{#isString}}
@@ -429,10 +429,10 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{#isFile}}
         QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.loadFromLocalFile();
 {{/isFile}}
-        input.m_requestBody.append(output);
+        input.setRequestBody(output);
 {{/isContainer}}
     }{{^required}}{{#isNullable}} else if ({{paramName}}.isNull()) {
-        input.m_requestBody.append("null");
+        input.setRequestBody("null");
     }{{/isNullable}}{{/required}}
 {{/bodyParams}}
 {{#headerParams}}
@@ -472,7 +472,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         const QString headerString = serializeArrayValue({{paramName}}{{^required}}.value(){{/required}}, opts);
 {{/isArray}}
         if (!headerString.isEmpty())
-            input.m_headers.replaceOrAppend(u"{{baseName}}"_s, headerString);
+            input.headers().replaceOrAppend(u"{{baseName}}"_s, headerString);
     }
 {{/headerParams}}
 {{#cookieParams}}
@@ -515,7 +515,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         // See https://spec.openapis.org/oas/v3.1.1.html#style-values column "undefined"
         if (cookieString.isEmpty())
             cookieString = u"{{baseName}}="_s;
-        input.m_headers.append(QHttpHeaders::WellKnownHeader::Cookie, cookieString);
+        input.headers().append(QHttpHeaders::WellKnownHeader::Cookie, cookieString);
     }
 {{/cookieParams}}
     QNetworkRequest request

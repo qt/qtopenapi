@@ -1,17 +1,24 @@
 {{>licenseInfo}}
 #include "{{prefixLowerCase}}httprequest.h"
+#include "{{prefixLowerCase}}httpfileelement.h"
 
+#include <QtCore/qbytearray.h>
 #include <QtCore/qdatetime.h>
 #include <QtCore/qdir.h>
 #include <QtCore/qfileinfo.h>
+#include <QtCore/qmap.h>
 #include <QtCore/qurl.h>
+#include <QtCore/qurlquery.h>
 #include <QtCore/quuid.h>
-#include <QtCore/QtGlobal>
+
 #include <QtNetwork/qformdatabuilder.h>
+#include <QtNetwork/qhttpheaders.h>
 #include <QtNetwork/qhttpmultipart.h>
 #include <QtNetwork/qnetworkaccessmanager.h>
+#include <QtNetwork/qnetworkrequest.h>
 #include <QtNetwork/qnetworkrequestfactory.h>
 #include <QtNetwork/qrestaccessmanager.h>
+#include <QtNetwork/qrestreply.h>
 
 {{#contentCompression}}
 #include <zlib.h>
@@ -34,54 +41,57 @@ QString toFormUrlEncoding(const QString &input)
     return QString::fromLatin1(QUrl::toPercentEncoding(input).replace("%20", "+"));
 }
 
-{{prefix}}HttpRequestInput::{{prefix}}HttpRequestInput()
+class {{prefix}}HttpRequestInputPrivate
 {
-    initialize();
+public:
+    // detaches the QESDP and returns a raw pointer, so that its
+    // members could be modified directly
+    static {{prefix}}HttpRequestInputPrivate *get({{prefix}}HttpRequestInput &obj);
+
+    bool m_isFormData = false;
+    {{prefix}}HttpRequestInput::VariableLayout m_varLayout = {{prefix}}HttpRequestInput::VariableLayout::NotSet;
+    std::unique_ptr<QHttpMultiPart> m_multiPart;
+    QHttpHeaders m_headers;
+    QString m_urlStr;
+    QString m_httpMethod = QStringLiteral("GET");
+    QByteArray m_requestBody;
+    QUrlQuery m_queryItem;
+    QMap<QString, QString> m_vars;
+    QMap<QString, QString> m_fieldHeaders;
+    QList<{{prefix}}HttpFileElement> m_files;
+};
+
+{{prefix}}HttpRequestInputPrivate *
+{{prefix}}HttpRequestInputPrivate::get({{prefix}}HttpRequestInput &obj)
+{
+    return obj.d_ptr.get();
+}
+
+{{prefix}}HttpRequestInput::{{prefix}}HttpRequestInput()
+    : d_ptr(new {{prefix}}HttpRequestInputPrivate)
+{
 }
 
 {{prefix}}HttpRequestInput::~{{prefix}}HttpRequestInput() = default;
 
 {{prefix}}HttpRequestInput::{{prefix}}HttpRequestInput(const QString &vUrlStr, const QString &vHttpMethod)
+    : {{prefix}}HttpRequestInput()
 {
-    initialize();
-    m_urlStr = vUrlStr;
-    m_httpMethod = vHttpMethod;
-}
-
-void {{prefix}}HttpRequestInput::initialize()
-{
-    m_varLayout = VariableLayout::NotSet;
-    m_urlStr.clear();
-    m_httpMethod = "GET"_L1;
-    m_multiPart.reset();
-    m_isFormData = false;
-}
-
-{{prefix}}HttpRequestInput::{{prefix}}HttpRequestInput({{prefix}}HttpRequestInput &other)
-{
-    m_urlStr = other.m_urlStr;
-    m_httpMethod = other.m_httpMethod;
-    m_varLayout = other.m_varLayout;
-    m_vars = other.m_vars;
-    m_fieldHeaders = other.m_fieldHeaders;
-    m_headers = other.m_headers;
-    m_files = other.m_files;
-    m_requestBody = other.m_requestBody;
-    m_queryItem = other.m_queryItem;
-    m_isFormData = other.m_isFormData;
+    d_ptr->m_urlStr = vUrlStr;
+    d_ptr->m_httpMethod = vHttpMethod;
 }
 
 void {{prefix}}HttpRequestInput::addVariable(const QString &key, const QString &value)
 {
-    if (m_varLayout == VariableLayout::UrlEncoded)
-        m_queryItem.addQueryItem(toFormUrlEncoding(key), toFormUrlEncoding(value));
+    if (d_ptr->m_varLayout == VariableLayout::UrlEncoded)
+        d_ptr->m_queryItem.addQueryItem(toFormUrlEncoding(key), toFormUrlEncoding(value));
     else
-        m_vars[key] = value;
+        d_ptr->m_vars[key] = value;
 }
 
 void {{prefix}}HttpRequestInput::addFieldHeaders(const QString &key, const QString &value)
 {
-    m_fieldHeaders[key] = value;
+    d_ptr->m_fieldHeaders[key] = value;
 }
 
 void {{prefix}}HttpRequestInput::addFile(const QString &variableName, const QString &localFilename, const QString &mimeType)
@@ -89,22 +99,67 @@ void {{prefix}}HttpRequestInput::addFile(const QString &variableName, const QStr
     {{prefix}}HttpFileElement file(localFilename);
     file.setVariableName(variableName);
     file.setMimeType(mimeType);
-    m_files.append(file);
+    d_ptr->m_files.append(file);
 }
 
 void {{prefix}}HttpRequestInput::setVariableLayout({{prefix}}HttpRequestInput::VariableLayout layout)
 {
-    m_varLayout = layout;
+    d_ptr->m_varLayout = layout;
+}
+
+{{prefix}}HttpRequestInput::VariableLayout {{prefix}}HttpRequestInput::variableLayout() const
+{
+    return d_ptr->m_varLayout;
 }
 
 void {{prefix}}HttpRequestInput::setHeaders(const QHttpHeaders &newHeaders)
 {
-    m_headers = newHeaders;
+    d_ptr->m_headers = newHeaders;
 }
 
-void {{prefix}}HttpRequestInput::setFormData(bool isForm)
+QHttpHeaders {{prefix}}HttpRequestInput::headers() const
 {
-    m_isFormData = isForm;
+    return d_ptr->m_headers;
+}
+
+QHttpHeaders &{{prefix}}HttpRequestInput::headers()
+{
+    return d_ptr->m_headers;
+}
+
+void {{prefix}}HttpRequestInput::setIsFormData(bool isForm)
+{
+    d_ptr->m_isFormData = isForm;
+}
+
+bool {{prefix}}HttpRequestInput::isFormData() const
+{
+    return d_ptr->m_isFormData;
+}
+
+QString {{prefix}}HttpRequestInput::httpMethod() const
+{
+    return d_ptr->m_httpMethod;
+}
+
+bool {{prefix}}HttpRequestInput::hasMultiPart() const
+{
+    return d_ptr->m_multiPart != nullptr && d_ptr->m_varLayout == VariableLayout::Multipart;
+}
+
+QHttpMultiPart* {{prefix}}HttpRequestInput::takeMultiPart()
+{
+    return d_ptr->m_multiPart.release();
+}
+
+void {{prefix}}HttpRequestInput::setRequestBody(const QByteArray &data)
+{
+    d_ptr->m_requestBody = data;
+}
+
+QByteArray {{prefix}}HttpRequestInput::requestBody() const
+{
+    return d_ptr->m_requestBody;
 }
 
 namespace {{prefix}}HttpRequestWorker {
@@ -126,31 +181,34 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
     // reset variables
     requestContent = "";
 
-    if (input.m_varLayout == {{prefix}}HttpRequestInput::VariableLayout::NotSet) {
-        input.m_varLayout = input.m_httpMethod == "GET"_L1 || input.m_httpMethod == "HEAD"_L1
-                                ? {{prefix}}HttpRequestInput::VariableLayout::Address
-                                : {{prefix}}HttpRequestInput::VariableLayout::UrlEncoded;
+    auto *inputPriv = {{prefix}}HttpRequestInputPrivate::get(input);
+    if (inputPriv->m_varLayout == {{prefix}}HttpRequestInput::VariableLayout::NotSet) {
+        inputPriv->m_varLayout =
+                    inputPriv->m_httpMethod == "GET"_L1 || inputPriv->m_httpMethod == "HEAD"_L1
+                        ? {{prefix}}HttpRequestInput::VariableLayout::Address
+                        : {{prefix}}HttpRequestInput::VariableLayout::UrlEncoded;
     }
     // prepare request content
-    if (input.m_varLayout == {{prefix}}HttpRequestInput::VariableLayout::Address
-        || input.m_varLayout == {{prefix}}HttpRequestInput::VariableLayout::UrlEncoded) {
+    if (inputPriv->m_varLayout == {{prefix}}HttpRequestInput::VariableLayout::Address
+        || inputPriv->m_varLayout == {{prefix}}HttpRequestInput::VariableLayout::UrlEncoded) {
         // variable layout is Address or UrlEncoded
-        if (!input.m_queryItem.isEmpty()) {
-            if (input.m_varLayout == {{prefix}}HttpRequestInput::VariableLayout::Address) {
-                input.m_urlStr += '?'_L1;
-                input.m_urlStr += input.m_queryItem.toString(QUrl::FullyEncoded);
+        if (!inputPriv->m_queryItem.isEmpty()) {
+            if (inputPriv->m_varLayout == {{prefix}}HttpRequestInput::VariableLayout::Address) {
+                inputPriv->m_urlStr += '?'_L1;
+                inputPriv->m_urlStr += inputPriv->m_queryItem.toString(QUrl::FullyEncoded);
             } else {
-                requestContent = input.m_queryItem.toString(QUrl::FullyEncoded).toUtf8();
+                requestContent = inputPriv->m_queryItem.toString(QUrl::FullyEncoded).toUtf8();
             }
         }
     } else {
         QFormDataBuilder builder;
         // add variables
-        for (const auto &[key, str] : input.m_vars.asKeyValueRange()) {
+        for (const auto &[key, str] : inputPriv->m_vars.asKeyValueRange()) {
             auto part = builder.part(key);
             const QByteArray value = str.toUtf8();
-            if (input.m_fieldHeaders.contains(key)) {
-                part.setBody(value, QString(), input.m_fieldHeaders[key]);
+            auto headerIt = inputPriv->m_fieldHeaders.find(key);
+            if (headerIt != inputPriv->m_fieldHeaders.end()) {
+                part.setBody(value, QString(), headerIt.value());
             } else {
                 part.setBody(value);
             }
@@ -158,7 +216,7 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
 
         // add files
         QList<QFile *> addedFiles;
-        for (auto &fileInfo : input.m_files) {
+        for (auto &fileInfo : inputPriv->m_files) {
             QFileInfo fi(fileInfo.filename());
             // ensure necessary variables are available
             if (fileInfo.filename().isEmpty()
@@ -184,34 +242,35 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
             addedFiles.append(file.release());
         }
         // Build the multipart object
-        input.m_multiPart = builder.buildMultiPart();
+        inputPriv->m_multiPart = builder.buildMultiPart();
         // Need to take care about opened files
         for (QFile *file: std::as_const(addedFiles)) {
+            // we cannot delete the file now, so delete it with the multiPart
             if (file)
-                file->setParent(input.m_multiPart.get()); // we cannot delete the file now, so delete it with the multiPart
+                file->setParent(inputPriv->m_multiPart.get());
         }
     }
 
-    if (input.m_requestBody.size() > 0) {
+    if (inputPriv->m_requestBody.size() > 0) {
         requestContent.clear();
-        if (!input.m_isFormData && requestCompressionEnabled) {
-            requestContent.append(compressData(input.m_requestBody, 7, CompressionType::Gzip));
+        if (!inputPriv->m_isFormData && requestCompressionEnabled) {
+            requestContent.append(compressData(inputPriv->m_requestBody, 7, CompressionType::Gzip));
         } else {
-            requestContent.append(input.m_requestBody);
+            requestContent.append(inputPriv->m_requestBody);
         }
     }
-    QNetworkRequest request = factory->createRequest(input.m_urlStr);
+    QNetworkRequest request = factory->createRequest(inputPriv->m_urlStr);
     if (request.header(QNetworkRequest::UserAgentHeader).isNull())
         request.setHeader(QNetworkRequest::UserAgentHeader, QString::fromUtf8("{{httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{apiVersion}}/cpp-qt{{/httpUserAgent}}"));
 
-    for (int i = 0; i < input.m_headers.size(); i++) {
-        const auto name = input.m_headers.nameAt(i);
+    for (int i = 0; i < inputPriv->m_headers.size(); i++) {
+        const auto name = inputPriv->m_headers.nameAt(i);
         const QByteArray headerName(name.data(), name.size());
         // Skipping "multipart/*" header. Multipart should have NOT a header,
         // but the header AND a boundary, like: Content-Type:
         // multipart/form-data; boundary=----exclusive7MA4YWxkTrZu0gW
         // Both are being set by buildMultiPart() call above.
-        if (input.m_varLayout == {{prefix}}HttpRequestInput::VariableLayout::Multipart
+        if (inputPriv->m_varLayout == {{prefix}}HttpRequestInput::VariableLayout::Multipart
                 && (headerName.compare("content-type", Qt::CaseInsensitive) == 0))
             continue;
         // Header can already be presented in the request and should not be overwritten here.
@@ -220,7 +279,7 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
             // due to the fact that 'Cookie' are being divided by ';' naturally.
             // Prefer QHttpHeaders::values() instead.
             if (headerName.compare("Cookie", Qt::CaseInsensitive) == 0) {
-                const QList<QByteArray> cookies = input.m_headers.values(headerName);
+                const QList<QByteArray> cookies = inputPriv->m_headers.values(headerName);
                 QByteArray joinedCookies;
                 for (const auto &value: cookies) {
                     if (!joinedCookies.isEmpty())
@@ -232,13 +291,13 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
                     qWarning() << "Setting an empty cookie value";
                 request.setRawHeader(headerName, joinedCookies);
             } else {
-                request.setRawHeader(headerName, input.m_headers.combinedValue(headerName));
+                request.setRawHeader(headerName, inputPriv->m_headers.combinedValue(headerName));
             }
         } else {
             // rawHeader() return all values as a string separated by the delimiter,
             // that a user chose to use (can be ';' or ',' in our case).
             const QByteArray rawHeader = request.rawHeader(headerName);
-            const auto headerValue = QByteArray(input.m_headers.valueAt(i));
+            const auto headerValue = QByteArray(inputPriv->m_headers.valueAt(i));
             if (!rawHeader.contains(headerValue)) {
                 if (headerName.compare("Cookie", Qt::CaseInsensitive) == 0)
                     request.setRawHeader(headerName, rawHeader + "; " + headerValue);
@@ -247,12 +306,12 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
             }
         }
     }
-    if (requestContent.size() > 0 && !input.m_isFormData) {
+    if (requestContent.size() > 0 && !inputPriv->m_isFormData) {
         if (requestCompressionEnabled) {
             request.setRawHeader("Content-Encoding", "gzip");
         }
     } else if (requestContent.size() <= 0
-               || input.m_varLayout == {{prefix}}HttpRequestInput::VariableLayout::UrlEncoded) {
+               || inputPriv->m_varLayout == {{prefix}}HttpRequestInput::VariableLayout::UrlEncoded) {
         // Here is expected that:
         // 1) The Operation is a POST request. UrlEncoded is being set only for POST.
         // 2) AND requestContent.size() <= 0 in case bodyParams/formParams are optional and empty.
@@ -263,7 +322,7 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
         // POST requests.
         // For more info see the Qt commit by sha 4f578d15fe2ef176f0533c7ff4aea99b17636f85
         // Using the message without Content-Type triggers the Qt warning.
-        if (!input.m_headers.contains(QHttpHeaders::WellKnownHeader::ContentType)) {
+        if (!inputPriv->m_headers.contains(QHttpHeaders::WellKnownHeader::ContentType)) {
             request.setHeader(QNetworkRequest::ContentTypeHeader,
                               "application/x-www-form-urlencoded"_L1);
         }

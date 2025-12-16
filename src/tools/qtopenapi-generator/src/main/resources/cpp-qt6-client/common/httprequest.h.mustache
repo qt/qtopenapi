@@ -4,28 +4,32 @@
 #define {{prefix}}_HTTPREQUESTWORKER_H
 
 #include "{{packageNameLowerCase}}commonexports.h"
-#include "{{prefixLowerCase}}httpfileelement.h"
 
-#include <QtCore/qmap.h>
-#include <QtCore/qstring.h>
-#include <QtCore/QUrlQuery>
-
-#include <QtNetwork/qhttpheaders.h>
-#include <QtNetwork/qrestreply.h>
+#include <QtCore/qcontainerfwd.h>
+#include <QtCore/qstring.h> // for argument default value initialization
 
 #include <memory>
 
 QT_BEGIN_NAMESPACE
+class QHttpHeaders;
+class QHttpMultiPart;
+class QNetworkRequest;
 class QNetworkRequestFactory;
 class QRestAccessManager;
-class QHttpMultiPart;
+class QRestReply;
+class QUrlQuery;
 QT_END_NAMESPACE
 
 {{#cppCommonNamespaceDeclarations}}
 namespace {{this}} {
 {{/cppCommonNamespaceDeclarations}}
 
-class {{packageNameUpperCase}}_COMMON_EXPORT {{prefix}}HttpRequestInput {
+class {{prefix}}HttpFileElement;
+
+class {{prefix}}HttpRequestInputPrivate;
+
+class {{prefix}}HttpRequestInput
+{
 public:
     enum class VariableLayout {
         NotSet,
@@ -34,33 +38,52 @@ public:
         Multipart,
     };
 
-    QString m_urlStr;
-    QString m_httpMethod;
-    VariableLayout m_varLayout;
-    QMap<QString, QString> m_vars;
-    QMap<QString, QString> m_fieldHeaders;
-    QHttpHeaders m_headers;
-    QList<{{prefix}}HttpFileElement> m_files;
-    QByteArray m_requestBody;
-    QUrlQuery m_queryItem;
-    std::unique_ptr<QHttpMultiPart> m_multiPart;
-    bool m_isFormData;
-
-    {{prefix}}HttpRequestInput();
-    ~{{prefix}}HttpRequestInput();
+    {{packageNameUpperCase}}_COMMON_EXPORT {{prefix}}HttpRequestInput();
+    {{packageNameUpperCase}}_COMMON_EXPORT ~{{prefix}}HttpRequestInput();
+    {{packageNameUpperCase}}_COMMON_EXPORT
     {{prefix}}HttpRequestInput(const QString &vUrlStr, const QString &vHttpMethod);
-    {{prefix}}HttpRequestInput({{prefix}}HttpRequestInput &other);
-    void initialize();
+    Q_DISABLE_COPY_MOVE({{prefix}}HttpRequestInput)
+
+    {{packageNameUpperCase}}_COMMON_EXPORT
     void addVariable(const QString &key, const QString &value);
+    {{packageNameUpperCase}}_COMMON_EXPORT
     void addFieldHeaders(const QString &key, const QString &value);
+    {{packageNameUpperCase}}_COMMON_EXPORT
     void addFile(const QString &variableName, const QString &localFilename, const QString &mimeType);
-    void setVariableLayout(VariableLayout layout);
-    void setHeaders(const QHttpHeaders &newHeaders);
-    void setFormData(bool isForm);
+
+    {{packageNameUpperCase}}_COMMON_EXPORT void setVariableLayout(VariableLayout layout);
+    {{packageNameUpperCase}}_COMMON_EXPORT VariableLayout variableLayout() const;
+
+    {{packageNameUpperCase}}_COMMON_EXPORT void setHeaders(const QHttpHeaders &newHeaders);
+    {{packageNameUpperCase}}_COMMON_EXPORT QHttpHeaders headers() const;
+    {{packageNameUpperCase}}_COMMON_EXPORT QHttpHeaders &headers();
+
+    {{packageNameUpperCase}}_COMMON_EXPORT void setIsFormData(bool isForm);
+    {{packageNameUpperCase}}_COMMON_EXPORT bool isFormData() const;
+
+    {{packageNameUpperCase}}_COMMON_EXPORT QString httpMethod() const;
+
+    {{packageNameUpperCase}}_COMMON_EXPORT bool hasMultiPart() const;
+    {{packageNameUpperCase}}_COMMON_EXPORT QHttpMultiPart* takeMultiPart();
+
+    {{packageNameUpperCase}}_COMMON_EXPORT void setRequestBody(const QByteArray &data);
+    {{packageNameUpperCase}}_COMMON_EXPORT QByteArray requestBody() const;
+
+private:
+    friend bool
+    operator==(const {{prefix}}HttpRequestInput &lhs, const {{prefix}}HttpRequestInput &rhs) = delete;
+    friend bool
+    operator!=(const {{prefix}}HttpRequestInput &lhs, const {{prefix}}HttpRequestInput &rhs) = delete;
+
+    friend size_t qHash(const {{prefix}}HttpRequestInput &value) = delete;
+    friend size_t qHash(const {{prefix}}HttpRequestInput &value, size_t seed) = delete;
+
+    friend class {{prefix}}HttpRequestInputPrivate;
+    std::unique_ptr<{{prefix}}HttpRequestInputPrivate> d_ptr;
 };
 
 namespace {{prefix}}HttpRequestWorker {
-    {{packageNameUpperCase}}_COMMON_EXPORT {{prefix}}HttpFileElement getHttpFileElement(const QMap<QString, {{prefix}}HttpFileElement> &files, const QString &fieldname = QStringLiteral(""));
+    {{packageNameUpperCase}}_COMMON_EXPORT {{prefix}}HttpFileElement getHttpFileElement(const QMap<QString, {{prefix}}HttpFileElement> &files, const QString &fieldname = {});
     {{packageNameUpperCase}}_COMMON_EXPORT QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray &requestContent, std::shared_ptr<QNetworkRequestFactory> factory, bool responseCompressionEnabled, bool requestCompressionEnabled);
     {{packageNameUpperCase}}_COMMON_EXPORT QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<QString, {{prefix}}HttpFileElement> *files = nullptr);
 
