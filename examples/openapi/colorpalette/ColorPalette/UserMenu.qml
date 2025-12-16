@@ -8,7 +8,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Effects
 
-import QtExampleStyle
+import QtOpenApiExampleStyle
 
 Popup {
     id: userMenu
