@@ -71,7 +71,7 @@ void {{prefix}}HttpRequestInput::initialize()
     m_isFormData = other.m_isFormData;
 }
 
-void {{prefix}}HttpRequestInput::addVar(const QString &key, const QString &value)
+void {{prefix}}HttpRequestInput::addVariable(const QString &key, const QString &value)
 {
     if (m_varLayout == VariableLayout::UrlEncoded)
         m_queryItem.addQueryItem(toFormUrlEncoding(key), toFormUrlEncoding(value));

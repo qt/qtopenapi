@@ -360,11 +360,11 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         if (contentType == "application/json"_L1
             || (contentType.isEmpty() && !isPrimitiveMediaType<VT>)) {
             input.addFieldHeaders(u"{{baseName}}"_s, "application/json"_L1);
-            input.addVar(u"{{baseName}}"_s, ::{{cppCommonNamespace}}::convertJsonValueToString(::{{cppCommonNamespace}}::toJsonValue({{paramName}}{{^required}}.value(){{/required}})));
+            input.addVariable(u"{{baseName}}"_s, ::{{cppCommonNamespace}}::convertJsonValueToString(::{{cppCommonNamespace}}::toJsonValue({{paramName}}{{^required}}.value(){{/required}})));
         } else {
             // if none of the above - serialize according to the content type of items
             for (const auto &item : {{paramName}}{{^required}}.value(){{/required}}) {
-                input.addVar(u"{{baseName}}"_s, ::{{cppCommonNamespace}}::serializeMediaTypeContentField(contentType, item));
+                input.addVariable(u"{{baseName}}"_s, ::{{cppCommonNamespace}}::serializeMediaTypeContentField(contentType, item));
             }
             input.addFieldHeaders(u"{{baseName}}"_s, "text/plain"_L1);
         }
@@ -375,11 +375,11 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         if (contentType == "application/json"_L1
             || (contentType.isEmpty() && !isPrimitiveMediaType<VT>)) {
             input.addFieldHeaders(u"{{baseName}}"_s, "application/json"_L1);
-            input.addVar(u"{{baseName}}"_s, ::{{cppCommonNamespace}}::convertJsonValueToString(::{{cppCommonNamespace}}::toJsonValue({{paramName}}{{^required}}.value(){{/required}})));
+            input.addVariable(u"{{baseName}}"_s, ::{{cppCommonNamespace}}::convertJsonValueToString(::{{cppCommonNamespace}}::toJsonValue({{paramName}}{{^required}}.value(){{/required}})));
         } else {
             // if none of the above - serialize according to the content type of items
             for (const auto &[key, value] : {{paramName}}{{^required}}.value(){{/required}}.asKeyValueRange()) {
-                input.addVar(key, ::{{cppCommonNamespace}}::serializeMediaTypeContentField(contentType, value));
+                input.addVariable(key, ::{{cppCommonNamespace}}::serializeMediaTypeContentField(contentType, value));
             }
             input.addFieldHeaders(u"{{baseName}}"_s, "text/plain"_L1);
         }
@@ -388,7 +388,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{^isContainer}}
         using VT = std::decay_t<decltype({{paramName}}{{^required}}.value(){{/required}})>;
         input.addFieldHeaders(u"{{baseName}}"_s, addContentField<VT>(contentType));
-        input.addVar(u"{{baseName}}"_s, ::{{cppCommonNamespace}}::serializeMediaTypeContentField(contentType, {{paramName}}{{^required}}.value(){{/required}}));
+        input.addVariable(u"{{baseName}}"_s, ::{{cppCommonNamespace}}::serializeMediaTypeContentField(contentType, {{paramName}}{{^required}}.value(){{/required}}));
 {{/isContainer}}
 {{/isFile}}
     }
