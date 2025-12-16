@@ -331,11 +331,12 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{/consumes}}
     input.setFormData(true);
 {{#isMultipart}}
-    input.addVarLayout(MULTIPART);
+    input.addVarLayout({{prefix}}HttpRequestInput::VariableLayout::Multipart);
 {{/isMultipart}}
 {{^isMultipart}}
     input.addVarLayout(input.m_httpMethod == "GET"_L1 || input.m_httpMethod == "HEAD"_L1
-                       ? ADDRESS : URL_ENCODED);
+                       ? {{prefix}}HttpRequestInput::VariableLayout::Address
+                       : {{prefix}}HttpRequestInput::VariableLayout::UrlEncoded);
 {{/isMultipart}}
 {{/hasFormParams}}
 {{#formParams}}

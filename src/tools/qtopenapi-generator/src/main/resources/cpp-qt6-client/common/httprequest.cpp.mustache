@@ -50,7 +50,7 @@ QString toFormUrlEncoding(const QString &input)
 
 void {{prefix}}HttpRequestInput::initialize()
 {
-    m_varLayout = NOT_SET;
+    m_varLayout = VariableLayout::NotSet;
     m_urlStr.clear();
     m_httpMethod = "GET"_L1;
     m_multiPart.reset();
@@ -73,7 +73,7 @@ void {{prefix}}HttpRequestInput::initialize()
 
 void {{prefix}}HttpRequestInput::addVar(const QString &key, const QString &value)
 {
-    if (m_varLayout == URL_ENCODED)
+    if (m_varLayout == VariableLayout::UrlEncoded)
         m_queryItem.addQueryItem(toFormUrlEncoding(key), toFormUrlEncoding(value));
     else
         m_vars[key] = value;
@@ -92,7 +92,7 @@ void {{prefix}}HttpRequestInput::addFile(const QString &variableName, const QStr
     m_files.append(file);
 }
 
-void {{prefix}}HttpRequestInput::addVarLayout({{prefix}}HttpRequestVarLayout layout)
+void {{prefix}}HttpRequestInput::addVarLayout({{prefix}}HttpRequestInput::VariableLayout layout)
 {
     m_varLayout = layout;
 }
@@ -126,15 +126,17 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
     // reset variables
     requestContent = "";
 
-    if (input.m_varLayout == NOT_SET) {
+    if (input.m_varLayout == {{prefix}}HttpRequestInput::VariableLayout::NotSet) {
         input.m_varLayout = input.m_httpMethod == "GET"_L1 || input.m_httpMethod == "HEAD"_L1
-                                ? ADDRESS : URL_ENCODED;
+                                ? {{prefix}}HttpRequestInput::VariableLayout::Address
+                                : {{prefix}}HttpRequestInput::VariableLayout::UrlEncoded;
     }
     // prepare request content
-    if (input.m_varLayout == ADDRESS || input.m_varLayout == URL_ENCODED) {
-        // variable layout is ADDRESS or URL_ENCODED
+    if (input.m_varLayout == {{prefix}}HttpRequestInput::VariableLayout::Address
+        || input.m_varLayout == {{prefix}}HttpRequestInput::VariableLayout::UrlEncoded) {
+        // variable layout is Address or UrlEncoded
         if (!input.m_queryItem.isEmpty()) {
-            if (input.m_varLayout == ADDRESS) {
+            if (input.m_varLayout == {{prefix}}HttpRequestInput::VariableLayout::Address) {
                 input.m_urlStr += '?'_L1;
                 input.m_urlStr += input.m_queryItem.toString(QUrl::FullyEncoded);
             } else {
@@ -209,7 +211,7 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
         // but the header AND a boundary, like: Content-Type:
         // multipart/form-data; boundary=----exclusive7MA4YWxkTrZu0gW
         // Both are being set by buildMultiPart() call above.
-        if (input.m_varLayout == MULTIPART
+        if (input.m_varLayout == {{prefix}}HttpRequestInput::VariableLayout::Multipart
                 && (headerName.compare("content-type", Qt::CaseInsensitive) == 0))
             continue;
         // Header can already be presented in the request and should not be overwritten here.
@@ -249,9 +251,10 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
         if (requestCompressionEnabled) {
             request.setRawHeader("Content-Encoding", "gzip");
         }
-    } else if (requestContent.size() <= 0 || input.m_varLayout == URL_ENCODED) {
+    } else if (requestContent.size() <= 0
+               || input.m_varLayout == {{prefix}}HttpRequestInput::VariableLayout::UrlEncoded) {
         // Here is expected that:
-        // 1) The Operation is a POST request. URL_ENCODED is being set only for POST.
+        // 1) The Operation is a POST request. UrlEncoded is being set only for POST.
         // 2) AND requestContent.size() <= 0 in case bodyParams/formParams are optional and empty.
         // 3) OR/AND requestContent.size() <= 0 because the Operation has only Operation Parameters.
         // 4) AND input.m_headers doesn't contain Content-Type.

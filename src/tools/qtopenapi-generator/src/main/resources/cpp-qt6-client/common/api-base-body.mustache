@@ -200,7 +200,7 @@ QString {{prefix}}BaseApi::errorString(ServerError error) const
 
 QNetworkReply *{{prefix}}BaseApi::execute({{prefix}}HttpRequestInput &input, QNetworkRequest &request, QByteArray &requestContent)
 {
-    bool isMultiPartMode = (input.m_multiPart.get() && input.m_varLayout == {{prefix}}HttpRequestVarLayout::MULTIPART);
+    bool isMultiPartMode = (input.m_multiPart.get() && input.m_varLayout == {{prefix}}HttpRequestInput::VariableLayout::Multipart);
     QNetworkReply *reply = nullptr;
     if (input.m_httpMethod == "GET"_L1) {
         reply = m_restManager->get(request);
