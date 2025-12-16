@@ -18,7 +18,7 @@ qt_add_executable(colorpaletteApp
     main.cpp
 )
 
-add_subdirectory(QtExampleStyle)
+add_subdirectory(QtOpenApiExampleStyle)
 
 qt_add_qml_module(colorpaletteApp
     URI ColorPalette

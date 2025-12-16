@@ -6,7 +6,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Dialogs
 
-import QtExampleStyle
+import QtOpenApiExampleStyle
 
 Popup {
     id: colorEditor

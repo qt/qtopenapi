@@ -5,7 +5,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import QtExampleStyle
+import QtOpenApiExampleStyle
 
 pragma ComponentBehavior: Bound
 

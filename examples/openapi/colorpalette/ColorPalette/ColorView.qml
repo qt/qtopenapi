@@ -8,7 +8,7 @@ import QtQuick.Layouts
 import QtQuick.Shapes
 
 import ColorPalette
-import QtExampleStyle
+import QtOpenApiExampleStyle
 
 pragma ComponentBehavior: Bound
 
