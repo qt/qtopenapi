@@ -51,7 +51,7 @@ public:
     {{prefix}}HttpRequestInput(const QString &vUrlStr, const QString &vHttpMethod);
     {{prefix}}HttpRequestInput({{prefix}}HttpRequestInput &other);
     void initialize();
-    void addVar(const QString &key, const QString &value);
+    void addVariable(const QString &key, const QString &value);
     void addFieldHeaders(const QString &key, const QString &value);
     void addFile(const QString &variableName, const QString &localFilename, const QString &mimeType);
     void addVarLayout(VariableLayout layout);
