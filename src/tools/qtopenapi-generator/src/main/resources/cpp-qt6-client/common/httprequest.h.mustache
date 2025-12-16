@@ -54,7 +54,7 @@ public:
     void addVariable(const QString &key, const QString &value);
     void addFieldHeaders(const QString &key, const QString &value);
     void addFile(const QString &variableName, const QString &localFilename, const QString &mimeType);
-    void addVarLayout(VariableLayout layout);
+    void setVariableLayout(VariableLayout layout);
     void setHeaders(const QHttpHeaders &newHeaders);
     void setFormData(bool isForm);
 };
