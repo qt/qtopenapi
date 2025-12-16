@@ -200,29 +200,30 @@ QString {{prefix}}BaseApi::errorString(ServerError error) const
 
 QNetworkReply *{{prefix}}BaseApi::execute({{prefix}}HttpRequestInput &input, QNetworkRequest &request, QByteArray &requestContent)
 {
-    bool isMultiPartMode = (input.m_multiPart.get() && input.m_varLayout == {{prefix}}HttpRequestInput::VariableLayout::Multipart);
+    const bool isMultiPartMode = input.hasMultiPart();
     QNetworkReply *reply = nullptr;
-    if (input.m_httpMethod == "GET"_L1) {
+    const QString httpMethod = input.httpMethod();
+    if (httpMethod == "GET"_L1) {
         reply = m_restManager->get(request);
-    } else if (input.m_httpMethod == "POST"_L1) {
+    } else if (httpMethod == "POST"_L1) {
         if (isMultiPartMode)
-            reply = m_restManager->post(request, input.m_multiPart.release());
+            reply = m_restManager->post(request, input.takeMultiPart());
         else
             reply = m_restManager->post(request, requestContent);
-    } else if (input.m_httpMethod == "PUT"_L1) {
+    } else if (httpMethod == "PUT"_L1) {
         if (isMultiPartMode)
-            reply = m_restManager->put(request, input.m_multiPart.release());
+            reply = m_restManager->put(request, input.takeMultiPart());
         else
             reply = m_restManager->put(request, requestContent);
-    } else if (input.m_httpMethod == "HEAD"_L1) {
+    } else if (httpMethod == "HEAD"_L1) {
         reply = m_restManager->head(request);
-    } else if (input.m_httpMethod == "DELETE"_L1) {
+    } else if (httpMethod == "DELETE"_L1) {
         reply = m_restManager->deleteResource(request);
     } else {
         if (isMultiPartMode)
-            reply = m_restManager->sendCustomRequest(request, input.m_httpMethod.toLatin1(), input.m_multiPart.release());
+            reply = m_restManager->sendCustomRequest(request, httpMethod.toLatin1(), input.takeMultiPart());
         else
-            reply = m_restManager->sendCustomRequest(request, input.m_httpMethod.toLatin1(), requestContent);
+            reply = m_restManager->sendCustomRequest(request, httpMethod.toLatin1(), requestContent);
     }
     return reply;
 }
