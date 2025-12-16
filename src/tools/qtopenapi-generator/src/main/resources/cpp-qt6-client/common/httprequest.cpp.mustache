@@ -193,7 +193,7 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
     if (input.m_requestBody.size() > 0) {
         requestContent.clear();
         if (!input.m_isFormData && requestCompressionEnabled) {
-            requestContent.append(compressData(input.m_requestBody, 7, {{prefix}}CompressionType::Gzip));
+            requestContent.append(compressData(input.m_requestBody, 7, CompressionType::Gzip));
         } else {
             requestContent.append(input.m_requestBody);
         }
@@ -274,19 +274,19 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
     return request;
 }
 
-static {{prefix}}CompressionType encodingFormatToCompressionType(const QString &encodingFormat)
+static CompressionType encodingFormatToCompressionType(const QString &encodingFormat)
 {
     if (encodingFormat.compare("identity"_L1, Qt::CaseInsensitive) == 0 || encodingFormat.isEmpty())
-        return {{prefix}}CompressionType::None;
+        return CompressionType::None;
 
     if (encodingFormat.compare("gzip"_L1, Qt::CaseInsensitive) == 0)
-        return {{prefix}}CompressionType::Gzip;
+        return CompressionType::Gzip;
 
     if (encodingFormat.compare("deflate"_L1, Qt::CaseInsensitive) == 0)
-        return {{prefix}}CompressionType::Deflate;
+        return CompressionType::Deflate;
 
     qWarning() << "Unsupported Content-Encoding:" << encodingFormat;
-    return {{prefix}}CompressionType::None;
+    return CompressionType::None;
 }
 
 QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<QString, {{prefix}}HttpFileElement> *files)
@@ -419,14 +419,14 @@ static QByteArray decompressGzipOrDeflate(const QByteArray &data)
 }
 {{/contentCompression}}
 
-QByteArray decompressData(const QByteArray &data, {{prefix}}CompressionType compressionType)
+QByteArray decompressData(const QByteArray &data, CompressionType compressionType)
 {
 {{#contentCompression}}
     switch (compressionType) {
-    case {{prefix}}CompressionType::Gzip:
-    case {{prefix}}CompressionType::Deflate:
+    case CompressionType::Gzip:
+    case CompressionType::Deflate:
         return decompressGzipOrDeflate(data);
-    case {{prefix}}CompressionType::None:
+    case CompressionType::None:
     default:
         return data;
     }
@@ -440,7 +440,7 @@ QByteArray decompressData(const QByteArray &data, {{prefix}}CompressionType comp
 {{/contentCompression}}
 }
 
-QByteArray compressData(const QByteArray &input, int level, {{prefix}}CompressionType compressionType)
+QByteArray compressData(const QByteArray &input, int level, CompressionType compressionType)
 {
 {{#contentCompression}}
     static constexpr int GZIP_WINDOW_BIT = 15 + 16;
@@ -452,13 +452,13 @@ QByteArray compressData(const QByteArray &input, int level, {{prefix}}Compressio
 
     int windowBits = 0;
     switch (compressionType) {
-    case {{prefix}}CompressionType::Gzip:
+    case CompressionType::Gzip:
         windowBits = GZIP_WINDOW_BIT;
         break;
-    case {{prefix}}CompressionType::Deflate:
+    case CompressionType::Deflate:
         windowBits = ZLIB_WINDOW_BIT;
         break;
-    case {{prefix}}CompressionType::None:
+    case CompressionType::None:
         return input;
     }
 
