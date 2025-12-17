@@ -212,6 +212,15 @@ QByteArray {{prefix}}HttpFileElement::loadFromLocalFile() const
     return bArray;
 }
 
+bool
+comparesEqual(const {{prefix}}HttpFileElement &lhs, const {{prefix}}HttpFileElement &rhs) noexcept
+{
+    return lhs.d->m_variableName == rhs.d->m_variableName
+        && lhs.d->m_localFilename == rhs.d->m_localFilename
+        && lhs.d->m_mimeType == rhs.d->m_mimeType
+        && lhs.d->m_temporary == rhs.d->m_temporary;
+}
+
 {{#cppCommonNamespaceDeclarations}}
 } // namespace {{this}}
 {{/cppCommonNamespaceDeclarations}}

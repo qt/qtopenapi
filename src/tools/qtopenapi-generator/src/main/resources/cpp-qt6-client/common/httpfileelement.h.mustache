@@ -58,6 +58,19 @@ public:
     {{packageNameUpperCase}}_COMMON_EXPORT QByteArray loadFromLocalFile() const;
 
 private:
+    {{packageNameUpperCase}}_COMMON_EXPORT friend bool
+    comparesEqual(const {{prefix}}HttpFileElement &lhs, const {{prefix}}HttpFileElement &rhs) noexcept;
+
+    friend bool
+    operator==(const {{prefix}}HttpFileElement &lhs, const {{prefix}}HttpFileElement &rhs) noexcept
+    { return comparesEqual(lhs, rhs); }
+    friend bool
+    operator!=(const {{prefix}}HttpFileElement &lhs, const {{prefix}}HttpFileElement &rhs) noexcept
+    { return !comparesEqual(lhs, rhs); }
+
+    friend size_t qHash(const {{prefix}}HttpFileElement &value) = delete;
+    friend size_t qHash(const {{prefix}}HttpFileElement &value, size_t seed) = delete;
+
     QExplicitlySharedDataPointer<{{prefix}}HttpFileElementPrivate> d;
 };
 
