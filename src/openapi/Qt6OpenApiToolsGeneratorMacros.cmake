@@ -80,21 +80,21 @@ function(qt6_add_openapi_client target)
 
     get_target_property(openapi_generator_cli_jar_file
         WrapOpenAPIGenerator::WrapOpenAPIGenerator INTERFACE_OPENAPI_GENERATOR_CLI_JAR)
-
     if(NOT openapi_generator_cli_jar_file)
-        message(FATAL_ERROR "qt6_add_openapi_client: "
-            "Java OpenAPI generator is not installed or not added in PATH.")
+        get_target_property(openapi_generator_cli_exec_file
+            WrapOpenAPIGenerator::WrapOpenAPIGenerator INTERFACE_OPENAPI_GENERATOR_CLI_EXECUTABLE)
+        if (NOT openapi_generator_cli_exec_file)
+            message(FATAL_ERROR "qt6_add_openapi_client: "
+                "Java OpenAPI generator is not installed or not added in PATH.")
+        endif()
     endif()
 
     file(MAKE_DIRECTORY "${arg_OUTPUT_DIRECTORY}")
     if(NOT arg_DOCUMENTATION_OUTPUT_DIRECTORY)
         set(arg_DOCUMENTATION_OUTPUT_DIRECTORY "${arg_OUTPUT_DIRECTORY}")
     endif()
-    set(openapi_cli_entrypoint_class "org.openapitools.codegen.OpenAPIGenerator")
     set(generator_name ${QT_OPENAPI_GENERATOR_NAME})
-    get_filename_component(openapi_generator_cli_dir
-        "${openapi_generator_cli_jar_file}" DIRECTORY)
-    get_target_property(generator_path
+    get_target_property(generator_jar_path
         "${QT_CMAKE_EXPORT_NAMESPACE}::QtOpenAPIGeneratorJar" IMPORTED_LOCATION)
 
     # The modelNamePrefix affects names of model and api files.
@@ -181,19 +181,9 @@ function(qt6_add_openapi_client target)
         list(APPEND generating_sources ${client_sources})
     endif()
 
-    if(CMAKE_HOST_WIN32)
-        set(path_separator "\\;")
-    else()
-        set(path_separator ":")
-    endif()
-
-    set(run_client_cmd
-        "${openapi_generator_cli_dir}${path_separator}${openapi_generator_cli_jar_file}${path_separator}${generator_path}")
-
     set(extra_dependencies
         DEPENDS
-            "${openapi_generator_cli_jar_file}"
-            "${generator_path}"
+            "${generator_jar_path}"
             "${arg_SPEC_FILE}"
     )
     if(TARGET QtOpenAPIGenerator)
@@ -216,11 +206,27 @@ function(qt6_add_openapi_client target)
         set(comment "Generating the Qt6 Client code with the generator: ${generator_name}")
     endif()
 
+    if(openapi_generator_cli_jar_file)
+        if(CMAKE_HOST_WIN32)
+            set(path_separator "\\$<SEMICOLON>")
+        else()
+            set(path_separator ":")
+        endif()
+
+        set(openapi_cli_entrypoint_class "org.openapitools.codegen.OpenAPIGenerator")
+        set(run_client_cmd
+            "${openapi_generator_cli_jar_file}${path_separator}${generator_jar_path}")
+        set(generation_command java -cp "${run_client_cmd}" "${openapi_cli_entrypoint_class}")
+        list(APPEND extra_dependencies "${openapi_generator_cli_jar_file}")
+    elseif(openapi_generator_cli_exec_file)
+        set(generation_command
+            "${openapi_generator_cli_exec_file}" --custom-generator="${generator_jar_path}")
+        list(APPEND extra_dependencies "${openapi_generator_cli_exec_file}")
+    endif()
+
     add_custom_command(
         OUTPUT ${generating_sources}
-        COMMAND java -cp
-            "${run_client_cmd}"
-            ${openapi_cli_entrypoint_class}
+        COMMAND ${generation_command}
             generate -g ${generator_name}
             -i "${arg_SPEC_FILE}"
             -o "${arg_OUTPUT_DIRECTORY}"

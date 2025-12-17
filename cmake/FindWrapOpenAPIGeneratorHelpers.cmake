@@ -1,0 +1,79 @@
+# Copyright (C) 2026 The Qt Company Ltd.
+# SPDX-License-Identifier: BSD-3-Clause
+
+function(_qt_internal_openapi_find_cli_jar_from_pip out_var_jar_path)
+    # Check whether the detected CLI was installed via pip
+    execute_process(
+        COMMAND python3 -c "import openapi_generator_cli"
+        RESULT_VARIABLE import_openapi_generator_result
+        ERROR_QUIET
+    )
+
+    if(NOT import_openapi_generator_result)
+        # Get the jar path specified in __init__.py
+        string(CONCAT python_command
+            "import openapi_generator_cli, importlib.resources;"
+            "print(importlib.resources.files('openapi_generator_cli') / "
+            "'openapi-generator.jar')"
+        )
+        execute_process(
+            COMMAND python3 -c "${python_command}"
+            OUTPUT_VARIABLE jar_path
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+            RESULT_VARIABLE python_result
+        )
+        if(NOT python_result AND EXISTS "${jar_path}")
+            set(${out_var_jar_path} "${jar_path}" PARENT_SCOPE)
+            message(DEBUG "Found OpenAPI Generator JAR: ${jar_path}")
+        else()
+            message(DEBUG
+                "Could not locate the JAR file in 'openapi_generator_cli' python package.")
+        endif()
+    endif()
+endfunction()
+
+function(_qt_internal_openapi_find_cli_jar_from_brew out_var_jar_path)
+    #TODO: check Homebrew(macOS) installation
+endfunction()
+
+function(_qt_internal_openapi_find_cli_jar_from_scoop out_var_jar_path)
+    #TODO: check Scoop(Windows) installation
+endfunction()
+
+function(_qt_internal_openapi_find_cli_jar out_var_jar_path)
+    set(jar_path "")
+    _qt_internal_openapi_find_cli_jar_from_pip(jar_path)
+
+    if(NOT jar_path)
+        if(CMAKE_HOST_APPLE)
+            _qt_internal_openapi_find_cli_jar_from_brew(jar_path)
+        elseif(CMAKE_HOST_WIN32)
+            _qt_internal_openapi_find_cli_jar_from_scoop(jar_path)
+        endif()
+    endif()
+
+    if(jar_path)
+        set(${out_var_jar_path} "${jar_path}" CACHE FILEPATH "Path to OpenAPI Generator JAR" FORCE)
+    endif()
+endfunction()
+
+function(_qt_internal_check_custom_generator_support out_var_custom_generator_support)
+    set(help_command "${OPENAPI_GENERATOR_CLI_EXECUTABLE}" help)
+    if(CMAKE_HOST_WIN32)
+        list(PREPEND help_command cmd /c)
+    endif()
+
+    # Only npm has --custom-generator option
+    execute_process(
+        COMMAND ${help_command}
+        OUTPUT_VARIABLE cli_help_output
+        ERROR_QUIET
+    )
+    string(FIND "${cli_help_output}" "--custom-generator" has_custom_generator)
+
+    if(has_custom_generator EQUAL -1)
+        set(${out_var_custom_generator_support} FALSE PARENT_SCOPE)
+    else()
+        set(${out_var_custom_generator_support} TRUE PARENT_SCOPE)
+    endif()
+endfunction()

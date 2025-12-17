@@ -83,11 +83,19 @@ if(NOT QT_CONFIGURE_RUNNING)
     # library and to be able to generate any client library
     qt_find_package(WrapOpenAPIGenerator PROVIDED_TARGETS WrapOpenAPIGenerator::WrapOpenAPIGenerator)
     if(TARGET WrapOpenAPIGenerator::WrapOpenAPIGenerator)
-        get_target_property(openapi_generator_path
+        get_target_property(openapi_generator_cli_jar_path
             WrapOpenAPIGenerator::WrapOpenAPIGenerator INTERFACE_OPENAPI_GENERATOR_CLI_JAR)
-        if(openapi_generator_path)
-            set(openapi_generator_value "${openapi_generator_path}")
+        if(openapi_generator_cli_jar_path)
+            set(openapi_generator_value "${openapi_generator_cli_jar_path}")
             set(openapi_generator_found TRUE)
+        else() # only get executable property if the jar wasn't found
+            get_target_property(openapi_generator_cli_executable_path
+                WrapOpenAPIGenerator::WrapOpenAPIGenerator
+                INTERFACE_OPENAPI_GENERATOR_CLI_EXECUTABLE)
+            if(openapi_generator_cli_executable_path)
+                set(openapi_generator_value "${openapi_generator_cli_executable_path}")
+                set(openapi_generator_found TRUE)
+            endif()
         endif()
     endif()
 
