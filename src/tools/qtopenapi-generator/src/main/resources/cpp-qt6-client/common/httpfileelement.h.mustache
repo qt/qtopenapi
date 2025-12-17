@@ -18,36 +18,44 @@ namespace {{this}} {
 
 class {{prefix}}HttpFileElementPrivate;
 
-class {{packageNameUpperCase}}_COMMON_EXPORT {{prefix}}HttpFileElement
+class {{prefix}}HttpFileElement
 {
 public:
+    {{packageNameUpperCase}}_COMMON_EXPORT
     {{prefix}}HttpFileElement();
+    {{packageNameUpperCase}}_COMMON_EXPORT
     explicit {{prefix}}HttpFileElement(const QString &localFilename);
+    {{packageNameUpperCase}}_COMMON_EXPORT
     {{prefix}}HttpFileElement(const {{prefix}}HttpFileElement &other);
+    {{packageNameUpperCase}}_COMMON_EXPORT
     {{prefix}}HttpFileElement({{prefix}}HttpFileElement &&other) noexcept;
+    {{packageNameUpperCase}}_COMMON_EXPORT
     {{prefix}}HttpFileElement &operator=(const {{prefix}}HttpFileElement &other);
+    {{packageNameUpperCase}}_COMMON_EXPORT
     {{prefix}}HttpFileElement &operator=({{prefix}}HttpFileElement &&other) noexcept;
+    {{packageNameUpperCase}}_COMMON_EXPORT
     ~{{prefix}}HttpFileElement();
 
+    {{packageNameUpperCase}}_COMMON_EXPORT
     void swap({{prefix}}HttpFileElement &other) noexcept;
 
-    void setMimeType(const QString &mime);
-    void setVariableName(const QString &name);
-    void setTemporary(bool temp);
+    {{packageNameUpperCase}}_COMMON_EXPORT void setMimeType(const QString &mime);
+    {{packageNameUpperCase}}_COMMON_EXPORT void setVariableName(const QString &name);
+    {{packageNameUpperCase}}_COMMON_EXPORT void setTemporary(bool temp);
 
-    QString mimeType() const;
-    QString filename() const;
-    QString variableName() const;
-    bool isTemporary() const;
+    {{packageNameUpperCase}}_COMMON_EXPORT QString mimeType() const;
+    {{packageNameUpperCase}}_COMMON_EXPORT QString filename() const;
+    {{packageNameUpperCase}}_COMMON_EXPORT QString variableName() const;
+    {{packageNameUpperCase}}_COMMON_EXPORT bool isTemporary() const;
 
-    QString requestFilename() const;
-    bool isSet() const;
-    bool fromStringValue(const QString &instr);
-    bool fromJsonValue(const QJsonValue &jval);
-    bool saveToLocalFile(const QByteArray &bytes);
-    QString asJson() const;
-    QJsonValue asJsonValue() const;
-    QByteArray loadFromLocalFile() const;
+    {{packageNameUpperCase}}_COMMON_EXPORT QString requestFilename() const;
+    {{packageNameUpperCase}}_COMMON_EXPORT bool isSet() const;
+    {{packageNameUpperCase}}_COMMON_EXPORT bool fromStringValue(const QString &instr);
+    {{packageNameUpperCase}}_COMMON_EXPORT bool fromJsonValue(const QJsonValue &jval);
+    {{packageNameUpperCase}}_COMMON_EXPORT bool saveToLocalFile(const QByteArray &bytes);
+    {{packageNameUpperCase}}_COMMON_EXPORT QString asJson() const;
+    {{packageNameUpperCase}}_COMMON_EXPORT QJsonValue asJsonValue() const;
+    {{packageNameUpperCase}}_COMMON_EXPORT QByteArray loadFromLocalFile() const;
 
 private:
     QExplicitlySharedDataPointer<{{prefix}}HttpFileElementPrivate> d;
