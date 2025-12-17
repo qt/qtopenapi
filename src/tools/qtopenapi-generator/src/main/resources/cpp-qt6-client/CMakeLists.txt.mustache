@@ -14,25 +14,25 @@ include(CMakePackageConfigHelpers)
 qt_add_library(${PROJECT_NAME}
 {{#models}}
 {{#model}}
-    {{classname}}.h
+    {{#lambda.lowercase}}{{{classname}}}{{/lambda.lowercase}}.h
 {{/model}}
 {{/models}}
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
-    {{classname}}.h
+    {{#lambda.lowercase}}{{{classname}}}{{/lambda.lowercase}}.h
 {{/operations}}
 {{/apis}}
 {{/apiInfo}}
 {{#models}}
 {{#model}}
-    {{classname}}.cpp
+    {{#lambda.lowercase}}{{{classname}}}{{/lambda.lowercase}}.cpp
 {{/model}}
 {{/models}}
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
-    {{classname}}.cpp
+    {{#lambda.lowercase}}{{{classname}}}{{/lambda.lowercase}}.cpp
 {{/operations}}
 {{/apis}}
 {{/apiInfo}}
@@ -94,7 +94,7 @@ target_link_libraries(${PROJECT_NAME}
 {{/enableCommonLibGeneration}}
 )
 
-configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
+configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/config.cmake.in
     "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
     INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
 )
