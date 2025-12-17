@@ -6,25 +6,47 @@
 #include <QtCore/qfileinfo.h>
 #include <QtCore/qjsondocument.h>
 #include <QtCore/qjsonobject.h>
+#include <QtCore/qjsonvalue.h>
+#include <QtCore/qstring.h>
 
 {{#cppCommonNamespaceDeclarations}}
 namespace {{this}} {
 {{/cppCommonNamespaceDeclarations}}
 
-{{prefix}}HttpFileElement::{{prefix}}HttpFileElement() = default;
+class {{prefix}}HttpFileElementPrivate : public QSharedData
+{
+public:
+    explicit {{prefix}}HttpFileElementPrivate(const QString &localFilename)
+        : m_localFilename(localFilename) {}
+    ~{{prefix}}HttpFileElementPrivate();
 
-{{prefix}}HttpFileElementShared::~{{prefix}}HttpFileElementShared()
+    QString m_variableName;
+    const QString m_localFilename;
+    QString m_mimeType;
+    bool m_temporary = false;
+};
+
+{{prefix}}HttpFileElementPrivate::~{{prefix}}HttpFileElementPrivate()
 {
     // Cleanup temporary file when last reference is destroyed
     if (m_temporary && !m_localFilename.isEmpty() && QFile::exists(m_localFilename))
         QFile::remove(m_localFilename);
 }
 
+{{prefix}}HttpFileElement::{{prefix}}HttpFileElement()
+    : d(new {{prefix}}HttpFileElementPrivate({}))
+{}
+
 {{prefix}}HttpFileElement::{{prefix}}HttpFileElement(const QString &localFilename)
-    : d(new {{prefix}}HttpFileElementShared(localFilename)){}
+    : d(new {{prefix}}HttpFileElementPrivate(localFilename))
+{}
 
 {{prefix}}HttpFileElement::{{prefix}}HttpFileElement(const {{prefix}}HttpFileElement &other)
-    : d(other.d) {}
+    : d(other.d)
+{}
+
+{{prefix}}HttpFileElement::{{prefix}}HttpFileElement({{prefix}}HttpFileElement &&other) noexcept
+    = default;
 
 {{prefix}}HttpFileElement &{{prefix}}HttpFileElement::operator=(const {{prefix}}HttpFileElement &other)
 {
@@ -33,7 +55,18 @@ namespace {{this}} {
     return *this;
 }
 
+{{prefix}}HttpFileElement &{{prefix}}HttpFileElement::operator=({{prefix}}HttpFileElement &&other) noexcept
+{
+    swap(other);
+    return *this;
+}
+
 {{prefix}}HttpFileElement::~{{prefix}}HttpFileElement() = default;
+
+void {{prefix}}HttpFileElement::swap({{prefix}}HttpFileElement &other) noexcept
+{
+    d.swap(other.d);
+}
 
 void {{prefix}}HttpFileElement::setMimeType(const QString &mime)
 {
