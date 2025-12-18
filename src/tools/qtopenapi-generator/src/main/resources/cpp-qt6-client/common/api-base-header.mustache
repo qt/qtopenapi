@@ -199,10 +199,6 @@ public Q_SLOTS:
     void enableResponseCompression();
     QString errorString(ServerError error) const;
 
-Q_SIGNALS:
-    void abortRequest();
-    void allPendingRequestsCompleted();
-
 protected:
     QNetworkReply *execute({{prefix}}HttpRequestInput &input, QNetworkRequest &request, QByteArray &requestContent);
 
