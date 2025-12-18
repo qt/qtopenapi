@@ -131,6 +131,7 @@ void {{classname}}::initializeServerConfigs()
 */
 void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{{dataType}}} &{{/required}}{{^required}}::{{cppCommonNamespace}}::OptionalParam<{{{dataType}}}> &{{/required}}{{paramName}}, {{/allParams}}const QObject *context, QtPrivate::QSlotObjectBase *slot)
 {
+    QtPrivate::SlotObjUniquePtr slotPtr(slot);
     const QUrl serverUrl = m_serverConfigs[u"{{nickname}}"_s][m_serverIndices.value(u"{{nickname}}"_s)].url();
     QString fullPath = u"{{{path}}}"_s;
     m_networkFactory->setBaseUrl(serverUrl);
@@ -524,7 +525,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
     QNetworkReply *reply = execute(input, request, m_requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
-        m_callerData.insert(reply, {{prefix}}CallerInfo{context, slot});{{#addDownloadProgress}}
+        m_callerData.insert(reply, {{prefix}}CallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});{{#addDownloadProgress}}
         connect(reply, &QNetworkReply::downloadProgress, this, &{{classname}}::{{nickname}}Progress);{{/addDownloadProgress}}
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
             {{nickname}}Callback(QRestReply(reply));
@@ -537,7 +538,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
                     {{#returnType}}{{{.}}} empty;
                     {{/returnType}}QRestReply restRepl(reply);
                     void *argv[] = { nullptr, &restRepl{{#returnType}}, &empty{{/returnType}} };
-                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                    QObject *context = callerInfo.contextObject ? const_cast<QObject*>(callerInfo.contextObject.get()) : nullptr;
                     callerInfo.slot->call(context, argv);
                 }
             }
@@ -618,7 +619,7 @@ void {{classname}}::{{nickname}}Callback(const QRestReply &reply)
     if (callerInfo.slot) {
         void *argv[] = { nullptr, const_cast<QRestReply*>(&reply){{#returnType}}, &output{{/returnType}} };
         QObject *context = callerInfo.contextObject
-                        ? const_cast<QObject*>(callerInfo.contextObject) : nullptr;
+                        ? const_cast<QObject*>(callerInfo.contextObject.get()) : nullptr;
         callerInfo.slot->call(context, argv);
     }
     emit {{nickname}}Finished({{#returnType}}output{{/returnType}});

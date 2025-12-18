@@ -9,6 +9,7 @@
 
 #include <QtCore/qmap.h>
 #include <QtCore/qobject.h>
+#include <QtCore/qpointer.h>
 #include <QtCore/qstringlist.h>
 
 #include <QtNetwork/qhttpheaders.h>{{#enableQmlCode}}
@@ -204,8 +205,8 @@ protected:
 
 protected:
     struct {{prefix}}CallerInfo {
-        const QObject *contextObject = nullptr;
-        QtPrivate::QSlotObjectBase *slot = nullptr;
+        QPointer<const QObject> contextObject = nullptr;
+        QtPrivate::SlotObjSharedPtr slot;
     };
     using {{prefix}}EmptyCallbackReply = void(*)(QRestReply&);
     template <typename Functor>
