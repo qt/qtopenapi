@@ -444,9 +444,9 @@ void PetApiTests::mixedApiCallsTest()
     UserApi apiUser;
 
     // test resource re-setting
-    apiStore.setNetworkAccessResources(&manager, &restManager);
+    apiStore.setRestAccessManager(&restManager);
     apiStore.setNetworkRequestFactory(factory);
-    apiUser.setNetworkAccessResources(&manager, &restManager);
+    apiUser.setRestAccessManager(&restManager);
     apiUser.setNetworkRequestFactory(factory);
     Pet pet1 = createRandomPet();
     Pet pet2 = createRandomPet();

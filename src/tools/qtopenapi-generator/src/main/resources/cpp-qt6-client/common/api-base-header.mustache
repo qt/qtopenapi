@@ -190,7 +190,7 @@ public Q_SLOTS:
     void setSslConfiguration(QSslConfiguration config);
 #endif // ssl
     void setWorkingDirectory(const QString &path);
-    void setNetworkAccessResources(QNetworkAccessManager *manager, QRestAccessManager *ram);
+    void setRestAccessManager(QRestAccessManager *ram);
     void setNetworkRequestFactory(std::shared_ptr<QNetworkRequestFactory> factory);
 
     void setHeader(QHttpHeaders::WellKnownHeader key, QAnyStringView value);

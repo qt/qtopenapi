@@ -131,12 +131,12 @@ void {{prefix}}BaseApi::setWorkingDirectory(const QString &path)
     m_workingDirectory = path;
 }
 
-void {{prefix}}BaseApi::setNetworkAccessResources(QNetworkAccessManager *manager, QRestAccessManager *ram)
+void {{prefix}}BaseApi::setRestAccessManager(QRestAccessManager *ram)
 {
-    if (manager == m_manager)
+    if (ram == m_restManager)
         return;
-    if (!manager || !ram || (manager != ram->networkAccessManager()))
-        qCritical() << "Network resources are not valid.";
+    if (!ram)
+        qCritical() << "QRestAccessManager cannot be nullptr.";
 
     // clean-up the objects if we own them
     if (m_restManager->parent() == this)
@@ -145,8 +145,8 @@ void {{prefix}}BaseApi::setNetworkAccessResources(QNetworkAccessManager *manager
     if (m_manager->parent() == this)
         delete m_manager;
 
-    m_manager = manager;
     m_restManager = ram;
+    m_manager = m_restManager->networkAccessManager();
 }
 
 void {{prefix}}BaseApi::setNetworkRequestFactory(std::shared_ptr<QNetworkRequestFactory> factory)
