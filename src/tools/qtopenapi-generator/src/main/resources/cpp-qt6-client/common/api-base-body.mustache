@@ -21,18 +21,14 @@ namespace {{this}} {
 {{prefix}}BaseApi::{{prefix}}BaseApi(QObject *parent)
     : QObject(parent),
       m_workingDirectory(QDir::currentPath()),
-      m_manager(nullptr),
       m_restManager(nullptr),
       m_networkFactory(nullptr),
       m_isResponseCompressionEnabled(false),
       m_isRequestCompressionEnabled(false)
 {
-    if (!m_manager) {
-        m_manager = new QNetworkAccessManager(this);
-    }
-    if (!m_restManager) {
-        m_restManager = new QRestAccessManager(m_manager, this);
-    }
+    auto manager = new QNetworkAccessManager(this);
+    m_restManager = new QRestAccessManager(manager, this);
+
     if (!m_networkFactory) {
         m_networkFactory = std::make_shared<QNetworkRequestFactory>();
     }
@@ -139,14 +135,15 @@ void {{prefix}}BaseApi::setRestAccessManager(QRestAccessManager *ram)
         qCritical() << "QRestAccessManager cannot be nullptr.";
 
     // clean-up the objects if we own them
+    auto manager = m_restManager->networkAccessManager();
+
     if (m_restManager->parent() == this)
         delete m_restManager;
 
-    if (m_manager->parent() == this)
-        delete m_manager;
+    if (manager->parent() == this)
+        delete manager;
 
     m_restManager = ram;
-    m_manager = m_restManager->networkAccessManager();
 }
 
 void {{prefix}}BaseApi::setNetworkRequestFactory(std::shared_ptr<QNetworkRequestFactory> factory)
