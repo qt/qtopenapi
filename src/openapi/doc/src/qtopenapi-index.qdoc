@@ -4,32 +4,79 @@
 /*!
     \title Qt OpenAPI
     \page qtopenapi-index.html
-    \brief Qt OpenAPI module provides functionality for generating Qt HTTP clients.
+    \brief A module for generating Qt HTTP clients using OpenAPI
+           and Qt Network RESTful APIs.
 
-    The Qt6 OpenAPI generator is a plugin to the \l {https://openapi-generator.tech/}
-    {OpenAPI generator} which allows you to generate clients, servers, and
-    documentation from OpenAPI 2.0/3.x specifications using a variety of programming
-    languages and frameworks.
+    Qt OpenAPI module provides functionality for generating Qt HTTP clients
+    using Qt Network RESTful APIs. The main module features are the
+    Qt6 OpenAPI generator and pre-generated \c OpenApiCommon library.
 
-    The Qt6 OpenAPI generator allows you to autogenerate Qt HTTP clients
-    in C++ using \l{Qt Network} APIs such as \l QRestAccessManager.
+    The Qt6 OpenAPI generator is a plugin to the
+    \l{https://openapi-generator.tech/}{OpenAPI generator}. It allows you to
+    autogenerate Qt HTTP clients in C++ using \l{Qt Network} APIs such as
+    \l QRestAccessManager.
+
+    \note Qt OpenAPI in \QtVer is in \e{Technical Preview}, excluding its
+    API from \l[QtDoc]{Compatibility promises}{Qt's compatibility promises}.
 
     \section1 Using the module
-    Installation of the following packages is necessary to use the Qt OpenAPI module:
+    Installation of the following packages is necessary to use the Qt OpenAPI
+    module:
     \list
         \li \l {https://openapi-generator.tech/}{OpenAPI generator}
             (requires OpenAPI 7.12.0 or above).
-        \li \l {https://maven.apache.org/}{Maven plugin} (requires Maven 3.0 or above).
-        \li \l {https://openjdk.org/projects/jdk/}{Java JDK} (requires JDK 17 or above).
+        \li \l {https://maven.apache.org/}{Maven plugin}
+            (requires Maven 3.0 or above).
+        \li \l {https://openjdk.org/projects/jdk/}{Java JDK}
+            (requires JDK 17 or above).
     \endlist
     Once you have the required installations, the Qt OpenAPI generator
     is ready for use within your projects.
     To generate client code from an OpenAPI specification
     using the Qt OpenAPI Generator, you should call the
-    \c qt6_add_openapi_client macro inside your project's
+    \l qt_add_openapi_client function inside your project's
     CMakeLists.txt file. See \l {Building with CMake} for details.
 
     \section2 Building with CMake
+    Use the \c find_package() command to locate the needed module
+    components in the Qt6 package. And after that call the
+    \l qt_add_openapi_client function to generate a required
+    Qt HTTP client library. See the full cmake code example below:
+    \code
+        cmake_minimum_required(VERSION 3.22)
+
+        project(openapiApplication LANGUAGES CXX)
+
+        set(CMAKE_AUTOUIC ON)
+        set(CMAKE_AUTOMOC ON)
+        set(CMAKE_AUTORCC ON)
+
+        set(CMAKE_CXX_STANDARD 17)
+        set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+        find_package(Qt6 REQUIRED COMPONENTS Core OpenApiCommon OpenApiTools)
+
+        qt_add_executable(openapiApplication
+          main.cpp
+        )
+        qt_add_library(generatedLibrary)
+        qt_add_openapi_client(generatedLibrary
+            SPEC_FILE
+                ${CMAKE_CURRENT_SOURCE_DIR}/spec.yaml
+        )
+        target_link_libraries(openapiApplication Qt6::Core generatedLibrary)
+
+        include(GNUInstallDirs)
+        install(TARGETS openapiApplication
+            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        )
+    \endcode
+    \note \c OpenApiTools library doesn't need to be linked to the resulting
+    \c openapiApplication target. However, it's still required for enabling
+    the \l qt_add_openapi_client cmake function.
+    \note \c OpenApiCommon library is linked to the target by the
+    \l qt_add_openapi_client call.
 
     \section1 Examples
 

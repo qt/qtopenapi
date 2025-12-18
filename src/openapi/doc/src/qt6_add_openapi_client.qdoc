@@ -1,0 +1,93 @@
+// Copyright (C) 2025 The Qt Company Ltd.
+// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GFDL-1.3-no-invariants-only
+
+/*!
+\group cmake-commands-qtopenapi
+\title CMake Commands in Qt6 OpenApi
+\brief Lists CMake commands defined in Qt6::OpenApiTools.
+
+The following CMake commands are defined when Qt6::OpenApiTools
+is loaded with:
+\code
+    find_package(Qt6 REQUIRED COMPONENTS OpenApiTools)
+\endcode
+
+\sa{CMake Command Reference}
+*/
+
+/*!
+\page qt_add_openapi_client.html
+
+\ingroup cmake-commands-qtopenapi
+\title qt_add_openapi_client
+\target qt_add_openapi_client
+\keyword qt6_add_openapi_client
+\summary {Generates an HTTP client using a provided OpenAPI specification.}
+\cmakecommandsince 6.11
+\preliminarycmakecommand
+
+\section1 Synopsis
+The command is defined in the OpenApiTools component of
+the Qt6 package, which can be loaded like this:
+\code
+    find_package(Qt6 REQUIRED COMPONENTS OpenApiTools)
+
+    qt_add_openapi_client(target
+        SPEC_FILE filename.yaml
+    )
+\endcode
+\versionlessCMakeCommandsNote qt6_add_openapi_client()
+
+\section1 Description
+The \c qt_add_openapi_client macro calls the Qt OpenAPI generator for
+a provided specification file. As a result, the command generates the
+scope of source files and adds them to the target source list.
+If the target doesn't exist, the generation will be stopped with an
+error message. For creating the target you can call \c qt_add_library
+or \c qt_add_executable functions.
+
+\note Always create the target before calling the \c qt_add_openapi_client
+function.
+
+\badcode
+    qt_add_openapi_client(<target>
+        SPEC_FILE <file>
+        [CPP_NAMESPACE <namespace>]
+        [CLIENT_PREFIX <prefix>]
+        [OUTPUT_DIRECTORY <dir>]
+        [GENERATE_DOCUMENTATION]
+        [DOCUMENTATION_OUTPUT_DIRECTORY <dir>]
+        [OUTPUT_PUBLIC_HEADERS_DIR <dir>]
+        [OUTPUT_PRIVATE_HEADERS_DIR <dir>]
+    )
+\endcode
+
+\note Only \c client code generation is currently supported.
+
+\section1 Arguments
+\list
+    \li \c {SPEC_FILE}
+        specifies an OpenAPI specification file, required for a code
+        generation.
+        The file should have a \c {*.yaml} extension.
+    \li \c {CPP_NAMESPACE}
+        specifies a C++ namespace name to group generated classes.
+    \li \c {CLIENT_PREFIX}
+        specifies a prefix for generated API and Model class names.
+        Can be used for making class names unique among user projects.
+    \li \c {OUTPUT_DIRECTORY}
+        specifies a directory for generated code.
+    \li \c {GENERATE_DOCUMENTATION}
+        enables generation of \c doxygen documentation for generated
+        classes.
+    \li \c {DOCUMENTATION_OUTPUT_DIRECTORY}
+        specifies a directory that will store the \c doxygen documentation.
+        The option can only be used together with \c {GENERATE_DOCUMENTATION}.
+    \li \c {OUTPUT_PUBLIC_HEADERS_DIR}
+        specifies a directory that will store the list of generated public
+        headers, otherwise you can find headers in the \c {OUTPUT_DIRECTORY}.
+    \li \c {OUTPUT_PRIVATE_HEADERS_DIR}
+        specifies a directory that will store the list of generated private
+        headers, otherwise you can find headers in the \c {OUTPUT_DIRECTORY}.
+\endlist
+*/
