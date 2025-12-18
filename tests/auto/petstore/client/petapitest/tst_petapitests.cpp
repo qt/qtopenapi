@@ -431,9 +431,8 @@ void PetApiTests::connectAddPetApi(PetApi *petApi, bool &petCreated)
 
 void PetApiTests::mixedApiCallsTest()
 {
-    std::shared_ptr<QNetworkAccessManager> manager = std::make_shared<QNetworkAccessManager>();
-    std::shared_ptr<QRestAccessManager> restManager
-        = std::make_shared<QRestAccessManager>(manager.get(), this);
+    QNetworkAccessManager manager;
+    QRestAccessManager restManager(&manager);
     std::shared_ptr<QNetworkRequestFactory> factory = std::make_shared<QNetworkRequestFactory>();;
 
     PetApi api1, api2;
@@ -445,9 +444,9 @@ void PetApiTests::mixedApiCallsTest()
     UserApi apiUser;
 
     // test resource re-setting
-    apiStore.setNetworkAccessResources(manager, restManager);
+    apiStore.setNetworkAccessResources(&manager, &restManager);
     apiStore.setNetworkRequestFactory(factory);
-    apiUser.setNetworkAccessResources(manager, restManager);
+    apiUser.setNetworkAccessResources(&manager, &restManager);
     apiUser.setNetworkRequestFactory(factory);
     Pet pet1 = createRandomPet();
     Pet pet2 = createRandomPet();
