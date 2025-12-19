@@ -322,8 +322,6 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         }{{/isNullable}}{{/required}}
     }
 {{/queryParams}}
-    // set m_testOperationPath for serialization tests
-    m_testOperationPath = fullPath;
     {{prefix}}HttpRequestInput input(fullPath, "{{httpMethod}}"_L1);
 {{#hasFormParams}}
 {{#consumes}}
@@ -520,10 +518,11 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         input.headers().append(QHttpHeaders::WellKnownHeader::Cookie, cookieString);
     }
 {{/cookieParams}}
+    QByteArray requestContent;
     QNetworkRequest request
-        = {{prefix}}HttpRequestWorker::getNetworkRequest(input, m_requestContent, m_networkFactory,
+        = {{prefix}}HttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
                                                   m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
-    QNetworkReply *reply = execute(input, request, m_requestContent);
+    QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
         m_callerData.insert(reply, {{prefix}}CallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});{{#addDownloadProgress}}
