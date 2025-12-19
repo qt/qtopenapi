@@ -7,6 +7,7 @@
 #include <QtCore/qjsondocument.h>
 #include <QtNetwork/qhttpmultipart.h>
 #include <QtNetwork/qnetworkaccessmanager.h>
+#include <QtNetwork/qnetworkreply.h>
 #include <QtNetwork/qnetworkrequestfactory.h>
 #include <QtNetwork/qrestaccessmanager.h>
 
@@ -210,12 +211,12 @@ QNetworkReply *{{prefix}}BaseApi::execute({{prefix}}HttpRequestInput &input, QNe
         reply = m_restManager->get(request);
     } else if (httpMethod == "POST"_L1) {
         if (isMultiPartMode)
-            reply = m_restManager->post(request, input.takeMultiPart());
+            reply = m_restManager->post(request, input.multiPart());
         else
             reply = m_restManager->post(request, requestContent);
     } else if (httpMethod == "PUT"_L1) {
         if (isMultiPartMode)
-            reply = m_restManager->put(request, input.takeMultiPart());
+            reply = m_restManager->put(request, input.multiPart());
         else
             reply = m_restManager->put(request, requestContent);
     } else if (httpMethod == "HEAD"_L1) {
@@ -224,9 +225,15 @@ QNetworkReply *{{prefix}}BaseApi::execute({{prefix}}HttpRequestInput &input, QNe
         reply = m_restManager->deleteResource(request);
     } else {
         if (isMultiPartMode)
-            reply = m_restManager->sendCustomRequest(request, httpMethod.toLatin1(), input.takeMultiPart());
+            reply = m_restManager->sendCustomRequest(request, httpMethod.toLatin1(), input.multiPart());
         else
             reply = m_restManager->sendCustomRequest(request, httpMethod.toLatin1(), requestContent);
+    }
+    // Reparent QHttpMultiPart* to extend its lifetime to the lifetime of the reply
+    if (reply && isMultiPartMode) {
+        auto multiPart = input.takeMultiPart(); // releases the ownership
+        if (multiPart)
+            multiPart->setParent(reply);
     }
     return reply;
 }

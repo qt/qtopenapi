@@ -64,6 +64,7 @@ public:
     {{packageNameUpperCase}}_COMMON_EXPORT QString httpMethod() const;
 
     {{packageNameUpperCase}}_COMMON_EXPORT bool hasMultiPart() const;
+    {{packageNameUpperCase}}_COMMON_EXPORT QHttpMultiPart* multiPart() const;
     {{packageNameUpperCase}}_COMMON_EXPORT QHttpMultiPart* takeMultiPart();
 
     {{packageNameUpperCase}}_COMMON_EXPORT void setRequestBody(const QByteArray &data);

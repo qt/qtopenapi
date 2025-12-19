@@ -147,6 +147,11 @@ bool {{prefix}}HttpRequestInput::hasMultiPart() const
     return d_ptr->m_multiPart != nullptr && d_ptr->m_varLayout == VariableLayout::Multipart;
 }
 
+QHttpMultiPart* {{prefix}}HttpRequestInput::multiPart() const
+{
+    return d_ptr->m_multiPart.get();
+}
+
 QHttpMultiPart* {{prefix}}HttpRequestInput::takeMultiPart()
 {
     return d_ptr->m_multiPart.release();
