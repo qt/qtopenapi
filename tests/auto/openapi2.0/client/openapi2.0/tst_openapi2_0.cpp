@@ -10,6 +10,37 @@
 #include <QtNetwork/qrestaccessmanager.h>
 #include <QtTest/qtest.h>
 
+class LoggingNetworkAccessManager : public QNetworkAccessManager
+{
+public:
+    LoggingNetworkAccessManager(QObject *parent = nullptr)
+        : QNetworkAccessManager(parent)
+    {}
+    ~LoggingNetworkAccessManager() override
+    {}
+
+protected:
+    QNetworkReply *createRequest(QNetworkAccessManager::Operation op,
+                                 const QNetworkRequest &originalReq,
+                                 QIODevice *outgoingData = nullptr) override;
+
+public:
+    QString m_operationPath;
+};
+
+QNetworkReply *LoggingNetworkAccessManager::createRequest(QNetworkAccessManager::Operation op,
+                                                          const QNetworkRequest &originalReq,
+                                                          QIODevice *outgoingData)
+{
+    const QUrl fullUrl = originalReq.url();
+    // we only need the path and query parameters
+    m_operationPath = fullUrl.path(QUrl::FullyEncoded);
+    if (fullUrl.hasQuery())
+        m_operationPath += u'?' + fullUrl.query(QUrl::FullyEncoded);
+
+    return QNetworkAccessManager::createRequest(op, originalReq, outgoingData);
+}
+
 namespace QtOpenAPI {
 
 static QProcess serverProcess;
@@ -42,9 +73,17 @@ private Q_SLOTS:
     {
         if (serverProcess.state() != QProcess::ProcessState::Running)
             startServerProcess();
+
+        m_manager = new LoggingNetworkAccessManager(this);
+        m_restManager = new QRestAccessManager(m_manager, this);
+        setRestAccessManager(m_restManager);
     }
     void testCollectionFormats();
     void cleanupTestCase();
+
+private:
+    LoggingNetworkAccessManager *m_manager = nullptr;
+    QRestAccessManager *m_restManager = nullptr;
 };
 
 void OperationParametersBackport::testCollectionFormats()
@@ -74,7 +113,7 @@ void OperationParametersBackport::testCollectionFormats()
     testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, this, [&](const QRestReply &reply, const QString &summary) {
         if ((done = reply.isSuccess())) {
             QString expected("/v2/fake/test-query-parameters?pipe=pipe0%7Cpipe1%7Cpipe2&ioutil=ioutil0,ioutil1,ioutil2&http=http0%20http1%20http2&url=url0,url1,url2&multiContext=context0&multiContext=context1&multiContext=context2");
-            QCOMPARE("/v2" + m_testOperationPath, expected);
+            QCOMPARE(m_manager->m_operationPath, expected);
             QCOMPARE(getStatusString(summary), expected);
         } else {
             qWarning() << "testQueryParameterCollectionFormat Error: " << reply.errorString();
@@ -89,7 +128,7 @@ void OperationParametersBackport::testCollectionFormats()
     testPathParameterCollectionFormat(pipe, ioutil, http, url, context, this, [&](const QRestReply &reply, const QString &summary) {
         if ((done = reply.isSuccess())) {
             QString expected("/v2/fake/test-path-parameters/pipe0,pipe1,pipe2/ioutil0,ioutil1,ioutil2/http0,http1,http2/url0,url1,url2/context0,context1,context2");
-            QCOMPARE("/v2" + m_testOperationPath, expected);
+            QCOMPARE(m_manager->m_operationPath, expected);
             QCOMPARE(getStatusString(summary), expected);
         } else {
             qWarning() << "testPathParameterCollectionFormat Error: " << reply.errorString();

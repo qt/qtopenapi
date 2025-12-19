@@ -3,6 +3,7 @@
 
 #include "../client/testapi.h"
 
+#include <QtCore/qbuffer.h>
 #include <QtCore/qobject.h>
 #include <QtCore/QProcess>
 #include <QtCore/QThread>
@@ -13,6 +14,39 @@
 
 using namespace Qt::StringLiterals;
 using namespace QtCommonOpenAPI;
+
+class LoggingNetworkAccessManager : public QNetworkAccessManager
+{
+public:
+    LoggingNetworkAccessManager(QObject *parent = nullptr)
+        : QNetworkAccessManager(parent)
+    {}
+    ~LoggingNetworkAccessManager() override
+    {}
+
+protected:
+    QNetworkReply *createRequest(QNetworkAccessManager::Operation op,
+                                 const QNetworkRequest &originalReq,
+                                 QIODevice *outgoingData = nullptr) override;
+
+public:
+    QByteArray m_content;
+};
+
+QNetworkReply *LoggingNetworkAccessManager::createRequest(QNetworkAccessManager::Operation op,
+                                                          const QNetworkRequest &originalReq,
+                                                          QIODevice *outgoingData)
+{
+    // The QNAM::put/post/sendCustomRequest operations that take QByteArray
+    // as a data parameter use QBuffer to wrap the byte array.
+    // It is later passed as a QIODevice* to this method.
+    // We cast the QIODevice to QBuffer, and store its content to intercept
+    // the transferred data.
+    QBuffer *buffer = qobject_cast<QBuffer*>(outgoingData);
+    m_content = buffer ? buffer->data() : QByteArray();
+
+    return QNetworkAccessManager::createRequest(op, originalReq, outgoingData);
+}
 
 namespace QtOpenAPI {
 static QProcess serverProcess;
@@ -81,6 +115,10 @@ private Q_SLOTS:
     {
         if (serverProcess.state() != QProcess::ProcessState::Running)
             startServerProcess();
+
+        m_manager = new LoggingNetworkAccessManager(this);
+        m_restManager = new QRestAccessManager(m_manager, this);
+        setRestAccessManager(m_restManager);
     }
     void testJsonMediaType();
     void testPlainText_data();
@@ -89,6 +127,10 @@ private Q_SLOTS:
     void testUrlEncodedType();
     void testFormMediaTypes();
     void cleanupTestCase();
+
+private:
+    LoggingNetworkAccessManager *m_manager = nullptr;
+    QRestAccessManager *m_restManager = nullptr;
 };
 
 // MEDIA TYPE `application/json`
@@ -105,7 +147,7 @@ void MediaType::testJsonMediaType()
         QCOMPARE(getJsonValue(summary, "bool").toBool(), true);
         QCOMPARE(getHeaderValue(summary), appJsonHeader);
     });
-    QCOMPARE(m_requestContent, "true");
+    QCOMPARE(m_manager->m_content, "true");
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
@@ -115,7 +157,7 @@ void MediaType::testJsonMediaType()
         QCOMPARE(getJsonValue(summary, "integer").toInt(), 42);
         QCOMPARE(getHeaderValue(summary), appJsonHeader);
     });
-    QCOMPARE(m_requestContent, "42");
+    QCOMPARE(m_manager->m_content, "42");
     QTRY_COMPARE_EQ(done, true);
 
     // NOTE: JSON string value should be framed by quotes (\"\")
@@ -129,7 +171,7 @@ void MediaType::testJsonMediaType()
         QCOMPARE(getJsonValue(summary, "json-string").toString(), jsonString.mid(1, jsonString.size() - 2));
         QCOMPARE(getHeaderValue(summary), appJsonHeader);
     });
-    QCOMPARE(m_requestContent, jsonString);
+    QCOMPARE(m_manager->m_content, jsonString);
     QTRY_COMPARE_EQ(done, true);
 
     // NOTE: JSON supports null, see here https://spec.openapis.org/oas/v3.1.1.html#data-types
@@ -143,7 +185,7 @@ void MediaType::testJsonMediaType()
         QCOMPARE(getJsonValue(summary, "json-string").toString(), "null");
         QCOMPARE(getHeaderValue(summary), appJsonHeader);
     });
-    QCOMPARE(m_requestContent, "null");
+    QCOMPARE(m_manager->m_content, "null");
     QTRY_COMPARE_EQ(done, true);
 
     // EMPTY requestContent, but header still needs to be sent.
@@ -155,7 +197,7 @@ void MediaType::testJsonMediaType()
                                   QCOMPARE(getJsonValue(summary, "json-string").toString(), "");
                                   QCOMPARE(getHeaderValue(summary), appJsonHeader);
                               });
-    QCOMPARE(m_requestContent, "");
+    QCOMPARE(m_manager->m_content, "");
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
@@ -180,7 +222,7 @@ void MediaType::testJsonMediaType()
             QVERIFY(users.contains(user));
         }
     });
-    QCOMPARE(m_requestContent,
+    QCOMPARE(m_manager->m_content,
              "[{\"age\":0,\"name\":\"UserName0\",\"status\":\"a child\"},{\"age\":1,\"name\":\"UserName1\",\"status\":\"a child\"},{\"age\":2,\"name\":\"UserName2\",\"status\":\"a child\"},{\"age\":3,\"name\":\"UserName3\",\"status\":\"a child\"}]");
     QTRY_COMPARE_EQ(done, true);
 
@@ -213,7 +255,7 @@ void MediaType::testJsonMediaType()
         const QByteArray nestedJson = QJsonDocument(nestedObj).toJson(QJsonDocument::Compact);
         QCOMPARE(nestedJson, expectedUser);
     });
-    QCOMPARE(m_requestContent, expectedUser);
+    QCOMPARE(m_manager->m_content, expectedUser);
     QTRY_COMPARE_EQ(done, true);
 
     // EMPTY requestContent, but header still needs to be sent.
@@ -239,7 +281,7 @@ void MediaType::testJsonMediaType()
         QCOMPARE(getUserByStatusObject(summary), user);
         QCOMPARE(getHeaderValue(summary), appJsonHeader);
     });
-    QCOMPARE(m_requestContent, "{\"age\":99,\"name\":\"Tatiana\",\"status\":\"is working\"}");
+    QCOMPARE(m_manager->m_content, "{\"age\":99,\"name\":\"Tatiana\",\"status\":\"is working\"}");
     QTRY_COMPARE_EQ(done, true);
 
     // EMPTY requestContent, but header still needs to be sent.
@@ -270,7 +312,7 @@ void MediaType::testJsonMediaType()
         QCOMPARE(response, request);
         QCOMPARE(getHeaderValue(summary), appJsonHeader);
     });
-    QCOMPARE(m_requestContent,
+    QCOMPARE(m_manager->m_content,
              "{\"user\":{\"age\":76,\"name\":\"User Userovich\",\"status\":\"is resting\"},\"uuid\":\"f81d4fae-7dec-11d0-a765-00a0c91e6bf6\"}");
     QTRY_COMPARE_EQ(done, true);
 
@@ -308,7 +350,7 @@ void MediaType::testPlainText()
         QCOMPARE(getJsonValue(summary).toString(), stringValue);
         QCOMPARE(getHeaderValue(summary), "text/plain");
     });
-    QCOMPARE(m_requestContent, stringValue);
+    QCOMPARE(m_manager->m_content, stringValue);
     QTRY_COMPARE_EQ(done, true);
 }
 
@@ -329,7 +371,7 @@ void MediaType::testOctetStream()
         QCOMPARE(getHeaderValue(summary), "application/octet-stream");
         QCOMPARE(getJsonValue(summary, "file-content").toString().trimmed(), "Hello world!");
     });
-    QCOMPARE(m_requestContent.trimmed(), "Hello world!");
+    QCOMPARE(m_manager->m_content.trimmed(), "Hello world!");
     QTRY_COMPARE_EQ(done, true);
 
     // png is from qtbase auto-tests
@@ -343,7 +385,7 @@ void MediaType::testOctetStream()
         QCOMPARE(getHeaderValue(summary), "application/octet-stream");
     });
     QImage image;
-    image.loadFromData(m_requestContent, "PNG");
+    image.loadFromData(m_manager->m_content, "PNG");
     QCOMPARE(image.size(), imgFromFile.size());
     QTRY_COMPARE_EQ(done, true);
 
@@ -398,9 +440,9 @@ void MediaType::testUrlEncodedType()
             QVERIFY(days.contains(day));
         }
     });
-    QCOMPARE(m_requestContent,
+    QCOMPARE(m_manager->m_content,
              "name=John+%2A%2B%2C%3B%3D%21%24%26%27%28%29&status=98665&availability=true&visits=Monday&visits=Sunday&visits=%2A%2B%2C%3B%3D%21%24%26%27%28%29&mapfield=%7B%22PET%22%3A%7B%22age%22%3A101%2C%22name%22%3A%22Lazy+Cat%22%2C%22status%22%3A%22Sleeping+Beeping+%2A%2B%2C%3B%3D%21%24%26%27%28%29%22%7D%7D");
-    QCOMPARE(fromFormUrlEncoding(m_requestContent),
+    QCOMPARE(fromFormUrlEncoding(m_manager->m_content),
              "name=John *+,;=!$&'()&status=98665&availability=true&visits=Monday&visits=Sunday&visits=*+,;=!$&'()&mapfield={\"PET\":{\"age\":101,\"name\":\"Lazy Cat\",\"status\":\"Sleeping Beeping *+,;=!$&'()\"}}");
     QTRY_COMPARE_EQ(done, true);
 
@@ -443,8 +485,8 @@ void MediaType::testUrlEncodedType()
         QCOMPARE(getJsonValue(summary, "comment").toString(), stringParam);
         QCOMPARE(getHeaderValue(summary), "application/x-www-form-urlencoded");
     });
-    QCOMPARE(m_requestContent, "user=%7B%22age%22%3A100%2C%22name%22%3A%22Tatiana%22%2C%22status%22%3A%22is+working+%CE%A3%CE%A8%22%7D&comment=Test+String+%CE%A3%CE%A8");
-    QCOMPARE(fromFormUrlEncoding(m_requestContent), u"user={\"age\":100,\"name\":\"Tatiana\",\"status\":\"is working ΣΨ\"}&comment=Test String ΣΨ"_s);
+    QCOMPARE(m_manager->m_content, "user=%7B%22age%22%3A100%2C%22name%22%3A%22Tatiana%22%2C%22status%22%3A%22is+working+%CE%A3%CE%A8%22%7D&comment=Test+String+%CE%A3%CE%A8");
+    QCOMPARE(fromFormUrlEncoding(m_manager->m_content), u"user={\"age\":100,\"name\":\"Tatiana\",\"status\":\"is working ΣΨ\"}&comment=Test String ΣΨ"_s);
     QTRY_COMPARE_EQ(done, true);
 
     // EMPTY requestContent, but header still needs to be sent.
@@ -473,8 +515,8 @@ void MediaType::testUrlEncodedType()
         QCOMPARE(getJsonValue(summary, "age").toVariant().toInt(), 8776513);
         QCOMPARE(getHeaderValue(summary), "application/x-www-form-urlencoded");
     });
-    QCOMPARE(m_requestContent, "name=User+Name+1234+&status=Thinking&age=8776513");
-    QCOMPARE(fromFormUrlEncoding(m_requestContent), "name=User Name 1234 &status=Thinking&age=8776513");
+    QCOMPARE(m_manager->m_content, "name=User+Name+1234+&status=Thinking&age=8776513");
+    QCOMPARE(fromFormUrlEncoding(m_manager->m_content), "name=User Name 1234 &status=Thinking&age=8776513");
     QTRY_COMPARE_EQ(done, true);
 
     // EMPTY requestContent, but header still needs to be sent.

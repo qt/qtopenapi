@@ -23,7 +23,7 @@ using namespace Qt::StringLiterals;
             qWarning() << "Error happened while issuing request : " << reply.errorString(); \
         QCOMPARE(getStatusString(summary), EXPECTED_STRING);                                \
     });                                                                                     \
-    QCOMPARE("/v2" + m_testOperationPath, EXPECTED_STRING);                                 \
+    QCOMPARE(m_manager->m_operationPath, EXPECTED_STRING);                                 \
     QTRY_COMPARE_EQ(done, true);                                                            \
 }
 
@@ -36,7 +36,7 @@ using namespace Qt::StringLiterals;
         QCOMPARE(getStatusString(summary), EXPECTED_STRING);                                \
         QCOMPARE(getHeaderValue(summary), "application/x-www-form-urlencoded");             \
     });                                                                                     \
-    QCOMPARE("/v2" + m_testOperationPath, EXPECTED_STRING);                                 \
+    QCOMPARE(m_manager->m_operationPath, EXPECTED_STRING);                                 \
     QTRY_COMPARE_EQ(done, true);                                                            \
 }
 
@@ -79,8 +79,39 @@ using namespace Qt::StringLiterals;
         if (!std::isnan(expectedVal) && !std::isinf(expectedVal))                           \
             QCOMPARE(summary.getValue(), expectedVal);                                      \
     });                                                                                     \
-    QCOMPARE("/v2" + m_testOperationPath, EXPECTED_SUMMARY.getStringValue());               \
+    QCOMPARE(m_manager->m_operationPath, EXPECTED_SUMMARY.getStringValue());               \
     QTRY_COMPARE_EQ(done, true);                                                            \
+}
+
+class LoggingNetworkAccessManager : public QNetworkAccessManager
+{
+public:
+    LoggingNetworkAccessManager(QObject *parent = nullptr)
+        : QNetworkAccessManager(parent)
+    {}
+    ~LoggingNetworkAccessManager() override
+    {}
+
+protected:
+    QNetworkReply *createRequest(QNetworkAccessManager::Operation op,
+                                 const QNetworkRequest &originalReq,
+                                 QIODevice *outgoingData = nullptr) override;
+
+public:
+    QString m_operationPath;
+};
+
+QNetworkReply *LoggingNetworkAccessManager::createRequest(QNetworkAccessManager::Operation op,
+                                                          const QNetworkRequest &originalReq,
+                                                          QIODevice *outgoingData)
+{
+    const QUrl fullUrl = originalReq.url();
+    // we only need the path and query parameters
+    m_operationPath = fullUrl.path(QUrl::FullyEncoded);
+    if (fullUrl.hasQuery())
+        m_operationPath += u'?' + fullUrl.query(QUrl::FullyEncoded);
+
+    return QNetworkAccessManager::createRequest(op, originalReq, outgoingData);
 }
 
 namespace QtOpenAPI {
@@ -133,6 +164,10 @@ private Q_SLOTS:
     {
         if (serverProcess.state() != QProcess::ProcessState::Running)
             startServerProcess();
+
+        m_manager = new LoggingNetworkAccessManager(this);
+        m_restManager = new QRestAccessManager(m_manager, this);
+        setRestAccessManager(m_restManager);
     }
     void pathStringParameters_data();
     void pathStringParameters();
@@ -187,6 +222,10 @@ private Q_SLOTS:
     void severalCookies();
     void cookieInvalidStyle();
     void cleanupTestCase();
+
+private:
+    LoggingNetworkAccessManager *m_manager = nullptr;
+    QRestAccessManager *m_restManager = nullptr;
 };
 
 QString invalidExplodeWarningMsg(const QString& paramName, const QString& style, bool explode) {
@@ -817,7 +856,7 @@ void OperationParameters::multiplePathParameters()
     expectedResult = "/v2/path/strings/simple-explode/First%20string%20param/"
                      "Second%20string%20param";
     simpleExplodeStrings(str1,str2);
-    QCOMPARE("/v2" + m_testOperationPath, expectedResult);
+    QCOMPARE(m_manager->m_operationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
@@ -836,7 +875,7 @@ void OperationParameters::multiplePathParameters()
     expectedResult = "/v2/path/string/label-not-explode/array/matrix-not-explode/"
                      ".First%20string%20param/;arrayParameter=-90,0,0,2,87867";
     labelStringMatrixArrayNotExplode(str1, array);
-    QCOMPARE("/v2" + m_testOperationPath, expectedResult);
+    QCOMPARE(m_manager->m_operationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 }
 
@@ -1375,7 +1414,7 @@ void OperationParameters::severalQueryParametersPerOPeration()
     expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterA=First%20param&stringParameterB=second%20param&stringParameterC=-3499";
     formExplodeStringOptions(bParam, OptionalParam<QString>(aParam),
                              OptionalParam<qint32>(cParam));
-    QCOMPARE("/v2" + m_testOperationPath, expectedResult);
+    QCOMPARE(m_manager->m_operationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
     // NOTE: Empty optional parameters are being
@@ -1383,13 +1422,13 @@ void OperationParameters::severalQueryParametersPerOPeration()
     done = false;
     expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterA=First%20param&stringParameterB=second%20param";
     formExplodeStringOptions(bParam, aParam);
-    QCOMPARE("/v2" + m_testOperationPath, expectedResult);
+    QCOMPARE(m_manager->m_operationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
     expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterB=second%20param";
     formExplodeStringOptions(bParam);
-    QCOMPARE("/v2" + m_testOperationPath, expectedResult);
+    QCOMPARE(m_manager->m_operationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
     // NOTE: QtOpenAPI::OptionalParam<T>() is equal to EMPTY optional parameter
@@ -1397,19 +1436,19 @@ void OperationParameters::severalQueryParametersPerOPeration()
     done = false;
     expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterB=";
     formExplodeStringOptions("");
-    QCOMPARE("/v2" + m_testOperationPath, expectedResult);
+    QCOMPARE(m_manager->m_operationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
     expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterB=";
     formExplodeStringOptions("", OptionalParam<QString>());
-    QCOMPARE("/v2" + m_testOperationPath, expectedResult);
+    QCOMPARE(m_manager->m_operationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
     expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterB=";
     formExplodeStringOptions("", OptionalParam<QString>(), OptionalParam<qint32>());
-    QCOMPARE("/v2" + m_testOperationPath, expectedResult);
+    QCOMPARE(m_manager->m_operationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
     // NOTE: NULL != Empty! optional(Null) is being serialized like
@@ -1417,19 +1456,19 @@ void OperationParameters::severalQueryParametersPerOPeration()
     done = false;
     expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterA=&stringParameterB=";
     formExplodeStringOptions("", OptionalParam<QString>(OptionalParam<QString>::IsNull));
-    QCOMPARE("/v2" + m_testOperationPath, expectedResult);
+    QCOMPARE(m_manager->m_operationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
     expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterA=&stringParameterB=&stringParameterC=";
     formExplodeStringOptions("", OptionalParam<QString>(OptionalParam<QString>::IsNull), OptionalParam<qint32>(OptionalParam<qint32>::IsNull));
-    QCOMPARE("/v2" + m_testOperationPath, expectedResult);
+    QCOMPARE(m_manager->m_operationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
     expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterA=&stringParameterB=";
     formExplodeStringOptions("", OptionalParam<QString>(OptionalParam<QString>::IsNull), OptionalParam<qint32>());
-    QCOMPARE("/v2" + m_testOperationPath, expectedResult);
+    QCOMPARE(m_manager->m_operationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
     // NOTE: Empty string != empty parameter. It is being serialized like
@@ -1437,13 +1476,13 @@ void OperationParameters::severalQueryParametersPerOPeration()
     done = false;
     expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterA=&stringParameterB=&stringParameterC=";
     formExplodeStringOptions("", OptionalParam<QString>(""), OptionalParam<qint32>(OptionalParam<qint32>::IsNull));
-    QCOMPARE("/v2" + m_testOperationPath, expectedResult);
+    QCOMPARE(m_manager->m_operationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
     expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterA=%20end%21&stringParameterB=The&stringParameterC=100";
     formExplodeStringOptions("The", OptionalParam<QString>(" end!"), OptionalParam<qint32>(100));
-    QCOMPARE("/v2" + m_testOperationPath, expectedResult);
+    QCOMPARE(m_manager->m_operationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
