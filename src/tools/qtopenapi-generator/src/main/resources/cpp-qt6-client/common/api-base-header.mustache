@@ -214,6 +214,8 @@ public Q_SLOTS:
 
 protected:
     QNetworkReply *execute({{prefix}}HttpRequestInput &input, QNetworkRequest &request, QByteArray &requestContent);
+    void setServersForOperation(const QString &operation, const QList<{{prefix}}ServerConfiguration> &configs);
+    void setBaseServerUrl(const QString &operation);
 
 protected:
     struct {{prefix}}CallerInfo {

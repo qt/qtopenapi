@@ -5,6 +5,8 @@
 #include <QtCore/QDir>
 #include <QtCore/qjsonarray.h>
 #include <QtCore/qjsondocument.h>
+#include <QtCore/qurl.h>
+
 #include <QtNetwork/qhttpmultipart.h>
 #include <QtNetwork/qnetworkaccessmanager.h>
 #include <QtNetwork/qnetworkreply.h>
@@ -278,6 +280,19 @@ QNetworkReply *{{prefix}}BaseApi::execute({{prefix}}HttpRequestInput &input, QNe
             multiPart->setParent(reply);
     }
     return reply;
+}
+
+void {{prefix}}BaseApi::setServersForOperation(const QString &operation, const QList<{{prefix}}ServerConfiguration> &configs)
+{
+    Q_ASSERT(!configs.empty()); // This probably means a corrupted yaml file!
+    m_serverConfigs[operation] = configs;
+    m_serverIndices[operation] = 0;
+}
+
+void {{prefix}}BaseApi::setBaseServerUrl(const QString &operation)
+{
+    const QUrl serverUrl = m_serverConfigs[operation][m_serverIndices.value(operation)].url();
+    m_networkFactory.setBaseUrl(serverUrl);
 }
 
 {{#cppCommonNamespaceDeclarations}}
