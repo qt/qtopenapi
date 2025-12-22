@@ -6,11 +6,12 @@
 #include "{{prefixLowerCase}}helpers.h"
 #include "{{prefixLowerCase}}httprequest.h"
 #include "{{prefixLowerCase}}serverconfiguration.h"
+#include "{{prefixLowerCase}}servervariable.h"
 
-#include <QtCore/qmap.h>
+#include <QtCore/qanystringview.h>
+#include <QtCore/qcontainerfwd.h>
 #include <QtCore/qobject.h>
 #include <QtCore/qpointer.h>
-#include <QtCore/qstringlist.h>
 
 #include <QtNetwork/qhttpheaders.h>
 #include <QtNetwork/qnetworkrequestfactory.h>{{#enableQmlCode}}
@@ -163,6 +164,8 @@ DEPRECATED void OPERATION({{prefix}}_VA_LIST PARAMS, const ContextTypeForFunctor
 namespace {{this}} {
 {{/cppCommonNamespaceDeclarations}}
 
+class {{prefix}}BaseApiPrivate;
+
 class {{packageNameUpperCase}}_COMMON_EXPORT {{prefix}}BaseApi : public QObject {
     Q_OBJECT{{#enableQmlCode}}
     QML_ELEMENT{{/enableQmlCode}}
@@ -213,38 +216,28 @@ public Q_SLOTS:
     QString errorString(ServerError error) const;
 
 protected:
-    QNetworkReply *execute({{prefix}}HttpRequestInput &input, QNetworkRequest &request, QByteArray &requestContent);
-    void setServersForOperation(const QString &operation, const QList<{{prefix}}ServerConfiguration> &configs);
-    void setBaseServerUrl(const QString &operation);
-
-protected:
-    struct {{prefix}}CallerInfo {
+    struct {{prefix}}CallerInfo
+    {
         QPointer<const QObject> contextObject = nullptr;
         QtPrivate::SlotObjSharedPtr slot;
     };
-
-    void setCallerInfo(QNetworkReply *reply, const {{prefix}}CallerInfo &info);
-    {{prefix}}CallerInfo takeCallerInfo(QNetworkReply *reply);
-
     using {{prefix}}EmptyCallbackReply = void(*)(QRestReply&);
     template <typename Functor>
     using ContextTypeForFunctor = typename QtPrivate::ContextTypeForFunctor<Functor>::ContextType;
     template <typename Functor>
     using if_compatible_callback = std::enable_if_t<QtPrivate::AreFunctionsCompatible<{{prefix}}EmptyCallbackReply, Functor>::value, bool>;
 
-    QMap<QString, qsizetype> m_serverIndices;
-    QMap<QString, QList<{{prefix}}ServerConfiguration>> m_serverConfigs;
-    QMap<QString, QString> m_apiKeys;
-    QMap<QNetworkReply *, {{prefix}}CallerInfo> m_callerData;
-    QString m_bearerToken;
-    QString m_username;
-    QString m_password;
-    QString m_workingDirectory;
-    // Networking API
-    QRestAccessManager *m_restManager;
-    QNetworkRequestFactory m_networkFactory;
-    bool m_isResponseCompressionEnabled;
-    bool m_isRequestCompressionEnabled;
+    QNetworkReply *execute({{prefix}}HttpRequestInput &input, QNetworkRequest &request, QByteArray &requestContent);
+    void setServersForOperation(const QString &operation, const QList<{{prefix}}ServerConfiguration> &configs);
+    void setBaseServerUrl(const QString &operation);
+    void setCallerInfo(QNetworkReply *reply, const {{prefix}}CallerInfo &info);
+    {{prefix}}CallerInfo takeCallerInfo(QNetworkReply *reply);
+
+private:
+    // Note that d_ptr refers to QObjectPrivate, which we cannot use because
+    // we do not want to link to CorePrivate
+    friend class {{prefix}}BaseApiPrivate;
+    std::unique_ptr<{{prefix}}BaseApiPrivate> d;
 };
 
 {{#cppCommonNamespaceDeclarations}}
