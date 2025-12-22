@@ -135,7 +135,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
     QtPrivate::SlotObjUniquePtr slotPtr(slot);
     const QUrl serverUrl = m_serverConfigs[u"{{nickname}}"_s][m_serverIndices.value(u"{{nickname}}"_s)].url();
     QString fullPath = u"{{{path}}}"_s;
-    m_networkFactory->setBaseUrl(serverUrl);
+    m_networkFactory.setBaseUrl(serverUrl);
 {{#authMethods}}
 {{#isApiKey}}
 {{#isKeyInHeader}}

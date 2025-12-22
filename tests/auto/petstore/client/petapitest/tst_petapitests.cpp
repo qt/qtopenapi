@@ -433,7 +433,7 @@ void PetApiTests::mixedApiCallsTest()
 {
     QNetworkAccessManager manager;
     QRestAccessManager restManager(&manager);
-    std::shared_ptr<QNetworkRequestFactory> factory = std::make_shared<QNetworkRequestFactory>();;
+    QNetworkRequestFactory factory;
 
     PetApi api1, api2;
     api1.setUsername(user);
@@ -554,12 +554,12 @@ void PetApiTests::sslConfigurationTest()
 {
 #if QT_CONFIG(ssl)
     PetApi api;
-    std::shared_ptr<QNetworkRequestFactory> factory = std::make_shared<QNetworkRequestFactory>();
+    QNetworkRequestFactory factory;
     auto config = QSslConfiguration::defaultConfiguration();
     config.setProtocol(QSsl::TlsV1_2OrLater);
     api.setNetworkRequestFactory(factory);
     api.setSslConfiguration(config);
-    QCOMPARE(factory->sslConfiguration(), config);
+    QCOMPARE(api.sslConfiguration(), config);
 #else
     QSKIP("Skipping SSL test, not supported by current Qt configuration");
 #endif // ssl

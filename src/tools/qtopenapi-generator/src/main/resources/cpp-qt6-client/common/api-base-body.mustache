@@ -8,7 +8,6 @@
 #include <QtNetwork/qhttpmultipart.h>
 #include <QtNetwork/qnetworkaccessmanager.h>
 #include <QtNetwork/qnetworkreply.h>
-#include <QtNetwork/qnetworkrequestfactory.h>
 #include <QtNetwork/qrestaccessmanager.h>
 
 QT_BEGIN_NAMESPACE
@@ -23,16 +22,11 @@ namespace {{this}} {
     : QObject(parent),
       m_workingDirectory(QDir::currentPath()),
       m_restManager(nullptr),
-      m_networkFactory(nullptr),
       m_isResponseCompressionEnabled(false),
       m_isRequestCompressionEnabled(false)
 {
     auto manager = new QNetworkAccessManager(this);
     m_restManager = new QRestAccessManager(manager, this);
-
-    if (!m_networkFactory) {
-        m_networkFactory = std::make_shared<QNetworkRequestFactory>();
-    }
 }
 
 {{prefix}}BaseApi::~{{prefix}}BaseApi()
@@ -113,13 +107,18 @@ void {{prefix}}BaseApi::setPassword(const QString &password)
 
 void {{prefix}}BaseApi::setTimeOut(std::chrono::milliseconds timeOut)
 {
-    m_networkFactory->setTransferTimeout(timeOut);
+    m_networkFactory.setTransferTimeout(timeOut);
 }
 
 #if QT_CONFIG(ssl)
 void {{prefix}}BaseApi::setSslConfiguration(QSslConfiguration config)
 {
-    m_networkFactory->setSslConfiguration(config);
+    m_networkFactory.setSslConfiguration(config);
+}
+
+QSslConfiguration {{prefix}}BaseApi::sslConfiguration() const
+{
+    return m_networkFactory.sslConfiguration();
 }
 #endif // ssl
 
@@ -147,32 +146,27 @@ void {{prefix}}BaseApi::setRestAccessManager(QRestAccessManager *ram)
     m_restManager = ram;
 }
 
-void {{prefix}}BaseApi::setNetworkRequestFactory(std::shared_ptr<QNetworkRequestFactory> factory)
+void {{prefix}}BaseApi::setNetworkRequestFactory(QNetworkRequestFactory factory)
 {
-    if (m_networkFactory == factory)
-        return;
-    if (!factory)
-        qCritical() << "New network factory cannot be null.";
-    m_networkFactory.reset();
     m_networkFactory = factory;
 }
 
 void {{prefix}}BaseApi::setHeader(QHttpHeaders::WellKnownHeader key, QAnyStringView value)
 {
-    if (m_networkFactory->commonHeaders().values(key).contains(value))
+    if (m_networkFactory.commonHeaders().values(key).contains(value))
         return;
-    QHttpHeaders headers = m_networkFactory->commonHeaders();
+    QHttpHeaders headers = m_networkFactory.commonHeaders();
     headers.replaceOrAppend(key, value);
-    m_networkFactory->setCommonHeaders(std::move(headers));
+    m_networkFactory.setCommonHeaders(std::move(headers));
 }
 
 void {{prefix}}BaseApi::setHeader(QAnyStringView key, QAnyStringView value)
 {
-    if (m_networkFactory->commonHeaders().values(key).contains(value))
+    if (m_networkFactory.commonHeaders().values(key).contains(value))
         return;
-    QHttpHeaders headers = m_networkFactory->commonHeaders();
+    QHttpHeaders headers = m_networkFactory.commonHeaders();
     headers.replaceOrAppend(key, value);
-    m_networkFactory->setCommonHeaders(std::move(headers));
+    m_networkFactory.setCommonHeaders(std::move(headers));
 }
 
 void {{prefix}}BaseApi::enableRequestCompression()
