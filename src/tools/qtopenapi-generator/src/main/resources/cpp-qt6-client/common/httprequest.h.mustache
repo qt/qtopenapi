@@ -85,7 +85,7 @@ private:
 
 namespace {{prefix}}HttpRequestWorker {
     {{packageNameUpperCase}}_COMMON_EXPORT {{prefix}}HttpFileElement getHttpFileElement(const QMap<QString, {{prefix}}HttpFileElement> &files, const QString &fieldname = {});
-    {{packageNameUpperCase}}_COMMON_EXPORT QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray &requestContent, std::shared_ptr<QNetworkRequestFactory> factory, bool responseCompressionEnabled, bool requestCompressionEnabled);
+    {{packageNameUpperCase}}_COMMON_EXPORT QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray &requestContent, QNetworkRequestFactory factory, bool responseCompressionEnabled, bool requestCompressionEnabled);
     {{packageNameUpperCase}}_COMMON_EXPORT QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<QString, {{prefix}}HttpFileElement> *files = nullptr);
 
     enum class CompressionType {

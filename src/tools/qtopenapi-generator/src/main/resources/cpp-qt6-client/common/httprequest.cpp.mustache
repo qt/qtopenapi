@@ -181,7 +181,7 @@ namespace {{prefix}}HttpRequestWorker {
     return {{prefix}}HttpFileElement();
 }
 
-QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray &requestContent, std::shared_ptr<QNetworkRequestFactory> factory, bool responseCompressionEnabled, bool requestCompressionEnabled)
+QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray &requestContent, QNetworkRequestFactory factory, bool responseCompressionEnabled, bool requestCompressionEnabled)
 {
     // reset variables
     requestContent = "";
@@ -264,7 +264,7 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
             requestContent.append(inputPriv->m_requestBody);
         }
     }
-    QNetworkRequest request = factory->createRequest(inputPriv->m_urlStr);
+    QNetworkRequest request = factory.createRequest(inputPriv->m_urlStr);
     if (request.header(QNetworkRequest::UserAgentHeader).isNull())
         request.setHeader(QNetworkRequest::UserAgentHeader, QString::fromUtf8("{{httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{apiVersion}}/cpp-qt{{/httpUserAgent}}"));
 

@@ -12,7 +12,8 @@
 #include <QtCore/qpointer.h>
 #include <QtCore/qstringlist.h>
 
-#include <QtNetwork/qhttpheaders.h>{{#enableQmlCode}}
+#include <QtNetwork/qhttpheaders.h>
+#include <QtNetwork/qnetworkrequestfactory.h>{{#enableQmlCode}}
 #include <QtQmlIntegration/qqmlintegration.h>{{/enableQmlCode}}
 #if QT_CONFIG(ssl)
 #include <QtNetwork/qsslconfiguration.h>
@@ -24,7 +25,6 @@
 QT_BEGIN_NAMESPACE
 class QNetworkAccessManager;
 class QNetworkReply;
-class QNetworkRequestFactory;
 class QRestAccessManager;
 QT_END_NAMESPACE
 
@@ -189,10 +189,11 @@ public Q_SLOTS:
     void setTimeOut(std::chrono::milliseconds timeOut);
 #if QT_CONFIG(ssl)
     void setSslConfiguration(QSslConfiguration config);
+    QSslConfiguration sslConfiguration() const;
 #endif // ssl
     void setWorkingDirectory(const QString &path);
     void setRestAccessManager(QRestAccessManager *ram);
-    void setNetworkRequestFactory(std::shared_ptr<QNetworkRequestFactory> factory);
+    void setNetworkRequestFactory(QNetworkRequestFactory factory);
 
     void setHeader(QHttpHeaders::WellKnownHeader key, QAnyStringView value);
     void setHeader(QAnyStringView key, QAnyStringView value);
@@ -224,7 +225,7 @@ protected:
     QString m_workingDirectory;
     // Networking API
     QRestAccessManager *m_restManager;
-    std::shared_ptr<QNetworkRequestFactory> m_networkFactory;
+    QNetworkRequestFactory m_networkFactory;
     bool m_isResponseCompressionEnabled;
     bool m_isRequestCompressionEnabled;
 };
