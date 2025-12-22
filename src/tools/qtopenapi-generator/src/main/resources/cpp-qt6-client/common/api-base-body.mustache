@@ -295,6 +295,16 @@ void {{prefix}}BaseApi::setBaseServerUrl(const QString &operation)
     m_networkFactory.setBaseUrl(serverUrl);
 }
 
+void {{prefix}}BaseApi::setCallerInfo(QNetworkReply *reply, const {{prefix}}BaseApi::{{prefix}}CallerInfo &info)
+{
+    m_callerData.insert(reply, info);
+}
+
+{{prefix}}BaseApi::{{prefix}}CallerInfo {{prefix}}BaseApi::takeCallerInfo(QNetworkReply *reply)
+{
+    return m_callerData.take(reply);
+}
+
 {{#cppCommonNamespaceDeclarations}}
 } // namespace {{this}}
 {{/cppCommonNamespaceDeclarations}}
