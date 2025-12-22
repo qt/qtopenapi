@@ -222,6 +222,10 @@ protected:
         QPointer<const QObject> contextObject = nullptr;
         QtPrivate::SlotObjSharedPtr slot;
     };
+
+    void setCallerInfo(QNetworkReply *reply, const {{prefix}}CallerInfo &info);
+    {{prefix}}CallerInfo takeCallerInfo(QNetworkReply *reply);
+
     using {{prefix}}EmptyCallbackReply = void(*)(QRestReply&);
     template <typename Functor>
     using ContextTypeForFunctor = typename QtPrivate::ContextTypeForFunctor<Functor>::ContextType;

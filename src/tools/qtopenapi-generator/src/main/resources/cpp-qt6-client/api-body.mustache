@@ -527,7 +527,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
-        m_callerData.insert(reply, {{prefix}}CallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});{{#addDownloadProgress}}
+        setCallerInfo(reply, {{prefix}}CallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});{{#addDownloadProgress}}
         connect(reply, &QNetworkReply::downloadProgress, this, &{{classname}}::{{nickname}}Progress);{{/addDownloadProgress}}
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
             {{nickname}}Callback(QRestReply(reply));
@@ -535,7 +535,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
             if (reply) {
                 emit {{nickname}}ErrorOccurred(reply->error(), reply->errorString());
-                {{prefix}}CallerInfo callerInfo = m_callerData.take(reply);
+                {{prefix}}CallerInfo callerInfo = takeCallerInfo(reply);
                 if (callerInfo.slot) {
                     {{#returnType}}{{{.}}} empty;
                     {{/returnType}}QRestReply restRepl(reply);
@@ -617,7 +617,7 @@ void {{classname}}::{{nickname}}Callback(const QRestReply &reply)
 {{/isArray}}
 {{/returnType}}
     // Check if callback is provided
-    {{prefix}}CallerInfo callerInfo = m_callerData.take(netReply);
+    {{prefix}}CallerInfo callerInfo = takeCallerInfo(netReply);
     if (callerInfo.slot) {
         void *argv[] = { nullptr, const_cast<QRestReply*>(&reply){{#returnType}}, &output{{/returnType}} };
         QObject *context = callerInfo.contextObject
