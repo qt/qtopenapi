@@ -139,28 +139,28 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{#authMethods}}
 {{#isApiKey}}
 {{#isKeyInHeader}}
-    if (m_apiKeys.contains("{{name}}"_L1)) {
-        setHeader("{{name}}"_L1, m_apiKeys.find("{{name}}"_L1).value());
+    if (const auto key = apiKey("{{name}}"_L1); key.has_value()) {
+        setHeader("{{name}}"_L1, *key);
     }
 {{/isKeyInHeader}}
 {{#isKeyInQuery}}
-    if (m_apiKeys.contains(u"{{name}}"_s)) {
+    if (const auto key = apiKey(u"{{name}}"_s); key.has_value()) {
         if (fullPath.indexOf(u'?') > 0)
             fullPath.append(u'&');
         else
             fullPath.append(u'?');
-        fullPath.append(u"{{{name}}}="_s).append(m_apiKeys.find(u"{{name}}"_s).value());
+        fullPath.append(u"{{{name}}}="_s).append(*key);
     }
 {{/isKeyInQuery}}
 {{/isApiKey}}
 {{#isBasicBearer}}
-    if (!m_bearerToken.isEmpty())
-        setHeader(QHttpHeaders::WellKnownHeader::Authorization, "Bearer "_L1 + m_bearerToken);
+    if (const auto token = bearerToken(); !token.isEmpty())
+        setHeader(QHttpHeaders::WellKnownHeader::Authorization, "Bearer "_L1 + token);
 {{/isBasicBearer}}
 {{#isBasicBasic}}
-    if (!m_username.isEmpty() && !m_password.isEmpty()) {
+    if (const QString un = username(), p = password(); !un.isEmpty() && !p.isEmpty()) {
         QByteArray b64;
-        b64.append(m_username.toUtf8() + ":" + m_password.toUtf8());
+        b64.append(un.toUtf8() + ":" + p.toUtf8());
         setHeader(QHttpHeaders::WellKnownHeader::Authorization, "Basic "_L1 + b64.toBase64());
     }
 {{/isBasicBasic}}
@@ -520,8 +520,10 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{/cookieParams}}
     QByteArray requestContent;
     QNetworkRequest request
-        = {{prefix}}HttpRequestWorker::getNetworkRequest(input, requestContent, m_networkFactory,
-                                                  m_isResponseCompressionEnabled, m_isRequestCompressionEnabled);
+        = {{prefix}}HttpRequestWorker::getNetworkRequest(input, requestContent,
+                                                         networkRequestFactory(),
+                                                         responseCompressionEnabled(),
+                                                         requestCompressionEnabled());
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
@@ -560,7 +562,7 @@ void {{classname}}::{{nickname}}Callback(const QRestReply &reply)
     QMap<QString, {{prefix}}HttpFileElement> responseFiles;
 {{/isResponseFile}}
 {{/returnTypeIsPrimitive}}
-    const QByteArray response = {{prefix}}HttpRequestWorker::parseResponse(reply, m_workingDirectory{{^returnTypeIsPrimitive}}{{#isResponseFile}}, &responseFiles{{/isResponseFile}}{{/returnTypeIsPrimitive}});
+    const QByteArray response = {{prefix}}HttpRequestWorker::parseResponse(reply, workingDirectory(){{^returnTypeIsPrimitive}}{{#isResponseFile}}, &responseFiles{{/isResponseFile}}{{/returnTypeIsPrimitive}});
 {{#isArray}}
     {{{returnType}}} output;
     const QJsonDocument doc = QJsonDocument::fromJson(response);
