@@ -53,8 +53,7 @@ void {{classname}}::initializeServerConfigs()
 {{#operation}}
     {
 {{^servers}}
-        m_serverConfigs.insert(u"{{nickname}}"_s, defaultConf);
-        m_serverIndices.insert(u"{{nickname}}"_s, 0);
+        setServersForOperation(u"{{nickname}}"_s, defaultConf);
 {{/servers}}
 {{#servers}}
 {{#-first}}
@@ -70,8 +69,7 @@ void {{classname}}::initializeServerConfigs()
             {{/variables}}{{^variables}}QMap<QString, {{prefix}}ServerVariable>()));{{/variables}}
 {{#-last}}
 
-        m_serverConfigs.insert(u"{{nickname}}"_s, serversForOperation);
-        m_serverIndices.insert(u"{{nickname}}"_s, 0);
+        setServersForOperation(u"{{nickname}}"_s, serversForOperation);
 {{/-last}}
 {{/servers}}
     }
@@ -133,9 +131,8 @@ void {{classname}}::initializeServerConfigs()
 void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{{dataType}}} &{{/required}}{{^required}}::{{cppCommonNamespace}}::OptionalParam<{{{dataType}}}> &{{/required}}{{paramName}}, {{/allParams}}const QObject *context, QtPrivate::QSlotObjectBase *slot)
 {
     QtPrivate::SlotObjUniquePtr slotPtr(slot);
-    const QUrl serverUrl = m_serverConfigs[u"{{nickname}}"_s][m_serverIndices.value(u"{{nickname}}"_s)].url();
+    setBaseServerUrl(u"{{nickname}}"_s);
     QString fullPath = u"{{{path}}}"_s;
-    m_networkFactory.setBaseUrl(serverUrl);
 {{#authMethods}}
 {{#isApiKey}}
 {{#isKeyInHeader}}
