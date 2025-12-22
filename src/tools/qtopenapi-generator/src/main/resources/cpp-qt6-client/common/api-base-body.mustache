@@ -90,9 +90,22 @@ void {{prefix}}BaseApi::setApiKey(const QString &apiKeyName, const QString &apiK
     m_apiKeys.insert(apiKeyName, apiKey);
 }
 
+std::optional<QString> {{prefix}}BaseApi::apiKey(const QString &name) const
+{
+    const auto it = m_apiKeys.find(name);
+    if (it != m_apiKeys.cend())
+        return it.value();
+    return std::nullopt;
+}
+
 void {{prefix}}BaseApi::setBearerToken(const QString &token)
 {
     m_bearerToken = token;
+}
+
+QString {{prefix}}BaseApi::bearerToken() const
+{
+    return m_bearerToken;
 }
 
 void {{prefix}}BaseApi::setUsername(const QString &username)
@@ -100,9 +113,19 @@ void {{prefix}}BaseApi::setUsername(const QString &username)
     m_username = username;
 }
 
+QString {{prefix}}BaseApi::username() const
+{
+    return m_username;
+}
+
 void {{prefix}}BaseApi::setPassword(const QString &password)
 {
     m_password = password;
+}
+
+QString {{prefix}}BaseApi::password() const
+{
+    return m_password;
 }
 
 void {{prefix}}BaseApi::setTimeOut(std::chrono::milliseconds timeOut)
@@ -127,6 +150,11 @@ void {{prefix}}BaseApi::setWorkingDirectory(const QString &path)
     m_workingDirectory = path;
 }
 
+QString {{prefix}}BaseApi::workingDirectory() const
+{
+    return m_workingDirectory;
+}
+
 void {{prefix}}BaseApi::setRestAccessManager(QRestAccessManager *ram)
 {
     if (ram == m_restManager)
@@ -146,9 +174,19 @@ void {{prefix}}BaseApi::setRestAccessManager(QRestAccessManager *ram)
     m_restManager = ram;
 }
 
+QRestAccessManager *{{prefix}}BaseApi::restAccessManager() const
+{
+    return m_restManager;
+}
+
 void {{prefix}}BaseApi::setNetworkRequestFactory(QNetworkRequestFactory factory)
 {
     m_networkFactory = factory;
+}
+
+QNetworkRequestFactory {{prefix}}BaseApi::networkRequestFactory() const
+{
+    return m_networkFactory;
 }
 
 void {{prefix}}BaseApi::setHeader(QHttpHeaders::WellKnownHeader key, QAnyStringView value)
@@ -169,14 +207,24 @@ void {{prefix}}BaseApi::setHeader(QAnyStringView key, QAnyStringView value)
     m_networkFactory.setCommonHeaders(std::move(headers));
 }
 
-void {{prefix}}BaseApi::enableRequestCompression()
+void {{prefix}}BaseApi::setRequestCompressionEnabled(bool enabled)
 {
-    m_isRequestCompressionEnabled = true;
+    m_isRequestCompressionEnabled = enabled;
 }
 
-void {{prefix}}BaseApi::enableResponseCompression()
+bool {{prefix}}BaseApi::requestCompressionEnabled() const
 {
-    m_isResponseCompressionEnabled = true;
+    return m_isRequestCompressionEnabled;
+}
+
+void {{prefix}}BaseApi::setResponseCompressionEnabled(bool enabled)
+{
+    m_isResponseCompressionEnabled = enabled;
+}
+
+bool {{prefix}}BaseApi::responseCompressionEnabled() const
+{
+    return m_isResponseCompressionEnabled;
 }
 
 QString {{prefix}}BaseApi::errorString(ServerError error) const
