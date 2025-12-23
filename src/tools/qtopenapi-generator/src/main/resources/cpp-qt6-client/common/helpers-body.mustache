@@ -745,7 +745,7 @@ QString serializeJsonValue(const QJsonValue &value, const SerializationOptions &
     case QJsonValue::Undefined:
     {
         paramString = opts.suffix;
-        qWarning() << "Path parameter serialization is not supported for the value: " << value;
+        qWarning() << "Parameter serialization is not supported for the value:" << value;
     } break;
     }
     return paramString;
