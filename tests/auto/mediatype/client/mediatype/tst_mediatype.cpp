@@ -178,7 +178,7 @@ void MediaType::testJsonMediaType()
     // The quotes around means this is a JSON string, not plain text.
     done = false;
     QString jsonString("\"Hello, people!\"");
-    postApplicationJsonString(::QtOpenAPI::OptionalParam<QString>(jsonString), this,
+    postApplicationJsonString(OptionalParam<QString>(jsonString), this,
                               [&](const QRestReply &reply, const QString &summary) {
         if (!(done = reply.isSuccess()))
             qWarning() << "ERROR: " << reply.errorString() << reply.error();
@@ -192,7 +192,7 @@ void MediaType::testJsonMediaType()
     // The argument type of postApplicationJsonString operation declared in the following way
     // [string, null] in yaml file, it means the value can be serialized as null-json: 'null'.
     done = false;
-    postApplicationJsonString(::QtOpenAPI::OptionalParam<QString>(OptionalParam<QString>::IsNull), this,
+    postApplicationJsonString(OptionalParam<QString>(OptionalParam<QString>::IsNull), this,
                               [&](const QRestReply &reply, const QString &summary) {
         if (!(done = reply.isSuccess()))
             qWarning() << "ERROR: " << reply.errorString() << reply.error();
@@ -204,7 +204,7 @@ void MediaType::testJsonMediaType()
 
     // EMPTY requestContent, but header still needs to be sent.
     done = false;
-    postApplicationJsonString(::QtOpenAPI::OptionalParam<QString>(), this,
+    postApplicationJsonString(OptionalParam<QString>(), this,
                               [&](const QRestReply &reply, const QString &summary) {
                                   if (!(done = reply.isSuccess()))
                                       qWarning() << "ERROR: " << reply.errorString() << reply.error();\
@@ -500,7 +500,7 @@ void MediaType::testOctetStream()
     // We can send text file as a binary file,
     // parse it on server side, check the file content and send the string back.
     QOAIHttpFileElement file(":/file-for-uploading.txt"_L1);
-    binaryType(::QtOpenAPI::OptionalParam<QOAIHttpFileElement>(file), this,
+    binaryType(OptionalParam<QOAIHttpFileElement>(file), this,
                [&](const QRestReply &reply, const QString &summary) {
         if (!(done = reply.isSuccess()))
             qWarning() << "ERROR: " << reply.errorString() << reply.error();
@@ -514,7 +514,7 @@ void MediaType::testOctetStream()
     done = false;
     QImage imgFromFile(":/usericon.png");
     QOAIHttpFileElement icon(":/usericon.png"_L1);
-    binaryType(::QtOpenAPI::OptionalParam<QOAIHttpFileElement>(icon), this,
+    binaryType(OptionalParam<QOAIHttpFileElement>(icon), this,
                [&](const QRestReply &reply, const QString &summary) {
         if (!(done = reply.isSuccess()))
             qWarning() << "ERROR: " << reply.errorString() << reply.error();
@@ -527,7 +527,7 @@ void MediaType::testOctetStream()
 
     // EMPTY requestContent, but header still needs to be sent.
     done = false;
-    binaryType(::QtOpenAPI::OptionalParam<QOAIHttpFileElement>(), this,
+    binaryType(OptionalParam<QOAIHttpFileElement>(), this,
                [&](const QRestReply &reply, const QString &summary) {
                    if (!(done = reply.isSuccess()))
                        qWarning() << "ERROR: " << reply.errorString() << reply.error();
@@ -555,11 +555,11 @@ void MediaType::testUrlEncodedType()
     QList<QString> days = {"Monday", "Sunday", "*+,;=!$&'()"};
     QMap<QString, User> userMap;
     userMap.insert("PET", user);
-    postUrlEncodedFields(::QtOpenAPI::OptionalParam<QString>("John *+,;=!$&'()"),
-                         ::QtOpenAPI::OptionalParam<qint32>(98665),
-                         ::QtOpenAPI::OptionalParam<bool>(true),
-                         ::QtOpenAPI::OptionalParam<QList<QString>>(days),
-                         ::QtOpenAPI::OptionalParam<QMap<QString, User>>(userMap),
+    postUrlEncodedFields(OptionalParam<QString>("John *+,;=!$&'()"),
+                         OptionalParam<qint32>(98665),
+                         OptionalParam<bool>(true),
+                         OptionalParam<QList<QString>>(days),
+                         OptionalParam<QMap<QString, User>>(userMap),
                          this, [&](const QRestReply &reply, const QString &summary) {
         if (!(done = reply.isSuccess()))
             qWarning() << "ERROR: " << reply.errorString() << reply.error();
@@ -584,11 +584,11 @@ void MediaType::testUrlEncodedType()
 
     // EMPTY requestContent, but header still needs to be sent.
     done = false;
-    postUrlEncodedFields(::QtOpenAPI::OptionalParam<QString>(),
-                         ::QtOpenAPI::OptionalParam<qint32>(),
-                         ::QtOpenAPI::OptionalParam<bool>(),
-                         ::QtOpenAPI::OptionalParam<QList<QString>>(),
-                         ::QtOpenAPI::OptionalParam<QMap<QString, User>>(),
+    postUrlEncodedFields(OptionalParam<QString>(),
+                         OptionalParam<qint32>(),
+                         OptionalParam<bool>(),
+                         OptionalParam<QList<QString>>(),
+                         OptionalParam<QMap<QString, User>>(),
                          this, [&](const QRestReply &reply, const QString &summary) {
                              if (!(done = reply.isSuccess()))
                                  qWarning() << "ERROR: " << reply.errorString() << reply.error();
@@ -611,7 +611,7 @@ void MediaType::testUrlEncodedType()
     enUrlUser.setStatus("is working ΣΨ");
     enUrlUser.setAge(100);
     const QString stringParam = QStringLiteral(u"Test String ΣΨ");
-    postUrlEncodedNestedObject(enUrlUser, ::QtOpenAPI::OptionalParam<QString>(stringParam),
+    postUrlEncodedNestedObject(enUrlUser, OptionalParam<QString>(stringParam),
                                this, [&](const QRestReply &reply, const QString &summary) {
         if (!(done = reply.isSuccess()))
             qWarning() << "ERROR: " << reply.errorString() << reply.error();
@@ -628,7 +628,7 @@ void MediaType::testUrlEncodedType()
     // EMPTY requestContent, but header still needs to be sent.
     done = false;
     User emptyUser;
-    postUrlEncodedNestedObject(emptyUser, ::QtOpenAPI::OptionalParam<QString>(),
+    postUrlEncodedNestedObject(emptyUser, OptionalParam<QString>(),
                                this, [&](const QRestReply &reply, const QString &summary) {
                                    if (!(done = reply.isSuccess()))
                                        qWarning() << "ERROR: " << reply.errorString() << reply.error();
@@ -640,9 +640,9 @@ void MediaType::testUrlEncodedType()
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
-    postUrlEncodedObject(::QtOpenAPI::OptionalParam<QString>("User Name 1234 "),
-                         ::QtOpenAPI::OptionalParam<QString>("Thinking"),
-                         ::QtOpenAPI::OptionalParam<qint32>(8776513),
+    postUrlEncodedObject(OptionalParam<QString>("User Name 1234 "),
+                         OptionalParam<QString>("Thinking"),
+                         OptionalParam<qint32>(8776513),
                          this, [&](const QRestReply &reply, const QString &summary) {
         if (!(done = reply.isSuccess()))
             qWarning() << "ERROR: " << reply.errorString() << reply.error();
@@ -657,9 +657,9 @@ void MediaType::testUrlEncodedType()
 
     // EMPTY requestContent, but header still needs to be sent.
     done = false;
-    postUrlEncodedObject(::QtOpenAPI::OptionalParam<QString>(),
-                         ::QtOpenAPI::OptionalParam<QString>(),
-                         ::QtOpenAPI::OptionalParam<qint32>(),
+    postUrlEncodedObject(OptionalParam<QString>(),
+                         OptionalParam<QString>(),
+                         OptionalParam<qint32>(),
                          this, [&](const QRestReply &reply, const QString &summary) {
                              if (!(done = reply.isSuccess()))
                                  qWarning() << "ERROR: " << reply.errorString() << reply.error();
@@ -709,10 +709,10 @@ void MediaType::testFormMediaTypes()
     // NOTE: 'formId' and 'formAddresses' are declared as required in YAML file.
     postMultiPartData(QString("\"f81d4fae-7dec-11d0-a765-00a0c91e6bf6\""), // json string
                       multiList,
-                      ::QtOpenAPI::OptionalParam<qint32>(100),
-                      ::QtOpenAPI::OptionalParam<QOAIHttpFileElement>(formFile),
-                      ::QtOpenAPI::OptionalParam<PostMultiPartData_request_formObject>(object),
-                      ::QtOpenAPI::OptionalParam<QMap<QString, User>>(map),
+                      OptionalParam<qint32>(100),
+                      OptionalParam<QOAIHttpFileElement>(formFile),
+                      OptionalParam<PostMultiPartData_request_formObject>(object),
+                      OptionalParam<QMap<QString, User>>(map),
                       this, [&](const QRestReply &reply, const QString &summary){
         if (!(done = reply.isSuccess()))
             qWarning() << "ERROR: " << reply.errorString() << reply.error();
@@ -731,10 +731,10 @@ void MediaType::testFormMediaTypes()
     done = false;
     postMultiPartData(QString("\"\""), // json string
                       QList<User>(),
-                      ::QtOpenAPI::OptionalParam<qint32>(),
-                      ::QtOpenAPI::OptionalParam<QOAIHttpFileElement>(),
-                      ::QtOpenAPI::OptionalParam<PostMultiPartData_request_formObject>(),
-                      ::QtOpenAPI::OptionalParam<QMap<QString, User>>(),
+                      OptionalParam<qint32>(),
+                      OptionalParam<QOAIHttpFileElement>(),
+                      OptionalParam<PostMultiPartData_request_formObject>(),
+                      OptionalParam<QMap<QString, User>>(),
                       this, [&](const QRestReply &reply, const QString &summary) {
                           if (!(done = reply.isSuccess()))
                               qWarning() << "ERROR: " << reply.errorString() << reply.error();
