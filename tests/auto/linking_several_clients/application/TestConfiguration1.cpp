@@ -8,7 +8,7 @@
 #include <QtTest/qtest.h>
 
 using namespace Qt::StringLiterals;
-using namespace QtCommonOpenAPI;
+using namespace QtOpenApiCommon;
 
 namespace QtOpenAPI {
 

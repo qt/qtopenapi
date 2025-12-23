@@ -13,7 +13,7 @@
 #include <QtTest/qtest.h>
 
 using namespace Qt::StringLiterals;
-using namespace QtCommonOpenAPI;
+using namespace QtOpenApiCommon;
 
 class LoggingNetworkAccessManager : public QNetworkAccessManager
 {

@@ -44,7 +44,7 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
     protected static final String CPP_COMMON_NAMESPACE = "cppCommonNamespace";
     protected static final String CPP_COMMON_NAMESPACE_DESC
             = "C++ namespace (convention: name::space::for::api) for the common library.";
-    protected String cppCommonNamespace = "QtCommonOpenAPI";
+    protected String cppCommonNamespace = "QtOpenApiCommon";
 
     public enum GENERATION_TYPE {
         COMMON_LIB("Gen-Common-Lib"),

@@ -9,7 +9,7 @@
 #include <QtTest/qtest.h>
 
 using namespace Qt::StringLiterals;
-using namespace QtCommonOpenAPI;
+using namespace QtOpenApiCommon;
 
 #define CALL_TEST_FILE_OPERATION(OPERATION, PARAM, EXPECTED_CONTENT, EXPECTED_FILENAME)         \
 {                                                                                               \
