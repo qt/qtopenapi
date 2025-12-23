@@ -110,11 +110,11 @@ function(qt6_add_openapi_client target)
     # please call the generator manually.
     set(qt_commonlib_prefix "QOAI")
     set(qt_common_file_prefix "qoai")
-    # For qt macro: either QtCommonOpenAPI or QtNameSpace::QtCommonOpenAPI
+    # For qt macro: either QtOpenApiCommon or QtNameSpace::QtOpenApiCommon
     if(qtcore_comomn_namespace)
-        set(cpp_common_namespace "${qtcore_comomn_namespace}::QtCommonOpenAPI")
+        set(cpp_common_namespace "${qtcore_comomn_namespace}::QtOpenApiCommon")
     else()
-        set(cpp_common_namespace "QtCommonOpenAPI")
+        set(cpp_common_namespace "QtOpenApiCommon")
     endif()
 
     # The default namespace is defined in CppQt6AbstractCodegen.java:
