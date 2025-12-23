@@ -7,6 +7,10 @@
 #include <QtCore/qstring.h>
 #include <QtCore/qurl.h>
 
+{{#buildingQtSources}}
+QT_BEGIN_NAMESPACE
+{{/buildingQtSources}}
+
 {{#cppCommonNamespaceDeclarations}}
 namespace {{this}} {
 {{/cppCommonNamespaceDeclarations}}
@@ -105,3 +109,7 @@ comparesEqual(const {{prefix}}ServerConfiguration &lhs, const {{prefix}}ServerCo
 {{#cppCommonNamespaceDeclarations}}
 } // namespace {{this}}
 {{/cppCommonNamespaceDeclarations}}
+
+{{#buildingQtSources}}
+QT_END_NAMESPACE
+{{/buildingQtSources}}

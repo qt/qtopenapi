@@ -18,7 +18,7 @@ namespace {{this}} {
 using namespace {{this}};
 {{/cppCommonNamespaceDeclarations}}
 
-class {{packageNameUpperCase}}_EXPORT {{classname}} : public {{prefix}}BaseApi {
+class {{packageNameUpperCase}}_EXPORT {{classname}} : public {{cppCommonNamespace}}::{{prefix}}BaseApi {
     Q_OBJECT{{#enableQmlCode}}
     QML_ELEMENT{{/enableQmlCode}}
 public:
@@ -31,11 +31,11 @@ public:
     /**
     * \internal
     * The auto-generated API:
-    * void {{nickname}}({{#hasParams}}{{#allParams}}const {{#required}}{{{dataType}}} &{{/required}}{{^required}}::{{cppCommonNamespace}}::OptionalParam<{{{dataType}}}> &{{/required}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{/hasParams}});
-    * void {{nickname}}({{#hasParams}}{{#allParams}}const {{#required}}{{{dataType}}} &{{/required}}{{^required}}::{{cppCommonNamespace}}::OptionalParam<{{{dataType}}}> &{{/required}}{{paramName}}, {{/allParams}}{{/hasParams}}QObject *object, [&](const QRestReply &reply{{#returnType}}, const {{{.}}} &summary{{/returnType}}){});
+    * void {{nickname}}({{#hasParams}}{{#allParams}}const {{#required}}{{{dataType}}} &{{/required}}{{^required}}{{cppCommonNamespace}}::OptionalParam<{{{dataType}}}> &{{/required}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{/hasParams}});
+    * void {{nickname}}({{#hasParams}}{{#allParams}}const {{#required}}{{{dataType}}} &{{/required}}{{^required}}{{cppCommonNamespace}}::OptionalParam<{{{dataType}}}> &{{/required}}{{paramName}}, {{/allParams}}{{/hasParams}}QObject *object, [&](const QRestReply &reply{{#returnType}}, const {{{.}}} &summary{{/returnType}}){});
     * \endinternal
     */
-    {{#hasParams}}{{^returnType}}{{prefix}}_ADD_OPERATION_WITH_NO_RESPONSE_IMPL{{/returnType}}{{#returnType}}{{prefix}}_ADD_OPERATION_IMPL{{/returnType}}{{/hasParams}}{{^hasParams}}{{^returnType}}{{prefix}}_ADD_EMPTY_OPERATION_IMPL{{/returnType}}{{#returnType}}{{prefix}}_ADD_NO_PARAMS_OPERATION_WITH_RESPONSE_IMPL{{/returnType}}{{/hasParams}}({{nickname}}{{#hasParams}}, ({{#allParams}}const {{#required}}{{{dataType}}}{{/required}}{{^required}}::{{cppCommonNamespace}}::OptionalParam<{{{dataType}}}>{{/required}} &{{paramName}}{{^required}} = ::{{cppCommonNamespace}}::OptionalParam<{{{dataType}}}>(){{/required}}{{^-last}}, {{/-last}}{{/allParams}}), ({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{/hasParams}}{{#returnType}}, (const {{{.}}} &){{/returnType}}{{#isDeprecated}}, Q_DECL_DEPRECATED{{/isDeprecated}}{{^isDeprecated}}, /* non-deprecated */{{/isDeprecated}})
+    {{#hasParams}}{{^returnType}}{{prefix}}_ADD_OPERATION_WITH_NO_RESPONSE_IMPL{{/returnType}}{{#returnType}}{{prefix}}_ADD_OPERATION_IMPL{{/returnType}}{{/hasParams}}{{^hasParams}}{{^returnType}}{{prefix}}_ADD_EMPTY_OPERATION_IMPL{{/returnType}}{{#returnType}}{{prefix}}_ADD_NO_PARAMS_OPERATION_WITH_RESPONSE_IMPL{{/returnType}}{{/hasParams}}({{nickname}}{{#hasParams}}, ({{#allParams}}const {{#required}}{{{dataType}}}{{/required}}{{^required}}{{cppCommonNamespace}}::OptionalParam<{{{dataType}}}>{{/required}} &{{paramName}}{{^required}} = {{cppCommonNamespace}}::OptionalParam<{{{dataType}}}>(){{/required}}{{^-last}}, {{/-last}}{{/allParams}}), ({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{/hasParams}}{{#returnType}}, (const {{{.}}} &){{/returnType}}{{#isDeprecated}}, Q_DECL_DEPRECATED{{/isDeprecated}}{{^isDeprecated}}, /* non-deprecated */{{/isDeprecated}})
 {{/operation}}{{/operations}}
 Q_SIGNALS:{{#operations}}{{#operation}}
     /** Signal is emitted, if {{nickname}}() request completed successfully.{{#returnType}} The \a summary contains a serialized server response.{{/returnType}} */

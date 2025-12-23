@@ -12,6 +12,10 @@ QT_BEGIN_NAMESPACE
 class QJsonValue;
 QT_END_NAMESPACE
 
+{{#buildingQtSources}}
+QT_BEGIN_NAMESPACE
+{{/buildingQtSources}}
+
 {{#cppCommonNamespaceDeclarations}}
 namespace {{this}} {
 {{/cppCommonNamespaceDeclarations}}
@@ -77,6 +81,10 @@ private:
 {{#cppCommonNamespaceDeclarations}}
 } // namespace {{this}}
 {{/cppCommonNamespaceDeclarations}}
+
+{{#buildingQtSources}}
+QT_END_NAMESPACE
+{{/buildingQtSources}}
 
 Q_DECLARE_METATYPE({{#cppCommonNamespaceDeclarations}}{{this}}::{{/cppCommonNamespaceDeclarations}}{{prefix}}HttpFileElement)
 

@@ -294,6 +294,15 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
         additionalProperties.put(USE_COMMON_LIBRARY,
                                  commonLibrary.equals(GENERATION_TYPE.COMMON_LIB.value));
 
+        // If we're using a CMake macro and building the common library, then
+        // assume that we're doing it as a part of Qt build, and enable some
+        // specific features.
+        // This additional property intentionally cannot be directly controlled
+        // from the command line.
+        if (useCmakeMacro && commonLibrary.equals(GENERATION_TYPE.COMMON_LIB.value)) {
+            additionalProperties.put("buildingQtSources", true);
+        }
+
         String lowerCasePrefix = "";
         if (additionalProperties.containsKey("prefix")) {
             namePrefix = additionalProperties.get("prefix").toString();
