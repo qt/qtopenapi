@@ -19,6 +19,10 @@ QT_BEGIN_NAMESPACE
 using namespace Qt::StringLiterals;
 QT_END_NAMESPACE
 
+{{#buildingQtSources}}
+QT_BEGIN_NAMESPACE
+{{/buildingQtSources}}
+
 {{#cppCommonNamespaceDeclarations}}
 namespace {{this}} {
 {{/cppCommonNamespaceDeclarations}}
@@ -329,3 +333,6 @@ void {{prefix}}BaseApi::setCallerInfo(QNetworkReply *reply, const {{prefix}}Base
 } // namespace {{this}}
 {{/cppCommonNamespaceDeclarations}}
 
+{{#buildingQtSources}}
+QT_END_NAMESPACE
+{{/buildingQtSources}}

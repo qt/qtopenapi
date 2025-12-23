@@ -160,6 +160,10 @@ DEPRECATED void OPERATION({{prefix}}_VA_LIST PARAMS, const ContextTypeForFunctor
     QtPrivate::makeCallableObject<{{prefix}}EmptyCallbackReply>(std::forward<Functor>(callback))); \
 }                                                                                                  \
 
+{{#buildingQtSources}}
+QT_BEGIN_NAMESPACE
+{{/buildingQtSources}}
+
 {{#cppCommonNamespaceDeclarations}}
 namespace {{this}} {
 {{/cppCommonNamespaceDeclarations}}
@@ -243,5 +247,10 @@ private:
 {{#cppCommonNamespaceDeclarations}}
 } // namespace {{this}}
 {{/cppCommonNamespaceDeclarations}}
+
+{{#buildingQtSources}}
+QT_END_NAMESPACE
+{{/buildingQtSources}}
+
 #endif
 

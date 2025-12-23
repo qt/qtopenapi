@@ -21,6 +21,10 @@
 #include <string>
 #include <string_view>
 
+{{#buildingQtSources}}
+QT_BEGIN_NAMESPACE
+{{/buildingQtSources}}
+
 {{#cppCommonNamespaceDeclarations}}
 namespace {{this}} {
 {{/cppCommonNamespaceDeclarations}}
@@ -265,14 +269,14 @@ QString serializeMediaTypeContentField(const QString &contentType, const T &valu
 {
     if (contentType.isEmpty()) {
         if constexpr (isPrimitiveMediaType<T>)
-            return ::{{cppCommonNamespace}}::toStringValue(value);
+            return {{cppCommonNamespace}}::toStringValue(value);
         else
-            return ::{{cppCommonNamespace}}::convertJsonValueToString(::{{cppCommonNamespace}}::toJsonValue(value));
+            return {{cppCommonNamespace}}::convertJsonValueToString({{cppCommonNamespace}}::toJsonValue(value));
     }
     if (contentType == QLatin1StringView("application/json"))
-        return ::{{cppCommonNamespace}}::convertJsonValueToString(::{{cppCommonNamespace}}::toJsonValue(value));
+        return {{cppCommonNamespace}}::convertJsonValueToString({{cppCommonNamespace}}::toJsonValue(value));
     else
-        return ::{{cppCommonNamespace}}::toStringValue(value);
+        return {{cppCommonNamespace}}::toStringValue(value);
 }
 
 template <typename T>
@@ -397,5 +401,9 @@ QString serializeMapValue(const QMap<QString, T> &val, const SerializationOption
 {{#cppCommonNamespaceDeclarations}}
 } // namespace {{this}}
 {{/cppCommonNamespaceDeclarations}}
+
+{{#buildingQtSources}}
+QT_END_NAMESPACE
+{{/buildingQtSources}}
 
 #endif // {{prefix}}_HELPERS_H

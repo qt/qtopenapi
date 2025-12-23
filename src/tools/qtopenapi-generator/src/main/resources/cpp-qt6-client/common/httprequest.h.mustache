@@ -20,6 +20,10 @@ class QRestReply;
 class QUrlQuery;
 QT_END_NAMESPACE
 
+{{#buildingQtSources}}
+QT_BEGIN_NAMESPACE
+{{/buildingQtSources}}
+
 {{#cppCommonNamespaceDeclarations}}
 namespace {{this}} {
 {{/cppCommonNamespaceDeclarations}}
@@ -100,5 +104,9 @@ namespace {{prefix}}HttpRequestWorker {
 {{#cppCommonNamespaceDeclarations}}
 } // namespace {{this}}
 {{/cppCommonNamespaceDeclarations}}
+
+{{#buildingQtSources}}
+QT_END_NAMESPACE
+{{/buildingQtSources}}
 
 #endif // {{prefix}}_HTTPREQUESTWORKER_H

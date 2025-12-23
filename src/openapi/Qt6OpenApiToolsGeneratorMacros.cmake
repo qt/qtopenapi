@@ -80,8 +80,6 @@ function(qt6_add_openapi_client target)
 
     get_target_property(openapi_generator_cli_jar_file
         WrapOpenAPIGenerator::WrapOpenAPIGenerator INTERFACE_OPENAPI_GENERATOR_CLI_JAR)
-    get_target_property(qtcore_comomn_namespace
-            ${QT_CMAKE_EXPORT_NAMESPACE}::Core QT_NAMESPACE)
 
     if(NOT openapi_generator_cli_jar_file)
         message(FATAL_ERROR "qt6_add_openapi_client: "
@@ -105,17 +103,13 @@ function(qt6_add_openapi_client target)
         set(model_and_api_name_prefix "${arg_CLIENT_PREFIX}")
     endif()
 
-    # Qt pre-generated qt common library always uses QOAI
+    # Qt pre-generated common library always uses QOAI
     # prefix, for generating different common library,
     # please call the generator manually.
     set(qt_commonlib_prefix "QOAI")
     set(qt_common_file_prefix "qoai")
-    # For qt macro: either QtOpenApiCommon or QtNameSpace::QtOpenApiCommon
-    if(qtcore_comomn_namespace)
-        set(cpp_common_namespace "${qtcore_comomn_namespace}::QtOpenApiCommon")
-    else()
-        set(cpp_common_namespace "QtOpenApiCommon")
-    endif()
+    # Qt pre-generated common library always uses QtOpenApiCommon namespace
+    set(cpp_common_namespace "QtOpenApiCommon")
 
     # The default namespace is defined in CppQt6AbstractCodegen.java:
     # cppNamespace = "QtOpenAPI"

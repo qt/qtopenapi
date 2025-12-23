@@ -24,6 +24,10 @@
 #include <zlib.h>
 {{/contentCompression}}
 
+{{#buildingQtSources}}
+QT_BEGIN_NAMESPACE
+{{/buildingQtSources}}
+
 {{#cppCommonNamespaceDeclarations}}
 namespace {{this}} {
 {{/cppCommonNamespaceDeclarations}}
@@ -583,3 +587,7 @@ QByteArray compressData(const QByteArray &input, int level, CompressionType comp
 {{#cppCommonNamespaceDeclarations}}
 } // namespace {{this}}
 {{/cppCommonNamespaceDeclarations}}
+
+{{#buildingQtSources}}
+QT_END_NAMESPACE
+{{/buildingQtSources}}

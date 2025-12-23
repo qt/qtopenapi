@@ -4,6 +4,10 @@
 #include <QtCore/qdebug.h>
 #include <QtCore/QJsonParseError>
 
+{{#buildingQtSources}}
+QT_BEGIN_NAMESPACE
+{{/buildingQtSources}}
+
 {{#cppCommonNamespaceDeclarations}}
 namespace {{this}} {
 {{/cppCommonNamespaceDeclarations}}
@@ -750,3 +754,7 @@ QString serializeJsonValue(const QJsonValue &value, const SerializationOptions &
 {{#cppCommonNamespaceDeclarations}}
 } // namespace {{this}}
 {{/cppCommonNamespaceDeclarations}}
+
+{{#buildingQtSources}}
+QT_END_NAMESPACE
+{{/buildingQtSources}}
