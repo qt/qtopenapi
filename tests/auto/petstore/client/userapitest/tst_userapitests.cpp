@@ -199,17 +199,17 @@ void UserApiTests::loginUserTest() {
     QCOMPARE(expectedString, "johndoe"); // Password was not set; only username is returned
 
     userLogged = false;
-    api.loginUser(user_name, OptionalParam<QString>(OptionalParam<QString>::IsNull));
+    api.loginUser(user_name, OptionalParameter<QString>(OptionalParameter<QString>::IsNull));
     QTRY_COMPARE_EQ_WITH_TIMEOUT(userLogged, true, 14000);
-    QCOMPARE(expectedString, "johndoe"); // Password is explicitly marked as null via OptionalParam::IsNull; username is returned.
+    QCOMPARE(expectedString, "johndoe"); // Password is explicitly marked as null via OptionalParameter::IsNull; username is returned.
 
     userLogged = false;
-    api.loginUser(OptionalParam<QString>(), QString("123456789"_L1));
+    api.loginUser(OptionalParameter<QString>(), QString("123456789"_L1));
     QTRY_COMPARE_EQ_WITH_TIMEOUT(userLogged, true, 14000);
     QCOMPARE(expectedString, "123456789"); // Username is empty; only password is returned.
 
     userLogged = false;
-    api.loginUser(user_name, OptionalParam<QString>("123456789"));
+    api.loginUser(user_name, OptionalParameter<QString>("123456789"));
     QTRY_COMPARE_EQ_WITH_TIMEOUT(userLogged, true, 14000);
     QCOMPARE(expectedString, "johndoe123456789"); // Username and password are non-empty; both are returned concatenated.
 }

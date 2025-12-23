@@ -894,19 +894,19 @@ void OperationParameters::queryParameters()
 
     // Only style=FORM supports primitive types (string, int, double, float)
     // style=form, explode=true, type=string
-    CALL_TEST_POST_OPERATION(formExplodeString, OptionalParam<QString>("hello, guys!"),
+    CALL_TEST_POST_OPERATION(formExplodeString, OptionalParameter<QString>("hello, guys!"),
                              "/v2/query/string/form-explode/formExplodeString?stringParameter=hello%2C%20guys%21");
 
     // style=form, explode=false, type=string
-    CALL_TEST_POST_OPERATION(formNotExplodeString, OptionalParam<QString>("hello, guys!"),
+    CALL_TEST_POST_OPERATION(formNotExplodeString, OptionalParameter<QString>("hello, guys!"),
                              "/v2/query/string/form-not-explode/formNotExplodeString?stringParameter=hello%2C%20guys%21");
 
     // style=form, explode=true, type=integer, format=int64
-    CALL_TEST_POST_OPERATION(formExplodeInt, OptionalParam<qint64>(22),
+    CALL_TEST_POST_OPERATION(formExplodeInt, OptionalParameter<qint64>(22),
                              "/v2/query/int/form-explode/formExplodeInt?intParameter=22");
 
     // style=form, explode=false, type=integer, format=int64
-    CALL_TEST_POST_OPERATION(formNotExplodeInt, OptionalParam<qint64>(22),
+    CALL_TEST_POST_OPERATION(formNotExplodeInt, OptionalParameter<qint64>(22),
                              "/v2/query/int/form-not-explode/formNotExplodeInt?intParameter=22");
 
     // style=form, explode=true, type=number, format=float
@@ -917,14 +917,14 @@ void OperationParameters::queryParameters()
     QString expectedPath = "/v2/query/float/form-explode/formExplodeFloat?floatParameter="_L1 +
                            strVal;
     f_res.setStringValue(expectedPath);
-    CALL_TEST_NUMERIC_OPERATION(formExplodeFloat, OptionalParam<float>(22.0123f),
+    CALL_TEST_NUMERIC_OPERATION(formExplodeFloat, OptionalParameter<float>(22.0123f),
                                f_res);
 
     // style=form, explode=false, type=number, format=float
     expectedPath = "/v2/query/float/form-not-explode/formNotExplodeFloat?floatParameter="_L1 +
                    strVal;
     f_res.setStringValue(expectedPath);
-    CALL_TEST_NUMERIC_OPERATION(formNotExplodeFloat, OptionalParam<float>(22.0123f),
+    CALL_TEST_NUMERIC_OPERATION(formNotExplodeFloat, OptionalParameter<float>(22.0123f),
                                f_res);
 
     double d_val = 2.987653212346578627e9;
@@ -935,13 +935,13 @@ void OperationParameters::queryParameters()
     // style=form, explode=true, type=number, format=double
     expectedPath = "/v2/query/double/form-explode/formExplodeDouble?doubleParameter="_L1 + strVal;
     d_res.setStringValue(expectedPath);
-    CALL_TEST_NUMERIC_OPERATION(formExplodeDouble, OptionalParam<double>(d_val), d_res);
+    CALL_TEST_NUMERIC_OPERATION(formExplodeDouble, OptionalParameter<double>(d_val), d_res);
 
     // style=form, explode=false, type=number, format=double
     expectedPath = "/v2/query/double/form-not-explode/formNotExplodeDouble?doubleParameter="_L1 +
                    strVal;
     d_res.setStringValue(expectedPath);
-    CALL_TEST_NUMERIC_OPERATION(formNotExplodeDouble, OptionalParam<double>(d_val),
+    CALL_TEST_NUMERIC_OPERATION(formNotExplodeDouble, OptionalParameter<double>(d_val),
                                 d_res);
 
     // style=form, explode=true, type=object
@@ -1412,8 +1412,8 @@ void OperationParameters::severalQueryParametersPerOPeration()
             });
 
     expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterA=First%20param&stringParameterB=second%20param&stringParameterC=-3499";
-    formExplodeStringOptions(bParam, OptionalParam<QString>(aParam),
-                             OptionalParam<qint32>(cParam));
+    formExplodeStringOptions(bParam, OptionalParameter<QString>(aParam),
+                             OptionalParameter<qint32>(cParam));
     QCOMPARE(m_manager->m_operationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
@@ -1431,7 +1431,7 @@ void OperationParameters::severalQueryParametersPerOPeration()
     QCOMPARE(m_manager->m_operationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
-    // NOTE: QtOpenAPI::OptionalParam<T>() is equal to EMPTY optional parameter
+    // NOTE: QtOpenAPI::OptionalParameter<T>() is equal to EMPTY optional parameter
     // The value will be excluded from the url
     done = false;
     expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterB=";
@@ -1441,13 +1441,13 @@ void OperationParameters::severalQueryParametersPerOPeration()
 
     done = false;
     expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterB=";
-    formExplodeStringOptions("", OptionalParam<QString>());
+    formExplodeStringOptions("", OptionalParameter<QString>());
     QCOMPARE(m_manager->m_operationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
     expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterB=";
-    formExplodeStringOptions("", OptionalParam<QString>(), OptionalParam<qint32>());
+    formExplodeStringOptions("", OptionalParameter<QString>(), OptionalParameter<qint32>());
     QCOMPARE(m_manager->m_operationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
@@ -1455,19 +1455,19 @@ void OperationParameters::severalQueryParametersPerOPeration()
     // 'undefined' column here: https://spec.openapis.org/oas/v3.1.1.html#style-examples
     done = false;
     expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterA=&stringParameterB=";
-    formExplodeStringOptions("", OptionalParam<QString>(OptionalParam<QString>::IsNull));
+    formExplodeStringOptions("", OptionalParameter<QString>(OptionalParameter<QString>::IsNull));
     QCOMPARE(m_manager->m_operationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
     expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterA=&stringParameterB=&stringParameterC=";
-    formExplodeStringOptions("", OptionalParam<QString>(OptionalParam<QString>::IsNull), OptionalParam<qint32>(OptionalParam<qint32>::IsNull));
+    formExplodeStringOptions("", OptionalParameter<QString>(OptionalParameter<QString>::IsNull), OptionalParameter<qint32>(OptionalParameter<qint32>::IsNull));
     QCOMPARE(m_manager->m_operationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
     expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterA=&stringParameterB=";
-    formExplodeStringOptions("", OptionalParam<QString>(OptionalParam<QString>::IsNull), OptionalParam<qint32>());
+    formExplodeStringOptions("", OptionalParameter<QString>(OptionalParameter<QString>::IsNull), OptionalParameter<qint32>());
     QCOMPARE(m_manager->m_operationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
@@ -1475,13 +1475,13 @@ void OperationParameters::severalQueryParametersPerOPeration()
     // 'undefined' column here: https://spec.openapis.org/oas/v3.1.1.html#style-examples
     done = false;
     expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterA=&stringParameterB=&stringParameterC=";
-    formExplodeStringOptions("", OptionalParam<QString>(""), OptionalParam<qint32>(OptionalParam<qint32>::IsNull));
+    formExplodeStringOptions("", OptionalParameter<QString>(""), OptionalParameter<qint32>(OptionalParameter<qint32>::IsNull));
     QCOMPARE(m_manager->m_operationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
     expectedResult = "/v2/query/strings/form-explode/formExplodeStringOptions?stringParameterA=%20end%21&stringParameterB=The&stringParameterC=100";
-    formExplodeStringOptions("The", OptionalParam<QString>(" end!"), OptionalParam<qint32>(100));
+    formExplodeStringOptions("The", OptionalParameter<QString>(" end!"), OptionalParameter<qint32>(100));
     QCOMPARE(m_manager->m_operationPath, expectedResult);
     QTRY_COMPARE_EQ(done, true);
 
@@ -1490,7 +1490,7 @@ void OperationParameters::severalQueryParametersPerOPeration()
     testObject.setName("John");
     testObject.setStatus("Sleepy");
     testObject.setAge(12);
-    formExplodeDifferentOptions(50, OptionalParam<TestObject>(testObject),
+    formExplodeDifferentOptions(50, OptionalParameter<TestObject>(testObject),
                                 this, [&](const QRestReply &reply, const QString &summary) {
                                     done = reply.isSuccess();
                                     QCOMPARE(getStatusString(summary), "/v2/query/strings/form-explode/formExplodeDifferentOptions?age=12&name=John&status=Sleepy&stringParameterB=50");
@@ -1499,7 +1499,7 @@ void OperationParameters::severalQueryParametersPerOPeration()
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
-    formExplodeDifferentOptions(50, OptionalParam<TestObject>(),
+    formExplodeDifferentOptions(50, OptionalParameter<TestObject>(),
                                 this, [&](const QRestReply &reply, const QString &summary) {
                                     done = reply.isSuccess();
                                     QCOMPARE(getStatusString(summary), "/v2/query/strings/form-explode/formExplodeDifferentOptions?stringParameterB=50");
@@ -1509,7 +1509,7 @@ void OperationParameters::severalQueryParametersPerOPeration()
     // NOTE: Parameter is not nullable in yaml file, so it's being excluded
     // from the serialization, even if Null is passed as a 2d argument.
     done = false;
-    formExplodeDifferentOptions(50, OptionalParam<TestObject>(OptionalParam<TestObject>::IsNull), this,
+    formExplodeDifferentOptions(50, OptionalParameter<TestObject>(OptionalParameter<TestObject>::IsNull), this,
                                 [&](const QRestReply &reply, const QString &summary) {
                                     done = reply.isSuccess();
                                     QCOMPARE(getStatusString(summary), "/v2/query/strings/form-explode/formExplodeDifferentOptions?stringParameterB=50");
@@ -1641,7 +1641,7 @@ void OperationParameters::headerAnyTypeParameters()
     QFETCH(QString, expectedNotExplodeResult);
     bool done = false;
     headerSimpleExplodeAnytype(jsonValue,
-                               OptionalParam<QString>("I am a QUERY string"),
+                               OptionalParameter<QString>("I am a QUERY string"),
                                this, [&](const QRestReply &reply, const QString &summary) {
                                    done = reply.isSuccess();
                                    QCOMPARE(getHeaderValue(summary, "Any-Type-Parameter"),
@@ -1650,7 +1650,7 @@ void OperationParameters::headerAnyTypeParameters()
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
-    headerSimpleNotExplodeAnytype(jsonValue, OptionalParam<QString>(),
+    headerSimpleNotExplodeAnytype(jsonValue, OptionalParameter<QString>(),
                                   this, [&](const QRestReply &reply, const QString &summary) {
                                       done = reply.isSuccess();
                                       QCOMPARE(getHeaderValue(summary, "Any-Type-Parameter"),
@@ -1681,7 +1681,7 @@ void OperationParameters::headerStringParameters()
     QFETCH(QString, expectedNotExplodeResult);
     bool done = false;
     headerSimpleExplodeString(stringValue,
-                              OptionalParam<QString>("I am a QUERY string"),
+                              OptionalParameter<QString>("I am a QUERY string"),
                                this, [&](const QRestReply &reply, const QString &summary) {
                                    done = reply.isSuccess();
                                    QCOMPARE(getHeaderValue(summary, "String-Parameter"),
@@ -1690,7 +1690,7 @@ void OperationParameters::headerStringParameters()
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
-    headerSimpleNotExplodeString(stringValue, OptionalParam<QString>(),
+    headerSimpleNotExplodeString(stringValue, OptionalParameter<QString>(),
                                   this, [&](const QRestReply &reply, const QString &summary) {
                                       done = reply.isSuccess();
                                       QCOMPARE(getHeaderValue(summary, "String-Parameter"),
@@ -1724,7 +1724,7 @@ void OperationParameters::headerArrayParameters()
     QFETCH(QString, expectedNotExplodeResult);
     bool done = false;
     headerSimpleExplodeArray(arrayValue,
-                             OptionalParam<QString>("I am a QUERY string"),
+                             OptionalParameter<QString>("I am a QUERY string"),
                              this, [&](const QRestReply &reply, const QString &summary) {
                                  done = reply.isSuccess();
                                  QCOMPARE(getHeaderValue(summary, "Array-Parameter"),
@@ -1733,8 +1733,8 @@ void OperationParameters::headerArrayParameters()
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
-    headerSimpleNotExplodeArray(OptionalParam<QList<qint32>>(arrayValue),
-                                OptionalParam<QString>(),
+    headerSimpleNotExplodeArray(OptionalParameter<QList<qint32>>(arrayValue),
+                                OptionalParameter<QString>(),
                                 this, [&](const QRestReply &reply, const QString &summary) {
                                     done = reply.isSuccess();
                                     QCOMPARE(getHeaderValue(summary, "Array-Parameter"),
@@ -1772,7 +1772,7 @@ void OperationParameters::headerObjectParameters()
     QFETCH(QString, expectedNotExplodeResult);
     bool done = false;
     headerSimpleExplodeObject(objectValue,
-                              OptionalParam<QString>("I am a QUERY string"),
+                              OptionalParameter<QString>("I am a QUERY string"),
                               this, [&](const QRestReply &reply, const QString &summary) {
                                   done = reply.isSuccess();
                                   QCOMPARE(getHeaderValue(summary, "Object-Parameter"),
@@ -1781,7 +1781,7 @@ void OperationParameters::headerObjectParameters()
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
-    headerSimpleNotExplodeObject(objectValue, OptionalParam<QString>(),
+    headerSimpleNotExplodeObject(objectValue, OptionalParameter<QString>(),
                                  this, [&](const QRestReply &reply, const QString &summary) {
                                      done = reply.isSuccess();
                                      QCOMPARE(getHeaderValue(summary, "Object-Parameter"),
@@ -1813,7 +1813,7 @@ void OperationParameters::headerMapParameters()
     QFETCH(QString, expectedExplodeResult);
     QFETCH(QString, expectedNotExplodeResult);
     bool done = false;
-    headerSimpleExplodeMap(mapValue, OptionalParam<QString>(""),
+    headerSimpleExplodeMap(mapValue, OptionalParameter<QString>(""),
                            this, [&](const QRestReply &reply, const QString &summary) {
                                done = reply.isSuccess();
                                QCOMPARE(getHeaderValue(summary, "Map-Parameter"),
@@ -1823,7 +1823,7 @@ void OperationParameters::headerMapParameters()
 
     done = false;
     headerSimpleNotExplodeMap(mapValue,
-                              OptionalParam<QString>("I am a QUERY string"),
+                              OptionalParameter<QString>("I am a QUERY string"),
                               this, [&](const QRestReply &reply, const QString &summary) {
                                   done = reply.isSuccess();
                                   QCOMPARE(getHeaderValue(summary, "Map-Parameter"),
@@ -1853,7 +1853,7 @@ void OperationParameters::headerAdditionalCases()
     QFETCH(QString, expectedExplodeResult1);
     QFETCH(QString, expectedExplodeResult2);
     bool done = false;
-    headerSimpleNotExplodeCustom(OptionalParam<QString>(stringValue), this,
+    headerSimpleNotExplodeCustom(OptionalParameter<QString>(stringValue), this,
                                  [&](const QRestReply &reply, const QString &summary) {
                                      done = reply.isSuccess();
                                      QCOMPARE(getHeaderValue(summary, "String-Parameter"),
@@ -2287,8 +2287,8 @@ void OperationParameters::severalCookies()
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
-    severalNotExplodeCookies(OptionalParam<QMap<QString, QString>>(emptyMap),
-                             OptionalParam<qint64>(-999999999),
+    severalNotExplodeCookies(OptionalParameter<QMap<QString, QString>>(emptyMap),
+                             OptionalParameter<qint64>(-999999999),
                              this, [&](const QRestReply &reply, const QString &summary) {
                                  done = reply.isSuccess();
                                  QVERIFY(getObjectValue(summary,
@@ -2302,8 +2302,8 @@ void OperationParameters::severalCookies()
     // Cookies are empty, because the empty optional parameter is not being sent at all
     // so nothing to send back from the server
     done = true;
-    severalNotExplodeCookies(OptionalParam<QMap<QString, QString>>(),
-                             OptionalParam<qint64>(),
+    severalNotExplodeCookies(OptionalParameter<QMap<QString, QString>>(),
+                             OptionalParameter<qint64>(),
                              this, [&](const QRestReply &reply, const QString &) {
                                  done = reply.isSuccess();
                              });
@@ -2326,8 +2326,8 @@ void OperationParameters::severalCookies()
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
-    severalExplodeCookies(OptionalParam<QMap<QString, QString>>(emptyMap),
-                          OptionalParam<qint64>(-999999999),
+    severalExplodeCookies(OptionalParameter<QMap<QString, QString>>(emptyMap),
+                          OptionalParameter<qint64>(-999999999),
                           this, [&](const QRestReply &reply, const QString &summary) {
                               done = reply.isSuccess();
                               QCOMPARE(getObjectValue(summary, "cookie1"_L1).toString(), "");
@@ -2340,8 +2340,8 @@ void OperationParameters::severalCookies()
     // Cookies are empty, because the empty optional parameter is not being sent at all
     // so nothing to send back from the server
     done = true;
-    severalExplodeCookies(OptionalParam<QMap<QString, QString>>(),
-                          OptionalParam<qint64>(),
+    severalExplodeCookies(OptionalParameter<QMap<QString, QString>>(),
+                          OptionalParameter<qint64>(),
                           this, [&](const QRestReply &reply, const QString &) {
                               done = reply.isSuccess();
                           });

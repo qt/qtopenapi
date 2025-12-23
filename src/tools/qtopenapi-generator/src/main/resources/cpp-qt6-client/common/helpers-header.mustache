@@ -292,7 +292,7 @@ QString addContentField(const QString &contentType)
 }
 
 template <typename T>
-class OptionalParam
+class OptionalParameter
 {
 public:
     enum State {
@@ -301,7 +301,7 @@ public:
         HasValue
     };
 
-    OptionalParam(State state = IsEmpty): m_state(state) {
+    OptionalParameter(State state = IsEmpty): m_state(state) {
         if (state == HasValue) {
             static_assert(std::is_default_constructible_v<T>, "T must be default-constructible");
             m_value =  T{}; // T must be default-constructible
@@ -309,7 +309,7 @@ public:
             m_value = std::nullopt;
         }
     }
-    OptionalParam(const T &val): m_state(HasValue), m_value(val) {}
+    OptionalParameter(const T &val): m_state(HasValue), m_value(val) {}
 
     constexpr bool hasValue() const { return static_cast<bool>(m_value); } // return m_state == HasValue
     constexpr const T& value() const & { return *m_value; }
