@@ -13,6 +13,7 @@
 #include "credentials.h"
 #include "usersapi.h"
 
+//! [0]
 struct ForeignColorsAPI
 {
     Q_GADGET
@@ -20,6 +21,7 @@ struct ForeignColorsAPI
     QML_SINGLETON
     QML_NAMED_ELEMENT(ColorsApi)
 
+//! [0]
 public:
     inline static QtOpenAPI::ColorsApi *s_singletonInstance = nullptr;
 
@@ -46,7 +48,9 @@ public:
 
 private:
     inline static QJSEngine *s_engine = nullptr;
+//! [1]
 };
+//! [1]
 
 struct ForeignUsersAPI
 {
@@ -83,6 +87,7 @@ private:
     inline static QJSEngine *s_engine = nullptr;
 };
 
+//! [2]
 class Credentials: public QObject
 {
     Q_OBJECT
@@ -97,6 +102,7 @@ public:
         return credentials;
     }
 };
+//! [2]
 
 class Color: public QObject
 {
