@@ -134,9 +134,11 @@ Popup {
                         if (userInfo.logged) {
                             UsersApi.logoutUser()
                         } else {
+                            //! [0]
                             var credentials = Credentials.create(userInfo.model.email,
                                                                       "apassword");
                             UsersApi.loginUser(credentials);
+                            //! [0]
                             userMenu.close()
                         }
                     }

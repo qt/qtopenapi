@@ -47,10 +47,12 @@ qt_add_qml_module(colorpaletteApp
 
 qt_add_library(ColorpaletteClientExample)
 
+#! [0]
 qt6_add_openapi_client(ColorpaletteClientExample
     SPEC_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/colorpalette.yaml
 )
+#! [0]
 
 target_link_libraries(colorpaletteApp PRIVATE
     Qt6::Core

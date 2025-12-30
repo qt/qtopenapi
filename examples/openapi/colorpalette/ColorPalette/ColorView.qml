@@ -30,7 +30,9 @@ Item {
 
     function fetchColors(page) {
         colorListModel.clear()
+        //! [0]
         ColorsApi.getColors(page)
+        //! [0]
     }
 
     Connections {
@@ -67,6 +69,7 @@ Item {
             root.handleError(errorStr)
         }
 
+        //! [1]
         function onAddColorFinished() {
             root.fetchColors(root.currentColorPage)
         }
@@ -74,6 +77,7 @@ Item {
         function onAddColorErrorOccurred(errorType, errorStr) {
             root.handleError(errorStr)
         }
+        //! [1]
 
         function onUpdateColorByIdFinished() {
             root.fetchColors(root.currentColorPage)
