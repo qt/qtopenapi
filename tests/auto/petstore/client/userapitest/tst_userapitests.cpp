@@ -91,8 +91,8 @@ void UserApiTests::createInQueryMapTest()
         if (!(userFetched = reply.isSuccess()))
             qWarning() << "Error happened while issuing request : " << reply.errorString();
         QCOMPARE(reply.httpStatus(), REPLY_OK);
-        QCOMPARE(summary.getUsername(), "Ivan");
-        QCOMPARE(summary.getUserStatus(), status);
+        QCOMPARE(summary.getUsernameValue(), "Ivan");
+        QCOMPARE(summary.getUserStatusValue(), status);
     });
     QTRY_COMPARE_EQ_WITH_TIMEOUT(userFetched, true, 14000);
 }
@@ -167,7 +167,7 @@ void UserApiTests::getUserByNameTest() {
     QTRY_COMPARE_EQ_WITH_TIMEOUT(userFetched, true, 14000);
 
     userFetched = false;
-    api.getUserByName({{mrSmith.getUsername(), mrSmith.getUserStatus()}}, this, [&](const QRestReply &reply, const User &summary) {
+    api.getUserByName({{mrSmith.getUsernameValue(), mrSmith.getUserStatusValue()}}, this, [&](const QRestReply &reply, const User &summary) {
         if (!(userFetched = reply.isSuccess()))
             qWarning() << "Error happened while issuing request : " << reply.errorString();
         QCOMPARE(reply.httpStatus(), REPLY_OK);

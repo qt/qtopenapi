@@ -34,7 +34,7 @@ class {{packageNameUpperCase}}_EXPORT {{classname}} : public {{cppCommonNamespac
     Q_GADGET{{#enableQmlCode}}
     QML_VALUE_TYPE(data{{classname}}){{/enableQmlCode}}
 {{^isEnum}}{{#vars}}
-    Q_PROPERTY({{{dataType}}} {{getter}} READ {{getter}} WRITE {{setter}}){{/vars}}{{/isEnum}}{{#isEnum}}{{/isEnum}}
+    Q_PROPERTY({{{dataType}}} {{getter}}Value READ {{getter}}Value WRITE {{setter}}){{/vars}}{{/isEnum}}{{#isEnum}}{{/isEnum}}
 public:
     {{classname}}();
     {{classname}}(const QString &json);
@@ -45,7 +45,7 @@ public:
     void fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}}(const QJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}} &json) override;
     void fromJson(const QString &jsonString) override;
 {{^isEnum}}{{#vars}}
-    {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}{{{dataType}}} {{getter}}() const;
+    {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}{{{dataType}}} {{getter}}Value() const;
     {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}void {{setter}}(const {{{dataType}}} &{{name}});
     {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}bool is{{#camelcase}}{{name}}{{/camelcase}}Set() const;
     {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}bool is{{#camelcase}}{{name}}{{/camelcase}}Valid() const;

@@ -345,6 +345,14 @@ paths:
                 type: string
 components:
   schemas:
+    TestObject:
+      properties:
+        status:
+          description: Test status
+          type: string
+        statusSet:
+          description: Test status flag # checking a collision is not happening: bug QTBUG-143168
+          type: boolean
     User:
       properties:
         name:
