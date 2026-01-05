@@ -74,12 +74,12 @@ using namespace Qt::StringLiterals;
     OPERATION(PARAM, this, [&](const QRestReply &reply, const RESPONSE_TYPE &summary) {     \
         if (!(done = reply.isSuccess()))                                                    \
             qWarning() << "Error happened while issuing request : " << reply.errorString(); \
-        QCOMPARE(summary.getStringValue(), EXPECTED_SUMMARY.getStringValue());              \
-        auto expectedVal = EXPECTED_SUMMARY.getValue();                                     \
+        QCOMPARE(summary.getStringValueValue(), EXPECTED_SUMMARY.getStringValueValue());    \
+        auto expectedVal = EXPECTED_SUMMARY.getValueValue();                                \
         if (!std::isnan(expectedVal) && !std::isinf(expectedVal))                           \
-            QCOMPARE(summary.getValue(), expectedVal);                                      \
+            QCOMPARE(summary.getValueValue(), expectedVal);                                 \
     });                                                                                     \
-    QCOMPARE(m_manager->m_operationPath, EXPECTED_SUMMARY.getStringValue());               \
+    QCOMPARE(m_manager->m_operationPath, EXPECTED_SUMMARY.getStringValueValue());           \
     QTRY_COMPARE_EQ(done, true);                                                            \
 }
 

@@ -152,7 +152,7 @@ QJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}} {{classname}}::asJs
 {{/isEnum}}
 }
 
-{{^isEnum}}{{#vars}}{{{dataType}}} {{classname}}::{{getter}}() const
+{{^isEnum}}{{#vars}}{{{dataType}}} {{classname}}::{{getter}}Value() const
 {
     return m_{{name}};
 }
