@@ -27,18 +27,13 @@ instructions:
       disable_if:
         condition: and
         conditions:
-        # Disable Windows if it's not MSVC
+        # Disable Windows if it's LLVM
           - condition: property
             property: target.os
             equals_value: Windows
-          - condition: or
-            conditions:
-              - condition: property
-                property: target.compiler
-                contains_value: Mingw
-              - condition: property
-                property: target.compiler
-                contains_value: Clang
+          - condition: property
+            property: target.compiler
+            contains_value: Clang
       instructions:
         - *create_debian_from_openapi-cli
         - !include "{{qt/qtbase}}/coin_module_build_template_v2.yaml"
@@ -48,18 +43,13 @@ instructions:
       disable_if:
         condition: and
         conditions:
-        # Disable Windows if it's not MSVC
+        # Disable Windows if it's LLVM
           - condition: property
             property: target.os
             equals_value: Windows
-          - condition: or
-            conditions:
-              - condition: property
-                property: target.compiler
-                contains_value: Mingw
-              - condition: property
-                property: target.compiler
-                contains_value: Clang
+          - condition: property
+            property: target.compiler
+            contains_value: Clang
       instructions:
         - !include "{{qt/qtbase}}/coin_module_test_template_v3.yaml"
         - !include "{{qt/qtbase}}/coin_module_test_docs.yaml"
