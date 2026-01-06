@@ -362,7 +362,8 @@ public abstract class CppQt6AbstractCodegen extends AbstractCppCodegen implement
                                                              + "'simple'.", paramStyle);
                             LOGGER.warn("{}: {}", operation.operationId, msg);
                             param.vendorExtensions.put("x-warningMessage",
-                                                       msg.replaceAll("\\n", "\\\\n"));
+                                                       msg.replaceAll("\\n", "\\\\n")
+                                                          .replaceAll("\\r", "\\\\r"));
                             param.style = "simple";
                         }
                     }
@@ -412,7 +413,8 @@ public abstract class CppQt6AbstractCodegen extends AbstractCppCodegen implement
                         if (msg != null) {
                             LOGGER.warn("{}: {}", operation.operationId, msg);
                             param.vendorExtensions.put("x-warningMessage",
-                                                       msg.replaceAll("\\n", "\\\\n"));
+                                                       msg.replaceAll("\\n", "\\\\n")
+                                                          .replaceAll("\\r", "\\\\r"));
                         }
                     }
                 }
@@ -429,7 +431,8 @@ public abstract class CppQt6AbstractCodegen extends AbstractCppCodegen implement
                                                    param.style, expectedStyle);
                         param.style = expectedStyle;
                         param.vendorExtensions.put("x-warningMessage",
-                                                   msg.replaceAll("\\n", "\\\\n"));
+                                                   msg.replaceAll("\\n", "\\\\n")
+                                                      .replaceAll("\\r", "\\\\r"));
                         LOGGER.warn("{}: {}", operation.operationId, msg);
                     }
                 }
@@ -445,7 +448,8 @@ public abstract class CppQt6AbstractCodegen extends AbstractCppCodegen implement
                                                    param.style, expectedStyle);
                         param.style = expectedStyle;
                         param.vendorExtensions.put("x-warningMessage",
-                                                   msg.replaceAll("\\n", "\\\\n"));
+                                                   msg.replaceAll("\\n", "\\\\n")
+                                                      .replaceAll("\\r", "\\\\r"));
                         LOGGER.warn("{}: {}", operation.operationId, msg);
                     }
                 }
