@@ -258,6 +258,36 @@ paths:
       responses:
         '204':
           description: No content
+  /response/content_disposition_check:
+    get:
+      tags: [test]
+      summary: Test various content-disposition parameters
+      operationId: contentDispositionCheck
+      parameters:
+        - name: filename
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: string
+        - name: extFilename
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a file with the specified name
+          headers:
+            Content-Disposition:
+              schema:
+                type: string
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
 components:
   schemas:
     User:

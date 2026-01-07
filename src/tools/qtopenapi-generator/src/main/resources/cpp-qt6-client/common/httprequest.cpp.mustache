@@ -360,6 +360,133 @@ static CompressionType encodingFormatToCompressionType(QByteArrayView encodingFo
     return CompressionType::None;
 }
 
+enum class FilenameParameter
+{
+    Standard,
+    Extended,
+};
+
+/*
+    Returns an empty QString if it's not able to parse the value
+*/
+static QString parseFilenameParameter(QByteArrayView value, FilenameParameter type)
+{
+    // 1. Trim whitespaces
+    value = value.trimmed();
+    // 2. Remove quotes, if they exist
+    if (value.startsWith('"') && value.endsWith('"'))
+        value.slice(1, value.size() - 2);
+    // 3. Extract the filename. Note that non-ASCII bytes can be %-encoded, so
+    //    we need to first decode them and then use the specified charset (if any)
+    //    to create a proper filename
+    QString filename;
+    switch (type) {
+    case FilenameParameter::Standard:
+        filename = QString::fromLatin1(QByteArray::fromPercentEncoding(QByteArray(value)));
+        break;
+    case FilenameParameter::Extended: {
+        // The format is
+        //      charset  "'" [ language ] "'" value-chars
+        // See https://www.rfc-editor.org/rfc/rfc6266#section-4.1
+        // and https://www.rfc-editor.org/rfc/rfc5987#section-3.2
+        // Note that we ignore the language part and support only a small
+        // subset of encodings.
+        const qsizetype langStartIdx = value.indexOf('\'');
+        const qsizetype langEndIdx = value.indexOf('\'', langStartIdx + 1);
+        if (langStartIdx == -1 || langEndIdx == -1) {
+            // Incorrect format. The spec does not define any fallback,
+            // so simply return
+            return {};
+        } else {
+            const QByteArrayView encoding = value.first(langStartIdx);
+            const QByteArray name = value.sliced(langEndIdx + 1).toByteArray();
+            const QByteArray namePercentDecoded = QByteArray::fromPercentEncoding(name);
+            // Support Latin1, UTF-8, UTF-16, and UTF-32 for now.
+            // If it's a different encoding - simply return an empty string.
+            if (encoding.compare("iso-8859-1", Qt::CaseInsensitive) == 0) {
+                filename = QString::fromLatin1(namePercentDecoded);
+            } else if (encoding.compare("utf-8", Qt::CaseInsensitive) == 0) {
+                filename = QString::fromUtf8(namePercentDecoded);
+            } else if (encoding.compare("utf-16", Qt::CaseInsensitive) == 0) {
+                const auto size = namePercentDecoded.size();
+                if (size % 2 != 0)
+                    return {};
+                filename.setUtf16(reinterpret_cast<const char16_t *>(namePercentDecoded.data()),
+                                  size / 2);
+            } else if (encoding.compare("utf-32", Qt::CaseInsensitive) == 0) {
+                const auto size = namePercentDecoded.size();
+                if (size % 4 != 0)
+                    return {};
+                filename =
+                    QString::fromUcs4(reinterpret_cast<const char32_t *>(namePercentDecoded.data()),
+                                      size / 4);
+            } else {
+                return {};
+            }
+        }
+        break;
+    }
+    }
+
+    // 4. Now strip all the directory information, leaving only the filename
+    //    See https://www.rfc-editor.org/rfc/rfc6266#section-4.3
+    // We cannot use QFileInfo::fileName(), because it only parses
+    // native file paths
+    qsizetype separatorIdx = filename.lastIndexOf(QLatin1Char('/'));
+    if (separatorIdx == -1)
+        separatorIdx = filename.lastIndexOf(QLatin1Char('\\'));
+    if (separatorIdx != -1) {
+        const qsizetype newSize = filename.size() - separatorIdx - 1;
+        filename = newSize > 0 ? filename.last(newSize) : QString();
+    }
+
+    // 5. And finally handle some special cases. These include:
+    //    * special dirs: . and ..
+    //    * Windows forbidden characters: \/:*?"<>|
+    //    * additionally some characters that have special meaning on Unix: ~
+    //    * control characters 0x00 - 0x1F + 0x7F
+    const auto size = filename.size();
+    for (qsizetype idx = 0; idx < size; ++idx) {
+        const QChar c = filename[idx];
+
+        // Do not replace '.' if it's followed by a different character,
+        // because it can be a file extension.
+        // We want to replace ".." and the trailing '.', though
+        if (c == '.'_L1) {
+            if (idx == size - 1) {
+                filename[idx] = '_'_L1;
+            } else {
+                const QChar next = filename[idx + 1];
+                if (next == '.'_L1) {
+                    // replace both
+                    filename[idx] = '_'_L1;
+                    filename[idx + 1] = '_'_L1;
+                    ++idx;
+                }
+            }
+            continue;
+        }
+
+        // Control characters and other special symbols.
+        // We do not check '/' and '\' here, because we stripped all directory
+        // information earlier.
+        if (c <= QLatin1Char(0x1f)
+            || c == QLatin1Char(0x7f)
+            || c == ':'_L1
+            || c == '*'_L1
+            || c == '?'_L1
+            || c == '\"'_L1
+            || c == '<'_L1
+            || c == '>'_L1
+            || c == '|'_L1
+            || c == '~'_L1) {
+            filename[idx] = '_'_L1;
+        }
+    }
+
+    return filename;
+};
+
 QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<QString, {{prefix}}HttpFileElement> *files)
 {
     QByteArray result;
@@ -411,21 +538,27 @@ QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<Q
         bool isAttachment = false;
 
         if (!contentDisposition.isEmpty()) {
-            isAttachment =
-                contentDisposition.first().compare("attachment", Qt::CaseInsensitive) == 0;
-            for (const auto &file : contentDisposition) {
+            isAttachment = contentDisposition.first().trimmed()
+                                             .compare("attachment", Qt::CaseInsensitive) == 0;
+            for (const auto &dispositionParam : contentDisposition) {
                 // We need case-insensitive lookup
-                if (file.toLower().contains("filename")) {
-                    const auto parts = file.split('=');
-                    if (parts.size() > 1) {
-                        filename = QString::fromUtf8(parts.at(1));
-                        // RFC says filename value may be quoted: remove the surrounding quotes
-                        if (filename.startsWith(u'"') && filename.endsWith(u'"'))
-                            filename = filename.mid(1, filename.size() - 2);
-                        // TODO in QTBUG-141443: - Sanitize the filename
-                        //                       - Distinguish between filename= and filename*=
+                const QByteArray dispositionParamLower = dispositionParam.toLower();
+                if (auto idx = dispositionParamLower.indexOf("filename*="); idx != -1) {
+                    // handle extended filename value
+                    const auto name = parseFilenameParameter(dispositionParam.sliced(idx + 10),
+                                                             FilenameParameter::Extended);
+                    if (!name.isEmpty()) {
+                        filename = name;
                         break;
-                    }
+                    } // otherwise do not break, but try to fall back to a "normal" filename
+                } else if (auto idx = dispositionParamLower.indexOf("filename="); idx != -1) {
+                    // handle "normal" filename value
+                    const auto name = parseFilenameParameter(dispositionParam.sliced(idx + 9),
+                                                             FilenameParameter::Standard);
+                    if (!name.isEmpty())
+                        filename = name;
+                    // intentionally do not break from the loop, because
+                    // we might see filename*= later, which is more preferable
                 }
             }
         }
