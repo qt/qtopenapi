@@ -412,23 +412,26 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{/isContainer}}
 {{^isContainer}}
 {{#isString}}
-        QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.toUtf8();
+        const QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.toUtf8();
 {{/isString}}
 {{#isByteArray}}
-        QByteArray output({{paramName}}{{^required}}.value(){{/required}});
+        const QByteArray output({{paramName}}{{^required}}.value(){{/required}});
 {{/isByteArray}}
 {{#isNumeric}}
-        QByteArray output = QByteArray::number({{paramName}}{{^required}}.value(){{/required}});
+        const QByteArray output = QByteArray::number({{paramName}}{{^required}}.value(){{/required}});
 {{/isNumeric}}
 {{#isBoolean}}
-        QByteArray output = ::{{cppCommonNamespace}}::toStringValue({{paramName}}{{^required}}.value(){{/required}}).toUtf8();
+        const QByteArray output = ::{{cppCommonNamespace}}::toStringValue({{paramName}}{{^required}}.value(){{/required}}).toUtf8();
 {{/isBoolean}}
 {{#isModel}}
-        QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.asJson().toUtf8();
+        const QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.asJson().toUtf8();
 {{/isModel}}
 {{#isFile}}
-        QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.loadFromLocalFile();
+        const QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.loadFromLocalFile();
 {{/isFile}}
+{{#isFreeFormObject}}
+        const QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.asJson().toUtf8();
+{{/isFreeFormObject}}
         input.setRequestBody(output);
 {{/isContainer}}
     }{{^required}}{{#isNullable}} else if ({{paramName}}.isNull()) {
