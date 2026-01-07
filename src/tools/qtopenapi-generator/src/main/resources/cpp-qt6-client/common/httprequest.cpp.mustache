@@ -345,15 +345,15 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
     return request;
 }
 
-static CompressionType encodingFormatToCompressionType(const QString &encodingFormat)
+static CompressionType encodingFormatToCompressionType(QByteArrayView encodingFormat)
 {
-    if (encodingFormat.compare("identity"_L1, Qt::CaseInsensitive) == 0 || encodingFormat.isEmpty())
+    if (encodingFormat.compare("identity", Qt::CaseInsensitive) == 0 || encodingFormat.isEmpty())
         return CompressionType::None;
 
-    if (encodingFormat.compare("gzip"_L1, Qt::CaseInsensitive) == 0)
+    if (encodingFormat.compare("gzip", Qt::CaseInsensitive) == 0)
         return CompressionType::Gzip;
 
-    if (encodingFormat.compare("deflate"_L1, Qt::CaseInsensitive) == 0)
+    if (encodingFormat.compare("deflate", Qt::CaseInsensitive) == 0)
         return CompressionType::Deflate;
 
     qWarning() << "Unsupported Content-Encoding:" << encodingFormat;
@@ -363,9 +363,9 @@ static CompressionType encodingFormatToCompressionType(const QString &encodingFo
 QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<QString, {{prefix}}HttpFileElement> *files)
 {
     QByteArray result;
-    QString contentDispositionHdr;
-    QString contentTypeHdr;
-    QString contentEncodingHdr;
+    QByteArray contentDispositionHdr;
+    QByteArray contentTypeHdr;
+    QByteArray contentEncodingHdr;
 
     if (!reply.networkReply())
         return result;
@@ -378,11 +378,11 @@ QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<Q
         const auto name = headers.nameAt(i);
         const auto value = headers.valueAt(i);
         if (name.compare("Content-Disposition"_L1, Qt::CaseInsensitive) == 0)
-            contentDispositionHdr = QString::fromUtf8(value);
+            contentDispositionHdr = QByteArray(value);
         else if (name.compare("Content-Type"_L1, Qt::CaseInsensitive) == 0)
-            contentTypeHdr = QString::fromUtf8(value);
+            contentTypeHdr = QByteArray(value);
         else if (name.compare("Content-Encoding"_L1, Qt::CaseInsensitive) == 0)
-            contentEncodingHdr = QString::fromUtf8(value);
+            contentEncodingHdr = QByteArray(value);
     }
 
     // Read body first
@@ -390,34 +390,35 @@ QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<Q
 
     // Decompress if needed
     if (!contentEncodingHdr.isEmpty()) {
-        const auto encodings = contentEncodingHdr.split(u';', Qt::SkipEmptyParts).first()
-                                                 .split(u',', Qt::SkipEmptyParts);
+        const auto encodings = contentEncodingHdr.split(';').first().split(',');
         for (auto it = encodings.rbegin(); it != encodings.rend(); ++it) {
-            const QString encoding = it->trimmed();
-            if (encoding.compare("identity"_L1, Qt::CaseInsensitive) == 0)
+            const QByteArray encoding = it->trimmed();
+            if (encoding.compare("identity", Qt::CaseInsensitive) == 0)
                 continue;
             result = decompressData(result, encodingFormatToCompressionType(encoding));
         }
     }
 
     const auto contentType = !contentTypeHdr.isEmpty()
-            ? contentTypeHdr.split(u';', Qt::SkipEmptyParts).first().trimmed().toLower()
-            : QStringLiteral("");
+            ? contentTypeHdr.split(';').first().trimmed().toLower()
+            : QByteArray("");
 
-    if (contentType == "multipart/form-data"_L1) {
+    if (contentType == "multipart/form-data") {
         // TODO: Handle multipart responses
     } else if (files) {
         QString filename = QUuid::createUuid().toString(QUuid::WithoutBraces);
-        const auto contentDisposition = contentDispositionHdr.split(u';', Qt::SkipEmptyParts);
+        const auto contentDisposition = contentDispositionHdr.split(';');
         bool isAttachment = false;
 
         if (!contentDisposition.isEmpty()) {
-            isAttachment = contentDisposition.first() == "attachment"_L1;
+            isAttachment =
+                contentDisposition.first().compare("attachment", Qt::CaseInsensitive) == 0;
             for (const auto &file : contentDisposition) {
-                if (file.contains("filename"_L1)) {
-                    const auto parts = file.split(u'=', Qt::SkipEmptyParts);
+                // We need case-insensitive lookup
+                if (file.toLower().contains("filename")) {
+                    const auto parts = file.split('=');
                     if (parts.size() > 1) {
-                        filename = parts.at(1);
+                        filename = QString::fromUtf8(parts.at(1));
                         // RFC says filename value may be quoted: remove the surrounding quotes
                         if (filename.startsWith(u'"') && filename.endsWith(u'"'))
                             filename = filename.mid(1, filename.size() - 2);
@@ -430,7 +431,7 @@ QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<Q
         }
 
         {{prefix}}HttpFileElement felement(workDir + QDir::separator() + filename);
-        felement.setMimeType(contentType);
+        felement.setMimeType(QString::fromUtf8(contentType));
         felement.setTemporary(!isAttachment);
 
         felement.saveToLocalFile(result);
