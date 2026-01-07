@@ -117,10 +117,34 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
 			handleFunctions.TestAPI.PostApplicationJsonString,
 		},
 		{
+			"PostClosedInlineEmptyJsonObject",
+			http.MethodPost,
+			"/v2/reqBody/appjson/postClosedInlineEmptyJsonObject",
+			handleFunctions.TestAPI.PostClosedInlineEmptyJsonObject,
+		},
+		{
 			"PostMultiPartData",
 			http.MethodPost,
 			"/v2/reqBody/multipart/postMultiPartData",
 			handleFunctions.TestAPI.PostMultiPartData,
+		},
+		{
+			"PostNamedEmptyJsonObject",
+			http.MethodPost,
+			"/v2/reqBody/appjson/postNamedEmptyJsonObject",
+			handleFunctions.TestAPI.PostNamedEmptyJsonObject,
+		},
+		{
+			"PostNamedNestedEmptyJsonObject",
+			http.MethodPost,
+			"/v2/reqBody/appjson/postNamedNestedEmptyJsonObject",
+			handleFunctions.TestAPI.PostNamedNestedEmptyJsonObject,
+		},
+		{
+			"PostOpenedInlineEmptyJsonObject",
+			http.MethodPost,
+			"/v2/reqBody/appjson/postOpenedInlineEmptyJsonObject",
+			handleFunctions.TestAPI.PostOpenedInlineEmptyJsonObject,
 		},
 		{
 			"PostPlainTextType",

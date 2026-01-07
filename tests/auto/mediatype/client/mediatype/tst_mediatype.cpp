@@ -75,9 +75,9 @@ QString fromFormUrlEncoding(const QString &input)
 
 QJsonValue getJsonValue(const QString &summary, const QString &key = "status")
 {
-    QJsonDocument doc = QJsonDocument::fromJson(summary.toUtf8());
+    const QJsonDocument doc = QJsonDocument::fromJson(summary.toUtf8());
     if (!doc.isNull() && doc.isObject()) {
-        QJsonObject obj = doc.object();
+        const QJsonObject obj = doc.object();
         return obj.value(key);
     }
     return QJsonValue();
@@ -85,10 +85,10 @@ QJsonValue getJsonValue(const QString &summary, const QString &key = "status")
 
 QString getHeaderValue(const QString &summary)
 {
-    QJsonDocument doc = QJsonDocument::fromJson(summary.toUtf8());
+    const QJsonDocument doc = QJsonDocument::fromJson(summary.toUtf8());
     if (!doc.isNull() && doc.isObject()) {
-        QJsonObject obj = doc.object();
-        QStringList headers = obj.value("header").toVariant().toMap().value("Content-Type").toStringList();
+        const QJsonObject obj = doc.object();
+        const QStringList headers = obj.value("header").toVariant().toMap().value("Content-Type").toStringList();
         if (headers.size() > 0)
             return headers.at(0);
     }
@@ -97,14 +97,25 @@ QString getHeaderValue(const QString &summary)
 
 User getUserByStatusObject(const QString &summary)
 {
-    QJsonDocument doc = QJsonDocument::fromJson(summary.toUtf8());
+    const QJsonDocument doc = QJsonDocument::fromJson(summary.toUtf8());
     User user;
     if (!doc.isNull() && doc.isObject()) {
-        QJsonObject obj = doc.object();
+        const QJsonObject obj = doc.object();
         if (obj.value("json-object").isObject())
             user.fromJsonObject(obj.value("json-object").toObject());
     }
     return user;
+}
+
+QString getStringifiedEmptyObject(const QString &summary)
+{
+    const QJsonDocument doc = QJsonDocument::fromJson(summary.toUtf8());
+    if (!doc.isNull() && doc.isObject()) {
+        const QJsonObject obj = doc.object();
+        if (obj.value("empty-json-object").isString())
+            return obj.value("empty-json-object").toString();
+    }
+    return QString();
 }
 
 class MediaType : public TestApi {
@@ -121,6 +132,7 @@ private Q_SLOTS:
         setRestAccessManager(m_restManager);
     }
     void testJsonMediaType();
+    void testEmptyJsonObjects();
     void testPlainText_data();
     void testPlainText();
     void testOctetStream();
@@ -325,6 +337,88 @@ void MediaType::testJsonMediaType()
                                           QCOMPARE(getHeaderValue(summary), appJsonHeader);
                                           QVERIFY(getJsonValue(summary, "nested-object").toObject().isEmpty());
                                       });
+    QTRY_COMPARE_EQ(done, true);
+}
+
+// Adding because of the bug QTBUG-143180:
+// MEDIA TYPE `application/json` POSTING EMPTY OBJECTS
+// Some endpoints use POST or PUT to trigger actions rather than send
+// data. In such case, an empty JSON object can be sent instead of an
+// empty body to satisfy JSON parsing. So the empty "{}" should be
+// sent and received back.
+void MediaType::testEmptyJsonObjects()
+{
+    bool done = false;
+    const QString appJsonHeader("application/json");
+    /* TBD: To complete implementation after changing CI version and implementing QTBUG-143288.
+    const QString jsonString("{\"test\": \"42\"}");
+    QOAIObject object;
+    postClosedInlineEmptyJsonObject(object, this,
+                                    [&](const QRestReply &reply, const QString &summary) {
+        if (!(done = reply.isSuccess()))
+            qWarning() << "ERROR: " << reply.errorString() << reply.error();
+        QCOMPARE(getStringifiedEmptyObject(summary), "{}");
+        QCOMPARE(getHeaderValue(summary), appJsonHeader);
+    });
+    QTRY_COMPARE_EQ(done, true);
+
+    done = false;
+    // TBD: After implementing QTBUG-143257 this should not be available to do.
+    object.fromJson(jsonString);
+    postClosedInlineEmptyJsonObject(object, this,
+                                    [&](const QRestReply &reply, const QString &summary) {
+        if (!(done = reply.isSuccess()))
+            qWarning() << "ERROR: " << reply.errorString() << reply.error();
+        QCOMPARE(getStringifiedEmptyObject(summary), "{\"test\":\"42\"}");
+        QCOMPARE(getHeaderValue(summary), appJsonHeader);
+    });
+    QTRY_COMPARE_EQ(done, true);
+
+    done = false;
+    object.fromJson("{}");
+    postOpenedInlineEmptyJsonObject(object, this,
+                                    [&](const QRestReply &reply, const QString &summary) {
+        if (!(done = reply.isSuccess()))
+            qWarning() << "ERROR: " << reply.errorString() << reply.error();
+        QCOMPARE(getStringifiedEmptyObject(summary), "{}");
+        QCOMPARE(getHeaderValue(summary), appJsonHeader);
+    });
+    QTRY_COMPARE_EQ(done, true);
+
+    done = false;
+    object.fromJson(jsonString);
+    postOpenedInlineEmptyJsonObject(object, this, [&](const QRestReply &reply, const QString &summary) {
+        if (!(done = reply.isSuccess()))
+            qWarning() << "ERROR: " << reply.errorString() << reply.error();
+        QCOMPARE(getStringifiedEmptyObject(summary), "{\"test\":\"42\"}");
+        QCOMPARE(getHeaderValue(summary), appJsonHeader);
+    });
+    QTRY_COMPARE_EQ(done, true);
+    */
+
+    done = false;
+    postNamedEmptyJsonObject(QOAIObject(), this,
+                             [&](const QRestReply &reply, const QString &summary) {
+        if (!(done = reply.isSuccess()))
+            qWarning() << "ERROR: " << reply.errorString() << reply.error();
+        QCOMPARE(getStringifiedEmptyObject(summary), "{}");
+        QCOMPARE(getHeaderValue(summary), appJsonHeader);
+    });
+    QTRY_COMPARE_EQ(done, true);
+
+    done = false;
+    QMap<QString, QOAIObject> list;
+    list.insert("test", QOAIObject());
+    postNamedNestedEmptyJsonObject(list, this,
+                                   [&](const QRestReply &reply, const QString &summary) {
+        if (!(done = reply.isSuccess()))
+            qWarning() << "ERROR: " << reply.errorString() << reply.error();
+        QCOMPARE(getHeaderValue(summary), appJsonHeader);
+        QJsonObject object = getJsonValue(summary, "nested-object").toObject();
+        QJsonValue value = object.value("test");
+        QVERIFY(value.isObject());
+        QVERIFY(value.toObject().isEmpty());
+    });
     QTRY_COMPARE_EQ(done, true);
 }
 

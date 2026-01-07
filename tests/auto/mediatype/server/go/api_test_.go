@@ -115,6 +115,63 @@ func (api *TestAPI) PostApplicationJsonSeveralObjects(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"nested-object": requestBody, "header": c.Request.Header})
 }
 
+// Post /v2/reqBody/appjson/postClosedInlineEmptyJsonObject
+// post inline empty Json object, which closed for extending.
+func (api *TestAPI) PostClosedInlineEmptyJsonObject(c *gin.Context) {
+	// Optional: limit request body size to prevent abuse
+	c.Request.Body = http.MaxBytesReader(c.Writer, c.Request.Body, 10<<20) // 10MB limit
+
+	// Read the raw binary data
+	body, err := io.ReadAll(c.Request.Body)
+	if err != nil {
+		c.String(http.StatusBadRequest, fmt.Sprintf("Error reading data: %v", err))
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"empty-json-object": string(body), "header": c.Request.Header})
+}
+
+// Post /v2/reqBody/appjson/postOpenedInlineEmptyJsonObject
+// post inline empty Json object
+func (api *TestAPI) PostOpenedInlineEmptyJsonObject(c *gin.Context) {
+	// Optional: limit request body size to prevent abuse
+	c.Request.Body = http.MaxBytesReader(c.Writer, c.Request.Body, 10<<20) // 10MB limit
+
+	// Read the raw binary data
+	body, err := io.ReadAll(c.Request.Body)
+	if err != nil {
+		c.String(http.StatusBadRequest, fmt.Sprintf("Error reading data: %v", err))
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"empty-json-object": string(body), "header": c.Request.Header})
+}
+
+// Post /v2/reqBody/appjson/postNamedEmptyJsonObject
+// post named empty Json object
+func (api *TestAPI) PostNamedEmptyJsonObject(c *gin.Context) {
+	// Optional: limit request body size to prevent abuse
+	c.Request.Body = http.MaxBytesReader(c.Writer, c.Request.Body, 10<<20) // 10MB limit
+
+	// Read the raw binary data
+	body, err := io.ReadAll(c.Request.Body)
+	if err != nil {
+		c.String(http.StatusBadRequest, fmt.Sprintf("Error reading data: %v", err))
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"empty-json-object": string(body), "header": c.Request.Header})
+}
+
+// Post /v2/reqBody/appjson/postNamedNestedEmptyJsonObject
+func (api *TestAPI) PostNamedNestedEmptyJsonObject(c *gin.Context) {
+	var requestBody any
+	if err := c.BindJSON(&requestBody); err != nil {
+		fmt.Println("PostApplicationJsonMap: Error of reading json!", err)
+	}
+	c.JSON(http.StatusOK, gin.H{"nested-object": requestBody, "header": c.Request.Header})
+}
+
 // Post /v2/reqBody/appjson/string/postApplicationJsonString
 // Get request-body, application-json, string
 func (api *TestAPI) PostApplicationJsonString(c *gin.Context) {
