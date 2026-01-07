@@ -140,5 +140,11 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
 			"/v2/response/empty",
 			handleFunctions.TestAPI.EmptyResponse,
 		},
+		{
+			"ContentDispositionCheck",
+			http.MethodGet,
+			"/v2/response/content_disposition_check",
+			handleFunctions.TestAPI.ContentDispositionCheck,
+		},
 	}
 }

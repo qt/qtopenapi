@@ -249,3 +249,31 @@ func (api *TestAPI) EmptyResponse(c *gin.Context) {
 	// Set HTTP status 204 (No Content)
 	c.Status(204)
 }
+
+func (api *TestAPI) ContentDispositionCheck(c *gin.Context) {
+	binContent, err := os.ReadFile("./test.bin")
+	if err != nil {
+		c.String(http.StatusInternalServerError, fmt.Sprintf("Failed to read file: %v", err))
+		return
+	}
+
+	// Parse the parameters to extract the 'filename=' and 'filename*='
+	// values
+	filename := c.Query("filename")
+	extFilename := c.Query("extFilename")
+	if filename == "" && extFilename == "" {
+		c.String(http.StatusBadRequest, "No filename or extFilename parameter specified!")
+		return
+	}
+
+	contentDisposition := "Attachment " // intentionally added whitespace in the end
+	if filename != "" {
+		contentDisposition += "; FILENAME=" + filename
+	}
+	if extFilename != "" {
+		contentDisposition += "; FileName*=" + extFilename
+	}
+
+	c.Header("Content-Disposition", contentDisposition)
+	c.Data(http.StatusOK, "application/octet-stream", binContent)
+}

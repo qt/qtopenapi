@@ -82,6 +82,8 @@ private Q_SLOTS:
     void imageResponse();
     void octetStreamResponse();
     void emptyResponseBody();
+    void contentDispositionChecks_data();
+    void contentDispositionChecks();
     void cleanupTestCase();
 };
 
@@ -203,6 +205,119 @@ void Responses::emptyResponseBody()
         }
         QCOMPARE(reply.httpStatus(), 204);
     });
+    QTRY_COMPARE_EQ(done, true);
+}
+
+void Responses::contentDispositionChecks_data()
+{
+    QTest::addColumn<QString>("filename");
+    QTest::addColumn<QString>("extFilename");
+    QTest::addColumn<QString>("expectedFilename");
+
+    QTest::newRow("unix_path")
+            << u"/usr/bin/some_dir/../some_binary.bin"_s
+            << QString()
+            << u"some_binary.bin"_s;
+    QTest::newRow("windows_path")
+            << u"\"C:\\Windows\\System32\\some_dir\\..\\system_file.bin\""_s
+            << QString()
+            << u"system_file.bin"_s;
+
+    QTest::newRow(".") << u"."_s << QString() << u"_"_s;
+    QTest::newRow("..") << u".."_s << QString() << u"__"_s;
+    QTest::newRow("filename_with_many_dots")
+            << u".some..file.name.ext"_s
+            << QString()
+            << u".some__file.name.ext"_s;
+    QTest::newRow("forbidden_chars")
+            << u"\"file~:*?\"<>|.txt\""_s
+            << QString()
+            << u"file________.txt"_s;
+
+    // we cannot send control chars as-is, so use the extFilename and
+    // percent-encode them. They should be decoded when parsing response, and
+    // then substituted with "_".
+    QByteArray controlChars;
+    for (char c = 0x00; c < 0x20; ++c)
+        controlChars.append(c);
+    controlChars.append(0x7f);
+
+    const QString extFilenameControlChars =
+            u"ISO-8859-1'en-US'"_s + QString::fromLatin1(controlChars.toPercentEncoding());
+    QTest::newRow("control_chars")
+            << u"fallback"_s << extFilenameControlChars << QString(33, QLatin1Char('_'));
+
+    // use some characters that can be represented in Latin1 and UTF-* encodings
+    const QString nonAsciiFilename = u"fileÄÖßæï"_s;
+    const QByteArray latin1PercentEncoded = nonAsciiFilename.toLatin1().toPercentEncoding();
+    QTest::newRow("ext_latin1")
+            << u"fallback"_s
+            << u"ISO-8859-1''"_s + QString::fromLatin1(latin1PercentEncoded)
+            << nonAsciiFilename;
+
+    // after toPercentEncoding() it is ASCII-only
+    const QByteArray utf8PercentEncoded = nonAsciiFilename.toUtf8().toPercentEncoding();
+    QTest::newRow("ext_utf-8")
+            << u"fallback"_s
+            << u"UTF-8''"_s + QString::fromLatin1(utf8PercentEncoded)
+            << nonAsciiFilename;
+
+    const QByteArray utf16PercentEncoded =
+            QByteArray(reinterpret_cast<const char *>(nonAsciiFilename.utf16()),
+                       nonAsciiFilename.size() * 2).toPercentEncoding();
+    QTest::newRow("ext_utf-16")
+            << u"fallback"_s
+            << u"UTF-16''"_s + QString::fromLatin1(utf16PercentEncoded)
+            << nonAsciiFilename;
+
+    const std::u32string u32str = nonAsciiFilename.toStdU32String();
+    const QByteArray utf32PercentEncoded =
+            QByteArray(reinterpret_cast<const char *>(u32str.data()),
+                       u32str.size() * 4).toPercentEncoding();
+    QTest::newRow("ext_utf-32")
+            << u"fallback"_s
+            << u"\"UTF-32''%1\""_s.arg(QString::fromLatin1(utf32PercentEncoded))
+            << nonAsciiFilename;
+
+    QTest::newRow("ext_no_lang_fallback")
+            << u"fallback"_s
+            << u"utf-8'data"_s /* misses a second ' */
+            << u"fallback"_s;
+
+    QTest::newRow("ext_unknown_encoding_fallback")
+            << u"fallback"_s
+            << u"win-1252'en-US'data"_s
+            << u"fallback"_s;
+
+    QTest::newRow("ext_utf-16_invalid_len_fallback")
+            << u"fallback"_s
+            << u"utf-16'en-US'abc"_s /* 3 bytes are not a valid utf-16 string */
+            << u"fallback"_s;
+
+    QTest::newRow("ext_utf-32_invalid_len_fallback")
+            << u"fallback"_s
+            << u"utf-32'en-US'abc"_s /* 3 bytes are not a valid utf-32 string */
+            << u"fallback"_s;
+}
+
+void Responses::contentDispositionChecks()
+{
+    QFETCH(const QString, filename);
+    QFETCH(const QString, extFilename);
+    QFETCH(const QString, expectedFilename);
+
+    const QString dirPath = workingDirectory() + QDir::separator();
+    bool done = false;
+    contentDispositionCheck(
+        OptionalParameter<QString>{filename}, OptionalParameter<QString>{extFilename}, this,
+        [&](const QRestReply &reply, const QOAIHttpFileElement &summary) {
+            if (!(done = reply.isSuccess())) {
+                qWarning() << "Error happened while issuing request:"
+                << reply.error() << reply.errorString();
+            }
+            QCOMPARE(reply.httpStatus(), 200);
+            QCOMPARE(summary.filename(), dirPath + expectedFilename);
+        });
     QTRY_COMPARE_EQ(done, true);
 }
 
