@@ -7,21 +7,29 @@
 #include <QtCore/qjsonobject.h>
 #include <QtCore/qstring.h>
 
+#include <memory>
+
 {{#cppCommonNamespaceDeclarations}}
 namespace {{this}} {
 {{/cppCommonNamespaceDeclarations}}
 
+class {{prefix}}ObjectPrivate;
+
 class {{packageNameUpperCase}}_COMMON_EXPORT {{prefix}}Object {
 public:
     {{prefix}}Object();
+    {{prefix}}Object(const {{prefix}}Object &other);
+    {{prefix}}Object &operator=(const {{prefix}}Object &other);
+    {{prefix}}Object({{prefix}}Object &&) noexcept;
+    {{prefix}}Object &operator=({{prefix}}Object &&) noexcept;
     virtual ~{{prefix}}Object();
 
-    virtual QJsonObject asJsonObject() const = 0;
-    virtual QString asJson() const = 0;
-    virtual void fromJson(const QString &jsonString) = 0;
-    virtual void fromJsonObject(const QJsonObject &json) = 0;
-    virtual bool isSet() const = 0;
-    virtual bool isValid() const = 0;
+    virtual QJsonObject asJsonObject() const;
+    virtual QString asJson() const;
+    virtual void fromJson(const QString &jsonString);
+    virtual void fromJsonObject(const QJsonObject &json);
+    virtual bool isSet() const;
+    virtual bool isValid() const;
 
 private:
     friend bool operator==(const {{prefix}}Object &lhs, const {{prefix}}Object &rhs)
@@ -33,6 +41,12 @@ private:
     { return qHash(obj.asJsonObject(), seed); }
     friend size_t qHash(const {{prefix}}Object &obj)
     { return qHash(obj, 0); }
+
+private:
+    // Note that d_ptr refers to QObjectPrivate, which we cannot use because
+    // we do not want to link to CorePrivate
+    friend class {{prefix}}ObjectPrivate;
+    std::unique_ptr<{{prefix}}ObjectPrivate> d;
 };
 
 {{#cppCommonNamespaceDeclarations}}

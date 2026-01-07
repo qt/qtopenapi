@@ -157,6 +157,99 @@ paths:
             application/json:
               schema:
                 type: string
+  /reqBody/appjson/postClosedInlineEmptyJsonObject:
+    post:
+      tags:
+        - test
+      summary: post inline empty Json object, which closed for extending.
+      operationId: postClosedInlineEmptyJsonObject
+      requestBody:
+        content:
+          application/json:
+            schema:
+              # An empty object. Accepts only {}.
+              type: object
+              # 'false' below means the object is 'closed' and may contain only
+              # the properties explicitly listed in properties.
+              # It's pretty useful from security perspective.
+              # See: https://docs.42crunch.com/latest/content/oasv3/datavalidation/schema/v3-schema-response-object-without-properties.htm
+              # In our case no properties: 'Closed empty object'.
+              # Pay attention, from the Qt6 generator perspective, there is no difference
+              # between true or false. We do not generate anything to support 'closing'
+              # of the object. May be we should add it some day, see: QTBUG-143257
+              additionalProperties: false
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /reqBody/appjson/postOpenedInlineEmptyJsonObject:
+    post:
+      tags:
+        - test
+      summary: post inline empty Json object
+      operationId: postOpenedInlineEmptyJsonObject
+      requestBody:
+        content:
+          application/json:
+            schema:
+              # An empty object. Accepts { ... }. Extendable.
+              type: object
+              additionalProperties: true
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+   # basically, it's the same like postOpenedInlineEmptyJsonObject,
+   # but with $ref usage.
+  /reqBody/appjson/postNamedEmptyJsonObject:
+    post:
+      tags:
+        - test
+      summary: post named empty Json object
+      operationId: postNamedEmptyJsonObject
+      requestBody:
+        content:
+          application/json:
+            schema:
+              # A 'named' empty object. Accepts { ... }. Extendable.
+              $ref: '#/components/schemas/EmptyObject'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /reqBody/appjson/postNamedNestedEmptyJsonObject:
+    post:
+      tags:
+        - test
+      operationId: postNamedNestedEmptyJsonObject
+      requestBody:
+        content:
+          application/json:
+            schema:
+              # A nested object.
+              type: object
+              additionalProperties:
+                $ref: '#/components/schemas/EmptyObject'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
   /reqBody/octetstream/binaryType:
     post:
       tags:
@@ -353,6 +446,8 @@ components:
         statusSet:
           description: Test status flag # checking a collision is not happening: bug QTBUG-143168
           type: boolean
+    EmptyObject:
+      type: object
     User:
       properties:
         name:
