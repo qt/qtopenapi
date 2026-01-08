@@ -85,7 +85,8 @@ private Q_SLOTS:
     void cleanupTestCase();
 };
 
-void Responses::jsonResponse() {
+void Responses::jsonResponse()
+{
     bool done = false;
 
     applicationJsonStringResponse(this, [&](const QRestReply &reply, const QString &summary) {
@@ -146,7 +147,8 @@ void Responses::jsonResponse() {
     QTRY_COMPARE_EQ(done, true);
 }
 
-void Responses::textResponse() {
+void Responses::textResponse()
+{
     bool done = false;
 
     // Plain text response
@@ -160,7 +162,8 @@ void Responses::textResponse() {
     QTRY_COMPARE_EQ(done, true);
 }
 
-void Responses::pdfResponse() {
+void Responses::pdfResponse()
+{
     QByteArray expectedPdfContent = readFile("test.pdf"_L1);
 
     CALL_TEST_FILE_OPERATION(applicationPdfInlineResponse, "test.pdf"_L1, expectedPdfContent,
@@ -172,7 +175,8 @@ void Responses::pdfResponse() {
                             "compressed_example1.pdf"_L1);
 }
 
-void Responses::imageResponse() {
+void Responses::imageResponse()
+{
     QByteArray expectedImage = readFile("testImage.jpg"_L1);
     CALL_TEST_FILE_OPERATION(inlineImageResponse, "jpegImage"_L1, expectedImage, "unnamed"_L1);
     CALL_TEST_FILE_OPERATION(saveImageResponse, "jpegImage"_L1, expectedImage, "example2.jpg"_L1);
@@ -182,13 +186,15 @@ void Responses::imageResponse() {
     CALL_TEST_FILE_OPERATION(saveImageResponse, "pngImage"_L1, expectedImage, "example3.png"_L1);
 }
 
-void Responses::octetStreamResponse() {
+void Responses::octetStreamResponse()
+{
     QByteArray expectedBinData = readFile("test.bin"_L1);;
     CALL_TEST_FILE_OPERATION(applicationOctetStreamResponse, "test.bin"_L1, expectedBinData,
                              "example.bin"_L1);
 }
 
-void Responses::emptyResponseBody() {
+void Responses::emptyResponseBody()
+{
     bool done = false;
     emptyResponse(this, [&](const QRestReply &reply) {
         if (!(done = reply.isSuccess())) {
