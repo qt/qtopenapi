@@ -123,6 +123,12 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
 			handleFunctions.TestAPI.PostClosedInlineEmptyJsonObject,
 		},
 		{
+			"PostEmptyJsonSchema",
+			http.MethodPost,
+			"/v2/reqBody/appjson/postEmptyJsonSchema",
+			handleFunctions.TestAPI.PostEmptyJsonSchema,
+		},
+		{
 			"PostMultiPartData",
 			http.MethodPost,
 			"/v2/reqBody/multipart/postMultiPartData",

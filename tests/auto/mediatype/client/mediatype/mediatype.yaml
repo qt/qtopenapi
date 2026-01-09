@@ -250,6 +250,26 @@ paths:
             application/json:
               schema:
                 type: string
+  /reqBody/appjson/postEmptyJsonSchema:
+    post:
+      tags:
+        - test
+      summary: post Empty Json schema
+      operationId: postEmptyJsonSchema
+      requestBody:
+        content:
+          application/json:
+            # This means 'Any JSON value', not 'an empty object'.
+            # Accepts "hello", 42, [], {}, null.
+            # Note, json schema can not be undefined, but can be null or {}.
+            schema: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
   /reqBody/octetstream/binaryType:
     post:
       tags:
