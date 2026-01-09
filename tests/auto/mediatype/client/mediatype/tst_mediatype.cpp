@@ -133,6 +133,8 @@ private Q_SLOTS:
     }
     void testJsonMediaType();
     void testEmptyJsonObjects();
+    void testEmptySchema_data();
+    void testEmptySchema();
     void testPlainText_data();
     void testPlainText();
     void testOctetStream();
@@ -418,6 +420,46 @@ void MediaType::testEmptyJsonObjects()
         QJsonValue value = object.value("test");
         QVERIFY(value.isObject());
         QVERIFY(value.toObject().isEmpty());
+    });
+    QTRY_COMPARE_EQ(done, true);
+}
+
+void MediaType::testEmptySchema_data()
+{
+    QJsonArray array = { 1, 2.2, QString() };
+    QTest::addColumn<QJsonValue>("jsonValue");
+    QTest::addColumn<QJsonValue>("expectedValue");
+    QTest::addColumn<bool>("isOptionalNull");
+    QTest::newRow("QJsonValue({})") << QJsonValue(QJsonObject())
+                                    << QJsonValue(QJsonObject()) << false;
+    QTest::newRow("QJsonValue(int)") << QJsonValue(42) << QJsonValue(42) << false;
+    QTest::newRow("QJsonValue(string)")
+            << QJsonValue("hello") << QJsonValue("hello") << false;
+    QTest::newRow("QJsonValue(array)")
+            << QJsonValue(array) << QJsonValue(array) << false;
+    QTest::newRow("OptionalParam::IsNull") << QJsonValue(QJsonValue::Null)
+                                           << QJsonValue(QJsonValue::Null) << true;
+    QTest::newRow("QJsonValue()") << QJsonValue() << QJsonValue() << false;
+    QTest::newRow("QJsonValue(null)")
+            << QJsonValue(QJsonValue::Null) << QJsonValue(QJsonValue::Null) << false;
+}
+
+void MediaType::testEmptySchema()
+{
+    QFETCH(QJsonValue, jsonValue);
+    QFETCH(QJsonValue, expectedValue);
+    QFETCH(bool, isOptionalNull);
+    bool done = false;
+    const QString appJsonHeader("application/json");
+    const auto param = isOptionalNull
+            ? OptionalParam<QJsonValue>(OptionalParam<QJsonValue>::IsNull)
+            : OptionalParam<QJsonValue>(jsonValue);
+    postEmptyJsonSchema(param, this,
+                        [&](const QRestReply &reply, const QString &summary) {
+        if (!(done = reply.isSuccess()))
+            qWarning() << "ERROR: " << reply.errorString() << reply.error();
+        QCOMPARE(getJsonValue(summary, "jsonvalue"), expectedValue);
+        QCOMPARE(getHeaderValue(summary), appJsonHeader);
     });
     QTRY_COMPARE_EQ(done, true);
 }

@@ -429,6 +429,11 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
 {{#isFreeFormObject}}
         const QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.asJson().toUtf8();
 {{/isFreeFormObject}}
+{{#isAnyType}}
+        const QByteArray output = {{paramName}}{{^required}}.value(){{/required}}.toJson(QJsonValue::JsonFormat::Compact);
+        if ({{paramName}}{{^required}}.value(){{/required}}.isUndefined())
+            qWarning() << "The QJsonValue is undefined.";
+{{/isAnyType}}
         input.setRequestBody(output);
 {{/isContainer}}
     }{{^required}}{{#isNullable}} else if ({{paramName}}.isNull()) {

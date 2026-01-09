@@ -167,9 +167,20 @@ func (api *TestAPI) PostNamedEmptyJsonObject(c *gin.Context) {
 func (api *TestAPI) PostNamedNestedEmptyJsonObject(c *gin.Context) {
 	var requestBody any
 	if err := c.BindJSON(&requestBody); err != nil {
-		fmt.Println("PostApplicationJsonMap: Error of reading json!", err)
+		fmt.Println("PostNamedNestedEmptyJsonObject: Error of reading json!", err)
 	}
 	c.JSON(http.StatusOK, gin.H{"nested-object": requestBody, "header": c.Request.Header})
+}
+
+// Post /v2/reqBody/appjson/postEmptyJsonSchema
+// post Empty Json schema
+func (api *TestAPI) PostEmptyJsonSchema(c *gin.Context) {
+	var requestBody any
+	if err := c.BindJSON(&requestBody); err != nil {
+		fmt.Println("PostEmptyJsonSchema: Error of reading json!", err)
+	}
+	fmt.Println("PostEmptyJsonSchema: requestBody = ", requestBody)
+	c.JSON(http.StatusOK, gin.H{"jsonvalue": requestBody, "header": c.Request.Header})
 }
 
 // Post /v2/reqBody/appjson/string/postApplicationJsonString
