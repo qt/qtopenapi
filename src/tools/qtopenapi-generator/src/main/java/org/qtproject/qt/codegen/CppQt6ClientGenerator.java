@@ -224,6 +224,22 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
     public void processOpts() {
         super.processOpts();
 
+        String genVersion = (String) additionalProperties.get("generatorVersion");
+        // Currently the generatorVersion property is populated *after* processOpts()
+        // is called, so we need to take it into account, and extract the
+        // version information on our own. However, that might change in future, and
+        // that's why we still read the property above.
+        if (genVersion == null)
+            genVersion = DefaultGenerator.class.getPackage().getImplementationVersion();
+
+        final String[] versionParts = genVersion.split("\\.");
+        additionalProperties.put("generatorVersionMajor",
+                                 versionParts.length > 0 ? versionParts[0] : "0");
+        additionalProperties.put("generatorVersionMinor",
+                                 versionParts.length > 1 ? versionParts[1] : "0");
+        additionalProperties.put("generatorVersionPatch",
+                                 versionParts.length > 2 ? versionParts[2] : "0");
+
         if (additionalProperties.containsKey("cppCommonNamespace")) {
             cppCommonNamespace = (String) additionalProperties.get("cppCommonNamespace");
         }
@@ -336,6 +352,8 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
                     commonLibrarySourceFolder, lowerCasePrefix + "enum.cpp"));
             supportingFiles.add(new SupportingFile("common/common-exports.mustache",
                     commonLibrarySourceFolder, lowerPackageName + "commonexports.h"));
+            supportingFiles.add(new SupportingFile("common/common-global.mustache",
+                    commonLibrarySourceFolder, lowerCasePrefix + "commonglobal.h"));
             supportingFiles.add(new SupportingFile("common/serverconfiguration.h.mustache",
                     commonLibrarySourceFolder, lowerCasePrefix + "serverconfiguration.h"));
             supportingFiles.add(new SupportingFile("common/serverconfiguration.cpp.mustache",
