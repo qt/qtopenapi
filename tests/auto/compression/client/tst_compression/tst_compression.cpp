@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include "../client/testapi.h"
+#include "qoaicommonglobal.h"
 
 #include <QtCore/qobject.h>
 #include <QtTest/qtest.h>
@@ -17,6 +18,7 @@ class tst_Compression : public TestApi {
 private Q_SLOTS:
     void localCompressionRoundtrip_data();
     void localCompressionRoundtrip();
+    void generatorVersionCheck();
 };
 
 void tst_Compression::localCompressionRoundtrip_data()
@@ -48,6 +50,14 @@ void tst_Compression::localCompressionRoundtrip()
     const QByteArray decompressed = decompressData(compressed, compressionType);
 
     QCOMPARE(decompressed, originalData);
+}
+
+void tst_Compression::generatorVersionCheck()
+{
+    const QString generatorVer = u"%1.%2.%3"_s.arg(OPENAPI_GENERATOR_VERSION_MAJOR)
+                                              .arg(OPENAPI_GENERATOR_VERSION_MINOR)
+                                              .arg(OPENAPI_GENERATOR_VERSION_PATCH);
+    QCOMPARE_EQ(generatorVer, OPENAPI_GENERATOR_VERSION_STR);
 }
 
 } // namespace QtOpenAPI

@@ -35,6 +35,7 @@ set(source_files
     src/main/resources/cpp-qt6-client/common/api-base-body.mustache
     src/main/resources/cpp-qt6-client/common/api-base-header.mustache
     src/main/resources/cpp-qt6-client/common/common-exports.mustache
+    src/main/resources/cpp-qt6-client/common/common-global.mustache
     src/main/resources/cpp-qt6-client/common/enum-body.mustache
     src/main/resources/cpp-qt6-client/common/enum-header.mustache
     src/main/resources/cpp-qt6-client/common/helpers-body.mustache
