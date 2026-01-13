@@ -235,7 +235,15 @@ void {{prefix}}BaseApi::setHeader(QAnyStringView key, QAnyStringView value)
 
 void {{prefix}}BaseApi::setRequestCompressionEnabled(bool enabled)
 {
+{{^contentCompression}}
+    qWarning("The code was generated with content compression disabled. "
+             "The parameter is ignored. Run the OpenAPI generator with "
+             "'--additional-properties=contentCompression=true' to enable it.");
+    Q_UNUSED(enabled);
+{{/contentCompression}}
+{{#contentCompression}}
     d->m_isRequestCompressionEnabled = enabled;
+{{/contentCompression}}
 }
 
 bool {{prefix}}BaseApi::requestCompressionEnabled() const
@@ -245,7 +253,15 @@ bool {{prefix}}BaseApi::requestCompressionEnabled() const
 
 void {{prefix}}BaseApi::setResponseCompressionEnabled(bool enabled)
 {
+{{^contentCompression}}
+    qWarning("The code was generated with content compression disabled. "
+             "The parameter is ignored. Run the OpenAPI generator with "
+             "'--additional-properties=contentCompression=true' to enable it.");
+    Q_UNUSED(enabled);
+{{/contentCompression}}
+{{#contentCompression}}
     d->m_isResponseCompressionEnabled = enabled;
+{{/contentCompression}}
 }
 
 bool {{prefix}}BaseApi::responseCompressionEnabled() const

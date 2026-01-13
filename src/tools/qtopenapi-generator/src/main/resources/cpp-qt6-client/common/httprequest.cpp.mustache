@@ -338,7 +338,7 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
     }
 
     if (responseCompressionEnabled) {
-        request.setRawHeader("Accept-Encoding", "gzip");
+        request.setRawHeader("Accept-Encoding", "gzip, deflate");
     } else {
         request.setRawHeader("Accept-Encoding", "identity");
     }
