@@ -1,18 +1,16 @@
 // Copyright (C) 2025 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include "../client/testapi.h"
 #include "qoaicommonglobal.h"
+#include "qoaihttprequest.h"
 
 #include <QtCore/qobject.h>
 #include <QtTest/qtest.h>
 
 using namespace Qt::StringLiterals;
-using namespace QtOpenApiCommon;
 
-namespace QtOpenAPI {
-
-class tst_Compression : public TestApi {
+class tst_Compression : public QObject
+{
     Q_OBJECT
 
 private Q_SLOTS:
@@ -23,7 +21,7 @@ private Q_SLOTS:
 
 void tst_Compression::localCompressionRoundtrip_data()
 {
-    using namespace QOAIHttpRequestWorker;
+    using namespace QtOpenApiCommon::QOAIHttpRequestWorker;
     QTest::addColumn<CompressionType>("compressionType");
 
     QTest::newRow("gzip") << CompressionType::Gzip;
@@ -41,7 +39,7 @@ void tst_Compression::localCompressionRoundtrip()
     for (uchar c = 0; c < MaxUChar; ++c)
         originalData.append(BlockSize, c);
 
-    using namespace QOAIHttpRequestWorker;
+    using namespace QtOpenApiCommon::QOAIHttpRequestWorker;
     QFETCH(const CompressionType, compressionType);
 
     const QByteArray compressed = compressData(originalData, 9, compressionType);
@@ -60,7 +58,5 @@ void tst_Compression::generatorVersionCheck()
     QCOMPARE_EQ(generatorVer, OPENAPI_GENERATOR_VERSION_STR);
 }
 
-} // namespace QtOpenAPI
-
-QTEST_MAIN(QtOpenAPI::tst_Compression)
+QTEST_MAIN(tst_Compression)
 #include "tst_compression.moc"
