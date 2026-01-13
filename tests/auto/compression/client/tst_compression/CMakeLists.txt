@@ -7,11 +7,10 @@ if(NOT QT_BUILD_STANDALONE_TESTS AND NOT QT_BUILDING_QT)
     find_package(Qt6BuildInternals REQUIRED COMPONENTS STANDALONE_TEST)
 endif()
 
-# We do not need a server now
-# if(NOT TARGET compression-server-go)
-#     message(WARNING "No compression-server-go server in the build.")
-#     return()
-# endif()
+if(NOT TARGET compression-server-go)
+    message(WARNING "No compression-server-go server in the build.")
+    return()
+endif()
 
 find_package(Doxygen)
 
@@ -31,13 +30,20 @@ qt6_add_openapi_client(CompressionClient
     GENERATE_DOCUMENTATION
 )
 
-# target_compile_definitions(cpp-qt-compression
-#     PRIVATE
-#         SERVER_PATH="$<TARGET_FILE:compression-server-go>"
-# )
+target_compile_definitions(cpp-qt-compression
+    PRIVATE
+        SERVER_PATH="$<TARGET_FILE:compression-server-go>"
+)
 qt_autogen_tools_initial_setup(CompressionClient)
 target_link_libraries(cpp-qt-compression PRIVATE CompressionClient)
-# add_dependencies(cpp-qt-compression compression-server-go)
+add_dependencies(cpp-qt-compression compression-server-go)
+
+add_custom_command(TARGET cpp-qt-compression POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${CMAKE_CURRENT_SOURCE_DIR}/test.pdf
+            ${CMAKE_CURRENT_BINARY_DIR}/test.pdf
+    COMMENT "Copying test files to ${CMAKE_CURRENT_BINARY_DIR}"
+)
 
 if(WIN32)
     add_custom_command(TARGET cpp-qt-compression POST_BUILD
