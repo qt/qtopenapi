@@ -38,6 +38,7 @@
     CMakeLists.txt file. See \l {Building with CMake} for details.
 
     \section2 Building with CMake
+    \section3 Using the \c qt_add_openapi_client macro
     Use the \c find_package() command to locate the needed module
     components in the Qt6 package. And after that call the
     \l qt_add_openapi_client function to generate a required
@@ -77,6 +78,56 @@
     the \l qt_add_openapi_client cmake function.
     \note \c OpenApiCommon library is linked to the target by the
     \l qt_add_openapi_client call.
+
+    \section3 Calling the Qt OpenAPI Generator from the command line
+    To generate client code from an OpenAPI specification
+    using the Qt OpenAPI Generator, you should run the following
+    command:
+    \badcode
+        java -cp <path-to-installed-openapigen>/openapi-generator-cli.jar:<path-to-installed-qt>/<qt-version>/libexec/cpp-qt6-client-openapi-generator-1.0.0.jar \
+        org.openapitools.codegen.OpenAPIGenerator \
+        generate -g cpp-qt6-client \
+        --additional-properties=cppCommonNamespace=QtOpenApiCommon,prefix=QOAI \
+        -o generator_output/ -i file.yaml
+    \endcode
+    The command above adds the Qt 6 OpenAPI generator to the classpath,
+    which makes it visible to the upstream OpenAPI generator,
+    then invokes main class \c org.openapitools.codegen.OpenAPIGenerator.
+    Setting the Qt 6 generator's name \c cpp-qt6-client
+    to the \c -g parameter makes sure it will be found and called.
+
+    To generate client code from an extra large OpenAPI specification file,
+    add the \c maxYamlCodePoints option to the command line, see below:
+    \badcode
+        java -DmaxYamlCodePoints=99999999 <other arguments>
+    \endcode
+    \note Always add
+    \c {--additional-properties=cppCommonNamespace=QtOpenApiCommon,prefix=QOAI}
+    if you want to link the pre-generated \c Qt6::OpenApiCommon
+    library to the project, because it was built with these parameters,
+    and you'll get compilation errors if you provide different values.
+
+    The generator creates the client library in
+    the \c generator_output folder. Add the \c generator_output
+    folder to the project, like in an example below:
+    \code
+        find_package(Qt6 REQUIRED COMPONENTS Core OpenApiCommon)
+        add_subdirectory(generator_output/client)
+        add_executable(example_binary
+          main.cpp
+        )
+        target_link_libraries(Qt6OpenAPIClient PUBLIC Qt6::OpenApiCommon)
+        target_link_libraries(example_binary PRIVATE Qt6::Core Qt6OpenAPIClient)
+    \endcode
+
+    If you want to see all generation options, you can use the
+    \c config-help option, see below:
+    \badcode
+        java -cp <path-to-installed-openapigen>/openapi-generator-cli.jar:<path-to-installed-qt>/<qt-version>/libexec/cpp-qt6-client-openapi-generator-1.0.0.jar \
+        org.openapitools.codegen.OpenAPIGenerator config-help -g cpp-qt6-client
+    \endcode
+    \note You can find more information about the generator usage in the
+    \l{https://openapi-generator.tech/docs/usage}{OpenAPI generator documentation}.
 
     \section1 Examples
 
