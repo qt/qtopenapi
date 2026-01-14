@@ -19,7 +19,12 @@ qt_add_qml_module(qtopenapi_examplestyle
     PLUGIN_TARGET qtopenapi_examplestyle
     QML_FILES
         Button.qml
+        Popup.qml
         UIStyle.qml
+        TextField.qml
+        ToolBar.qml
+        ToolButton.qml
+        Label.qml
 )
 
 target_link_libraries(qtopenapi_examplestyle PUBLIC

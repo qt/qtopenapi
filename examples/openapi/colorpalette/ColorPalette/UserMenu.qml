@@ -58,20 +58,32 @@ Popup {
     width: 280
     height: 270
 
-    ColumnLayout {
+    background: Item {}
+
+    Rectangle {
+        radius: 8
+        border.width: 0
+        color: UIStyle.background
+
         anchors.fill: parent
 
         ListView {
             id: userListView
+            anchors.fill: parent
+            anchors.leftMargin: 10
+            anchors.rightMargin: 5
+            anchors.topMargin: 5
+            anchors.bottomMargin: 2
+
             model: usersListModel
-            spacing: 5
+            spacing: 7
             footerPositioning: ListView.PullBackFooter
             clip: true
 
             Layout.fillHeight: true
             Layout.fillWidth: true
 
-            delegate: Rectangle {
+            delegate: Item {
                 id: userInfo
 
                 height: 30
@@ -82,7 +94,7 @@ Popup {
                 // Check if the delegate's user is the currently logged-in user :
                 readonly property bool logged: (model.id === userMenu.loggedInUserId)
 
-                Rectangle {
+                Item {
                     id: userImageCliped
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
@@ -118,6 +130,7 @@ Popup {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.margins: 5
                     text: userInfo.model.email
+                    color: UIStyle.textColor
                     font.bold: userInfo.logged
                 }
 
@@ -170,5 +183,14 @@ Popup {
                 }
             }
         }
+    }
+
+    Rectangle {
+        radius: 8
+        border.color: UIStyle.buttonOutline
+        border.width: 2
+        color: "transparent"
+
+        anchors.fill: parent
     }
 }

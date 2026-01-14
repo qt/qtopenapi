@@ -26,8 +26,10 @@ Popup {
     function createNewColor() {
         newColor = true
         colorNameField.text = "cute green"
-        currentColor = "#41cd52" // colorRGBField.text updates automatically
+        colorRGBField.text = "#41cd52"
         colorPantoneField.text = "PMS 802C"
+        currentColor = colorRGBField.text
+        colorDialog.selectedColor = currentColor
         open()
     }
 
@@ -93,8 +95,10 @@ Popup {
             id: colordialogButton
             Layout.fillWidth: true
             Layout.preferredHeight: 30
-            text: qsTr("Set Color")
-            textColor: isColorDark(buttonColor) ? "#E6E6E6" : "#191919"
+            text: qsTr("Change Color")
+            textColor: isColorDark(buttonColor) ?
+                           UIStyle.textOnDarkBackground :
+                           UIStyle.textOnLightBackground
 
             onClicked: colorDialog.open()
 
@@ -117,8 +121,9 @@ Popup {
                 Layout.fillWidth: true
                 text: colorEditor.newColor ? qsTr("Add") : qsTr("Update")
 
-                buttonColor: "#2CDE85"
-                textColor: "#FFFFFF"
+                buttonColor: UIStyle.highlightColor
+                buttonBorderColor: UIStyle.highlightBorderColor
+                textColor: UIStyle.textColor
 
                 onClicked: {
                     if (colorEditor.newColor) {
