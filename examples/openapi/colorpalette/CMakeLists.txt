@@ -34,14 +34,21 @@ qt_add_qml_module(colorpaletteApp
         ApiBridges.h
     RESOURCES
         icons/delete.svg
+        icons/delete_dark.svg
         icons/edit.svg
+        icons/edit_dark.svg
         icons/plus.svg
+        icons/plus_dark.svg
         icons/update.svg
+        icons/update_dark.svg
         icons/userMask.svg
         icons/user.svg
+        icons/user_dark.svg
         icons/qt.png
         icons/login.svg
+        icons/login_dark.svg
         icons/logout.svg
+        icons/logout_dark.svg
         icons/qt_attribution.json
 )
 
