@@ -12,15 +12,6 @@ if(NOT TARGET responses-server-go)
     return()
 endif()
 
-if(MSVC)
-    add_compile_options(/W4 /WX)
-else()
-    add_compile_options(-Wall -Wextra)
-    if(WARNINGS_ARE_ERRORS)
-        add_compile_options(-Werror=deprecated-declarations)
-    endif()
-endif()
-
 qt_internal_add_test(cpp-qt-responses
     SOURCES
         tst_responses.cpp

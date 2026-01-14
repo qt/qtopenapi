@@ -9,15 +9,6 @@ endif()
 
 find_package(Qt6 REQUIRED COMPONENTS Core Network Test)
 
-if(MSVC)
-    add_compile_options(/W4 /WX)
-else()
-    add_compile_options(-Wall -Wextra)
-    if(WARNINGS_ARE_ERRORS)
-        add_compile_options(-Werror=deprecated-declarations)
-    endif()
-endif()
-
 ## application 1:
 ## Client1 produces common-lib on generation.
 ## Client2 links common-lib for common files usage.
