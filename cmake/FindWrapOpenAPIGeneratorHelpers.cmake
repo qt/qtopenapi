@@ -33,7 +33,35 @@ function(_qt_internal_openapi_find_cli_jar_from_pip out_var_jar_path)
 endfunction()
 
 function(_qt_internal_openapi_find_cli_jar_from_brew out_var_jar_path)
-    #TODO: check Homebrew(macOS) installation
+    execute_process(
+        COMMAND brew --prefix openapi-generator
+        OUTPUT_VARIABLE brew_openapi_generator_prefix
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        RESULT_VARIABLE brew_result
+    )
+
+    if(NOT brew_result)
+        # prefix should end with slash in order for 'find' to work properly
+        if(NOT brew_openapi_generator_prefix MATCHES "\/$")
+            string(APPEND brew_openapi_generator_prefix "/")
+        endif()
+
+        execute_process(
+            COMMAND find "${brew_openapi_generator_prefix}" -name openapi-generator-cli.jar
+            OUTPUT_VARIABLE jar_path
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+            RESULT_VARIABLE find_result
+        )
+
+        if(NOT find_result AND EXISTS "${jar_path}")
+            set(${out_var_jar_path} "${jar_path}" PARENT_SCOPE)
+            message(DEBUG "Found OpenAPI Generator JAR: ${jar_path}")
+        else()
+            message(DEBUG
+                "Could not locate OpenAPI Generator JAR under Homebrew prefix:
+                ${brew_openapi_generator_prefix}.")
+        endif()
+    endif()
 endfunction()
 
 function(_qt_internal_openapi_find_cli_jar_from_scoop out_var_jar_path)
