@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #include "../client/mediatestapi.h"
+#include "qoaicommonglobal.h"
 
 #include <QtCore/qbuffer.h>
 #include <QtCore/qobject.h>
@@ -352,9 +353,20 @@ void MediaType::testEmptyJsonObjects()
 {
     bool done = false;
     const QString appJsonHeader("application/json");
-    /* TBD: To complete implementation after changing CI version and implementing QTBUG-143288.
     const QString jsonString("{\"test\": \"42\"}");
+    // The first Qt6 generator development version was (7, 12, 0).
+    // The current version used on CI is (7, 15, 0).
+    // The next incoming version we are planning to switch is (7, 18, 0).
+    // That's why we are taking into account versions (7, 12, 0)-(7, 18, 0)
+    // in the test.
+    // Below we add a few checks that depend on upstream OpenAPI generator version.
+    // It shows how generation is changing between different versions,
+    // and how we can use introduced macros.
+#if OPENAPI_GENERATOR_VERSION_GE(7, 12, 0) && OPENAPI_GENERATOR_VERSION_LE(7, 15, 0)
+    QMap<QString, QJsonValue> object;
+#elif OPENAPI_GENERATOR_VERSION_GE(7, 16, 0)
     QOAIObject object;
+#endif
     postClosedInlineEmptyJsonObject(object, this,
                                     [&](const QRestReply &reply, const QString &summary) {
         if (!(done = reply.isSuccess()))
@@ -365,8 +377,11 @@ void MediaType::testEmptyJsonObjects()
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
-    // TBD: After implementing QTBUG-143257 this should not be available to do.
+#if OPENAPI_GENERATOR_VERSION_GE(7, 12, 0) && OPENAPI_GENERATOR_VERSION_LE(7, 15, 0)
+    object["test"] = "42";
+#elif OPENAPI_GENERATOR_VERSION_GE(7, 16, 0)
     object.fromJson(jsonString);
+#endif
     postClosedInlineEmptyJsonObject(object, this,
                                     [&](const QRestReply &reply, const QString &summary) {
         if (!(done = reply.isSuccess()))
@@ -377,8 +392,13 @@ void MediaType::testEmptyJsonObjects()
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
-    object.fromJson("{}");
-    postOpenedInlineEmptyJsonObject(object, this,
+    // Yes, in API below switch happens in (7, 18, 0), not in (7, 16, 0) like above.
+#if OPENAPI_GENERATOR_VERSION_GE(7, 12, 0) && OPENAPI_GENERATOR_VERSION_LE(7, 17, 0)
+    QOAIObject openedObject;
+#elif OPENAPI_GENERATOR_VERSION_GE(7, 18, 0)
+    QMap<QString, QJsonValue> openedObject;
+#endif
+    postOpenedInlineEmptyJsonObject(openedObject, this,
                                     [&](const QRestReply &reply, const QString &summary) {
         if (!(done = reply.isSuccess()))
             qWarning() << "ERROR: " << reply.errorString() << reply.error();
@@ -388,15 +408,19 @@ void MediaType::testEmptyJsonObjects()
     QTRY_COMPARE_EQ(done, true);
 
     done = false;
-    object.fromJson(jsonString);
-    postOpenedInlineEmptyJsonObject(object, this, [&](const QRestReply &reply, const QString &summary) {
+#if OPENAPI_GENERATOR_VERSION_GE(7, 12, 0) && OPENAPI_GENERATOR_VERSION_LE(7, 17, 0)
+    openedObject.fromJson(jsonString);
+#elif OPENAPI_GENERATOR_VERSION_GE(7, 18, 0)
+    openedObject["test"] = "42";
+#endif
+    postOpenedInlineEmptyJsonObject(openedObject, this,
+                                    [&](const QRestReply &reply, const QString &summary) {
         if (!(done = reply.isSuccess()))
             qWarning() << "ERROR: " << reply.errorString() << reply.error();
         QCOMPARE(getStringifiedEmptyObject(summary), "{\"test\":\"42\"}");
         QCOMPARE(getHeaderValue(summary), appJsonHeader);
     });
     QTRY_COMPARE_EQ(done, true);
-    */
 
     done = false;
     postNamedEmptyJsonObject(QOAIObject(), this,
