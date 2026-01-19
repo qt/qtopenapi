@@ -65,7 +65,33 @@ function(_qt_internal_openapi_find_cli_jar_from_brew out_var_jar_path)
 endfunction()
 
 function(_qt_internal_openapi_find_cli_jar_from_scoop out_var_jar_path)
-    #TODO: check Scoop(Windows) installation
+    execute_process(
+        COMMAND powershell -NoProfile -Command "scoop which openapi-generator-cli"
+        OUTPUT_VARIABLE current_cli_path
+        RESULT_VARIABLE scoop_result
+    )
+    if(NOT scoop_result)
+        # Replace ~ with home directory because it is not expanded on windows.
+        if(current_cli_path MATCHES "^~")
+            # Get and normalize the home directory and current cli path
+            set(home_dir "$ENV{USERPROFILE}")
+            file(TO_CMAKE_PATH "${home_dir}" home_dir)
+            file(TO_CMAKE_PATH "${current_cli_path}" current_cli_path)
+
+            string(REGEX REPLACE "^~" "${home_dir}"
+                current_cli_path "${current_cli_path}")
+        endif()
+
+        get_filename_component(current_cli_dir "${current_cli_path}" DIRECTORY)
+        set(jar_path "${current_cli_dir}/openapi-generator-cli.jar")
+
+        if(EXISTS "${jar_path}")
+            set(${out_var_jar_path} "${jar_path}" PARENT_SCOPE)
+            message(DEBUG "Found OpenAPI Generator JAR: ${jar_path}")
+        else()
+            message(DEBUG "Could not locate OpenAPI Generator JAR at: ${jar_path}.")
+        endif()
+    endif()
 endfunction()
 
 function(_qt_internal_openapi_find_cli_jar out_var_jar_path)
