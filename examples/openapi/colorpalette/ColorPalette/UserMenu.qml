@@ -35,16 +35,16 @@ Popup {
         target: UsersApi
 
         function onGetUsersByPageFinished(summary) {
-            for (let i = 0; i < summary.getData.length; i++) {
+            for (let i = 0; i < summary.getDataValue.length; i++) {
                 usersListModel.append({
-                    id: summary.getData[i].getId,
-                    email: summary.getData[i].getEmail,
-                    firstName: summary.getData[i].getFirstName,
-                    lastName: summary.getData[i].getLastName,
-                    avatar: summary.getData[i].getAvatar,
+                    id: summary.getDataValue[i].getIdValue,
+                    email: summary.getDataValue[i].getEmailValue,
+                    firstName: summary.getDataValue[i].getFirstNameValue,
+                    lastName: summary.getDataValue[i].getLastNameValue,
+                    avatar: summary.getDataValue[i].getAvatarValue,
                 });
-                userMenu.currentUserPage = summary.getPage
-                userMenu.totalUserPages = summary.getTotalPages
+                userMenu.currentUserPage = summary.getPageValue
+                userMenu.totalUserPages = summary.getTotalPagesValue
             }
         }
 
