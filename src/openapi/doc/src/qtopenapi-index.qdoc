@@ -136,4 +136,18 @@
     \endlist
 
     \section1 Licenses and Attributions
+
+    Different parts of the Qt OpenAPI module are available under different
+    licenses.
+
+    The Qt OpenApiCommon library is available under commercial licenses from
+    \l {The Qt Company}. In addition, it is available under the
+    \l {GNU Lesser General Public License, version 3}, or the
+    \l {GNU General Public License, version 2}. See \l {Qt Licensing} for
+    further details.
+
+    The Qt6 Generator plugin, together with the template files for the code
+    generation (that have the \c {.mustache} extension), are derived from the
+    upstream OpenAPI generator project, and are licensed under the
+    \l {https://www.apache.org/licenses/LICENSE-2.0}{Apache License 2.0}.
 */
