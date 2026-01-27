@@ -63,6 +63,11 @@ public abstract class CppQt6AbstractCodegen extends AbstractCppCodegen implement
         addOption(CodegenConstants.MODEL_NAME_PREFIX, CodegenConstants.MODEL_NAME_PREFIX_DESC, this.modelNamePrefix);
         addSwitch(CONTENT_COMPRESSION_ENABLED, CONTENT_COMPRESSION_ENABLED_DESC, this.isContentCompressionEnabled);
 
+        // For being compliant with Qt naming convention the variable always
+        // starts with lower-case letter.
+        // Also, starting with uppercase letter leads to clashing class and parameter names,
+        // because there is no additional checks implemented.
+        removeOption(super.VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION);
         /*
          * Additional Properties.  These values can be passed to the templates and
          * are available in models, apis, and supporting files
