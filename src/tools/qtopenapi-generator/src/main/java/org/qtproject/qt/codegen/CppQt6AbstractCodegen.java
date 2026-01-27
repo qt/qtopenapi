@@ -68,6 +68,10 @@ public abstract class CppQt6AbstractCodegen extends AbstractCppCodegen implement
         // Also, starting with uppercase letter leads to clashing class and parameter names,
         // because there is no additional checks implemented.
         removeOption(super.VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION);
+
+        // The option is defined in DefaultCodegen class,
+        // but it isn't used by the Qt6 generator. Should be deleted from options list.
+        removeOption(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS);
         /*
          * Additional Properties.  These values can be passed to the templates and
          * are available in models, apis, and supporting files
