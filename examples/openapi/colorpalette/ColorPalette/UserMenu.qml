@@ -70,8 +70,6 @@ Popup {
         ListView {
             id: userListView
             anchors.fill: parent
-            anchors.leftMargin: 10
-            anchors.rightMargin: 5
             anchors.topMargin: 5
             anchors.bottomMargin: 2
 
@@ -85,6 +83,10 @@ Popup {
 
             delegate: Item {
                 id: userInfo
+                anchors.left: parent ? parent.left : undefined
+                anchors.right: parent ? parent.right : undefined
+                anchors.leftMargin: 10
+                anchors.rightMargin: 5
 
                 height: 30
                 width: userListView.width
