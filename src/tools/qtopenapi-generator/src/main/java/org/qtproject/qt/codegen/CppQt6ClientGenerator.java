@@ -41,6 +41,7 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
             "This makes it easy to mock the generated API class for testing purposes.";
     public static final String MAKE_QML_ENABLED = "enableQmlCode";
     public static final String MAKE_QML_ENABLED_DESC = "Enable registering C++ Types with the QML Type System";
+    public static final String ADD_DOWNLOAD_PROGRESS = "addDownloadProgress";
     protected static final String CPP_COMMON_NAMESPACE = "cppCommonNamespace";
     protected static final String CPP_COMMON_NAMESPACE_DESC
             = "C++ namespace (convention: name::space::for::api) for the common library.";
@@ -160,7 +161,7 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
         // CLI options
         addOption(CPP_COMMON_NAMESPACE, CPP_COMMON_NAMESPACE_DESC, this.cppCommonNamespace);
         addOption(CodegenConstants.PACKAGE_NAME, "C++ package (library) name.", DEFAULT_PACKAGE_NAME);
-        addSwitch("addDownloadProgress", "Add support for Qt download progress", this.addDownloadProgress);
+        addSwitch(ADD_DOWNLOAD_PROGRESS, "Add support for Qt download progress", this.addDownloadProgress);
         addSwitch(MAKE_OPERATIONS_VIRTUAL_NAME, MAKE_OPERATIONS_VIRTUAL_DESC, this.makeOperationsVirtual);
         addSwitch(MAKE_QML_ENABLED, MAKE_QML_ENABLED_DESC, this.enableQmlCode);
         addSwitch(USE_CMAKE_FUNCTION, USE_CMAKE_FUNCTION_DESC, this.useCmakeMacro);
@@ -269,6 +270,12 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
             setUseCmakeMacro(convertPropertyToBooleanAndWriteBack(USE_CMAKE_FUNCTION));
         } else {
             additionalProperties.put(USE_CMAKE_FUNCTION, useCmakeMacro);
+        }
+
+        if (additionalProperties.containsKey(ADD_DOWNLOAD_PROGRESS)) {
+            setAddDownloadProgress(convertPropertyToBooleanAndWriteBack(ADD_DOWNLOAD_PROGRESS));
+        } else {
+            additionalProperties.put(ADD_DOWNLOAD_PROGRESS, addDownloadProgress);
         }
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
