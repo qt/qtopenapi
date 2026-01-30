@@ -25,7 +25,6 @@ import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETT
 
 public abstract class CppQt6AbstractCodegen extends AbstractCppCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(CppQt6AbstractCodegen.class);
-    protected String apiVersion = "1.0.0";
     protected static final String CPP_NAMESPACE = "cppNamespace";
     protected static final String CPP_NAMESPACE_DESC = "C++ namespace (convention: name::space::for::api).";
     protected static final String CONTENT_COMPRESSION_ENABLED = "contentCompression";
@@ -76,7 +75,6 @@ public abstract class CppQt6AbstractCodegen extends AbstractCppCodegen implement
          * Additional Properties.  These values can be passed to the templates and
          * are available in models, apis, and supporting files
          */
-        additionalProperties.put("apiVersion", apiVersion);
 
         // Write defaults namespace in properties so that it can be accessible in templates.
         // At this point command line has not been parsed so if value is given

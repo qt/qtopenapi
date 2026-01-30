@@ -65,7 +65,6 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
     protected String sourceFolder = "client";
     // source folder where to write the 'common' files
     protected String commonLibrarySourceFolder = "common";
-    protected String apiVersion = "1.0.0";
     protected static final String USE_COMMON_LIBRARY = "enableCommonLibGeneration";
     private final Logger LOGGER = LoggerFactory.getLogger(CppQt6ClientGenerator.class);
     @Setter protected boolean addDownloadProgress = false;
@@ -200,7 +199,8 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
          * Additional Properties.  These values can be passed to the templates and
          * are available in models, apis, and supporting files
          */
-        additionalProperties.put("apiVersion", apiVersion);
+        final String pluginVersion = CppQt6ClientGenerator.class.getPackage().getImplementationVersion();
+        additionalProperties.put("pluginVersion", pluginVersion);
         additionalProperties.put("prefix", namePrefix);
         additionalProperties.put("camelcase", new CamelCaseAndSanitizeLambda(false).generator(this));
         additionalProperties.put("cppCommonNamespace", cppCommonNamespace);
