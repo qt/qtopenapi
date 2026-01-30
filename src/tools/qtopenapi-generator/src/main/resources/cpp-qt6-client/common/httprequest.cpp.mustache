@@ -270,7 +270,7 @@ QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray 
     }
     QNetworkRequest request = factory.createRequest(inputPriv->m_urlStr);
     if (request.header(QNetworkRequest::UserAgentHeader).isNull())
-        request.setHeader(QNetworkRequest::UserAgentHeader, QString::fromUtf8("{{httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{apiVersion}}/cpp-qt{{/httpUserAgent}}"));
+        request.setHeader(QNetworkRequest::UserAgentHeader, QString::fromUtf8("{{httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{pluginVersion}}/cpp-qt{{/httpUserAgent}}"));
 
     for (int i = 0; i < inputPriv->m_headers.size(); i++) {
         const auto name = inputPriv->m_headers.nameAt(i);
