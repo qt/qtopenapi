@@ -58,7 +58,8 @@ add_custom_command(
     OUTPUT "${QT6_OPENAPI_GENERATOR_CLI}"
     COMMAND "${OPENAPI_MAVEN_EXECUTABLE}"
             -f "${CMAKE_CURRENT_SOURCE_DIR}/pom.xml" package
-            -Dqt.build.dir=${CMAKE_CURRENT_BINARY_DIR}/target
+            "-Dqt.build.dir=${CMAKE_CURRENT_BINARY_DIR}/target"
+            "-Dqt.generator.version=${QT_OPENAPI_GENERATOR_VERSION}"
     # Copy the built generator to libexec build dir, so that standalone tests work with no-prefix
     # builds as well.
     COMMAND "${CMAKE_COMMAND}" -E copy_if_different
