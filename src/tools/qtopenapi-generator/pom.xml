@@ -5,7 +5,7 @@
     <artifactId>cpp-qt6-client-openapi-generator</artifactId>
     <packaging>jar</packaging>
     <name>cpp-qt6-client-openapi-generator</name>
-    <version>1.0.0</version>
+    <version>${qt.generator.version}</version>
     <build>
         <plugins>
             <plugin>
@@ -138,5 +138,6 @@
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <junit-version>5.10.2</junit-version>
         <lombok-version>1.18.38</lombok-version>
+        <qt.generator.version>1.0.0</qt.generator.version>
     </properties>
 </project>
