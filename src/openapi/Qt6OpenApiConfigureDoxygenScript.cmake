@@ -19,13 +19,8 @@ if(NOT OUTPUT_DIR)
     message(FATAL_ERROR "OUTPUT_DIR is not set")
 endif()
 
-if(NOT EXCLUDE_FILE)
-    message(FATAL_ERROR "EXCLUDE_FILE is not set")
-endif()
-
 set(DOXY_OUT_DIR "${OUTPUT_DIR}")
 set(DOXY_IN_DIR "${INPUT_DIR}")
-set(DOXY_EXCLUDE_FILE "${EXCLUDE_FILE}")
 
 configure_file(
     "${DOXYGEN_IN_FILE_PATH}"

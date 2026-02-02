@@ -153,33 +153,6 @@ function(qt6_add_openapi_client target)
     string(TOLOWER ${target} target_lower_case)
     set(client_dir_path "${arg_OUTPUT_DIRECTORY}/${client_dir}/")
     set(common_dir_path "${arg_OUTPUT_DIRECTORY}/${common_dir}/")
-    if(arg___QT_INTERNAL_GENERATE_COMMON_LIBRARY_TARGET)
-        list(APPEND common_sources "${common_dir_path}${target_lower_case}commonexports.h")
-        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}baseapi.h")
-        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}baseapi.cpp")
-        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}commonglobal.h")
-        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}helpers.h")
-        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}helpers.cpp")
-        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}httprequest.h")
-        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}httprequest.cpp")
-        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}httpfileelement.h")
-        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}httpfileelement.cpp")
-        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}object.h")
-        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}object.cpp")
-        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}enum.h")
-        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}enum.cpp")
-        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}serverconfiguration.h")
-        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}serverconfiguration.cpp")
-        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}servervariable.h")
-        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}servervariable.cpp")
-        list(APPEND generating_sources ${common_sources})
-    else()
-        list(APPEND client_sources
-            "${client_dir_path}${target_lower_case}combinedmodelsandapis.cpp")
-        list(APPEND client_sources "${client_dir_path}${target_lower_case}exports.h")
-        list(APPEND client_sources "${client_dir_path}doc/Doxyfile.in")
-        list(APPEND generating_sources ${client_sources})
-    endif()
 
     set(extra_dependencies
         DEPENDS
@@ -203,12 +176,15 @@ function(qt6_add_openapi_client target)
     if(arg___QT_INTERNAL_GENERATE_COMMON_LIBRARY_TARGET)
         set(comment "Generating the Qt6 Common Library code with the generator: ${generator_name}")
     else()
-        set(comment "Generating the Qt6 Client code with the generator: ${generator_name}")
+        string(CONCAT comment
+            "Generating the Qt6 Client code for ${target} with the generator: ${generator_name}."
+            "\nThe specification file is: ${arg_SPEC_FILE}"
+        )
     endif()
 
     if(openapi_generator_cli_jar_file)
         if(CMAKE_HOST_WIN32)
-            set(path_separator "\\$<SEMICOLON>")
+            set(path_separator "\\;")
         else()
             set(path_separator ":")
         endif()
@@ -224,19 +200,154 @@ function(qt6_add_openapi_client target)
         list(APPEND extra_dependencies "${openapi_generator_cli_exec_file}")
     endif()
 
-    add_custom_command(
-        OUTPUT ${generating_sources}
-        COMMAND ${generation_command}
-            generate -g ${generator_name}
-            -i "${arg_SPEC_FILE}"
-            -o "${arg_OUTPUT_DIRECTORY}"
-            ${target_lib_name}
-            ${additional_properties}
-        ${extra_dependencies}
-        COMMENT "${comment}"
-        VERBATIM
-        COMMAND_EXPAND_LISTS
-    )
+    # We *do not* want to regenerate the sources if the user changes something
+    # manually in the generated files, but we want to regenerate the sources if
+    # the files got removed.
+    set(need_call_generator FALSE)
+
+    # The generator writes the list of generated files into
+    # ${arg_OUTPUT_DIRECTORY}/.openapi-generator/FILES
+    # Check if this file exists, and if it does, read its
+    # content and verify that all the listed files exist.
+    set(generated_files_file "${arg_OUTPUT_DIRECTORY}/.openapi-generator/FILES")
+    if(NOT EXISTS "${generated_files_file}")
+        message(DEBUG "File does not exist: ${generated_files_file}")
+        # the file does not exist
+        set(need_call_generator TRUE)
+    else()
+        # add this file to the dependencies, so that CMake automatically
+        # reconfigures if it's gone
+        set_property(DIRECTORY PROPERTY CMAKE_CONFIGURE_DEPENDS "${generated_files_file}")
+        # get the timestamp of the file - we'll use it later
+        file(TIMESTAMP "${generated_files_file}" generated_files_file_timestamp)
+        # read the file and get the list of generated files
+        file(STRINGS "${generated_files_file}" generated_file_list)
+        foreach(generated_file IN LISTS generated_file_list)
+            if(NOT EXISTS "${arg_OUTPUT_DIRECTORY}/${generated_file}")
+                message(DEBUG "File not found: ${arg_OUTPUT_DIRECTORY}/${generated_file}")
+                set(need_call_generator TRUE)
+                break()
+            endif()
+        endforeach()
+    endif()
+
+    # We depend on the following things:
+    # * the yaml file;
+    # * the Qt generator plugin (because newer version may do smth differently).
+    # * the upstream OpenAPI generator
+
+    # Handle changes in the yaml file. We need to check both the path
+    # and the timestamp.
+    if(NOT DEFINED QT_INTERNAL_OPENAPI_${target}_YAML_PATH)
+        set(QT_INTERNAL_OPENAPI_${target}_YAML_PATH ""
+            CACHE INTERNAL "Path to the yaml file for ${target}")
+    endif()
+    if(NOT ("${arg_SPEC_FILE}" STREQUAL "${QT_INTERNAL_OPENAPI_${target}_YAML_PATH}"))
+        # Yaml file path has changed
+        message(DEBUG "Yaml file path has changed"
+                "\nOld path: ${QT_INTERNAL_OPENAPI_${target}_YAML_PATH}"
+                "\nNew path: ${arg_SPEC_FILE}")
+        set(need_call_generator TRUE)
+        set(QT_INTERNAL_OPENAPI_${target}_YAML_PATH "${arg_SPEC_FILE}"
+            CACHE INTERNAL "Path to the yaml file for ${target}" FORCE)
+    elseif(generated_files_file_timestamp)
+        # Check the timestamp of the yaml file
+        file(TIMESTAMP "${arg_SPEC_FILE}" curr_yaml_timestamp)
+        if("${generated_files_file_timestamp}" STRLESS "${curr_yaml_timestamp}")
+            message(DEBUG "Yaml file was modified after last check"
+                    "\nModification time is: ${curr_yaml_timestamp}")
+            set(need_call_generator TRUE)
+        endif()
+    endif()
+    # We want to automatically reconfigure when the yaml file is changed
+    set_property(DIRECTORY PROPERTY CMAKE_CONFIGURE_DEPENDS "${arg_SPEC_FILE}")
+
+    # For the Qt6 generator, only check its timestamp.
+    if(generated_files_file_timestamp)
+        file(TIMESTAMP "${generator_jar_path}" qt_generator_timestamp)
+        if("${generated_files_file_timestamp}" STRLESS "${qt_generator_timestamp}")
+            message(DEBUG "Qt6 Generator was modified after last check")
+            set(need_call_generator TRUE)
+        endif()
+    endif()
+
+    # For the upstream generator, also check its timestamp only.
+    # This covers the case when the upstream generator is updated
+    # by some package manager.
+    set(upstream_generator_path "${openapi_generator_cli_jar_file}")
+    if(NOT upstream_generator_path)
+        set(upstream_generator_path "${openapi_generator_cli_exec_file}")
+    endif()
+    if(generated_files_file_timestamp)
+        file(TIMESTAMP "${upstream_generator_path}" upstream_generator_timestamp)
+        if("${generated_files_file_timestamp}" STRLESS "${upstream_generator_timestamp}")
+            message(DEBUG "Upstream OpenAPI generator was modified after last check")
+            set(need_call_generator TRUE)
+        endif()
+    endif()
+    set_property(DIRECTORY PROPERTY CMAKE_CONFIGURE_DEPENDS "${upstream_generator_path}")
+
+    if(need_call_generator)
+        message(STATUS "${comment}")
+        set(extra_args "")
+        if(NOT QT_FEATURE_developer_build)
+            list(APPEND extra_args
+                ERROR_VARIABLE generate_error
+                OUTPUT_VARIABLE generate_output
+            )
+        endif()
+        execute_process(
+            COMMAND ${generation_command}
+                generate -g ${generator_name}
+                -i "${arg_SPEC_FILE}"
+                -o "${arg_OUTPUT_DIRECTORY}"
+                ${target_lib_name}
+                ${additional_properties}
+            WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+            RESULT_VARIABLE generate_result
+            ${extra_args}
+        )
+        if(NOT generate_result)
+            message(STATUS "Generation completed successfully.")
+        else()
+            set(error_message "Generation failed. Exit code: ${generate_result}.")
+            if(generate_output OR generate_error)
+                string(APPEND error_message "\n stdout: '${generate_output}' "
+                    "\n stderr: '${generate_error}'")
+            endif()
+            message(FATAL_ERROR "${error_message}")
+        endif()
+    else()
+        message(STATUS "Skipping the generation step for ${target}, because nothing has changed.")
+    endif() # need_call_generator
+
+    if(arg___QT_INTERNAL_GENERATE_COMMON_LIBRARY_TARGET)
+        list(APPEND common_sources "${common_dir_path}${target_lower_case}commonexports.h")
+        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}baseapi.h")
+        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}baseapi.cpp")
+        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}commonglobal.h")
+        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}helpers.h")
+        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}helpers.cpp")
+        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}httprequest.h")
+        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}httprequest.cpp")
+        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}httpfileelement.h")
+        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}httpfileelement.cpp")
+        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}object.h")
+        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}object.cpp")
+        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}enum.h")
+        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}enum.cpp")
+        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}serverconfiguration.h")
+        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}serverconfiguration.cpp")
+        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}servervariable.h")
+        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}servervariable.cpp")
+        list(APPEND generating_sources ${common_sources})
+    else()
+        # Re-read the full list of generated files from .openapi-generator/FILES
+        file(STRINGS "${generated_files_file}" generated_file_list)
+        list(TRANSFORM generated_file_list PREPEND "${arg_OUTPUT_DIRECTORY}/"
+            OUTPUT_VARIABLE client_sources)
+        list(APPEND generating_sources ${client_sources})
+    endif()
 
     set(is_shared FALSE)
     set(is_static FALSE)
@@ -292,8 +403,14 @@ function(qt6_add_openapi_client target)
 
     if(arg___QT_INTERNAL_GENERATE_COMMON_LIBRARY_TARGET)
         target_sources(${target} PRIVATE ${common_sources})
+        _qt_internal_set_source_file_generated(
+            SOURCES ${common_sources}
+        )
     else()
         target_sources(${target} PRIVATE ${client_sources})
+        _qt_internal_set_source_file_generated(
+            SOURCES ${client_sources}
+        )
     endif()
 
     # Generate Doxygen documentation for the Client.
@@ -311,7 +428,6 @@ function(qt6_add_openapi_client target)
                 COMMAND "${CMAKE_COMMAND}"
                     "-DDOXYGEN_IN_FILE_PATH=${DOXYGEN_FILE}.in"
                     "-DDOXYGEN_OUT_FILE_PATH=${DOXYGEN_FILE}"
-                    "-DEXCLUDE_FILE=${client_dir_path}${target_lower_case}combinedmodelsandapis.cpp"
                     "-DINPUT_DIR=${client_dir_path}"
                     "-DOUTPUT_DIR=${arg_DOCUMENTATION_OUTPUT_DIRECTORY}/doc"
                     -P "${configure_doxygen_script}"
