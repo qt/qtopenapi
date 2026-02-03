@@ -39,7 +39,7 @@ Item {
         target: ColorsApi
 
         function onGetColorsFinished(summary) {
-            for (var i = 0; i < summary.getDataValue.length; i++) {
+            for (let i = 0; i < summary.getDataValue.length; i++) {
                 colorListModel.append({
                     id: summary.getDataValue[i].getIdValue,
                     name: summary.getDataValue[i].getNameValue,
