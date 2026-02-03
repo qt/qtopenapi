@@ -475,6 +475,7 @@ Rectangle {
             footer: ToolBar {
                 // Paginate buttons if more than one page
                 visible: root.totalColorPages > 1
+                rightPadding: 8
                 implicitWidth: parent.width
 
                 RowLayout {
@@ -487,7 +488,7 @@ Rectangle {
 
                         ToolButton {
                             text: page
-                            font.bold: root.currentColorPage === page
+                            fontBold: root.currentColorPage === page
 
                             required property int index
                             readonly property int page: (index + 1)

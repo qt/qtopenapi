@@ -162,6 +162,7 @@ Popup {
             footer: ToolBar {
                 // Paginate buttons if more than one page
                 visible: userMenu.totalUserPages > 1
+                rightPadding: 8
                 implicitWidth: parent.width
 
                 RowLayout {
@@ -174,7 +175,7 @@ Popup {
 
                         ToolButton {
                             text: page
-                            font.bold: userMenu.currentUserPage === page
+                            fontBold: userMenu.currentUserPage === page
 
                             required property int index
                             readonly property int page: (index + 1)

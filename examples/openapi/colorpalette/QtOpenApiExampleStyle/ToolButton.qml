@@ -11,6 +11,7 @@ T.ToolButton {
     property alias buttonColor: rect.color
     property alias buttonBorderColor: rect.border.color
     property alias textColor: label.color
+    property alias fontBold: label.font.bold
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
