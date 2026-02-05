@@ -354,7 +354,7 @@ function(qt6_add_openapi_client target)
     endif() # need_call_generator
 
     if(arg___QT_INTERNAL_GENERATE_COMMON_LIBRARY_TARGET)
-        list(APPEND common_sources "${common_dir_path}${target_lower_case}commonexports.h")
+        list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}${target_lower_case}commonexports.h")
         list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}baseapi.h")
         list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}baseapi.cpp")
         list(APPEND common_sources "${common_dir_path}${qt_common_file_prefix}commonglobal.h")

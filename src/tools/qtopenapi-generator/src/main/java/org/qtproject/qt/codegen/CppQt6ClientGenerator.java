@@ -361,7 +361,7 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
                     supportingFiles.add(new SupportingFile("common/enum-body.mustache",
                     commonLibrarySourceFolder, lowerCasePrefix + "enum.cpp"));
             supportingFiles.add(new SupportingFile("common/common-exports.mustache",
-                    commonLibrarySourceFolder, lowerPackageName + "commonexports.h"));
+                    commonLibrarySourceFolder, lowerCasePrefix + lowerPackageName + "commonexports.h"));
             supportingFiles.add(new SupportingFile("common/common-global.mustache",
                     commonLibrarySourceFolder, lowerCasePrefix + "commonglobal.h"));
             supportingFiles.add(new SupportingFile("common/serverconfiguration.h.mustache",
