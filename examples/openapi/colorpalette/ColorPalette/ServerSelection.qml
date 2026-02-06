@@ -137,7 +137,7 @@ Rectangle {
         ListView {
             id: serverList
             Layout.alignment: Qt.AlignHCenter
-            Layout.minimumWidth: 210 * server.count + 20
+            Layout.minimumWidth: 210 * server.count + 20 * (server.count - 1)
             Layout.minimumHeight: 100
             orientation: ListView.Horizontal
 
