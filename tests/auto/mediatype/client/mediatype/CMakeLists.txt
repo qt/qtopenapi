@@ -26,10 +26,11 @@ qt_add_library(MediaTypeClient)
 qt6_add_openapi_client(MediaTypeClient
     SPEC_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/mediatype.yaml
-    CPP_NAMESPACE
-        MediaNamespace
-    CLIENT_PREFIX
-        Media
+    ADDITIONAL_PROPERTIES
+        cppNamespace=MediaNamespace
+        modelNamePrefix=Media
+        packageName=random # Should be ignored
+        cppCommonNamespace=NotQtOpenApiCommon # Should be ignored
 )
 
 # Resources:

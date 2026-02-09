@@ -37,14 +37,14 @@ function(qt6_add_openapi_client target)
     )
     set(oneValueArgs
         SPEC_FILE
-        CPP_NAMESPACE
-        CLIENT_PREFIX
         OUTPUT_DIRECTORY
         DOCUMENTATION_OUTPUT_DIRECTORY
         OUTPUT_PUBLIC_HEADERS_DIR
         OUTPUT_PRIVATE_HEADERS_DIR
     )
-    set(multiValueArgs "")
+    set(multiValueArgs
+        ADDITIONAL_PROPERTIES
+    )
     cmake_parse_arguments(PARSE_ARGV 1 arg
         "${options}" "${oneValueArgs}" "${multiValueArgs}"
     )
@@ -97,12 +97,6 @@ function(qt6_add_openapi_client target)
     get_target_property(generator_jar_path
         "${QT_CMAKE_EXPORT_NAMESPACE}::QtOpenAPIGeneratorJar" IMPORTED_LOCATION)
 
-    # The modelNamePrefix affects names of model and api files.
-    set(model_and_api_name_prefix "")
-    if(arg_CLIENT_PREFIX)
-        set(model_and_api_name_prefix "${arg_CLIENT_PREFIX}")
-    endif()
-
     # Qt pre-generated common library always uses QOAI
     # prefix, for generating different common library,
     # please call the generator manually.
@@ -110,14 +104,6 @@ function(qt6_add_openapi_client target)
     set(qt_common_file_prefix "qoai")
     # Qt pre-generated common library always uses QtOpenApiCommon namespace
     set(cpp_common_namespace "QtOpenApiCommon")
-
-    # The default namespace is defined in CppQt6AbstractCodegen.java:
-    # cppNamespace = "QtOpenAPI"
-    if(arg_CPP_NAMESPACE)
-        set(cpp_namespace "${arg_CPP_NAMESPACE}")
-    else()
-        set(cpp_namespace "QtOpenAPI")
-    endif()
 
     # The default commonLibGenerationType is defined in CppQt6ClientGenerator.java:
     # String commonLibrary = GENERATION_TYPE.COMMON_LIB.value;
@@ -132,16 +118,20 @@ function(qt6_add_openapi_client target)
     # The common library always needs compression support.
     set(compression_required "true")
 
-    string(JOIN "," additional_properties
-        "--additional-properties=useCmakeMacro=true"
+    string(JOIN "," fixed_additional_properties
+        "useCmakeMacro=true"
         "packageName=${target}"
-        "cppNamespace=${cpp_namespace}"
         "cppCommonNamespace=${cpp_common_namespace}"
-        "modelNamePrefix=${model_and_api_name_prefix}"
         "prefix=${qt_commonlib_prefix}"
         "commonLibrary=${common_lib_generation_type}"
         "commonLibraryName=${common_lib_name}"
         "contentCompression=${compression_required}"
+    )
+
+    string(JOIN "," users_additional_properties ${arg_ADDITIONAL_PROPERTIES})
+    string(JOIN "," all_additional_properties
+        ${users_additional_properties}
+        ${fixed_additional_properties} # Fixed properties should override the user's properties
     )
 
     set(generating_sources "")
@@ -302,7 +292,7 @@ function(qt6_add_openapi_client target)
                 -i "${arg_SPEC_FILE}"
                 -o "${arg_OUTPUT_DIRECTORY}"
                 ${target_lib_name}
-                ${additional_properties}
+                "--additional-properties=${all_additional_properties}"
             WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
             RESULT_VARIABLE generate_result
             ${extra_args}
