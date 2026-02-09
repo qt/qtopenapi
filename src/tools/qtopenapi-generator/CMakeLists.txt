@@ -9,7 +9,7 @@ if(NOT OPENAPI_MAVEN_EXECUTABLE)
      message(FATAL_ERROR "Missing OPENAPI_MAVEN_EXECUTABLE to be set.")
  endif()
 
-set(generator_jar_name "cpp-qt6-client-openapi-generator-${QT_OPENAPI_GENERATOR_VERSION}.jar")
+set(generator_jar_name "cpp-qt6-client-openapi-generator.jar")
 
 set(QT6_OPENAPI_GENERATOR_CLI "${CMAKE_CURRENT_BINARY_DIR}/target/${generator_jar_name}")
 
