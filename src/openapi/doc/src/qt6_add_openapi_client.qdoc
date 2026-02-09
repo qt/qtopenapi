@@ -52,8 +52,6 @@ function.
 \badcode
     qt_add_openapi_client(<target>
         SPEC_FILE <file>
-        [CPP_NAMESPACE <namespace>]
-        [CLIENT_PREFIX <prefix>]
         [OUTPUT_DIRECTORY <dir>]
         [GENERATE_DOCUMENTATION]
         [DOCUMENTATION_OUTPUT_DIRECTORY <dir>]
@@ -70,11 +68,6 @@ function.
         specifies an OpenAPI specification file, required for a code
         generation.
         The file should have a \c {*.yaml} extension.
-    \li \c {CPP_NAMESPACE}
-        specifies a C++ namespace name to group generated classes.
-    \li \c {CLIENT_PREFIX}
-        specifies a prefix for generated API and Model class names.
-        Can be used for making class names unique among user projects.
     \li \c {OUTPUT_DIRECTORY}
         specifies a directory for generated code.
     \li \c {GENERATE_DOCUMENTATION}
