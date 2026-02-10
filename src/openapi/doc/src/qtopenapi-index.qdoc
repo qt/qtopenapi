@@ -84,7 +84,7 @@
     using the Qt OpenAPI Generator, you should run the following
     command:
     \badcode
-        java -cp <path-to-installed-openapigen>/openapi-generator-cli.jar:<path-to-installed-qt>/<qt-version>/libexec/cpp-qt6-client-openapi-generator-1.0.0.jar \
+        java -cp <path-to-installed-openapigen>/openapi-generator-cli.jar:<path-to-installed-qt>/<qt-version>/libexec/cpp-qt6-client-openapi-generator.jar \
         org.openapitools.codegen.OpenAPIGenerator \
         generate -g cpp-qt6-client \
         --additional-properties=cppCommonNamespace=QtOpenApiCommon,prefix=QOAI \
@@ -123,7 +123,7 @@
     If you want to see all generation options, you can use the
     \c config-help option, see below:
     \badcode
-        java -cp <path-to-installed-openapigen>/openapi-generator-cli.jar:<path-to-installed-qt>/<qt-version>/libexec/cpp-qt6-client-openapi-generator-1.0.0.jar \
+        java -cp <path-to-installed-openapigen>/openapi-generator-cli.jar:<path-to-installed-qt>/<qt-version>/libexec/cpp-qt6-client-openapi-generator.jar \
         org.openapitools.codegen.OpenAPIGenerator config-help -g cpp-qt6-client
     \endcode
     \note You can find more information about the generator usage in the
