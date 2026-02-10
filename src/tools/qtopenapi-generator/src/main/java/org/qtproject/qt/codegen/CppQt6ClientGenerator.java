@@ -23,6 +23,8 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 import java.util.*;
 import java.io.File;
 
+import java.nio.file.*;
+
 public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements CodegenConfig {
     public static final String DEFAULT_PACKAGE_NAME = "Qt6OpenAPIClient";
     public static final String COMMON_LIB_NAME_OPTION = "commonLibraryName";
@@ -329,7 +331,6 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
 
         if (commonLibrary.equals(GENERATION_TYPE.CLIENT_LIB.value)) {
             LOGGER.info("Skipping ./common/* templates generation. 'Skip-Common-Files' is ON.");
-            return;
         } else {
             if (this.useCmakeMacro) {
                 modelTemplateFiles.clear();
@@ -376,6 +377,24 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
             if (!this.useCmakeMacro) {
                 supportingFiles.add(new SupportingFile("common/CMakeLists.txt.mustache",
                         commonLibrarySourceFolder, "CMakeLists.txt"));
+            }
+        }
+
+        // Get all the dependencies from the main yaml file and write them
+        // into outputFolder/.openapi-generator/yaml_deps.txt
+        // Intentionally do it only when useCmakeMacro=true.
+        if (useCmakeMacro) {
+            final String inputSpec = this.getInputSpec();
+            YamlDependencyBuilder depBuilder = new YamlDependencyBuilder();
+            Set<String> yamlDeps = depBuilder.getDependencies(inputSpec);
+            try {
+                Path yamlDepFile = Paths.get(outputFolder + File.separator
+                                            + ".openapi-generator" + File.separator
+                                            + "yaml_deps.txt");
+                Files.createDirectories(yamlDepFile.getParent());
+                Files.write(yamlDepFile, yamlDeps);
+            } catch (Exception e) {
+                // Failed to write the file - let CMake handle it
             }
         }
     }

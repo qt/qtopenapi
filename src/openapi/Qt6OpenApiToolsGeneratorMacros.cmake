@@ -240,6 +240,7 @@ function(qt6_add_openapi_client target)
         set(QT_INTERNAL_OPENAPI_${target}_YAML_PATH ""
             CACHE INTERNAL "Path to the yaml file for ${target}")
     endif()
+    set(yaml_depfile "${arg_OUTPUT_DIRECTORY}/.openapi-generator/yaml_deps.txt")
     if(NOT ("${arg_SPEC_FILE}" STREQUAL "${QT_INTERNAL_OPENAPI_${target}_YAML_PATH}"))
         # Yaml file path has changed
         message(DEBUG "Yaml file path has changed"
@@ -249,16 +250,33 @@ function(qt6_add_openapi_client target)
         set(QT_INTERNAL_OPENAPI_${target}_YAML_PATH "${arg_SPEC_FILE}"
             CACHE INTERNAL "Path to the yaml file for ${target}" FORCE)
     elseif(generated_files_file_timestamp)
-        # Check the timestamp of the yaml file
-        file(TIMESTAMP "${arg_SPEC_FILE}" curr_yaml_timestamp)
-        if("${generated_files_file_timestamp}" STRLESS "${curr_yaml_timestamp}")
-            message(DEBUG "Yaml file was modified after last check"
-                    "\nModification time is: ${curr_yaml_timestamp}")
-            set(need_call_generator TRUE)
+        # read the file with yaml deps. It also includes ${arg_SPEC_FILE}
+        message(DEBUG "Reading ${yaml_depfile} to get the list of all yaml dependencies.")
+        if(EXISTS "${yaml_depfile}")
+            file(STRINGS "${yaml_depfile}" yaml_depfile_entries)
+            foreach(yaml_file IN LISTS yaml_depfile_entries)
+                if(EXISTS "${yaml_file}")
+                    file(TIMESTAMP "${yaml_file}" curr_yaml_timestamp)
+                    if("${generated_files_file_timestamp}" STRLESS "${curr_yaml_timestamp}")
+                        message(DEBUG "${yaml_file} was modified after last check"
+                        "\nModification time is: ${curr_yaml_timestamp}")
+                        set(need_call_generator TRUE)
+                        break() # we do not need to check all
+                    endif()
+                endif()
+            endforeach()
+        else()
+            # At least check the timestamp of the ${arg_SPEC_FILE} yaml file
+            message(DEBUG "Could not find ${yaml_depfile}."
+                    "\nChecking the timestamp of ${arg_SPEC_FILE}")
+            file(TIMESTAMP "${arg_SPEC_FILE}" curr_yaml_timestamp)
+            if("${generated_files_file_timestamp}" STRLESS "${curr_yaml_timestamp}")
+                message(DEBUG "Yaml file was modified after last check"
+                        "\nModification time is: ${curr_yaml_timestamp}")
+                set(need_call_generator TRUE)
+            endif()
         endif()
     endif()
-    # We want to automatically reconfigure when the yaml file is changed
-    set_property(DIRECTORY PROPERTY CMAKE_CONFIGURE_DEPENDS "${arg_SPEC_FILE}")
 
     # For the Qt6 generator, only check its timestamp.
     if(generated_files_file_timestamp)
@@ -311,6 +329,17 @@ function(qt6_add_openapi_client target)
             set(ENV{JAVA_OPTS} ${backup_java_opts})
         endif()
         if(NOT generate_result)
+            # now we have a list of all yaml files - add them as dependencies
+            if(EXISTS "${yaml_depfile}")
+                # ${arg_SPEC_FILE} is also in the list
+                file(STRINGS "${yaml_depfile}" yaml_depfile_entries)
+                foreach(yaml_file IN LISTS yaml_depfile_entries)
+                    set_property(DIRECTORY PROPERTY CMAKE_CONFIGURE_DEPENDS "${yaml_file}")
+                endforeach()
+            else()
+                # at least add ${arg_SPEC_FILE} as a dependency
+                set_property(DIRECTORY PROPERTY CMAKE_CONFIGURE_DEPENDS "${arg_SPEC_FILE}")
+            endif()
             message(STATUS "Generation completed successfully for ${target}.")
         else()
             set(error_message "Generation failed. Exit code: ${generate_result}.")
