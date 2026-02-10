@@ -44,6 +44,7 @@ function(qt6_add_openapi_client target)
     )
     set(multiValueArgs
         ADDITIONAL_PROPERTIES
+        GENERATE_OPTIONS
     )
     cmake_parse_arguments(PARSE_ARGV 1 arg
         "${options}" "${oneValueArgs}" "${multiValueArgs}"
@@ -119,7 +120,7 @@ function(qt6_add_openapi_client target)
     set(compression_required "true")
 
     string(JOIN "," fixed_additional_properties
-        "useCmakeMacro=true"
+        "--additional-properties=useCmakeMacro=true"
         "packageName=${target}"
         "cppCommonNamespace=${cpp_common_namespace}"
         "prefix=${qt_commonlib_prefix}"
@@ -128,11 +129,12 @@ function(qt6_add_openapi_client target)
         "contentCompression=${compression_required}"
     )
 
-    string(JOIN "," users_additional_properties ${arg_ADDITIONAL_PROPERTIES})
-    string(JOIN "," all_additional_properties
-        ${users_additional_properties}
-        ${fixed_additional_properties} # Fixed properties should override the user's properties
-    )
+    if(arg_ADDITIONAL_PROPERTIES)
+        string(JOIN "," users_additional_properties ${arg_ADDITIONAL_PROPERTIES})
+        string(PREPEND users_additional_properties "--additional-properties=")
+    else()
+        set(users_additional_properties "")
+    endif()
 
     set(generating_sources "")
     set(common_sources "")
@@ -289,10 +291,12 @@ function(qt6_add_openapi_client target)
         execute_process(
             COMMAND ${generation_command}
                 generate -g ${generator_name}
+                ${target_lib_name}
+                ${users_additional_properties}
+                ${arg_GENERATE_OPTIONS}
                 -i "${arg_SPEC_FILE}"
                 -o "${arg_OUTPUT_DIRECTORY}"
-                ${target_lib_name}
-                "--additional-properties=${all_additional_properties}"
+                ${fixed_additional_properties}
             WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
             RESULT_VARIABLE generate_result
             ${extra_args}
