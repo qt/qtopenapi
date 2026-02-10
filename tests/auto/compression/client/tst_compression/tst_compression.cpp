@@ -4,7 +4,7 @@
 #include "qoaicommonglobal.h"
 #include "qoaihttprequest.h"
 
-#include "testapi.h"
+#include "compressiontestapi.h"
 
 #include <QtCore/qobject.h>
 #include <QtCore/qprocess.h>
@@ -138,7 +138,7 @@ void tst_Compression::toggleCompressionParameters()
     manager.m_forceCompressedResponse = forceCompressedResponse;
     QRestAccessManager restManager(&manager);
 
-    QtOpenAPI::TestApi api;
+    CompressionNamespace::CompressionTestApi api;
     api.setRestAccessManager(&restManager);
 
     // compression is disabled by default
