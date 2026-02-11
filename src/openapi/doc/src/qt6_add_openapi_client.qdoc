@@ -65,11 +65,27 @@ function.
 \section1 Arguments
 \list
     \li \c {SPEC_FILE}
-        specifies an OpenAPI specification file, required for a code
+        specifies an OpenAPI specification file, mandatory for a code
         generation.
         The file should have a \c {*.yaml} extension.
     \li \c {OUTPUT_DIRECTORY}
-        specifies a directory for generated code.
+        specifies the output directory for the generated code.
+        When not specified, \c CMAKE_CURRENT_BINARY_DIR is used.
+    \li \c {ADDITIONAL_PROPERTIES}
+        specifies additional configuration properties for the generate command.
+        They are passed as-is to the OpenAPI Generator without validation.
+    \li \c {GENERATE_OPTIONS}
+        specifies extra options passed to the
+        \l {https://openapi-generator.tech/docs/usage/#generate}{generate}
+        command.
+
+        The \c -i and \c --input-spec arguments passed through
+        \c GENERATE_OPTIONS will be ignored. The OpenAPI specification file is
+        exclusively set using \c SPEC_FILE argument.
+
+        The \c -o and \c --output arguments passed through \c GENERATE_OPTIONS
+        will be ignored. The output directory is exclusively set using the
+        \c OUTPUT_DIRECTORY argument.
     \li \c {GENERATE_DOCUMENTATION}
         enables generation of \c doxygen documentation for generated
         classes.
@@ -83,4 +99,43 @@ function.
         specifies a directory that will store the list of generated private
         headers, otherwise you can find headers in the \c {OUTPUT_DIRECTORY}.
 \endlist
+
+\section2 Customizing generation behavior
+
+The \c GENERATE_OPTIONS and \c ADDITIONAL_PROPERTIES arguments provide
+a way to customize the behavior of both the upstream OpenAPI generator and
+the Qt generator plugin.
+
+The example below shows how you can use both arguments together in your project:
+
+\code
+qt6_add_openapi_client(ClientExample
+    SPEC_FILE
+        ${CMAKE_CURRENT_SOURCE_DIR}/example.yaml
+    ADDITIONAL_PROPERTIES
+        cppNamespace=ExampleNamespace
+        modelNamePrefix=Example
+    GENERATE_OPTIONS
+        --skip-overwrite
+        --api-name-suffix MyApiSuffix
+)
+\endcode
+
+The behavior and supported values of generator arguments depend on the installed
+OpenAPI Generator version and may change between versions.
+
+You can provide additional configuration properties in two ways:
+\list
+    \li Using the \c ADDITIONAL_PROPERTIES argument.
+    \li Passing \c -p or \c --additional-properties in the \c GENERATE_OPTIONS
+        argument.
+\endlist
+
+Using both simultaneously may lead to unexpected results.
+We recommend to choose one approach.
+
+\note Some additional properties have fixed values that cannot be overridden.
+If you attempt to override them, your values will be ignored.
+For example, the \c packageName additional property corresponds to the
+function's \c <target> parameter and cannot be modified.
 */
