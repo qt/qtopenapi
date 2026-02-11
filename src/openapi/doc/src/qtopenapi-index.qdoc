@@ -38,7 +38,7 @@
     CMakeLists.txt file. See \l {Building with CMake} for details.
 
     \section2 Building with CMake
-    \section3 Using the \c qt_add_openapi_client macro
+    \section3 Using the \c qt_add_openapi_client function
     Use the \c find_package() command to locate the needed module
     components in the Qt6 package. And after that call the
     \l qt_add_openapi_client function to generate a required

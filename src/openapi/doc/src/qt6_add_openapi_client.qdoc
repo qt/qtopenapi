@@ -39,7 +39,7 @@ the Qt6 package, which can be loaded like this:
 \versionlessCMakeCommandsNote qt6_add_openapi_client()
 
 \section1 Description
-The \c qt_add_openapi_client macro calls the Qt OpenAPI generator for
+The \c qt_add_openapi_client function calls the Qt OpenAPI generator for
 a provided specification file. As a result, the command generates the
 scope of source files and adds them to the target source list.
 If the target doesn't exist, the generation will be stopped with an
