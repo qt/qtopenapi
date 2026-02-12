@@ -32,6 +32,7 @@ qt6_add_openapi_client(CompressionClient
         -o ${CMAKE_CURRENT_BINARY_DIR}/client # Should be ignored
         -p cppCommonNamespace=NotQtOpenApiCommon # Should be ignored
         --additional-properties=modelNamePrefix=Compression
+        --api-name-suffix MyApiSuffix
     ADDITIONAL_PROPERTIES
         cppNamespace=CompressionNamespace
     GENERATE_DOCUMENTATION
