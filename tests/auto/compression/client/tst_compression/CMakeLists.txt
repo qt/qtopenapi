@@ -35,6 +35,9 @@ qt6_add_openapi_client(CompressionClient
         --api-name-suffix MyApiSuffix
     ADDITIONAL_PROPERTIES
         cppNamespace=CompressionNamespace
+    JAVA_OPTIONS
+        -DmaxYamlCodePoints=99999999
+        -Dlog.level=warn
     GENERATE_DOCUMENTATION
 )
 

@@ -45,6 +45,7 @@ function(qt6_add_openapi_client target)
     set(multiValueArgs
         ADDITIONAL_PROPERTIES
         GENERATE_OPTIONS
+        JAVA_OPTIONS
     )
     cmake_parse_arguments(PARSE_ARGV 1 arg
         "${options}" "${oneValueArgs}" "${multiValueArgs}"
@@ -184,9 +185,14 @@ function(qt6_add_openapi_client target)
         set(openapi_cli_entrypoint_class "org.openapitools.codegen.OpenAPIGenerator")
         set(run_client_cmd
             "${openapi_generator_cli_jar_file}${path_separator}${generator_jar_path}")
-        set(generation_command java -cp "${run_client_cmd}" "${openapi_cli_entrypoint_class}")
+        set(generation_command java ${arg_JAVA_OPTIONS} -cp "${run_client_cmd}" "${openapi_cli_entrypoint_class}")
         list(APPEND extra_dependencies "${openapi_generator_cli_jar_file}")
     elseif(openapi_generator_cli_exec_file)
+        if(arg_JAVA_OPTIONS)
+            set(backup_java_opts "$ENV{JAVA_OPTS}")
+            list(JOIN arg_JAVA_OPTIONS " " java_options_str)
+            set(ENV{JAVA_OPTS} "${backup_java_opts} ${java_options_str}")
+        endif()
         set(generation_command
             "${openapi_generator_cli_exec_file}" --custom-generator="${generator_jar_path}")
         list(APPEND extra_dependencies "${openapi_generator_cli_exec_file}")
@@ -301,8 +307,11 @@ function(qt6_add_openapi_client target)
             RESULT_VARIABLE generate_result
             ${extra_args}
         )
+        if(arg_JAVA_OPTIONS AND openapi_generator_cli_exec_file)
+            set(ENV{JAVA_OPTS} ${backup_java_opts})
+        endif()
         if(NOT generate_result)
-            message(STATUS "Generation completed successfully.")
+            message(STATUS "Generation completed successfully for ${target}.")
         else()
             set(error_message "Generation failed. Exit code: ${generate_result}.")
             if(generate_output OR generate_error)
