@@ -434,7 +434,9 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
 
     @Override
     public String toApiFilename(String name) {
-        final String apiFile = modelNamePrefix + sanitizeName(name) + "Api";
+        final String suffix =
+                (apiNameSuffix != null && !apiNameSuffix.isEmpty()) ? apiNameSuffix : "Api";
+        final String apiFile = modelNamePrefix + sanitizeName(name) + suffix ;
         return apiFile.toLowerCase();
     }
 }
