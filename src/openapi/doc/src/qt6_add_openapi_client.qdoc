@@ -86,6 +86,10 @@ function.
         The \c -o and \c --output arguments passed through \c GENERATE_OPTIONS
         will be ignored. The output directory is exclusively set using the
         \c OUTPUT_DIRECTORY argument.
+    \li \c {JAVA_OPTIONS}
+        specifies additional options passed to the JVM when invoking the
+        OpenAPI Generator. Use this to configure JVM behavior.
+        The options are passed as-is without validation.
     \li \c {GENERATE_DOCUMENTATION}
         enables generation of \c doxygen documentation for generated
         classes.
@@ -138,4 +142,19 @@ We recommend to choose one approach.
 If you attempt to override them, your values will be ignored.
 For example, the \c packageName additional property corresponds to the
 function's \c <target> parameter and cannot be modified.
+
+\section3 Customizing JVM behavior
+
+The following example shows how to increase the YAML parser limit for large
+specification files and reduce log output to warnings only using \c JAVA_OPTIONS:
+
+\code
+qt6_add_openapi_client(ClientExample
+    SPEC_FILE
+        ${CMAKE_CURRENT_SOURCE_DIR}/example.yaml
+    JAVA_OPTIONS
+        -DmaxYamlCodePoints=99999999
+        -Dlog.level=warn
+)
+\endcode
 */
