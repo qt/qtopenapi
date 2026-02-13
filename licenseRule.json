@@ -109,6 +109,31 @@
                 "comment": "",
                 "file type": "3rd party",
                 "spdx": ["Apache-2.0"]
+            },
+            "examples/openapi/chatgptclient/resources/head.svg": {
+                "comment": "",
+                "file type": "3rd party",
+                "spdx": ["Apache-2.0"]
+            },
+            "examples/openapi/chatgptclient/resources/head-plus.svg": {
+                "comment": "",
+                "file type": "3rd party",
+                "spdx": ["Apache-2.0"]
+            },
+            "examples/openapi/chatgptclient/resources/magic-hat.svg": {
+                "comment": "",
+                "file type": "3rd party",
+                "spdx": ["CC-BY-4.0"]
+            },
+            "examples/openapi/chatgptclient/resources/graduation-hat.svg": {
+                "comment": "",
+                "file type": "3rd party",
+                "spdx": ["CC-BY-4.0"]
+            },
+            "examples/openapi/chatgptclient/response_api.yaml": {
+                "comment": "",
+                "file type": "3rd party",
+                "spdx": ["MIT"]
             }
         }
     }
