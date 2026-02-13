@@ -16,7 +16,7 @@ is loaded with:
 */
 
 /*!
-\page qt_add_openapi_client.html
+\page qt-add-openapi-client.html
 
 \ingroup cmake-commands-qtopenapi
 \title qt_add_openapi_client
