@@ -305,45 +305,45 @@ Rectangle {
                     }
 
                     Shape {
-                       id: bubble
-                       x: -text.width - 25
-                       y: -3
-                       anchors.margins: 3
+                        id: bubble
+                        x: -text.width - 25
+                        y: -3
+                        anchors.margins: 3
 
-                       preferredRendererType: Shape.CurveRenderer
+                        preferredRendererType: Shape.CurveRenderer
 
-                       visible: !root.loggedIn
+                        visible: !root.loggedIn
 
-                       ShapePath {
-                           strokeWidth: 0
-                           fillColor: UIStyle.highlightColor
-                           strokeColor: UIStyle.highlightBorderColor
-                           startX: 5; startY: 0
-                           PathLine { x: 5 + text.width + 6; y: 0 }
-                           PathArc { x: 10 + text.width + 6; y: 5; radiusX: 5; radiusY: 5}
-                           // arrow
-                           PathLine { x: 10 + text.width + 6; y: 8 + text.height / 2 - 6 }
-                           PathLine { x: 10 + text.width + 6 + 6; y: 8 + text.height / 2 }
-                           PathLine { x: 10 + text.width + 6; y: 8 + text.height / 2 + 6}
-                           PathLine { x: 10 + text.width + 6; y: 5 + text.height + 6 }
-                           // end arrow
-                           PathArc { x: 5 + text.width + 6; y: 10 + text.height + 6 ; radiusX: 5; radiusY: 5}
-                           PathLine { x: 5; y: 10 + text.height + 6 }
-                           PathArc { x: 0; y: 5 + text.height + 6 ; radiusX: 5; radiusY: 5}
-                           PathLine { x: 0; y: 5 }
-                           PathArc { x: 5; y: 0 ; radiusX: 5; radiusY: 5}
-                       }
-                       Text {
-                           x: 8
-                           y: 8
-                           id: text
-                           color: UIStyle.textColor
-                           text: qsTr("Log in to edit")
-                           font.bold: true
-                           horizontalAlignment: Qt.AlignHCenter
-                           verticalAlignment: Qt.AlignVCenter
-                       }
-                   }
+                        ShapePath {
+                            strokeWidth: 0
+                            fillColor: UIStyle.highlightColor
+                            strokeColor: UIStyle.highlightBorderColor
+                            startX: 5; startY: 0
+                            PathLine { x: 5 + text.width + 6; y: 0 }
+                            PathArc { x: 10 + text.width + 6; y: 5; radiusX: 5; radiusY: 5}
+                            // arrow
+                            PathLine { x: 10 + text.width + 6; y: 8 + text.height / 2 - 6 }
+                            PathLine { x: 10 + text.width + 6 + 6; y: 8 + text.height / 2 }
+                            PathLine { x: 10 + text.width + 6; y: 8 + text.height / 2 + 6}
+                            PathLine { x: 10 + text.width + 6; y: 5 + text.height + 6 }
+                            // end arrow
+                            PathArc { x: 5 + text.width + 6; y: 10 + text.height + 6 ; radiusX: 5; radiusY: 5}
+                            PathLine { x: 5; y: 10 + text.height + 6 }
+                            PathArc { x: 0; y: 5 + text.height + 6 ; radiusX: 5; radiusY: 5}
+                            PathLine { x: 0; y: 5 }
+                            PathArc { x: 5; y: 0 ; radiusX: 5; radiusY: 5}
+                        }
+                        Text {
+                            x: 8
+                            y: 8
+                            id: text
+                            color: UIStyle.textColor
+                            text: qsTr("Log in to edit")
+                            font.bold: true
+                            horizontalAlignment: Qt.AlignHCenter
+                            verticalAlignment: Qt.AlignVCenter
+                        }
+                    }
                 }
             }
         }
