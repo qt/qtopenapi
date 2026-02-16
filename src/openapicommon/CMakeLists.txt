@@ -5,8 +5,7 @@ qt_internal_add_module(OpenApiCommon
     NO_PRIVATE_MODULE
     NO_GENERATE_CPP_EXPORTS
     DEFINES
-        #TODO: Fix this to work without commenting it out
-        #QT_NO_CAST_FROM_ASCII
+        QT_NO_CAST_FROM_ASCII
         QT_NO_CONTEXTLESS_CONNECT
         QT_NO_USING_NAMESPACE
         QT_USE_NODISCARD_FILE_OPEN
