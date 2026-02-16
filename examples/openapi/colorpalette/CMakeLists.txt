@@ -49,13 +49,12 @@ qt_add_qml_module(colorpaletteApp
         icons/login_dark.svg
         icons/logout.svg
         icons/logout_dark.svg
-        icons/qt_attribution.json
 )
 
 qt_add_library(ColorpaletteClientExample)
 
 #! [0]
-qt6_add_openapi_client(ColorpaletteClientExample
+qt_add_openapi_client(ColorpaletteClientExample
     SPEC_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/colorpalette.yaml
 )
