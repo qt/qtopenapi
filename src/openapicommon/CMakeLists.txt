@@ -3,6 +3,7 @@
 
 qt_internal_add_module(OpenApiCommon
     NO_PRIVATE_MODULE
+    NO_GENERATE_CPP_EXPORTS
     DEFINES
         #TODO: Fix this to work without commenting it out
         #QT_NO_CAST_FROM_ASCII
