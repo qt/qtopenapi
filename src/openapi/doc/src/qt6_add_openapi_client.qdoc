@@ -23,15 +23,12 @@ is loaded with:
 \target qt_add_openapi_client
 \keyword qt6_add_openapi_client
 \summary {Generates an HTTP client using a provided OpenAPI specification.}
+\include cmake-find-package-qtopenapi.qdocinc
 \cmakecommandsince 6.11
 \preliminarycmakecommand
 
 \section1 Synopsis
-The command is defined in the OpenApiTools component of
-the Qt6 package, which can be loaded like this:
 \code
-    find_package(Qt6 REQUIRED COMPONENTS OpenApiTools)
-
     qt_add_openapi_client(target
         SPEC_FILE filename.yaml
     )

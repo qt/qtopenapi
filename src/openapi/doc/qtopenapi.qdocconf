@@ -26,7 +26,7 @@ url.examples = "https://code.qt.io/cgit/qt/qtopenapi.git/tree/examples/\1?h=$QT_
 
 moduleheader =
 
-sourcedirs += ..
+sourcedirs += .. src/includes
 
 depends += qtdoc qtcmake qtcore qtnetwork qthttpserver qtqml
 
