@@ -22,7 +22,7 @@ qt_internal_add_test(cpp-qt-responses
 )
 
 qt_add_library(ResponsesClient)
-qt6_add_openapi_client(ResponsesClient
+qt_add_openapi_client(ResponsesClient
     SPEC_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/responses.yaml
 )

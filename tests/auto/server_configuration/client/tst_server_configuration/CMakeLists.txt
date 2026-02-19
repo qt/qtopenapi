@@ -22,7 +22,7 @@ qt_internal_add_test(cpp-qt-serverconfiguration
 )
 
 qt_add_library(ServerConfigurationClient)
-qt6_add_openapi_client(ServerConfigurationClient
+qt_add_openapi_client(ServerConfigurationClient
     SPEC_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/server_configuration.yaml
 )

@@ -23,7 +23,7 @@ qt_internal_add_test(cpp-qt-mediatype
 )
 
 qt_add_library(MediaTypeClient)
-qt6_add_openapi_client(MediaTypeClient
+qt_add_openapi_client(MediaTypeClient
     SPEC_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/mediatype.yaml
     ADDITIONAL_PROPERTIES

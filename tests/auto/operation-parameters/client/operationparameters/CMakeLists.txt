@@ -22,7 +22,7 @@ qt_internal_add_test(cpp-qt-operation-parameters
 )
 
 qt_add_library(OperationParametersClient)
-qt6_add_openapi_client(OperationParametersClient
+qt_add_openapi_client(OperationParametersClient
     SPEC_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/operation-parameters.yaml
 )

@@ -22,7 +22,7 @@ qt_internal_add_test(cpp-qt-operations-parameters-backport
 )
 
 qt_add_library(OpenapiBackportClient)
-qt6_add_openapi_client(OpenapiBackportClient
+qt_add_openapi_client(OpenapiBackportClient
     SPEC_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/openapi2.0.yaml
 )
