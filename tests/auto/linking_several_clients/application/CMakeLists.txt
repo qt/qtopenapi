@@ -9,12 +9,9 @@ endif()
 
 find_package(Qt6 REQUIRED COMPONENTS Core Network Test)
 
-## application 1:
-## Client1 produces common-lib on generation.
-## Client2 links common-lib for common files usage.
 qt_internal_add_test(cpp-qt-test-config1-app
     SOURCES
-        TestConfiguration1.cpp
+        LinkageTest.cpp
     LIBRARIES
         Qt::Core
         Qt::Network
@@ -39,14 +36,10 @@ qt_add_openapi_client(TestClient2
         ${CMAKE_CURRENT_BINARY_DIR}/client2
 )
 
-target_include_directories(TestClient2
-    PUBLIC
-       $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/client1/common>
-)
-
 qt_autogen_tools_initial_setup(TestClient1)
 qt_autogen_tools_initial_setup(TestClient2)
 
+# Test is checking there is no names clashing in case several clients were linked.
 target_link_libraries(cpp-qt-test-config1-app PRIVATE TestClient1 TestClient2)
 
 if(WIN32)

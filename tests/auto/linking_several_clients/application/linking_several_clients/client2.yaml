@@ -5,13 +5,13 @@ openapi: 3.1.1
 servers:
   - url: 'http://127.0.0.1:10205/v2'
 info:
-  title: Client with 'Skip-All' option Test
+  title: The client2 specification
   description: >
     This specification is intended for testing purposes.
   version: 1.0.0
 tags:
   - name: client2Test
-    description: Test client 2. It will be generated with 'Skip-All' option.
+    description: Test client2. It will be generated with 'Gen-Client-Lib' option.
 
 paths:
   /path/int/simple-explode/{intParameter}:
