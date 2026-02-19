@@ -31,6 +31,7 @@ qt_add_openapi_client(MediaTypeClient
         modelNamePrefix=Media
         packageName=random # Should be ignored
         cppCommonNamespace=NotQtOpenApiCommon # Should be ignored
+    GENERATE_DOCUMENTATION
 )
 
 # Resources:
