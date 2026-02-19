@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
 qt_add_library(PetStoreClient)
-qt6_add_openapi_client(PetStoreClient
+qt_add_openapi_client(PetStoreClient
     SPEC_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/petstore.yaml
 )

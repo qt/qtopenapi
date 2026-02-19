@@ -54,7 +54,7 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
     protected String namePrefix = "";
     public static final String USE_CMAKE_FUNCTION = "useCmakeMacro";
     public static final String USE_CMAKE_FUNCTION_DESC
-            = "Specifies if the 'qt6_add_openapi_client' CMake macro is used to generate the code. Do not change the value manually!";
+            = "Specifies if the 'qt_add_openapi_client' CMake macro is used to generate the code. Do not change the value manually!";
     protected String packageName = "";
     // source folder where to write the files
     protected String sourceFolder = "client";
