@@ -80,6 +80,7 @@ private:
 
 Pet PetApiTests::createRandomPet(const QString &status, const QString &name) {
     Pet pet;
+    const QList<QString> urls = {"https://text.com"};
     const qint64 id = static_cast<long long>(rand());
     pet.setName(name);
     pet.setId(id);
@@ -89,6 +90,7 @@ QT_WARNING_DISABLE_DEPRECATED
 QT_WARNING_POP
     pet.setAge(10);
     pet.setPatience(9);
+    pet.setPhotoUrls(urls);
     return pet;
 }
 
@@ -100,7 +102,7 @@ void PetApiTests::findPetsByStatusTest() {
     api.setPassword(password);
     api.setApiKey("api_key","special-key");
 
-    Pet randomPet = createRandomPet();
+    const Pet randomPet = createRandomPet();
     Pet availablePet = createRandomPet("available", "avaialble_pet");
     availablePet.setId(1111);
     Pet sold_pet = createRandomPet("sold", "sold_pet");
