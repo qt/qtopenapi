@@ -1,0 +1,36 @@
+# Copyright (C) 2026 The Qt Company Ltd.
+# SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
+
+openapi: 3.1.1
+servers:
+  - url: 'http://127.0.0.1:10222/v2'
+info:
+  title: Generator Additional Properties Test API
+  description: >
+    This specification is used to ensure that the generator additional properties behave as intended.
+  version: 1.0.0
+tags:
+  - name: test
+    description: test operations
+
+paths:
+  /addDownloadProgress/true:
+    post:
+      tags: [test]
+      summary: Upload a file and get it back to test progress signal
+      operationId: roundtrip
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        "200":
+          description: Receive the file back
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
