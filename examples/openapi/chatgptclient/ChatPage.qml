@@ -21,6 +21,7 @@ Item {
         OpenAIChatManager.customUserCharacter = ""
     }
 
+    //! [0]
     function editingFinished() {
         var messageObject = {"name": "Me", "message": messageField.text };
         conversationModel.append(messageObject);
@@ -28,6 +29,7 @@ Item {
         OpenAIChatManager.sendUserRequest();
         messageField.text = "";
     }
+    //! [0]
 
     ListModel {
         id: conversationModel

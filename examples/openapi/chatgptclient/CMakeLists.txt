@@ -35,11 +35,13 @@ qt_add_qml_module(appchat_example
         resources/graduation-hat.svg
 )
 
+#! [0]
 qt_add_library(openAIResponseApi)
 qt_add_openapi_client(openAIResponseApi
     SPEC_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/response_api.yaml
 )
+#! [0]
 
 target_link_libraries(appchat_example PRIVATE
     Qt6::Core
