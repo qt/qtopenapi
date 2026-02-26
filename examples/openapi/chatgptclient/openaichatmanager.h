@@ -12,6 +12,7 @@ namespace QtOpenAPI {
     class ModelsApi;
 }
 namespace QtOpenAPI::Examples {
+//! [0]
 class OpenAIChatManager : public QObject
 {
     Q_OBJECT
@@ -27,6 +28,7 @@ class OpenAIChatManager : public QObject
                WRITE setCharacterId NOTIFY characterIdChanged FINAL)
     Q_PROPERTY(QString customUserCharacter READ customUserCharacter
                WRITE setCustomUserCharacter NOTIFY customUserCharacterChanged FINAL)
+//! [0]
 public:
     enum class CharacterMode {
         Wizard = 0,
@@ -53,7 +55,9 @@ public:
     QString customUserCharacter() const;
     void setCustomUserCharacter(const QString &character);
 
+//! [1]
     Q_INVOKABLE void sendUserRequest();
+//! [1]
 
 signals:
     void modelNameChanged();

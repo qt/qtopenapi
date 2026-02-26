@@ -149,6 +149,7 @@ void OpenAIChatManager::sendUserRequest()
     if (!m_responseId.isEmpty())
         response.setPreviousResponseId(m_responseId);
 
+    //! [0]
     m_responseApi->createResponse(response, this, [&](const QRestReply &reply,
                                                       const Response &summary) {
         if (!reply.isSuccess()) {
@@ -168,6 +169,7 @@ void OpenAIChatManager::sendUserRequest()
             }
         }
     });
+    //! [0]
 }
 
 void OpenAIChatManager::requestModelList()
