@@ -10,9 +10,10 @@
 \brief Example of how to generate the OpenAPI client code and integrate it into
 an application.
 \image {colorpalette_listing.webp}
-{Color palette table with names, RGB values, and action buttons}
+       {Color palette table with color swatches, names, hex RGB values,
+        Pantone values, and action buttons}
 
-This example demonstrates how to use the Qt6 OpenAPI generator to create RESTful
+This example demonstrates how to use the Qt OpenAPI generator to create RESTful
 API client code from the \c colorpalette.yaml specification and integrate it
 into a QML application. Its structure and UI closely match the
 \l {Qt Quick Demo - RESTful API client} example so that the differences in the
@@ -39,13 +40,14 @@ available. If the server is not running, the application remains on the server
 selection view.
 
 \image {colorpalette_urlselection.webp}
-{Server selection with URL field and Connect button}
+       {Server selection dialog with Qt-based REST API server option and
+        Connect button}
 
 \section1 Generating client code from an OpenAPI specification
 
-The Qt6 OpenAPI generator is invoked from the \c CMakeLists.txt file to generate
+The \c CMakeLists.txt file invokes the Qt OpenAPI generator to generate
 client code from the \c colorpalette.yaml specification by calling the
-\c qt6_add_openapi_client function.
+\l qt6_add_openapi_client function.
 
 \snippet colorpalette/CMakeLists.txt 0
 
@@ -56,13 +58,12 @@ HTTP details:
     \li HTTP request construction for all standard HTTP methods
     \li Serialization of input parameters according to the specification
     \li Deserialization of server responses into typed objects
-    \li Success and errors are reported via Qt signals
+    \li Success and errors are reported through Qt signals
 \endlist
 
 Compared to \l {Qt Quick Demo - RESTful API client}
 {the other version of the example} that uses the QtNetworkAuth APIs directly,
-this approach allows you to avoid manually constructing and sending the network
-requests.
+this approach eliminates manual network request construction.
 
 \section1 Exposing generated APIs to QML
 
