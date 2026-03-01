@@ -12,7 +12,7 @@ is loaded with:
     find_package(Qt6 REQUIRED COMPONENTS OpenApiTools)
 \endcode
 
-\sa{CMake Command Reference}
+\sa {CMake Command Reference}
 */
 
 /*!
@@ -62,7 +62,7 @@ function.
 \section1 Arguments
 \list
     \li \c {SPEC_FILE}
-        specifies an OpenAPI specification file, mandatory for a code
+        specifies an OpenAPI specification file, mandatory for code
         generation.
         The file should have a \c {*.yaml} extension.
     \li \c {OUTPUT_DIRECTORY}
@@ -103,8 +103,8 @@ function.
 
 \section2 Customizing generation behavior
 
-The \c GENERATE_OPTIONS and \c ADDITIONAL_PROPERTIES arguments provide
-a way to customize the behavior of both the upstream OpenAPI generator and
+The \c GENERATE_OPTIONS and \c ADDITIONAL_PROPERTIES arguments let you
+customize the behavior of both the upstream OpenAPI generator and
 the Qt generator plugin.
 
 The example below shows how you can use both arguments together in your project:
@@ -133,7 +133,7 @@ You can provide additional configuration properties in two ways:
 \endlist
 
 Using both simultaneously may lead to unexpected results.
-We recommend to choose one approach.
+We recommend choosing one approach.
 
 \note Some additional properties have fixed values that cannot be overridden.
 If you attempt to override them, your values will be ignored.
