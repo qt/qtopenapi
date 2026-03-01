@@ -3,8 +3,9 @@
 
 /*!
     \group qtopenapi-examples
+    \ingroup all-examples
     \title Qt OpenAPI Examples
-    \brief Using the Qt OpenAPI generator
+    \brief Using the Qt OpenAPI generator.
 
     This page lists examples that demonstrate how to generate code using the Qt OpenAPI
     generator and integrate it into your projects.

@@ -7,11 +7,11 @@
     \brief A module for generating Qt HTTP clients using OpenAPI
            and Qt Network RESTful APIs.
 
-    Qt OpenAPI module provides functionality for generating Qt HTTP clients
+    The Qt OpenAPI module provides functionality for generating Qt HTTP clients
     using Qt Network RESTful APIs. The main module features are the
-    Qt6 OpenAPI generator and pre-generated \c OpenApiCommon library.
+    Qt OpenAPI generator and pre-generated \c OpenApiCommon library.
 
-    The Qt6 OpenAPI generator is a plugin to the
+    The Qt OpenAPI generator is a plugin to the
     \l{https://openapi-generator.tech/}{OpenAPI generator}. It allows you to
     autogenerate Qt HTTP clients in C++ using \l{Qt Network} APIs such as
     \l QRestAccessManager.
@@ -33,16 +33,16 @@
     Once you have the required installations, the Qt OpenAPI generator
     is ready for use within your projects.
     To generate client code from an OpenAPI specification
-    using the Qt OpenAPI Generator, you should call the
+    using the Qt OpenAPI Generator, call the
     \l qt_add_openapi_client function inside your project's
     CMakeLists.txt file. See \l {Building with CMake} for details.
 
     \section2 Building with CMake
     \section3 Using the \c qt_add_openapi_client function
     Use the \c find_package() command to locate the needed module
-    components in the Qt6 package. And after that call the
+    components in the Qt6 package. Then call the
     \l qt_add_openapi_client function to generate a required
-    Qt HTTP client library. See the full cmake code example below:
+    Qt HTTP client library. See the full CMake code example below:
     \code
         cmake_minimum_required(VERSION 3.22)
 
@@ -90,10 +90,10 @@
         --additional-properties=cppCommonNamespace=QtOpenApiCommon,prefix=QOAI \
         -o generator_output/ -i file.yaml
     \endcode
-    The command above adds the Qt 6 OpenAPI generator to the classpath,
+    The command above adds the Qt OpenAPI generator to the classpath,
     which makes it visible to the upstream OpenAPI generator,
     then invokes main class \c org.openapitools.codegen.OpenAPIGenerator.
-    Setting the Qt 6 generator's name \c cpp-qt6-client
+    Setting the Qt OpenAPI generator's name \c cpp-qt6-client
     to the \c -g parameter makes sure it will be found and called.
 
     To generate client code from an extra large OpenAPI specification file,
@@ -109,7 +109,7 @@
 
     The generator creates the client library in
     the \c generator_output folder. Add the \c generator_output
-    folder to the project, like in an example below:
+    folder to the project, as shown in the following example:
     \code
         find_package(Qt6 REQUIRED COMPONENTS Core OpenApiCommon)
         add_subdirectory(generator_output/client)
@@ -135,6 +135,11 @@
         \li \l{Qt OpenAPI Examples}
     \endlist
 
+    \section1 Reference
+
+    This module provides build tools (CMake commands) rather than a runtime
+    C++ API. See \l{CMake Commands in Qt6 OpenApi} for the available commands.
+
     \section1 Licenses and Attributions
 
     Different parts of the Qt OpenAPI module are available under different
@@ -146,7 +151,7 @@
     \l {GNU General Public License, version 2}. See \l {Qt Licensing} for
     further details.
 
-    The Qt6 Generator plugin, together with the template files for the code
+    The Qt OpenAPI Generator plugin, together with the template files for the code
     generation (that have the \c {.mustache} extension), are derived from the
     upstream OpenAPI generator project, and are licensed under the
     \l {https://www.apache.org/licenses/LICENSE-2.0}{Apache License 2.0}.
