@@ -31,9 +31,6 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
     public static final String DEFAULT_COMMON_LIB_NAME = "QtOpenAPICommon";
     public static final String COMMON_LIB_OPTION = "commonLibrary";
     public static final String MAKE_OPERATIONS_VIRTUAL_NAME = "makeOperationsVirtual";
-    public static final String MAKE_OPERATIONS_VIRTUAL_DESC =
-            "Make all operations methods virtual. " +
-            "This makes it easy to mock the generated API class for testing purposes.";
     public static final String MAKE_QML_ENABLED = "enableQmlCode";
     public static final String MAKE_QML_ENABLED_DESC = "Enable registering C++ Types with the QML Type System";
     public static final String ADD_DOWNLOAD_PROGRESS = "addDownloadProgress";
@@ -62,8 +59,8 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
     protected String commonLibrarySourceFolder = "common";
     protected static final String USE_COMMON_LIBRARY = "enableCommonLibGeneration";
     private final Logger LOGGER = LoggerFactory.getLogger(CppQt6ClientGenerator.class);
+    private final boolean makeOperationsVirtual = true;
     @Setter protected boolean addDownloadProgress = false;
-    @Setter protected boolean makeOperationsVirtual = true;
     @Setter protected boolean enableQmlCode = false;
     @Setter protected String commonLibrary = GENERATION_TYPE.CLIENT_LIB.value;
     @Setter protected String commonLibraryName = DEFAULT_PACKAGE_NAME;
@@ -156,7 +153,6 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
         addOption(CPP_COMMON_NAMESPACE, CPP_COMMON_NAMESPACE_DESC, this.cppCommonNamespace);
         addOption(CodegenConstants.PACKAGE_NAME, "C++ package (library) name.", DEFAULT_PACKAGE_NAME);
         addSwitch(ADD_DOWNLOAD_PROGRESS, "Add support for Qt download progress", this.addDownloadProgress);
-        addSwitch(MAKE_OPERATIONS_VIRTUAL_NAME, MAKE_OPERATIONS_VIRTUAL_DESC, this.makeOperationsVirtual);
         addSwitch(MAKE_QML_ENABLED, MAKE_QML_ENABLED_DESC, this.enableQmlCode);
         addSwitch(USE_CMAKE_FUNCTION, USE_CMAKE_FUNCTION_DESC, this.useCmakeMacro);
         // Common library name allows to choose a unique name for 'commonLibrary=COMMON_LIB' case.
@@ -249,11 +245,7 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
             setLicenseName(((String) additionalProperties.get(CodegenConstants.LICENSE_NAME)));
         }
 
-        if (additionalProperties.containsKey(MAKE_OPERATIONS_VIRTUAL_NAME)) {
-            setMakeOperationsVirtual(convertPropertyToBooleanAndWriteBack(MAKE_OPERATIONS_VIRTUAL_NAME));
-        } else {
-            additionalProperties.put(MAKE_OPERATIONS_VIRTUAL_NAME, makeOperationsVirtual);
-        }
+        additionalProperties.put(MAKE_OPERATIONS_VIRTUAL_NAME, makeOperationsVirtual);
 
         if (additionalProperties.containsKey(MAKE_QML_ENABLED)) {
             setEnableQmlCode(convertPropertyToBooleanAndWriteBack(MAKE_QML_ENABLED));
