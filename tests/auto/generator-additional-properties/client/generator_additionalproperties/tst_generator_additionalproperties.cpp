@@ -4,7 +4,11 @@
 #include "qoaicommonglobal.h"
 #include "qoaihttprequest.h"
 
-#include "addproptestapi.h"
+#include "client1/client/addproptestapi.h"
+#include "client1/client/addpropmyenum.h"
+
+#include "client2/client/addprop2testapi.h"
+#include "client2/client/addprop2myenum.h"
 
 #include <QtCore/qobject.h>
 #include <QtCore/qprocess.h>
@@ -23,6 +27,7 @@ private Q_SLOTS:
     void initTestCase();
     void addDownloadProgress();
     void ensureUniqueParamsTest();
+    void enumUnknownDefaultCase();
     void cleanupTestCase();
 
 private:
@@ -95,6 +100,45 @@ void tst_GeneratorAdditionalProperties::ensureUniqueParamsTest()
     QTest::ignoreMessage(QtWarningMsg, "Access manager destroyed while 1 requests were still in "
                                        "progress");
     api.testUniqueParams(2, "id2"_L1);
+}
+
+void tst_GeneratorAdditionalProperties::enumUnknownDefaultCase()
+{
+    AddPropNamespace::AddPropTestApi api;
+    AddPropNamespace2::AddProp2TestApi api2;
+    bool done = false;
+
+    // enumUnknownDefaultCase=false
+    api.getEnumValue(this, [&](const QRestReply &reply,
+                               const AddPropNamespace::AddPropMyEnum &enumValue) {
+        if (!(done = reply.isSuccess())) {
+            qWarning() << "ERROR: " << reply.errorString() << reply.error();
+            return;
+        }
+        QCOMPARE(enumValue.getValue(),
+                 AddPropNamespace::AddPropMyEnum::eAddPropMyEnum::INVALID_VALUE_OPENAPI_GENERATED);
+    });
+
+    QTRY_COMPARE_EQ(done, true);
+
+    done = false;
+    // enumUnknownDefaultCase=true
+    api2.getEnumValue(this, [&](const QRestReply &reply,
+                                const AddPropNamespace2::AddProp2MyEnum &enumValue) {
+        if (!(done = reply.isSuccess())) {
+            qWarning() << "ERROR: " << reply.errorString() << reply.error();
+            return;
+        }
+
+        QEXPECT_FAIL("", "QTBUG-144951: enum values unknown to the client always map to "
+                         "INVALID_VALUE_OPENAPI_GENERATED even when enumUnknownDefaultCase is "
+                         "enabled", Continue);
+
+        QCOMPARE(enumValue.getValue(),
+                 AddPropNamespace2::AddProp2MyEnum::eAddProp2MyEnum::UNKNOWN_DEFAULT_OPEN_API);
+    });
+
+    QTRY_COMPARE_EQ(done, true);
 }
 
 void tst_GeneratorAdditionalProperties::cleanupTestCase()
