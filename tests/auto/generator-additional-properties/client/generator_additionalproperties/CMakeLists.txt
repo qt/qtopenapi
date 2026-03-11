@@ -29,6 +29,7 @@ qt_add_openapi_client(GeneratorAdditionalPropertiesClient
         cppNamespace=AddPropNamespace
         modelNamePrefix=AddProp
         addDownloadProgress=true
+        ensureUniqueParams=true # default value
 )
 
 target_compile_definitions(cpp-qt-generator-additional-properties

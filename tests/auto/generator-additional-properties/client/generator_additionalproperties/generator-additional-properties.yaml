@@ -34,3 +34,23 @@ paths:
               schema:
                 type: string
                 format: binary
+  /ensureUniqueParams/{id}:
+    get:
+      tags: [test]
+      summary: Test unique parameter name generation
+      operationId: testUniqueParams
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: id # renamed automatically if ensureUniqueParams=true
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
