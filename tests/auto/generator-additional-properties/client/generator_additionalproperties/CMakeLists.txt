@@ -30,6 +30,21 @@ qt_add_openapi_client(GeneratorAdditionalPropertiesClient
         modelNamePrefix=AddProp
         addDownloadProgress=true
         ensureUniqueParams=true # default value
+        enumUnknownDefaultCase=false # default value
+    OUTPUT_DIRECTORY
+        ${CMAKE_CURRENT_BINARY_DIR}/client1
+)
+
+qt_add_library(GeneratorAdditionalPropertiesClient2)
+qt_add_openapi_client(GeneratorAdditionalPropertiesClient2
+    SPEC_FILE
+        ${CMAKE_CURRENT_SOURCE_DIR}/generator-additional-properties.yaml
+    ADDITIONAL_PROPERTIES
+        cppNamespace=AddPropNamespace2
+        modelNamePrefix=AddProp2
+        enumUnknownDefaultCase=true
+    OUTPUT_DIRECTORY
+        ${CMAKE_CURRENT_BINARY_DIR}/client2
 )
 
 target_compile_definitions(cpp-qt-generator-additional-properties
@@ -37,8 +52,9 @@ target_compile_definitions(cpp-qt-generator-additional-properties
         SERVER_PATH="$<TARGET_FILE:generator-additional-properties-server-go>"
 )
 qt_autogen_tools_initial_setup(GeneratorAdditionalPropertiesClient)
+qt_autogen_tools_initial_setup(GeneratorAdditionalPropertiesClient2)
 target_link_libraries(cpp-qt-generator-additional-properties PRIVATE
-    GeneratorAdditionalPropertiesClient)
+    GeneratorAdditionalPropertiesClient GeneratorAdditionalPropertiesClient2)
 add_dependencies(cpp-qt-generator-additional-properties
     generator-additional-properties-server-go)
 
@@ -46,6 +62,7 @@ if(WIN32)
     add_custom_command(TARGET cpp-qt-generator-additional-properties POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             $<TARGET_FILE:GeneratorAdditionalPropertiesClient>
+            $<TARGET_FILE:GeneratorAdditionalPropertiesClient2>
             ${CMAKE_CURRENT_BINARY_DIR}
         VERBATIM)
 endif()

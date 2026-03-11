@@ -54,3 +54,23 @@ paths:
       responses:
         "200":
           description: Successful response
+  /enumUnknownDefaultCase:
+    get:
+      tags: [test]
+      summary: Test unknown default enum case generation
+      operationId: getEnumValue
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MyEnum'
+
+components:
+  schemas:
+    MyEnum:
+      type: string
+      enum:
+        - status1
+        - status2

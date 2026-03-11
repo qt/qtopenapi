@@ -41,3 +41,11 @@ func (api *TestAPI) Roundtrip(c *gin.Context) {
         }
 }
 
+// GET /v2/enumUnknownDefaultCase
+// Test unknown default enum case generation
+func (api *TestAPI) GetEnumValue(c *gin.Context) {
+    // return an enum value unknown to the client (not "status1" or "status2")
+    c.JSON(http.StatusOK, gin.H{
+        "status": "unknown_value_from_server",
+    })
+}
