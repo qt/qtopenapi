@@ -22,6 +22,7 @@ class tst_GeneratorAdditionalProperties : public QObject
 private Q_SLOTS:
     void initTestCase();
     void addDownloadProgress();
+    void ensureUniqueParamsTest();
     void cleanupTestCase();
 
 private:
@@ -84,6 +85,16 @@ void tst_GeneratorAdditionalProperties::addDownloadProgress()
     QTRY_COMPARE_EQ(done, true);
     QVERIFY(progressReceived);
     QVERIFY(lastTotal > 0);
+}
+
+void tst_GeneratorAdditionalProperties::ensureUniqueParamsTest()
+{
+    // Although the 'testUniqueParams' operation defines two parameters with the same name in the
+    // spec, the generator creates unique parameter names because 'ensureUniqueParams' is true.
+    AddPropNamespace::AddPropTestApi api;
+    QTest::ignoreMessage(QtWarningMsg, "Access manager destroyed while 1 requests were still in "
+                                       "progress");
+    api.testUniqueParams(2, "id2"_L1);
 }
 
 void tst_GeneratorAdditionalProperties::cleanupTestCase()
