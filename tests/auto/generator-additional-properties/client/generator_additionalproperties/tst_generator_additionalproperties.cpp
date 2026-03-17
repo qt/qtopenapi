@@ -199,42 +199,35 @@ void tst_GeneratorAdditionalProperties::licenseName()
 void tst_GeneratorAdditionalProperties::reservedWordPrefix()
 {
     // client1: default value of reservedWordPrefix is "r_"
-    QEXPECT_FAIL("", "QTBUG-145028: reservedWordPrefix is not considered. The implementation always"
-                     " adds an underscore to the name instead.", Continue);
     QVERIFY(client1ApiContent.contains("r_class"_L1));
-    QEXPECT_FAIL("", "QTBUG-145028: reservedWordPrefix is not considered. The implementation always"
-                     " adds an underscore to the name instead.", Continue);
     QVERIFY(client1ApiContent.contains("r_nullptr"_L1));
+    AddPropNamespace::AddPropTestApi api;
+    QTest::ignoreMessage(QtWarningMsg, "Access manager destroyed while 1 requests were still in "
+                                       "progress");
+    api.r_class(QString("r_nullptr parameter"));
+
     AddPropNamespace::AddPropSignals s1;
-    s1.setSlots("slots model property"_L1);
-    s1.setInline("nullptr model property"_L1);
+    s1.setRSlots("slots model property"_L1);
+    s1.setRInline("nullptr model property"_L1);
     const QString client1SignalsContent =
             readFileContent(QFINDTESTDATA("client1/client/addpropsignals.h"_L1));
-    QEXPECT_FAIL("", "QTBUG-145028: reservedWordPrefix is not considered. The implementation always"
-                     " adds an underscore to the name instead.", Continue);
     QVERIFY(client1SignalsContent.contains("r_inline"_L1));
-    QEXPECT_FAIL("", "QTBUG-145028: reservedWordPrefix is not considered. The implementation always"
-                     " adds an underscore to the name instead.", Continue);
     QVERIFY(client1SignalsContent.contains("r_slots"_L1));
 
-
-    // client2: reservedWordPrefix=reserved_
-    QEXPECT_FAIL("", "QTBUG-145028: reservedWordPrefix is not considered. The implementation always"
-                     " adds an underscore to the name instead.", Continue);
+    // client2: reservedWordPrefix=reserved- : This should be sanitized to "reserved_"
     QVERIFY(client2ApiContent.contains("reserved_class"_L1));
-    QEXPECT_FAIL("", "QTBUG-145028: reservedWordPrefix is not considered. The implementation always"
-                     " adds an underscore to the name instead.", Continue);
     QVERIFY(client2ApiContent.contains("reserved_nullptr"_L1));
+    AddPropNamespace2::AddProp2TestApi api2;
+    QTest::ignoreMessage(QtWarningMsg, "Access manager destroyed while 1 requests were still in "
+                                       "progress");
+    api2.reserved_class(QString("reserved_nullptr parameter"));
+
     AddPropNamespace2::AddProp2Signals s2;
-    s2.setSlots("slots model property"_L1);
-    s2.setInline("nullptr model property"_L1);
     const QString client2SignalsContent =
             readFileContent(QFINDTESTDATA("client2/client/addprop2signals.h"_L1));
-    QEXPECT_FAIL("", "QTBUG-145028: reservedWordPrefix is not considered. The implementation always"
-                     " adds an underscore to the name instead.", Continue);
+    s2.setReservedSlots("slots model property"_L1);
+    s2.setReservedInline("nullptr model property"_L1);
     QVERIFY(client2SignalsContent.contains("reserved_inline"_L1));
-    QEXPECT_FAIL("", "QTBUG-145028: reservedWordPrefix is not considered. The implementation always"
-                     " adds an underscore to the name instead.", Continue);
     QVERIFY(client2SignalsContent.contains("reserved_slots"_L1));
 }
 

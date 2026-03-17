@@ -47,7 +47,7 @@ qt_add_openapi_client(GeneratorAdditionalPropertiesClient2
         enumUnknownDefaultCase=true
         allowUnicodeIdentifiers=true
         licenseName=MyLicense2 # the option shoud be ignored
-        reservedWordPrefix=reserved_
+        reservedWordPrefix=reserved- # This should be sanitized to reserved_
     JAVA_OPTIONS
         -Dlog.level=warn
     OUTPUT_DIRECTORY
