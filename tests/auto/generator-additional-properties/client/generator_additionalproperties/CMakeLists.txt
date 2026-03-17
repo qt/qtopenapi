@@ -31,6 +31,7 @@ qt_add_openapi_client(GeneratorAdditionalPropertiesClient
         addDownloadProgress=true
         ensureUniqueParams=true # default value
         enumUnknownDefaultCase=false # default value
+        allowUnicodeIdentifiers=false # default value
     OUTPUT_DIRECTORY
         ${CMAKE_CURRENT_BINARY_DIR}/client1
 )
@@ -43,6 +44,7 @@ qt_add_openapi_client(GeneratorAdditionalPropertiesClient2
         cppNamespace=AddPropNamespace2
         modelNamePrefix=AddProp2
         enumUnknownDefaultCase=true
+        allowUnicodeIdentifiers=true
     JAVA_OPTIONS
         -Dlog.level=warn
     OUTPUT_DIRECTORY

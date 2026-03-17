@@ -28,11 +28,22 @@ private Q_SLOTS:
     void addDownloadProgress();
     void ensureUniqueParamsTest();
     void enumUnknownDefaultCase();
+    void allowUnicodeIdentifiers();
     void cleanupTestCase();
 
 private:
     QProcess m_serverProcess;
+    QString client1ApiContent;
+    QString client2ApiContent;
 };
+
+static QString readFileContent(const QString &filePath)
+{
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return QString();
+    return file.readAll();
+}
 
 void tst_GeneratorAdditionalProperties::initTestCase()
 {
@@ -45,6 +56,8 @@ void tst_GeneratorAdditionalProperties::initTestCase()
         // give the process some time to properly start up the server
         QThread::currentThread()->msleep(1000);
     }
+    client1ApiContent = readFileContent(QFINDTESTDATA("client1/client/addproptestapi.h"_L1));
+    client2ApiContent = readFileContent(QFINDTESTDATA("client2/client/addprop2testapi.h"_L1));
 }
 
 void tst_GeneratorAdditionalProperties::addDownloadProgress()
@@ -139,6 +152,36 @@ void tst_GeneratorAdditionalProperties::enumUnknownDefaultCase()
     });
 
     QTRY_COMPARE_EQ(done, true);
+}
+
+void tst_GeneratorAdditionalProperties::allowUnicodeIdentifiers()
+{
+    // client1: allowUnicodeIdentifiers=false
+    QVERIFY(client1ApiContent.contains("pic"_L1)); // 'pرicЄ' becomes 'pic'
+    QVERIFY(!client1ApiContent.contains(u"pرicЄ"_s));
+    AddPropNamespace2::AddProp2TestApi api;
+    QTest::ignoreMessage(QtWarningMsg, "Access manager destroyed while 1 requests were still in "
+                                       "progress");
+    api.getPrice("example"_L1);
+
+    // client2: allowUnicodeIdentifiers=true
+    QVERIFY(client2ApiContent.contains("pic"_L1));
+    QVERIFY(!client2ApiContent.contains(u"pرicЄ"_s));
+    AddPropNamespace2::AddProp2TestApi api2;
+    QTest::ignoreMessage(QtWarningMsg, "Access manager destroyed while 1 requests were still in "
+                                       "progress");
+    api2.getPrice("example2"_L1);
+
+    // Enum values containing unicode characters are always sanitized.
+    // regardless of the allowUnicodeIdentifiers generator option value.
+    // 'statЄus1Я' from the spec is sanitized to S_AT_US1_.
+    QVERIFY(AddPropNamespace::AddPropMyEnum::eAddPropMyEnum::S_AT_US1_ !=
+            AddPropNamespace::AddPropMyEnum::eAddPropMyEnum::INVALID_VALUE_OPENAPI_GENERATED);
+
+    // Server URL is never sanitized regardless of allowUnicodeIdentifiers value.
+    const auto configs = api.serverConfigurations("getPrice"_L1);
+    QVERIFY(!configs.isEmpty());
+    QCOMPARE(configs.first().urlTemplate(), u"http://127.0.0.1:10222/Veرsion/v2"_s);
 }
 
 void tst_GeneratorAdditionalProperties::cleanupTestCase()

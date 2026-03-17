@@ -3,7 +3,7 @@
 
 openapi: 3.1.1
 servers:
-  - url: 'http://127.0.0.1:10222/v2'
+  - url: 'http://127.0.0.1:10222/Veرsion/v2'
 info:
   title: Generator Additional Properties Test API
   description: >
@@ -66,11 +66,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MyEnum'
+  /allowUnicodeIdentifiers:
+    get:
+      tags: [test]
+      summary: Check generated parameter name with unicode characters
+      operationId: getPrice
+      parameters:
+        - name: "pرicЄ"
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
 
 components:
   schemas:
     MyEnum:
       type: string
       enum:
-        - status1
+        - sتatЄus1Я
         - status2
+

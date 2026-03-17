@@ -154,6 +154,12 @@ public abstract class CppQt6AbstractCodegen extends AbstractCppCodegen implement
         } else {
             additionalProperties.put(CONTENT_COMPRESSION_ENABLED, isContentCompressionEnabled);
         }
+        if (Boolean.TRUE.equals(
+            additionalProperties.get(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS))) {
+            LOGGER.warn("allowUnicodeIdentifiers is not supported in the Qt6 generator due to "
+                        + "MOC limitations and will be reset to false.");
+        }
+        setAllowUnicodeIdentifiers(false);
     }
 
     @Override

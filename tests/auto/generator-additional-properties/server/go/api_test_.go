@@ -20,7 +20,7 @@ import (
 type TestAPI struct {
 }
 
-// Post /v2/addDownloadProgress/true/roundtrip
+// Post /Veرsion/v2/addDownloadProgress/true/roundtrip
 // Upload a file and get it back to test progress signal
 func (api *TestAPI) Roundtrip(c *gin.Context) {
 	content, err := io.ReadAll(c.Request.Body)
@@ -41,7 +41,7 @@ func (api *TestAPI) Roundtrip(c *gin.Context) {
         }
 }
 
-// GET /v2/enumUnknownDefaultCase
+// GET /Veرsion/v2/enumUnknownDefaultCase
 // Test unknown default enum case generation
 func (api *TestAPI) GetEnumValue(c *gin.Context) {
     // return an enum value unknown to the client (not "status1" or "status2")
