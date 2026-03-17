@@ -29,6 +29,7 @@ private Q_SLOTS:
     void ensureUniqueParamsTest();
     void enumUnknownDefaultCase();
     void allowUnicodeIdentifiers();
+    void licenseName();
     void cleanupTestCase();
 
 private:
@@ -182,6 +183,14 @@ void tst_GeneratorAdditionalProperties::allowUnicodeIdentifiers()
     const auto configs = api.serverConfigurations("getPrice"_L1);
     QVERIFY(!configs.isEmpty());
     QCOMPARE(configs.first().urlTemplate(), u"http://127.0.0.1:10222/Veرsion/v2"_s);
+}
+
+void tst_GeneratorAdditionalProperties::licenseName()
+{
+    QVERIFY(client1ApiContent.contains("MyImaginaryLicense"_L1));
+
+    QVERIFY(client2ApiContent.contains("MyImaginaryLicense"_L1));
+    QVERIFY(!client2ApiContent.contains("MyLicense2"_L1));
 }
 
 void tst_GeneratorAdditionalProperties::cleanupTestCase()

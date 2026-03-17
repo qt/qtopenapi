@@ -172,8 +172,6 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
         commonLib.setEnum(commonLibOptions);
         commonLib.setDefault(this.commonLibrary);
         this.cliOptions.add(commonLib);
-        this.cliOptions.add(new CliOption(CodegenConstants.LICENSE_NAME,
-            CodegenConstants.LICENSE_NAME_DESC).defaultValue(this.licenseName));
 
         /**
          * Template Location.  This is the location which templates will be read from.  The generator
@@ -200,15 +198,14 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         super.preprocessOpenAPI(openAPI);
-        if (openAPI.getInfo() != null) {
-            Info info = openAPI.getInfo();
-            // when licenceName is not specified, use info.license
-            if (additionalProperties.get(CodegenConstants.LICENSE_NAME) == null && info.getLicense() != null) {
-                License license = info.getLicense();
+
+        final Info info = openAPI.getInfo();
+        if (info != null) {
+            License license = info.getLicense();
+            if (license != null) {
                 licenseName = license.getName();
             }
         }
-
         additionalProperties.put(CodegenConstants.LICENSE_NAME, licenseName);
     }
 
@@ -240,10 +237,6 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
         packageName = (String) additionalProperties.getOrDefault(CodegenConstants.PACKAGE_NAME, DEFAULT_PACKAGE_NAME);
         commonLibraryName = (String) additionalProperties.getOrDefault(COMMON_LIB_NAME_OPTION,
                                                                        DEFAULT_COMMON_LIB_NAME);
-
-        if (additionalProperties.containsKey(CodegenConstants.LICENSE_NAME)) {
-            setLicenseName(((String) additionalProperties.get(CodegenConstants.LICENSE_NAME)));
-        }
 
         additionalProperties.put(MAKE_OPERATIONS_VIRTUAL_NAME, makeOperationsVirtual);
 

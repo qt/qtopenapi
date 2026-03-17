@@ -45,6 +45,7 @@ qt_add_openapi_client(GeneratorAdditionalPropertiesClient2
         modelNamePrefix=AddProp2
         enumUnknownDefaultCase=true
         allowUnicodeIdentifiers=true
+        licenseName=MyLicense2 # the option shoud be ignored
     JAVA_OPTIONS
         -Dlog.level=warn
     OUTPUT_DIRECTORY
