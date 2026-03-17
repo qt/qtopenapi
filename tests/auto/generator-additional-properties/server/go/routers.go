@@ -71,13 +71,13 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
 		{
 			"Roundtrip",
 			http.MethodPost,
-			"/v2/addDownloadProgress/true",
+			"/Veرsion/v2/addDownloadProgress/true",
 			handleFunctions.TestAPI.Roundtrip,
 		},
 		{
 		        "GetEnumValue",
 			http.MethodGet,
-			"/v2/enumUnknownDefaultCase",
+			"/Veرsion/v2/enumUnknownDefaultCase",
 			handleFunctions.TestAPI.GetEnumValue,
 		},
 	}
