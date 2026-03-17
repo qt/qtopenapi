@@ -83,6 +83,19 @@ paths:
       responses:
         "200":
           description: Successful response
+  /reservedWordExample:
+    get:
+      tags: [test]
+      summary: Operation with a reserved word parameter
+      operationId: class
+      parameters:
+        - name: nullptr
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
 
 components:
   schemas:
@@ -91,4 +104,11 @@ components:
       enum:
         - sتatЄus1Я
         - status2
+    Signals:
+      type: object
+      properties:
+        inline:
+          type: string
+        slots:
+          type: string
 

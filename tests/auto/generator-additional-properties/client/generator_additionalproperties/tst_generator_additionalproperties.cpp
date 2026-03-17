@@ -6,9 +6,11 @@
 
 #include "client1/client/addproptestapi.h"
 #include "client1/client/addpropmyenum.h"
+#include "client1/client/addpropsignals.h"
 
 #include "client2/client/addprop2testapi.h"
 #include "client2/client/addprop2myenum.h"
+#include "client2/client/addprop2signals.h"
 
 #include <QtCore/qobject.h>
 #include <QtCore/qprocess.h>
@@ -30,6 +32,7 @@ private Q_SLOTS:
     void enumUnknownDefaultCase();
     void allowUnicodeIdentifiers();
     void licenseName();
+    void reservedWordPrefix();
     void cleanupTestCase();
 
 private:
@@ -191,6 +194,48 @@ void tst_GeneratorAdditionalProperties::licenseName()
 
     QVERIFY(client2ApiContent.contains("MyImaginaryLicense"_L1));
     QVERIFY(!client2ApiContent.contains("MyLicense2"_L1));
+}
+
+void tst_GeneratorAdditionalProperties::reservedWordPrefix()
+{
+    // client1: default value of reservedWordPrefix is "r_"
+    QEXPECT_FAIL("", "QTBUG-145028: reservedWordPrefix is not considered. The implementation always"
+                     " adds an underscore to the name instead.", Continue);
+    QVERIFY(client1ApiContent.contains("r_class"_L1));
+    QEXPECT_FAIL("", "QTBUG-145028: reservedWordPrefix is not considered. The implementation always"
+                     " adds an underscore to the name instead.", Continue);
+    QVERIFY(client1ApiContent.contains("r_nullptr"_L1));
+    AddPropNamespace::AddPropSignals s1;
+    s1.setSlots("slots model property"_L1);
+    s1.setInline("nullptr model property"_L1);
+    const QString client1SignalsContent =
+            readFileContent(QFINDTESTDATA("client1/client/addpropsignals.h"_L1));
+    QEXPECT_FAIL("", "QTBUG-145028: reservedWordPrefix is not considered. The implementation always"
+                     " adds an underscore to the name instead.", Continue);
+    QVERIFY(client1SignalsContent.contains("r_inline"_L1));
+    QEXPECT_FAIL("", "QTBUG-145028: reservedWordPrefix is not considered. The implementation always"
+                     " adds an underscore to the name instead.", Continue);
+    QVERIFY(client1SignalsContent.contains("r_slots"_L1));
+
+
+    // client2: reservedWordPrefix=reserved_
+    QEXPECT_FAIL("", "QTBUG-145028: reservedWordPrefix is not considered. The implementation always"
+                     " adds an underscore to the name instead.", Continue);
+    QVERIFY(client2ApiContent.contains("reserved_class"_L1));
+    QEXPECT_FAIL("", "QTBUG-145028: reservedWordPrefix is not considered. The implementation always"
+                     " adds an underscore to the name instead.", Continue);
+    QVERIFY(client2ApiContent.contains("reserved_nullptr"_L1));
+    AddPropNamespace2::AddProp2Signals s2;
+    s2.setSlots("slots model property"_L1);
+    s2.setInline("nullptr model property"_L1);
+    const QString client2SignalsContent =
+            readFileContent(QFINDTESTDATA("client2/client/addprop2signals.h"_L1));
+    QEXPECT_FAIL("", "QTBUG-145028: reservedWordPrefix is not considered. The implementation always"
+                     " adds an underscore to the name instead.", Continue);
+    QVERIFY(client2SignalsContent.contains("reserved_inline"_L1));
+    QEXPECT_FAIL("", "QTBUG-145028: reservedWordPrefix is not considered. The implementation always"
+                     " adds an underscore to the name instead.", Continue);
+    QVERIFY(client2SignalsContent.contains("reserved_slots"_L1));
 }
 
 void tst_GeneratorAdditionalProperties::cleanupTestCase()
