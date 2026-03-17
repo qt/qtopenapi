@@ -385,17 +385,6 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
     }
 
     /**
-     * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping
-     * those terms here.  This logic is only called if a variable matches the reserved words
-     *
-     * @return the escaped term
-     */
-    @Override
-    public String escapeReservedWord(String name) {
-        return "_" + name;  // add an underscore to the name
-    }
-
-    /**
      * Location to write model files.  You can use the modelPackage() as defined when the class is
      * instantiated
      */
