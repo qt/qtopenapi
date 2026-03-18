@@ -121,6 +121,29 @@ paths:
       responses:
         "200":
           description: Successful response
+  /prependFormOrBodyParameters:
+    post:
+      tags: [test]
+      summary: Operation with one body and one query parameters
+      operationId: prependBodyParam
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                bodyParam:
+                  type: string
+      parameters:
+        - name: queryParam
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
 
 components:
   schemas:

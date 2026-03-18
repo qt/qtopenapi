@@ -35,12 +35,14 @@ private Q_SLOTS:
     void reservedWordPrefix();
     void sortParamsByRequiredFlag();
     void sortModelPropertiesByRequiredFlag();
+    void prependFormOrBodyParameters();
     void cleanupTestCase();
 
 private:
     QProcess m_serverProcess;
     QString client1ApiContent;
     QString client2ApiContent;
+    const char* warningMsg = "Access manager destroyed while 1 requests were still in progress";
 };
 
 static QString readFileContent(const QString &filePath)
@@ -116,8 +118,7 @@ void tst_GeneratorAdditionalProperties::ensureUniqueParamsTest()
     // Although the 'testUniqueParams' operation defines two parameters with the same name in the
     // spec, the generator creates unique parameter names because 'ensureUniqueParams' is true.
     AddPropNamespace::AddPropTestApi api;
-    QTest::ignoreMessage(QtWarningMsg, "Access manager destroyed while 1 requests were still in "
-                                       "progress");
+    QTest::ignoreMessage(QtWarningMsg, warningMsg);
     api.testUniqueParams(2, "id2"_L1);
 }
 
@@ -166,16 +167,14 @@ void tst_GeneratorAdditionalProperties::allowUnicodeIdentifiers()
     QVERIFY(client1ApiContent.contains("pic"_L1)); // 'pرicЄ' becomes 'pic'
     QVERIFY(!client1ApiContent.contains(u"pرicЄ"_s));
     AddPropNamespace2::AddProp2TestApi api;
-    QTest::ignoreMessage(QtWarningMsg, "Access manager destroyed while 1 requests were still in "
-                                       "progress");
+    QTest::ignoreMessage(QtWarningMsg, warningMsg);
     api.getPrice("example"_L1);
 
     // client2: allowUnicodeIdentifiers=true
     QVERIFY(client2ApiContent.contains("pic"_L1));
     QVERIFY(!client2ApiContent.contains(u"pرicЄ"_s));
     AddPropNamespace2::AddProp2TestApi api2;
-    QTest::ignoreMessage(QtWarningMsg, "Access manager destroyed while 1 requests were still in "
-                                       "progress");
+    QTest::ignoreMessage(QtWarningMsg, warningMsg);
     api2.getPrice("example2"_L1);
 
     // Enum values containing unicode characters are always sanitized.
@@ -204,8 +203,7 @@ void tst_GeneratorAdditionalProperties::reservedWordPrefix()
     QVERIFY(client1ApiContent.contains("r_class"_L1));
     QVERIFY(client1ApiContent.contains("r_nullptr"_L1));
     AddPropNamespace::AddPropTestApi api;
-    QTest::ignoreMessage(QtWarningMsg, "Access manager destroyed while 1 requests were still in "
-                                       "progress");
+    QTest::ignoreMessage(QtWarningMsg, warningMsg);
     api.r_class(QString("r_nullptr parameter"));
 
     AddPropNamespace::AddPropSignals s1;
@@ -220,8 +218,7 @@ void tst_GeneratorAdditionalProperties::reservedWordPrefix()
     QVERIFY(client2ApiContent.contains("reserved_class"_L1));
     QVERIFY(client2ApiContent.contains("reserved_nullptr"_L1));
     AddPropNamespace2::AddProp2TestApi api2;
-    QTest::ignoreMessage(QtWarningMsg, "Access manager destroyed while 1 requests were still in "
-                                       "progress");
+    QTest::ignoreMessage(QtWarningMsg, warningMsg);
     api2.reserved_class(QString("reserved_nullptr parameter"));
 
     AddPropNamespace2::AddProp2Signals s2;
@@ -241,16 +238,14 @@ void tst_GeneratorAdditionalProperties::sortParamsByRequiredFlag()
 
     // sortParamsByRequiredFlag=true
     AddPropNamespace::AddPropTestApi api;
-    QTest::ignoreMessage(QtWarningMsg, "Access manager destroyed while 1 requests were still in "
-                                       "progress");
+    QTest::ignoreMessage(QtWarningMsg, warningMsg);
     api.sortParams(req1, req2, opt1);
 
     // sortParamsByRequiredFlag=false: ignored
     // Without sorting, an optional parameter with a default value precedes
     // required ones, which is invalid in C++.
     AddPropNamespace2::AddProp2TestApi api2;
-    QTest::ignoreMessage(QtWarningMsg, "Access manager destroyed while 1 requests were still in "
-                                       "progress");
+    QTest::ignoreMessage(QtWarningMsg, warningMsg);
     api2.sortParams(req1, req2, opt1);
 }
 
@@ -263,6 +258,25 @@ void tst_GeneratorAdditionalProperties::sortModelPropertiesByRequiredFlag()
     const QString clt2SortModelContent = readFileContent("client2/client/addprop2sortmodel.h"_L1);
     QVERIFY(clt2SortModelContent.indexOf("m_req1") < clt2SortModelContent.indexOf("m_opt1"));
     QVERIFY(clt2SortModelContent.indexOf("m_opt1") < clt2SortModelContent.indexOf("m_req2"));
+}
+
+void tst_GeneratorAdditionalProperties::prependFormOrBodyParameters()
+{
+    QString queryParam("myqueryParam"_L1);
+
+    // prependFormOrBodyParameters=false
+    AddPropNamespace::AddPropTestApi api;
+    AddPropNamespace::AddPropPrependBodyParam_request myBodyRequest;
+    myBodyRequest.setBodyParam("myBodyRequest"_L1);
+    QTest::ignoreMessage(QtWarningMsg, warningMsg);
+    api.prependBodyParam(queryParam, myBodyRequest); // query first, body second
+
+    // prependFormOrBodyParameters=true
+    AddPropNamespace2::AddProp2TestApi api2;
+    AddPropNamespace2::AddProp2PrependBodyParam_request myBodyRequest2;
+    myBodyRequest2.setBodyParam("myBodyRequest2"_L1);
+    QTest::ignoreMessage(QtWarningMsg, warningMsg);
+    api2.prependBodyParam(myBodyRequest2, queryParam); // body first, query second
 }
 
 void tst_GeneratorAdditionalProperties::cleanupTestCase()
