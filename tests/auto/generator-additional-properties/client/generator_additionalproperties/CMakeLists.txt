@@ -33,6 +33,7 @@ qt_add_openapi_client(GeneratorAdditionalPropertiesClient
         enumUnknownDefaultCase=false # default value
         allowUnicodeIdentifiers=false # default value
         reservedWordPrefix=r_ # default value
+        sortParamsByRequiredFlag=true # default value
     OUTPUT_DIRECTORY
         ${CMAKE_CURRENT_BINARY_DIR}/client1
 )
@@ -48,6 +49,8 @@ qt_add_openapi_client(GeneratorAdditionalPropertiesClient2
         allowUnicodeIdentifiers=true
         licenseName=MyLicense2 # the option shoud be ignored
         reservedWordPrefix=reserved- # This should be sanitized to reserved_
+        sortParamsByRequiredFlag=false # Ignored: parameters must be sorted to keep defaulted
+                                       # parameters at the end (C++ requirement).
     JAVA_OPTIONS
         -Dlog.level=warn
     OUTPUT_DIRECTORY

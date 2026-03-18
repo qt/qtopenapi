@@ -33,6 +33,7 @@ private Q_SLOTS:
     void allowUnicodeIdentifiers();
     void licenseName();
     void reservedWordPrefix();
+    void sortParamsByRequiredFlag();
     void cleanupTestCase();
 
 private:
@@ -229,6 +230,27 @@ void tst_GeneratorAdditionalProperties::reservedWordPrefix()
     s2.setReservedInline("nullptr model property"_L1);
     QVERIFY(client2SignalsContent.contains("reserved_inline"_L1));
     QVERIFY(client2SignalsContent.contains("reserved_slots"_L1));
+}
+
+void tst_GeneratorAdditionalProperties::sortParamsByRequiredFlag()
+{
+    const QString req1 = "required argument 1"_L1;
+    const QString req2 = "required argument 2"_L1;
+    const QtOpenApiCommon::OptionalParameter<QString> opt1("optional argument 1"_L1);
+
+    // sortParamsByRequiredFlag=true
+    AddPropNamespace::AddPropTestApi api;
+    QTest::ignoreMessage(QtWarningMsg, "Access manager destroyed while 1 requests were still in "
+                                       "progress");
+    api.sortParams(req1, req2, opt1);
+
+    // sortParamsByRequiredFlag=false: ignored
+    // Without sorting, an optional parameter with a default value precedes
+    // required ones, which is invalid in C++.
+    AddPropNamespace2::AddProp2TestApi api2;
+    QTest::ignoreMessage(QtWarningMsg, "Access manager destroyed while 1 requests were still in "
+                                       "progress");
+    api2.sortParams(req1, req2, opt1);
 }
 
 void tst_GeneratorAdditionalProperties::cleanupTestCase()

@@ -96,6 +96,31 @@ paths:
       responses:
         "200":
           description: Successful response
+  /sortParamsByRequiredFlag:
+    get:
+      tags: [test]
+      summary: Check if required method arguments are placed before the optional ones
+      operationId: sortParams
+      parameters:
+        - name: "req1"
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: "opt1"
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: "req2"
+          in: query
+          required: true
+          schema:
+            type: string
+            default: "hello"
+      responses:
+        "200":
+          description: Successful response
 
 components:
   schemas:
