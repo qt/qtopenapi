@@ -34,6 +34,7 @@ private Q_SLOTS:
     void licenseName();
     void reservedWordPrefix();
     void sortParamsByRequiredFlag();
+    void sortModelPropertiesByRequiredFlag();
     void cleanupTestCase();
 
 private:
@@ -251,6 +252,17 @@ void tst_GeneratorAdditionalProperties::sortParamsByRequiredFlag()
     QTest::ignoreMessage(QtWarningMsg, "Access manager destroyed while 1 requests were still in "
                                        "progress");
     api2.sortParams(req1, req2, opt1);
+}
+
+void tst_GeneratorAdditionalProperties::sortModelPropertiesByRequiredFlag()
+{
+    const QString clt1SortModelContent = readFileContent("client1/client/addpropsortmodel.h"_L1);
+    QVERIFY(clt1SortModelContent.indexOf("m_req1") <  clt1SortModelContent.indexOf("m_req2"));
+    QVERIFY(clt1SortModelContent.indexOf("m_req2") < clt1SortModelContent.indexOf("m_opt1"));
+
+    const QString clt2SortModelContent = readFileContent("client2/client/addprop2sortmodel.h"_L1);
+    QVERIFY(clt2SortModelContent.indexOf("m_req1") < clt2SortModelContent.indexOf("m_opt1"));
+    QVERIFY(clt2SortModelContent.indexOf("m_opt1") < clt2SortModelContent.indexOf("m_req2"));
 }
 
 void tst_GeneratorAdditionalProperties::cleanupTestCase()

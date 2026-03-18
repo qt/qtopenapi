@@ -136,4 +136,16 @@ components:
           type: string
         slots:
           type: string
+    SortModel:
+      type: object
+      required:
+        - req1
+        - req2
+      properties:
+        req1:
+          type: string
+        opt1:
+          type: string
+        req2:
+          type: string
 
