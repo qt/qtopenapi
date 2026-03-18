@@ -80,7 +80,7 @@ void {{classname}}::initializeServerConfigs()
 {{#operations}}
 {{#operation}}
 /**
-* \fn {{#makeOperationsVirtual}}virtual {{/makeOperationsVirtual}}void {{classname}}::{{nickname}}({{#hasParams}}{{#allParams}}const {{#required}}{{{dataType}}} &{{/required}}{{^required}}{{cppCommonNamespace}}::OptionalParameter<{{{dataType}}}> &{{/required}}{{paramName}}{{^required}} = {{cppCommonNamespace}}::OptionalParameter<{{{dataType}}}>(){{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/hasParams}})
+* \fn void {{classname}}::{{nickname}}({{#hasParams}}{{#allParams}}const {{#required}}{{{dataType}}} &{{/required}}{{^required}}{{cppCommonNamespace}}::OptionalParameter<{{{dataType}}}> &{{/required}}{{paramName}}{{^required}} = {{cppCommonNamespace}}::OptionalParameter<{{{dataType}}}>(){{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/hasParams}})
 * {{#isDeprecated}}\deprecated {{/isDeprecated}}'{{nickname}}' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 {{#hasParams}}{{#allParams}}{{#required}}
@@ -97,11 +97,6 @@ void {{classname}}::initializeServerConfigs()
 * \code {c++}
 *    {{nickname}}({{#hasParams}}{{#allParams}}{{paramName}}, {{/allParams}}{{/hasParams}}this, [&](const QRestReply &reply{{#returnType}}, const {{{.}}} &summary{{/returnType}}) { if (reply.isSuccess()) ... });
 * \endcode
-* \note The template function can not be virtual in C++17.
-* If you want to use 'makeOperationsVirtual' option for mocking API,
-* please override virtual {{nickname}}WithDataImpl() in derived class.
-* The virtual {{nickname}}WithDataImpl() is being called by the template
-* function.
 {{#hasParams}}{{#allParams}}{{#required}}
 * @param[in] {{paramName}} {{{dataType}}} [required]{{/required}}{{^required}}
 * @param[in] {{paramName}} {{{dataType}}} [optional]{{/required}}{{/allParams}}{{/hasParams}}
@@ -118,10 +113,8 @@ void {{classname}}::initializeServerConfigs()
 */
 
 /**
-* \fn {{#makeOperationsVirtual}}virtual {{/makeOperationsVirtual}}void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{{dataType}}} &{{/required}}{{^required}}{{cppCommonNamespace}}::OptionalParameter<{{{dataType}}}> &{{/required}}{{paramName}}, {{/allParams}}const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{{dataType}}} &{{/required}}{{^required}}{{cppCommonNamespace}}::OptionalParameter<{{{dataType}}}> &{{/required}}{{paramName}}, {{/allParams}}const QObject *context, QtPrivate::QSlotObjectBase *slot)
 * Implements the {{nickname}}() operation request.
-* \note If 'makeOperationsVirtual' option is true, this function is declared as virtual
-* and can be overloaded for mocking {{nickname}}() operation calls.
 {{#hasParams}}{{#allParams}}{{#required}}
 * @param[in] {{paramName}} {{{dataType}}} [required]{{/required}}{{^required}}
 * @param[in] {{paramName}} {{{dataType}}} [optional]{{/required}}{{/allParams}}{{/hasParams}}

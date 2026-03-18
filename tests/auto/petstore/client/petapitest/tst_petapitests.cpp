@@ -61,22 +61,6 @@ private Q_SLOTS:
 const QString user("User1");
 const QString password("1234");
 
-class PetApiInheritageTest: public PetApi
-{
-public:
-    PetApiInheritageTest(QObject *parent = nullptr)
-        : PetApi(parent){}
-
-    bool m_testCheck = false;
-private:
-    // Template operation function will call this overriten method
-    void addPetWithDataImpl(const Pet &Pet, const QObject *context, QtPrivate::QSlotObjectBase *slot) override
-    {
-        m_testCheck = true;
-        PetApi::addPetWithDataImpl(Pet, context, slot);
-    }
-};
-
 Pet PetApiTests::createRandomPet(const QString &status, const QString &name) {
     Pet pet;
     const QList<QString> urls = {"https://text.com"};
@@ -185,21 +169,6 @@ void PetApiTests::createAndGetPetTest() {
 
     QTRY_COMPARE_EQ_WITH_TIMEOUT(petFetched, true, 14000);
     QVERIFY2(petToCheck.getNameValue().compare(petName) == 0, "pet isn't found.");
-
-    PetApiInheritageTest mockedApi;
-    mockedApi.setUsername(user);
-    mockedApi.setPassword(password);
-    mockedApi.setApiKey("api_key","special-key");
-    petCreated = false;
-    mockedApi.addPet(pet, this, [&](const QRestReply &reply, const Pet &newPet) {
-        if (!(petCreated = reply.isSuccess())) {
-            qWarning() << "Not successful" << reply.errorString();
-        } else {
-            QCOMPARE(pet, newPet);
-        }
-    });
-    QTRY_COMPARE_EQ_WITH_TIMEOUT(petCreated, true, 14000);
-    QVERIFY2(mockedApi.m_testCheck, "template isn't called with re-implemented impl()");
 }
 
 void PetApiTests::updatePetTest() {
