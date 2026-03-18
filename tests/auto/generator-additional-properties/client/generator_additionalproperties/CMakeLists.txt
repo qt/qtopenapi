@@ -34,6 +34,7 @@ qt_add_openapi_client(GeneratorAdditionalPropertiesClient
         allowUnicodeIdentifiers=false # default value
         reservedWordPrefix=r_ # default value
         sortParamsByRequiredFlag=true # default value
+        sortModelPropertiesByRequiredFlag=true # default value
     OUTPUT_DIRECTORY
         ${CMAKE_CURRENT_BINARY_DIR}/client1
 )
@@ -51,6 +52,7 @@ qt_add_openapi_client(GeneratorAdditionalPropertiesClient2
         reservedWordPrefix=reserved- # This should be sanitized to reserved_
         sortParamsByRequiredFlag=false # Ignored: parameters must be sorted to keep defaulted
                                        # parameters at the end (C++ requirement).
+        sortModelPropertiesByRequiredFlag=false
     JAVA_OPTIONS
         -Dlog.level=warn
     OUTPUT_DIRECTORY
