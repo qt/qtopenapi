@@ -28,13 +28,20 @@ namespace {{this}} {
 
 void {{classname}}::initializeModel()
 {
-{{^isEnum}}{{#vars}}
+{{^isEnum}}
+{{#vars}}
     m_{{name}}IsSet = false;
-    m_{{name}}IsValid = false;{{^-last}}
-{{/-last}}{{/vars}}{{/isEnum}}{{#isEnum}}
+    m_{{name}}IsValid = false;
+{{^-last}}
+
+{{/-last}}
+{{/vars}}
+{{/isEnum}}
+{{#isEnum}}
     m_valueIsSet = false;
     m_valueIsValid = false;
-    m_value = e{{classname}}::INVALID_VALUE_OPENAPI_GENERATED;{{/isEnum}}
+    m_value = e{{classname}}::INVALID_VALUE_OPENAPI_GENERATED;
+{{/isEnum}}
 }
 
 void {{classname}}::fromJson(const QString &jsonString)
@@ -51,13 +58,10 @@ void {{classname}}::fromJson(const QString &jsonString)
     {{#-first}}if{{/-first}}{{^-first}}else if{{/-first}} (jsonString.compare({{#isString}}u"{{value}}"_s{{/isString}}{{^isString}}QString::number({{value}}){{/isString}}, Qt::CaseInsensitive) == 0) {
         m_value = e{{classname}}::{{name}};
         m_valueIsSet = m_valueIsValid = true;
-    }
-{{#-last}}
-    else {
+    }{{#-last}} else {
         m_value = e{{classname}}::INVALID_VALUE_OPENAPI_GENERATED;
         m_valueIsSet = m_valueIsValid = false;
-    }
-{{/-last}}
+    }{{/-last}}
 {{/enumVars}}
 {{/allowableValues}}
 {{/isEnum}}
@@ -66,11 +70,24 @@ void {{classname}}::fromJson(const QString &jsonString)
 void {{classname}}::fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}}(const QJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}} &json)
 {
 {{^isEnum}}
-{{#vars}}{{^isContainer}}
+{{#vars}}
+{{^isContainer}}
     m_{{name}}IsValid = ::{{cppCommonNamespace}}::fromJsonValue(m_{{name}}, json[u"{{baseName}}"_s]);
-    m_{{name}}IsSet = !json[u"{{baseName}}"_s].isNull() && m_{{name}}IsValid;{{/isContainer}}{{#isContainer}}{{^items.isContainer}}
+    m_{{name}}IsSet = !json[u"{{baseName}}"_s].isNull() && m_{{name}}IsValid;
+{{^-last}}
+
+{{/-last}}
+{{/isContainer}}
+{{#isContainer}}
+{{^items.isContainer}}
     m_{{name}}IsValid = ::{{cppCommonNamespace}}::fromJsonValue(m_{{name}}, json[u"{{baseName}}"_s]);
-    m_{{name}}IsSet = !json[u"{{baseName}}"_s].isNull() && m_{{name}}IsValid;{{/items.isContainer}}{{#items.isContainer}}{{#isArray}}
+    m_{{name}}IsSet = !json[u"{{baseName}}"_s].isNull() && m_{{name}}IsValid;
+{{^-last}}
+
+{{/-last}}
+{{/items.isContainer}}
+{{#items.isContainer}}
+{{#isArray}}
     if (json[u"{{baseName}}"_s].isArray()) {
         auto arr = json[u"{{baseName}}"_s].toArray();
         m_{{name}}IsValid = true;
@@ -82,7 +99,9 @@ void {{classname}}::fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnu
                 m_{{name}}.push_back(item);
             }
         }
-    }{{/isArray}}{{#isMap}}
+    }
+{{/isArray}}
+{{#isMap}}
     if (json[u"{{baseName}}"_s].isObject()) {
         auto varmap = json[u"{{baseName}}"_s].toObject().toVariantMap();
         m_{{name}}IsValid = true;
@@ -95,8 +114,11 @@ void {{classname}}::fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnu
                 m_{{name}}.insert(m_{{name}}.end(), val, item);
             }
         }
-    }{{/isMap}}{{/items.isContainer}}{{/isContainer}}{{^-last}}
-{{/-last}}{{/vars}}
+    }
+{{/isMap}}
+{{/items.isContainer}}
+{{/isContainer}}
+{{/vars}}
 {{/isEnum}}
 {{#isEnum}}
 {{#allowableValues}}
@@ -119,16 +141,17 @@ QString {{classname}}::asJson() const
 {{/isEnum}}
 {{#isEnum}}
     QString val;
-    {{#allowableValues}}
+{{#allowableValues}}
     switch (m_value) {
-        {{#enumVars}}
+{{#enumVars}}
         case e{{classname}}::{{name}}:
             val = {{#isString}}u"{{value}}"_s{{/isString}}{{^isString}}QString::number({{value}}){{/isString}};
             break;{{#-last}}
         default:
             break;{{/-last}}
-        {{/enumVars}}
-    }{{/allowableValues}}
+{{/enumVars}}
+    }
+{{/allowableValues}}
     return val;
 {{/isEnum}}
 }
@@ -136,19 +159,44 @@ QString {{classname}}::asJson() const
 QJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}} {{classname}}::asJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}}() const
 {
 {{^isEnum}}
-    QJsonObject obj;{{#vars}}{{^isContainer}}{{#complexType}}
-    if (m_{{name}}.isSet()){{/complexType}}{{^complexType}}
-    if (m_{{name}}IsSet){{/complexType}} {
+    QJsonObject obj;
+{{#vars}}
+{{^isContainer}}
+{{#complexType}}
+    if (m_{{name}}.isSet()) {
+{{/complexType}}
+{{^complexType}}
+    if (m_{{name}}IsSet) {
+{{/complexType}}
         obj.insert(u"{{baseName}}"_s, ::{{cppCommonNamespace}}::toJsonValue(m_{{name}}));
-    }{{/isContainer}}{{#isContainer}}
+    }
+{{/isContainer}}
+{{#isContainer}}
     if (m_{{name}}.size() > 0) {
-        {{^items.isContainer}}obj.insert(u"{{baseName}}"_s, ::{{cppCommonNamespace}}::toJsonValue(m_{{name}}));{{/items.isContainer}}{{#items.isContainer}}
-        obj.insert(u"{{baseName}}"_s, toJsonValue(m_{{name}}));{{/items.isContainer}}
-    }{{/isContainer}}{{/vars}}
+{{^items.isContainer}}
+        obj.insert(u"{{baseName}}"_s, ::{{cppCommonNamespace}}::toJsonValue(m_{{name}}));
+{{/items.isContainer}}
+{{#items.isContainer}}
+        obj.insert(u"{{baseName}}"_s, toJsonValue(m_{{name}}));
+{{/items.isContainer}}
+    }
+{{/isContainer}}
+{{/vars}}
     return obj;
 {{/isEnum}}
 {{#isEnum}}
-    {{#allowableValues}}{{#enumVars}}{{#-first}}{{^isString}}return QJsonValue(static_cast<int>(m_value));{{/isString}}{{#isString}}return QJsonValue(asJson());{{/isString}}{{/-first}}{{/enumVars}}{{/allowableValues}}
+{{#allowableValues}}
+{{#enumVars}}
+{{#-first}}
+{{^isString}}
+    return QJsonValue(static_cast<int>(m_value));
+{{/isString}}
+{{#isString}}
+    return QJsonValue(asJson());
+{{/isString}}
+{{/-first}}
+{{/enumVars}}
+{{/allowableValues}}
 {{/isEnum}}
 }
 
@@ -156,6 +204,7 @@ QJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}} {{classname}}::asJs
 {
     return m_{{name}};
 }
+
 void {{classname}}::{{setter}}(const {{{dataType}}} &{{name}})
 {
     m_{{name}} = {{name}};
@@ -191,12 +240,22 @@ bool {{classname}}::isSet() const
 {{^isEnum}}
     bool isObjectUpdated = false;
     do {
-{{#vars}}        {{#isContainer}}if (m_{{name}}.size() > 0){{/isContainer}}{{^isContainer}}{{#complexType}}if (m_{{name}}.isSet()){{/complexType}}{{^complexType}}if (m_{{name}}IsSet){{/complexType}}{{/isContainer}} {
+{{#vars}}
+{{#isContainer}}
+        if (m_{{name}}.size() > 0) {
+{{/isContainer}}
+{{^isContainer}}
+{{#complexType}}
+        if (m_{{name}}.isSet()) {
+{{/complexType}}
+{{^complexType}}
+        if (m_{{name}}IsSet) {
+{{/complexType}}
+{{/isContainer}}
             isObjectUpdated = true;
             break;
-        }{{^-last}}
-
-{{/-last}}{{/vars}}
+        }
+{{/vars}}
     } while (false);
     return isObjectUpdated;
 {{/isEnum}}
