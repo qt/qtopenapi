@@ -35,6 +35,7 @@ qt_add_openapi_client(GeneratorAdditionalPropertiesClient
         reservedWordPrefix=r_ # default value
         sortParamsByRequiredFlag=true # default value
         sortModelPropertiesByRequiredFlag=true # default value
+        prependFormOrBodyParameters=false # default value
     OUTPUT_DIRECTORY
         ${CMAKE_CURRENT_BINARY_DIR}/client1
 )
@@ -53,6 +54,7 @@ qt_add_openapi_client(GeneratorAdditionalPropertiesClient2
         sortParamsByRequiredFlag=false # Ignored: parameters must be sorted to keep defaulted
                                        # parameters at the end (C++ requirement).
         sortModelPropertiesByRequiredFlag=false
+        prependFormOrBodyParameters=true
     JAVA_OPTIONS
         -Dlog.level=warn
     OUTPUT_DIRECTORY
