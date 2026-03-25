@@ -4,6 +4,9 @@
 #include <QtCore/qdebug.h>
 #include <QtCore/QJsonParseError>
 
+#include <limits>
+#include <type_traits>
+
 {{#buildingQtSources}}
 QT_BEGIN_NAMESPACE
 {{/buildingQtSources}}
@@ -498,26 +501,40 @@ bool fromJsonValue(QDate &value, const QJsonValue &jval)
     return ok;
 }
 
+// Template helper for signed integer types
+template <typename IntType,
+          std::enable_if_t<
+              std::conjunction_v<std::is_integral<IntType>,
+                                 std::is_signed<IntType>>,
+              bool> = true>
+static bool fromJsonValueIntegral(IntType &value, const QJsonValue &jval)
+{
+    if (!jval.isDouble())
+        return false;
+
+    const qint64 intVal = jval.toInteger();
+    // Roundtrip to catch actual 0 value
+    if (static_cast<double>(intVal) != jval.toDouble())
+        return false;
+
+    // Range check
+    if (intVal < std::numeric_limits<IntType>::min()
+        || intVal > std::numeric_limits<IntType>::max()) {
+        return false;
+    }
+
+    value = static_cast<IntType>(intVal);
+    return true;
+}
+
 bool fromJsonValue(qint32 &value, const QJsonValue &jval)
 {
-    bool ok = true;
-    if (!jval.isUndefined() && !jval.isNull() && !jval.isObject() && !jval.isArray()) {
-        value = jval.toVariant().toInt();
-    } else {
-        ok = false;
-    }
-    return ok;
+    return fromJsonValueIntegral(value, jval);
 }
 
 bool fromJsonValue(qint64 &value, const QJsonValue &jval)
 {
-    bool ok = true;
-    if (!jval.isUndefined() && !jval.isNull() && !jval.isObject() && !jval.isArray()) {
-        value = jval.toVariant().toLongLong();
-    } else {
-        ok = false;
-    }
-    return ok;
+    return fromJsonValueIntegral(value, jval);
 }
 
 bool fromJsonValue(bool &value, const QJsonValue &jval)
