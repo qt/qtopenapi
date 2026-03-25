@@ -15,6 +15,8 @@
 #include <QtCore/qobject.h>
 #include <QtTest/qtest.h>
 
+#include <limits>
+
 using namespace Qt::StringLiterals;
 using namespace QtOpenApiCommon;
 
@@ -94,16 +96,75 @@ void StandardModelsTest::testCatJsonConversionMethods_data()
                                             << true         << true;
 
     // Model with a wrong type for 'age' (string instead of integer)
-    // age should be omitted.
+    // NOTE: 'age' should be omitted, because we're trying to set incorrect data type!
+    // The test case for QTBUG-145410
     // The model stays valid because Cat has no required fields.
-    StandardSchemasModels::Cat wrongAgeType("{\"age\":\"seven\",\"hunts\":true}"_L1);
-    QTest::newRow("hunts=true; age dropped") << wrongAgeType << QString("{\"hunts\":true}"_L1)
+    StandardSchemasModels::Cat stringAgeType("{\"age\":\"seven\",\"hunts\":true}"_L1);
+    QTest::newRow("hunts=true; age (string) dropped")
+            << stringAgeType << QString("{\"hunts\":true}"_L1)
+            // isHuntsSet   isHuntsValid
+            << true         << true
+            // isAgeSet     isAgeValid
+            << false        << false
+            // modelIsValid modelIsSet
+            << true         << true;
+
+    // Let's test double!
+    // NOTE: 'age' should be omitted, because we're trying to set incorrect data type!
+    // The test case for QTBUG-145410
+    // The model stays valid because Cat has no required fields.
+    StandardSchemasModels::Cat doubleAgeType("{\"age\":3.9,\"hunts\":true}"_L1);
+    QTest::newRow("hunts=true; age (double) dropped")
+            << doubleAgeType << QString("{\"hunts\":true}"_L1)
+            // isHuntsSet   isHuntsValid
+            << true         << true
+            // isAgeSet     isAgeValid
+            << false        << false
+            // modelIsValid modelIsSet
+            << true         << true;
+
+    // Let's test a double that can be defined as integer mathematically!
+    // See https://spec.openapis.org/oas/v3.1.1.html#data-types
+    // Quote: "JSON Schema defines integers mathematically. This means that
+    // both 1 and 1.0 are equivalent, and are both considered to be integers."
+    // NOTE: 'age' should NOT be omitted, because we're trying to set correct data!
+    // The test case for QTBUG-145410
+    // The model stays valid because Cat has no required fields.
+    StandardSchemasModels::Cat double2AgeType("{\"age\":3.0,\"hunts\":true}"_L1);
+    QTest::newRow("hunts=true; age=3")
+            << double2AgeType << QString("{\"age\":3,\"hunts\":true}"_L1)
+            // isHuntsSet   isHuntsValid
+            << true         << true
+            // isAgeSet     isAgeValid
+            << true         << true
+            // modelIsValid modelIsSet
+            << true         << true;
+
+
+    // Let's test bool!
+    // NOTE: 'age' should be omitted, because we're trying to set incorrect data type!
+    // The test case for QTBUG-145410
+    // The model stays valid because Cat has no required fields.
+    StandardSchemasModels::Cat boolAgeType("{\"age\":true,\"hunts\":true}"_L1);
+    QTest::newRow("hunts=true; age (bool) dropped")
+            << boolAgeType << QString("{\"hunts\":true}"_L1)
+            // isHuntsSet   isHuntsValid
+            << true         << true
+            // isAgeSet     isAgeValid
+            << false        << false
+            // modelIsValid modelIsSet
+            << true         << true;
+
+    // age is empty. The entire json is dropped, because it's invalid input data.
+    // The model stays valid because Cat has no required fields.
+    StandardSchemasModels::Cat brokenJsonType("{\"age\": ,\"hunts\":true}"_L1);
+    QTest::newRow("Invalid json => age (empty) dropped") << brokenJsonType << QString("{}"_L1)
                                              // isHuntsSet   isHuntsValid
-                                             << true         << true
+                                             << false        << false
                                              // isAgeSet     isAgeValid
                                              << false        << false
                                              // modelIsValid modelIsSet
-                                             << true         << true;
+                                             << true         << false;
 
     // Model with a wrong type for 'hunts' (integer instead of boolean):
     // 'hunts' is dropped, only 'age' survives.
@@ -115,6 +176,56 @@ void StandardModelsTest::testCatJsonConversionMethods_data()
                                            << true         << true
                                            // modelIsValid modelIsSet
                                            << true         << true;
+
+    const QString testVal = QString("{\"age\":9007199254740993,\"hunts\":true}"_L1);
+    StandardSchemasModels::Cat bigValue(testVal);
+    QTest::newRow("hunts=true; age=9007199254740993;")
+            << bigValue << testVal
+            // isHuntsSet   isHuntsValid
+            << true         << true
+            // isAgeSet     isAgeValid
+            << true         << true
+            // modelIsValid modelIsSet
+            << true         << true;
+
+    // <long long >::max() (9223372036854775807): maximum value for a signed 64-bit integer.
+    const QString llongMaxVal =
+            QString("{\"age\":%1,\"hunts\":true}"_L1).arg(std::numeric_limits<long long>::max());
+    StandardSchemasModels::Cat llongMaxCat(llongMaxVal);
+    QTest::newRow("hunts=true; age=<long long >::max();")
+            << llongMaxCat << llongMaxVal
+            // isHuntsSet   isHuntsValid
+            << true         << true
+            // isAgeSet     isAgeValid
+            << true         << true
+            // modelIsValid modelIsSet
+            << true         << true;
+
+    // <long long >::min() (-9223372036854775808): minimum value for a signed 64-bit integer.
+    const QString llongMinVal =
+            QString("{\"age\":%1,\"hunts\":true}"_L1).arg(std::numeric_limits<long long>::min());
+    StandardSchemasModels::Cat llongMinCat(llongMinVal);
+    QTest::newRow("hunts=true; age=LLONG_MIN;")
+            << llongMinCat << llongMinVal
+            // isHuntsSet   isHuntsValid
+            << true         << true
+            // isAgeSet     isAgeValid
+            << true         << true
+            // modelIsValid modelIsSet
+            << true         << true;
+
+    // ULLONG_MAX (18446744073709551615): maximum value for an unsigned 64-bit integer.
+    // This exceeds the int64 range, so 'age' cannot be represented and must be dropped.
+    StandardSchemasModels::Cat ullongMaxCat(
+            QString("{\"age\":18446744073709551615,\"hunts\":true}"_L1));
+    QTest::newRow("hunts=true; age=ULLONG_MAX (overflow, dropped);")
+            << ullongMaxCat << QString("{\"hunts\":true}"_L1)
+            // isHuntsSet   isHuntsValid
+            << true         << true
+            // isAgeSet     isAgeValid
+            << false        << false
+            // modelIsValid modelIsSet
+            << true         << true;
 
     // Model with unknown fields: known fields are parsed,
     // unknown ones silently ignored.
@@ -163,9 +274,6 @@ void StandardModelsTest::testCatJsonConversionMethods()
     QFETCH(bool, isAgeValid);
     QFETCH(bool, modelIsValid);
     QFETCH(bool, modelIsSet);
-
-    QEXPECT_FAIL("hunts=true; age dropped",
-                 "Known issue, should be fixed: QTBUG-145410", Abort);
 
     // Expected model from _data()
     const QJsonValue testValue = QJsonValue::fromJson(QByteArrayView(expectedJson.toUtf8()));
@@ -1121,11 +1229,13 @@ void StandardModelsTest::testPostAccountRequestJsonConversionMethods_data()
         << false                 << false;
 
     // Model with a wrong type for 'cardData' (string instead of integer):
-    // cardData is dropped, but required field 'cardNumber' is set correctly,
+    // NOTE: 'cardData' should be omitted, because we're trying to set incorrect data type!
+    // The test case for QTBUG-145410
+    // 'cardData' is dropped, but required field 'cardNumber' is set correctly,
     // so model is valid.
     StandardSchemasModels::PostAccount_request wrongCardDataType(
         "{\"cardNumber\":\"ABC\",\"cardData\":\"notAnInt\"}"_L1);
-    QTest::newRow("cardData=wrong type; cardNumber=string")
+    QTest::newRow("cardData=wrong string type; cardNumber=string")
         << wrongCardDataType << QString("{\"cardNumber\":\"ABC\"}"_L1)
         // isCardNumberSet       isCardNumberValid
         << true                  << true
@@ -1139,6 +1249,72 @@ void StandardModelsTest::testPostAccountRequestJsonConversionMethods_data()
         << false                 << false
         // modelIsValid          modelIsSet
         << true                  << true;
+
+    // Model with a wrong type for 'cardData' (double instead of integer):
+    // NOTE: 'cardData' should be omitted, because we're trying to set incorrect data type!
+    // The test case for QTBUG-145410
+    // 'cardData' is dropped, but required field 'cardNumber' is set correctly,
+    // so model is valid.
+    StandardSchemasModels::PostAccount_request wrongDoubleCardDataType(
+            "{\"cardNumber\":\"ABC\",\"cardData\":8.88}"_L1);
+    QTest::newRow("cardData=wrong double type; cardNumber=string")
+            << wrongDoubleCardDataType << QString("{\"cardNumber\":\"ABC\"}"_L1)
+            // isCardNumberSet       isCardNumberValid
+            << true                  << true
+            // isCardDataSet         isCardDataValid
+            << false                 << false
+            // isCardAvailabilitySet isCardAvailabilityValid
+            << false                 << false
+            // isCardSecretCodeSet   isCardSecretCodeValid
+            << false                 << false
+            // isOtherAccDataSet     isOtherAccDataValid
+            << false                 << false
+            // modelIsValid          modelIsSet
+            << true                  << true;
+
+    // Model with a wrong type for 'cardData' (array of integers instead of integer):
+    // NOTE: 'cardData' should be omitted, because we're trying to set incorrect data type!
+    // The test case for QTBUG-145410
+    // 'cardData' is dropped, but required field 'cardNumber' is set correctly,
+    // so model is valid.
+    StandardSchemasModels::PostAccount_request arrayCardDataType(
+            "{\"cardNumber\":\"ABC\",\"cardData\":[8, 7]}"_L1);
+    QTest::newRow("cardData=wrong array type; cardNumber=string")
+            << arrayCardDataType << QString("{\"cardNumber\":\"ABC\"}"_L1)
+            // isCardNumberSet       isCardNumberValid
+            << true                 << true
+            // isCardDataSet         isCardDataValid
+            << false                 << false
+            // isCardAvailabilitySet isCardAvailabilityValid
+            << false                 << false
+            // isCardSecretCodeSet   isCardSecretCodeValid
+            << false                 << false
+            // isOtherAccDataSet     isOtherAccDataValid
+            << false                 << false
+            // modelIsValid          modelIsSet
+            << true                  << true;
+
+    // Model with a wrong type for 'cardData' (Object instead of integer):
+    // NOTE: 'cardData' should be omitted, because we're trying to set incorrect data type!
+    // The test case for QTBUG-145410
+    // 'cardData' is dropped, but required field 'cardNumber' is set correctly,
+    // so model is valid.
+    StandardSchemasModels::PostAccount_request objectCardDataType(
+            "{\"cardNumber\":\"ABC\",\"cardData\":{}}"_L1);
+    QTest::newRow("cardData=wrong Object type; cardNumber=string")
+            << objectCardDataType << QString("{\"cardNumber\":\"ABC\"}"_L1)
+            // isCardNumberSet       isCardNumberValid
+            << true                 << true
+            // isCardDataSet         isCardDataValid
+            << false                 << false
+            // isCardAvailabilitySet isCardAvailabilityValid
+            << false                 << false
+            // isCardSecretCodeSet   isCardSecretCodeValid
+            << false                 << false
+            // isOtherAccDataSet     isOtherAccDataValid
+            << false                 << false
+            // modelIsValid          modelIsSet
+            << true                  << true;
 
     // PostAccount_request model has "additionalProperties: true", it means all unknown fields
     // can be added to the resulting object as additional properties.
@@ -1199,12 +1375,8 @@ void StandardModelsTest::testPostAccountRequestJsonConversionMethods()
     QEXPECT_FAIL("cardNumber=wrong type; dropped",
                  "Known issue, should be fixed: QTBUG-145423", Abort);
 
-    QEXPECT_FAIL("cardData=wrong type; cardNumber=string",
-                 "Known issue, should be fixed: QTBUG-145410", Abort);
-
     QEXPECT_FAIL("Model preserves unknown fields",
                  "Known issue, should be fixed: QTBUG-143257", Abort);
-
     const QJsonValue testValue = QJsonValue::fromJson(QByteArrayView(expectedJson.toUtf8()));
     QCOMPARE(request.asJson(), expectedJson);
     QCOMPARE(request.asJsonObject(), testValue.toObject());

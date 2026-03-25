@@ -76,6 +76,7 @@ components:
           type: boolean
         age:
           type: integer
+          format: int64
     Bunny:
       type: object
       required:
