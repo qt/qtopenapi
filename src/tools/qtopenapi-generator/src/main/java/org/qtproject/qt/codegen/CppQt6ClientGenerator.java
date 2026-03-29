@@ -449,6 +449,68 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
     }
 
     @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        objs = super.postProcessAllModels(objs);
+        for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
+            for (ModelMap modelMap : entry.getValue().getModels()) {
+                CodegenModel model = modelMap.getModel();
+                renameOneOfGettersAndSetters(model);
+            }
+        }
+        return objs;
+    }
+
+    /**
+     * Renames oneOf getters and setters from index-based names (e.g. getOneOf0, setOneOf0)
+     * to type-based names (e.g. getOneOfCat, setOneOfCat) using the dataType of each
+     * oneOf alternative.
+     */
+    private void renameOneOfGettersAndSetters(CodegenModel model) {
+        if (model.getComposedSchemas() == null || model.getComposedSchemas().getOneOf() == null) {
+            return;
+        }
+        List<CodegenProperty> oneOfProperties = model.getComposedSchemas().getOneOf();
+        Set<String> usedNames = new HashSet<>();
+        for (CodegenProperty property : oneOfProperties) {
+            String typeName = sanitizeOneOfTypeName(property.dataType);
+            // Ensure uniqueness in case of duplicate types (e.g. QList<Cat> and QList<Dog>)
+            String uniqueName = typeName;
+            int suffix = 2;
+            while (usedNames.contains(uniqueName)) {
+                uniqueName = typeName + suffix;
+                suffix++;
+            }
+            usedNames.add(uniqueName);
+            // "oneOf" in property.name prevents clashing with getters and setters
+            property.name = "oneOf" + uniqueName;
+            property.getter = "getOneOf" + uniqueName;
+            property.setter = "setOneOf" + uniqueName;
+        }
+    }
+
+    /**
+     * Extracts a clean type name suitable for use in getter/setter names from a dataType string.
+     * Handles complex types like "QList&lt;Cat&gt;" by extracting the inner type,
+     * and ensures the first letter is capitalized.
+     *
+     * Examples:
+     *   "Cat"             -> "Cat"
+     *   "QString"         -> "QString"
+     *   "qint32"          -> "Qint32"
+     *   "QList&lt;Cat&gt;" -> "QListCat"
+     *   "QMap&lt;QString, Dog&gt;" -> "QMapQStringDog"
+     */
+    private String sanitizeOneOfTypeName(String dataType) {
+        if (dataType == null || dataType.isEmpty()) {
+            return "UnknownType";
+        }
+        // Remove template angle brackets and commas, keep only alphanumeric characters
+        String cleaned = dataType.replaceAll("[<>,\\s]", "");
+        // Ensure first character is uppercase
+        return cleaned.substring(0, 1).toUpperCase(Locale.ROOT) + cleaned.substring(1);
+    }
+
+    @Override
     public String toApiFilename(String name) {
         final String suffix =
                 (apiNameSuffix != null && !apiNameSuffix.isEmpty()) ? apiNameSuffix : "Api";

@@ -10,12 +10,20 @@ using namespace {{this}};
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
+{{#composedSchemas.oneOf}}
 
+{{classname}}::{{classname}}({{#complexType}}const {{/complexType}}{{{dataType}}} {{#complexType}}&{{/complexType}}value)
+{
+    {{setter}}(value);
+}
+{{/composedSchemas.oneOf}}
+{{^composedSchemas}}
 {{classname}}::{{classname}}(const QString &json)
 {
     this->initializeModel();
     this->fromJson(json);
 }
+{{/composedSchemas}}
 
 {{classname}}::{{classname}}()
 {
@@ -29,6 +37,7 @@ namespace {{this}} {
 void {{classname}}::initializeModel()
 {
 {{^isEnum}}
+{{^composedSchemas}}
 {{#vars}}
     m_{{name}} = {};
 {{#complexType}}
@@ -57,6 +66,20 @@ void {{classname}}::initializeModel()
 
 {{/-last}}
 {{/vars}}
+{{/composedSchemas}}
+{{#composedSchemas.oneOf}}
+{{#-first}}
+    // by default, set std::monostate{}
+    m_oneOf = std::monostate{};
+
+    // By default, a oneOf-object holds no value and is equivalent to std::monostate.
+    // Therefore, all isSet and isValid properties are false. Even if all properties
+    // are optional, the object is not considered valid until it is set.
+{{/-first}}
+    m_{{name}}IsValid = false;
+    m_{{name}}IsSet = false;
+
+{{/composedSchemas.oneOf}}
 {{/isEnum}}
 {{#isEnum}}
     m_valueIsSet = false;
@@ -88,6 +111,7 @@ void {{classname}}::fromJson(const QString &jsonString)
 void {{classname}}::fromJsonValue(const QJsonValue &json)
 {
 {{^isEnum}}
+{{^composedSchemas}}
     if (!json.isObject() || json.toObject().isEmpty()) {
         initializeModel();
         return;
@@ -243,12 +267,109 @@ void {{classname}}::fromJsonValue(const QJsonValue &json)
 {{/isFreeFormObject}}
 {{/complexType}}
 {{/vars}}
+{{/composedSchemas}}
+{{#composedSchemas.oneOf}}
+{{#-first}}
+    // Reset current one
+    initializeModel();
+    if (json.isUndefined())
+        return;
+
+{{/-first}}
+{{#complexType}}
+{{^isContainer}}
+    if (json.isObject()) {
+        {{{dataType}}} {{name}}Value;
+        {{name}}Value.fromJsonValue(json);
+        m_{{name}}IsValid = {{name}}Value.isValid();
+        m_{{name}}IsSet = {{name}}Value.isSet() || (m_{{name}}IsValid && json.toObject().isEmpty());
+        if (m_{{name}}IsSet) {
+            m_oneOf = {{name}}Value;
+            // 'oneOf' means only one from model properties can be VALID.
+            // Two and more cannot be valid! => so, return here.
+            if (m_{{name}}IsValid)
+                return;
+        } else {
+            m_{{name}}IsValid = m_{{name}}IsSet = false;
+        }
+    }
+{{/isContainer}}
+{{#isContainer}}
+{{^items.isContainer}}
+    if (json.isArray() || json.isObject()) {
+        {{{dataType}}} {{name}}Value;
+        m_{{name}}IsValid = ::{{cppCommonNamespace}}::fromJsonValue({{name}}Value, json);
+        if (m_{{name}}IsValid) {
+            m_oneOf = {{name}}Value;
+            m_{{name}}IsSet = m_{{name}}IsValid;
+            // 'oneOf' means only one from model properties can be VALID.
+            // Two and more cannot be valid! => so, return here.
+            return;
+        }
+        m_{{name}}IsSet = false;
+    }
+{{/items.isContainer}}
+{{/isContainer}}
+{{/complexType}}
+{{^complexType}}
+{{#isFreeFormObject}}
+    if (json.isObject()) {
+        {{{dataType}}} {{name}}Value;
+        {{name}}Value.fromJsonValue(json);
+        m_{{name}}IsValid = {{name}}Value.isValid();
+        m_{{name}}IsSet = {{name}}Value.isSet() || (m_{{name}}IsValid && json.toObject().isEmpty());
+        if (m_{{name}}IsSet) {
+            m_oneOf = {{name}}Value;
+            // 'oneOf' means only one from model properties can be VALID.
+            // Two and more cannot be valid! => so, return here.
+            if (m_{{name}}IsValid)
+                return;
+        } else {
+            m_{{name}}IsValid = m_{{name}}IsSet = false;
+        }
+    }
+{{/isFreeFormObject}}
+{{/complexType}}
+{{#isPrimitiveType}}
+{{#isString}}
+    if (json.isString()) {
+{{/isString}}
+{{#isByteArray}}
+    if (json.isString()) {
+{{/isByteArray}}
+{{#isNumeric}}
+    if (json.isDouble()) {
+{{/isNumeric}}
+{{#isBoolean}}
+    if (json.isBool()) {
+{{/isBoolean}}
+        {{{dataType}}} {{name}}Value;
+        m_{{name}}IsValid = ::{{cppCommonNamespace}}::fromJsonValue({{name}}Value, json);
+        if (m_{{name}}IsValid) {
+            m_oneOf = {{name}}Value;
+            m_{{name}}IsSet = m_{{name}}IsValid;
+            // 'oneOf' means only one from model properties can be VALID.
+            // Two and more cannot be valid! => so, return here.
+            return;
+        }
+        m_{{name}}IsSet = false;
+    }
+{{/isPrimitiveType}}
+{{^-last}}
+
+{{/-last}}
+{{/composedSchemas.oneOf}}
 {{/isEnum}}
 {{#isEnum}}
 {{#allowableValues}}
 {{#enumVars}}
 {{#-first}}
-    {{#isString}}fromJson(json.toString());{{/isString}}{{^isString}}m_value = static_cast<e{{classname}}>(json.toInt());{{/isString}}
+{{#isString}}
+    fromJson(json.toString());
+{{/isString}}
+{{^isString}}
+    m_value = static_cast<e{{classname}}>(json.toInt());
+{{/isString}}
 {{/-first}}
 {{/enumVars}}
 {{/allowableValues}}
@@ -258,7 +379,14 @@ void {{classname}}::fromJsonValue(const QJsonValue &json)
 QString {{classname}}::asJson() const
 {
 {{^isEnum}}
+{{^composedSchemas}}
     return QString::fromUtf8(this->asJsonValue().toJson(QJsonDocument::Compact));
+{{/composedSchemas}}
+{{#composedSchemas.oneOf}}
+{{#-first}}
+    return QString::fromUtf8(this->asJsonValue().toJson(QJsonDocument::Compact));
+{{/-first}}
+{{/composedSchemas.oneOf}}
 {{/isEnum}}
 {{#isEnum}}
     QString val;
@@ -280,6 +408,7 @@ QString {{classname}}::asJson() const
 QJsonValue {{classname}}::asJsonValue() const
 {
 {{^isEnum}}
+{{^composedSchemas}}
     QJsonObject obj;
 {{#vars}}
     if (m_{{name}}IsSet) {
@@ -287,6 +416,39 @@ QJsonValue {{classname}}::asJsonValue() const
     }
 {{/vars}}
     return obj;
+{{/composedSchemas}}
+{{#composedSchemas}}
+{{#oneOf}}
+    {
+        const auto *value = std::get_if<{{{dataType}}}>(&m_oneOf);
+        if (value && m_{{name}}IsSet && m_{{name}}IsValid)
+{{#complexType}}
+{{^isContainer}}
+            return value->asJsonValue();
+{{/isContainer}}
+{{#isContainer}}
+            return ::{{cppCommonNamespace}}::toJsonValue(*value);
+{{/isContainer}}
+{{/complexType}}
+{{^complexType}}
+{{#isFreeFormObject}}
+            return value->asJsonValue();
+{{/isFreeFormObject}}
+{{^isFreeFormObject}}
+            return QJsonValue(*value);
+{{/isFreeFormObject}}
+{{/complexType}}
+    }
+{{#-last}}
+    // Here we need to return something, if oneOf value was not set at all.
+    // An empty QJsonValue() returns 'null' via ::toJson(QJsonDocument::Compact)
+    // But 'null' has a special meaning in OpenAPI, so we cannot used it for this case.
+    // There is no correct way to handle such situation in OpenAPI spec,
+    // it is an implementation detail we should decide. I suggest to return an empty Object '{}'.
+    return QJsonObject();
+{{/-last}}
+{{/oneOf}}
+{{/composedSchemas}}
 {{/isEnum}}
 {{#isEnum}}
 {{#allowableValues}}
@@ -304,7 +466,10 @@ QJsonValue {{classname}}::asJsonValue() const
 {{/isEnum}}
 }
 
-{{^isEnum}}{{#vars}}{{{dataType}}} {{classname}}::{{getter}}Value() const
+{{^isEnum}}
+{{^composedSchemas}}
+{{#vars}}
+{{{dataType}}} {{classname}}::{{getter}}Value() const
 {
     return m_{{name}};
 }
@@ -347,7 +512,59 @@ bool {{classname}}::is{{#camelcase}}{{name}}{{/camelcase}}Valid() const
     return m_{{name}}IsValid;
 }
 
-{{/vars}}{{/isEnum}}{{#isEnum}}
+{{/vars}}
+{{/composedSchemas}}
+{{#composedSchemas.oneOf}}
+{{{dataType}}} {{classname}}::{{getter}}() const
+{
+    if (const auto *value = std::get_if<{{{dataType}}}>(&m_oneOf))
+        return *value;
+    else
+        return {{{dataType}}}{};
+}
+
+void {{classname}}::{{setter}}(const {{{dataType}}} &{{name}})
+{
+    this->initializeModel();
+    m_oneOf = {{name}};
+    m_{{name}}IsValid = true{{#complexType}}{{^isContainer}} && {{name}}.isValid(){{/isContainer}}{{/complexType}}{{^complexType}}{{#isFreeFormObject}} && {{name}}.isValid(){{/isFreeFormObject}}{{/complexType}};
+{{#complexType}}
+{{#isModel}}
+    // NOTE: An empty JSON object is still a valid value
+    // for models without required properties.
+    // Users may intentionally set it for specific reasons.
+    m_{{name}}IsSet = {{name}}.isSet() || m_{{name}}IsValid;
+{{/isModel}}
+{{^isModel}}
+    m_{{name}}IsSet = {{#isEnumRef}}{{name}}.isSet(){{/isEnumRef}}{{^isEnumRef}}m_{{name}}IsValid{{/isEnumRef}};
+{{/isModel}}
+{{/complexType}}
+{{^complexType}}
+{{#isFreeFormObject}}
+    // NOTE: An empty JSON object is still a valid value
+    // for models without required properties.
+    // Users may intentionally set it for specific reasons.
+    m_{{name}}IsSet = {{name}}.isSet() || m_{{name}}IsValid;
+{{/isFreeFormObject}}
+{{^isFreeFormObject}}
+    m_{{name}}IsSet = m_{{name}}IsValid;
+{{/isFreeFormObject}}
+{{/complexType}}
+}
+
+bool {{classname}}::is{{#camelcase}}{{name}}{{/camelcase}}Set() const
+{
+    return m_{{name}}IsSet;
+}
+
+bool {{classname}}::is{{#camelcase}}{{name}}{{/camelcase}}Valid() const
+{
+    return m_{{name}}IsValid;
+}
+
+{{/composedSchemas.oneOf}}
+{{/isEnum}}
+{{#isEnum}}
 {{classname}}::e{{classname}} {{classname}}::getValue() const
 {
     return m_value;
@@ -365,12 +582,20 @@ bool {{classname}}::isSet() const
 {{^isEnum}}
     bool isObjectUpdated = false;
     do {
+{{^composedSchemas}}
 {{#vars}}
         if (m_{{name}}IsSet) {
             isObjectUpdated = true;
             break;
         }
 {{/vars}}
+{{/composedSchemas}}
+{{#composedSchemas.oneOf}}
+        if (m_{{name}}IsSet) {
+            isObjectUpdated = true;
+            break;
+        }
+{{/composedSchemas.oneOf}}
     } while (false);
     return isObjectUpdated;
 {{/isEnum}}
@@ -382,8 +607,13 @@ bool {{classname}}::isSet() const
 bool {{classname}}::isValid() const
 {
 {{^isEnum}}
+{{^composedSchemas}}
     // only required properties are required for the object to be considered valid
     return {{#vars}}{{#required}}m_{{name}}IsValid && {{/required}}{{/vars}}true;
+{{/composedSchemas}}
+{{#composedSchemas}}
+    return {{#oneOf}}{{^-first}} || {{/-first}}(m_{{name}}IsValid && m_{{name}}IsSet){{#-last}} || {{/-last}}{{/oneOf}}false;
+{{/composedSchemas}}
 {{/isEnum}}
 {{#isEnum}}
     return m_valueIsValid;

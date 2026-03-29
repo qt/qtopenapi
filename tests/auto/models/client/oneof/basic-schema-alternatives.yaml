@@ -1,0 +1,66 @@
+# Copyright (C) 2026 The Qt Company Ltd.
+# SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
+
+openapi: 3.1.0
+servers:
+    - url: 'http://127.0.0.1:19085/v2'
+info:
+  title: Some Test
+  description: >
+    This specification is intended for testing purposes.
+  version: 1.0.0
+tags:
+  - name: store
+    description: store test file
+
+paths:
+  /pets:
+    patch:
+      tags:
+        - store
+      operationId: patchPetData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+        required: true
+      responses:
+        "200":
+          description: Updated
+    post:
+      tags:
+        - store
+      operationId: postPetData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        "200":
+          description: Updated
+
+components:
+  schemas:
+    Pet:
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+    Dog:
+      type: object
+      required:
+        - bark
+      properties:
+        bark:
+          type: boolean
+        breed:
+          type: string
+          enum: [Dingo, Husky, Retriever, Shepherd]
+    Cat:
+      type: object
+      properties:
+        hunts:
+          type: boolean
+        age:
+          type: integer

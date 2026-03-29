@@ -18,8 +18,15 @@
 {{#enableQmlCode}}
 #include <QtQmlIntegration/qqmlintegration.h>
 {{/enableQmlCode}}
+{{#composedSchemas.oneOf}}
+{{#-first}}
+#include <variant>
+{{/-first}}
+{{/composedSchemas.oneOf}}
 
-{{/model}}{{/models}}{{#imports}}{{{import}}}
+{{/model}}{{/models}}
+{{#imports}}
+{{{import}}}
 {{/imports}}
 
 {{#models}}
@@ -35,26 +42,47 @@ class {{packageNameUpperCase}}_EXPORT {{classname}} : public {{cppCommonNamespac
     QML_VALUE_TYPE(data{{classname}}){{/enableQmlCode}}
 
 {{^isEnum}}
+{{^composedSchemas}}
 {{#vars}}
     Q_PROPERTY({{{dataType}}} {{getter}}Value READ {{getter}}Value WRITE {{setter}})
 {{/vars}}
+{{/composedSchemas}}
+{{#composedSchemas.oneOf}}
+    Q_PROPERTY({{{dataType}}} {{name}} READ {{getter}} WRITE {{setter}})
+{{/composedSchemas.oneOf}}
 {{/isEnum}}
 public:
+{{#composedSchemas.oneOf}}
+    Q_IMPLICIT {{classname}}({{#complexType}}const {{/complexType}}{{{dataType}}} {{#complexType}}&{{/complexType}}value);
+{{/composedSchemas.oneOf}}
     {{classname}}();
-    {{classname}}(const QString &json);
+{{^composedSchemas}}
+    Q_IMPLICIT {{classname}}(const QString &json);
+{{/composedSchemas}}
     ~{{classname}}() override;
 
     QString asJson() const override;
     QJsonValue asJsonValue() const override;
     void fromJsonValue(const QJsonValue &json) override;
     void fromJson(const QString &jsonString) override;
+
 {{^isEnum}}
+{{^composedSchemas}}
 {{#vars}}
     {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}{{{dataType}}} {{getter}}Value() const;
     {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}void {{setter}}(const {{{dataType}}} &{{name}});
     {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}bool is{{#camelcase}}{{name}}{{/camelcase}}Set() const;
     {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}bool is{{#camelcase}}{{name}}{{/camelcase}}Valid() const;
+
 {{/vars}}
+{{/composedSchemas}}
+{{#composedSchemas.oneOf}}
+    {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}{{{dataType}}} {{getter}}() const;
+    {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}void {{setter}}(const {{{dataType}}} &{{name}});
+    {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}bool is{{#camelcase}}{{name}}{{/camelcase}}Set() const;
+    {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}bool is{{#camelcase}}{{name}}{{/camelcase}}Valid() const;
+
+{{/composedSchemas.oneOf}}
 {{/isEnum}}
 {{#isEnum}}
 {{#allowableValues}}
@@ -78,17 +106,38 @@ public:
 private:
     void initializeModel();
 {{^isEnum}}
+{{^composedSchemas}}
 {{#vars}}
     {{{dataType}}} m_{{name}};
     bool m_{{name}}IsSet;
     bool m_{{name}}IsValid;
 {{/vars}}
+{{/composedSchemas}}
+{{#composedSchemas.oneOf}}
+    bool m_{{name}}IsSet;
+    bool m_{{name}}IsValid;
+
+{{/composedSchemas.oneOf}}
+{{#composedSchemas.oneOf}}
+{{#-first}}
+    std::variant<
+        std::monostate
+        , {{{dataType}}}
+{{/-first}}
+{{^-first}}
+        , {{{dataType}}}
+{{/-first}}
+{{#-last}}
+    > m_oneOf;
+{{/-last}}
+{{/composedSchemas.oneOf}}
 {{/isEnum}}
 {{#isEnum}}
     e{{classname}} m_value;
     bool m_valueIsSet;
     bool m_valueIsValid;
-{{/isEnum}}};
+{{/isEnum}}
+};
 
 {{#cppNamespaceDeclarations}}
 } // namespace {{this}}
