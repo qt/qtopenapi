@@ -15,6 +15,7 @@ if(TARGET ${QT_CMAKE_EXPORT_NAMESPACE}::QtOpenAPIGeneratorJar
     if(TARGET Qt::Gui)
         add_subdirectory(mediatype)
     endif()
+    add_subdirectory(models)
     add_subdirectory(openapi2.0)
     add_subdirectory(operation-parameters)
     add_subdirectory(petstore)
