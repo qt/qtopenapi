@@ -442,21 +442,11 @@ bool fromStringValue(const QString &inStr, {{prefix}}HttpFileElement &value)
 
 bool fromJsonValue(QString &value, const QJsonValue &jval)
 {
-    bool ok = true;
-    if (!jval.isUndefined() && !jval.isNull()) {
-        if (jval.isString()) {
-            value = jval.toString();
-        } else if (jval.isBool()) {
-            value = jval.toVariant().toBool() ? "true"_L1 : "false"_L1;
-        } else if (jval.isDouble()) {
-            value = QString::number(jval.toVariant().toDouble());
-        } else {
-            ok = false;
-        }
-    } else {
-        ok = false;
+    if (jval.isString()) {
+        value = jval.toString();
+        return true;
     }
-    return ok;
+    return false;
 }
 
 bool fromJsonValue(QDateTime &value, const QJsonValue &jval)
