@@ -608,7 +608,8 @@ void StandardModelsTest::testBunnyJsonConversionMethods_data()
         << true                    << true;
 
     // "exporting-countries" is Array of strings. Non-string value is interpreted as an error
-    // The entire array omitted
+    // The entire array omitted.
+    // The test case for QTBUG-145413
     StandardSchemasModels::Bunny nonEmptyErrorArray("{\"exporting-countries\":[42]}"_L1);
     QTest::newRow("exporting-countries=[42]")
         << nonEmptyErrorArray << QString("{}"_L1)
@@ -680,12 +681,6 @@ void StandardModelsTest::testBunnyJsonConversionMethods()
                  "Known issue, should be fixed: QTBUG-143257", Abort);
 
     QEXPECT_FAIL("exporting-countries=[]", "Known issue, should be fixed: QTBUG-145412", Abort);
-
-    QEXPECT_FAIL("exporting-countries=[42]",
-                 "Known issue, should be fixed: QTBUG-145413", Abort);
-
-    QEXPECT_FAIL("exporting-countries=[42, \"true\"]",
-                 "Known issue, should be fixed: QTBUG-145413", Abort);
 
     const QJsonValue testValue = QJsonValue::fromJson(QByteArrayView(expectedJson.toUtf8()));
     QCOMPARE(bunny.asJson(), expectedJson);
@@ -1080,7 +1075,8 @@ void StandardModelsTest::testPostAccountRequestOtherAccDataInnerJsonConversionMe
         << true          << true;
 
     // Entire Model should be invalidated, because the array contains an error type:
-    // the array should contain an array of string, not a simple string
+    // the array should contain an array of strings: [["bla","bla"]], not a simple string.
+    // The test case for QTBUG-145413
     StandardSchemasModels::PostAccount_request_otherAccData_inner errorPayload
         ("{\"payload\":[\"Normal string\"]}"_L1);
     QTest::newRow("{\"payload\":[\"Normal string\"]} => payload dropped}")
@@ -1091,7 +1087,8 @@ void StandardModelsTest::testPostAccountRequestOtherAccDataInnerJsonConversionMe
         << true          << false;
 
     // Entire Model should be invalidated, because the array contains an error type:
-    // the array should contain an array of string, not the array of ints
+    // the array should contain an array of strings: [["bla","bla"]], not the array of ints.
+    // The test case for QTBUG-145413
     StandardSchemasModels::PostAccount_request_otherAccData_inner error2Payload
         ("{\"payload\":[[42]]}"_L1);
     QTest::newRow("{\"payload\":[[42]]} => payload dropped}")
@@ -1130,12 +1127,6 @@ void StandardModelsTest::testPostAccountRequestOtherAccDataInnerJsonConversionMe
     QFETCH(bool, isPayloadValid);
     QFETCH(bool, modelIsValid);
     QFETCH(bool, modelIsSet);
-
-    QEXPECT_FAIL("{\"payload\":[\"Normal string\"]} => payload dropped}",
-                 "Known issue, should be fixed: QTBUG-145413", Abort);
-
-    QEXPECT_FAIL("{\"payload\":[[42]]} => payload dropped}",
-                 "Known issue, should be fixed: QTBUG-145413", Abort);
 
     const QJsonValue testValue = QJsonValue::fromJson(QByteArrayView(expectedJson.toUtf8()));
     QCOMPARE(inner.asJson(), expectedJson);

@@ -87,20 +87,34 @@ void {{classname}}::fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnu
 {{/-last}}
 {{/items.isContainer}}
 {{#items.isContainer}}
-{{#isArray}}
+{{#items.isArray}}
     if (json[u"{{baseName}}"_s].isArray()) {
-        auto arr = json[u"{{baseName}}"_s].toArray();
+        const auto arr = json[u"{{baseName}}"_s].toArray();
         m_{{name}}IsValid = true;
-        if (arr.count() > 0) {
-            for (const QJsonValue jval : arr) {
-                {{^items.isContainer}}{{items.baseType}}{{/items.isContainer}}{{#items.isArray}}QList<{{items.items.baseType}}>{{/items.isArray}}{{#items.isMap}}QMap<QString, {{items.items.baseType}}>{{/items.isMap}} item;
-                m_{{name}}IsValid &= ::{{cppCommonNamespace}}::fromJsonValue(item, jval);
-                m_{{name}}IsSet = !jval.isNull() && m_{{name}}IsValid;
-                m_{{name}}.push_back(item);
+        if (arr.size() == 0) {
+            m_{{name}}IsSet = true;
+            return;
+        }
+        for (const QJsonValue &jval : arr) {
+            // Items of array supposed to be an array, because it is 'items.isArray' block
+            // if not, then entire data is broken
+            if (!jval.isArray()) {
+                m_{{name}}.clear();
+                m_{{name}}IsValid = false;
+                m_{{name}}IsSet = false;
+                return;
             }
+            QList<{{items.items.baseType}}> item;
+            m_{{name}}IsValid &= ::{{cppCommonNamespace}}::fromJsonValue(item, jval);
+            m_{{name}}IsSet = m_{{name}}IsValid;
+            if (!m_{{name}}IsValid) {
+                m_{{name}}.clear();
+                return;
+            }
+            m_{{name}}.push_back(item);
         }
     }
-{{/isArray}}
+{{/items.isArray}}
 {{#isMap}}
     if (json[u"{{baseName}}"_s].isObject()) {
         auto varmap = json[u"{{baseName}}"_s].toObject().toVariantMap();
