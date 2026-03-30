@@ -597,6 +597,7 @@ void StandardModelsTest::testBunnyJsonConversionMethods_data()
     // has no exporting countries.
     // Omitting could be ambiguously interpreted as “unknown” or “not specified”
     // depending on server logic.
+    // The test case for QTBUG-145412
     StandardSchemasModels::Bunny emptyArray("{\"exporting-countries\":[]}"_L1);
     QTest::newRow("exporting-countries=[]")
         << emptyArray << QString("{\"exporting-countries\":[]}"_L1)
@@ -679,8 +680,6 @@ void StandardModelsTest::testBunnyJsonConversionMethods()
 
     QEXPECT_FAIL("Model preserves unknown fields",
                  "Known issue, should be fixed: QTBUG-143257", Abort);
-
-    QEXPECT_FAIL("exporting-countries=[]", "Known issue, should be fixed: QTBUG-145412", Abort);
 
     const QJsonValue testValue = QJsonValue::fromJson(QByteArrayView(expectedJson.toUtf8()));
     QCOMPARE(bunny.asJson(), expectedJson);
