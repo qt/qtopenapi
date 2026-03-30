@@ -186,7 +186,7 @@ QJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}} {{classname}}::asJs
     }
 {{/isContainer}}
 {{#isContainer}}
-    if (m_{{name}}.size() > 0) {
+    if (m_{{name}}IsSet) {
 {{^items.isContainer}}
         obj.insert(u"{{baseName}}"_s, ::{{cppCommonNamespace}}::toJsonValue(m_{{name}}));
 {{/items.isContainer}}
@@ -256,7 +256,7 @@ bool {{classname}}::isSet() const
     do {
 {{#vars}}
 {{#isContainer}}
-        if (m_{{name}}.size() > 0) {
+        if (m_{{name}}IsSet) {
 {{/isContainer}}
 {{^isContainer}}
 {{#complexType}}
