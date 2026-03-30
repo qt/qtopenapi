@@ -373,8 +373,9 @@ void StandardModelsTest::testDogJsonConversionMethods_data()
     // Model with a wrong type for 'breed' (integer instead of string):
     // 'breed' is dropped
     // 'bark' (required) is present, so the model stays valid.
+    // The test case for QTBUG-145423
     StandardSchemasModels::Dog wrongBreedType("{\"bark\":true,\"breed\":42}"_L1);
-    QTest::newRow("bark=true; breed=wrong type => dropped")
+    QTest::newRow("bark=true; breed=wrong (int) type => dropped")
         << wrongBreedType << QString("{\"bark\":true}"_L1)
         // isBarkSet    isBarkValid
         << true         << true
@@ -383,11 +384,51 @@ void StandardModelsTest::testDogJsonConversionMethods_data()
         // modelIsValid modelIsSet
         << true         << true;
 
-    // Model with a string type that holds an integer for 'breed':
+    // Model with a wrong type for 'breed' (bool instead of string):
+    // 'breed' is dropped
+    // 'bark' (required) is present, so the model stays valid.
+    // The test case for QTBUG-145423
+    StandardSchemasModels::Dog wrongIntBreedType("{\"bark\":true,\"breed\":true}"_L1);
+    QTest::newRow("bark=true; breed=wrong (bool) type => dropped")
+            << wrongIntBreedType << QString("{\"bark\":true}"_L1)
+            // isBarkSet    isBarkValid
+            << true         << true
+            // isBreedSet   isBreedValid
+            << false        << false
+            // modelIsValid modelIsSet
+            << true         << true;
+
+    // Model with a wrong type for 'breed' (double instead of string):
+    // 'breed' is dropped
+    // 'bark' (required) is present, so the model stays valid.
+    // The test case for QTBUG-145423
+    StandardSchemasModels::Dog wrongDoubleBreedType("{\"bark\":true,\"breed\":42.99}"_L1);
+    QTest::newRow("bark=true; breed=wrong (double) type => dropped")
+            << wrongDoubleBreedType << QString("{\"bark\":true}"_L1)
+            // isBarkSet    isBarkValid
+            << true         << true
+            // isBreedSet   isBreedValid
+            << false        << false
+            // modelIsValid modelIsSet
+            << true         << true;
+
+    // Model with a broken 'breed' (empty instead of string):
+    // everything is dropped, so the model is invalid (required field is not set).
+    StandardSchemasModels::Dog brokenBreedType("{\"bark\":true,\"breed\":}"_L1);
+    QTest::newRow("bark=true; breed=broken field => dropped all")
+            << brokenBreedType << QString("{}"_L1)
+            // isBarkSet    isBarkValid
+            << false        << false
+            // isBreedSet   isBreedValid
+            << false        << false
+            // modelIsValid modelIsSet
+            << false        << false;
+
+    // Model with a string type that holds a stringified integer for 'breed':
     // 'breed' is valid
     // 'bark' (required) is present, so the model stays valid.
     StandardSchemasModels::Dog stringifiedIntBreedType("{\"bark\":true,\"breed\":\"42\"}"_L1);
-    QTest::newRow("bark=true; breed=integer,but breed is interpreted as a string")
+    QTest::newRow("bark=true; breed=stringified integer")
         << stringifiedIntBreedType << QString("{\"bark\":true,\"breed\":\"42\"}"_L1)
         // isBarkSet    isBarkValid
         << true         << true
@@ -431,9 +472,6 @@ void StandardModelsTest::testDogJsonConversionMethods()
     QFETCH(bool, isBreedValid);
     QFETCH(bool, modelIsValid);
     QFETCH(bool, modelIsSet);
-
-    QEXPECT_FAIL("bark=true; breed=wrong type => dropped",
-                 "Known issue, should be fixed: QTBUG-145423", Abort);
 
     const QJsonValue testValue
         = QJsonValue::fromJson(QByteArrayView(expectedJson.toUtf8()));
@@ -1212,8 +1250,9 @@ void StandardModelsTest::testPostAccountRequestJsonConversionMethods_data()
 
     // Model with a wrong type for 'cardNumber' (integer instead of string):
     // 'cardNumber' dropped; model is invalid, because required cardNumber is wrong.
+    // The test case for QTBUG-145423
     StandardSchemasModels::PostAccount_request wrongCardNumberType("{\"cardNumber\":99}"_L1);
-    QTest::newRow("cardNumber=wrong type; dropped")
+    QTest::newRow("cardNumber=wrong (int) type; dropped")
         << wrongCardNumberType << QString("{}"_L1)
         // isCardNumberSet       isCardNumberValid
         << false                 << false
@@ -1227,6 +1266,44 @@ void StandardModelsTest::testPostAccountRequestJsonConversionMethods_data()
         << false                 << false
         // modelIsValid          modelIsSet
         << false                 << false;
+
+    // Model with a wrong type for 'cardNumber' (array instead of string):
+    // 'cardNumber' dropped; model is invalid, because required cardNumber is wrong.
+    // The test case for QTBUG-145423
+    StandardSchemasModels::PostAccount_request arrayCardNumberType("{\"cardNumber\":[\"99\"]}"_L1);
+    QTest::newRow("arrayCardNumberType=wrong (array) type; dropped")
+            << arrayCardNumberType << QString("{}"_L1)
+            // isCardNumberSet       isCardNumberValid
+            << false                 << false
+            // isCardDataSet         isCardDataValid
+            << false                 << false
+            // isCardAvailabilitySet isCardAvailabilityValid
+            << false                 << false
+            // isCardSecretCodeSet   isCardSecretCodeValid
+            << false                 << false
+            // isOtherAccDataSet     isOtherAccDataValid
+            << false                 << false
+            // modelIsValid          modelIsSet
+            << false                 << false;
+
+    // Model with a wrong type for 'cardNumber' (object instead of string):
+    // 'cardNumber' dropped; model is invalid, because required cardNumber is wrong.
+    // The test case for QTBUG-145423
+    StandardSchemasModels::PostAccount_request objectCardNumberType("{\"cardNumber\":{key:1}}"_L1);
+    QTest::newRow("arrayCardNumberType=wrong (object) type; dropped")
+            << objectCardNumberType << QString("{}"_L1)
+            // isCardNumberSet       isCardNumberValid
+            << false                 << false
+            // isCardDataSet         isCardDataValid
+            << false                 << false
+            // isCardAvailabilitySet isCardAvailabilityValid
+            << false                 << false
+            // isCardSecretCodeSet   isCardSecretCodeValid
+            << false                 << false
+            // isOtherAccDataSet     isOtherAccDataValid
+            << false                 << false
+            // modelIsValid          modelIsSet
+            << false                 << false;
 
     // Model with a wrong type for 'cardData' (string instead of integer):
     // NOTE: 'cardData' should be omitted, because we're trying to set incorrect data type!
@@ -1371,9 +1448,6 @@ void StandardModelsTest::testPostAccountRequestJsonConversionMethods()
     QFETCH(bool, isOtherAccDataValid);
     QFETCH(bool, modelIsValid);
     QFETCH(bool, modelIsSet);
-
-    QEXPECT_FAIL("cardNumber=wrong type; dropped",
-                 "Known issue, should be fixed: QTBUG-145423", Abort);
 
     QEXPECT_FAIL("Model preserves unknown fields",
                  "Known issue, should be fixed: QTBUG-143257", Abort);
