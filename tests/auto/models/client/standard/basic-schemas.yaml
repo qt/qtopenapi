@@ -124,3 +124,131 @@ components:
           type: boolean
         family:
           $ref: '#/components/schemas/Duck'
+    Animal:
+      type: object
+      properties:
+        nestedMap:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: string
+    Tier:
+      type: object
+      required:
+        - nestedMap
+      properties:
+        nestedMap:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: string
+    Tiere:
+      type: object
+      required:
+        - deepNestedMap
+        - speciesList
+      properties:
+        name:
+          type: string
+        deepNestedMap:
+          type: object
+          description: Map<String, Map<String, Duck>> - deeply nested with model references
+          additionalProperties:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/Duck'
+        speciesList:
+          type: array
+          description: Array of Ente objects
+          items:
+            $ref: '#/components/schemas/Ente'
+        metadata:
+          type: object
+          description: Nested object with mixed types
+          properties:
+            region:
+              type: string
+            population:
+              type: integer
+              format: int64
+            endangered:
+              type: boolean
+            categories:
+              type: array
+              description: List of category names
+              items:
+                type: string
+    Fauna:
+      type: object
+      required:
+        - deepMapWithLists
+      properties:
+        name:
+          type: string
+        deepMapWithLists:
+          type: object
+          description: Map<String, Map<String, QList<Duck>>> - deeply nested map containing lists
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: array
+              items:
+                $ref: '#/components/schemas/Duck'
+        habitatData:
+          type: object
+          description: Map<String, Map<String, Map<String, QList<String>>>> - triple nested map with string lists
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: object
+              additionalProperties:
+                type: array
+                items:
+                  type: string
+        complexNesting:
+          type: object
+          description: Map<String, QList<Map<String, QList<Cat>>>> - map containing lists of maps with lists
+          additionalProperties:
+            type: array
+            items:
+              type: object
+              additionalProperties:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cat'
+    Flora:
+      type: object
+      required:
+        - plantData
+      properties:
+        name:
+          type: string
+        plantData:
+          type: array
+          description: QList<QMap<String, QList<QMap<String, Duck>>>> - list of maps containing lists of maps with Duck
+          items:
+            type: object
+            additionalProperties:
+              type: array
+              items:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/Pflanze'
+    Pflanze:
+      type: object
+      required:
+        - schoolData
+      properties:
+        name:
+          type: string
+        schoolData:
+          type: array
+          description: QList<QList<QList<String>>> - triple nested list of strings
+          items:
+            type: array
+            items:
+              type: array
+              items:
+                type: string
