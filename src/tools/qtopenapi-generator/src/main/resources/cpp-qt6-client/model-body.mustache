@@ -37,8 +37,9 @@ void {{classname}}::initializeModel()
     m_{{name}}IsSet = m_{{name}}.isSet();
 {{/isContainer}}
 {{#isContainer}}
+    m_{{name}}.clear();
     m_{{name}}IsSet = false;
-    m_{{name}}IsValid = false;
+    m_{{name}}IsValid = !{{{required}}};
 {{/isContainer}}
 {{/complexType}}
 {{^complexType}}
@@ -121,57 +122,89 @@ void {{classname}}::fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnu
 {{/isContainer}}
 {{#isContainer}}
 {{^items.isContainer}}
-    m_{{name}}IsValid = ::{{cppCommonNamespace}}::fromJsonValue(m_{{name}}, json[u"{{baseName}}"_s]);
-    m_{{name}}IsSet = !json[u"{{baseName}}"_s].isNull() && m_{{name}}IsValid;
-{{^-last}}
-
-{{/-last}}
+    if (json[u"{{baseName}}"_s].isArray() || json[u"{{baseName}}"_s].isObject()) {
+        m_{{name}}IsValid = ::{{cppCommonNamespace}}::fromJsonValue(m_{{name}}, json[u"{{baseName}}"_s]);
+        m_{{name}}IsSet = !json[u"{{baseName}}"_s].isNull() && m_{{name}}IsValid;
+    }
 {{/items.isContainer}}
+{{#isArray}}
 {{#items.isContainer}}
-{{#items.isArray}}
     if (json[u"{{baseName}}"_s].isArray()) {
         const auto arr = json[u"{{baseName}}"_s].toArray();
         m_{{name}}IsValid = true;
-        if (arr.size() == 0) {
+        if (arr.size() == 0)
             m_{{name}}IsSet = true;
-            return;
-        }
+
         for (const QJsonValue &jval : arr) {
-            // Items of array supposed to be an array, because it is 'items.isArray' block
-            // if not, then entire data is broken
+{{#items.isArray}}
             if (!jval.isArray()) {
+{{/items.isArray}}
+{{#items.isMap}}
+            if (!jval.isObject()) {
+{{/items.isMap}}
                 m_{{name}}.clear();
-                m_{{name}}IsValid = false;
+                m_{{name}}IsValid = !{{required}};
                 m_{{name}}IsSet = false;
-                return;
+                break;
             }
-            QList<{{items.items.baseType}}> item;
-            m_{{name}}IsValid &= ::{{cppCommonNamespace}}::fromJsonValue(item, jval);
-            m_{{name}}IsSet = m_{{name}}IsValid;
-            if (!m_{{name}}IsValid) {
+
+            {{{items.dataType}}} item;
+            const bool result = ::{{cppCommonNamespace}}::fromJsonValue(item, jval);
+            if (result) {
+                m_{{name}}IsValid = m_{{name}}IsSet = result;
+            } else {
+                m_{{name}}IsValid = !{{required}};
+                m_{{name}}IsSet = result;
                 m_{{name}}.clear();
-                return;
+                break;
             }
             m_{{name}}.push_back(item);
         }
     }
-{{/items.isArray}}
+{{/items.isContainer}}
+{{/isArray}}
 {{#isMap}}
+{{#items.isContainer}}
     if (json[u"{{baseName}}"_s].isObject()) {
-        auto varmap = json[u"{{baseName}}"_s].toObject().toVariantMap();
+        const auto varmap = json[u"{{baseName}}"_s].toObject().toVariantMap();
         m_{{name}}IsValid = true;
-        if (varmap.count() > 0) {
-            for(auto val : varmap.keys()) {
-                {{^items.isContainer}}{{items.baseType}}{{/items.isContainer}}{{#items.isArray}}QList<{{items.items.baseType}}>{{/items.isArray}}{{#items.isMap}}QMap<QString, {{items.items.baseType}}>{{/items.isMap}} item;
-                auto jval = QJsonValue::fromVariant(varmap.value(val));
-                m_{{name}}IsValid &= ::{{cppCommonNamespace}}::fromJsonValue(item, jval);
-                m_{{name}}IsSet &= !jval.isNull() && m_{{name}}IsValid;
-                m_{{name}}.insert(m_{{name}}.end(), val, item);
+        if (varmap.size() == 0)
+            m_{{name}}IsSet = true;
+
+        for (const auto &[key, value] : varmap.asKeyValueRange()) {
+{{#items.isArray}}
+            if (!value.canConvert<QJsonValue>()) {
+{{/items.isArray}}
+{{#items.isMap}}
+            if (!value.canConvert<QVariantMap>()) {
+{{/items.isMap}}
+                m_{{name}}.clear();
+                m_{{name}}IsValid = !{{{required}}};
+                m_{{name}}IsSet = false;
+                break;
             }
+
+            {{{items.dataType}}} item;
+            const auto jval = QJsonValue::fromVariant(value);
+            const bool result = ::{{cppCommonNamespace}}::fromJsonValue(item, jval);
+            if (result) {
+                m_{{name}}IsValid = m_{{name}}IsSet = result;
+            } else {
+                m_{{name}}IsValid = !{{required}};
+                m_{{name}}IsSet = result;
+                m_{{name}}.clear();
+                break;
+            }
+            m_{{name}}.insert(key, item);
         }
     }
-{{/isMap}}
 {{/items.isContainer}}
+{{/isMap}}
+    else { // fallback for wrong data type
+        m_{{name}}.clear();
+        m_{{name}}IsValid = !{{required}};
+        m_{{name}}IsSet = false;
+    }
 {{/isContainer}}
 {{/complexType}}
 {{^complexType}}
