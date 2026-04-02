@@ -219,7 +219,7 @@ void UserApiTests::logoutUserTest_data()
     QTest::newRow("QJsonValue(string)") << QJsonValue("johndoe");
     QTest::newRow("QJsonValue(int)")    << QJsonValue(100);
     QTest::newRow("QJsonValue(array)")  << QJsonValue({1, 2.2, QString("Strange")});
-    QTest::newRow("QJsonValue(object)") << QJsonValue(createRandomUser().asJsonObject());
+    QTest::newRow("QJsonValue(object)") << createRandomUser().asJsonValue();
     QTest::newRow("QJsonValue()")       << QJsonValue();
     QTest::newRow("QJsonValue(Null)")   << QJsonValue(QJsonValue::Null);
 }

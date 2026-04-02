@@ -68,10 +68,7 @@ void {{classname}}::initializeModel()
 void {{classname}}::fromJson(const QString &jsonString)
 {
 {{^isEnum}}
-    QByteArray array(jsonString.toStdString().c_str());
-    QJsonDocument doc = QJsonDocument::fromJson(array);
-    QJsonObject jsonObject = doc.object();
-    this->fromJsonObject(jsonObject);
+    this->fromJsonValue(QJsonValue::fromJson(jsonString.toUtf8()));
 {{/isEnum}}
 {{#isEnum}}
 {{#allowableValues}}
@@ -88,19 +85,20 @@ void {{classname}}::fromJson(const QString &jsonString)
 {{/isEnum}}
 }
 
-void {{classname}}::fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}}(const QJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}} &json)
+void {{classname}}::fromJsonValue(const QJsonValue &json)
 {
 {{^isEnum}}
-    if (json.isEmpty()) {
+    if (!json.isObject() || json.toObject().isEmpty()) {
         initializeModel();
         return;
     }
+    const QJsonObject jsonObject = json.toObject();
 {{#vars}}
 {{#complexType}}
 {{^isContainer}}
 {{#isModel}}
     {
-        const QJsonValue modelValue = json[u"{{baseName}}"_s];
+        const QJsonValue modelValue = jsonObject[u"{{baseName}}"_s];
         if (modelValue.isObject()) {
             ::{{cppCommonNamespace}}::fromJsonValue(m_{{name}}, modelValue);
             m_{{name}}IsValid = m_{{name}}.isValid();
@@ -117,7 +115,7 @@ void {{classname}}::fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnu
 {{/isModel}}
 {{^isModel}}
     {
-        const bool result = ::{{cppCommonNamespace}}::fromJsonValue(m_{{name}}, json[u"{{baseName}}"_s]);
+        const bool result = ::{{cppCommonNamespace}}::fromJsonValue(m_{{name}}, jsonObject[u"{{baseName}}"_s]);
         if (result) {
             m_{{name}}IsValid = m_{{name}}IsSet = {{#isEnumRef}}m_{{name}}.isSet(){{/isEnumRef}}{{^isEnumRef}}result{{/isEnumRef}};
         } else {
@@ -129,15 +127,15 @@ void {{classname}}::fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnu
 {{/isContainer}}
 {{#isContainer}}
 {{^items.isContainer}}
-    if (json[u"{{baseName}}"_s].isArray() || json[u"{{baseName}}"_s].isObject()) {
-        m_{{name}}IsValid = ::{{cppCommonNamespace}}::fromJsonValue(m_{{name}}, json[u"{{baseName}}"_s]);
-        m_{{name}}IsSet = !json[u"{{baseName}}"_s].isNull() && m_{{name}}IsValid;
+    if (jsonObject[u"{{baseName}}"_s].isArray() || jsonObject[u"{{baseName}}"_s].isObject()) {
+        m_{{name}}IsValid = ::{{cppCommonNamespace}}::fromJsonValue(m_{{name}}, jsonObject[u"{{baseName}}"_s]);
+        m_{{name}}IsSet = !jsonObject[u"{{baseName}}"_s].isNull() && m_{{name}}IsValid;
     }
 {{/items.isContainer}}
 {{#isArray}}
 {{#items.isContainer}}
-    if (json[u"{{baseName}}"_s].isArray()) {
-        const auto arr = json[u"{{baseName}}"_s].toArray();
+    if (jsonObject[u"{{baseName}}"_s].isArray()) {
+        const auto arr = jsonObject[u"{{baseName}}"_s].toArray();
         m_{{name}}IsValid = true;
         if (arr.size() == 0)
             m_{{name}}IsSet = true;
@@ -172,8 +170,8 @@ void {{classname}}::fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnu
 {{/isArray}}
 {{#isMap}}
 {{#items.isContainer}}
-    if (json[u"{{baseName}}"_s].isObject()) {
-        const auto varmap = json[u"{{baseName}}"_s].toObject().toVariantMap();
+    if (jsonObject[u"{{baseName}}"_s].isObject()) {
+        const auto varmap = jsonObject[u"{{baseName}}"_s].toObject().toVariantMap();
         m_{{name}}IsValid = true;
         if (varmap.size() == 0)
             m_{{name}}IsSet = true;
@@ -217,7 +215,7 @@ void {{classname}}::fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnu
 {{^complexType}}
 {{#isFreeFormObject}}
     {
-        const QJsonValue modelValue = json[u"{{baseName}}"_s];
+        const QJsonValue modelValue = jsonObject[u"{{baseName}}"_s];
         if (modelValue.isObject()) {
             ::{{cppCommonNamespace}}::fromJsonValue(m_{{name}}, modelValue);
             m_{{name}}IsValid = m_{{name}}.isValid();
@@ -234,7 +232,7 @@ void {{classname}}::fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnu
 {{/isFreeFormObject}}
 {{^isFreeFormObject}}
     {
-        const bool result = ::{{cppCommonNamespace}}::fromJsonValue(m_{{name}}, json[u"{{baseName}}"_s]);
+        const bool result = ::{{cppCommonNamespace}}::fromJsonValue(m_{{name}}, jsonObject[u"{{baseName}}"_s]);
         if (result) {
             m_{{name}}IsValid = m_{{name}}IsSet = result;
         } else {
@@ -260,10 +258,7 @@ void {{classname}}::fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnu
 QString {{classname}}::asJson() const
 {
 {{^isEnum}}
-    QJsonObject obj = this->asJsonObject();
-    QJsonDocument doc(obj);
-    QByteArray bytes = doc.toJson(QJsonDocument::Compact);
-    return QString::fromUtf8(bytes);
+    return QString::fromUtf8(this->asJsonValue().toJson(QJsonDocument::Compact));
 {{/isEnum}}
 {{#isEnum}}
     QString val;
@@ -282,7 +277,7 @@ QString {{classname}}::asJson() const
 {{/isEnum}}
 }
 
-QJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}} {{classname}}::asJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}}() const
+QJsonValue {{classname}}::asJsonValue() const
 {
 {{^isEnum}}
     QJsonObject obj;
@@ -323,7 +318,7 @@ void {{classname}}::{{setter}}(const {{{dataType}}} &{{name}})
     // NOTE: An empty JSON object is still a valid value
     // for models without required properties.
     // Users may intentionally set it for specific reasons.
-    m_{{name}}IsSet = m_{{name}}.isSet() || (m_{{name}}IsValid && {{name}}.asJsonObject().isEmpty());
+    m_{{name}}IsSet = m_{{name}}.isSet() || (m_{{name}}IsValid && {{name}}.asJsonValue().toObject().isEmpty());
 {{/isModel}}
 {{^isModel}}
     m_{{name}}IsSet = {{#isEnumRef}}m_{{name}}.isSet(){{/isEnumRef}}{{^isEnumRef}}m_{{name}}IsValid{{/isEnumRef}};
@@ -334,7 +329,7 @@ void {{classname}}::{{setter}}(const {{{dataType}}} &{{name}})
     // NOTE: An empty JSON object is still a valid value
     // for models without required properties.
     // Users may intentionally set it for specific reasons.
-    m_{{name}}IsSet = m_{{name}}.isSet() || (m_{{name}}IsValid && {{name}}.asJsonObject().isEmpty());
+    m_{{name}}IsSet = m_{{name}}.isSet() || (m_{{name}}IsValid && {{name}}.asJsonValue().toObject().isEmpty());
 {{/isFreeFormObject}}
 {{^isFreeFormObject}}
     m_{{name}}IsSet = m_{{name}}IsValid;

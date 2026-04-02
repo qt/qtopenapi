@@ -181,7 +181,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         QString paramString = opts.prefix + serializeJsonValue({{paramName}}, opts);
 {{/isAnyType}}
 {{#isModel}}
-        paramString = opts.prefix + serializeJsonValue(QJsonValue({{paramName}}.asJsonObject()), opts);
+        paramString = opts.prefix + serializeJsonValue({{paramName}}.asJsonValue(), opts);
 {{/isModel}}
 {{#isMap}}
 {{#additionalProperties.isModel}}
@@ -259,8 +259,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
             fullPath.append(paramString);
 {{/isAnyType}}
 {{#isModel}}
-            const QJsonObject parameter = {{paramName}}{{^required}}.value(){{/required}}.asJsonObject();
-            paramString = serializeJsonValue(QJsonValue(parameter), opts);
+            paramString = serializeJsonValue({{paramName}}{{^required}}.value(){{/required}}.asJsonValue(), opts);
             // style=form && explode=true && non-object => '{{baseName}}' isn't used in serialization
             // style=form && explode=true && empty object => need to be '{{baseName}}='
             // see https://spec.openapis.org/oas/v3.1.1.html#style-values
@@ -457,8 +456,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         const QString headerString = serializeJsonValue({{paramName}}{{^required}}.value(){{/required}}, opts);
 {{/isAnyType}}
 {{#isModel}}
-        const QJsonObject parameter = {{paramName}}{{^required}}.value(){{/required}}.asJsonObject();
-        const QString headerString = serializeJsonValue(parameter, opts);
+        const QString headerString = serializeJsonValue({{paramName}}{{^required}}.value(){{/required}}.asJsonValue(), opts);
 {{/isModel}}
 {{#isMap}}
         const QString headerString = serializeMapValue({{paramName}}{{^required}}.value(){{/required}}, opts);
@@ -498,8 +496,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
         cookieString = serializeJsonValue({{paramName}}{{^required}}.value(){{/required}}, opts);
 {{/isAnyType}}
 {{#isModel}}
-        const QJsonObject parameter = {{paramName}}{{^required}}.value(){{/required}}.asJsonObject();
-        cookieString = serializeJsonValue(parameter, opts);
+        cookieString = serializeJsonValue({{paramName}}{{^required}}.value(){{/required}}.asJsonValue(), opts);
 {{/isModel}}
 {{#isMap}}
         cookieString = opts.suffix + serializeMapValue({{paramName}}{{^required}}.value(){{/required}}, opts);

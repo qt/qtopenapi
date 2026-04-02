@@ -113,7 +113,7 @@ public:
     Q_INVOKABLE QtOpenAPI::Color create(const QJsonObject &json)
     {
         QtOpenAPI::Color color;
-        color.fromJsonObject(json);
+        color.fromJsonValue(json);
         return color;
     }
 };

@@ -299,7 +299,8 @@ void StandardModelsTest::testCatJsonConversionMethods()
     // Expected model from _data()
     const QJsonValue testValue = QJsonValue::fromJson(QByteArrayView(expectedJson.toUtf8()));
     QCOMPARE(cat.asJson(), expectedJson);
-    QCOMPARE(cat.asJsonObject(), testValue.toObject());
+    QCOMPARE(cat.asJsonValue(), testValue);
+    QCOMPARE(cat.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(cat.isHuntsSet(), isHuntsSet);
     QCOMPARE(cat.isHuntsValid(), isHuntsValid);
     QCOMPARE(cat.isAgeSet(), isAgeSet);
@@ -311,7 +312,8 @@ void StandardModelsTest::testCatJsonConversionMethods()
     StandardSchemasModels::Cat fromJson;
     fromJson.fromJson(expectedJson);
     QCOMPARE(fromJson.asJson(), expectedJson);
-    QCOMPARE(fromJson.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromJson.asJsonValue(), testValue);
+    QCOMPARE(fromJson.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(fromJson.isHuntsSet(), isHuntsSet);
     QCOMPARE(fromJson.isHuntsValid(), isHuntsValid);
     QCOMPARE(fromJson.isAgeSet(), isAgeSet);
@@ -320,11 +322,12 @@ void StandardModelsTest::testCatJsonConversionMethods()
     QCOMPARE(fromJson.isValid(), modelIsValid);
     QCOMPARE(fromJson, cat);
 
-    // Model::fromJsonObject()
+    // Model::fromJsonValue()
     StandardSchemasModels::Cat fromObject;
-    fromObject.fromJsonObject(testValue.toObject());
+    fromObject.fromJsonValue(testValue);
     QCOMPARE(fromObject.asJson(), expectedJson);
-    QCOMPARE(fromObject.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromObject.asJsonValue(), testValue);
+    QCOMPARE(fromObject.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(fromObject.isHuntsSet(), isHuntsSet);
     QCOMPARE(fromObject.isHuntsValid(), isHuntsValid);
     QCOMPARE(fromObject.isAgeSet(), isAgeSet);
@@ -338,8 +341,8 @@ void StandardModelsTest::testCatJsonConversionMethods()
     StandardSchemasModels::Cat defaultObject;
     fromJson.fromJson("{invalid json /e*3 }"_L1);
     QVERIFY(fromJson.asJson() == "{}"_L1);
-    QVERIFY(fromJson.asJsonObject().isEmpty());
-    QCOMPARE(fromJson.asJsonObject(), defaultObject.asJsonObject());
+    QVERIFY(fromJson.asJsonValue().toObject().isEmpty());
+    QCOMPARE(fromJson.asJsonValue(), defaultObject.asJsonValue());
     QCOMPARE(fromJson.isHuntsSet(), defaultObject.isHuntsSet());
     QCOMPARE(fromJson.isHuntsValid(), defaultObject.isHuntsValid());
     QCOMPARE(fromJson.isAgeSet(), defaultObject.isAgeSet());
@@ -512,7 +515,8 @@ void StandardModelsTest::testDogJsonConversionMethods()
     const QJsonValue testValue
         = QJsonValue::fromJson(QByteArrayView(expectedJson.toUtf8()));
     QCOMPARE(dog.asJson(), expectedJson);
-    QCOMPARE(dog.asJsonObject(), testValue.toObject());
+    QCOMPARE(dog.asJsonValue(), testValue);
+    QCOMPARE(dog.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(dog.isBarkSet(), isBarkSet);
     QCOMPARE(dog.isBarkValid(), isBarkValid);
     QCOMPARE(dog.isBreedSet(), isBreedSet);
@@ -524,7 +528,8 @@ void StandardModelsTest::testDogJsonConversionMethods()
     StandardSchemasModels::Dog fromJson;
     fromJson.fromJson(expectedJson);
     QCOMPARE(fromJson.asJson(), expectedJson);
-    QCOMPARE(fromJson.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromJson.asJsonValue(), testValue);
+    QCOMPARE(fromJson.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(fromJson.isBarkSet(), isBarkSet);
     QCOMPARE(fromJson.isBarkValid(), isBarkValid);
     QCOMPARE(fromJson.isBreedSet(), isBreedSet);
@@ -533,11 +538,12 @@ void StandardModelsTest::testDogJsonConversionMethods()
     QCOMPARE(fromJson.isValid(), modelIsValid);
     QCOMPARE(fromJson, dog);
 
-    // Model::fromJsonObject()
+    // Model::fromJsonValue()
     StandardSchemasModels::Dog fromObject;
-    fromObject.fromJsonObject(testValue.toObject());
+    fromObject.fromJsonValue(testValue);
     QCOMPARE(fromObject.asJson(), expectedJson);
-    QCOMPARE(fromObject.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromObject.asJsonValue(), testValue);
+    QCOMPARE(fromObject.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(fromObject.isBarkSet(), isBarkSet);
     QCOMPARE(fromObject.isBarkValid(), isBarkValid);
     QCOMPARE(fromObject.isBreedSet(), isBreedSet);
@@ -719,7 +725,8 @@ void StandardModelsTest::testBunnyJsonConversionMethods()
 
     const QJsonValue testValue = QJsonValue::fromJson(QByteArrayView(expectedJson.toUtf8()));
     QCOMPARE(bunny.asJson(), expectedJson);
-    QCOMPARE(bunny.asJsonObject(), testValue.toObject());
+    QCOMPARE(bunny.asJsonValue(), testValue);
+    QCOMPARE(bunny.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(bunny.isWeightSet(), isWeightSet);
     QCOMPARE(bunny.isWeightValid(), isWeightValid);
     QCOMPARE(bunny.isExportingCountriesSet(), isExportingCountriesSet);
@@ -731,7 +738,8 @@ void StandardModelsTest::testBunnyJsonConversionMethods()
     StandardSchemasModels::Bunny fromJson;
     fromJson.fromJson(expectedJson);
     QCOMPARE(fromJson.asJson(), expectedJson);
-    QCOMPARE(fromJson.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromJson.asJsonValue(), testValue);
+    QCOMPARE(fromJson.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(fromJson.isWeightSet(), isWeightSet);
     QCOMPARE(fromJson.isWeightValid(), isWeightValid);
     QCOMPARE(fromJson.isExportingCountriesSet(), isExportingCountriesSet);
@@ -740,11 +748,12 @@ void StandardModelsTest::testBunnyJsonConversionMethods()
     QCOMPARE(fromJson.isValid(), modelIsValid);
     QCOMPARE(fromJson, bunny);
 
-    // Model::fromJsonObject()
+    // Model::fromJsonValue()
     StandardSchemasModels::Bunny fromObject;
-    fromObject.fromJsonObject(testValue.toObject());
+    fromObject.fromJsonValue(testValue);
     QCOMPARE(fromObject.asJson(), expectedJson);
-    QCOMPARE(fromObject.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromObject.asJsonValue(), testValue);
+    QCOMPARE(fromObject.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(fromObject.isWeightSet(), isWeightSet);
     QCOMPARE(fromObject.isWeightValid(), isWeightValid);
     QCOMPARE(fromObject.isExportingCountriesSet(), isExportingCountriesSet);
@@ -863,7 +872,8 @@ void StandardModelsTest::testDuckFamilyJsonConversionMethods()
 
     const QJsonValue testValue = QJsonValue::fromJson(QByteArrayView(expectedJson.toUtf8()));
     QCOMPARE(duckFamily.asJson(), expectedJson);
-    QCOMPARE(duckFamily.asJsonObject(), testValue.toObject());
+    QCOMPARE(duckFamily.asJsonValue(), testValue);
+    QCOMPARE(duckFamily.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(duckFamily.isCountryOfOriginSet(), isCountryOfOriginSet);
     QCOMPARE(duckFamily.isCountryOfOriginValid(), isCountryOfOriginValid);
     QCOMPARE(duckFamily.isCountSet(), isCountSet);
@@ -875,7 +885,8 @@ void StandardModelsTest::testDuckFamilyJsonConversionMethods()
     StandardSchemasModels::Duck_family fromJson;
     fromJson.fromJson(expectedJson);
     QCOMPARE(fromJson.asJson(), expectedJson);
-    QCOMPARE(fromJson.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromJson.asJsonValue(), testValue);
+    QCOMPARE(fromJson.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(fromJson.isCountryOfOriginSet(), isCountryOfOriginSet);
     QCOMPARE(fromJson.isCountryOfOriginValid(), isCountryOfOriginValid);
     QCOMPARE(fromJson.isCountSet(), isCountSet);
@@ -884,11 +895,12 @@ void StandardModelsTest::testDuckFamilyJsonConversionMethods()
     QCOMPARE(fromJson.isValid(), modelIsValid);
     QCOMPARE(fromJson, duckFamily);
 
-    // Model::fromJsonObject()
+    // Model::fromJsonValue()
     StandardSchemasModels::Duck_family fromObject;
-    fromObject.fromJsonObject(testValue.toObject());
+    fromObject.fromJsonValue(testValue);
     QCOMPARE(fromObject.asJson(), expectedJson);
-    QCOMPARE(fromObject.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromObject.asJsonValue(), testValue);
+    QCOMPARE(fromObject.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(fromObject.isCountryOfOriginSet(), isCountryOfOriginSet);
     QCOMPARE(fromObject.isCountryOfOriginValid(), isCountryOfOriginValid);
     QCOMPARE(fromObject.isCountSet(), isCountSet);
@@ -1046,7 +1058,8 @@ void StandardModelsTest::testDuckJsonConversionMethods()
 
     const QJsonValue testValue = QJsonValue::fromJson(QByteArrayView(expectedJson.toUtf8()));
     QCOMPARE(duck.asJson(), expectedJson);
-    QCOMPARE(duck.asJsonObject(), testValue.toObject());
+    QCOMPARE(duck.asJsonValue(), testValue);
+    QCOMPARE(duck.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(duck.isBitesSet(), isBitesSet);
     QCOMPARE(duck.isBitesValid(), isBitesValid);
     QCOMPARE(duck.isFamilySet(), isFamilySet);
@@ -1058,7 +1071,8 @@ void StandardModelsTest::testDuckJsonConversionMethods()
     StandardSchemasModels::Duck fromJson;
     fromJson.fromJson(expectedJson);
     QCOMPARE(fromJson.asJson(), expectedJson);
-    QCOMPARE(fromJson.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromJson.asJsonValue(), testValue);
+    QCOMPARE(fromJson.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(fromJson.isBitesSet(), isBitesSet);
     QCOMPARE(fromJson.isBitesValid(), isBitesValid);
     QCOMPARE(fromJson.isFamilySet(), isFamilySet);
@@ -1067,11 +1081,12 @@ void StandardModelsTest::testDuckJsonConversionMethods()
     QCOMPARE(fromJson.isValid(), modelIsValid);
     QCOMPARE(fromJson, duck);
 
-    // Model::fromJsonObject()
+    // Model::fromJsonValue()
     StandardSchemasModels::Duck fromObject;
-    fromObject.fromJsonObject(testValue.toObject());
+    fromObject.fromJsonValue(testValue);
     QCOMPARE(fromObject.asJson(), expectedJson);
-    QCOMPARE(fromObject.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromObject.asJsonValue(), testValue);
+    QCOMPARE(fromObject.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(fromObject.isBitesSet(), isBitesSet);
     QCOMPARE(fromObject.isBitesValid(), isBitesValid);
     QCOMPARE(fromObject.isFamilySet(), isFamilySet);
@@ -1232,7 +1247,8 @@ void StandardModelsTest::testEnteJsonConversionMethods()
 
     const QJsonValue testValue = QJsonValue::fromJson(QByteArrayView(expectedJson.toUtf8()));
     QCOMPARE(ente.asJson(), expectedJson);
-    QCOMPARE(ente.asJsonObject(), testValue.toObject());
+    QCOMPARE(ente.asJsonValue(), testValue);
+    QCOMPARE(ente.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(ente.isBitesSet(), isBitesSet);
     QCOMPARE(ente.isBitesValid(), isBitesValid);
     QCOMPARE(ente.isFamilySet(), isFamilySet);
@@ -1244,7 +1260,8 @@ void StandardModelsTest::testEnteJsonConversionMethods()
     StandardSchemasModels::Ente fromJson;
     fromJson.fromJson(expectedJson);
     QCOMPARE(fromJson.asJson(), expectedJson);
-    QCOMPARE(fromJson.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromJson.asJsonValue(), testValue);
+    QCOMPARE(fromJson.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(fromJson.isBitesSet(), isBitesSet);
     QCOMPARE(fromJson.isBitesValid(), isBitesValid);
     QCOMPARE(fromJson.isFamilySet(), isFamilySet);
@@ -1253,11 +1270,12 @@ void StandardModelsTest::testEnteJsonConversionMethods()
     QCOMPARE(fromJson.isValid(), modelIsValid);
     QCOMPARE(fromJson, ente);
 
-    // Model::fromJsonObject()
+    // Model::fromJsonValue()
     StandardSchemasModels::Ente fromObject;
-    fromObject.fromJsonObject(testValue.toObject());
+    fromObject.fromJsonValue(testValue);
     QCOMPARE(fromObject.asJson(), expectedJson);
-    QCOMPARE(fromObject.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromObject.asJsonValue(), testValue);
+    QCOMPARE(fromObject.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(fromObject.isBitesSet(), isBitesSet);
     QCOMPARE(fromObject.isBitesValid(), isBitesValid);
     QCOMPARE(fromObject.isFamilySet(), isFamilySet);
@@ -1352,7 +1370,8 @@ void StandardModelsTest::testPostAccountRequestOtherAccDataInnerJsonConversionMe
 
     const QJsonValue testValue = QJsonValue::fromJson(QByteArrayView(expectedJson.toUtf8()));
     QCOMPARE(inner.asJson(), expectedJson);
-    QCOMPARE(inner.asJsonObject(), testValue.toObject());
+    QCOMPARE(inner.asJsonValue(), testValue);
+    QCOMPARE(inner.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(inner.isPayloadSet(), isPayloadSet);
     QCOMPARE(inner.isPayloadValid(), isPayloadValid);
     QCOMPARE(inner.isValid(), modelIsValid);
@@ -1362,18 +1381,20 @@ void StandardModelsTest::testPostAccountRequestOtherAccDataInnerJsonConversionMe
     StandardSchemasModels::PostAccount_request_otherAccData_inner fromJson;
     fromJson.fromJson(expectedJson);
     QCOMPARE(fromJson.asJson(), expectedJson);
-    QCOMPARE(fromJson.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromJson.asJsonValue(), testValue);
+    QCOMPARE(fromJson.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(fromJson.isPayloadSet(), isPayloadSet);
     QCOMPARE(fromJson.isPayloadValid(), isPayloadValid);
     QCOMPARE(fromJson.isSet(), modelIsSet);
     QCOMPARE(fromJson.isValid(), modelIsValid);
     QCOMPARE(fromJson, inner);
 
-    // Model::fromJsonObject()
+    // Model::fromJsonValue()
     StandardSchemasModels::PostAccount_request_otherAccData_inner fromObject;
-    fromObject.fromJsonObject(testValue.toObject());
+    fromObject.fromJsonValue(testValue);
     QCOMPARE(fromObject.asJson(), expectedJson);
-    QCOMPARE(fromObject.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromObject.asJsonValue(), testValue);
+    QCOMPARE(fromObject.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(fromObject.isPayloadSet(), isPayloadSet);
     QCOMPARE(fromObject.isPayloadValid(), isPayloadValid);
     QCOMPARE(fromObject.isSet(), modelIsSet);
@@ -1666,7 +1687,8 @@ void StandardModelsTest::testPostAccountRequestJsonConversionMethods()
                  "Known issue, should be fixed: QTBUG-143257", Abort);
     const QJsonValue testValue = QJsonValue::fromJson(QByteArrayView(expectedJson.toUtf8()));
     QCOMPARE(request.asJson(), expectedJson);
-    QCOMPARE(request.asJsonObject(), testValue.toObject());
+    QCOMPARE(request.asJsonValue(), testValue);
+    QCOMPARE(request.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(request.isCardNumberSet(), isCardNumberSet);
     QCOMPARE(request.isCardNumberValid(), isCardNumberValid);
     QCOMPARE(request.isCardDataSet(), isCardDataSet);
@@ -1684,7 +1706,8 @@ void StandardModelsTest::testPostAccountRequestJsonConversionMethods()
     StandardSchemasModels::PostAccount_request fromJson;
     fromJson.fromJson(expectedJson);
     QCOMPARE(fromJson.asJson(), expectedJson);
-    QCOMPARE(fromJson.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromJson.asJsonValue(), testValue);
+    QCOMPARE(fromJson.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(fromJson.isCardNumberSet(), isCardNumberSet);
     QCOMPARE(fromJson.isCardNumberValid(), isCardNumberValid);
     QCOMPARE(fromJson.isCardDataSet(), isCardDataSet);
@@ -1699,11 +1722,12 @@ void StandardModelsTest::testPostAccountRequestJsonConversionMethods()
     QCOMPARE(fromJson.isValid(), modelIsValid);
     QCOMPARE(fromJson, request);
 
-    // Model::fromJsonObject()
+    // Model::fromJsonValue()
     StandardSchemasModels::PostAccount_request fromObject;
-    fromObject.fromJsonObject(testValue.toObject());
+    fromObject.fromJsonValue(testValue);
     QCOMPARE(fromObject.asJson(), expectedJson);
-    QCOMPARE(fromObject.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromObject.asJsonValue(), testValue);
+    QCOMPARE(fromObject.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(fromObject.isCardNumberSet(), isCardNumberSet);
     QCOMPARE(fromObject.isCardNumberValid(), isCardNumberValid);
     QCOMPARE(fromObject.isCardDataSet(), isCardDataSet);
@@ -1847,7 +1871,7 @@ void StandardModelsTest::testAnimalJsonConversionMethods()
 
     const QJsonValue testValue = QJsonValue::fromJson(QByteArrayView(expectedJson.toUtf8()));
     QCOMPARE(animal.asJson(), expectedJson);
-    QCOMPARE(animal.asJsonObject(), testValue.toObject());
+    QCOMPARE(animal.asJsonValue(), testValue);
     QCOMPARE(animal.isNestedMapSet(), isNestedMapSet);
     QCOMPARE(animal.isNestedMapValid(), isNestedMapValid);
     QCOMPARE(animal.isValid(), modelIsValid);
@@ -1857,18 +1881,18 @@ void StandardModelsTest::testAnimalJsonConversionMethods()
     StandardSchemasModels::Animal fromJson;
     fromJson.fromJson(expectedJson);
     QCOMPARE(fromJson.asJson(), expectedJson);
-    QCOMPARE(fromJson.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromJson.asJsonValue(), testValue);
     QCOMPARE(fromJson.isNestedMapSet(), isNestedMapSet);
     QCOMPARE(fromJson.isNestedMapValid(), isNestedMapValid);
     QCOMPARE(fromJson.isSet(), modelIsSet);
     QCOMPARE(fromJson.isValid(), modelIsValid);
     QCOMPARE(fromJson, animal);
 
-    // Model::fromJsonObject()
+    // Model::fromJsonValue()
     StandardSchemasModels::Animal fromObject;
-    fromObject.fromJsonObject(testValue.toObject());
+    fromObject.fromJsonValue(testValue);
     QCOMPARE(fromObject.asJson(), expectedJson);
-    QCOMPARE(fromObject.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromObject.asJsonValue(), testValue);
     QCOMPARE(fromObject.isNestedMapSet(), isNestedMapSet);
     QCOMPARE(fromObject.isNestedMapValid(), isNestedMapValid);
     QCOMPARE(fromObject.isSet(), modelIsSet);
@@ -1994,7 +2018,8 @@ void StandardModelsTest::testTierJsonConversionMethods()
 
     const QJsonValue testValue = QJsonValue::fromJson(QByteArrayView(expectedJson.toUtf8()));
     QCOMPARE(tier.asJson(), expectedJson);
-    QCOMPARE(tier.asJsonObject(), testValue.toObject());
+    QCOMPARE(tier.asJsonValue(), testValue);
+    QCOMPARE(tier.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(tier.isNestedMapSet(), isNestedMapSet);
     QCOMPARE(tier.isNestedMapValid(), isNestedMapValid);
     QCOMPARE(tier.isValid(), modelIsValid);
@@ -2004,18 +2029,19 @@ void StandardModelsTest::testTierJsonConversionMethods()
     StandardSchemasModels::Tier fromJson;
     fromJson.fromJson(expectedJson);
     QCOMPARE(fromJson.asJson(), expectedJson);
-    QCOMPARE(fromJson.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromJson.asJsonValue(), testValue);
+    QCOMPARE(fromJson.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(fromJson.isNestedMapSet(), isNestedMapSet);
     QCOMPARE(fromJson.isNestedMapValid(), isNestedMapValid);
     QCOMPARE(fromJson.isSet(), modelIsSet);
     QCOMPARE(fromJson.isValid(), modelIsValid);
     QCOMPARE(fromJson, tier);
 
-    // Model::fromJsonObject()
+    // Model::fromJsonValue()
     StandardSchemasModels::Tier fromObject;
-    fromObject.fromJsonObject(testValue.toObject());
+    fromObject.fromJsonValue(testValue);
     QCOMPARE(fromObject.asJson(), expectedJson);
-    QCOMPARE(fromObject.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromObject.asJsonValue(), testValue.toObject());
     QCOMPARE(fromObject.isNestedMapSet(), isNestedMapSet);
     QCOMPARE(fromObject.isNestedMapValid(), isNestedMapValid);
     QCOMPARE(fromObject.isSet(), modelIsSet);
@@ -2276,7 +2302,8 @@ void StandardModelsTest::testTiereJsonConversionMethods()
 
     const QJsonValue testValue = QJsonValue::fromJson(QByteArrayView(expectedJson.toUtf8()));
     QCOMPARE(tiere.asJson(), expectedJson);
-    QCOMPARE(tiere.asJsonObject(), testValue.toObject());
+    QCOMPARE(tiere.asJsonValue(), testValue);
+    QCOMPARE(tiere.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(tiere.isNameSet(), isNameSet);
     QCOMPARE(tiere.isNameValid(), isNameValid);
     QCOMPARE(tiere.isDeepNestedMapSet(), isDeepNestedMapSet);
@@ -2292,7 +2319,8 @@ void StandardModelsTest::testTiereJsonConversionMethods()
     StandardSchemasModels::Tiere fromJson;
     fromJson.fromJson(expectedJson);
     QCOMPARE(fromJson.asJson(), expectedJson);
-    QCOMPARE(fromJson.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromJson.asJsonValue(), testValue);
+    QCOMPARE(fromJson.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(fromJson.isNameSet(), isNameSet);
     QCOMPARE(fromJson.isNameValid(), isNameValid);
     QCOMPARE(fromJson.isDeepNestedMapSet(), isDeepNestedMapSet);
@@ -2305,11 +2333,12 @@ void StandardModelsTest::testTiereJsonConversionMethods()
     QCOMPARE(fromJson.isValid(), modelIsValid);
     QCOMPARE(fromJson, tiere);
 
-    // Model::fromJsonObject()
+    // Model::fromJsonValue()
     StandardSchemasModels::Tiere fromObject;
-    fromObject.fromJsonObject(testValue.toObject());
+    fromObject.fromJsonValue(testValue);
     QCOMPARE(fromObject.asJson(), expectedJson);
-    QCOMPARE(fromObject.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromObject.asJsonValue(), testValue);
+    QCOMPARE(fromObject.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(fromObject.isNameSet(), isNameSet);
     QCOMPARE(fromObject.isNameValid(), isNameValid);
     QCOMPARE(fromObject.isDeepNestedMapSet(), isDeepNestedMapSet);
@@ -2517,7 +2546,8 @@ void StandardModelsTest::testPflanzeJsonConversionMethods()
 
     const QJsonValue testValue = QJsonValue::fromJson(QByteArrayView(expectedJson.toUtf8()));
     QCOMPARE(pflanze.asJson(), expectedJson);
-    QCOMPARE(pflanze.asJsonObject(), testValue.toObject());
+    QCOMPARE(pflanze.asJsonValue(), testValue);
+    QCOMPARE(pflanze.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(pflanze.isNameSet(), isNameSet);
     QCOMPARE(pflanze.isNameValid(), isNameValid);
     QCOMPARE(pflanze.isSchoolDataSet(), isSchoolDataSet);
@@ -2529,7 +2559,8 @@ void StandardModelsTest::testPflanzeJsonConversionMethods()
     StandardSchemasModels::Pflanze fromJson;
     fromJson.fromJson(expectedJson);
     QCOMPARE(fromJson.asJson(), expectedJson);
-    QCOMPARE(fromJson.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromJson.asJsonValue(), testValue);
+    QCOMPARE(fromJson.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(fromJson.isNameSet(), isNameSet);
     QCOMPARE(fromJson.isNameValid(), isNameValid);
     QCOMPARE(fromJson.isSchoolDataSet(), isSchoolDataSet);
@@ -2538,11 +2569,12 @@ void StandardModelsTest::testPflanzeJsonConversionMethods()
     QCOMPARE(fromJson.isValid(), modelIsValid);
     QCOMPARE(fromJson, pflanze);
 
-    // Model::fromJsonObject()
+    // Model::fromJsonValue()
     StandardSchemasModels::Pflanze fromObject;
-    fromObject.fromJsonObject(testValue.toObject());
+    fromObject.fromJsonValue(testValue);
     QCOMPARE(fromObject.asJson(), expectedJson);
-    QCOMPARE(fromObject.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromObject.asJsonValue(), testValue);
+    QCOMPARE(fromObject.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(fromObject.isNameSet(), isNameSet);
     QCOMPARE(fromObject.isNameValid(), isNameValid);
     QCOMPARE(fromObject.isSchoolDataSet(), isSchoolDataSet);
@@ -2801,7 +2833,8 @@ void StandardModelsTest::testFaunaJsonConversionMethods()
 
     const QJsonValue testValue = QJsonValue::fromJson(QByteArrayView(expectedJson.toUtf8()));
     QCOMPARE(fauna.asJson(), expectedJson);
-    QCOMPARE(fauna.asJsonObject(), testValue.toObject());
+    QCOMPARE(fauna.asJsonValue(), testValue);
+    QCOMPARE(fauna.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(fauna.isNameSet(), isNameSet);
     QCOMPARE(fauna.isNameValid(), isNameValid);
     QCOMPARE(fauna.isDeepMapWithListsSet(), isDeepMapWithListsSet);
@@ -2817,7 +2850,8 @@ void StandardModelsTest::testFaunaJsonConversionMethods()
     StandardSchemasModels::Fauna fromJson;
     fromJson.fromJson(expectedJson);
     QCOMPARE(fromJson.asJson(), expectedJson);
-    QCOMPARE(fromJson.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromJson.asJsonValue(), testValue);
+    QCOMPARE(fromJson.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(fromJson.isNameSet(), isNameSet);
     QCOMPARE(fromJson.isNameValid(), isNameValid);
     QCOMPARE(fromJson.isDeepMapWithListsSet(), isDeepMapWithListsSet);
@@ -2830,11 +2864,12 @@ void StandardModelsTest::testFaunaJsonConversionMethods()
     QCOMPARE(fromJson.isValid(), modelIsValid);
     QCOMPARE(fromJson, fauna);
 
-    // Model::fromJsonObject()
+    // Model::fromJsonValue()
     StandardSchemasModels::Fauna fromObject;
-    fromObject.fromJsonObject(testValue.toObject());
+    fromObject.fromJsonValue(testValue);
     QCOMPARE(fromObject.asJson(), expectedJson);
-    QCOMPARE(fromObject.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromObject.asJsonValue(), testValue);
+    QCOMPARE(fromObject.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(fromObject.isNameSet(), isNameSet);
     QCOMPARE(fromObject.isNameValid(), isNameValid);
     QCOMPARE(fromObject.isDeepMapWithListsSet(), isDeepMapWithListsSet);
@@ -3009,7 +3044,8 @@ void StandardModelsTest::testFloraJsonConversionMethods()
 
     const QJsonValue testValue = QJsonValue::fromJson(QByteArrayView(expectedJson.toUtf8()));
     QCOMPARE(flora.asJson(), expectedJson);
-    QCOMPARE(flora.asJsonObject(), testValue.toObject());
+    QCOMPARE(flora.asJsonValue(), testValue);
+    QCOMPARE(flora.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(flora.isNameSet(), isNameSet);
     QCOMPARE(flora.isNameValid(), isNameValid);
     QCOMPARE(flora.isPlantDataSet(), isPlantDataSet);
@@ -3021,7 +3057,8 @@ void StandardModelsTest::testFloraJsonConversionMethods()
     StandardSchemasModels::Flora fromJson;
     fromJson.fromJson(expectedJson);
     QCOMPARE(fromJson.asJson(), expectedJson);
-    QCOMPARE(fromJson.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromJson.asJsonValue(), testValue);
+    QCOMPARE(fromJson.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(fromJson.isNameSet(), isNameSet);
     QCOMPARE(fromJson.isNameValid(), isNameValid);
     QCOMPARE(fromJson.isPlantDataSet(), isPlantDataSet);
@@ -3030,11 +3067,12 @@ void StandardModelsTest::testFloraJsonConversionMethods()
     QCOMPARE(fromJson.isValid(), modelIsValid);
     QCOMPARE(fromJson, flora);
 
-    // Model::fromJsonObject()
+    // Model::fromJsonValue()
     StandardSchemasModels::Flora fromObject;
-    fromObject.fromJsonObject(testValue.toObject());
+    fromObject.fromJsonValue(testValue);
     QCOMPARE(fromObject.asJson(), expectedJson);
-    QCOMPARE(fromObject.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromObject.asJsonValue(), testValue);
+    QCOMPARE(fromObject.asJsonValue().toObject(), testValue.toObject());
     QCOMPARE(fromObject.isNameSet(), isNameSet);
     QCOMPARE(fromObject.isNameValid(), isNameValid);
     QCOMPARE(fromObject.isPlantDataSet(), isPlantDataSet);

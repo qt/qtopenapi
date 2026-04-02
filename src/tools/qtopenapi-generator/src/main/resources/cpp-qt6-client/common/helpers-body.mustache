@@ -219,7 +219,7 @@ QJsonValue toJsonValue(double value)
 
 QJsonValue toJsonValue(const {{prefix}}Object &value)
 {
-    return value.asJsonObject();
+    return value.asJsonValue();
 }
 
 QJsonValue toJsonValue(const {{prefix}}Enum &value)
@@ -564,7 +564,7 @@ bool fromJsonValue({{prefix}}Object &value, const QJsonValue &jval)
 {
     bool ok = true;
     if (jval.isObject()) {
-        value.fromJsonObject(jval.toObject());
+        value.fromJsonValue(jval);
         ok = value.isValid();
     } else {
         ok = false;

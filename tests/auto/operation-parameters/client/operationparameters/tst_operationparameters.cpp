@@ -584,7 +584,7 @@ void OperationParameters::pathAnyTypeParameters_data()
                                        << "/v2/path/anytype/label-not-explode/.1,2.2,%CE%A3%CE%A8Strange%2A%2B%2C%3B%3D%21%24%26%27%28%29"
                                        << "/v2/path/anytype/matrix-explode/;anytypeParameter=1;anytypeParameter=2.2;anytypeParameter=%CE%A3%CE%A8Strange%2A%2B%2C%3B%3D%21%24%26%27%28%29"
                                        << "/v2/path/anytype/matrix-not-explode/;anytypeParameter=1,2.2,%CE%A3%CE%A8Strange%2A%2B%2C%3B%3D%21%24%26%27%28%29";
-    QTest::newRow("QJsonValue(object)") << QJsonValue(obj.asJsonObject())
+    QTest::newRow("QJsonValue(object)") << obj.asJsonValue()
                                         << "/v2/path/anytype/simple-explode/name=Super%2A%2B%2C%3B%3D%21%24%26%27%28%29Puper,status=Awake%20or%20Not%20%24%CE%A3%CE%A8"
                                         << "/v2/path/anytype/simple-not-explode/name,Super%2A%2B%2C%3B%3D%21%24%26%27%28%29Puper,status,Awake%20or%20Not%20%24%CE%A3%CE%A8"
                                         << "/v2/path/anytype/label-explode/.name=Super%2A%2B%2C%3B%3D%21%24%26%27%28%29Puper.status=Awake%20or%20Not%20%24%CE%A3%CE%A8"
@@ -1024,7 +1024,7 @@ void OperationParameters::queryParameters()
                              "/v2/query/anytype/spaceDelimited-not-explode/spaceDelimitedNotExplodeAnytype?anytypeParameter=1%202.2%20Strange%20%2A%2B%2C%3B%3D%21%24%26%27%28%29");
 
     // style=spaceDelimited, explode=false, type=anytype object
-    CALL_TEST_POST_OPERATION(spaceDelimitedNotExplodeAnytype, QJsonValue(spaceDelimitedObj.asJsonObject()),
+    CALL_TEST_POST_OPERATION(spaceDelimitedNotExplodeAnytype, spaceDelimitedObj.asJsonValue(),
                              "/v2/query/anytype/spaceDelimited-not-explode/spaceDelimitedNotExplodeAnytype?anytypeParameter=name%20TestName%20123%20%2A%2B%2C%3B%3D%21%24%26%27%28%29%20status%20Awake%21");
 
     // style=pipeDelimited, explode=false, type=array
@@ -1057,7 +1057,7 @@ void OperationParameters::queryParameters()
                              "/v2/query/anytype/pipeDelimited-not-explode/pipeDelimitedNotExplodeAnytype?anytypeParameter=1%7C2.2%7CStrange%20%2A%2B%2C%3B%3D%21%24%26%27%28%29");
 
     // style=pipeDelimited, explode=false, type=anytype object
-    CALL_TEST_POST_OPERATION(pipeDelimitedNotExplodeAnytype, QJsonValue(pipeDelimitedObj.asJsonObject()),
+    CALL_TEST_POST_OPERATION(pipeDelimitedNotExplodeAnytype, pipeDelimitedObj.asJsonValue(),
                              "/v2/query/anytype/pipeDelimited-not-explode/pipeDelimitedNotExplodeAnytype?anytypeParameter=name%7CpipeDelimited%3DTestName%7Cstatus%7CpipeDelimited-Sleeping%20%2A%2B%2C%3B%3D%21%24%26%27%28%29");
 
     // style=deepObject, explode=true, type=object
@@ -1068,7 +1068,7 @@ void OperationParameters::queryParameters()
                              "/v2/query/object/deepObject-explode/deepObjectExplodeObject?objectParameter%5Bname%5D=deepObject%20%2A%2B%2C%3B%3D%21%24%26%27%28%29-TestName&objectParameter%5Bstatus%5D=deepObject-Sleeping");
 
     // style=deepObject, explode=true, type=anytype object
-    CALL_TEST_POST_OPERATION(deepObjectExplodeAnytype, QJsonValue(deepObjectObj.asJsonObject()),
+    CALL_TEST_POST_OPERATION(deepObjectExplodeAnytype, deepObjectObj.asJsonValue(),
                         "/v2/query/anytype/deepObject-explode/deepObjectExplodeAnytype?anytypeParameter%5Bname%5D=deepObject%20%2A%2B%2C%3B%3D%21%24%26%27%28%29-TestName&anytypeParameter%5Bstatus%5D=deepObject-Sleeping");
 
     // style=deepObject, explode=true, type=map with string values
@@ -1104,7 +1104,7 @@ void OperationParameters::queryAnyTypeParameters_data()
     QTest::newRow("QJsonValue(array)")  << QJsonValue({ 1, 2.2, QString("Strange *+,;=!$&'()") })
                                        << "/v2/query/anytype/form-explode/formExplodeAnytype?anytypeParameter=1&anytypeParameter=2.2&anytypeParameter=Strange%20%2A%2B%2C%3B%3D%21%24%26%27%28%29"
                                        << "/v2/query/anytype/form-not-explode/formNotExplodeAnytype?anytypeParameter=1,2.2,Strange%20%2A%2B%2C%3B%3D%21%24%26%27%28%29";
-    QTest::newRow("QJsonValue(object)") << QJsonValue(obj.asJsonObject())
+    QTest::newRow("QJsonValue(object)") << obj.asJsonValue()
                                         << "/v2/query/anytype/form-explode/formExplodeAnytype?name=Super%20Puper%20%2A%2B%2C%3B%3D%21%24%26%27%28%29&status=Awake%21"
                                         << "/v2/query/anytype/form-not-explode/formNotExplodeAnytype?anytypeParameter=name,Super%20Puper%20%2A%2B%2C%3B%3D%21%24%26%27%28%29,status,Awake%21";
     QTest::newRow("QJsonValue(Null)")   << QJsonValue(QJsonValue::Null)
@@ -1623,7 +1623,7 @@ void OperationParameters::headerAnyTypeParameters_data()
         << QJsonValue({ 1, 2.2, QString("Strange *+,;=!$&'()") })
         << QString("1,2.2,Strange *+,;=!$&'()") << QString("1,2.2,Strange *+,;=!$&'()");
     QTest::newRow("QJsonValue(object)")
-        << QJsonValue(obj.asJsonObject())
+        << obj.asJsonValue()
         << QString("name=Super Puper *+,;=!$&'(),status=Awake!")
         << QString("name,Super Puper *+,;=!$&'(),status,Awake!");
     QTest::newRow("QJsonValue(Null)")
@@ -1998,7 +1998,7 @@ void OperationParameters::cookieAnyTypeParameters_data()
         << QString("anytypeParameter=1&anytypeParameter=2.2&anytypeParameter=Strange")
         << QString("anytypeParameter=1,2.2,Strange");
     QTest::newRow("QJsonValue(object)")
-        << QJsonValue(obj.asJsonObject())
+        << obj.asJsonValue()
         << QString("name=Super Puper&status=Awake!")
         << QString("anytypeParameter=name,Super Puper,status,Awake!");
     QTest::newRow("QJsonValue(Null)")
@@ -2185,7 +2185,7 @@ void OperationParameters::cookieObjectParameters()
                             // obj1 = "name=Super Puper&status=Awake!"
                             // obj2 = "name=Simple123456789&status=Sleeping".
                             // Just be aware.
-                            if (!objectValue.asJsonObject().empty()) {
+                            if (!objectValue.asJsonValue().toObject().empty()) {
                                 QCOMPARE(getObjectValue(summary, "error"_L1).toString(),
                                          "http: named cookie not present"_L1);
                             } else {

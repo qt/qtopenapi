@@ -1,6 +1,8 @@
 {{>licenseInfo}}
 #include "{{prefixLowerCase}}object.h"
 
+#include <QtCore/qjsonobject.h>
+
 {{#buildingQtSources}}
 QT_BEGIN_NAMESPACE
 {{/buildingQtSources}}
@@ -36,9 +38,9 @@ public:
 {{prefix}}Object &{{prefix}}Object::operator=({{prefix}}Object &&) noexcept = default;
 {{prefix}}Object::~{{prefix}}Object() = default;
 
-QJsonObject {{prefix}}Object::asJsonObject() const
+QJsonValue {{prefix}}Object::asJsonValue() const
 {
-    return d->m_jsonObj;
+    return QJsonValue(d->m_jsonObj);
 }
 
 QString {{prefix}}Object::asJson() const
@@ -50,13 +52,15 @@ QString {{prefix}}Object::asJson() const
 
 void {{prefix}}Object::fromJson(const QString &jsonString)
 {
-    const QJsonDocument doc = QJsonDocument::fromJson(jsonString.toUtf8());
-    d->m_jsonObj = doc.object();
+    this->fromJsonValue(QJsonValue::fromJson(jsonString.toUtf8()));
 }
 
-void {{prefix}}Object::fromJsonObject(const QJsonObject &json)
+void {{prefix}}Object::fromJsonValue(const QJsonValue &json)
 {
-    d->m_jsonObj = json;
+    if (json.isObject())
+        d->m_jsonObj = json.toObject();
+    else
+        d->m_jsonObj = {};
 }
 
 bool {{prefix}}Object::isSet() const

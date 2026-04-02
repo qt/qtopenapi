@@ -4,7 +4,7 @@
 
 #include "{{prefixLowerCase}}{{packageNameLowerCase}}commonexports.h"
 
-#include <QtCore/qjsonobject.h>
+#include <QtCore/qjsonvalue.h>
 #include <QtCore/qstring.h>
 
 #include <memory>
@@ -28,21 +28,21 @@ public:
     {{prefix}}Object &operator=({{prefix}}Object &&) noexcept;
     virtual ~{{prefix}}Object();
 
-    virtual QJsonObject asJsonObject() const;
+    virtual QJsonValue asJsonValue() const;
     virtual QString asJson() const;
     virtual void fromJson(const QString &jsonString);
-    virtual void fromJsonObject(const QJsonObject &json);
+    virtual void fromJsonValue(const QJsonValue &json);
     virtual bool isSet() const;
     virtual bool isValid() const;
 
 private:
     friend bool operator==(const {{prefix}}Object &lhs, const {{prefix}}Object &rhs)
-    { return lhs.asJsonObject() == rhs.asJsonObject(); }
+    { return lhs.asJsonValue() == rhs.asJsonValue(); }
     friend bool operator!=(const {{prefix}}Object &lhs, const {{prefix}}Object &rhs)
     { return !operator==(lhs, rhs); }
 
     friend size_t qHash(const {{prefix}}Object &obj, size_t seed)
-    { return qHash(obj.asJsonObject(), seed); }
+    { return qHash(obj.asJsonValue(), seed); }
     friend size_t qHash(const {{prefix}}Object &obj)
     { return qHash(obj, 0); }
 

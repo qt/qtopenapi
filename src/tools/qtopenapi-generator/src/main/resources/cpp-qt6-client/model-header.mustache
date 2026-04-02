@@ -45,15 +45,18 @@ public:
     ~{{classname}}() override;
 
     QString asJson() const override;
-    QJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}} asJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}}() const override;
-    void fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}}(const QJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}} &json) override;
+    QJsonValue asJsonValue() const override;
+    void fromJsonValue(const QJsonValue &json) override;
     void fromJson(const QString &jsonString) override;
-{{^isEnum}}{{#vars}}
+{{^isEnum}}
+{{#vars}}
     {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}{{{dataType}}} {{getter}}Value() const;
     {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}void {{setter}}(const {{{dataType}}} &{{name}});
     {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}bool is{{#camelcase}}{{name}}{{/camelcase}}Set() const;
     {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}bool is{{#camelcase}}{{name}}{{/camelcase}}Valid() const;
-{{/vars}}{{/isEnum}}{{#isEnum}}
+{{/vars}}
+{{/isEnum}}
+{{#isEnum}}
 {{#allowableValues}}
     enum class e{{classname}} {{#enumVars}}{{#-first}}{{^isString}}: int {{/isString}}{{/-first}}{{/enumVars}}{
         INVALID_VALUE_OPENAPI_GENERATED = 0,
@@ -67,17 +70,21 @@ public:
     {{/enumVars}}
     };{{/allowableValues}}
     {{classname}}::e{{classname}} getValue() const;
-    void setValue({{classname}}::e{{classname}} value);{{/isEnum}}
+    void setValue({{classname}}::e{{classname}} value);
+{{/isEnum}}
     bool isSet() const override;
     bool isValid() const override;
 
 private:
     void initializeModel();
-{{^isEnum}}{{#vars}}
+{{^isEnum}}
+{{#vars}}
     {{{dataType}}} m_{{name}};
     bool m_{{name}}IsSet;
     bool m_{{name}}IsValid;
-{{/vars}}{{/isEnum}}{{#isEnum}}
+{{/vars}}
+{{/isEnum}}
+{{#isEnum}}
     e{{classname}} m_value;
     bool m_valueIsSet;
     bool m_valueIsValid;

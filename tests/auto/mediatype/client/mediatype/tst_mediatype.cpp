@@ -102,7 +102,7 @@ MediaUser getUserByStatusObject(const QString &summary)
     if (!doc.isNull() && doc.isObject()) {
         const QJsonObject obj = doc.object();
         if (obj.value("json-object").isObject())
-            user.fromJsonObject(obj.value("json-object").toObject());
+            user.fromJsonValue(obj.value("json-object"));
     }
     return user;
 }
@@ -232,7 +232,7 @@ void MediaType::testJsonMediaType()
         QCOMPARE(array.size(), users.size());
         for (qsizetype i = 0; i < array.size(); i++) {
             MediaUser user;
-            user.fromJsonObject(array.at(i).toObject());
+            user.fromJsonValue(array.at(i));
             QVERIFY(users.contains(user));
         }
     });
@@ -322,7 +322,7 @@ void MediaType::testJsonMediaType()
         if (!(done = reply.isSuccess()))
             qWarning() << "ERROR: " << reply.errorString() << reply.error();
         MediaPostApplicationJsonSeveralObjects_request response;
-        response.fromJsonObject(getJsonValue(summary, "nested-object").toObject());
+        response.fromJsonValue(getJsonValue(summary, "nested-object"));
         QCOMPARE(response, request);
         QCOMPARE(getHeaderValue(summary), appJsonHeader);
     });
@@ -591,7 +591,7 @@ void MediaType::testUrlEncodedType()
         QCOMPARE(getJsonValue(summary, "availability").toVariant().toBool(), true);
         QCOMPARE(getHeaderValue(summary), "application/x-www-form-urlencoded");
         MediaUser receivedUser;
-        receivedUser.fromJsonObject(getJsonValue(getJsonValue(summary, "mapfield").toString(), "PET").toObject());
+        receivedUser.fromJsonValue(getJsonValue(getJsonValue(summary, "mapfield").toString(), "PET"));
         QCOMPARE(receivedUser, user);
         QJsonArray array = getJsonValue(summary, "visits").toArray();
         for (qsizetype i = 0; i < array.size(); i++) {
