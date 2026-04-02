@@ -30,8 +30,28 @@ void {{classname}}::initializeModel()
 {
 {{^isEnum}}
 {{#vars}}
+{{#complexType}}
+{{^isContainer}}
+    {{#isModel}}m_{{name}} = {};{{/isModel}}
+    m_{{name}}IsValid = m_{{name}}.isValid();
+    m_{{name}}IsSet = m_{{name}}.isSet();
+{{/isContainer}}
+{{#isContainer}}
     m_{{name}}IsSet = false;
     m_{{name}}IsValid = false;
+{{/isContainer}}
+{{/complexType}}
+{{^complexType}}
+{{#isFreeFormObject}}
+    m_{{name}} = {};
+    m_{{name}}IsValid = m_{{name}}.isValid();
+    m_{{name}}IsSet = m_{{name}}.isSet();
+{{/isFreeFormObject}}
+{{^isFreeFormObject}}
+    m_{{name}}IsSet = false;
+    m_{{name}}IsValid = false;
+{{/isFreeFormObject}}
+{{/complexType}}
 {{^-last}}
 
 {{/-last}}
@@ -70,13 +90,34 @@ void {{classname}}::fromJson(const QString &jsonString)
 void {{classname}}::fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}}(const QJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}} &json)
 {
 {{^isEnum}}
+    if (json.isEmpty()) {
+        initializeModel();
+        return;
+    }
 {{#vars}}
+{{#complexType}}
 {{^isContainer}}
+{{#isModel}}
+    {
+        const QJsonValue modelValue = json[u"{{baseName}}"_s];
+        if (modelValue.isObject()) {
+            ::{{cppCommonNamespace}}::fromJsonValue(m_{{name}}, modelValue);
+            m_{{name}}IsValid = m_{{name}}.isValid();
+            // NOTE: An empty JSON object is still a valid value
+            // for models without required properties.
+            // Users may intentionally set it for specific reasons.
+            m_{{name}}IsSet = m_{{name}}.isSet() || (m_{{name}}IsValid && modelValue.toObject().isEmpty());
+        } else {
+            m_{{name}} = {};
+            m_{{name}}IsValid = m_{{name}}.isValid();
+            m_{{name}}IsSet = m_{{name}}.isSet();
+        }
+    }
+{{/isModel}}
+{{^isModel}}
     m_{{name}}IsValid = ::{{cppCommonNamespace}}::fromJsonValue(m_{{name}}, json[u"{{baseName}}"_s]);
-    m_{{name}}IsSet = !json[u"{{baseName}}"_s].isNull() && m_{{name}}IsValid;
-{{^-last}}
-
-{{/-last}}
+    m_{{name}}IsSet = {{#isEnumRef}}m_{{name}}.isSet(){{/isEnumRef}}{{^isEnumRef}}!json[u"{{baseName}}"_s].isNull() && m_{{name}}IsValid{{/isEnumRef}};
+{{/isModel}}
 {{/isContainer}}
 {{#isContainer}}
 {{^items.isContainer}}
@@ -132,6 +173,30 @@ void {{classname}}::fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnu
 {{/isMap}}
 {{/items.isContainer}}
 {{/isContainer}}
+{{/complexType}}
+{{^complexType}}
+{{#isFreeFormObject}}
+    {
+        const QJsonValue modelValue = json[u"{{baseName}}"_s];
+        if (modelValue.isObject()) {
+            ::{{cppCommonNamespace}}::fromJsonValue(m_{{name}}, modelValue);
+            m_{{name}}IsValid = m_{{name}}.isValid();
+            // NOTE: An empty JSON object is still a valid value
+            // for models without required properties.
+            // Users may intentionally set it for specific reasons.
+            m_{{name}}IsSet = m_{{name}}.isSet() || (m_{{name}}IsValid && modelValue.toObject().isEmpty());
+        } else {
+            m_{{name}} = {};
+            m_{{name}}IsValid = m_{{name}}.isValid();
+            m_{{name}}IsSet = m_{{name}}.isSet();
+        }
+    }
+{{/isFreeFormObject}}
+{{^isFreeFormObject}}
+    m_{{name}}IsValid = ::{{cppCommonNamespace}}::fromJsonValue(m_{{name}}, json[u"{{baseName}}"_s]);
+    m_{{name}}IsSet = !json[u"{{baseName}}"_s].isNull() && m_{{name}}IsValid;
+{{/isFreeFormObject}}
+{{/complexType}}
 {{/vars}}
 {{/isEnum}}
 {{#isEnum}}
@@ -175,26 +240,9 @@ QJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}} {{classname}}::asJs
 {{^isEnum}}
     QJsonObject obj;
 {{#vars}}
-{{^isContainer}}
-{{#complexType}}
-    if (m_{{name}}.isSet()) {
-{{/complexType}}
-{{^complexType}}
     if (m_{{name}}IsSet) {
-{{/complexType}}
         obj.insert(u"{{baseName}}"_s, ::{{cppCommonNamespace}}::toJsonValue(m_{{name}}));
     }
-{{/isContainer}}
-{{#isContainer}}
-    if (m_{{name}}IsSet) {
-{{^items.isContainer}}
-        obj.insert(u"{{baseName}}"_s, ::{{cppCommonNamespace}}::toJsonValue(m_{{name}}));
-{{/items.isContainer}}
-{{#items.isContainer}}
-        obj.insert(u"{{baseName}}"_s, toJsonValue(m_{{name}}));
-{{/items.isContainer}}
-    }
-{{/isContainer}}
 {{/vars}}
     return obj;
 {{/isEnum}}
@@ -222,8 +270,29 @@ QJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}} {{classname}}::asJs
 void {{classname}}::{{setter}}(const {{{dataType}}} &{{name}})
 {
     m_{{name}} = {{name}};
-    m_{{name}}IsSet = true{{#complexType}}{{^isContainer}} && {{name}}.isSet(){{/isContainer}}{{/complexType}};
-    m_{{name}}IsValid = true{{#complexType}}{{^isContainer}} && {{name}}.isValid(){{/isContainer}}{{/complexType}};
+    m_{{name}}IsValid = true{{#complexType}}{{^isContainer}} && {{name}}.isValid(){{/isContainer}}{{/complexType}}{{^complexType}}{{#isFreeFormObject}} && {{name}}.isValid(){{/isFreeFormObject}}{{/complexType}};
+{{#complexType}}
+{{#isModel}}
+    // NOTE: An empty JSON object is still a valid value
+    // for models without required properties.
+    // Users may intentionally set it for specific reasons.
+    m_{{name}}IsSet = m_{{name}}.isSet() || (m_{{name}}IsValid && {{name}}.asJsonObject().isEmpty());
+{{/isModel}}
+{{^isModel}}
+    m_{{name}}IsSet = {{#isEnumRef}}m_{{name}}.isSet(){{/isEnumRef}}{{^isEnumRef}}m_{{name}}IsValid{{/isEnumRef}};
+{{/isModel}}
+{{/complexType}}
+{{^complexType}}
+{{#isFreeFormObject}}
+    // NOTE: An empty JSON object is still a valid value
+    // for models without required properties.
+    // Users may intentionally set it for specific reasons.
+    m_{{name}}IsSet = m_{{name}}.isSet() || (m_{{name}}IsValid && {{name}}.asJsonObject().isEmpty());
+{{/isFreeFormObject}}
+{{^isFreeFormObject}}
+    m_{{name}}IsSet = m_{{name}}IsValid;
+{{/isFreeFormObject}}
+{{/complexType}}
 }
 
 bool {{classname}}::is{{#camelcase}}{{name}}{{/camelcase}}Set() const
@@ -255,17 +324,7 @@ bool {{classname}}::isSet() const
     bool isObjectUpdated = false;
     do {
 {{#vars}}
-{{#isContainer}}
         if (m_{{name}}IsSet) {
-{{/isContainer}}
-{{^isContainer}}
-{{#complexType}}
-        if (m_{{name}}.isSet()) {
-{{/complexType}}
-{{^complexType}}
-        if (m_{{name}}IsSet) {
-{{/complexType}}
-{{/isContainer}}
             isObjectUpdated = true;
             break;
         }
