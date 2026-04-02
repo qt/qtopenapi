@@ -14,6 +14,20 @@ tags:
     description: test data
 
 paths:
+  /newDuck:
+    post:
+      tags:
+        - data
+      operationId: postDuck
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Duck'
+        required: true
+      responses:
+        "200":
+          description: Updated
   /newAccount:
     post:
       tags:
@@ -103,3 +117,10 @@ components:
             count:
               type: number
               format: float
+    Ente:
+      type: object
+      properties:
+        bites:
+          type: boolean
+        family:
+          $ref: '#/components/schemas/Duck'

@@ -8,6 +8,7 @@
 #include "../basicSchemas/client/dog.h"
 #include "../basicSchemas/client/duck.h"
 #include "../basicSchemas/client/duck_family.h"
+#include "../basicSchemas/client/ente.h"
 #include "../basicSchemas/client/postaccount_request.h"
 #include "../basicSchemas/client/postaccount_request_otheraccdata_inner.h"
 #include "../basicSchemas/client/dataapi.h"
@@ -34,6 +35,8 @@ private Q_SLOTS:
     void testDuckFamilyJsonConversionMethods();
     void testDuckJsonConversionMethods_data();
     void testDuckJsonConversionMethods();
+    void testEnteJsonConversionMethods_data();
+    void testEnteJsonConversionMethods();
     void testPostAccountRequestOtherAccDataInnerJsonConversionMethods_data();
     void testPostAccountRequestOtherAccDataInnerJsonConversionMethods();
     void testPostAccountRequestJsonConversionMethods_data();
@@ -311,6 +314,21 @@ void StandardModelsTest::testCatJsonConversionMethods()
     QCOMPARE(fromObject.isSet(), modelIsSet);
     QCOMPARE(fromObject.isValid(), modelIsValid);
     QCOMPARE(fromObject, cat);
+
+    // The attemp to set a new model data from invalid json
+    // (call ::fromJson) should lead to the full model reset.
+    StandardSchemasModels::Cat defaultObject;
+    fromJson.fromJson("{invalid json /e*3 }"_L1);
+    QVERIFY(fromJson.asJson() == "{}"_L1);
+    QVERIFY(fromJson.asJsonObject().isEmpty());
+    QCOMPARE(fromJson.asJsonObject(), defaultObject.asJsonObject());
+    QCOMPARE(fromJson.isHuntsSet(), defaultObject.isHuntsSet());
+    QCOMPARE(fromJson.isHuntsValid(), defaultObject.isHuntsValid());
+    QCOMPARE(fromJson.isAgeSet(), defaultObject.isAgeSet());
+    QCOMPARE(fromJson.isAgeValid(), defaultObject.isAgeValid());
+    QCOMPARE(fromJson.isSet(), defaultObject.isSet());
+    QCOMPARE(fromJson.isValid(), defaultObject.isValid());
+    QCOMPARE(fromJson, defaultObject);
 }
 
 void StandardModelsTest::testDogJsonConversionMethods_data()
@@ -962,6 +980,17 @@ void StandardModelsTest::testDuckJsonConversionMethods_data()
         // modelIsValid  modelIsSet
         << true          << true;
 
+    // 'family' is set, but empty;
+    StandardSchemasModels::Duck emptyFamily("{\"bites\":false,\"family\":{}}"_L1);
+    QTest::newRow("bites: false, family:{}")
+        << emptyFamily << QString("{\"bites\":false,\"family\":{}}"_L1)
+        // isBitesSet    isBitesValid
+        << true          << true
+        // isFamilySet   isFamilyValid
+        << true          << true
+        // modelIsValid  modelIsSet
+        << true          << true;
+
     // Model with unknown fields: known fields are parsed, unknown ones ignored.
     StandardSchemasModels::Duck unknownFields(
         "{\"bites\":true,\"family\":{\"count\":5.0},\"name\":\"Donald\"}"_L1);
@@ -997,22 +1026,12 @@ void StandardModelsTest::testDuckJsonConversionMethods()
     QFETCH(bool, modelIsValid);
     QFETCH(bool, modelIsSet);
 
-
     const QJsonValue testValue = QJsonValue::fromJson(QByteArrayView(expectedJson.toUtf8()));
     QCOMPARE(duck.asJson(), expectedJson);
     QCOMPARE(duck.asJsonObject(), testValue.toObject());
     QCOMPARE(duck.isBitesSet(), isBitesSet);
     QCOMPARE(duck.isBitesValid(), isBitesValid);
-    QEXPECT_FAIL("Set incorrect Object to family; bites not set",
-                 "Known issue, should be fixed: QTBUG-145568", Abort);
-    QEXPECT_FAIL("Set incorrect Array to family; bites not set",
-                 "Known issue, should be fixed: QTBUG-145568", Abort);
     QCOMPARE(duck.isFamilySet(), isFamilySet);
-    QEXPECT_FAIL("empty nested objects", "Known issue, should be fixed: QTBUG-145568", Abort);
-    QEXPECT_FAIL("invalid JSON",
-                 "Known issue, should be fixed: QTBUG-145568", Abort);
-    QEXPECT_FAIL("bites=false; family not set",
-                 "Known issue, should be fixed: QTBUG-145568", Abort);
     QCOMPARE(duck.isFamilyValid(), isFamilyValid);
     QCOMPARE(duck.isValid(), modelIsValid);
     QCOMPARE(duck.isSet(), modelIsSet);
@@ -1042,6 +1061,192 @@ void StandardModelsTest::testDuckJsonConversionMethods()
     QCOMPARE(fromObject.isSet(), modelIsSet);
     QCOMPARE(fromObject.isValid(), modelIsValid);
     QCOMPARE(fromObject, duck);
+}
+
+void StandardModelsTest::testEnteJsonConversionMethods_data()
+{
+    QTest::addColumn<StandardSchemasModels::Ente>("ente");
+    QTest::addColumn<QString>("expectedJson");
+    QTest::addColumn<bool>("isBitesSet");
+    QTest::addColumn<bool>("isBitesValid");
+    QTest::addColumn<bool>("isFamilySet");
+    QTest::addColumn<bool>("isFamilyValid");
+    QTest::addColumn<bool>("modelIsValid");
+    QTest::addColumn<bool>("modelIsSet");
+
+    // Ente has no required fields; an empty Ente is valid.
+    QTest::newRow("Ente: empty")
+            << StandardSchemasModels::Ente{} << QString("{}"_L1)
+            // isBitesSet    isBitesValid
+            << false         << false
+            // isFamilySet   isFamilyValid
+            << false         << true // No required fields => family object is true
+            // modelIsValid  modelIsSet
+            << true          << false;
+
+    // Both fields set - bites=true and a full family object (Duck reference).
+    StandardSchemasModels::Duck_family family;
+    family.setCountryOfOrigin(u"Germany"_s);
+    family.setCount(8.0f);
+    StandardSchemasModels::Duck duckFamily;
+    duckFamily.setBites(false);
+    duckFamily.setFamily(family);
+    StandardSchemasModels::Ente fullEnte;
+    fullEnte.setBites(true);
+    fullEnte.setFamily(duckFamily);
+    QTest::newRow("Ente: bites=true; family=Duck{bites:false,family:{Germany,8}}")
+        << fullEnte
+        << QString("{\"bites\":true,\"family\":"
+                   "{\"bites\":false,\"family\":{\"count\":8,\"countryOfOrigin\":\"Germany\"}}}"_L1)
+        // isBitesSet    isBitesValid
+        << true          << true
+        // isFamilySet   isFamilyValid
+        << true          << true
+        // modelIsValid  modelIsSet
+        << true          << true;
+
+    // Only 'bites' set; 'family' absent from JSON.
+    StandardSchemasModels::Ente bitesOnly;
+    bitesOnly.setBites(false);
+    QTest::newRow("Ente: bites=false; family not set")
+        << bitesOnly << QString("{\"bites\":false}"_L1)
+        // isBitesSet    isBitesValid
+        << true          << true
+        // isFamilySet   isFamilyValid
+        << false         << true // No required fields => family object is true
+        // modelIsValid  modelIsSet
+        << true          << true;
+
+    // Only 'family' set with a Duck that has only bites.
+    StandardSchemasModels::Duck partialDuck;
+    partialDuck.setBites(true);
+    StandardSchemasModels::Ente familyOnly;
+    familyOnly.setFamily(partialDuck);
+    QTest::newRow("Ente: family=Duck{bites:true}; bites not set")
+        << familyOnly << QString("{\"family\":{\"bites\":true}}"_L1)
+        // isBitesSet    isBitesValid
+        << false         << false
+        // isFamilySet   isFamilyValid
+        << true          << true
+        // modelIsValid  modelIsSet
+        << true          << true;
+
+    // Set 'family' to incorrect type (string instead of object).
+    // The family field should be dropped.
+    StandardSchemasModels::Ente incorrectFamily("{\"family\":\"not an object\"}"_L1);
+    QTest::newRow("Ente: incorrect string type for family")
+            << incorrectFamily << QString("{}"_L1)
+            // isBitesSet    isBitesValid
+            << false         << false
+            // isFamilySet   isFamilyValid
+            << false         << true   // valid because no required fields, so {} is OK.
+            // modelIsValid  modelIsSet
+            << true          << false;
+
+    StandardSchemasModels::Ente incorrectArrayFamily("{\"family\":[1,2,3]}"_L1);
+    QTest::newRow("Ente: incorrect array type for family")
+            << incorrectArrayFamily << QString("{}"_L1)
+            // isBitesSet    isBitesValid
+            << false         << false
+            // isFamilySet   isFamilyValid
+            << false         << true   // valid because no required fields, so {} is OK.
+            // modelIsValid  modelIsSet
+            << true          << false;
+
+    // Model with a wrong type for 'bites' (integer instead of boolean):
+    // 'bites' is dropped; the model stays valid (no required fields).
+    StandardSchemasModels::Ente wrongBitesType(
+        "{\"bites\":42,\"family\":{\"bites\":true}}"_L1);
+    QTest::newRow("Ente: bites=integer (wrong type) => dropped")
+        << wrongBitesType << QString("{\"family\":{\"bites\":true}}"_L1)
+        // isBitesSet    isBitesValid
+        << false         << false
+        // isFamilySet   isFamilyValid
+        << true          << true
+        // modelIsValid  modelIsSet
+        << true          << true;
+
+    // 'family' is set, but empty Duck object;
+    StandardSchemasModels::Ente emptyFamily("{\"bites\":false,\"family\":{}}"_L1);
+    QTest::newRow("Ente: bites=false, family={}")
+        << emptyFamily << QString("{\"bites\":false,\"family\":{}}"_L1)
+        // isBitesSet    isBitesValid
+        << true          << true
+        // isFamilySet   isFamilyValid
+        << true          << true
+        // modelIsValid  modelIsSet
+        << true          << true;
+
+    // Model with unknown fields: known fields are parsed, unknown ones ignored.
+    StandardSchemasModels::Ente unknownFields(
+        "{\"bites\":true,\"family\":{\"bites\":false},\"color\":\"yellow\"}"_L1);
+    QTest::newRow("Ente: unknown fields ignored")
+        << unknownFields << QString("{\"bites\":true,\"family\":{\"bites\":false}}"_L1)
+        // isBitesSet    isBitesValid
+        << true          << true
+        // isFamilySet   isFamilyValid
+        << true          << true
+        // modelIsValid  modelIsSet
+        << true          << true;
+
+    // fromJson() with invalid JSON: all fields stay unset.
+    StandardSchemasModels::Ente fromInvalidJson("{invalid json}"_L1);
+    QTest::newRow("Ente: invalid JSON")
+            << fromInvalidJson << QString("{}"_L1)
+            // isBitesSet    isBitesValid
+            << false         << false
+            // isFamilySet   isFamilyValid
+            << false         << true // No required fields => family object is true
+            // modelIsValid  modelIsSet
+            << true          << false;
+}
+
+void StandardModelsTest::testEnteJsonConversionMethods()
+{
+    QFETCH(StandardSchemasModels::Ente, ente);
+    QFETCH(QString, expectedJson);
+    QFETCH(bool, isBitesSet);
+    QFETCH(bool, isBitesValid);
+    QFETCH(bool, isFamilySet);
+    QFETCH(bool, isFamilyValid);
+    QFETCH(bool, modelIsValid);
+    QFETCH(bool, modelIsSet);
+
+    const QJsonValue testValue = QJsonValue::fromJson(QByteArrayView(expectedJson.toUtf8()));
+    QCOMPARE(ente.asJson(), expectedJson);
+    QCOMPARE(ente.asJsonObject(), testValue.toObject());
+    QCOMPARE(ente.isBitesSet(), isBitesSet);
+    QCOMPARE(ente.isBitesValid(), isBitesValid);
+    QCOMPARE(ente.isFamilySet(), isFamilySet);
+    QCOMPARE(ente.isFamilyValid(), isFamilyValid);
+    QCOMPARE(ente.isValid(), modelIsValid);
+    QCOMPARE(ente.isSet(), modelIsSet);
+
+    // Model::fromJson()
+    StandardSchemasModels::Ente fromJson;
+    fromJson.fromJson(expectedJson);
+    QCOMPARE(fromJson.asJson(), expectedJson);
+    QCOMPARE(fromJson.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromJson.isBitesSet(), isBitesSet);
+    QCOMPARE(fromJson.isBitesValid(), isBitesValid);
+    QCOMPARE(fromJson.isFamilySet(), isFamilySet);
+    QCOMPARE(fromJson.isFamilyValid(), isFamilyValid);
+    QCOMPARE(fromJson.isSet(), modelIsSet);
+    QCOMPARE(fromJson.isValid(), modelIsValid);
+    QCOMPARE(fromJson, ente);
+
+    // Model::fromJsonObject()
+    StandardSchemasModels::Ente fromObject;
+    fromObject.fromJsonObject(testValue.toObject());
+    QCOMPARE(fromObject.asJson(), expectedJson);
+    QCOMPARE(fromObject.asJsonObject(), testValue.toObject());
+    QCOMPARE(fromObject.isBitesSet(), isBitesSet);
+    QCOMPARE(fromObject.isBitesValid(), isBitesValid);
+    QCOMPARE(fromObject.isFamilySet(), isFamilySet);
+    QCOMPARE(fromObject.isFamilyValid(), isFamilyValid);
+    QCOMPARE(fromObject.isSet(), modelIsSet);
+    QCOMPARE(fromObject.isValid(), modelIsValid);
+    QCOMPARE(fromObject, ente);
 }
 
 void StandardModelsTest::testPostAccountRequestOtherAccDataInnerJsonConversionMethods_data()
