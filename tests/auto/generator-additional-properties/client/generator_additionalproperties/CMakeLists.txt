@@ -43,6 +43,8 @@ qt_add_openapi_client(GeneratorAdditionalPropertiesClient2
         cppNamespace=AddPropNamespace2
         modelNamePrefix=AddProp2
         enumUnknownDefaultCase=true
+    JAVA_OPTIONS
+        -Dlog.level=warn
     OUTPUT_DIRECTORY
         ${CMAKE_CURRENT_BINARY_DIR}/client2
 )
