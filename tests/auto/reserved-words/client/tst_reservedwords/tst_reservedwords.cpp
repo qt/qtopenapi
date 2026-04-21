@@ -88,6 +88,12 @@ void tst_ReservedWords::qtReservedWordsAsOperationName()
         QTest::ignoreMessage(QtWarningMsg, warningMsg);
         mixedApi.r_operator("test"_L1);
     }
+
+    {
+        ReservedWords::QtApi api;
+        QTest::ignoreMessage(QtWarningMsg, warningMsg);
+        api.r_username();
+    }
 }
 
 void tst_ReservedWords::reservedEnumValues()
