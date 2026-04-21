@@ -18,6 +18,14 @@ tags:
     description: Mixed C++ and Qt reserved words
 
 paths:
+  /username:
+    get:
+      tags: [qt]
+      summary: QOAIBaseApi method name as operation name
+      operationId: username
+      responses:
+        "200":
+          description: OK
   /signals:
     get:
       tags: [qt]
