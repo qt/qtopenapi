@@ -9,6 +9,7 @@ if(TARGET ${QT_CMAKE_EXPORT_NAMESPACE}::QtOpenAPIGeneratorJar
         AND TARGET WrapOpenAPIGenerator::WrapOpenAPIGenerator
         AND TARGET Qt::OpenApiCommon
     )
+    add_subdirectory(cmake)
     add_subdirectory(compression)
     add_subdirectory(generator-additional-properties)
     add_subdirectory(linking_several_clients)
@@ -19,8 +20,8 @@ if(TARGET ${QT_CMAKE_EXPORT_NAMESPACE}::QtOpenAPIGeneratorJar
     add_subdirectory(openapi2.0)
     add_subdirectory(operation-parameters)
     add_subdirectory(petstore)
+    add_subdirectory(reserved-words)
     add_subdirectory(responses)
-    add_subdirectory(cmake)
     add_subdirectory(server_configuration)
 else()
     set(missing_text "")
