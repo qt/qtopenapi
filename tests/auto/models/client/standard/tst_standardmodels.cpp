@@ -76,9 +76,9 @@ void StandardModelsTest::testCatJsonConversionMethods_data()
     // If no fields are required, then an empty model is a valid case.
     QTest::newRow("empty") << StandardSchemasModels::Cat{} << QString("{}"_L1)
                            // isHuntsSet   isHuntsValid
-                           << false        << false
+                           << false        << true
                            // isAgeSet     isAgeValid
-                           << false        << false
+                           << false        << true
                            // modelIsValid modelIsSet
                            << true         << false;
 
@@ -99,7 +99,7 @@ void StandardModelsTest::testCatJsonConversionMethods_data()
     ageOnly.setAge(3);
     QTest::newRow("age=3; hunts not set") << ageOnly << QString("{\"age\":3}"_L1)
                                          // isHuntsSet   isHuntsValid
-                                         << false        << false
+                                         << false        << true
                                          // isAgeSet     isAgeValid
                                          << true         << true
                                          // modelIsValid modelIsSet
@@ -112,7 +112,7 @@ void StandardModelsTest::testCatJsonConversionMethods_data()
                                             // isHuntsSet   isHuntsValid
                                             << true         << true
                                             // isAgeSet     isAgeValid
-                                            << false        << false
+                                            << false        << true
                                             // modelIsValid modelIsSet
                                             << true         << true;
 
@@ -126,7 +126,7 @@ void StandardModelsTest::testCatJsonConversionMethods_data()
             // isHuntsSet   isHuntsValid
             << true         << true
             // isAgeSet     isAgeValid
-            << false        << false
+            << false        << true
             // modelIsValid modelIsSet
             << true         << true;
 
@@ -140,7 +140,7 @@ void StandardModelsTest::testCatJsonConversionMethods_data()
             // isHuntsSet   isHuntsValid
             << true         << true
             // isAgeSet     isAgeValid
-            << false        << false
+            << false        << true
             // modelIsValid modelIsSet
             << true         << true;
 
@@ -172,7 +172,7 @@ void StandardModelsTest::testCatJsonConversionMethods_data()
             // isHuntsSet   isHuntsValid
             << true         << true
             // isAgeSet     isAgeValid
-            << false        << false
+            << false        << true
             // modelIsValid modelIsSet
             << true         << true;
 
@@ -181,9 +181,9 @@ void StandardModelsTest::testCatJsonConversionMethods_data()
     StandardSchemasModels::Cat brokenJsonType("{\"age\": ,\"hunts\":true}"_L1);
     QTest::newRow("Invalid json => age (empty) dropped") << brokenJsonType << QString("{}"_L1)
                                              // isHuntsSet   isHuntsValid
-                                             << false        << false
+                                             << false        << true
                                              // isAgeSet     isAgeValid
-                                             << false        << false
+                                             << false        << true
                                              // modelIsValid modelIsSet
                                              << true         << false;
 
@@ -192,7 +192,7 @@ void StandardModelsTest::testCatJsonConversionMethods_data()
     StandardSchemasModels::Cat wrongHuntsType("{\"age\":5,\"hunts\":42}"_L1);
     QTest::newRow("hunts dropped; age=5;") << wrongHuntsType << QString("{\"age\":5}"_L1)
                                            // isHuntsSet   isHuntsValid
-                                           << false        << false
+                                           << false        << true
                                            // isAgeSet     isAgeValid
                                            << true         << true
                                            // modelIsValid modelIsSet
@@ -244,7 +244,7 @@ void StandardModelsTest::testCatJsonConversionMethods_data()
             // isHuntsSet   isHuntsValid
             << true         << true
             // isAgeSet     isAgeValid
-            << false        << false
+            << false        << true
             // modelIsValid modelIsSet
             << true         << true;
 
@@ -266,9 +266,9 @@ void StandardModelsTest::testCatJsonConversionMethods_data()
         "\"name\":\"Whiskers\",\"color\":\"orange\"}"_L1);
     QTest::newRow("All unknown fields dropped") << allUnknownFields << QString("{}"_L1)
                                                 // isHuntsSet   isHuntsValid
-                                                << false         << false
+                                                << false         << true
                                                 // isAgeSet     isAgeValid
-                                                << false         << false
+                                                << false         << true
                                                 // modelIsValid modelIsSet
                                                 << true         << false;
 
@@ -278,9 +278,9 @@ void StandardModelsTest::testCatJsonConversionMethods_data()
     StandardSchemasModels::Cat fromInvalidJson("{invalid json}"_L1);
     QTest::newRow("invalid JSON") << fromInvalidJson << QString("{}"_L1)
                                   // isHuntsSet   isHuntsValid
-                                  << false        << false
+                                  << false        << true
                                   // isAgeSet     isAgeValid
-                                  << false        << false
+                                  << false        << true
                                   // modelIsValid modelIsSet
                                   << true         << false;
 }
@@ -366,7 +366,7 @@ void StandardModelsTest::testDogJsonConversionMethods_data()
                            // isBarkSet    isBarkValid
                            << false        << false
                            // isBreedSet   isBreedValid
-                           << false        << false
+                           << false        << true
                            // modelIsValid modelIsSet
                            << false        << false;
 
@@ -389,7 +389,7 @@ void StandardModelsTest::testDogJsonConversionMethods_data()
                                              // isBarkSet    isBarkValid
                                              << true         << true
                                              // isBreedSet   isBreedValid
-                                             << false        << false
+                                             << false        << true
                                              // modelIsValid modelIsSet
                                              << true         << true;
 
@@ -416,7 +416,7 @@ void StandardModelsTest::testDogJsonConversionMethods_data()
         // isBarkSet    isBarkValid
         << true         << true
         // isBreedSet   isBreedValid
-        << false        << false
+        << false        << true
         // modelIsValid modelIsSet
         << true         << true;
 
@@ -430,7 +430,7 @@ void StandardModelsTest::testDogJsonConversionMethods_data()
             // isBarkSet    isBarkValid
             << true         << true
             // isBreedSet   isBreedValid
-            << false        << false
+            << false        << true
             // modelIsValid modelIsSet
             << true         << true;
 
@@ -444,7 +444,7 @@ void StandardModelsTest::testDogJsonConversionMethods_data()
             // isBarkSet    isBarkValid
             << true         << true
             // isBreedSet   isBreedValid
-            << false        << false
+            << false        << true
             // modelIsValid modelIsSet
             << true         << true;
 
@@ -456,7 +456,7 @@ void StandardModelsTest::testDogJsonConversionMethods_data()
             // isBarkSet    isBarkValid
             << false        << false
             // isBreedSet   isBreedValid
-            << false        << false
+            << false        << true
             // modelIsValid modelIsSet
             << false        << false;
 
@@ -493,7 +493,7 @@ void StandardModelsTest::testDogJsonConversionMethods_data()
                                   // isBarkSet    isBarkValid
                                   << false        << false
                                   // isBreedSet   isBreedValid
-                                  << false        << false
+                                  << false        << true
                                   // modelIsValid modelIsSet
                                   << false        << false;
 }
@@ -561,7 +561,7 @@ void StandardModelsTest::testBunnyJsonConversionMethods_data()
     // Bunny requires 'exporting-countries'. An empty Bunny is therefore invalid.
     QTest::newRow("empty") << StandardSchemasModels::Bunny{} << QString("{}"_L1)
                            // isWeightSet             isWeightValid
-                           << false                   << false
+                           << false                   << true
                            // isExportingCountriesSet isExportingCountriesValid
                            << false                   << false
                            // modelIsValid            modelIsSet
@@ -587,7 +587,7 @@ void StandardModelsTest::testBunnyJsonConversionMethods_data()
     QTest::newRow("exportingCountries=[Poland]; weight not set")
         << countriesOnly << QString("{\"exporting-countries\":[\"Poland\"]}"_L1)
         // isWeightSet             isWeightValid
-        << false                   << false
+        << false                   << true
         // isExportingCountriesSet isExportingCountriesValid
         << true                    << true
         // modelIsValid            modelIsSet
@@ -638,7 +638,7 @@ void StandardModelsTest::testBunnyJsonConversionMethods_data()
     QTest::newRow("exporting-countries=[]")
         << emptyArray << QString("{\"exporting-countries\":[]}"_L1)
         // isWeightSet             isWeightValid
-        << false                   << false
+        << false                   << true
         // isExportingCountriesSet isExportingCountriesValid
         << true                    << true
         // modelIsValid            modelIsSet
@@ -651,7 +651,7 @@ void StandardModelsTest::testBunnyJsonConversionMethods_data()
     QTest::newRow("exporting-countries=[42]")
         << nonEmptyErrorArray << QString("{}"_L1)
         // isWeightSet             isWeightValid
-        << false                   << false
+        << false                   << true
         // isExportingCountriesSet isExportingCountriesValid
         << false                   << false
         // modelIsValid            modelIsSet
@@ -664,7 +664,7 @@ void StandardModelsTest::testBunnyJsonConversionMethods_data()
     QTest::newRow("exporting-countries=[\"42\"]")
         << nonEmptyOkArray << QString("{\"exporting-countries\":[\"42\"]}"_L1)
         // isWeightSet             isWeightValid
-        << false                   << false
+        << false                   << true
         // isExportingCountriesSet isExportingCountriesValid
         << true                    << true
         // modelIsValid            modelIsSet
@@ -674,7 +674,7 @@ void StandardModelsTest::testBunnyJsonConversionMethods_data()
     QTest::newRow("exporting-countries=[42, \"true\"]")
         << errorArray << QString("{}"_L1)
         // isWeightSet             isWeightValid
-        << false                   << false
+        << false                   << true
         // isExportingCountriesSet isExportingCountriesValid
         << false                   << false
         // modelIsValid            modelIsSet
@@ -684,7 +684,7 @@ void StandardModelsTest::testBunnyJsonConversionMethods_data()
     QTest::newRow("exporting-countries=[\"42\",\"true\"]")
         << nonEmptyArray << QString("{\"exporting-countries\":[\"42\",\"true\"]}"_L1)
         // isWeightSet             isWeightValid
-        << false                   << false
+        << false                   << true
         // isExportingCountriesSet isExportingCountriesValid
         << true                    << true
         // modelIsValid            modelIsSet
@@ -696,7 +696,7 @@ void StandardModelsTest::testBunnyJsonConversionMethods_data()
     QTest::newRow("invalid JSON")
         << fromInvalidJson << QString("{}"_L1)
         // isWeightSet             isWeightValid
-        << false                   << false
+        << false                   << true
         // isExportingCountriesSet isExportingCountriesValid
         << false                   << false
         // modelIsValid            modelIsSet
@@ -768,9 +768,9 @@ void StandardModelsTest::testDuckFamilyJsonConversionMethods_data()
     // Duck_family has no required fields; an empty model is valid.
     QTest::newRow("empty") << StandardSchemasModels::Duck_family{} << QString("{}"_L1)
                            // isCountryOfOriginSet isCountryOfOriginValid
-                           << false                << false
+                           << false                << true
                            // isCountSet           isCountValid
-                           << false                << false
+                           << false                << true
                            // modelIsValid         modelIsSet
                            << true                 << false;
 
@@ -809,7 +809,7 @@ void StandardModelsTest::testDuckFamilyJsonConversionMethods_data()
         // isCountryOfOriginSet isCountryOfOriginValid
         << true                 << true
         // isCountSet           isCountValid
-        << false                << false
+        << false                << true
         // modelIsValid         modelIsSet
         << true                 << true;
 
@@ -819,7 +819,7 @@ void StandardModelsTest::testDuckFamilyJsonConversionMethods_data()
     QTest::newRow("count=3.5; countryOfOrigin not set")
         << countOnly << QString("{\"count\":3.5}"_L1)
         // isCountryOfOriginSet isCountryOfOriginValid
-        << false                << false
+        << false                << true
         // isCountSet           isCountValid
         << true                 << true
         // modelIsValid         modelIsSet
@@ -834,7 +834,7 @@ void StandardModelsTest::testDuckFamilyJsonConversionMethods_data()
         // isCountryOfOriginSet isCountryOfOriginValid
         << true                 << true
         // isCountSet           isCountValid
-        << false                << false
+        << false                << true
         // modelIsValid         modelIsSet
         << true                 << true;
 
@@ -843,9 +843,9 @@ void StandardModelsTest::testDuckFamilyJsonConversionMethods_data()
     QTest::newRow("invalid JSON")
         << fromInvalidJson << QString("{}"_L1)
         // isCountryOfOriginSet isCountryOfOriginValid
-        << false                << false
+        << false                << true
         // isCountSet           isCountValid
-        << false                << false
+        << false                << true
         // modelIsValid         modelIsSet
         << true                 << false;
 }
@@ -913,7 +913,7 @@ void StandardModelsTest::testDuckJsonConversionMethods_data()
     QTest::newRow("empty nested objects")
             << StandardSchemasModels::Duck{} << QString("{}"_L1)
             // isBitesSet    isBitesValid
-            << false         << false
+            << false         << true
             // isFamilySet   isFamilyValid
             << false         << true // No required fields => family object is true
             // modelIsValid  modelIsSet
@@ -957,7 +957,7 @@ void StandardModelsTest::testDuckJsonConversionMethods_data()
     QTest::newRow("family={Norway}; bites not set")
         << familyOnly << QString("{\"family\":{\"countryOfOrigin\":\"Norway\"}}"_L1)
         // isBitesSet    isBitesValid
-        << false         << false
+        << false         << true
         // isFamilySet   isFamilyValid
         << true          << true
         // modelIsValid  modelIsSet
@@ -970,7 +970,7 @@ void StandardModelsTest::testDuckJsonConversionMethods_data()
     QTest::newRow("Set incorrect Object to family; bites not set")
             << incorrectFamily << QString("{}"_L1)
             // isBitesSet    isBitesValid
-            << false         << false
+            << false         << true
             // isFamilySet   isFamilyValid
             << false         << true   // valid because no required fields, so {} is OK.
             // modelIsValid  modelIsSet
@@ -980,7 +980,7 @@ void StandardModelsTest::testDuckJsonConversionMethods_data()
     QTest::newRow("Set incorrect Array to family; bites not set")
             << incorrectArrayFamily << QString("{}"_L1)
             // isBitesSet    isBitesValid
-            << false         << false
+            << false         << true
             // isFamilySet   isFamilyValid
             << false         << true   // valid because no required fields, so {} is OK.
             // modelIsValid  modelIsSet
@@ -992,7 +992,7 @@ void StandardModelsTest::testDuckJsonConversionMethods_data()
     QTest::newRow("bites=integer => dropped")
         << wrongBitesType << QString("{\"family\":{\"count\":2}}"_L1)
         // isBitesSet    isBitesValid
-        << false         << false
+        << false         << true
         // isFamilySet   isFamilyValid
         << true          << true
         // modelIsValid  modelIsSet
@@ -1026,7 +1026,7 @@ void StandardModelsTest::testDuckJsonConversionMethods_data()
     QTest::newRow("invalid JSON")
             << fromInvalidJson << QString("{}"_L1)
             // isBitesSet    isBitesValid
-            << false         << false
+            << false         << true
             // isFamilySet   isFamilyValid
             << false         << true // No required fields => family object is true
             // modelIsValid  modelIsSet
@@ -1096,7 +1096,7 @@ void StandardModelsTest::testEnteJsonConversionMethods_data()
     QTest::newRow("Ente: empty")
             << StandardSchemasModels::Ente{} << QString("{}"_L1)
             // isBitesSet    isBitesValid
-            << false         << false
+            << false         << true
             // isFamilySet   isFamilyValid
             << false         << true // No required fields => family object is true
             // modelIsValid  modelIsSet
@@ -1143,7 +1143,7 @@ void StandardModelsTest::testEnteJsonConversionMethods_data()
     QTest::newRow("Ente: family=Duck{bites:true}; bites not set")
         << familyOnly << QString("{\"family\":{\"bites\":true}}"_L1)
         // isBitesSet    isBitesValid
-        << false         << false
+        << false         << true
         // isFamilySet   isFamilyValid
         << true          << true
         // modelIsValid  modelIsSet
@@ -1155,7 +1155,7 @@ void StandardModelsTest::testEnteJsonConversionMethods_data()
     QTest::newRow("Ente: incorrect string type for family")
             << incorrectFamily << QString("{}"_L1)
             // isBitesSet    isBitesValid
-            << false         << false
+            << false         << true
             // isFamilySet   isFamilyValid
             << false         << true   // valid because no required fields, so {} is OK.
             // modelIsValid  modelIsSet
@@ -1165,7 +1165,7 @@ void StandardModelsTest::testEnteJsonConversionMethods_data()
     QTest::newRow("Ente: incorrect array type for family")
             << incorrectArrayFamily << QString("{}"_L1)
             // isBitesSet    isBitesValid
-            << false         << false
+            << false         << true
             // isFamilySet   isFamilyValid
             << false         << true   // valid because no required fields, so {} is OK.
             // modelIsValid  modelIsSet
@@ -1178,7 +1178,7 @@ void StandardModelsTest::testEnteJsonConversionMethods_data()
     QTest::newRow("Ente: bites=integer (wrong type) => dropped")
         << wrongBitesType << QString("{\"family\":{\"bites\":true}}"_L1)
         // isBitesSet    isBitesValid
-        << false         << false
+        << false         << true
         // isFamilySet   isFamilyValid
         << true          << true
         // modelIsValid  modelIsSet
@@ -1212,7 +1212,7 @@ void StandardModelsTest::testEnteJsonConversionMethods_data()
     QTest::newRow("Ente: invalid JSON")
             << fromInvalidJson << QString("{}"_L1)
             // isBitesSet    isBitesValid
-            << false         << false
+            << false         << true
             // isFamilySet   isFamilyValid
             << false         << true // No required fields => family object is true
             // modelIsValid  modelIsSet
@@ -1404,11 +1404,11 @@ void StandardModelsTest::testPostAccountRequestJsonConversionMethods_data()
                            // isCardNumberSet       isCardNumberValid
                            << false                 << false
                            // isCardDataSet         isCardDataValid
-                           << false                 << false
+                           << false                 << true
                            // isCardAvailabilitySet isCardAvailabilityValid
-                           << false                 << false
+                           << false                 << true
                            // isCardSecretCodeSet   isCardSecretCodeValid
-                           << false                 << false
+                           << false                 << true
                            // isOtherAccDataSet     isOtherAccDataValid
                            << false                 << true
                            // modelIsValid          modelIsSet
@@ -1422,11 +1422,11 @@ void StandardModelsTest::testPostAccountRequestJsonConversionMethods_data()
         // isCardNumberSet       isCardNumberValid
         << true                  << true
         // isCardDataSet         isCardDataValid
-        << false                 << false
+        << false                 << true
         // isCardAvailabilitySet isCardAvailabilityValid
-        << false                 << false
+        << false                 << true
         // isCardSecretCodeSet   isCardSecretCodeValid
-        << false                 << false
+        << false                 << true
         // isOtherAccDataSet     isOtherAccDataValid
         << false                 << true
         // modelIsValid          modelIsSet
@@ -1470,11 +1470,11 @@ void StandardModelsTest::testPostAccountRequestJsonConversionMethods_data()
         // isCardNumberSet       isCardNumberValid
         << false                 << false
         // isCardDataSet         isCardDataValid
-        << false                 << false
+        << false                 << true
         // isCardAvailabilitySet isCardAvailabilityValid
-        << false                 << false
+        << false                 << true
         // isCardSecretCodeSet   isCardSecretCodeValid
-        << false                 << false
+        << false                 << true
         // isOtherAccDataSet     isOtherAccDataValid
         << false                 << true
         // modelIsValid          modelIsSet
@@ -1489,11 +1489,11 @@ void StandardModelsTest::testPostAccountRequestJsonConversionMethods_data()
             // isCardNumberSet       isCardNumberValid
             << false                 << false
             // isCardDataSet         isCardDataValid
-            << false                 << false
+            << false                 << true
             // isCardAvailabilitySet isCardAvailabilityValid
-            << false                 << false
+            << false                 << true
             // isCardSecretCodeSet   isCardSecretCodeValid
-            << false                 << false
+            << false                 << true
             // isOtherAccDataSet     isOtherAccDataValid
             << false                 << true
             // modelIsValid          modelIsSet
@@ -1508,11 +1508,11 @@ void StandardModelsTest::testPostAccountRequestJsonConversionMethods_data()
             // isCardNumberSet       isCardNumberValid
             << false                 << false
             // isCardDataSet         isCardDataValid
-            << false                 << false
+            << false                 << true
             // isCardAvailabilitySet isCardAvailabilityValid
-            << false                 << false
+            << false                 << true
             // isCardSecretCodeSet   isCardSecretCodeValid
-            << false                 << false
+            << false                 << true
             // isOtherAccDataSet     isOtherAccDataValid
             << false                 << true
             // modelIsValid          modelIsSet
@@ -1530,11 +1530,11 @@ void StandardModelsTest::testPostAccountRequestJsonConversionMethods_data()
         // isCardNumberSet       isCardNumberValid
         << true                  << true
         // isCardDataSet         isCardDataValid
-        << false                 << false
+        << false                 << true
         // isCardAvailabilitySet isCardAvailabilityValid
-        << false                 << false
+        << false                 << true
         // isCardSecretCodeSet   isCardSecretCodeValid
-        << false                 << false
+        << false                 << true
         // isOtherAccDataSet     isOtherAccDataValid
         << false                 << true
         // modelIsValid          modelIsSet
@@ -1552,11 +1552,11 @@ void StandardModelsTest::testPostAccountRequestJsonConversionMethods_data()
             // isCardNumberSet       isCardNumberValid
             << true                  << true
             // isCardDataSet         isCardDataValid
-            << false                 << false
+            << false                 << true
             // isCardAvailabilitySet isCardAvailabilityValid
-            << false                 << false
+            << false                 << true
             // isCardSecretCodeSet   isCardSecretCodeValid
-            << false                 << false
+            << false                 << true
             // isOtherAccDataSet     isOtherAccDataValid
             << false                 << true
             // modelIsValid          modelIsSet
@@ -1574,11 +1574,11 @@ void StandardModelsTest::testPostAccountRequestJsonConversionMethods_data()
             // isCardNumberSet       isCardNumberValid
             << true                 << true
             // isCardDataSet         isCardDataValid
-            << false                 << false
+            << false                 << true
             // isCardAvailabilitySet isCardAvailabilityValid
-            << false                 << false
+            << false                 << true
             // isCardSecretCodeSet   isCardSecretCodeValid
-            << false                 << false
+            << false                 << true
             // isOtherAccDataSet     isOtherAccDataValid
             << false                 << true
             // modelIsValid          modelIsSet
@@ -1596,11 +1596,11 @@ void StandardModelsTest::testPostAccountRequestJsonConversionMethods_data()
             // isCardNumberSet       isCardNumberValid
             << true                 << true
             // isCardDataSet         isCardDataValid
-            << false                 << false
+            << false                 << true
             // isCardAvailabilitySet isCardAvailabilityValid
-            << false                 << false
+            << false                 << true
             // isCardSecretCodeSet   isCardSecretCodeValid
-            << false                 << false
+            << false                 << true
             // isOtherAccDataSet     isOtherAccDataValid
             << false                 << true
             // modelIsValid          modelIsSet
@@ -1619,9 +1619,9 @@ void StandardModelsTest::testPostAccountRequestJsonConversionMethods_data()
         // isCardDataSet         isCardDataValid
         << true                  << true
         // isCardAvailabilitySet isCardAvailabilityValid
-        << false                 << false
+        << false                 << true
         // isCardSecretCodeSet   isCardSecretCodeValid
-        << false                 << false
+        << false                 << true
         // isOtherAccDataSet     isOtherAccDataValid
         << false                 << true
         // modelIsValid          modelIsSet
@@ -1634,11 +1634,11 @@ void StandardModelsTest::testPostAccountRequestJsonConversionMethods_data()
                                   // isCardNumberSet       isCardNumberValid
                                   << false                 << false
                                   // isCardDataSet         isCardDataValid
-                                  << false                 << false
+                                  << false                 << true
                                   // isCardAvailabilitySet isCardAvailabilityValid
-                                  << false                 << false
+                                  << false                 << true
                                   // isCardSecretCodeSet   isCardSecretCodeValid
-                                  << false                 << false
+                                  << false                 << true
                                   // isOtherAccDataSet     isOtherAccDataValid
                                   << false                 << true
                                   // modelIsValid          modelIsSet
@@ -2042,7 +2042,7 @@ void StandardModelsTest::testTiereJsonConversionMethods_data()
     QTest::newRow("Tiere: empty (invalid - missing required fields)")
         << StandardSchemasModels::Tiere{} << QString("{}"_L1)
         // isNameSet           isNameValid
-        << false              << false
+        << false              << true
         // isDeepNestedMapSet isDeepNestedMapValid
         << false              << false
         // isSpeciesListSet   isSpeciesListValid
@@ -2094,7 +2094,7 @@ void StandardModelsTest::testTiereJsonConversionMethods_data()
         << minimal
         << QString("{\"deepNestedMap\":{},\"speciesList\":[]}"_L1)
         // isNameSet          isNameValid
-        << false              << false
+        << false              << true
         // isDeepNestedMapSet isDeepNestedMapValid
         << true               << true
         // isSpeciesListSet   isSpeciesListValid
@@ -2127,7 +2127,7 @@ void StandardModelsTest::testTiereJsonConversionMethods_data()
     QTest::newRow("Tiere: deepNestedMap wrong type (string) is dropped (invalid), speciesList: []")
         << wrongDeepMapType << QString("{\"speciesList\":[]}"_L1)
         // isNameSet          isNameValid
-        << false              << false
+        << false              << true
         // isDeepNestedMapSet isDeepNestedMapValid
         << false              << false
         // isSpeciesListSet   isSpeciesListValid
@@ -2143,7 +2143,7 @@ void StandardModelsTest::testTiereJsonConversionMethods_data()
     QTest::newRow("Tiere: speciesList wrong type (object) is dropped (invalid), deepNestedMap: {}")
         << wrongSpeciesListType << QString("{\"deepNestedMap\":{}}"_L1)
         // isNameSet          isNameValid
-        << false              << false
+        << false              << true
         // isDeepNestedMapSet isDeepNestedMapValid
         << true               << true
         // isSpeciesListSet   isSpeciesListValid
@@ -2162,7 +2162,7 @@ void StandardModelsTest::testTiereJsonConversionMethods_data()
     QTest::newRow("Tiere: deepNestedMap with invalid inner Duck; field dropped (model invalid)")
         << invalidInnerDuck << QString("{\"speciesList\":[]}"_L1)
         // isNameSet          isNameValid
-        << false              << false
+        << false              << true
         // isDeepNestedMapSet isDeepNestedMapValid
         << false              << false
         // isSpeciesListSet   isSpeciesListValid
@@ -2178,7 +2178,7 @@ void StandardModelsTest::testTiereJsonConversionMethods_data()
     QTest::newRow("Tiere: speciesList with invalid Ente; entire array dropped (model invalid)")
         << invalidEnteInList << QString("{\"deepNestedMap\":{}}"_L1)
         // isNameSet          isNameValid
-        << false              << false
+        << false              << true
         // isDeepNestedMapSet isDeepNestedMapValid
         << true               << true
         // isSpeciesListSet   isSpeciesListValid
@@ -2218,7 +2218,7 @@ void StandardModelsTest::testTiereJsonConversionMethods_data()
     QTest::newRow("Tiere: invalid JSON")
         << fromInvalidJson << QString("{}"_L1)
         // isNameSet          isNameValid
-        << false              << false
+        << false              << true
         // isDeepNestedMapSet isDeepNestedMapValid
         << false              << false
         // isSpeciesListSet   isSpeciesListValid
@@ -2233,7 +2233,7 @@ void StandardModelsTest::testTiereJsonConversionMethods_data()
     QTest::newRow("Tiere: missing required deepNestedMap")
         << missingDeepMap << QString("{\"speciesList\":[]}"_L1)
         // isNameSet          isNameValid
-        << false              << false
+        << false              << true
         // isDeepNestedMapSet isDeepNestedMapValid
         << false              << false
         // isSpeciesListSet   isSpeciesListValid
@@ -2248,7 +2248,7 @@ void StandardModelsTest::testTiereJsonConversionMethods_data()
     QTest::newRow("Tiere: missing required speciesList")
         << missingSpeciesList << QString("{\"deepNestedMap\":{}}"_L1)
         // isNameSet          isNameValid
-        << false              << false
+        << false              << true
         // isDeepNestedMapSet isDeepNestedMapValid
         << true               << true
         // isSpeciesListSet   isSpeciesListValid
@@ -2338,7 +2338,7 @@ void StandardModelsTest::testPflanzeJsonConversionMethods_data()
     QTest::newRow("Pflanze: empty (invalid - missing required field)")
         << StandardSchemasModels::Pflanze{} << QString("{}"_L1)
         // isNameSet       isNameValid
-        << false           << false
+        << false           << true
         // isSchoolDataSet isSchoolDataValid
         << false           << false
         // modelIsValid    modelIsSet
@@ -2365,7 +2365,7 @@ void StandardModelsTest::testPflanzeJsonConversionMethods_data()
         << schoolDataOnly
         << QString("{\"schoolData\":[[[\"data\"]]]}"_L1)
         // isNameSet       isNameValid
-        << false           << false
+        << false           << true
         // isSchoolDataSet isSchoolDataValid
         << true            << true
         // modelIsValid    modelIsSet
@@ -2390,7 +2390,7 @@ void StandardModelsTest::testPflanzeJsonConversionMethods_data()
         << emptySchoolData
         << QString("{\"schoolData\":[]}"_L1)
         // isNameSet       isNameValid
-        << false           << false
+        << false           << true
         // isSchoolDataSet isSchoolDataValid
         << true            << true
         // modelIsValid    modelIsSet
@@ -2414,7 +2414,7 @@ void StandardModelsTest::testPflanzeJsonConversionMethods_data()
     QTest::newRow("Pflanze: schoolData=wrong (string) type; dropped (invalid)")
         << wrongStringType << QString("{}"_L1)
         // isNameSet       isNameValid
-        << false           << false
+        << false           << true
         // isSchoolDataSet isSchoolDataValid
         << false           << false
         // modelIsValid    modelIsSet
@@ -2425,7 +2425,7 @@ void StandardModelsTest::testPflanzeJsonConversionMethods_data()
     QTest::newRow("Pflanze: schoolData=wrong (object) type; dropped (invalid)")
         << wrongObjectType << QString("{}"_L1)
         // isNameSet       isNameValid
-        << false           << false
+        << false           << true
         // isSchoolDataSet isSchoolDataValid
         << false           << false
         // modelIsValid    modelIsSet
@@ -2436,7 +2436,7 @@ void StandardModelsTest::testPflanzeJsonConversionMethods_data()
     QTest::newRow("Pflanze: schoolData=wrong (integer) type; dropped (invalid)")
         << wrongIntType << QString("{}"_L1)
         // isNameSet       isNameValid
-        << false           << false
+        << false           << true
         // isSchoolDataSet isSchoolDataValid
         << false           << false
         // modelIsValid    modelIsSet
@@ -2448,7 +2448,7 @@ void StandardModelsTest::testPflanzeJsonConversionMethods_data()
     QTest::newRow("Pflanze: schoolData=[[[42]]] inner wrong type; dropped (invalid)")
         << wrongInnerType << QString("{}"_L1)
         // isNameSet       isNameValid
-        << false           << false
+        << false           << true
         // isSchoolDataSet isSchoolDataValid
         << false           << false
         // modelIsValid    modelIsSet
@@ -2459,7 +2459,7 @@ void StandardModelsTest::testPflanzeJsonConversionMethods_data()
     QTest::newRow("Pflanze: schoolData=[\"flat\"] wrong nesting; dropped (invalid)")
         << wrongNesting << QString("{}"_L1)
         // isNameSet       isNameValid
-        << false           << false
+        << false           << true
         // isSchoolDataSet isSchoolDataValid
         << false           << false
         // modelIsValid    modelIsSet
@@ -2473,7 +2473,7 @@ void StandardModelsTest::testPflanzeJsonConversionMethods_data()
         << wrongNameType
         << QString("{\"schoolData\":[[[\"ok\"]]]}"_L1)
         // isNameSet       isNameValid
-        << false           << false
+        << false           << true
         // isSchoolDataSet isSchoolDataValid
         << true            << true
         // modelIsValid    modelIsSet
@@ -2486,7 +2486,7 @@ void StandardModelsTest::testPflanzeJsonConversionMethods_data()
         << unknownFields
         << QString("{\"schoolData\":[[[\"x\"]]]}"_L1)
         // isNameSet       isNameValid
-        << false           << false
+        << false           << true
         // isSchoolDataSet isSchoolDataValid
         << true            << true
         // modelIsValid    modelIsSet
@@ -2497,7 +2497,7 @@ void StandardModelsTest::testPflanzeJsonConversionMethods_data()
     QTest::newRow("Pflanze: invalid JSON")
         << fromInvalidJson << QString("{}"_L1)
         // isNameSet       isNameValid
-        << false           << false
+        << false           << true
         // isSchoolDataSet isSchoolDataValid
         << false           << false
         // modelIsValid    modelIsSet
@@ -2571,7 +2571,7 @@ void StandardModelsTest::testFaunaJsonConversionMethods_data()
     QTest::newRow("Fauna: empty (invalid - missing required field)")
         << StandardSchemasModels::Fauna{} << QString("{}"_L1)
         // isNameSet             isNameValid
-        << false                 << false
+        << false                 << true
         // isDeepMapWithListsSet isDeepMapWithListsValid
         << false                 << false
         // isHabitatDataSet      isHabitatDataValid
@@ -2588,7 +2588,7 @@ void StandardModelsTest::testFaunaJsonConversionMethods_data()
         << emptyRequired
         << QString("{\"deepMapWithLists\":{}}"_L1)
         // isNameSet             isNameValid
-        << false                 << false
+        << false                 << true
         // isDeepMapWithListsSet isDeepMapWithListsValid
         << true                  << true
         // isHabitatDataSet      isHabitatDataValid
@@ -2644,7 +2644,7 @@ void StandardModelsTest::testFaunaJsonConversionMethods_data()
         << withFamily
         << QString("{\"deepMapWithLists\":{\"area\":{\"pond\":[{\"bites\":true,\"family\":{\"count\":3,\"countryOfOrigin\":\"Norway\"}}]}}}"_L1)
         // isNameSet             isNameValid
-        << false                 << false
+        << false                 << true
         // isDeepMapWithListsSet isDeepMapWithListsValid
         << true                  << true
         // isHabitatDataSet      isHabitatDataValid
@@ -2661,7 +2661,7 @@ void StandardModelsTest::testFaunaJsonConversionMethods_data()
         << fromJsonFauna
         << QString("{\"deepMapWithLists\":{\"r1\":{\"s1\":[{\"bites\":true}]}}}"_L1)
         // isNameSet             isNameValid
-        << false                 << false
+        << false                 << true
         // isDeepMapWithListsSet isDeepMapWithListsValid
         << true                  << true
         // isHabitatDataSet      isHabitatDataValid
@@ -2676,7 +2676,7 @@ void StandardModelsTest::testFaunaJsonConversionMethods_data()
     QTest::newRow("Fauna: deepMapWithLists=wrong (string) type; dropped (invalid)")
         << wrongStringType << QString("{}"_L1)
         // isNameSet             isNameValid
-        << false                 << false
+        << false                 << true
         // isDeepMapWithListsSet isDeepMapWithListsValid
         << false                 << false
         // isHabitatDataSet      isHabitatDataValid
@@ -2691,7 +2691,7 @@ void StandardModelsTest::testFaunaJsonConversionMethods_data()
     QTest::newRow("Fauna: deepMapWithLists=wrong (array) type; dropped (invalid)")
         << wrongArrayType << QString("{}"_L1)
         // isNameSet             isNameValid
-        << false                 << false
+        << false                 << true
         // isDeepMapWithListsSet isDeepMapWithListsValid
         << false                 << false
         // isHabitatDataSet      isHabitatDataValid
@@ -2708,7 +2708,7 @@ void StandardModelsTest::testFaunaJsonConversionMethods_data()
     QTest::newRow("Fauna: deepMapWithLists inner wrong type; dropped (invalid)")
         << wrongInnerValue << QString("{}"_L1)
         // isNameSet             isNameValid
-        << false                 << false
+        << false                 << true
         // isDeepMapWithListsSet isDeepMapWithListsValid
         << false                 << false
         // isHabitatDataSet      isHabitatDataValid
@@ -2725,7 +2725,7 @@ void StandardModelsTest::testFaunaJsonConversionMethods_data()
     QTest::newRow("Fauna: deepMapWithLists deepest inner wrong type; dropped (invalid)")
         << wrongDeepestInner << QString("{}"_L1)
         // isNameSet             isNameValid
-        << false                 << false
+        << false                 << true
         // isDeepMapWithListsSet isDeepMapWithListsValid
         << false                 << false
         // isHabitatDataSet      isHabitatDataValid
@@ -2758,7 +2758,7 @@ void StandardModelsTest::testFaunaJsonConversionMethods_data()
         << unknownFields
         << QString("{\"deepMapWithLists\":{}}"_L1)
         // isNameSet             isNameValid
-        << false                 << false
+        << false                 << true
         // isDeepMapWithListsSet isDeepMapWithListsValid
         << true                  << true
         // isHabitatDataSet      isHabitatDataValid
@@ -2773,7 +2773,7 @@ void StandardModelsTest::testFaunaJsonConversionMethods_data()
     QTest::newRow("Fauna: invalid JSON")
         << fromInvalidJson << QString("{}"_L1)
         // isNameSet             isNameValid
-        << false                 << false
+        << false                 << true
         // isDeepMapWithListsSet isDeepMapWithListsValid
         << false                 << false
         // isHabitatDataSet      isHabitatDataValid
@@ -2863,7 +2863,7 @@ void StandardModelsTest::testFloraJsonConversionMethods_data()
     QTest::newRow("Flora: empty (invalid - missing required field)")
         << StandardSchemasModels::Flora{} << QString("{}"_L1)
         // isNameSet      isNameValid
-        << false          << false
+        << false          << true
         // isPlantDataSet isPlantDataValid
         << false          << false
         // modelIsValid   modelIsSet
@@ -2876,7 +2876,7 @@ void StandardModelsTest::testFloraJsonConversionMethods_data()
         << emptyRequired
         << QString("{\"plantData\":[]}"_L1)
         // isNameSet      isNameValid
-        << false          << false
+        << false          << true
         // isPlantDataSet isPlantDataValid
         << true           << true
         // modelIsValid   modelIsSet
@@ -2918,7 +2918,7 @@ void StandardModelsTest::testFloraJsonConversionMethods_data()
     QTest::newRow("Flora: plantData=wrong (string) type; dropped (invalid)")
         << wrongStringType << QString("{}"_L1)
         // isNameSet      isNameValid
-        << false          << false
+        << false          << true
         // isPlantDataSet isPlantDataValid
         << false          << false
         // modelIsValid   modelIsSet
@@ -2929,7 +2929,7 @@ void StandardModelsTest::testFloraJsonConversionMethods_data()
     QTest::newRow("Flora: plantData=wrong (object) type; dropped (invalid)")
         << wrongObjectType << QString("{}"_L1)
         // isNameSet      isNameValid
-        << false          << false
+        << false          << true
         // isPlantDataSet isPlantDataValid
         << false          << false
         // modelIsValid   modelIsSet
@@ -2940,7 +2940,7 @@ void StandardModelsTest::testFloraJsonConversionMethods_data()
     QTest::newRow("Flora: plantData=wrong (integer) type; dropped (invalid)")
         << wrongIntType << QString("{}"_L1)
         // isNameSet      isNameValid
-        << false          << false
+        << false          << true
         // isPlantDataSet isPlantDataValid
         << false          << false
         // modelIsValid   modelIsSet
@@ -2952,7 +2952,7 @@ void StandardModelsTest::testFloraJsonConversionMethods_data()
     QTest::newRow("Flora: plantData=[string] wrong inner type; dropped (invalid)")
         << wrongInnerType << QString("{}"_L1)
         // isNameSet      isNameValid
-        << false          << false
+        << false          << true
         // isPlantDataSet isPlantDataValid
         << false          << false
         // modelIsValid   modelIsSet
@@ -2965,7 +2965,7 @@ void StandardModelsTest::testFloraJsonConversionMethods_data()
         << wrongNameType
         << QString("{\"plantData\":[]}"_L1)
         // isNameSet      isNameValid
-        << false          << false
+        << false          << true
         // isPlantDataSet isPlantDataValid
         << true           << true
         // modelIsValid   modelIsSet
@@ -2978,7 +2978,7 @@ void StandardModelsTest::testFloraJsonConversionMethods_data()
         << unknownFields
         << QString("{\"plantData\":[]}"_L1)
         // isNameSet      isNameValid
-        << false          << false
+        << false          << true
         // isPlantDataSet isPlantDataValid
         << true           << true
         // modelIsValid   modelIsSet
@@ -2989,7 +2989,7 @@ void StandardModelsTest::testFloraJsonConversionMethods_data()
     QTest::newRow("Flora: invalid JSON")
         << fromInvalidJson << QString("{}"_L1)
         // isNameSet      isNameValid
-        << false          << false
+        << false          << true
         // isPlantDataSet isPlantDataValid
         << false          << false
         // modelIsValid   modelIsSet
