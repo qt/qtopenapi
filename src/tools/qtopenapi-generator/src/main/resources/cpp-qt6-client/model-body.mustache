@@ -30,27 +30,27 @@ void {{classname}}::initializeModel()
 {
 {{^isEnum}}
 {{#vars}}
+    m_{{name}} = {};
 {{#complexType}}
 {{^isContainer}}
-    {{#isModel}}m_{{name}} = {};{{/isModel}}
     m_{{name}}IsValid = m_{{name}}.isValid();
     m_{{name}}IsSet = m_{{name}}.isSet();
 {{/isContainer}}
 {{#isContainer}}
-    m_{{name}}.clear();
     m_{{name}}IsSet = false;
     m_{{name}}IsValid = !{{{required}}};
 {{/isContainer}}
 {{/complexType}}
 {{^complexType}}
 {{#isFreeFormObject}}
-    m_{{name}} = {};
     m_{{name}}IsValid = m_{{name}}.isValid();
     m_{{name}}IsSet = m_{{name}}.isSet();
 {{/isFreeFormObject}}
 {{^isFreeFormObject}}
     m_{{name}}IsSet = false;
-    m_{{name}}IsValid = false;
+    // If value isn't set AND isn't required
+    // it's counted as valid
+    m_{{name}}IsValid = !{{{required}}};
 {{/isFreeFormObject}}
 {{/complexType}}
 {{^-last}}
@@ -116,8 +116,15 @@ void {{classname}}::fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnu
     }
 {{/isModel}}
 {{^isModel}}
-    m_{{name}}IsValid = ::{{cppCommonNamespace}}::fromJsonValue(m_{{name}}, json[u"{{baseName}}"_s]);
-    m_{{name}}IsSet = {{#isEnumRef}}m_{{name}}.isSet(){{/isEnumRef}}{{^isEnumRef}}!json[u"{{baseName}}"_s].isNull() && m_{{name}}IsValid{{/isEnumRef}};
+    {
+        const bool result = ::{{cppCommonNamespace}}::fromJsonValue(m_{{name}}, json[u"{{baseName}}"_s]);
+        if (result) {
+            m_{{name}}IsValid = m_{{name}}IsSet = {{#isEnumRef}}m_{{name}}.isSet(){{/isEnumRef}}{{^isEnumRef}}result{{/isEnumRef}};
+        } else {
+            m_{{name}}IsValid = !{{required}};
+            m_{{name}}IsSet = result;
+        }
+    }
 {{/isModel}}
 {{/isContainer}}
 {{#isContainer}}
@@ -226,8 +233,15 @@ void {{classname}}::fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnu
     }
 {{/isFreeFormObject}}
 {{^isFreeFormObject}}
-    m_{{name}}IsValid = ::{{cppCommonNamespace}}::fromJsonValue(m_{{name}}, json[u"{{baseName}}"_s]);
-    m_{{name}}IsSet = !json[u"{{baseName}}"_s].isNull() && m_{{name}}IsValid;
+    {
+        const bool result = ::{{cppCommonNamespace}}::fromJsonValue(m_{{name}}, json[u"{{baseName}}"_s]);
+        if (result) {
+            m_{{name}}IsValid = m_{{name}}IsSet = result;
+        } else {
+            m_{{name}}IsValid = !{{required}};
+            m_{{name}}IsSet = result;
+        }
+    }
 {{/isFreeFormObject}}
 {{/complexType}}
 {{/vars}}
