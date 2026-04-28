@@ -1,7 +1,6 @@
 {{>licenseInfo}}
 #include "{{prefixLowerCase}}helpers.h"
 
-#include <QtCore/qdebug.h>
 #include <QtCore/QJsonParseError>
 
 #include <limits>
@@ -65,6 +64,38 @@ private:
 };
 
 {{prefix}}SerializerSettings * {{prefix}}SerializerSettings::instance = nullptr;
+
+static bool fromStringValue(const QString &inStr, QDateTime &value)
+{
+    if (inStr.isEmpty())
+        return false;
+
+    QDateTime dateTime;
+    if ({{prefix}}SerializerSettings::getInstance()->getCustomDateTimeFormat().isStringSet)
+        dateTime = QDateTime::fromString(inStr, {{prefix}}SerializerSettings::getInstance()->getCustomDateTimeFormat().formatString);
+    else if ({{prefix}}SerializerSettings::getInstance()->getCustomDateTimeFormat().isEnumSet)
+        dateTime = QDateTime::fromString(inStr, {{prefix}}SerializerSettings::getInstance()->getCustomDateTimeFormat().formatEnum);
+    else
+        dateTime = QDateTime::fromString(inStr, Qt::ISODate);
+
+    const bool isValid = dateTime.isValid();
+    if (isValid)
+        value = dateTime;
+
+    return isValid;
+}
+
+static bool fromStringValue(const QString &inStr, QDate &value)
+{
+    if (inStr.isEmpty())
+        return false;
+
+    const auto date = QDate::fromString(inStr, Qt::DateFormat::ISODate);
+    const bool isValid = date.isValid();
+    if (isValid)
+        value = date;
+    return isValid;
+}
 
 bool setDateTimeFormat(const QString &dateTimeFormat)
 {
@@ -246,6 +277,9 @@ bool fromByteArray(const QByteArray &input, QString &value)
 
 bool fromByteArray(const QByteArray &input, QDateTime &value)
 {
+    if (input.isEmpty())
+        return false;
+
     const QString inStr = QString::fromUtf8(input);
     return fromStringValue(inStr, value);
 }
@@ -258,6 +292,9 @@ bool fromByteArray(const QByteArray &input, QByteArray &value)
 
 bool fromByteArray(const QByteArray &input, QDate &value)
 {
+    if (input.isEmpty())
+        return false;
+
     const QString inStr = QString::fromUtf8(input);
     return fromStringValue(inStr, value);
 }
@@ -339,119 +376,6 @@ bool fromByteArray(const QByteArray &input, {{prefix}}Enum &value)
 bool fromByteArray(const QByteArray &input, {{prefix}}HttpFileElement &value)
 {
     return value.saveToLocalFile(input);
-}
-
-bool fromStringValue(const QString &inStr, QString &value)
-{
-    value.clear();
-    value.append(inStr);
-    return !inStr.isEmpty();
-}
-
-bool fromStringValue(const QString &inStr, QDateTime &value)
-{
-    if (inStr.isEmpty()) {
-        return false;
-    } else {
-       QDateTime dateTime;
-        if ({{prefix}}SerializerSettings::getInstance()->getCustomDateTimeFormat().isStringSet) {
-            dateTime = QDateTime::fromString(inStr, {{prefix}}SerializerSettings::getInstance()->getCustomDateTimeFormat().formatString);
-        } else if ({{prefix}}SerializerSettings::getInstance()->getCustomDateTimeFormat().isEnumSet) {
-            dateTime = QDateTime::fromString(inStr, {{prefix}}SerializerSettings::getInstance()->getCustomDateTimeFormat().formatEnum);
-        } else {
-            dateTime = QDateTime::fromString(inStr, Qt::ISODate);
-        }
-
-        if (dateTime.isValid()) {
-            value.setDate(dateTime.date());
-            value.setTime(dateTime.time());
-        } else {
-            qDebug() << "DateTime is invalid";
-        }
-        return dateTime.isValid();
-    }
-}
-
-bool fromStringValue(const QString &inStr, QByteArray &value)
-{
-    if (inStr.isEmpty()) {
-        return false;
-    } else {
-        value.clear();
-        value.append(inStr.toUtf8());
-        return !value.isEmpty();
-    }
-}
-
-bool fromStringValue(const QString &inStr, QDate &value)
-{
-    if (inStr.isEmpty()) {
-        return false;
-    } else {
-        auto date = QDate::fromString(inStr, Qt::DateFormat::ISODate);
-        if (date.isValid()) {
-            value.setDate(date.year(), date.month(), date.day());
-        } else {
-            qDebug() << "Date is invalid";
-        }
-        return date.isValid();
-    }
-}
-
-bool fromStringValue(const QString &inStr, qint32 &value)
-{
-    bool ok = false;
-    value = QVariant(inStr).toInt(&ok);
-    return ok;
-}
-
-bool fromStringValue(const QString &inStr, qint64 &value)
-{
-    bool ok = false;
-    value = QVariant(inStr).toLongLong(&ok);
-    return ok;
-}
-
-bool fromStringValue(const QString &inStr, bool &value)
-{
-    value = QVariant(inStr).toBool();
-    return ((inStr == "true"_L1) || (inStr == "false"_L1));
-}
-
-bool fromStringValue(const QString &inStr, float &value)
-{
-    bool ok = false;
-    value = inStr.toFloat(&ok);
-    return ok;
-}
-
-bool fromStringValue(const QString &inStr, double &value)
-{
-    bool ok = false;
-    value = inStr.toDouble(&ok);
-    return ok;
-}
-
-bool fromStringValue(const QString &inStr, {{prefix}}Object &value)
-{
-    QJsonParseError err;
-    QJsonDocument::fromJson(inStr.toUtf8(),&err);
-    if (err.error == QJsonParseError::NoError) {
-        value.fromJson(inStr);
-        return true;
-    }
-    return false;
-}
-
-bool fromStringValue(const QString &inStr, {{prefix}}Enum &value)
-{
-    value.fromJson(inStr);
-    return true;
-}
-
-bool fromStringValue(const QString &inStr, {{prefix}}HttpFileElement &value)
-{
-    return value.fromStringValue(inStr);
 }
 
 bool fromJsonValue(QString &value, const QJsonValue &jval)
