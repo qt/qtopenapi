@@ -12,6 +12,8 @@ info:
 tags:
   - name: store
     description: store test file
+  - name: farm
+    description: a farm shop
 
 paths:
   /pets:
@@ -40,7 +42,25 @@ paths:
       responses:
         "200":
           description: Updated
-
+  /farm-pets:
+    post:
+      tags:
+        - farm
+      operationId: postFarmPet
+      requestBody:
+        content:
+          application/json:
+            schema:
+              # here we use oneOf directly in requestBody
+              # generates 'PostFarmPet_request' model
+              oneOf:
+                - $ref: "#/components/schemas/Bunny"
+                - $ref: "#/components/schemas/Duck"
+                - $ref: "#/components/schemas/Dog"
+        required: true
+      responses:
+        "200":
+          description: Updated
 components:
   schemas:
     Pet:
@@ -58,6 +78,21 @@ components:
           type: string
           enum: [Dingo, Husky, Retriever, Shepherd]
     Cat:
+      type: object
+      properties:
+        hunts:
+          type: boolean
+        age:
+          type: integer
+    Bunny:
+      type: object
+      properties:
+        weight:
+          type: integer
+        breed-type:
+          type: string
+          enum: [FlemishGiant, FrenchLop, Himalayan, Havana]
+    Duck:
       type: object
       properties:
         hunts:
