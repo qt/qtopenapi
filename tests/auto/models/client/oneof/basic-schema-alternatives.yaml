@@ -14,6 +14,8 @@ tags:
     description: store test file
   - name: farm
     description: a farm shop
+  - name: bank
+    description: bank data
 
 paths:
   /pets:
@@ -58,6 +60,54 @@ paths:
                 - $ref: "#/components/schemas/Duck"
                 - $ref: "#/components/schemas/Dog"
         required: true
+      responses:
+        "200":
+          description: Updated
+  /pay-for-pet:
+    post:
+      tags:
+        - bank
+      operationId: postPaymentData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              # inline objects
+              # generates 'PostPaymentData_request' model
+              oneOf:
+              - type: object
+                required: [cardNumber]
+                properties:
+                  cardNumber:
+                    type: string
+                  cardAvailability:
+                    type: boolean
+              - type: object
+                properties:
+                  paypalEmail:
+                    type: string
+                  paypalAvailability:
+                    type: boolean
+        required: true
+      responses:
+        "200":
+          description: Updated
+    patch:
+      tags:
+        - bank
+      operationId: patchPaymentData
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              # here we use oneOf directly in requestBody, but with primitive types
+              # generates 'PatchPaymentData_request' model
+              oneOf:
+                - type: string
+                - type: boolean
+                - type: number
+                  format: double
       responses:
         "200":
           description: Updated

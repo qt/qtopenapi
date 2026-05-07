@@ -3,6 +3,7 @@
 
 #include "qoaicommonglobal.h"
 
+#include "../basicSchemaAlternatives/client/bankapi.h"
 #include "../basicSchemaAlternatives/client/farmapi.h"
 #include "../basicSchemaAlternatives/client/storeapi.h"
 
@@ -51,6 +52,19 @@ QNetworkReply *LoggingNetworkAccessManager::createRequest(QNetworkAccessManager:
 class OneOfTest : public QObject {
     Q_OBJECT
 
+    enum class BankApiPatchMode {
+        UsePatchPaymentRequest,
+        UseString,
+        UseBool,
+        UseDouble
+    };
+
+    enum class BankApiPostMode {
+        UsePostPaymentRequest,
+        UseCreditCard,
+        UsePaypal
+    };
+
     enum class StoreApiMode {
         UseCat,
         UseDog,
@@ -74,6 +88,14 @@ private Q_SLOTS:
     void testAlternativeSchemasOptional();
     void testAlternativeSchemasRequired_data();
     void testAlternativeSchemasRequired();
+    void testInlineSchemasJsonConversionMethods_data();
+    void testInlineSchemasJsonConversionMethods();
+    void testInlineSchemasPatch_data();
+    void testInlineSchemasPatch();
+    void testInlineSchemasPost_data();
+    void testInlineSchemasPost();
+    void testOneOfPrimitiveJsonConversionMethods_data();
+    void testOneOfPrimitiveJsonConversionMethods();
     void testPolymorphedRequestBody_data();
     void testPolymorphedRequestBody();
     void testPostFarmPetRequestJsonConversionMethods_data();
@@ -806,6 +828,1853 @@ void OneOfTest::testAlternativeSchemasRequired()
     }
     QCOMPARE(logging.m_content, expectedJson);
     QTRY_COMPARE_EQ(done, false);
+}
+
+void OneOfTest::testInlineSchemasJsonConversionMethods_data()
+{
+    QTest::addColumn<SchemasModelsOneOf::PostPaymentData_request>("postRequest");
+    QTest::addColumn<QString>("expectedJson");
+    QTest::addColumn<QJsonValue>("expectedJsonValue");
+    QTest::addColumn<QString>("oneOf0ExpectedJson");
+    QTest::addColumn<QString>("oneOf1ExpectedJson");
+    QTest::addColumn<SchemasModelsOneOf::PostPaymentData_request_oneOf>("getOneOfPostPaymentData_request_oneOf");
+    QTest::addColumn<SchemasModelsOneOf::PostPaymentData_request_oneOf_1>("getOneOfPostPaymentData_request_oneOf_1");
+    QTest::addColumn<bool>("isOneOfPostPaymentDataRequestOneOfValid");
+    QTest::addColumn<bool>("isOneOfPostPaymentDataRequestOneOfSet");
+    QTest::addColumn<bool>("isOneOfPostPaymentDataRequestOneOf1Valid");
+    QTest::addColumn<bool>("isOneOfPostPaymentDataRequestOneOf1Set");
+    QTest::addColumn<bool>("isValid");
+    QTest::addColumn<bool>("isSet");
+
+    // PostPaymentData_request has two inline object schemas:
+    // oneOf0: PostPaymentData_request_oneOf with cardNumber (string, REQUIRED)
+    // and cardAvailability (bool)
+    // oneOf1: PostPaymentData_request_oneOf_1 with paypalEmail (string)
+    // and paypalAvailability (bool)
+    SchemasModelsOneOf::PostPaymentData_request postRequest;
+    QTest::newRow("Empty PostPaymentData_request object")
+        // postRequest                    // expectedJson
+        << postRequest                    << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // getOneOfPostPaymentData_request_oneOf
+        << SchemasModelsOneOf::PostPaymentData_request_oneOf()
+        // getOneOfPostPaymentData_request_oneOf_1
+        << SchemasModelsOneOf::PostPaymentData_request_oneOf_1()
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << false
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Create valid credit card (oneOf0) - has required 'cardNumber'
+    SchemasModelsOneOf::PostPaymentData_request_oneOf creditCard;
+    creditCard.setCardNumber("1234-5678-9012-3456");
+    creditCard.setCardAvailability(true);
+
+    // Create valid paypal (oneOf1) - no required fields
+    SchemasModelsOneOf::PostPaymentData_request_oneOf_1 paypal;
+    paypal.setPaypalEmail("user@example.com");
+    paypal.setPaypalAvailability(true);
+
+    // Set a valid credit card via setter
+    postRequest.setOneOfPostPaymentData_request_oneOf(creditCard);
+    QTest::newRow("Set a valid CreditCard object via setter")
+        // postRequest                    // expectedJson
+        << postRequest                    << creditCard.asJson()
+        // expectedJsonValue
+        << creditCard.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << creditCard.asJson()            << QString("{}"_L1)
+        // getOneOfPostPaymentData_request_oneOf
+        << creditCard
+        // getOneOfPostPaymentData_request_oneOf_1
+        << SchemasModelsOneOf::PostPaymentData_request_oneOf_1()
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << true
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << true
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set a valid paypal via setter (overrides credit card)
+    postRequest.setOneOfPostPaymentData_request_oneOf_1(paypal);
+    QTest::newRow("Set a valid Paypal object via setter")
+        // postRequest                    // expectedJson
+        << postRequest                    << paypal.asJson()
+        // expectedJsonValue
+        << paypal.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << paypal.asJson()
+        // getOneOfPostPaymentData_request_oneOf
+        << SchemasModelsOneOf::PostPaymentData_request_oneOf()
+        // getOneOfPostPaymentData_request_oneOf_1
+        << paypal
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << false
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << true
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set an empty CreditCard object. CreditCard has required 'cardNumber',
+    // so an empty credit card is INVALID => entire PostPaymentData_request stays invalid
+    const SchemasModelsOneOf::PostPaymentData_request_oneOf emptyCreditCard;
+    postRequest.setOneOfPostPaymentData_request_oneOf(emptyCreditCard);
+    QTest::newRow("Set an empty CreditCard object via setter")
+        // postRequest                    // expectedJson
+        << postRequest                    << emptyCreditCard.asJson()
+        // expectedJsonValue
+        << emptyCreditCard.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // getOneOfPostPaymentData_request_oneOf
+        << emptyCreditCard
+        // getOneOfPostPaymentData_request_oneOf_1
+        << SchemasModelsOneOf::PostPaymentData_request_oneOf_1()
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << false
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Set an empty Paypal object. Paypal has no required fields,
+    // so an empty paypal is VALID => entire PostPaymentData_request becomes valid
+    const SchemasModelsOneOf::PostPaymentData_request_oneOf_1 emptyPaypal;
+    postRequest.setOneOfPostPaymentData_request_oneOf_1(emptyPaypal);
+    QTest::newRow("Set an empty Paypal object via setter")
+        // postRequest                    // expectedJson
+        << postRequest                    << emptyPaypal.asJson()
+        // expectedJsonValue
+        << emptyPaypal.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // getOneOfPostPaymentData_request_oneOf
+        << emptyCreditCard
+        // getOneOfPostPaymentData_request_oneOf_1
+        << emptyPaypal
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << false
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << true
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJsonValue with EMPTY data.
+    // Attempting to set an empty CreditCard via postRequest.fromJsonValue().
+    // CreditCard defines required field 'cardNumber', so an empty object is INVALID
+    // for CreditCard.
+    //
+    // However, emptyPaypal.asJsonValue() produces '{}' because it is an empty object.
+    //
+    // The PostPaymentData_request::fromJsonValue() logic cannot determine whether '{}'
+    // represents a CreditCard or Paypal. It tries each schema:
+    // - CreditCard: INVALID (missing required cardNumber)
+    // - Paypal: VALID (no required fields)
+    //
+    // So '{}' resolves to Paypal (oneOf1).
+    postRequest.fromJsonValue(emptyCreditCard.asJsonValue());
+    QTest::newRow("Set an empty CreditCard via ::fromJsonValue(emptyCreditCard.asJsonValue())")
+        // postRequest                    // expectedJson
+        << postRequest                    << emptyCreditCard.asJson()
+        // expectedJsonValue
+        << emptyCreditCard.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // getOneOfPostPaymentData_request_oneOf
+        << emptyCreditCard
+        // getOneOfPostPaymentData_request_oneOf_1
+        << emptyPaypal
+        // !!! NOTE: ambiguity resolved to Paypal (oneOf1) since CreditCard is invalid
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << false
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << true
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with EMPTY data. Same expectations as above.
+    postRequest.fromJson(emptyCreditCard.asJson());
+    QTest::newRow("Set an empty CreditCard via ::fromJson(emptyCreditCard.asJson())")
+        // postRequest                    // expectedJson
+        << postRequest                    << emptyCreditCard.asJson()
+        // expectedJsonValue
+        << emptyCreditCard.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // getOneOfPostPaymentData_request_oneOf
+        << emptyCreditCard
+        // getOneOfPostPaymentData_request_oneOf_1
+        << emptyPaypal
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << false
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << true
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // ::fromJson with EMPTY Paypal data. Same expectations.
+    postRequest.fromJson(emptyPaypal.asJson());
+    QTest::newRow("Set an empty Paypal via ::fromJson(emptyPaypal.asJson())")
+        // postRequest                    // expectedJson
+        << postRequest                    << emptyPaypal.asJson()
+        // expectedJsonValue
+        << emptyPaypal.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // getOneOfPostPaymentData_request_oneOf
+        << emptyCreditCard
+        // getOneOfPostPaymentData_request_oneOf_1
+        << emptyPaypal
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << false
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << true
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    postRequest.fromJsonValue(emptyPaypal.asJsonValue());
+    QTest::newRow("Set an empty Paypal via ::fromJsonValue(emptyPaypal.asJsonValue())")
+        // postRequest                    // expectedJson
+        << postRequest                    << emptyPaypal.asJson()
+        // expectedJsonValue
+        << emptyPaypal.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // getOneOfPostPaymentData_request_oneOf
+        << emptyCreditCard
+        // getOneOfPostPaymentData_request_oneOf_1
+        << emptyPaypal
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << false
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << true
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // check ::fromJson() works fine for VALID credit card object
+    const QString validCard("{\"cardAvailability\":true,\"cardNumber\":\"1234-5678-9012-3456\"}"_L1);
+    postRequest.fromJson(validCard);
+    QTest::newRow("Set a valid CreditCard object via ::fromJson()")
+        // postRequest                    // expectedJson
+        << postRequest                    << validCard
+        // expectedJsonValue
+        << postRequest.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << validCard                      << QString("{}"_L1)
+        // getOneOfPostPaymentData_request_oneOf
+        << SchemasModelsOneOf::PostPaymentData_request_oneOf(validCard)
+        // getOneOfPostPaymentData_request_oneOf_1
+        << emptyPaypal
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << true
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << true
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // check ::fromJsonValue() works fine for VALID credit card object
+    const SchemasModelsOneOf::PostPaymentData_request_oneOf okCard(validCard);
+    postRequest.fromJsonValue(okCard.asJsonValue());
+    QTest::newRow("Set a valid CreditCard object via ::fromJsonValue()")
+        // postRequest                    // expectedJson
+        << postRequest                    << validCard
+        // expectedJsonValue
+        << postRequest.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << validCard                      << QString("{}"_L1)
+        // getOneOfPostPaymentData_request_oneOf
+        << okCard
+        // getOneOfPostPaymentData_request_oneOf_1
+        << emptyPaypal
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << true
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << true
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // check ::fromJson() works fine for VALID paypal object
+    // Note:  an empty credit card (emptyCreditCard) is not valid and not set,
+    // because it has a required field.
+    const QString validPaypal("{\"paypalAvailability\":true,\"paypalEmail\":\"user@example.com\"}"_L1);
+    postRequest.fromJson(validPaypal);
+    QTest::newRow("Set a valid Paypal object via ::fromJson()")
+        // postRequest                    // expectedJson
+        << postRequest                    << validPaypal
+        // expectedJsonValue
+        << postRequest.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << validPaypal
+        // getOneOfPostPaymentData_request_oneOf
+        << emptyCreditCard
+        // getOneOfPostPaymentData_request_oneOf_1
+        << SchemasModelsOneOf::PostPaymentData_request_oneOf_1(validPaypal)
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << false
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << true
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // check ::fromJsonValue() works fine for VALID paypal object
+    const SchemasModelsOneOf::PostPaymentData_request_oneOf_1 okPaypal(validPaypal);
+    postRequest.fromJsonValue(okPaypal.asJsonValue());
+    QTest::newRow("Set a valid Paypal object via ::fromJsonValue()")
+        // postRequest                    // expectedJson
+        << postRequest                    << validPaypal
+        // expectedJsonValue
+        << postRequest.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << validPaypal
+        // getOneOfPostPaymentData_request_oneOf
+        << emptyCreditCard
+        // getOneOfPostPaymentData_request_oneOf_1
+        << okPaypal
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << false
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << true
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // invalid json! => the model is RESET to INITIAL state
+    postRequest.fromJson("{invalid json}"_L1);
+    QTest::newRow("Set an invalid json via ::fromJson()")
+        // postRequest                    // expectedJson
+        << postRequest                    << QString("{}"_L1)
+        // expectedJsonValue
+        << postRequest.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // getOneOfPostPaymentData_request_oneOf
+        << emptyCreditCard
+        // getOneOfPostPaymentData_request_oneOf_1
+        << emptyPaypal
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << false
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Test with non-object JSON (array) => the model is RESET to INITIAL state
+    postRequest.fromJson("[]"_L1);
+    QTest::newRow("Set an unexpected array [] via ::fromJson()")
+        // postRequest                    // expectedJson
+        << postRequest                    << QString("{}"_L1)
+        // expectedJsonValue
+        << postRequest.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // getOneOfPostPaymentData_request_oneOf
+        << emptyCreditCard
+        // getOneOfPostPaymentData_request_oneOf_1
+        << emptyPaypal
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << false
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Test with non-object JSON (string) => the model is RESET to INITIAL state
+    postRequest.fromJson("\"just a string\""_L1);
+    QTest::newRow("Set an unexpected string via ::fromJson()")
+        // postRequest                    // expectedJson
+        << postRequest                    << QString("{}"_L1)
+        // expectedJsonValue
+        << postRequest.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // getOneOfPostPaymentData_request_oneOf
+        << emptyCreditCard
+        // getOneOfPostPaymentData_request_oneOf_1
+        << emptyPaypal
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << false
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Missing Required Fields (CreditCard's 'cardNumber' is required)
+    // CreditCard without required 'cardNumber' field - should not be valid
+    SchemasModelsOneOf::PostPaymentData_request_oneOf invalidCard;
+    invalidCard.setCardAvailability(true);
+    postRequest.setOneOfPostPaymentData_request_oneOf(invalidCard);
+    QTest::newRow("Set an invalid CreditCard via setter")
+        // postRequest                    // expectedJson
+        << postRequest                    << QString("{}"_L1)
+        // expectedJsonValue
+        << postRequest.asJsonValue()
+        // oneOf0ExpectedJson                            // oneOf1ExpectedJson
+        << QString("{\"cardAvailability\":true}"_L1)     << QString("{}"_L1)
+        // getOneOfPostPaymentData_request_oneOf
+        << invalidCard
+        // getOneOfPostPaymentData_request_oneOf_1
+        << emptyPaypal
+        // The status here reflects the status of the model that was set.
+        // The model's field was set by setter, so invalidCard.isSet() == true
+        // but invalidCard.isValid() == false, because required field is not set.
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << invalidCard.isValid()
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << invalidCard.isSet()
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << false
+        // isValid                        // isSet
+        << false                          << true;
+
+    // Try to parse JSON missing required field for CreditCard.
+    // cardNumber is required but missing => CreditCard is invalid.
+    // Paypal has paypalAvailability (bool) but not cardAvailability,
+    // so this doesn't match Paypal either since field name differs.
+    postRequest.fromJson("{\"cardAvailability\":true}"_L1);
+    QTest::newRow("Set an invalid CreditCard via ::fromJson()")
+        // postRequest                    // expectedJson
+        << postRequest                    << QString("{}"_L1)
+        // expectedJsonValue
+        << postRequest.asJsonValue()
+        // oneOf0ExpectedJson                        // oneOf1ExpectedJson
+        << QString("{\"cardAvailability\":true}"_L1) << QString("{}"_L1)
+        // getOneOfPostPaymentData_request_oneOf
+        << SchemasModelsOneOf::PostPaymentData_request_oneOf("{\"cardAvailability\":true}"_L1)
+        // getOneOfPostPaymentData_request_oneOf_1
+        << emptyPaypal
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << false
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << true
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << false
+        // isValid                        // isSet
+        << false                          << true;
+
+    // Partial/Incomplete JSON Objects
+    // Only cardNumber for CreditCard (without cardAvailability),
+    // should work since cardNumber is required and provided
+    const QString cardOnly("{\"cardNumber\":\"9999-8888-7777-6666\"}"_L1);
+    postRequest.fromJson(cardOnly);
+    QTest::newRow("Set a valid non-full CreditCard via ::fromJson()")
+        // postRequest                    // expectedJson
+        << postRequest                    << cardOnly
+        // expectedJsonValue
+        << postRequest.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << cardOnly                       << QString("{}"_L1)
+        // getOneOfPostPaymentData_request_oneOf
+        << SchemasModelsOneOf::PostPaymentData_request_oneOf(cardOnly)
+        // getOneOfPostPaymentData_request_oneOf_1
+        << emptyPaypal
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << true
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << true
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Only paypalEmail for Paypal (without paypalAvailability),
+    // should work since Paypal has no required fields
+    const QString emailOnly("{\"paypalEmail\":\"test@test.com\"}"_L1);
+    postRequest.fromJson(emailOnly);
+    QTest::newRow("Set a valid non-full Paypal via ::fromJson()")
+        // postRequest                    // expectedJson
+        << postRequest                    << emailOnly
+        // expectedJsonValue
+        << postRequest.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << emailOnly
+        // getOneOfPostPaymentData_request_oneOf
+        << emptyCreditCard
+        // getOneOfPostPaymentData_request_oneOf_1
+        << SchemasModelsOneOf::PostPaymentData_request_oneOf_1(emailOnly)
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << false
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << true
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Extra/Unknown Fields in JSON
+    // JSON with fields not in schema - should parse known fields and ignore unknown
+    postRequest.fromJson("{\"cardNumber\":\"4444-3333\",\"cardAvailability\":false,\"unknown\":\"field\",\"extra\":123}"_L1);
+    QString expected("{\"cardAvailability\":false,\"cardNumber\":\"4444-3333\"}"_L1);
+    QTest::newRow("Extra/Unknown Fields in CreditCard JSON via ::fromJson()")
+        // postRequest                    // expectedJson
+        << postRequest                    << expected
+        // expectedJsonValue
+        << postRequest.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << expected                       << QString("{}"_L1)
+        // getOneOfPostPaymentData_request_oneOf
+        << SchemasModelsOneOf::PostPaymentData_request_oneOf(expected)
+        // getOneOfPostPaymentData_request_oneOf_1
+        << emptyPaypal
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << true
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << true
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Extra/Unknown Fields in Paypal JSON
+    postRequest.fromJson("{\"paypalEmail\":\"a@b.com\",\"paypalAvailability\":true,\"foo\":\"bar\"}"_L1);
+    expected = QString("{\"paypalAvailability\":true,\"paypalEmail\":\"a@b.com\"}"_L1);
+    QTest::newRow("Extra/Unknown Fields in Paypal JSON via ::fromJson()")
+        // postRequest                    // expectedJson
+        << postRequest                    << expected
+        // expectedJsonValue
+        << postRequest.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << expected
+        // getOneOfPostPaymentData_request_oneOf
+        << emptyCreditCard
+        // getOneOfPostPaymentData_request_oneOf_1
+        << SchemasModelsOneOf::PostPaymentData_request_oneOf_1(expected)
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << false
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << true
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Empty String in CreditCard cardNumber field
+    // cardNumber is required and present (even though empty string), so it's valid
+    expected = QString("{\"cardNumber\":\"\"}"_L1);
+    postRequest.fromJson(expected);
+    QTest::newRow("An empty String in CreditCard cardNumber field via ::fromJson()")
+        // postRequest                    // expectedJson
+        << postRequest                    << expected
+        // expectedJsonValue
+        << postRequest.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << expected                       << QString("{}"_L1)
+        // getOneOfPostPaymentData_request_oneOf
+        << SchemasModelsOneOf::PostPaymentData_request_oneOf(expected)
+        // getOneOfPostPaymentData_request_oneOf_1
+        << emptyPaypal
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << true
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << true
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Invalid Field Types for CreditCard. Wrong type for cardNumber (integer instead of string)
+    // The CreditCard is set, but invalid, because the required field is ommited due to invalid
+    // data. The entire model returns {}, the getter returns the data was valid on setting:
+    // {\"cardAvailability\":true}
+    expected = QString("{\"cardNumber\":12345,\"cardAvailability\":true}"_L1);
+    postRequest.fromJson(expected);
+    QTest::newRow("Invalid field 'cardNumber=12345' in CreditCard via ::fromJson()")
+        // postRequest                    // expectedJson
+        << postRequest                    << QString("{}"_L1)
+        // expectedJsonValue
+        << postRequest.asJsonValue()
+        // oneOf0ExpectedJson                          // oneOf1ExpectedJson
+        << QString("{\"cardAvailability\":true}"_L1)   << QString("{}"_L1)
+        // getOneOfPostPaymentData_request_oneOf
+        << SchemasModelsOneOf::PostPaymentData_request_oneOf(expected)
+        // getOneOfPostPaymentData_request_oneOf_1
+        << emptyPaypal
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << false
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << true
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << false
+        // isValid                        // isSet
+        << false                          << true;
+
+    // Invalid Field Types for CreditCard. Wrong type for cardAvailability (string instead of bool)
+    expected = QString("{\"cardNumber\":\"5555\",\"cardAvailability\":\"yes\"}"_L1);
+    postRequest.fromJson(expected);
+    QTest::newRow("Invalid field 'cardAvailability=yes' in CreditCard via ::fromJson()")
+        // postRequest                    // expectedJson
+        << postRequest                    << QString("{\"cardNumber\":\"5555\"}"_L1)
+        // expectedJsonValue
+        << postRequest.asJsonValue()
+        // oneOf0ExpectedJson                      // oneOf1ExpectedJson
+        << QString("{\"cardNumber\":\"5555\"}"_L1) << QString("{}"_L1)
+        // getOneOfPostPaymentData_request_oneOf
+        << SchemasModelsOneOf::PostPaymentData_request_oneOf(expected)
+        // getOneOfPostPaymentData_request_oneOf_1
+        << emptyPaypal
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << true
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << true
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Invalid Field Types for Paypal. Wrong type for paypalAvailability (integer instead of bool)
+    // Note: paypalAvailability is optional, so wrong type is just omitted
+    expected = QString("{\"paypalEmail\":\"x@y.com\",\"paypalAvailability\":1}"_L1);
+    postRequest.fromJson(expected);
+    QTest::newRow("Invalid field 'paypalAvailability=1' in Paypal via ::fromJson()")
+        // postRequest                    // expectedJson
+        << postRequest                    << QString("{\"paypalEmail\":\"x@y.com\"}"_L1)
+        // expectedJsonValue
+        << postRequest.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("{\"paypalEmail\":\"x@y.com\"}"_L1)
+        // getOneOfPostPaymentData_request_oneOf
+        << emptyCreditCard
+        // getOneOfPostPaymentData_request_oneOf_1
+        << SchemasModelsOneOf::PostPaymentData_request_oneOf_1(expected)
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << false
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << true
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Invalid Field Types for Paypal. Wrong type for paypalEmail (bool instead of string)
+    // Note: paypalEmail is optional, so wrong type is just omitted
+    expected = QString("{\"paypalEmail\":true,\"paypalAvailability\":false}"_L1);
+    postRequest.fromJson(expected);
+    QTest::newRow("Invalid field 'paypalEmail=true' in Paypal via ::fromJson()")
+        // postRequest                    // expectedJson
+        << postRequest                    << QString("{\"paypalAvailability\":false}"_L1)
+        // expectedJsonValue
+        << postRequest.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("{\"paypalAvailability\":false}"_L1)
+        // getOneOfPostPaymentData_request_oneOf
+        << emptyCreditCard
+        // getOneOfPostPaymentData_request_oneOf_1
+        << SchemasModelsOneOf::PostPaymentData_request_oneOf_1(expected)
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << false
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << true
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // All fields have wrong types - both oneOfs fail to parse valid data
+    expected = QString("{\"cardNumber\":true,\"cardAvailability\":\"yes\"}"_L1);
+    postRequest.fromJson(expected);
+    QTest::newRow("All invalid fields in CreditCard via ::fromJson()")
+        // postRequest                    // expectedJson
+        << postRequest                    << QString("{}"_L1)
+        // expectedJsonValue
+        << postRequest.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // getOneOfPostPaymentData_request_oneOf
+        << emptyCreditCard
+        // getOneOfPostPaymentData_request_oneOf_1
+        << emptyPaypal
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << false
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // CreditCard with only required field set via setter
+    SchemasModelsOneOf::PostPaymentData_request_oneOf cardOnly2;
+    cardOnly2.setCardNumber("0000-1111-2222-3333");
+    postRequest.setOneOfPostPaymentData_request_oneOf(cardOnly2);
+    QTest::newRow("Set CreditCard with only cardNumber via setter")
+        // postRequest                    // expectedJson
+        << postRequest                    << cardOnly2.asJson()
+        // expectedJsonValue
+        << cardOnly2.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << cardOnly2.asJson()             << QString("{}"_L1)
+        // getOneOfPostPaymentData_request_oneOf
+        << cardOnly2
+        // getOneOfPostPaymentData_request_oneOf_1
+        << emptyPaypal
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << true
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << true
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Paypal with only paypalAvailability set via setter
+    SchemasModelsOneOf::PostPaymentData_request_oneOf_1 availOnly;
+    availOnly.setPaypalAvailability(false);
+    postRequest.setOneOfPostPaymentData_request_oneOf_1(availOnly);
+    QTest::newRow("Set Paypal with only paypalAvailability via setter")
+        // postRequest                    // expectedJson
+        << postRequest                    << availOnly.asJson()
+        // expectedJsonValue
+        << availOnly.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << availOnly.asJson()
+        // getOneOfPostPaymentData_request_oneOf
+        << emptyCreditCard
+        // getOneOfPostPaymentData_request_oneOf_1
+        << availOnly
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << false
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << true
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJsonValue with valid CreditCard data
+    postRequest.fromJsonValue(creditCard.asJsonValue());
+    QTest::newRow("Set a valid CreditCard via ::fromJsonValue(creditCard.asJsonValue())")
+        // postRequest                    // expectedJson
+        << postRequest                    << creditCard.asJson()
+        // expectedJsonValue
+        << postRequest.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << creditCard.asJson()            << QString("{}"_L1)
+        // getOneOfPostPaymentData_request_oneOf
+        << creditCard
+        // getOneOfPostPaymentData_request_oneOf_1
+        << emptyPaypal
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << true
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << true
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJsonValue with valid Paypal data
+    postRequest.fromJsonValue(paypal.asJsonValue());
+    QTest::newRow("Set a valid Paypal via ::fromJsonValue(paypal.asJsonValue())")
+        // postRequest                    // expectedJson
+        << postRequest                    << paypal.asJson()
+        // expectedJsonValue
+        << postRequest.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << paypal.asJson()
+        // getOneOfPostPaymentData_request_oneOf
+        << emptyCreditCard
+        // getOneOfPostPaymentData_request_oneOf_1
+        << paypal
+        // isOneOfPostPaymentDataRequestOneOfValid
+        << false
+        // isOneOfPostPaymentDataRequestOneOfSet
+        << false
+        // isOneOfPostPaymentDataRequestOneOf1Valid
+        << true
+        // isOneOfPostPaymentDataRequestOneOf1Set
+        << true
+        // isValid                        // isSet
+        << true                           << true;
+}
+
+void OneOfTest::testInlineSchemasJsonConversionMethods()
+{
+    QFETCH(SchemasModelsOneOf::PostPaymentData_request, postRequest);
+    QFETCH(QString, expectedJson);
+    QFETCH(QJsonValue, expectedJsonValue);
+    QFETCH(QString, oneOf0ExpectedJson);
+    QFETCH(QString, oneOf1ExpectedJson);
+    QFETCH(SchemasModelsOneOf::PostPaymentData_request_oneOf,
+           getOneOfPostPaymentData_request_oneOf);
+    QFETCH(SchemasModelsOneOf::PostPaymentData_request_oneOf_1,
+           getOneOfPostPaymentData_request_oneOf_1);
+    QFETCH(bool, isOneOfPostPaymentDataRequestOneOfValid);
+    QFETCH(bool, isOneOfPostPaymentDataRequestOneOfSet);
+    QFETCH(bool, isOneOfPostPaymentDataRequestOneOf1Valid);
+    QFETCH(bool, isOneOfPostPaymentDataRequestOneOf1Set);
+    QFETCH(bool, isValid);
+    QFETCH(bool, isSet);
+
+    QCOMPARE(postRequest.asJson(), expectedJson);
+    QCOMPARE(postRequest.asJsonValue(), expectedJsonValue);
+    QCOMPARE(postRequest.getOneOfPostPaymentData_request_oneOf().asJson(),
+             oneOf0ExpectedJson);
+    QCOMPARE(postRequest.isOneOfPostPaymentDataRequestOneOfValid(),
+             isOneOfPostPaymentDataRequestOneOfValid);
+    QCOMPARE(postRequest.isOneOfPostPaymentDataRequestOneOfSet(),
+             isOneOfPostPaymentDataRequestOneOfSet);
+    QCOMPARE(postRequest.getOneOfPostPaymentData_request_oneOf_1().asJson(),
+             oneOf1ExpectedJson);
+    QCOMPARE(postRequest.isOneOfPostPaymentDataRequestOneOf1Valid(),
+             isOneOfPostPaymentDataRequestOneOf1Valid);
+    QCOMPARE(postRequest.isOneOfPostPaymentDataRequestOneOf1Set(),
+             isOneOfPostPaymentDataRequestOneOf1Set);
+    QCOMPARE(postRequest.getOneOfPostPaymentData_request_oneOf(),
+             getOneOfPostPaymentData_request_oneOf);
+    QCOMPARE(postRequest.getOneOfPostPaymentData_request_oneOf_1(),
+             getOneOfPostPaymentData_request_oneOf_1);
+    QCOMPARE(postRequest.isValid(), isValid);
+    QCOMPARE(postRequest.isSet(), isSet);
+}
+
+void OneOfTest::testInlineSchemasPatch_data()
+{
+    QTest::addColumn<SchemasModelsOneOf::PatchPaymentData_request>("patchPaymentRequest");
+    QTest::addColumn<QString>("stringValue");
+    QTest::addColumn<bool>("boolValue");
+    QTest::addColumn<double>("doubleValue");
+    QTest::addColumn<OneOfTest::BankApiPatchMode>("mode");
+    QTest::addColumn<QString>("expectedJson");
+
+    // Empty patchPaymentRequest
+    QTest::newRow("empty PatchPaymentData_request")
+        << SchemasModelsOneOf::PatchPaymentData_request{}
+        << QString()
+        << false
+        << 0.0
+        << OneOfTest::BankApiPatchMode::UsePatchPaymentRequest
+        << QString("{}"_L1);
+
+    // Test patchPaymentData with string value
+    QTest::newRow("string value")
+        << SchemasModelsOneOf::PatchPaymentData_request{}
+        << QString("test-string-value"_L1)
+        << false
+        << 0.0
+        << OneOfTest::BankApiPatchMode::UseString
+        << QString("\"test-string-value\""_L1);
+
+    // Test patchPaymentData with bool value
+    QTest::newRow("bool value true")
+        << SchemasModelsOneOf::PatchPaymentData_request{}
+        << QString()
+        << true
+        << 0.0
+        << OneOfTest::BankApiPatchMode::UseBool
+        << QString("true"_L1);
+
+    QTest::newRow("bool value false")
+        << SchemasModelsOneOf::PatchPaymentData_request{}
+        << QString()
+        << false
+        << 0.0
+        << OneOfTest::BankApiPatchMode::UseBool
+        << QString("false"_L1);
+
+    // Test patchPaymentData with double value
+    QTest::newRow("double value")
+        << SchemasModelsOneOf::PatchPaymentData_request{}
+        << QString()
+        << false
+        << 42.5
+        << OneOfTest::BankApiPatchMode::UseDouble
+        << QString("42.5"_L1);
+
+    // Test PatchPaymentData_request with string set
+    SchemasModelsOneOf::PatchPaymentData_request patchRequest;
+    patchRequest.setOneOfQString("request-string"_L1);
+
+    QTest::newRow("PatchPaymentData_request with string")
+        << patchRequest
+        << QString()
+        << false
+        << 0.0
+        << OneOfTest::BankApiPatchMode::UsePatchPaymentRequest
+        << QString("\"request-string\""_L1);
+
+    // Test PatchPaymentData_request with bool set
+    patchRequest.setOneOfBool(true);
+
+    QTest::newRow("PatchPaymentData_request with bool")
+        << patchRequest
+        << QString()
+        << false
+        << 0.0
+        << OneOfTest::BankApiPatchMode::UsePatchPaymentRequest
+        << QString("true"_L1);
+
+    // Test PatchPaymentData_request with double set
+    patchRequest.setOneOfDouble(99.99);
+
+    QTest::newRow("PatchPaymentData_request with double")
+        << patchRequest
+        << QString()
+        << false
+        << 0.0
+        << OneOfTest::BankApiPatchMode::UsePatchPaymentRequest
+        << QString("99.99"_L1);
+}
+
+void OneOfTest::testInlineSchemasPatch()
+{
+    QFETCH(SchemasModelsOneOf::PatchPaymentData_request, patchPaymentRequest);
+    QFETCH(QString, stringValue);
+    QFETCH(bool, boolValue);
+    QFETCH(double, doubleValue);
+    QFETCH(OneOfTest::BankApiPatchMode, mode);
+    QFETCH(QString, expectedJson);
+
+    bool done = true;
+    SchemasModelsOneOf::BankApi bankApi;
+    LoggingNetworkAccessManager logging(&bankApi);
+    QRestAccessManager restManager(&logging, &bankApi);
+    bankApi.setRestAccessManager(&restManager);
+
+    switch (mode) {
+    case OneOfTest::BankApiPatchMode::UsePatchPaymentRequest:
+    {
+        bankApi.patchPaymentData(patchPaymentRequest, this, [&](const QRestReply &reply) {
+            done = reply.isSuccess();
+        });
+    } break;
+    case OneOfTest::BankApiPatchMode::UseString:
+    {
+        bankApi.patchPaymentData(stringValue, this, [&](const QRestReply &reply) {
+            done = reply.isSuccess();
+        });
+    } break;
+    case OneOfTest::BankApiPatchMode::UseBool:
+    {
+        bankApi.patchPaymentData(boolValue, this, [&](const QRestReply &reply) {
+            done = reply.isSuccess();
+        });
+    } break;
+    case OneOfTest::BankApiPatchMode::UseDouble:
+    {
+        bankApi.patchPaymentData(doubleValue, this, [&](const QRestReply &reply) {
+            done = reply.isSuccess();
+        });
+    } break;
+    }
+    QCOMPARE(logging.m_content, expectedJson);
+    QTRY_COMPARE_EQ(done, false);
+}
+
+void OneOfTest::testInlineSchemasPost_data()
+{
+    QTest::addColumn<SchemasModelsOneOf::PostPaymentData_request>("postPaymentRequest");
+    QTest::addColumn<SchemasModelsOneOf::PostPaymentData_request_oneOf>("creditCard");
+    QTest::addColumn<SchemasModelsOneOf::PostPaymentData_request_oneOf_1>("paypal");
+    QTest::addColumn<OneOfTest::BankApiPostMode>("mode");
+    QTest::addColumn<QString>("expectedJson");
+
+    // Empty postPaymentRequest
+    QTest::newRow("empty PostPaymentData_request")
+        << SchemasModelsOneOf::PostPaymentData_request{}
+        << SchemasModelsOneOf::PostPaymentData_request_oneOf{}
+        << SchemasModelsOneOf::PostPaymentData_request_oneOf_1{}
+        << OneOfTest::BankApiPostMode::UsePostPaymentRequest
+        << QString("{}"_L1);
+
+    // Test Credit Card payment with required field
+    SchemasModelsOneOf::PostPaymentData_request_oneOf creditCard;
+    creditCard.setCardNumber("1234-5678-9012-3456");
+    creditCard.setCardAvailability(true);
+
+    QTest::newRow("credit card with required field")
+        << SchemasModelsOneOf::PostPaymentData_request{}
+        << creditCard
+        << SchemasModelsOneOf::PostPaymentData_request_oneOf_1{}
+        << OneOfTest::BankApiPostMode::UseCreditCard
+        << QString("{\"cardAvailability\":true,\"cardNumber\":\"1234-5678-9012-3456\"}"_L1);
+
+    // Test PayPal payment
+    SchemasModelsOneOf::PostPaymentData_request_oneOf_1 paypal;
+    paypal.setPaypalEmail("user@example.com");
+    paypal.setPaypalAvailability(true);
+
+    QTest::newRow("paypal payment")
+        << SchemasModelsOneOf::PostPaymentData_request{}
+        << SchemasModelsOneOf::PostPaymentData_request_oneOf{}
+        << paypal
+        << OneOfTest::BankApiPostMode::UsePaypal
+        << QString("{\"paypalAvailability\":true,\"paypalEmail\":\"user@example.com\"}"_L1);
+
+    // Test PostPaymentData_request with credit card set
+    SchemasModelsOneOf::PostPaymentData_request postRequest;
+    postRequest.setOneOfPostPaymentData_request_oneOf(creditCard);
+
+    QTest::newRow("PostPaymentData_request with credit card")
+        << postRequest
+        << SchemasModelsOneOf::PostPaymentData_request_oneOf{}
+        << SchemasModelsOneOf::PostPaymentData_request_oneOf_1{}
+        << OneOfTest::BankApiPostMode::UsePostPaymentRequest
+        << QString("{\"cardAvailability\":true,\"cardNumber\":\"1234-5678-9012-3456\"}"_L1);
+
+    // Test PostPaymentData_request with PayPal set
+    postRequest.setOneOfPostPaymentData_request_oneOf_1(paypal);
+
+    QTest::newRow("PostPaymentData_request with paypal")
+        << postRequest
+        << SchemasModelsOneOf::PostPaymentData_request_oneOf{}
+        << SchemasModelsOneOf::PostPaymentData_request_oneOf_1{}
+        << OneOfTest::BankApiPostMode::UsePostPaymentRequest
+        << QString("{\"paypalAvailability\":true,\"paypalEmail\":\"user@example.com\"}"_L1);
+
+    // Test credit card without required field (cardNumber is required)
+    SchemasModelsOneOf::PostPaymentData_request_oneOf invalidCreditCard;
+    invalidCreditCard.setCardAvailability(true);
+
+    QTest::newRow("invalid credit card missing required field")
+        << SchemasModelsOneOf::PostPaymentData_request{}
+        << invalidCreditCard
+        << SchemasModelsOneOf::PostPaymentData_request_oneOf_1{}
+        << OneOfTest::BankApiPostMode::UseCreditCard
+        << QString("{}"_L1);
+
+    // Test PayPal with only email (paypalAvailability is optional)
+    SchemasModelsOneOf::PostPaymentData_request_oneOf_1 partialPaypal;
+    partialPaypal.setPaypalEmail("partial@example.com");
+
+    QTest::newRow("paypal with only email")
+        << SchemasModelsOneOf::PostPaymentData_request{}
+        << SchemasModelsOneOf::PostPaymentData_request_oneOf{}
+        << partialPaypal
+        << OneOfTest::BankApiPostMode::UsePaypal
+        << QString("{\"paypalEmail\":\"partial@example.com\"}"_L1);
+}
+
+void OneOfTest::testInlineSchemasPost()
+{
+    QFETCH(SchemasModelsOneOf::PostPaymentData_request, postPaymentRequest);
+    QFETCH(SchemasModelsOneOf::PostPaymentData_request_oneOf, creditCard);
+    QFETCH(SchemasModelsOneOf::PostPaymentData_request_oneOf_1, paypal);
+    QFETCH(OneOfTest::BankApiPostMode, mode);
+    QFETCH(QString, expectedJson);
+
+    bool done = true;
+    SchemasModelsOneOf::BankApi bankApi;
+    LoggingNetworkAccessManager logging(&bankApi);
+    QRestAccessManager restManager(&logging, &bankApi);
+    bankApi.setRestAccessManager(&restManager);
+
+    switch (mode) {
+    case OneOfTest::BankApiPostMode::UsePostPaymentRequest:
+    {
+        bankApi.postPaymentData(postPaymentRequest, this, [&](const QRestReply &reply) {
+            done = reply.isSuccess();
+        });
+    } break;
+    case OneOfTest::BankApiPostMode::UseCreditCard:
+    {
+        bankApi.postPaymentData(creditCard, this, [&](const QRestReply &reply) {
+            done = reply.isSuccess();
+        });
+    } break;
+    case OneOfTest::BankApiPostMode::UsePaypal:
+    {
+        bankApi.postPaymentData(paypal, this, [&](const QRestReply &reply) {
+            done = reply.isSuccess();
+        });
+    } break;
+    }
+    QCOMPARE(logging.m_content, expectedJson);
+    QTRY_COMPARE_EQ(done, false);
+}
+
+void OneOfTest::testOneOfPrimitiveJsonConversionMethods_data()
+{
+    QTest::addColumn<SchemasModelsOneOf::PatchPaymentData_request>("patchRequest");
+    QTest::addColumn<QString>("expectedJson");
+    QTest::addColumn<QJsonValue>("expectedJsonValue");
+    QTest::addColumn<QString>("getOneOfQString");
+    QTest::addColumn<bool>("getOneOfBool");
+    QTest::addColumn<double>("getOneOfDouble");
+    QTest::addColumn<bool>("isOneOfQStringValid");
+    QTest::addColumn<bool>("isOneOfQStringSet");
+    QTest::addColumn<bool>("isOneOfBoolValid");
+    QTest::addColumn<bool>("isOneOfBoolSet");
+    QTest::addColumn<bool>("isOneOfDoubleValid");
+    QTest::addColumn<bool>("isOneOfDoubleSet");
+    QTest::addColumn<bool>("isValid");
+    QTest::addColumn<bool>("isSet");
+
+    // PatchPaymentData_request has three primitive oneOf alternatives:
+    // oneOf0: string
+    // oneOf1: boolean
+    // oneOf2: number (double)
+    // All primitives have no "required fields" concept, so they are always "valid".
+    SchemasModelsOneOf::PatchPaymentData_request patchRequest;
+    QTest::newRow("Empty PatchPaymentData_request object")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // getOneOfQString                // getOneOfBool
+        << QString()                      << false
+        // getOneOfDouble
+        << 0.0
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << false                          << false
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << false                          << false
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Set a string value via setter
+    const QString hello("hello-world"_L1);
+    patchRequest.setOneOfQString(hello);
+    QTest::newRow("Set a valid string via setter")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("\"hello-world\""_L1)
+        // expectedJsonValue
+        << QJsonValue(hello)
+        // getOneOfQString                // getOneOfBool
+        << hello                          << false
+        // getOneOfDouble
+        << 0.0
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << true                           << true
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << false                          << false
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set a bool value via setter (overrides string)
+    patchRequest.setOneOfBool(true);
+    QTest::newRow("Set a valid bool 'true' via setter")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("true"_L1)
+        // expectedJsonValue
+        << QJsonValue(true)
+        // getOneOfQString                // getOneOfBool
+        << QString()                      << true
+        // getOneOfDouble
+        << 0.0
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << false                          << false
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << true                           << true
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set a bool 'false' value via setter
+    patchRequest.setOneOfBool(false);
+    QTest::newRow("Set a valid bool 'false' via setter")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("false"_L1)
+        // expectedJsonValue
+        << QJsonValue(false)
+        // getOneOfQString                // getOneOfBool
+        << QString()                      << false
+        // getOneOfDouble
+        << 0.0
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << false                          << false
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << true                           << true
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set a double value via setter (overrides bool)
+    patchRequest.setOneOfDouble(42.5);
+    QTest::newRow("Set a valid double '42.5' via setter")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("42.5"_L1)
+        // expectedJsonValue
+        << QJsonValue(42.5)
+        // getOneOfQString                // getOneOfBool
+        << QString()                      << false
+        // getOneOfDouble
+        << 42.5
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << false                          << false
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << false                          << false
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set a negative double value via setter
+    patchRequest.setOneOfDouble(-99.99);
+    QTest::newRow("Set a valid double '-99.99' via setter")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("-99.99"_L1)
+        // expectedJsonValue
+        << QJsonValue(-99.99)
+        // getOneOfQString                // getOneOfBool
+        << QString()                      << false
+        // getOneOfDouble
+        << -99.99
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << false                          << false
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << false                          << false
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set a zero double value via setter
+    patchRequest.setOneOfDouble(0.0);
+    QTest::newRow("Set a valid double '0.0' via setter")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("0"_L1)
+        // expectedJsonValue
+        << QJsonValue(0.0)
+        // getOneOfQString                // getOneOfBool
+        << QString()                      << false
+        // getOneOfDouble
+        << 0.0
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << false                          << false
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << false                          << false
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set an empty string via setter
+    patchRequest.setOneOfQString("");
+    QTest::newRow("Set an empty string via setter")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("\"\""_L1)
+        // expectedJsonValue
+        << QJsonValue(""_L1)
+        // getOneOfQString                // getOneOfBool
+        << QString(""_L1)                 << false
+        // getOneOfDouble
+        << 0.0
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << true                           << true
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << false                          << false
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with a string value
+    patchRequest.fromJson("\"payment-token-abc\""_L1);
+    QTest::newRow("Set a valid string via ::fromJson()")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("\"payment-token-abc\""_L1)
+        // expectedJsonValue
+        << QJsonValue("payment-token-abc"_L1)
+        // getOneOfQString                // getOneOfBool
+        << QString("payment-token-abc"_L1) << false
+        // getOneOfDouble
+        << 0.0
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << true                           << true
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << false                          << false
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with a bool 'true' value
+    patchRequest.fromJson("true"_L1);
+    QTest::newRow("Set a valid bool 'true' via ::fromJson()")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("true"_L1)
+        // expectedJsonValue
+        << QJsonValue(true)
+        // getOneOfQString                // getOneOfBool
+        << QString()                      << true
+        // getOneOfDouble
+        << 0.0
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << false                          << false
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << true                           << true
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with a bool 'false' value
+    patchRequest.fromJson("false"_L1);
+    QTest::newRow("Set a valid bool 'false' via ::fromJson()")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("false"_L1)
+        // expectedJsonValue
+        << QJsonValue(false)
+        // getOneOfQString                // getOneOfBool
+        << QString()                      << false
+        // getOneOfDouble
+        << 0.0
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << false                          << false
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << true                           << true
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with a double value
+    patchRequest.fromJson("3.14159"_L1);
+    QTest::newRow("Set a valid double '3.14159' via ::fromJson()")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("3.14159"_L1)
+        // expectedJsonValue
+        << QJsonValue(3.14159)
+        // getOneOfQString                // getOneOfBool
+        << QString()                      << false
+        // getOneOfDouble
+        << 3.14159
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << false                          << false
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << false                          << false
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with a negative double value
+    patchRequest.fromJson("-100.5"_L1);
+    QTest::newRow("Set a valid double '-100.5' via ::fromJson()")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("-100.5"_L1)
+        // expectedJsonValue
+        << QJsonValue(-100.5)
+        // getOneOfQString                // getOneOfBool
+        << QString()                      << false
+        // getOneOfDouble
+        << -100.5
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << false                          << false
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << false                          << false
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with an integer value (should match double/number)
+    patchRequest.fromJson("42"_L1);
+    QTest::newRow("Set an integer '42' via ::fromJson() (matches double)")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("42"_L1)
+        // expectedJsonValue
+        << QJsonValue(42.0)
+        // getOneOfQString                // getOneOfBool
+        << QString()                      << false
+        // getOneOfDouble
+        << 42.0
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << false                          << false
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << false                          << false
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJsonValue with a string value
+    patchRequest.fromJsonValue(QJsonValue("json-value-string"_L1));
+    QTest::newRow("Set a valid string via ::fromJsonValue()")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("\"json-value-string\""_L1)
+        // expectedJsonValue
+        << QJsonValue("json-value-string"_L1)
+        // getOneOfQString                // getOneOfBool
+        << QString("json-value-string"_L1) << false
+        // getOneOfDouble
+        << 0.0
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << true                           << true
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << false                          << false
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJsonValue with a bool value
+    patchRequest.fromJsonValue(QJsonValue(true));
+    QTest::newRow("Set a valid bool 'true' via ::fromJsonValue()")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("true"_L1)
+        // expectedJsonValue
+        << QJsonValue(true)
+        // getOneOfQString                // getOneOfBool
+        << QString()                      << true
+        // getOneOfDouble
+        << 0.0
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << false                          << false
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << true                           << true
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJsonValue with a double value
+    patchRequest.fromJsonValue(QJsonValue(99.99));
+    QTest::newRow("Set a valid double '99.99' via ::fromJsonValue()")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("99.99"_L1)
+        // expectedJsonValue
+        << QJsonValue(99.99)
+        // getOneOfQString                // getOneOfBool
+        << QString()                      << false
+        // getOneOfDouble
+        << 99.99
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << false                          << false
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << false                          << false
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // invalid json! => the model is RESET to INITIAL state
+    patchRequest.fromJson("{invalid json}"_L1);
+    QTest::newRow("Set an invalid json via ::fromJson()")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // getOneOfQString                // getOneOfBool
+        << QString()                      << false
+        // getOneOfDouble
+        << 0.0
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << false                          << false
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << false                          << false
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Test with non-primitive JSON (object) => doesn't match any primitive type
+    patchRequest.fromJson("{\"key\":\"value\"}"_L1);
+    QTest::newRow("Set an unexpected object via ::fromJson()")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // getOneOfQString                // getOneOfBool
+        << QString()                      << false
+        // getOneOfDouble
+        << 0.0
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << false                          << false
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << false                          << false
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Test with non-primitive JSON (array) => doesn't match any primitive type
+    patchRequest.fromJson("[1, 2, 3]"_L1);
+    QTest::newRow("PatchPaymentData_request: set an unexpected array via ::fromJson()")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // getOneOfQString                // getOneOfBool
+        << QString()                      << false
+        // getOneOfDouble
+        << 0.0
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << false                          << false
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << false                          << false
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Test with null JSON value => doesn't match string/bool/double
+    patchRequest.fromJson("null"_L1);
+    QTest::newRow("Set a null value via ::fromJson()")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // getOneOfQString                // getOneOfBool
+        << QString()                      << false
+        // getOneOfDouble
+        << 0.0
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << false                          << false
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << false                          << false
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // fromJsonValue with null QJsonValue => doesn't match primitives
+    patchRequest.fromJsonValue(QJsonValue());
+    QTest::newRow("Set a null QJsonValue via ::fromJsonValue()")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // getOneOfQString                // getOneOfBool
+        << QString()                      << false
+        // getOneOfDouble
+        << 0.0
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << false                          << false
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << false                          << false
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // fromJsonValue with QJsonObject => doesn't match primitives
+    patchRequest.fromJsonValue(QJsonValue(QJsonObject()));
+    QTest::newRow("Set an empty QJsonObject via ::fromJsonValue()")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // getOneOfQString                // getOneOfBool
+        << QString()                      << false
+        // getOneOfDouble
+        << 0.0
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << false                          << false
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << false                          << false
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // fromJson with an empty string JSON => should match string (oneOf0)
+    patchRequest.fromJson("\"\""_L1);
+    QTest::newRow("Set an empty string via ::fromJson()")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("\"\""_L1)
+        // expectedJsonValue
+        << QJsonValue(""_L1)
+        // getOneOfQString                // getOneOfBool
+        << QString(""_L1)                 << false
+        // getOneOfDouble
+        << 0.0
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << true                           << true
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << false                          << false
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with a very large double
+    patchRequest.fromJson("1.7976931348623157e+308"_L1);
+    QTest::newRow("Set a very large double via ::fromJson()")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("1.7976931348623157e+308"_L1)
+        // expectedJsonValue
+        << QJsonValue(1.7976931348623157e+308)
+        // getOneOfQString                // getOneOfBool
+        << QString()                      << false
+        // getOneOfDouble
+        << 1.7976931348623157e+308
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << false                          << false
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << false                          << false
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with a string that looks like a number (but is quoted => string)
+    patchRequest.fromJson("\"42.5\""_L1);
+    QTest::newRow("Set a string '42.5' (quoted) via ::fromJson()")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("\"42.5\""_L1)
+        // expectedJsonValue
+        << QJsonValue("42.5"_L1)
+        // getOneOfQString                // getOneOfBool
+        << QString("42.5"_L1)             << false
+        // getOneOfDouble
+        << 0.0
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << true                           << true
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << false                          << false
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with a string that looks like a bool (but is quoted => string)
+    patchRequest.fromJson("\"true\""_L1);
+    QTest::newRow("Set a string 'true' (quoted) via ::fromJson()")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("\"true\""_L1)
+        // expectedJsonValue
+        << QJsonValue("true"_L1)
+        // getOneOfQString                // getOneOfBool
+        << QString("true"_L1)             << false
+        // getOneOfDouble
+        << 0.0
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << true                           << true
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << false                          << false
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with zero (integer form) => matches double
+    patchRequest.fromJson("0"_L1);
+    QTest::newRow("Set zero '0' via ::fromJson() (matches double)")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("0"_L1)
+        // expectedJsonValue
+        << QJsonValue(0.0)
+        // getOneOfQString                // getOneOfBool
+        << QString()                      << false
+        // getOneOfDouble
+        << 0.0
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << false                          << false
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << false                          << false
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set string with special characters via setter
+    patchRequest.setOneOfQString("hello \"world\" \n\ttab");
+    QTest::newRow("Set a string with special characters via setter")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("\"hello \\\"world\\\" \\n\\ttab\""_L1)
+        // expectedJsonValue
+        << QJsonValue("hello \"world\" \n\ttab"_L1)
+        // getOneOfQString                // getOneOfBool
+        << QString("hello \"world\" \n\ttab"_L1) << false
+        // getOneOfDouble
+        << 0.0
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << true                           << true
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << false                          << false
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set double via setter then override with string via setter
+    patchRequest.setOneOfDouble(123.456);
+    patchRequest.setOneOfQString("override");
+    QTest::newRow("Override double with string via setter")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("\"override\""_L1)
+        // expectedJsonValue
+        << QJsonValue("override"_L1)
+        // getOneOfQString                // getOneOfBool
+        << QString("override"_L1)         << false
+        // getOneOfDouble
+        << 0.0
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << true                           << true
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << false                          << false
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set string via setter then override with bool via setter
+    patchRequest.setOneOfQString("will be overridden");
+    patchRequest.setOneOfBool(false);
+    QTest::newRow("Override string with bool 'false' via setter")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("false"_L1)
+        // expectedJsonValue
+        << QJsonValue(false)
+        // getOneOfQString                // getOneOfBool
+        << QString()                      << false
+        // getOneOfDouble
+        << 0.0
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << false                          << false
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << true                           << true
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set bool via setter then override with double via setter
+    patchRequest.setOneOfBool(true);
+    patchRequest.setOneOfDouble(0.001);
+    QTest::newRow("Override bool with double '0.001' via setter")
+        // patchRequest                   // expectedJson
+        << patchRequest                   << QString("0.001"_L1)
+        // expectedJsonValue
+        << QJsonValue(0.001)
+        // getOneOfQString                // getOneOfBool
+        << QString()                      << false
+        // getOneOfDouble
+        << 0.001
+        // isOneOfQStringValid            // isOneOfQStringSet
+        << false                          << false
+        // isOneOfBoolValid               // isOneOfBoolSet
+        << false                          << false
+        // isOneOfDoubleValid             // isOneOfDoubleSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+}
+
+void OneOfTest::testOneOfPrimitiveJsonConversionMethods()
+{
+    QFETCH(SchemasModelsOneOf::PatchPaymentData_request, patchRequest);
+    QFETCH(QString, expectedJson);
+    QFETCH(QJsonValue, expectedJsonValue);
+    QFETCH(QString, getOneOfQString);
+    QFETCH(bool, getOneOfBool);
+    QFETCH(double, getOneOfDouble);
+    QFETCH(bool, isOneOfQStringValid);
+    QFETCH(bool, isOneOfQStringSet);
+    QFETCH(bool, isOneOfBoolValid);
+    QFETCH(bool, isOneOfBoolSet);
+    QFETCH(bool, isOneOfDoubleValid);
+    QFETCH(bool, isOneOfDoubleSet);
+    QFETCH(bool, isValid);
+    QFETCH(bool, isSet);
+
+    QCOMPARE(patchRequest.asJson(), expectedJson);
+    QCOMPARE(patchRequest.asJsonValue(), expectedJsonValue);
+    QCOMPARE(patchRequest.getOneOfQString(), getOneOfQString);
+    QCOMPARE(patchRequest.isOneOfQStringValid(), isOneOfQStringValid);
+    QCOMPARE(patchRequest.isOneOfQStringSet(), isOneOfQStringSet);
+    QCOMPARE(patchRequest.getOneOfBool(), getOneOfBool);
+    QCOMPARE(patchRequest.isOneOfBoolValid(), isOneOfBoolValid);
+    QCOMPARE(patchRequest.isOneOfBoolSet(), isOneOfBoolSet);
+    QCOMPARE(patchRequest.getOneOfDouble(), getOneOfDouble);
+    QCOMPARE(patchRequest.isOneOfDoubleValid(), isOneOfDoubleValid);
+    QCOMPARE(patchRequest.isOneOfDoubleSet(), isOneOfDoubleSet);
+    QCOMPARE(patchRequest.isValid(), isValid);
+    QCOMPARE(patchRequest.isSet(), isSet);
 }
 
 void OneOfTest::testPolymorphedRequestBody_data()
