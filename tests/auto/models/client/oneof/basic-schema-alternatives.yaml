@@ -16,6 +16,8 @@ tags:
     description: a farm shop
   - name: bank
     description: bank data
+  - name: data
+    description: data search
 
 paths:
   /pets:
@@ -111,6 +113,78 @@ paths:
       responses:
         "200":
           description: Updated
+  /banks-data:
+    post:
+      tags:
+        - data
+      operationId: postSearchData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                customer:
+                  # generates 'PostSearchData_request' model
+                  oneOf:
+                    - type: integer
+                      description: customer ID
+                    - type: string
+                      description: Phone number
+                      pattern: '^\\+?[0-9]+$'
+                    - type: object
+                      properties:
+                        userName:
+                          type: string
+                        channel:
+                          type: string
+                      required:
+                        - userName
+                    - type: object
+                      properties:
+                        customerId:
+                          type: string
+                      required:
+                        - customerId
+        required: true
+      responses:
+        "200":
+          description: Updated
+  /newAccount:
+    post:
+      tags:
+        - data
+      operationId: postAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              # generates 'PostAccount_request' model
+              oneOf:
+                # Both schemas are highly ambiguous from API perspective!
+                # But good for testing needs.
+                - $ref: '#/components/schemas/Account'
+                # map<string, jsonvalue> case.
+                - type: object
+                  additionalProperties: true
+        required: true
+      responses:
+        "200":
+          description: Updated
+  /newClient:
+    post:
+      tags:
+        - data
+      operationId: updateClientData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+        required: true
+      responses:
+        "200":
+          description: Updated
 components:
   schemas:
     Pet:
@@ -149,3 +223,30 @@ components:
           type: boolean
         age:
           type: integer
+    Account:
+      oneOf:
+        # both objects have optional fields,
+        # we're testing ambiguity here.
+        # generates 'Account_oneOf' model
+        - type: object
+          properties:
+            name:
+              type: string
+            contractAvailable:
+              type: boolean
+        # generates 'Account_oneOf_1' model
+        - type: object
+          properties:
+            firstname:
+              type: string
+            lastname:
+              type: string
+          additionalProperties: {}
+    Client:
+        type: object
+        properties:
+          value:
+            # generates 'Client_value' model
+            oneOf:
+              - type: string
+              - type: boolean

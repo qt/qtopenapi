@@ -4,6 +4,7 @@
 #include "qoaicommonglobal.h"
 
 #include "../basicSchemaAlternatives/client/bankapi.h"
+#include "../basicSchemaAlternatives/client/dataapi.h"
 #include "../basicSchemaAlternatives/client/farmapi.h"
 #include "../basicSchemaAlternatives/client/storeapi.h"
 
@@ -15,6 +16,14 @@
 
 using namespace Qt::StringLiterals;
 using namespace QtOpenApiCommon;
+
+static QString mapAsString(const QMap<QString, QJsonValue> &map)
+{
+    QJsonObject obj;
+    for (const auto &[key, val] : map.asKeyValueRange())
+        obj.insert(key, val);
+    return QString::fromUtf8(QJsonDocument(obj).toJson(QJsonDocument::Compact));
+}
 
 class LoggingNetworkAccessManager : public QNetworkAccessManager
 {
@@ -82,12 +91,18 @@ private:
     void generateAlternativeSchemasTestData();
 
 private Q_SLOTS:
+    void testAccountJsonConversionMethods_data();
+    void testAccountJsonConversionMethods();
     void testAlternativeSchemasFunctions_data();
     void testAlternativeSchemasFunctions();
     void testAlternativeSchemasOptional_data();
     void testAlternativeSchemasOptional();
     void testAlternativeSchemasRequired_data();
     void testAlternativeSchemasRequired();
+    void testClientValueJsonConversionMethods_data();
+    void testClientValueJsonConversionMethods();
+    void testCustomerJsonConversionMethods_data();
+    void testCustomerJsonConversionMethods();
     void testInlineSchemasJsonConversionMethods_data();
     void testInlineSchemasJsonConversionMethods();
     void testInlineSchemasPatch_data();
@@ -98,9 +113,414 @@ private Q_SLOTS:
     void testOneOfPrimitiveJsonConversionMethods();
     void testPolymorphedRequestBody_data();
     void testPolymorphedRequestBody();
+    void testPostAccountRequestJsonConversionMethods_data();
+    void testPostAccountRequestJsonConversionMethods();
     void testPostFarmPetRequestJsonConversionMethods_data();
     void testPostFarmPetRequestJsonConversionMethods();
 };
+
+void OneOfTest::testAccountJsonConversionMethods_data()
+{
+    QTest::addColumn<SchemasModelsOneOf::Account>("account");
+    QTest::addColumn<QString>("expectedJson");
+    QTest::addColumn<QJsonValue>("expectedJsonValue");
+    QTest::addColumn<QString>("oneOf0ExpectedJson");
+    QTest::addColumn<QString>("oneOf1ExpectedJson");
+    QTest::addColumn<bool>("isOneOfAccountOneOfValid");
+    QTest::addColumn<bool>("isOneOfAccountOneOfSet");
+    QTest::addColumn<bool>("isOneOfAccountOneOf1Valid");
+    QTest::addColumn<bool>("isOneOfAccountOneOf1Set");
+    QTest::addColumn<bool>("isValid");
+    QTest::addColumn<bool>("isSet");
+
+    // Account has two oneOf alternatives:
+    // oneOf0: Account_oneOf (name: string optional, contractAvailable: bool optional) =>
+    // no required
+    // oneOf1: Account_oneOf_1 (firstname: string optional, lastname: string optional,
+    // additionalProperties) - no required
+    // Both have no required fields => both are always "valid"
+    // This creates ambiguity with empty JSON since both alternatives are valid!
+
+    SchemasModelsOneOf::Account account;
+    QTest::newRow("Empty Account object")
+        // account                        // expectedJson
+        << account                        << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // isOneOfAccountOneOfValid       // isOneOfAccountOneOfSet
+        << false                          << false
+        // isOneOfAccountOneOf1Valid      // isOneOfAccountOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Set a valid Account_oneOf via setter
+    SchemasModelsOneOf::Account_oneOf acctOneOf0;
+    acctOneOf0.setName("Test Account"_L1);
+    acctOneOf0.setContractAvailable(true);
+    account.setOneOfAccount_oneOf(acctOneOf0);
+    QTest::newRow("Set a valid Account_oneOf object via setter")
+        // account                        // expectedJson
+        << account                        << acctOneOf0.asJson()
+        // expectedJsonValue
+        << acctOneOf0.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << acctOneOf0.asJson()            << QString("{}"_L1)
+        // isOneOfAccountOneOfValid       // isOneOfAccountOneOfSet
+        << true                           << true
+        // isOneOfAccountOneOf1Valid      // isOneOfAccountOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set a valid Account_oneOf_1 via setter
+    SchemasModelsOneOf::Account_oneOf_1 acctOneOf1;
+    acctOneOf1.setFirstname("John"_L1);
+    acctOneOf1.setLastname("Doe"_L1);
+    account.setOneOfAccount_oneOf_1(acctOneOf1);
+    QTest::newRow("Set a valid Account_oneOf_1 object via setter")
+        // account                        // expectedJson
+        << account                        << acctOneOf1.asJson()
+        // expectedJsonValue
+        << acctOneOf1.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << acctOneOf1.asJson()
+        // isOneOfAccountOneOfValid       // isOneOfAccountOneOfSet
+        << false                          << false
+        // isOneOfAccountOneOf1Valid      // isOneOfAccountOneOf1Set
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    const SchemasModelsOneOf::Account_oneOf emptyAcctOneOf0;
+    account.setOneOfAccount_oneOf(emptyAcctOneOf0);
+    QTest::newRow("Set an empty Account_oneOf object via setter")
+        // account                        // expectedJson
+        << account                        << emptyAcctOneOf0.asJson()
+        // expectedJsonValue
+        << emptyAcctOneOf0.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // isOneOfAccountOneOfValid       // isOneOfAccountOneOfSet
+        << true                           << true
+        // isOneOfAccountOneOf1Valid      // isOneOfAccountOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set an empty Account_oneOf_1 object. No required fields, so it's VALID.
+    const SchemasModelsOneOf::Account_oneOf_1 emptyAcctOneOf1;
+    account.setOneOfAccount_oneOf_1(emptyAcctOneOf1);
+    QTest::newRow("Set an empty Account_oneOf_1 object via setter")
+        // account                        // expectedJson
+        << account                        << emptyAcctOneOf1.asJson()
+        // expectedJsonValue
+        << emptyAcctOneOf1.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // isOneOfAccountOneOfValid       // isOneOfAccountOneOfSet
+        << false                          << false
+        // isOneOfAccountOneOf1Valid      // isOneOfAccountOneOf1Set
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJsonValue with EMPTY data => ambiguity, both are valid
+    // Resolution: first valid alternative wins (oneOf0)
+    account.fromJsonValue(emptyAcctOneOf0.asJsonValue());
+    QTest::newRow("Set an empty Account_oneOf via ::fromJsonValue()")
+        // account                        // expectedJson
+        << account                        << emptyAcctOneOf0.asJson()
+        // expectedJsonValue
+        << emptyAcctOneOf0.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // !!! NOTE: ambiguity - both coule be valid, but oneOf0 wins
+        // isOneOfAccountOneOfValid       // isOneOfAccountOneOfSet
+        << true                           << true
+        // isOneOfAccountOneOf1Valid      // isOneOfAccountOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with EMPTY data => same ambiguity
+    account.fromJson("{}"_L1);
+    QTest::newRow("Set an empty JSON {} via ::fromJson()")
+        // account                        // expectedJson
+        << account                        << QString("{}"_L1)
+        // expectedJsonValue
+        << account.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // !!! NOTE: ambiguity - both could be valid, oneOf0 wins
+        // isOneOfAccountOneOfValid       // isOneOfAccountOneOfSet
+        << true                           << true
+        // isOneOfAccountOneOf1Valid      // isOneOfAccountOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with Account_oneOf specific field (name)
+    const QString nameOnly("{\"name\":\"Acme Corp\"}"_L1);
+    account.fromJson(nameOnly);
+    QTest::newRow("Set Account_oneOf with name via ::fromJson()")
+        // account                        // expectedJson
+        << account                        << nameOnly
+        // expectedJsonValue
+        << account.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << nameOnly                       << QString("{}"_L1)
+        // isOneOfAccountOneOfValid       // isOneOfAccountOneOfSet
+        << true                           << true
+        // isOneOfAccountOneOf1Valid      // isOneOfAccountOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with Account_oneOf specific field (contractAvailable)
+    const QString contractOnly("{\"contractAvailable\":false}"_L1);
+    account.fromJson(contractOnly);
+    QTest::newRow("Set Account_oneOf with contractAvailable via ::fromJson()")
+        // account                        // expectedJson
+        << account                        << contractOnly
+        // expectedJsonValue
+        << account.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << contractOnly                   << QString("{}"_L1)
+        // isOneOfAccountOneOfValid       // isOneOfAccountOneOfSet
+        << true                           << true
+        // isOneOfAccountOneOf1Valid      // isOneOfAccountOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with Account_oneOf_1 specific field (firstname)
+    const QString firstnameOnly("{\"firstname\":\"Alice\"}"_L1);
+    account.fromJson(firstnameOnly);
+    QTest::newRow("Set Account_oneOf_1 with firstname via ::fromJson()")
+        // account                        // expectedJson
+        << account                        << firstnameOnly
+        // expectedJsonValue
+        << account.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << firstnameOnly
+        // isOneOfAccountOneOfValid       // isOneOfAccountOneOfSet
+        << false                          << false
+        // isOneOfAccountOneOf1Valid      // isOneOfAccountOneOf1Set
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with Account_oneOf_1 both fields
+    const QString fullName("{\"firstname\":\"Bob\",\"lastname\":\"Smith\"}"_L1);
+    account.fromJson(fullName);
+    QTest::newRow("Set Account_oneOf_1 with both names via ::fromJson()")
+        // account                        // expectedJson
+        << account                        << fullName
+        // expectedJsonValue
+        << account.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << fullName
+        // isOneOfAccountOneOfValid       // isOneOfAccountOneOfSet
+        << false                          << false
+        // isOneOfAccountOneOf1Valid      // isOneOfAccountOneOf1Set
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with Account_oneOf both fields
+    const QString fullAcct("{\"contractAvailable\":true,\"name\":\"Premium\"}"_L1);
+    account.fromJson(fullAcct);
+    QTest::newRow("Set Account_oneOf with both fields via ::fromJson()")
+        // account                        // expectedJson
+        << account                        << fullAcct
+        // expectedJsonValue
+        << account.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << fullAcct                       << QString("{}"_L1)
+        // isOneOfAccountOneOfValid       // isOneOfAccountOneOfSet
+        << true                           << true
+        // isOneOfAccountOneOf1Valid      // isOneOfAccountOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJsonValue with valid Account_oneOf object
+    account.fromJsonValue(acctOneOf0.asJsonValue());
+    QTest::newRow("Set a valid Account_oneOf via ::fromJsonValue()")
+        // account                        // expectedJson
+        << account                        << acctOneOf0.asJson()
+        // expectedJsonValue
+        << account.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << acctOneOf0.asJson()            << QString("{}"_L1)
+        // isOneOfAccountOneOfValid       // isOneOfAccountOneOfSet
+        << true                           << true
+        // isOneOfAccountOneOf1Valid      // isOneOfAccountOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJsonValue with valid Account_oneOf_1 object
+    account.fromJsonValue(acctOneOf1.asJsonValue());
+    QTest::newRow("Set a valid Account_oneOf_1 via ::fromJsonValue()")
+        // account                        // expectedJson
+        << account                        << acctOneOf1.asJson()
+        // expectedJsonValue
+        << account.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << acctOneOf1.asJson()
+        // isOneOfAccountOneOfValid       // isOneOfAccountOneOfSet
+        << false                          << false
+        // isOneOfAccountOneOf1Valid      // isOneOfAccountOneOf1Set
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // invalid json! => the model is RESET to INITIAL state
+    account.fromJson("{invalid json}"_L1);
+    QTest::newRow("Set an invalid json via ::fromJson()")
+        // account                        // expectedJson
+        << account                        << QString("{}"_L1)
+        // expectedJsonValue
+        << account.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // isOneOfAccountOneOfValid       // isOneOfAccountOneOfSet
+        << false                          << false
+        // isOneOfAccountOneOf1Valid      // isOneOfAccountOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Test with non-object JSON (array) => reset
+    account.fromJson("[]"_L1);
+    QTest::newRow("Account: set an unexpected array via ::fromJson()")
+        // account                        // expectedJson
+        << account                        << QString("{}"_L1)
+        // expectedJsonValue
+        << account.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // isOneOfAccountOneOfValid       // isOneOfAccountOneOfSet
+        << false                          << false
+        // isOneOfAccountOneOf1Valid      // isOneOfAccountOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Test with non-object JSON (string) => reset
+    account.fromJson("\"string\""_L1);
+    QTest::newRow("Set an unexpected string via ::fromJson()")
+        // account                        // expectedJson
+        << account                        << QString("{}"_L1)
+        // expectedJsonValue
+        << account.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // isOneOfAccountOneOfValid       // isOneOfAccountOneOfSet
+        << false                          << false
+        // isOneOfAccountOneOf1Valid      // isOneOfAccountOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Invalid field types in Account_oneOf: name should be string
+    account.fromJson("{\"name\":123,\"contractAvailable\":true}"_L1);
+    QTest::newRow("Invalid field 'name=123' in Account_oneOf via ::fromJson()")
+        // account                        // expectedJson
+        << account                        << QString("{\"contractAvailable\":true}"_L1)
+        // expectedJsonValue
+        << account.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{\"contractAvailable\":true}"_L1) << QString("{}"_L1)
+        // isOneOfAccountOneOfValid       // isOneOfAccountOneOfSet
+        << true                           << true
+        // isOneOfAccountOneOf1Valid      // isOneOfAccountOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Invalid field types in Account_oneOf: contractAvailable should be bool
+    account.fromJson("{\"name\":\"ok\",\"contractAvailable\":\"yes\"}"_L1);
+    QTest::newRow("Invalid field 'contractAvailable=yes' in Account_oneOf via ::fromJson()")
+        // account                        // expectedJson
+        << account                        << QString("{\"name\":\"ok\"}"_L1)
+        // expectedJsonValue
+        << account.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{\"name\":\"ok\"}"_L1) << QString("{}"_L1)
+        // isOneOfAccountOneOfValid       // isOneOfAccountOneOfSet
+        << true                           << true
+        // isOneOfAccountOneOf1Valid      // isOneOfAccountOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Account_oneOf with only name set via setter
+    SchemasModelsOneOf::Account_oneOf nameOnlyAcct;
+    nameOnlyAcct.setName("PartialName"_L1);
+    account.setOneOfAccount_oneOf(nameOnlyAcct);
+    QTest::newRow("Set Account_oneOf with only name via setter")
+        // account                        // expectedJson
+        << account                        << nameOnlyAcct.asJson()
+        // expectedJsonValue
+        << nameOnlyAcct.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << nameOnlyAcct.asJson()          << QString("{}"_L1)
+        // isOneOfAccountOneOfValid       // isOneOfAccountOneOfSet
+        << true                           << true
+        // isOneOfAccountOneOf1Valid      // isOneOfAccountOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Account_oneOf_1 with only lastname set via setter
+    SchemasModelsOneOf::Account_oneOf_1 lastnameOnlyAcct;
+    lastnameOnlyAcct.setLastname("OnlyLast"_L1);
+    account.setOneOfAccount_oneOf_1(lastnameOnlyAcct);
+    QTest::newRow("Set Account_oneOf_1 with only lastname via setter")
+        // account                        // expectedJson
+        << account                        << lastnameOnlyAcct.asJson()
+        // expectedJsonValue
+        << lastnameOnlyAcct.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << lastnameOnlyAcct.asJson()
+        // isOneOfAccountOneOfValid       // isOneOfAccountOneOfSet
+        << false                          << false
+        // isOneOfAccountOneOf1Valid      // isOneOfAccountOneOf1Set
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+}
+
+void OneOfTest::testAccountJsonConversionMethods()
+{
+    QFETCH(SchemasModelsOneOf::Account, account);
+    QFETCH(QString, expectedJson);
+    QFETCH(QJsonValue, expectedJsonValue);
+    QFETCH(QString, oneOf0ExpectedJson);
+    QFETCH(QString, oneOf1ExpectedJson);
+    QFETCH(bool, isOneOfAccountOneOfValid);
+    QFETCH(bool, isOneOfAccountOneOfSet);
+    QFETCH(bool, isOneOfAccountOneOf1Valid);
+    QFETCH(bool, isOneOfAccountOneOf1Set);
+    QFETCH(bool, isValid);
+    QFETCH(bool, isSet);
+
+    QCOMPARE(account.asJson(), expectedJson);
+    QCOMPARE(account.asJsonValue(), expectedJsonValue);
+    QCOMPARE(account.getOneOfAccount_oneOf().asJson(), oneOf0ExpectedJson);
+    QCOMPARE(account.isOneOfAccountOneOfValid(), isOneOfAccountOneOfValid);
+    QCOMPARE(account.isOneOfAccountOneOfSet(), isOneOfAccountOneOfSet);
+    QCOMPARE(account.getOneOfAccount_oneOf_1().asJson(), oneOf1ExpectedJson);
+    QCOMPARE(account.isOneOfAccountOneOf1Valid(), isOneOfAccountOneOf1Valid);
+    QCOMPARE(account.isOneOfAccountOneOf1Set(), isOneOfAccountOneOf1Set);
+    QCOMPARE(account.isValid(), isValid);
+    QCOMPARE(account.isSet(), isSet);
+}
 
 void OneOfTest::testAlternativeSchemasFunctions_data()
 {
@@ -141,7 +561,7 @@ void OneOfTest::testAlternativeSchemasFunctions_data()
 
     SchemasModelsOneOf::Dog hund;
     hund.setBark(false);
-    hund.setBreed("French Bulldog");
+    hund.setBreed("French Bulldog"_L1);
 
     // check setters work fine
     pet.setOneOfCat(kitty);
@@ -447,7 +867,7 @@ void OneOfTest::testAlternativeSchemasFunctions_data()
     // Missing Required Fields (Dog's 'bark' is required)
     // Dog without required 'bark' field - should not be valid
     SchemasModelsOneOf::Dog invalidDog;
-    invalidDog.setBreed("Husky-kolbasky");
+    invalidDog.setBreed("Husky-kolbasky"_L1);
     pet.setOneOfDog(invalidDog);
     QTest::newRow("Set an invalid Dog via setter")
         // pet                                        // expectedJson
@@ -721,7 +1141,7 @@ void OneOfTest::generateAlternativeSchemasTestData()
 
     SchemasModelsOneOf::Dog hund;
     hund.setBark(false);
-    hund.setBreed("Labrador");
+    hund.setBreed("Labrador"_L1);
 
     QTest::newRow("Use Cat object")
         << SchemasModelsOneOf::Pet{}
@@ -765,7 +1185,7 @@ void OneOfTest::generateAlternativeSchemasTestData()
         << QString("{}"_L1);
 
     SchemasModelsOneOf::Dog invalidDog;
-    invalidDog.setBreed("Unknown");
+    invalidDog.setBreed("Unknown"_L1);
     QTest::newRow("Construct the dog without setting the `required` field(bark)")
         << SchemasModelsOneOf::Pet{}
         << SchemasModelsOneOf::Cat{}
@@ -830,6 +1250,1020 @@ void OneOfTest::testAlternativeSchemasRequired()
     QTRY_COMPARE_EQ(done, false);
 }
 
+void OneOfTest::testClientValueJsonConversionMethods_data()
+{
+    QTest::addColumn<SchemasModelsOneOf::Client_value>("clientValue");
+    QTest::addColumn<QString>("expectedJson");
+    QTest::addColumn<QJsonValue>("expectedJsonValue");
+    QTest::addColumn<QString>("oneOf0ExpectedValue");
+    QTest::addColumn<bool>("oneOf1ExpectedValue");
+    QTest::addColumn<bool>("isOneOf0Valid");
+    QTest::addColumn<bool>("isOneOf0Set");
+    QTest::addColumn<bool>("isOneOf1Valid");
+    QTest::addColumn<bool>("isOneOf1Set");
+    QTest::addColumn<bool>("isValid");
+    QTest::addColumn<bool>("isSet");
+
+    // Client_value has two primitive oneOf alternatives:
+    // oneOf0: string - always valid
+    // oneOf1: boolean - always valid
+    SchemasModelsOneOf::Client_value clientValue;
+    QTest::newRow("Empty Client_value object")
+        // clientValue                    // expectedJson
+        << clientValue                    << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << QString()                      << false
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Set a string value via setter
+    clientValue.setOneOfQString("hello-client"_L1);
+    QTest::newRow("Set a valid string via setter")
+        // clientValue                    // expectedJson
+        << clientValue                    << QString("\"hello-client\""_L1)
+        // expectedJsonValue
+        << QJsonValue("hello-client"_L1)
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << QString("hello-client"_L1)     << false
+        // isOneOf0Valid                  // isOneOf0Set
+        << true                           << true
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set a bool 'true' via setter
+    clientValue.setOneOfBool(true);
+    QTest::newRow("Set a valid bool 'true' via setter")
+        // clientValue                    // expectedJson
+        << clientValue                    << QString("true"_L1)
+        // expectedJsonValue
+        << QJsonValue(true)
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << QString()                      << true
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set a bool 'false' via setter
+    clientValue.setOneOfBool(false);
+    QTest::newRow("Set a valid bool 'false' via setter")
+        // clientValue                    // expectedJson
+        << clientValue                    << QString("false"_L1)
+        // expectedJsonValue
+        << QJsonValue(false)
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << QString()                      << false
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set an empty string via setter
+    clientValue.setOneOfQString("");
+    QTest::newRow("Set an empty string via setter")
+        // clientValue                    // expectedJson
+        << clientValue                    << QString("\"\""_L1)
+        // expectedJsonValue
+        << QJsonValue(""_L1)
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << QString(""_L1)                 << false
+        // isOneOf0Valid                  // isOneOf0Set
+        << true                           << true
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with a string value
+    clientValue.fromJson("\"client-data\""_L1);
+    QTest::newRow("Set a valid string via ::fromJson()")
+        // clientValue                    // expectedJson
+        << clientValue                    << QString("\"client-data\""_L1)
+        // expectedJsonValue
+        << QJsonValue("client-data"_L1)
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << QString("client-data"_L1)      << false
+        // isOneOf0Valid                  // isOneOf0Set
+        << true                           << true
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with a bool 'true' value
+    clientValue.fromJson("true"_L1);
+    QTest::newRow("Set a valid bool 'true' via ::fromJson()")
+        // clientValue                    // expectedJson
+        << clientValue                    << QString("true"_L1)
+        // expectedJsonValue
+        << QJsonValue(true)
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << QString()                      << true
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with a bool 'false' value
+    clientValue.fromJson("false"_L1);
+    QTest::newRow("Set a valid bool 'false' via ::fromJson()")
+        // clientValue                    // expectedJson
+        << clientValue                    << QString("false"_L1)
+        // expectedJsonValue
+        << QJsonValue(false)
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << QString()                      << false
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJsonValue with string
+    clientValue.fromJsonValue(QJsonValue("via-json-value"_L1));
+    QTest::newRow("Set a valid string via ::fromJsonValue()")
+        // clientValue                    // expectedJson
+        << clientValue                    << QString("\"via-json-value\""_L1)
+        // expectedJsonValue
+        << QJsonValue("via-json-value"_L1)
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << QString("via-json-value"_L1)   << false
+        // isOneOf0Valid                  // isOneOf0Set
+        << true                           << true
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJsonValue with bool
+    clientValue.fromJsonValue(QJsonValue(true));
+    QTest::newRow("Set a valid bool 'true' via ::fromJsonValue()")
+        // clientValue                    // expectedJson
+        << clientValue                    << QString("true"_L1)
+        // expectedJsonValue
+        << QJsonValue(true)
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << QString()                      << true
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // invalid json! => the model is RESET to INITIAL state
+    clientValue.fromJson("{invalid json}"_L1);
+    QTest::newRow("Set an invalid json via ::fromJson()")
+        // clientValue                    // expectedJson
+        << clientValue                    << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << QString()                      << false
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Test with non-primitive JSON (object) => doesn't match string or bool
+    clientValue.fromJson("{\"key\":\"value\"}"_L1);
+    QTest::newRow("Set an unexpected object via ::fromJson()")
+        // clientValue                    // expectedJson
+        << clientValue                    << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << QString()                      << false
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Test with array JSON => doesn't match string or bool
+    clientValue.fromJson("[1, 2]"_L1);
+    QTest::newRow("Client_value: set an unexpected array via ::fromJson()")
+        // clientValue                    // expectedJson
+        << clientValue                    << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << QString()                      << false
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Test with null JSON => doesn't match string or bool
+    clientValue.fromJson("null"_L1);
+    QTest::newRow("Set a null value via ::fromJson()")
+        // clientValue                    // expectedJson
+        << clientValue                    << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << QString()                      << false
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Test with number JSON => doesn't match string or bool
+    clientValue.fromJson("42"_L1);
+    QTest::newRow("Set an unexpected number via ::fromJson()")
+        // clientValue                    // expectedJson
+        << clientValue                    << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << QString()                      << false
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // fromJson with a string that looks like a bool (but is quoted => string)
+    clientValue.fromJson("\"true\""_L1);
+    QTest::newRow("Set a string 'true' (quoted) via ::fromJson()")
+        // clientValue                    // expectedJson
+        << clientValue                    << QString("\"true\""_L1)
+        // expectedJsonValue
+        << QJsonValue("true"_L1)
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << QString("true"_L1)             << false
+        // isOneOf0Valid                  // isOneOf0Set
+        << true                           << true
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with a string that looks like a number (but is quoted => string)
+    clientValue.fromJson("\"42\""_L1);
+    QTest::newRow("Set a string '42' (quoted) via ::fromJson()")
+        // clientValue                    // expectedJson
+        << clientValue                    << QString("\"42\""_L1)
+        // expectedJsonValue
+        << QJsonValue("42"_L1)
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << QString("42"_L1)               << false
+        // isOneOf0Valid                  // isOneOf0Set
+        << true                           << true
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Override string with bool via setter
+    clientValue.setOneOfQString("will be overridden"_L1);
+    clientValue.setOneOfBool(true);
+    QTest::newRow("Override string with bool via setter")
+        // clientValue                    // expectedJson
+        << clientValue                    << QString("true"_L1)
+        // expectedJsonValue
+        << QJsonValue(true)
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << QString()                      << true
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Override bool with string via setter
+    clientValue.setOneOfBool(false);
+    clientValue.setOneOfQString("override-back"_L1);
+    QTest::newRow("Override bool with string via setter")
+        // clientValue                    // expectedJson
+        << clientValue                    << QString("\"override-back\""_L1)
+        // expectedJsonValue
+        << QJsonValue("override-back"_L1)
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << QString("override-back"_L1)    << false
+        // isOneOf0Valid                  // isOneOf0Set
+        << true                           << true
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // String with special characters
+    clientValue.setOneOfQString("line1\nline2\ttab"_L1);
+    QTest::newRow("Set a string with special characters via setter")
+        // clientValue                    // expectedJson
+        << clientValue                    << QString("\"line1\\nline2\\ttab\""_L1)
+        // expectedJsonValue
+        << QJsonValue("line1\nline2\ttab"_L1)
+        // oneOf0ExpectedValue
+        << QString("line1\nline2\ttab"_L1)
+        // oneOf1ExpectedValue
+        << false
+        // isOneOf0Valid                  // isOneOf0Set
+        << true                           << true
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+}
+
+void OneOfTest::testClientValueJsonConversionMethods()
+{
+    QFETCH(SchemasModelsOneOf::Client_value, clientValue);
+    QFETCH(QString, expectedJson);
+    QFETCH(QJsonValue, expectedJsonValue);
+    QFETCH(QString, oneOf0ExpectedValue);
+    QFETCH(bool, oneOf1ExpectedValue);
+    QFETCH(bool, isOneOf0Valid);
+    QFETCH(bool, isOneOf0Set);
+    QFETCH(bool, isOneOf1Valid);
+    QFETCH(bool, isOneOf1Set);
+    QFETCH(bool, isValid);
+    QFETCH(bool, isSet);
+
+    QCOMPARE(clientValue.asJson(), expectedJson);
+    QCOMPARE(clientValue.asJsonValue(), expectedJsonValue);
+    QCOMPARE(clientValue.getOneOfQString(), oneOf0ExpectedValue);
+    QCOMPARE(clientValue.isOneOfQStringValid(), isOneOf0Valid);
+    QCOMPARE(clientValue.isOneOfQStringSet(), isOneOf0Set);
+    QCOMPARE(clientValue.getOneOfBool(), oneOf1ExpectedValue);
+    QCOMPARE(clientValue.isOneOfBoolValid(), isOneOf1Valid);
+    QCOMPARE(clientValue.isOneOfBoolSet(), isOneOf1Set);
+    QCOMPARE(clientValue.isValid(), isValid);
+    QCOMPARE(clientValue.isSet(), isSet);
+}
+
+void OneOfTest::testCustomerJsonConversionMethods_data()
+{
+    QTest::addColumn<SchemasModelsOneOf::PostSearchData_request_customer>("customer");
+    QTest::addColumn<QString>("expectedJson");
+    QTest::addColumn<QJsonValue>("expectedJsonValue");
+    QTest::addColumn<qint32>("oneOf0ExpectedValue");
+    QTest::addColumn<QString>("oneOf1ExpectedValue");
+    QTest::addColumn<QString>("oneOf2ExpectedJson");
+    QTest::addColumn<QString>("oneOf3ExpectedJson");
+    QTest::addColumn<bool>("isOneOf0Valid");
+    QTest::addColumn<bool>("isOneOf0Set");
+    QTest::addColumn<bool>("isOneOf1Valid");
+    QTest::addColumn<bool>("isOneOf1Set");
+    QTest::addColumn<bool>("isOneOf2Valid");
+    QTest::addColumn<bool>("isOneOf2Set");
+    QTest::addColumn<bool>("isOneOf3Valid");
+    QTest::addColumn<bool>("isOneOf3Set");
+    QTest::addColumn<bool>("isValid");
+    QTest::addColumn<bool>("isSet");
+
+    // PostSearchData_request_customer has 4 oneOf alternatives:
+    // oneOf0: qint32 (customer ID) - primitive, always valid
+    // oneOf1: QString (phone number) - primitive, always valid
+    // oneOf2: PostSearchData_request_customer_oneOf (userName REQUIRED, channel optional)
+    // oneOf3: PostSearchData_request_customer_oneOf_1 (customerId REQUIRED)
+    SchemasModelsOneOf::PostSearchData_request_customer customer;
+    QTest::newRow("Empty PostSearchData_request_customer object")
+        // customer                       // expectedJson
+        << customer                       << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << qint32(0)                      << QString()
+        // oneOf2ExpectedJson             // oneOf3ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isOneOf2Valid                  // isOneOf2Valid
+        << false                          << false
+        // isOneOf3Valid                  // isOneOf3Set
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Set an integer (customer ID) via setter
+    customer.setOneOfQint32(12345);
+    QTest::newRow("Set a valid integer (customer ID) via setter")
+        // customer                       // expectedJson
+        << customer                       << QString("12345"_L1)
+        // expectedJsonValue
+        << QJsonValue(12345)
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << qint32(12345)                  << QString()
+        // oneOf2ExpectedJson             // oneOf3ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << true                           << true
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isOneOf2Valid                  // isOneOf2Valid
+        << false                          << false
+        // isOneOf3Valid                  // isOneOf3Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set a string (phone number) via setter
+    customer.setOneOfQString("+1234567890"_L1);
+    QTest::newRow("Set a valid string (phone number) via setter")
+        // customer                       // expectedJson
+        << customer                       << QString("\"+1234567890\""_L1)
+        // expectedJsonValue
+        << QJsonValue("+1234567890"_L1)
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << qint32(0)                      << QString("+1234567890"_L1)
+        // oneOf2ExpectedJson             // oneOf3ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << true                           << true
+        // isOneOf2Valid                  // isOneOf2Valid
+        << false                          << false
+        // isOneOf3Valid                  // isOneOf3Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set a valid object with userName (required) via setter
+    SchemasModelsOneOf::PostSearchData_request_customer_oneOf userObj;
+    userObj.setUserName("john_doe"_L1);
+    userObj.setChannel("web"_L1);
+    customer.setOneOfPostSearchData_request_customer_oneOf(userObj);
+    QTest::newRow("Set a valid userName object via setter")
+        // customer                       // expectedJson
+        << customer                       << userObj.asJson()
+        // expectedJsonValue
+        << userObj.asJsonValue()
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << qint32(0)                      << QString()
+        // oneOf2ExpectedJson             // oneOf3ExpectedJson
+        << userObj.asJson()               << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isOneOf2Valid                  // isOneOf2Valid
+        << true                           << true
+        // isOneOf3Valid                  // isOneOf3Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set a valid object with customerId (required) via setter
+    SchemasModelsOneOf::PostSearchData_request_customer_oneOf_1 customerIdObj;
+    customerIdObj.setCustomerId("CUST-001"_L1);
+    customer.setOneOfPostSearchData_request_customer_oneOf_1(customerIdObj);
+    QTest::newRow("Set a valid customerId object via setter")
+        // customer                       // expectedJson
+        << customer                       << customerIdObj.asJson()
+        // expectedJsonValue
+        << customerIdObj.asJsonValue()
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << qint32(0)                      << QString()
+        // oneOf2ExpectedJson             // oneOf3ExpectedJson
+        << QString("{}"_L1)               << customerIdObj.asJson()
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isOneOf2Valid                  // isOneOf2Valid
+        << false                          << false
+        // isOneOf3Valid                  // isOneOf3Set
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set an empty userName object (missing required userName) => invalid
+    SchemasModelsOneOf::PostSearchData_request_customer_oneOf emptyUserObj;
+    customer.setOneOfPostSearchData_request_customer_oneOf(emptyUserObj);
+    QTest::newRow("Set an empty userName object via setter")
+        // customer                       // expectedJson
+        << customer                       << emptyUserObj.asJson()
+        // expectedJsonValue
+        << emptyUserObj.asJsonValue()
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << qint32(0)                      << QString()
+        // oneOf2ExpectedJson             // oneOf3ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isOneOf2Valid                  // isOneOf2Valid
+        << false                          << false
+        // isOneOf3Valid                  // isOneOf3Set
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Set an empty customerId object (missing required customerId) => invalid
+    SchemasModelsOneOf::PostSearchData_request_customer_oneOf_1 emptyCustomerIdObj;
+    customer.setOneOfPostSearchData_request_customer_oneOf_1(emptyCustomerIdObj);
+    QTest::newRow("Set an empty customerId object via setter")
+        // customer                       // expectedJson
+        << customer                       << emptyCustomerIdObj.asJson()
+        // expectedJsonValue
+        << emptyCustomerIdObj.asJsonValue()
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << qint32(0)                      << QString()
+        // oneOf2ExpectedJson             // oneOf3ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isOneOf2Valid                  // isOneOf2Valid
+        << false                          << false
+        // isOneOf3Valid                  // isOneOf3Set
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Set zero integer via setter (still valid - it's a legitimate value)
+    customer.setOneOfQint32(0);
+    QTest::newRow("Set zero integer via setter")
+        // customer                       // expectedJson
+        << customer                       << QString("0"_L1)
+        // expectedJsonValue
+        << QJsonValue(0)
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << qint32(0)                      << QString()
+        // oneOf2ExpectedJson             // oneOf3ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << true                           << true
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isOneOf2Valid                  // isOneOf2Valid
+        << false                          << false
+        // isOneOf3Valid                  // isOneOf3Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set negative integer via setter
+    customer.setOneOfQint32(-42);
+    QTest::newRow("Set negative integer via setter")
+        // customer                       // expectedJson
+        << customer                       << QString("-42"_L1)
+        // expectedJsonValue
+        << QJsonValue(-42)
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << qint32(-42)                    << QString()
+        // oneOf2ExpectedJson             // oneOf3ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << true                           << true
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isOneOf2Valid                  // isOneOf2Valid
+        << false                          << false
+        // isOneOf3Valid                  // isOneOf3Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with an integer value
+    customer.fromJson("99999"_L1);
+    QTest::newRow("Set a valid integer via ::fromJson()")
+        // customer                       // expectedJson
+        << customer                       << QString("99999"_L1)
+        // expectedJsonValue
+        << QJsonValue(99999)
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << qint32(99999)                  << QString()
+        // oneOf2ExpectedJson             // oneOf3ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << true                           << true
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isOneOf2Valid                  // isOneOf2Valid
+        << false                          << false
+        // isOneOf3Valid                  // isOneOf3Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with a string value
+    customer.fromJson("\"+79001234567\""_L1);
+    QTest::newRow("Set a valid phone number string via ::fromJson()")
+        // customer                       // expectedJson
+        << customer                       << QString("\"+79001234567\""_L1)
+        // expectedJsonValue
+        << QJsonValue("+79001234567"_L1)
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << qint32(0)                      << QString("+79001234567"_L1)
+        // oneOf2ExpectedJson             // oneOf3ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << true                           << true
+        // isOneOf2Valid                  // isOneOf2Valid
+        << false                          << false
+        // isOneOf3Valid                  // isOneOf3Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with a valid userName object
+    const QString validUserJson("{\"channel\":\"mobile\",\"userName\":\"jane_doe\"}"_L1);
+    customer.fromJson(validUserJson);
+    QTest::newRow("Set a valid userName object via ::fromJson()")
+        // customer                       // expectedJson
+        << customer                       << validUserJson
+        // expectedJsonValue
+        << customer.asJsonValue()
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << qint32(0)                      << QString()
+        // oneOf2ExpectedJson             // oneOf3ExpectedJson
+        << validUserJson                  << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isOneOf2Valid                  // isOneOf2Valid
+        << true                           << true
+        // isOneOf3Valid                  // isOneOf3Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with a valid customerId object
+    const QString validCustIdJson("{\"customerId\":\"CUST-999\"}"_L1);
+    customer.fromJson(validCustIdJson);
+    QTest::newRow("Set a valid customerId object via ::fromJson()")
+        // customer                       // expectedJson
+        << customer                       << validCustIdJson
+        // expectedJsonValue
+        << customer.asJsonValue()
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << qint32(0)                      << QString()
+        // oneOf2ExpectedJson             // oneOf3ExpectedJson
+        << QString("{}"_L1)               << validCustIdJson
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isOneOf2Valid                  // isOneOf2Valid
+        << false                          << false
+        // isOneOf3Valid                  // isOneOf3Set
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with userName object only (without channel - channel is optional)
+    const QString userOnlyJson("{\"userName\":\"admin\"}"_L1);
+    customer.fromJson(userOnlyJson);
+    QTest::newRow("Set userName object without channel via ::fromJson()")
+        // customer                       // expectedJson
+        << customer                       << userOnlyJson
+        // expectedJsonValue
+        << customer.asJsonValue()
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << qint32(0)                      << QString()
+        // oneOf2ExpectedJson             // oneOf3ExpectedJson
+        << userOnlyJson                   << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isOneOf2Valid                  // isOneOf2Valid
+        << true                           << true
+        // isOneOf3Valid                  // isOneOf3Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJsonValue with integer
+    customer.fromJsonValue(QJsonValue(777));
+    QTest::newRow("Set a valid integer via ::fromJsonValue()")
+        // customer                       // expectedJson
+        << customer                       << QString("777"_L1)
+        // expectedJsonValue
+        << QJsonValue(777)
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << qint32(777)                    << QString()
+        // oneOf2ExpectedJson             // oneOf3ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << true                           << true
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isOneOf2Valid                  // isOneOf2Valid
+        << false                          << false
+        // isOneOf3Valid                  // isOneOf3Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJsonValue with string
+    customer.fromJsonValue(QJsonValue("+4912345"_L1));
+    QTest::newRow("Set a valid string via ::fromJsonValue()")
+        // customer                       // expectedJson
+        << customer                       << QString("\"+4912345\""_L1)
+        // expectedJsonValue
+        << QJsonValue("+4912345"_L1)
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << qint32(0)                      << QString("+4912345"_L1)
+        // oneOf2ExpectedJson             // oneOf3ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << true                           << true
+        // isOneOf2Valid                  // isOneOf2Valid
+        << false                          << false
+        // isOneOf3Valid                  // isOneOf3Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJsonValue with valid userName object
+    customer.fromJsonValue(userObj.asJsonValue());
+    QTest::newRow("Set a valid userName object via ::fromJsonValue()")
+        // customer                       // expectedJson
+        << customer                       << userObj.asJson()
+        // expectedJsonValue
+        << customer.asJsonValue()
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << qint32(0)                      << QString()
+        // oneOf2ExpectedJson             // oneOf3ExpectedJson
+        << userObj.asJson()               << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isOneOf2Valid                  // isOneOf2Valid
+        << true                           << true
+        // isOneOf3Valid                  // isOneOf3Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJsonValue with valid customerId object
+    customer.fromJsonValue(customerIdObj.asJsonValue());
+    QTest::newRow("Set a valid customerId object via ::fromJsonValue()")
+        // customer                       // expectedJson
+        << customer                       << customerIdObj.asJson()
+        // expectedJsonValue
+        << customer.asJsonValue()
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << qint32(0)                      << QString()
+        // oneOf2ExpectedJson             // oneOf3ExpectedJson
+        << QString("{}"_L1)               << customerIdObj.asJson()
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isOneOf2Valid                  // isOneOf2Valid
+        << false                          << false
+        // isOneOf3Valid                  // isOneOf3Set
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // invalid json! => the model is RESET to INITIAL state
+    customer.fromJson("{invalid json}"_L1);
+    QTest::newRow("Set an invalid json via ::fromJson()")
+        // customer                       // expectedJson
+        << customer                       << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << qint32(0)                      << QString()
+        // oneOf2ExpectedJson             // oneOf3ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isOneOf2Valid                  // isOneOf2Valid
+        << false                          << false
+        // isOneOf3Valid                  // isOneOf3Set
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Test with array JSON => doesn't match any alternative
+    customer.fromJson("[]"_L1);
+    QTest::newRow("PostSearchData_request_customer: set an unexpected array via ::fromJson()")
+        // customer                       // expectedJson
+        << customer                       << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << qint32(0)                      << QString()
+        // oneOf2ExpectedJson             // oneOf3ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isOneOf2Valid                  // isOneOf2Valid
+        << false                          << false
+        // isOneOf3Valid                  // isOneOf3Set
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // fromJson with empty object "{}" => neither userName nor customerId objects
+    // are valid (both have required fields). Does not match int or string either.
+    customer.fromJson("{}"_L1);
+    QTest::newRow("Set an empty object {} via ::fromJson()")
+        // customer                       // expectedJson
+        << customer                       << QString("{}"_L1)
+        // expectedJsonValue
+        << customer.asJsonValue()
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << qint32(0)                      << QString()
+        // oneOf2ExpectedJson             // oneOf3ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isOneOf2Valid                  // isOneOf2Valid
+        << false                          << false
+        // isOneOf3Valid                  // isOneOf3Set
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // fromJson with a bool value => doesn't match int, string, or objects
+    customer.fromJson("true"_L1);
+    QTest::newRow("Set an unexpected bool via ::fromJson()")
+        // customer                       // expectedJson
+        << customer                       << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << qint32(0)                      << QString()
+        // oneOf2ExpectedJson             // oneOf3ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isOneOf2Valid                  // isOneOf2Valid
+        << false                          << false
+        // isOneOf3Valid                  // isOneOf3Set
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // fromJson with a double value => doesn't match qint32 (not integer)
+    customer.fromJson("3.14"_L1);
+    QTest::newRow("Set a double via ::fromJson() (no double alternative)")
+        // customer                       // expectedJson
+        << customer                       << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << qint32(0)                      << QString()
+        // oneOf2ExpectedJson             // oneOf3ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                           << false
+        // isOneOf2Valid                  // isOneOf2Valid
+        << false                          << false
+        // isOneOf3Valid                  // isOneOf3Set
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Invalid userName object - missing required userName, has only channel
+    customer.fromJson("{\"channel\":\"email\"}"_L1);
+    QTest::newRow("Set userName object missing required 'userName' via ::fromJson()")
+        // customer                       // expectedJson
+        << customer                       << QString("{}"_L1)
+        // expectedJsonValue
+        << customer.asJsonValue()
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << qint32(0)                      << QString()
+        // oneOf2ExpectedJson             // oneOf3ExpectedJson
+        << QString("{\"channel\":\"email\"}"_L1) << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isOneOf2Valid                  // isOneOf2Valid
+        << false                          << true
+        // isOneOf3Valid                  // isOneOf3Set
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << true;
+
+    // Extra/Unknown Fields in userName object JSON
+    customer.fromJson("{\"userName\":\"user1\",\"channel\":\"sms\",\"extra\":\"field\"}"_L1);
+    QString expected("{\"channel\":\"sms\",\"userName\":\"user1\"}"_L1);
+    QTest::newRow("Extra/Unknown Fields in userName object via ::fromJson()")
+        // customer                       // expectedJson
+        << customer                       << expected
+        // expectedJsonValue
+        << customer.asJsonValue()
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << qint32(0)                      << QString()
+        // oneOf2ExpectedJson             // oneOf3ExpectedJson
+        << expected                       << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isOneOf2Valid                  // isOneOf2Valid
+        << true                           << true
+        // isOneOf3Valid                  // isOneOf3Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set userName object with invalid type for userName field (int instead of string)
+    customer.fromJson("{\"userName\":123,\"channel\":\"web\"}"_L1);
+    QTest::newRow("Invalid 'userName=123' in userName object via ::fromJson()")
+        // customer                       // expectedJson
+        << customer                       << QString("{}"_L1)
+        // expectedJsonValue
+        << customer.asJsonValue()
+        // oneOf0ExpectedValue            // oneOf1ExpectedValue
+        << qint32(0)                      << QString()
+        // oneOf2ExpectedJson             // oneOf3ExpectedJson
+        << QString("{\"channel\":\"web\"}"_L1) << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isOneOf2Valid                  // isOneOf2Valid
+        << false                          << true
+        // isOneOf3Valid                  // isOneOf3Set
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << true;
+}
+
+void OneOfTest::testCustomerJsonConversionMethods()
+{
+    QFETCH(SchemasModelsOneOf::PostSearchData_request_customer, customer);
+    QFETCH(QString, expectedJson);
+    QFETCH(QJsonValue, expectedJsonValue);
+    QFETCH(qint32, oneOf0ExpectedValue);
+    QFETCH(QString, oneOf1ExpectedValue);
+    QFETCH(QString, oneOf2ExpectedJson);
+    QFETCH(QString, oneOf3ExpectedJson);
+    QFETCH(bool, isOneOf0Valid);
+    QFETCH(bool, isOneOf0Set);
+    QFETCH(bool, isOneOf1Valid);
+    QFETCH(bool, isOneOf1Set);
+    QFETCH(bool, isOneOf2Valid);
+    QFETCH(bool, isOneOf2Set);
+    QFETCH(bool, isOneOf3Valid);
+    QFETCH(bool, isOneOf3Set);
+    QFETCH(bool, isValid);
+    QFETCH(bool, isSet);
+
+    QCOMPARE(customer.asJson(), expectedJson);
+    QCOMPARE(customer.asJsonValue(), expectedJsonValue);
+    QCOMPARE(customer.getOneOfQint32(), oneOf0ExpectedValue);
+    QCOMPARE(customer.isOneOfQint32Valid(), isOneOf0Valid);
+    QCOMPARE(customer.isOneOfQint32Set(), isOneOf0Set);
+    QCOMPARE(customer.getOneOfQString(), oneOf1ExpectedValue);
+    QCOMPARE(customer.isOneOfQStringValid(), isOneOf1Valid);
+    QCOMPARE(customer.isOneOfQStringSet(), isOneOf1Set);
+    QCOMPARE(customer.getOneOfPostSearchData_request_customer_oneOf().asJson(), oneOf2ExpectedJson);
+    QCOMPARE(customer.isOneOfPostSearchDataRequestCustomerOneOfValid(), isOneOf2Valid);
+    QCOMPARE(customer.isOneOfPostSearchDataRequestCustomerOneOfSet(), isOneOf2Set);
+    QCOMPARE(customer.getOneOfPostSearchData_request_customer_oneOf_1().asJson(), oneOf3ExpectedJson);
+    QCOMPARE(customer.isOneOfPostSearchDataRequestCustomerOneOf1Valid(), isOneOf3Valid);
+    QCOMPARE(customer.isOneOfPostSearchDataRequestCustomerOneOf1Set(), isOneOf3Set);
+    QCOMPARE(customer.isValid(), isValid);
+    QCOMPARE(customer.isSet(), isSet);
+}
+
 void OneOfTest::testInlineSchemasJsonConversionMethods_data()
 {
     QTest::addColumn<SchemasModelsOneOf::PostPaymentData_request>("postRequest");
@@ -876,12 +2310,12 @@ void OneOfTest::testInlineSchemasJsonConversionMethods_data()
 
     // Create valid credit card (oneOf0) - has required 'cardNumber'
     SchemasModelsOneOf::PostPaymentData_request_oneOf creditCard;
-    creditCard.setCardNumber("1234-5678-9012-3456");
+    creditCard.setCardNumber("1234-5678-9012-3456"_L1);
     creditCard.setCardAvailability(true);
 
     // Create valid paypal (oneOf1) - no required fields
     SchemasModelsOneOf::PostPaymentData_request_oneOf_1 paypal;
-    paypal.setPaypalEmail("user@example.com");
+    paypal.setPaypalEmail("user@example.com"_L1);
     paypal.setPaypalAvailability(true);
 
     // Set a valid credit card via setter
@@ -1378,7 +2812,8 @@ void OneOfTest::testInlineSchemasJsonConversionMethods_data()
 
     // Extra/Unknown Fields in JSON
     // JSON with fields not in schema - should parse known fields and ignore unknown
-    postRequest.fromJson("{\"cardNumber\":\"4444-3333\",\"cardAvailability\":false,\"unknown\":\"field\",\"extra\":123}"_L1);
+    postRequest.fromJson("{\"cardNumber\":\"4444-3333\",\"cardAvailability\":false,"
+                         "\"unknown\":\"field\",\"extra\":123}"_L1);
     QString expected("{\"cardAvailability\":false,\"cardNumber\":\"4444-3333\"}"_L1);
     QTest::newRow("Extra/Unknown Fields in CreditCard JSON via ::fromJson()")
         // postRequest                    // expectedJson
@@ -1403,7 +2838,8 @@ void OneOfTest::testInlineSchemasJsonConversionMethods_data()
         << true                           << true;
 
     // Extra/Unknown Fields in Paypal JSON
-    postRequest.fromJson("{\"paypalEmail\":\"a@b.com\",\"paypalAvailability\":true,\"foo\":\"bar\"}"_L1);
+    postRequest.fromJson("{\"paypalEmail\":\"a@b.com\",\"paypalAvailability\""
+                         ":true,\"foo\":\"bar\"}"_L1);
     expected = QString("{\"paypalAvailability\":true,\"paypalEmail\":\"a@b.com\"}"_L1);
     QTest::newRow("Extra/Unknown Fields in Paypal JSON via ::fromJson()")
         // postRequest                    // expectedJson
@@ -1585,7 +3021,7 @@ void OneOfTest::testInlineSchemasJsonConversionMethods_data()
 
     // CreditCard with only required field set via setter
     SchemasModelsOneOf::PostPaymentData_request_oneOf cardOnly2;
-    cardOnly2.setCardNumber("0000-1111-2222-3333");
+    cardOnly2.setCardNumber("0000-1111-2222-3333"_L1);
     postRequest.setOneOfPostPaymentData_request_oneOf(cardOnly2);
     QTest::newRow("Set CreditCard with only cardNumber via setter")
         // postRequest                    // expectedJson
@@ -1780,7 +3216,6 @@ void OneOfTest::testInlineSchemasPatch_data()
     // Test PatchPaymentData_request with string set
     SchemasModelsOneOf::PatchPaymentData_request patchRequest;
     patchRequest.setOneOfQString("request-string"_L1);
-
     QTest::newRow("PatchPaymentData_request with string")
         << patchRequest
         << QString()
@@ -1875,7 +3310,7 @@ void OneOfTest::testInlineSchemasPost_data()
 
     // Test Credit Card payment with required field
     SchemasModelsOneOf::PostPaymentData_request_oneOf creditCard;
-    creditCard.setCardNumber("1234-5678-9012-3456");
+    creditCard.setCardNumber("1234-5678-9012-3456"_L1);
     creditCard.setCardAvailability(true);
 
     QTest::newRow("credit card with required field")
@@ -1887,7 +3322,7 @@ void OneOfTest::testInlineSchemasPost_data()
 
     // Test PayPal payment
     SchemasModelsOneOf::PostPaymentData_request_oneOf_1 paypal;
-    paypal.setPaypalEmail("user@example.com");
+    paypal.setPaypalEmail("user@example.com"_L1);
     paypal.setPaypalAvailability(true);
 
     QTest::newRow("paypal payment")
@@ -1931,7 +3366,7 @@ void OneOfTest::testInlineSchemasPost_data()
 
     // Test PayPal with only email (paypalAvailability is optional)
     SchemasModelsOneOf::PostPaymentData_request_oneOf_1 partialPaypal;
-    partialPaypal.setPaypalEmail("partial@example.com");
+    partialPaypal.setPaypalEmail("partial@example.com"_L1);
 
     QTest::newRow("paypal with only email")
         << SchemasModelsOneOf::PostPaymentData_request{}
@@ -2562,7 +3997,7 @@ void OneOfTest::testOneOfPrimitiveJsonConversionMethods_data()
         << true                           << true;
 
     // Set string with special characters via setter
-    patchRequest.setOneOfQString("hello \"world\" \n\ttab");
+    patchRequest.setOneOfQString("hello \"world\" \n\ttab"_L1);
     QTest::newRow("Set a string with special characters via setter")
         // patchRequest                   // expectedJson
         << patchRequest                   << QString("\"hello \\\"world\\\" \\n\\ttab\""_L1)
@@ -2583,7 +4018,7 @@ void OneOfTest::testOneOfPrimitiveJsonConversionMethods_data()
 
     // Set double via setter then override with string via setter
     patchRequest.setOneOfDouble(123.456);
-    patchRequest.setOneOfQString("override");
+    patchRequest.setOneOfQString("override"_L1);
     QTest::newRow("Override double with string via setter")
         // patchRequest                   // expectedJson
         << patchRequest                   << QString("\"override\""_L1)
@@ -2603,7 +4038,7 @@ void OneOfTest::testOneOfPrimitiveJsonConversionMethods_data()
         << true                           << true;
 
     // Set string via setter then override with bool via setter
-    patchRequest.setOneOfQString("will be overridden");
+    patchRequest.setOneOfQString("will be overridden"_L1);
     patchRequest.setOneOfBool(false);
     QTest::newRow("Override string with bool 'false' via setter")
         // patchRequest                   // expectedJson
@@ -2701,7 +4136,7 @@ void OneOfTest::testPolymorphedRequestBody_data()
     duck.setAge(9);
 
     SchemasModelsOneOf::Bunny bunny;
-    bunny.setBreedType("Wild");
+    bunny.setBreedType("Wild"_L1);
     bunny.setWeight(5);
 
     QTest::newRow("Set Bunny object")
@@ -2748,7 +4183,7 @@ void OneOfTest::testPolymorphedRequestBody_data()
         << QString("{}"_L1);
 
     SchemasModelsOneOf::Dog dog;
-    dog.setBreed("Dingo");
+    dog.setBreed("Dingo"_L1);
     // Should fail because bark is not set, but bark is required
     QTest::newRow("Set incomplete Dog() object")
         << SchemasModelsOneOf::PostFarmPet_request{}
@@ -2813,6 +4248,308 @@ void OneOfTest::testPolymorphedRequestBody()
     QTRY_COMPARE_EQ(done, false);
 }
 
+void OneOfTest::testPostAccountRequestJsonConversionMethods_data()
+{
+    QTest::addColumn<SchemasModelsOneOf::PostAccount_request>("postAccountRequest");
+    QTest::addColumn<QString>("expectedJson");
+    QTest::addColumn<QJsonValue>("expectedJsonValue");
+    QTest::addColumn<QString>("oneOf0ExpectedJson");
+    QTest::addColumn<QString>("oneOf1ExpectedJson");
+    QTest::addColumn<bool>("isOneOf0Valid");
+    QTest::addColumn<bool>("isOneOf0Set");
+    QTest::addColumn<bool>("isOneOf1Valid");
+    QTest::addColumn<bool>("isOneOf1Set");
+    QTest::addColumn<bool>("isValid");
+    QTest::addColumn<bool>("isSet");
+
+    // PostAccount_request has two oneOf alternatives:
+    // oneOf0: Account (which is itself a oneOf - see testAccountJsonConversionMethods)
+    // oneOf1: QMap<QString, QJsonValue> (object with additionalProperties: true)
+    //
+    // An empty Account is a oneOf with nothing set => Account.isValid() = false
+    // An empty QMap is valid for additionalProperties: true (no required properties)
+    SchemasModelsOneOf::PostAccount_request postAccountRequest;
+    QTest::newRow("Empty PostAccount_request object")
+        // postAccountRequest             // expectedJson
+        << postAccountRequest             << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Set a valid Account via setter (Account with Account_oneOf set)
+    SchemasModelsOneOf::Account validAccount;
+    SchemasModelsOneOf::Account_oneOf acctData;
+    acctData.setName("Test Corp"_L1);
+    acctData.setContractAvailable(true);
+    validAccount.setOneOfAccount_oneOf(acctData);
+    postAccountRequest.setOneOfAccount(validAccount);
+    QTest::newRow("Set a valid Account (with Account_oneOf) via setter")
+        // postAccountRequest             // expectedJson
+        << postAccountRequest             << validAccount.asJson()
+        // expectedJsonValue
+        << validAccount.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << validAccount.asJson()          << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << true                           << true
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set a valid Account via setter (Account with Account_oneOf_1 set)
+    SchemasModelsOneOf::Account validAccount2;
+    SchemasModelsOneOf::Account_oneOf_1 acctData2;
+    acctData2.setFirstname("Jane"_L1);
+    acctData2.setLastname("Doe"_L1);
+    validAccount2.setOneOfAccount_oneOf_1(acctData2);
+    postAccountRequest.setOneOfAccount(validAccount2);
+    QTest::newRow("Set a valid Account (with Account_oneOf_1) via setter")
+        // postAccountRequest             // expectedJson
+        << postAccountRequest             << validAccount2.asJson()
+        // expectedJsonValue
+        << validAccount2.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << validAccount2.asJson()          << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << true                           << true
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set a QMap (additionalProperties object) via setter
+    QMap<QString, QJsonValue> freeformObj;
+    freeformObj.insert("customField1"_L1, QJsonValue("value1"_L1));
+    freeformObj.insert("customField2"_L1, QJsonValue(42));
+    freeformObj.insert("nested"_L1, QJsonValue(true));
+    postAccountRequest.setOneOfQMapQStringQJsonValue(freeformObj);
+    const QString expectedTestString(
+        "{\"customField1\":\"value1\",\"customField2\":42,\"nested\":true}"_L1);
+    QTest::newRow("Set a valid QMap via setter")
+        // postAccountRequest             // expectedJson
+        << postAccountRequest             << expectedTestString
+        // expectedJsonValue
+        << postAccountRequest.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << expectedTestString
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set an empty QMap via setter - empty map should still be valid
+    const QMap<QString, QJsonValue> emptyMap;
+    postAccountRequest.setOneOfQMapQStringQJsonValue(emptyMap);
+    QTest::newRow("Set an empty QMap via setter")
+        // postAccountRequest             // expectedJson
+        << postAccountRequest             << postAccountRequest.asJson()
+        // expectedJsonValue
+        << postAccountRequest.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set an empty Account (which is itself invalid - no alternative selected)
+    // NOTE: Account itself is also a OneOf type object! If it is empty, it doesn't
+    // hold any type inside and cannot be valid.
+    const SchemasModelsOneOf::Account emptyAccount;
+    postAccountRequest.setOneOfAccount(emptyAccount);
+    QTest::newRow("Set an empty Account via setter")
+        // postAccountRequest             // expectedJson
+        << postAccountRequest             << emptyAccount.asJson()
+        // expectedJsonValue
+        << emptyAccount.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // fromJson with Account_oneOf data (name field identifies it)
+    const QString acctJson("{\"contractAvailable\":true,\"name\":\"FromJson Corp\"}"_L1);
+    postAccountRequest.fromJson(acctJson);
+    QTest::newRow("Set Account_oneOf data via ::fromJson()")
+        // postAccountRequest             // expectedJson
+        << postAccountRequest             << acctJson
+        // expectedJsonValue
+        << postAccountRequest.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << acctJson                       << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << true                           << true
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with Account_oneOf_1 data (firstname/lastname fields)
+    const QString nameJson("{\"firstname\":\"Bob\",\"lastname\":\"Jones\"}"_L1);
+    postAccountRequest.fromJson(nameJson);
+    QTest::newRow("Set Account_oneOf_1 data via ::fromJson()")
+        // postAccountRequest             // expectedJson
+        << postAccountRequest             << nameJson
+        // expectedJsonValue
+        << postAccountRequest.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << nameJson                       << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << true                           << true
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson with freeform object data (fields that don't match Account)
+    const QString freeformJson("{\"arbitraryKey\":\"arbitraryValue\",\"number\":99}"_L1);
+    postAccountRequest.fromJson(freeformJson);
+    QTest::newRow("Set freeform object data via ::fromJson()")
+            // postAccountRequest             // expectedJson
+            << postAccountRequest             << postAccountRequest.asJson()
+            // expectedJsonValue
+            << postAccountRequest.asJsonValue()
+            // oneOf0ExpectedJson
+            << QString("{}"_L1)
+            // oneOf1ExpectedJson
+            << freeformJson
+            // isOneOf0Valid                      // isOneOf0Set
+            << false                              << false
+            // isOneOf1Valid                      // isOneOf1Set
+            << true                               << true
+            // isValid                            // isSet
+            << true                               << true;
+
+    // fromJsonValue with valid Account
+    postAccountRequest.fromJsonValue(validAccount.asJsonValue());
+    QTest::newRow("Set a valid Account via ::fromJsonValue()")
+        // postAccountRequest             // expectedJson
+        << postAccountRequest             << validAccount.asJson()
+        // expectedJsonValue
+        << postAccountRequest.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << validAccount.asJson()          << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << true                           << true
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // invalid json! => the model is RESET to INITIAL state
+    postAccountRequest.fromJson("{invalid json}"_L1);
+    QTest::newRow("Set an invalid json via ::fromJson()")
+        // postAccountRequest             // expectedJson
+        << postAccountRequest             << QString("{}"_L1)
+        // expectedJsonValue
+        << postAccountRequest.asJsonValue()
+        // oneOf0ExpectedJson
+        << QString("{}"_L1)
+        // oneOf1ExpectedJson
+        << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Test with non-object JSON (array) => reset
+    postAccountRequest.fromJson("[]"_L1);
+    QTest::newRow("PostAccount_request: set an unexpected array via ::fromJson()")
+        // postAccountRequest             // expectedJson
+        << postAccountRequest             << QString("{}"_L1)
+        // expectedJsonValue
+        << postAccountRequest.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Test with non-object JSON (string) => reset
+    postAccountRequest.fromJson("\"string\""_L1);
+    QTest::newRow("Set an unexpected string via ::fromJson()")
+        // postAccountRequest             // expectedJson
+        << postAccountRequest             << QString("{}"_L1)
+        // expectedJsonValue
+        << postAccountRequest.asJsonValue()
+        // oneOf0ExpectedJson
+        << QString("{}"_L1)
+        // oneOf1ExpectedJson
+        << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << false                          << false
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // fromJson with empty object "{}" => Account (oneOf0) has both alternatives
+    // with no required fields, so empty Account resolves internally. But Account
+    // itself needs a selected alternative to be valid. The QMap (oneOf1) is always
+    // valid with empty. This is ambiguous. Account is selected because it is first.
+    postAccountRequest.fromJson("{}"_L1);
+    QTest::newRow("Set an empty object {} via ::fromJson()")
+        // postAccountRequest             // expectedJson
+        << postAccountRequest             << postAccountRequest.asJson()
+        // expectedJsonValue
+        << postAccountRequest.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("{}"_L1)
+        // isOneOf0Valid                  // isOneOf0Set
+        << true                           << true
+        // isOneOf1Valid                  // isOneOf1Set
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+}
+
+void OneOfTest::testPostAccountRequestJsonConversionMethods()
+{
+    QFETCH(SchemasModelsOneOf::PostAccount_request, postAccountRequest);
+    QFETCH(QString, expectedJson);
+    QFETCH(QJsonValue, expectedJsonValue);
+    QFETCH(QString, oneOf0ExpectedJson);
+    QFETCH(QString, oneOf1ExpectedJson);
+    QFETCH(bool, isOneOf0Valid);
+    QFETCH(bool, isOneOf0Set);
+    QFETCH(bool, isOneOf1Valid);
+    QFETCH(bool, isOneOf1Set);
+    QFETCH(bool, isValid);
+    QFETCH(bool, isSet);
+
+    QCOMPARE(postAccountRequest.asJson(), expectedJson);
+    QCOMPARE(postAccountRequest.asJsonValue(), expectedJsonValue);
+    QCOMPARE(postAccountRequest.getOneOfAccount().asJson(), oneOf0ExpectedJson);
+    QCOMPARE(mapAsString(postAccountRequest.getOneOfQMapQStringQJsonValue()), oneOf1ExpectedJson);
+    QCOMPARE(postAccountRequest.isOneOfAccountValid(), isOneOf0Valid);
+    QCOMPARE(postAccountRequest.isOneOfAccountSet(), isOneOf0Set);
+    QCOMPARE(postAccountRequest.isOneOfQMapQStringQJsonValueValid(), isOneOf1Valid);
+    QCOMPARE(postAccountRequest.isOneOfQMapQStringQJsonValueSet(), isOneOf1Set);
+    QCOMPARE(postAccountRequest.isValid(), isValid);
+    QCOMPARE(postAccountRequest.isSet(), isSet);
+}
+
 void OneOfTest::testPostFarmPetRequestJsonConversionMethods_data()
 {
     QTest::addColumn<SchemasModelsOneOf::PostFarmPet_request>("postFarmPetRequest");
@@ -2859,7 +4596,7 @@ void OneOfTest::testPostFarmPetRequestJsonConversionMethods_data()
     // no required fields
     SchemasModelsOneOf::Bunny bunny;
     bunny.setWeight(5);
-    bunny.setBreedType("Himalayan");
+    bunny.setBreedType("Himalayan"_L1);
 
     // no required fields
     SchemasModelsOneOf::Duck duck;
@@ -2869,7 +4606,7 @@ void OneOfTest::testPostFarmPetRequestJsonConversionMethods_data()
     // has required 'bark' - bool
     SchemasModelsOneOf::Dog hund;
     hund.setBark(false);
-    hund.setBreed("French Bulldog");
+    hund.setBreed("French Bulldog"_L1);
 
     // check setters work fine with valid objects
     req.setOneOfBunny(bunny);
@@ -3137,8 +4874,6 @@ void OneOfTest::testPostFarmPetRequestJsonConversionMethods_data()
         // isValid                        // isSet
         << true                           << true;
 
-    // check ::fromJson() works fine for VALID bunny object
-    // Using weight-only JSON to avoid 'breed-type' field ambiguity with Dog
     const QString bunnyWeight("{\"weight\":5}"_L1);
     req.fromJson(bunnyWeight);
     QTest::newRow("Set a valid Bunny object via ::fromJson()")
@@ -3363,7 +5098,7 @@ void OneOfTest::testPostFarmPetRequestJsonConversionMethods_data()
     // Missing Required Fields (Dog's 'bark' is required)
     // Dog without required 'bark' field - should not be valid
     SchemasModelsOneOf::Dog invalidDog;
-    invalidDog.setBreed("Husky-kolbasky");
+    invalidDog.setBreed("Husky-kolbasky"_L1);
     req.setOneOfDog(invalidDog);
     QTest::newRow("Set an invalid Dog via setter")
         // postFarmPetRequest             // expectedJson
