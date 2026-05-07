@@ -111,6 +111,7 @@ void {{classname}}::fromJson(const QString &jsonString)
 void {{classname}}::fromJsonValue(const QJsonValue &json)
 {
 {{^isEnum}}
+    Q_UNUSED(json);
 {{^composedSchemas}}
     if (!json.isObject() || json.toObject().isEmpty()) {
         initializeModel();
@@ -379,14 +380,7 @@ void {{classname}}::fromJsonValue(const QJsonValue &json)
 QString {{classname}}::asJson() const
 {
 {{^isEnum}}
-{{^composedSchemas}}
     return QString::fromUtf8(this->asJsonValue().toJson(QJsonDocument::Compact));
-{{/composedSchemas}}
-{{#composedSchemas.oneOf}}
-{{#-first}}
-    return QString::fromUtf8(this->asJsonValue().toJson(QJsonDocument::Compact));
-{{/-first}}
-{{/composedSchemas.oneOf}}
 {{/isEnum}}
 {{#isEnum}}
     QString val;
@@ -439,15 +433,13 @@ QJsonValue {{classname}}::asJsonValue() const
 {{/isFreeFormObject}}
 {{/complexType}}
     }
-{{#-last}}
+{{/oneOf}}
     // Here we need to return something, if oneOf value was not set at all.
     // An empty QJsonValue() returns 'null' via ::toJson(QJsonDocument::Compact)
     // But 'null' has a special meaning in OpenAPI, so we cannot used it for this case.
     // There is no correct way to handle such situation in OpenAPI spec,
     // it is an implementation detail we should decide. I suggest to return an empty Object '{}'.
     return QJsonObject();
-{{/-last}}
-{{/oneOf}}
 {{/composedSchemas}}
 {{/isEnum}}
 {{#isEnum}}

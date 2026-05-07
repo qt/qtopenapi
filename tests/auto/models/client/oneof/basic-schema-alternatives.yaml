@@ -250,3 +250,7 @@ components:
             oneOf:
               - type: string
               - type: boolean
+    DummyTestValue:
+      type: object
+      oneOf:
+        - {}

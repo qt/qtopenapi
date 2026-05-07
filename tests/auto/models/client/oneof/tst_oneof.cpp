@@ -5,6 +5,7 @@
 
 #include "../basicSchemaAlternatives/client/bankapi.h"
 #include "../basicSchemaAlternatives/client/dataapi.h"
+#include "../basicSchemaAlternatives/client/dummytestvalue.h"
 #include "../basicSchemaAlternatives/client/farmapi.h"
 #include "../basicSchemaAlternatives/client/storeapi.h"
 
@@ -117,6 +118,7 @@ private Q_SLOTS:
     void testPostAccountRequestJsonConversionMethods();
     void testPostFarmPetRequestJsonConversionMethods_data();
     void testPostFarmPetRequestJsonConversionMethods();
+    void testDummyTestValue();
 };
 
 void OneOfTest::testAccountJsonConversionMethods_data()
@@ -5344,6 +5346,15 @@ void OneOfTest::testPostFarmPetRequestJsonConversionMethods()
     QCOMPARE(postFarmPetRequest.isOneOfDogSet(), isOneOfDogSet);
     QCOMPARE(postFarmPetRequest.isValid(), isValid);
     QCOMPARE(postFarmPetRequest.isSet(), isSet);
+}
+
+void OneOfTest::testDummyTestValue()
+{
+    SchemasModelsOneOf::DummyTestValue dummy;
+    QCOMPARE(dummy.asJson(), "{}"_L1);
+    QCOMPARE(dummy.asJsonValue(), QJsonValue(QJsonValue::Object));
+    QCOMPARE(dummy.isValid(), false);
+    QCOMPARE(dummy.isSet(), false);
 }
 
 QTEST_MAIN(OneOfTest)
