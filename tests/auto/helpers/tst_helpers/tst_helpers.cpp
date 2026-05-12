@@ -41,6 +41,8 @@ private Q_SLOTS:
     void fromByteArray_double();
     void fromByteArray_enum_data();
     void fromByteArray_enum();
+    void fromByteArray_object_data();
+    void fromByteArray_object();
 };
 
 void tst_Helpers::fromByteArray_QString_data()
@@ -391,6 +393,42 @@ void tst_Helpers::fromByteArray_enum()
     QCOMPARE(ok, expectedOk);
     QCOMPARE(result.isValid(), expectedResultValidity);
     QCOMPARE(result.getValue(), expectedResultValue);
+}
+
+void tst_Helpers::fromByteArray_object_data()
+{
+    QTest::addColumn<QByteArray>("input");
+    QTest::addColumn<bool>("expectedOk");
+    QTest::addColumn<QOAIObject>("initialResult");
+    QTest::addColumn<QString>("expectedJson");
+    QTest::addColumn<bool>("expectedIsSet");
+
+    QOAIObject empty;
+    QOAIObject withKeyValue;
+    withKeyValue.fromJson(R"({"key1":"value1"})"_L1);
+
+    QTest::newRow("Not Json") << "not_json"_ba  << false << empty << QString("{}"_L1) << false;
+    QTest::newRow("Valid JSON object") << R"({"key":"value"})"_ba  << true << empty
+                                       << QString(R"({"key":"value"})"_L1) << true;
+    QTest::newRow("JSON array not accepted") << "[1, 2, 3]"_ba << false << withKeyValue
+                                             << QString(R"({"key1":"value1"})"_L1) << true;
+                                             // value left intact
+    QTest::newRow("Empty object") << "{}"_ba << true << withKeyValue << QString("{}"_L1) << false;
+}
+
+void tst_Helpers::fromByteArray_object()
+{
+    QFETCH(QByteArray, input);
+    QFETCH(bool, expectedOk);
+    QFETCH(QOAIObject, initialResult);
+    QFETCH(QString, expectedJson);
+    QFETCH(bool, expectedIsSet);
+
+    QOAIObject result = initialResult;
+    const bool ok = fromByteArray(input, result);
+    QCOMPARE(ok, expectedOk);
+    QCOMPARE(result.isSet(), expectedIsSet);
+    QCOMPARE(result.asJson(), expectedJson);
 }
 
 } // QtOpenAPI

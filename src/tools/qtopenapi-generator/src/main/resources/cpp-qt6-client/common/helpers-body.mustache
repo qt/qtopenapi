@@ -357,13 +357,13 @@ bool fromByteArray(const QByteArray &input, double &value)
 bool fromByteArray(const QByteArray &input, {{prefix}}Object &value)
 {
     QJsonParseError err;
-    QJsonDocument::fromJson(input, &err);
-    if (err.error == QJsonParseError::NoError) {
-        // TODO: rework {{prefix}}Object to take QBA?
-        value.fromJson(QString::fromUtf8(input));
-        return true;
-    }
-    return false;
+    const auto json = QJsonValue::fromJson(input, &err);
+
+    if (err.error != QJsonParseError::NoError || !json.isObject())
+        return false;
+
+    value.fromJsonValue(json);
+    return true;
 }
 
 bool fromByteArray(const QByteArray &input, {{prefix}}Enum &value)
