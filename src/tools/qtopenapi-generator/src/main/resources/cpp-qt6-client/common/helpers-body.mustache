@@ -370,7 +370,7 @@ bool fromByteArray(const QByteArray &input, {{prefix}}Enum &value)
 {
     // TODO: rework {{prefix}}Enum to take QBA?
     value.fromJson(QString::fromUtf8(input));
-    return true;
+    return value.isValid();
 }
 
 bool fromByteArray(const QByteArray &input, {{prefix}}HttpFileElement &value)

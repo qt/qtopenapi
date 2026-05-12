@@ -16,3 +16,20 @@ qt_internal_add_test(cpp-qt-helpers
         Qt::OpenApiCommon
         Qt::Test
 )
+
+qt_add_library(HelpersTestClient)
+qt_add_openapi_client(HelpersTestClient
+    SPEC_FILE
+    ${CMAKE_CURRENT_SOURCE_DIR}/helpers-test.yaml
+)
+
+qt_autogen_tools_initial_setup(HelpersTestClient)
+target_link_libraries(cpp-qt-helpers PRIVATE HelpersTestClient)
+
+if(WIN32)
+    add_custom_command(TARGET cpp-qt-helpers POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_FILE:HelpersTestClient>
+            ${CMAKE_CURRENT_BINARY_DIR}
+        VERBATIM)
+endif()
