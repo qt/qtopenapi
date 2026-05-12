@@ -43,7 +43,7 @@ void {{classname}}::initializeModel()
 {{#complexType}}
 {{^isContainer}}
     m_{{name}}IsValid = m_{{name}}.isValid();
-    m_{{name}}IsSet = m_{{name}}.isSet();
+    m_{{name}}IsSet = false;
 {{/isContainer}}
 {{#isContainer}}
     m_{{name}}IsSet = false;
@@ -53,7 +53,7 @@ void {{classname}}::initializeModel()
 {{^complexType}}
 {{#isFreeFormObject}}
     m_{{name}}IsValid = m_{{name}}.isValid();
-    m_{{name}}IsSet = m_{{name}}.isSet();
+    m_{{name}}IsSet = false;
 {{/isFreeFormObject}}
 {{^isFreeFormObject}}
     m_{{name}}IsSet = false;
@@ -134,7 +134,7 @@ void {{classname}}::fromJsonValue(const QJsonValue &json)
         } else {
             m_{{name}} = {};
             m_{{name}}IsValid = m_{{name}}.isValid();
-            m_{{name}}IsSet = m_{{name}}.isSet();
+            m_{{name}}IsSet = false;
         }
     }
 {{/isModel}}
@@ -251,7 +251,7 @@ void {{classname}}::fromJsonValue(const QJsonValue &json)
         } else {
             m_{{name}} = {};
             m_{{name}}IsValid = m_{{name}}.isValid();
-            m_{{name}}IsSet = m_{{name}}.isSet();
+            m_{{name}}IsSet = false;
         }
     }
 {{/isFreeFormObject}}
@@ -279,11 +279,11 @@ void {{classname}}::fromJsonValue(const QJsonValue &json)
 {{/-first}}
 {{#complexType}}
 {{^isContainer}}
-    if (json.isObject()) {
+    {
         {{{dataType}}} {{name}}Value;
         {{name}}Value.fromJsonValue(json);
         m_{{name}}IsValid = {{name}}Value.isValid();
-        m_{{name}}IsSet = {{name}}Value.isSet() || (m_{{name}}IsValid && json.toObject().isEmpty());
+        m_{{name}}IsSet = {{name}}Value.isSet() || (m_{{name}}IsValid && json.isObject() && json.toObject().isEmpty());
         if (m_{{name}}IsSet) {
             m_oneOf = {{name}}Value;
             // 'oneOf' means only one from model properties can be VALID.
@@ -296,7 +296,45 @@ void {{classname}}::fromJsonValue(const QJsonValue &json)
     }
 {{/isContainer}}
 {{#isContainer}}
-{{^items.isContainer}}
+{{#items.isModel}}
+{{#isArray}}
+    if (json.isArray()) {
+        {{{dataType}}} {{name}}Value;
+        // isArray!
+        const auto arr = json.toArray();
+        m_{{name}}IsValid = true;
+        if (arr.size() == 0)
+            m_{{name}}IsSet = true;
+        for (const QJsonValue &jval : arr) {
+{{/isArray}}
+{{#isMap}}
+    if (json.isObject()) {
+        {{{dataType}}} {{name}}Value;
+        const auto mapContainer = json.toObject().toVariantMap();
+        m_{{name}}IsValid = true;
+        if (mapContainer.size() == 0)
+            m_{{name}}IsSet = true;
+        for (const auto &[key, value] : mapContainer.asKeyValueRange()) {
+            const auto jval = QJsonValue::fromVariant(value);
+{{/isMap}}
+            {{{items.dataType}}} item;
+            m_{{name}}IsValid = ::{{cppCommonNamespace}}::fromJsonValue(item, jval);
+            if (!m_{{name}}IsValid) {
+                m_{{name}}IsSet = false;
+                m_oneOf = std::monostate{};
+                return;
+            }
+            m_{{name}}IsSet = item.isSet() || m_{{name}}IsValid;
+{{#isArray}}
+            {{name}}Value.append(item);
+{{/isArray}}
+{{#isMap}}
+            {{name}}Value.insert(key, item);
+{{/isMap}}
+        }
+        m_oneOf = {{name}}Value;
+{{/items.isModel}}
+{{^items.isModel}}
     if (json.isArray() || json.isObject()) {
         {{{dataType}}} {{name}}Value;
         m_{{name}}IsValid = ::{{cppCommonNamespace}}::fromJsonValue({{name}}Value, json);
@@ -308,17 +346,17 @@ void {{classname}}::fromJsonValue(const QJsonValue &json)
             return;
         }
         m_{{name}}IsSet = false;
+{{/items.isModel}}
     }
-{{/items.isContainer}}
 {{/isContainer}}
 {{/complexType}}
 {{^complexType}}
 {{#isFreeFormObject}}
-    if (json.isObject()) {
+    {
         {{{dataType}}} {{name}}Value;
         {{name}}Value.fromJsonValue(json);
         m_{{name}}IsValid = {{name}}Value.isValid();
-        m_{{name}}IsSet = {{name}}Value.isSet() || (m_{{name}}IsValid && json.toObject().isEmpty());
+        m_{{name}}IsSet = {{name}}Value.isSet() || (m_{{name}}IsValid && json.isObject() && json.toObject().isEmpty());
         if (m_{{name}}IsSet) {
             m_oneOf = {{name}}Value;
             // 'oneOf' means only one from model properties can be VALID.

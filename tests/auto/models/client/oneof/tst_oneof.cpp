@@ -5,8 +5,12 @@
 
 #include "../basicSchemaAlternatives/client/bankapi.h"
 #include "../basicSchemaAlternatives/client/dataapi.h"
+#include "../basicSchemaAlternatives/client/defaultapi.h"
 #include "../basicSchemaAlternatives/client/dummytestvalue.h"
 #include "../basicSchemaAlternatives/client/farmapi.h"
+#include "../basicSchemaAlternatives/client/root.h"
+#include "../basicSchemaAlternatives/client/rootmap.h"
+#include "../basicSchemaAlternatives/client/rootmapmodels.h"
 #include "../basicSchemaAlternatives/client/storeapi.h"
 
 #include <QtCore/qbuffer.h>
@@ -119,6 +123,12 @@ private Q_SLOTS:
     void testPostFarmPetRequestJsonConversionMethods_data();
     void testPostFarmPetRequestJsonConversionMethods();
     void testDummyTestValue();
+    void testRootJsonConversionMethods_data();
+    void testRootJsonConversionMethods();
+    void testRootMapJsonConversionMethods_data();
+    void testRootMapJsonConversionMethods();
+    void testRootMapModelsJsonConversionMethods_data();
+    void testRootMapModelsJsonConversionMethods();
 };
 
 void OneOfTest::testAccountJsonConversionMethods_data()
@@ -5355,6 +5365,1739 @@ void OneOfTest::testDummyTestValue()
     QCOMPARE(dummy.asJsonValue(), QJsonValue(QJsonValue::Object));
     QCOMPARE(dummy.isValid(), false);
     QCOMPARE(dummy.isSet(), false);
+}
+
+// Helper: serialize QList<QList<qint32>> to compact JSON string
+static QString listListInt32AsJson(const QList<QList<qint32>> &v)
+{
+    QJsonArray outer;
+    for (const auto &inner : v) {
+        QJsonArray arr;
+        for (const auto &i : inner)
+            arr.append(i);
+        outer.append(arr);
+    }
+    return QString::fromUtf8(QJsonValue(outer).toJson(QJsonDocument::Compact));
+}
+
+void OneOfTest::testRootJsonConversionMethods_data()
+{
+    QTest::addColumn<SchemasModelsOneOf::Root>("root");
+    QTest::addColumn<QString>("expectedJson");
+    QTest::addColumn<QJsonValue>("expectedJsonValue");
+    QTest::addColumn<qint32>("oneOf0ExpectedValue");
+    QTest::addColumn<QString>("oneOf1ExpectedJson");
+    QTest::addColumn<QString>("oneOf2ExpectedJson");
+    QTest::addColumn<bool>("isOneOfQint32Valid");
+    QTest::addColumn<bool>("isOneOfQint32Set");
+    QTest::addColumn<bool>("isOneOfQListQListqint32Valid");
+    QTest::addColumn<bool>("isOneOfQListQListqint32Set");
+    QTest::addColumn<bool>("isOneOfContainerValid");
+    QTest::addColumn<bool>("isOneOfContainerSet");
+    QTest::addColumn<bool>("isValid");
+    QTest::addColumn<bool>("isSet");
+
+    // Root has three oneOf alternatives:
+    // oneOf0: qint32                   - primitive, always valid when set
+    // oneOf1: QList<QList<qint32>>     - nested list, always valid when set
+    // oneOf2: Container                - object, valid if Container is valid
+
+    SchemasModelsOneOf::Root root;
+    QTest::newRow("Empty Root object")
+        // root                         // expectedJson
+        << root                         << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(0)                    << QString("[]"_L1)
+        // oneOf2ExpectedJson
+        << QString("{}"_L1)
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << false                        << false
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << false                        << false
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << false                        << false
+        // isValid                      // isSet
+        << false                        << false;
+
+    // Set a valid qint32 via setter
+    root.setOneOfQint32(42);
+    QTest::newRow("Set qint32=42 via setter")
+        // root                         // expectedJson
+        << root                         << QString("42"_L1)
+        // expectedJsonValue
+        << QJsonValue(42)
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(42)                   << QString("[]"_L1)
+        // oneOf2ExpectedJson
+        << QString("{}"_L1)
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << true                         << true
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << false                        << false
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << false                        << false
+        // isValid                      // isSet
+        << true                         << true;
+
+    // Set qint32 = 0 via setter (zero is a legitimate value)
+    root.setOneOfQint32(0);
+    QTest::newRow("Set qint32=0 via setter")
+        // root                         // expectedJson
+        << root                         << QString("0"_L1)
+        // expectedJsonValue
+        << QJsonValue(0)
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(0)                    << QString("[]"_L1)
+        // oneOf2ExpectedJson
+        << QString("{}"_L1)
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << true                         << true
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << false                        << false
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << false                        << false
+        // isValid                      // isSet
+        << true                         << true;
+
+    // Set negative qint32 via setter
+    root.setOneOfQint32(-7);
+    QTest::newRow("Set qint32=-7 via setter")
+        // root                         // expectedJson
+        << root                         << QString("-7"_L1)
+        // expectedJsonValue
+        << QJsonValue(-7)
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(-7)                   << QString("[]"_L1)
+        // oneOf2ExpectedJson
+        << QString("{}"_L1)
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << true                         << true
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << false                        << false
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << false                        << false
+        // isValid                      // isSet
+        << true                         << true;
+
+    // Set a non-empty QList<QList<qint32>> via setter
+    const QList<QList<qint32>> nestedList = {{1, 2}, {3, 4}};
+    root.setOneOfQListQListqint32(nestedList);
+    QTest::newRow("Set QList<QList<qint32>>={{1,2},{3,4}} via setter")
+        // root                         // expectedJson
+        << root                         << QString("[[1,2],[3,4]]"_L1)
+        // expectedJsonValue
+        << QJsonValue::fromJson("[[1,2],[3,4]]")
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(0)                    << QString("[[1,2],[3,4]]"_L1)
+        // oneOf2ExpectedJson
+        << QString("{}"_L1)
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << false                        << false
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << true                         << true
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << false                        << false
+        // isValid                      // isSet
+        << true                         << true;
+
+    // Set an empty QList<QList<qint32>> via setter (empty list is still a valid value)
+    const QList<QList<qint32>> emptyList;
+    root.setOneOfQListQListqint32(emptyList);
+    QTest::newRow("Set empty QList<QList<qint32>> via setter")
+        // root                         // expectedJson
+        << root                         << QString("[]"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonArray())
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(0)                    << QString("[]"_L1)
+        // oneOf2ExpectedJson
+        << QString("{}"_L1)
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << false                        << false
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << true                         << true
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << false                        << false
+        // isValid                      // isSet
+        << true                         << true;
+
+    // Set a valid Container (Container_oneOf with Duck value) via setter
+    SchemasModelsOneOf::Duck duck;
+    duck.setHunts(true);
+    duck.setAge(5);
+    SchemasModelsOneOf::Container_oneOf containerOneOf;
+    containerOneOf.setValue(duck);
+    SchemasModelsOneOf::Container validContainer;
+    validContainer.setOneOfContainer_oneOf(containerOneOf);
+    const QString duckContainerJson("{\"value\":{\"age\":5,\"hunts\":true}}"_L1);
+    root.setOneOfContainer(validContainer);
+    QTest::newRow("Set valid Container (Container_oneOf with Duck) via setter")
+        // root                         // expectedJson
+        << root                         << duckContainerJson
+        // expectedJsonValue
+        << validContainer.asJsonValue()
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(0)                    << QString("[]"_L1)
+        // oneOf2ExpectedJson
+        << duckContainerJson
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << false                        << false
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << false                        << false
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << true                         << true
+        // isValid                      // isSet
+        << true                         << true;
+
+    // Set valid Container (QList<Dog>) via setter.
+    // Root.asJson() for this case returns an array (Container serializes as array
+    // when the active variant is QList<Dog>).
+    SchemasModelsOneOf::Dog dogForContainer;
+    dogForContainer.setBark(true);
+    dogForContainer.setBreed("Lab"_L1);
+    SchemasModelsOneOf::Container dogListContainer;
+    dogListContainer.setOneOfQListDog({dogForContainer});
+     const QString dogListContainerJson("[{\"bark\":true,\"breed\":\"Lab\"}]"_L1);
+    root.setOneOfContainer(dogListContainer);
+    QTest::newRow("Set valid Container (QList<Dog>) via setter")
+        // root                         // expectedJson
+        << root                         << dogListContainerJson
+        // expectedJsonValue
+        << dogListContainer.asJsonValue()
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(0)                    << QString("[]"_L1)
+        // oneOf2ExpectedJson
+        << dogListContainerJson
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << false                        << false
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << false                        << false
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << true                         << true
+        // isValid                      // isSet
+        << true                         << true;
+
+    // Set an empty (invalid) Container via setter.
+    // Empty Container has isValid()=false and isSet()=false,
+    // so Root should have Container not set and not valid.
+    const SchemasModelsOneOf::Container emptyContainer;
+    root.setOneOfContainer(emptyContainer);
+    QTest::newRow("Set empty (invalid) Container via setter")
+        // root                         // expectedJson
+        << root                         << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(0)                    << QString("[]"_L1)
+        // oneOf2ExpectedJson
+        << QString("{}"_L1)
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << false                        << false
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << false                        << false
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << false                        << false
+        // isValid                      // isSet
+        << false                        << false;
+
+    // fromJson: integer value
+    root.fromJson("42"_L1);
+    QTest::newRow("Set qint32=42 via ::fromJson()")
+        // root                         // expectedJson
+        << root                         << QString("42"_L1)
+        // expectedJsonValue
+        << QJsonValue(42)
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(42)                   << QString("[]"_L1)
+        // oneOf2ExpectedJson
+        << QString("{}"_L1)
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << true                         << true
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << false                        << false
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << false                        << false
+        // isValid                      // isSet
+        << true                         << true;
+
+    // fromJson: zero integer
+    root.fromJson("0"_L1);
+    QTest::newRow("Set qint32=0 via ::fromJson()")
+        // root                         // expectedJson
+        << root                         << QString("0"_L1)
+        // expectedJsonValue
+        << QJsonValue(0)
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(0)                    << QString("[]"_L1)
+        // oneOf2ExpectedJson
+        << QString("{}"_L1)
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << true                         << true
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << false                        << false
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << false                        << false
+        // isValid                      // isSet
+        << true                         << true;
+
+    // fromJson: negative integer
+    root.fromJson("-100"_L1);
+    QTest::newRow("Set qint32=-100 via ::fromJson()")
+        // root                         // expectedJson
+        << root                         << QString("-100"_L1)
+        // expectedJsonValue
+        << QJsonValue(-100)
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(-100)                 << QString("[]"_L1)
+        // oneOf2ExpectedJson
+        << QString("{}"_L1)
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << true                         << true
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << false                        << false
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << false                        << false
+        // isValid                      // isSet
+        << true                         << true;
+
+    // fromJson: 3.14 => json.isDouble() but not an integer => qint32 fails => reset
+    root.fromJson("3.14"_L1);
+    QTest::newRow("Set double 3.14 via ::fromJson() (no double alternative)")
+        // root                         // expectedJson
+        << root                         << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(0)                    << QString("[]"_L1)
+        // oneOf2ExpectedJson
+        << QString("{}"_L1)
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << false                        << false
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << false                        << false
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << false                        << false
+        // isValid                      // isSet
+        << false                        << false;
+
+    // fromJson: nested array [[1,2],[3,4]]
+    root.fromJson("[[1,2],[3,4]]"_L1);
+    QTest::newRow("Set QList<QList<qint32>> via ::fromJson()")
+        // root                         // expectedJson
+        << root                         << QString("[[1,2],[3,4]]"_L1)
+        // expectedJsonValue
+        << root.asJsonValue()
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(0)                    << QString("[[1,2],[3,4]]"_L1)
+        // oneOf2ExpectedJson
+        << QString("{}"_L1)
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << false                        << false
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << true                         << true
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << false                        << false
+        // isValid                      // isSet
+        << true                         << true;
+
+    // fromJson: empty array => empty QList<QList<qint32>>, valid
+    root.fromJson("[]"_L1);
+    QTest::newRow("Set empty array via ::fromJson() => empty QList<QList<qint32>>")
+        // root                         // expectedJson
+        << root                         << QString("[]"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonArray())
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(0)                    << QString("[]"_L1)
+        // oneOf2ExpectedJson
+        << QString("{}"_L1)
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << false                        << false
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << true                         << true
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << false                        << false
+        // isValid                      // isSet
+        << true                         << true;
+
+    // fromJson: array of ints [1,2,3] => each element is int, not QList<qint32>
+    // => QList<QList<qint32>> parse fails => reset
+    root.fromJson("[1,2,3]"_L1);
+    QTest::newRow("Set [1,2,3] via ::fromJson() => fails QList<QList<qint32>>")
+        // root                         // expectedJson
+        << root                         << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(0)                    << QString("[]"_L1)
+        // oneOf2ExpectedJson
+        << QString("{}"_L1)
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << false                        << false
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << false                        << false
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << false                        << false
+        // isValid                      // isSet
+        << false                        << false;
+
+    // fromJson: Container_oneOf JSON object with a Duck value
+    root.fromJson(duckContainerJson);
+    QTest::newRow("Set Container (Container_oneOf with Duck) via ::fromJson()")
+        // root                         // expectedJson
+        << root                         << duckContainerJson
+        // expectedJsonValue
+        << root.asJsonValue()
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(0)                    << QString("[]"_L1)
+        // oneOf2ExpectedJson
+        << duckContainerJson
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << false                        << false
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << false                        << false
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << true                         << true
+        // isValid                      // isSet
+        << true                         << true;
+
+    // => Root Container is set and valid
+    root.fromJson("{}"_L1);
+    QTest::newRow("Set empty object {} via ::fromJson() => Container with empty object")
+        // root                         // expectedJson
+        << root                         << QString("{}"_L1)
+        // expectedJsonValue
+        << root.asJsonValue()
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(0)                    << QString("[]"_L1)
+        // oneOf2ExpectedJson
+        << QString("{}"_L1)
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << false                        << false
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << false                        << false
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << true                         << true
+        // isValid                      // isSet
+        << true                         << true;
+
+    root.fromJson(dogListContainerJson);
+    QTest::newRow("Set Container(QList<Dog>) JSON via ::fromJson() => no round-trip")
+        // root                         // expectedJson
+        << root                         << dogListContainerJson
+        // expectedJsonValue
+        << root.asJsonValue()
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(0)                    << QString("[]"_L1)
+        // oneOf2ExpectedJson
+        << dogListContainerJson
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << false                        << false
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << false                        << false
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << true                         << true
+        // isValid                      // isSet
+        << true                         << true;
+
+    // fromJson: bool value => no bool alternative => reset
+    root.fromJson("true"_L1);
+    QTest::newRow("Set bool 'true' via ::fromJson() => no bool alternative")
+        // root                         // expectedJson
+        << root                         << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(0)                    << QString("[]"_L1)
+        // oneOf2ExpectedJson
+        << QString("{}"_L1)
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << false                        << false
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << false                        << false
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << false                        << false
+        // isValid                      // isSet
+        << false                        << false;
+
+    // fromJson: string value => no string alternative => reset
+    root.fromJson("\"hello\""_L1);
+    QTest::newRow("Set string via ::fromJson() => no string alternative")
+        // root                         // expectedJson
+        << root                         << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(0)                    << QString("[]"_L1)
+        // oneOf2ExpectedJson
+        << QString("{}"_L1)
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << false                        << false
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << false                        << false
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << false                        << false
+        // isValid                      // isSet
+        << false                        << false;
+
+    // fromJson: invalid JSON => reset
+    root.fromJson("{invalid json}"_L1);
+    QTest::newRow("Set invalid JSON via ::fromJson() => reset")
+        // root                         // expectedJson
+        << root                         << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(0)                    << QString("[]"_L1)
+        // oneOf2ExpectedJson
+        << QString("{}"_L1)
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << false                        << false
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << false                        << false
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << false                        << false
+        // isValid                      // isSet
+        << false                        << false;
+
+    // fromJson: null => reset
+    root.fromJson("null"_L1);
+    QTest::newRow("Set null via ::fromJson() => reset")
+        // root                         // expectedJson
+        << root                         << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(0)                    << QString("[]"_L1)
+        // oneOf2ExpectedJson
+        << QString("{}"_L1)
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << false                        << false
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << false                        << false
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << false                        << false
+        // isValid                      // isSet
+        << false                        << false;
+
+    // fromJsonValue: integer
+    root.fromJsonValue(QJsonValue(99));
+    QTest::newRow("Set qint32=99 via ::fromJsonValue()")
+        // root                         // expectedJson
+        << root                         << QString("99"_L1)
+        // expectedJsonValue
+        << QJsonValue(99)
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(99)                   << QString("[]"_L1)
+        // oneOf2ExpectedJson
+        << QString("{}"_L1)
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << true                         << true
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << false                        << false
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << false                        << false
+        // isValid                      // isSet
+        << true                         << true;
+
+    // fromJsonValue: nested array
+    root.fromJsonValue(QJsonValue::fromJson("[[1,2],[3,4]]"));
+    QTest::newRow("Set QList<QList<qint32>> via ::fromJsonValue()")
+        // root                         // expectedJson
+        << root                         << QString("[[1,2],[3,4]]"_L1)
+        // expectedJsonValue
+        << root.asJsonValue()
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(0)                    << QString("[[1,2],[3,4]]"_L1)
+        // oneOf2ExpectedJson
+        << QString("{}"_L1)
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << false                        << false
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << true                         << true
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << false                        << false
+        // isValid                      // isSet
+        << true                         << true;
+
+    // fromJsonValue: valid Container object
+    root.fromJsonValue(validContainer.asJsonValue());
+    QTest::newRow("Set valid Container via ::fromJsonValue()")
+        // root                         // expectedJson
+        << root                         << duckContainerJson
+        // expectedJsonValue
+        << root.asJsonValue()
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(0)                    << QString("[]"_L1)
+        // oneOf2ExpectedJson
+        << duckContainerJson
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << false                        << false
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << false                        << false
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << true                         << true
+        // isValid                      // isSet
+        << true                         << true;
+
+    // Implicit construction from qint32
+    SchemasModelsOneOf::Root rootFromInt(7);
+    QTest::newRow("Implicitly construct Root from qint32=7")
+        // root                         // expectedJson
+        << rootFromInt                  << QString("7"_L1)
+        // expectedJsonValue
+        << QJsonValue(7)
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(7)                    << QString("[]"_L1)
+        // oneOf2ExpectedJson
+        << QString("{}"_L1)
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << true                         << true
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << false                        << false
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << false                        << false
+        // isValid                      // isSet
+        << true                         << true;
+
+    // Implicit construction from QList<QList<qint32>>
+    SchemasModelsOneOf::Root rootFromList(nestedList);
+    QTest::newRow("Implicitly construct Root from QList<QList<qint32>>")
+        // rootFromList                 // expectedJson
+        << rootFromList                 << QString("[[1,2],[3,4]]"_L1)
+        // expectedJsonValue
+        << rootFromList.asJsonValue()
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(0)                    << QString("[[1,2],[3,4]]"_L1)
+        // oneOf2ExpectedJson
+        << QString("{}"_L1)
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << false                        << false
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << true                         << true
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << false                        << false
+        // isValid                      // isSet
+        << true                         << true;
+
+    // Implicit construction from Container
+    SchemasModelsOneOf::Root rootFromContainer(validContainer);
+    QTest::newRow("Implicitly construct Root from valid Container")
+        // rootFromContainer            // expectedJson
+        << rootFromContainer            << duckContainerJson
+        // expectedJsonValue
+        << rootFromContainer.asJsonValue()
+        // oneOf0ExpectedValue          // oneOf1ExpectedJson
+        << qint32(0)                    << QString("[]"_L1)
+        // oneOf2ExpectedJson
+        << duckContainerJson
+        // isOneOfQint32Valid           // isOneOfQint32Set
+        << false                        << false
+        // isOneOfQListQListqint32Valid // isOneOfQListQListqint32Set
+        << false                        << false
+        // isOneOfContainerValid        // isOneOfContainerSet
+        << true                         << true
+        // isValid                      // isSet
+        << true                         << true;
+}
+
+void OneOfTest::testRootJsonConversionMethods()
+{
+    QFETCH(SchemasModelsOneOf::Root, root);
+    QFETCH(QString, expectedJson);
+    QFETCH(QJsonValue, expectedJsonValue);
+    QFETCH(qint32, oneOf0ExpectedValue);
+    QFETCH(QString, oneOf1ExpectedJson);
+    QFETCH(QString, oneOf2ExpectedJson);
+    QFETCH(bool, isOneOfQint32Valid);
+    QFETCH(bool, isOneOfQint32Set);
+    QFETCH(bool, isOneOfQListQListqint32Valid);
+    QFETCH(bool, isOneOfQListQListqint32Set);
+    QFETCH(bool, isOneOfContainerValid);
+    QFETCH(bool, isOneOfContainerSet);
+    QFETCH(bool, isValid);
+    QFETCH(bool, isSet);
+
+    QCOMPARE(root.asJson(), expectedJson);
+    QCOMPARE(root.asJsonValue(), expectedJsonValue);
+    QCOMPARE(root.getOneOfQint32(), oneOf0ExpectedValue);
+    QCOMPARE(root.isOneOfQint32Valid(), isOneOfQint32Valid);
+    QCOMPARE(root.isOneOfQint32Set(), isOneOfQint32Set);
+    QCOMPARE(listListInt32AsJson(root.getOneOfQListQListqint32()), oneOf1ExpectedJson);
+    QCOMPARE(root.isOneOfQListQListqint32Valid(), isOneOfQListQListqint32Valid);
+    QCOMPARE(root.isOneOfQListQListqint32Set(), isOneOfQListQListqint32Set);
+    QCOMPARE(root.getOneOfContainer().asJson(), oneOf2ExpectedJson);
+    QCOMPARE(root.isOneOfContainerValid(), isOneOfContainerValid);
+    QCOMPARE(root.isOneOfContainerSet(), isOneOfContainerSet);
+    QCOMPARE(root.isValid(), isValid);
+    QCOMPARE(root.isSet(), isSet);
+}
+
+// Helper: serialize QMap<QString, QMap<QString, qint32>> to compact JSON string
+static QString mapMapInt32AsJson(const QMap<QString, QMap<QString, qint32>> &v)
+{
+    QJsonObject outer;
+    for (const auto &[key, innerMap] : v.asKeyValueRange()) {
+        QJsonObject inner;
+        for (const auto &[innerKey, val] : innerMap.asKeyValueRange())
+            inner.insert(innerKey, val);
+        outer.insert(key, inner);
+    }
+    return QString::fromUtf8(QJsonDocument(outer).toJson(QJsonDocument::Compact));
+}
+
+// Helper: serialize QList<QMap<QString, qint32>> to compact JSON string
+static QString listMapInt32AsJson(const QList<QMap<QString, qint32>> &v)
+{
+    QJsonArray arr;
+    for (const auto &map : v) {
+        QJsonObject obj;
+        for (const auto &[key, val] : map.asKeyValueRange())
+            obj.insert(key, val);
+        arr.append(obj);
+    }
+    return QString::fromUtf8(QJsonDocument(arr).toJson(QJsonDocument::Compact));
+}
+
+void OneOfTest::testRootMapJsonConversionMethods_data()
+{
+    QTest::addColumn<SchemasModelsOneOf::RootMap>("rootMap");
+    QTest::addColumn<QString>("expectedJson");
+    QTest::addColumn<QJsonValue>("expectedJsonValue");
+    QTest::addColumn<QString>("oneOf0ExpectedJson");
+    QTest::addColumn<QString>("oneOf1ExpectedJson");
+    QTest::addColumn<bool>("isOneOfMapOfMapsValid");
+    QTest::addColumn<bool>("isOneOfMapOfMapsSet");
+    QTest::addColumn<bool>("isOneOfArrayOfMapsValid");
+    QTest::addColumn<bool>("isOneOfArrayOfMapsSet");
+    QTest::addColumn<bool>("isValid");
+    QTest::addColumn<bool>("isSet");
+
+    // RootMap has two oneOf alternatives:
+    // oneOf0: QMap<QString, QMap<QString, qint32>> - map of maps
+    // oneOf1: QList<QMap<QString, qint32>>         - array of maps
+
+    SchemasModelsOneOf::RootMap rootMap;
+    QTest::newRow("Empty RootMap object")
+        // rootMap                        // expectedJson
+        << rootMap                        << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("[]"_L1)
+        // isOneOfMapOfMapsValid          // isOneOfMapOfMapsSet
+        << false                          << false
+        // isOneOfArrayOfMapsValid        // isOneOfArrayOfMapsSet
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Set a valid map-of-maps via setter
+    QMap<QString, QMap<QString, qint32>> mapOfMaps;
+    mapOfMaps.insert("group1"_L1, {{"a"_L1, 1}, {"b"_L1, 2}});
+    mapOfMaps.insert("group2"_L1, {{"c"_L1, 3}});
+    rootMap.setOneOfQMapQStringQMapQStringqint32(mapOfMaps);
+    const QString mapOfMapsJson("{\"group1\":{\"a\":1,\"b\":2},\"group2\":{\"c\":3}}"_L1);
+    QTest::newRow("Set valid map-of-maps via setter")
+        // rootMap                        // expectedJson
+        << rootMap                        << mapOfMapsJson
+        // expectedJsonValue
+        << rootMap.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << mapOfMapsJson                  << QString("[]"_L1)
+        // isOneOfMapOfMapsValid          // isOneOfMapOfMapsSet
+        << true                           << true
+        // isOneOfArrayOfMapsValid        // isOneOfArrayOfMapsSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set an empty map-of-maps via setter (empty map is still valid)
+    const QMap<QString, QMap<QString, qint32>> emptyMapOfMaps;
+    rootMap.setOneOfQMapQStringQMapQStringqint32(emptyMapOfMaps);
+    QTest::newRow("Set empty map-of-maps via setter")
+        // rootMap                        // expectedJson
+        << rootMap                        << QString("{}"_L1)
+        // expectedJsonValue
+        << rootMap.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("[]"_L1)
+        // isOneOfMapOfMapsValid          // isOneOfMapOfMapsSet
+        << true                           << true
+        // isOneOfArrayOfMapsValid        // isOneOfArrayOfMapsSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set a valid array-of-maps via setter
+    QList<QMap<QString, qint32>> arrayOfMaps;
+    arrayOfMaps.append({{"x"_L1, 10}, {"y"_L1, 20}});
+    arrayOfMaps.append({{"z"_L1, 30}});
+    rootMap.setOneOfQListQMapQStringqint32(arrayOfMaps);
+    const QString arrayOfMapsJson("[{\"x\":10,\"y\":20},{\"z\":30}]"_L1);
+    QTest::newRow("Set valid array-of-maps via setter")
+        // rootMap                        // expectedJson
+        << rootMap                        << arrayOfMapsJson
+        // expectedJsonValue
+        << rootMap.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << arrayOfMapsJson
+        // isOneOfMapOfMapsValid          // isOneOfMapOfMapsSet
+        << false                          << false
+        // isOneOfArrayOfMapsValid        // isOneOfArrayOfMapsSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set an empty array-of-maps via setter (empty list is still valid)
+    const QList<QMap<QString, qint32>> emptyArrayOfMaps;
+    rootMap.setOneOfQListQMapQStringqint32(emptyArrayOfMaps);
+    QTest::newRow("Set empty array-of-maps via setter")
+        // rootMap                        // expectedJson
+        << rootMap                        << QString("[]"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonArray())
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("[]"_L1)
+        // isOneOfMapOfMapsValid          // isOneOfMapOfMapsSet
+        << false                          << false
+        // isOneOfArrayOfMapsValid        // isOneOfArrayOfMapsSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set single-entry map-of-maps via setter
+    QMap<QString, QMap<QString, qint32>> singleMapOfMaps;
+    singleMapOfMaps.insert("only"_L1, {{"val"_L1, 42}});
+    rootMap.setOneOfQMapQStringQMapQStringqint32(singleMapOfMaps);
+    const QString singleMapOfMapsJson("{\"only\":{\"val\":42}}"_L1);
+    QTest::newRow("Set single-entry map-of-maps via setter")
+        // rootMap                        // expectedJson
+        << rootMap                        << singleMapOfMapsJson
+        // expectedJsonValue
+        << rootMap.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << singleMapOfMapsJson            << QString("[]"_L1)
+        // isOneOfMapOfMapsValid          // isOneOfMapOfMapsSet
+        << true                           << true
+        // isOneOfArrayOfMapsValid        // isOneOfArrayOfMapsSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set single-entry array-of-maps via setter
+    QList<QMap<QString, qint32>> singleArrayOfMaps;
+    singleArrayOfMaps.append({{"key"_L1, 99}});
+    rootMap.setOneOfQListQMapQStringqint32(singleArrayOfMaps);
+    const QString singleArrayOfMapsJson("[{\"key\":99}]"_L1);
+    QTest::newRow("Set single-entry array-of-maps via setter")
+        // rootMap                        // expectedJson
+        << rootMap                        << singleArrayOfMapsJson
+        // expectedJsonValue
+        << rootMap.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << singleArrayOfMapsJson
+        // isOneOfMapOfMapsValid          // isOneOfMapOfMapsSet
+        << false                          << false
+        // isOneOfArrayOfMapsValid        // isOneOfArrayOfMapsSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson: valid map-of-maps JSON
+    rootMap.fromJson(mapOfMapsJson);
+    QTest::newRow("Set valid map-of-maps via ::fromJson()")
+        // rootMap                        // expectedJson
+        << rootMap                        << mapOfMapsJson
+        // expectedJsonValue
+        << rootMap.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << mapOfMapsJson                  << QString("[]"_L1)
+        // isOneOfMapOfMapsValid          // isOneOfMapOfMapsSet
+        << true                           << true
+        // isOneOfArrayOfMapsValid        // isOneOfArrayOfMapsSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson: valid array-of-maps JSON
+    rootMap.fromJson(arrayOfMapsJson);
+    QTest::newRow("Set valid array-of-maps via ::fromJson()")
+        // rootMap                        // expectedJson
+        << rootMap                        << arrayOfMapsJson
+        // expectedJsonValue
+        << rootMap.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << arrayOfMapsJson
+        // isOneOfMapOfMapsValid          // isOneOfMapOfMapsSet
+        << false                          << false
+        // isOneOfArrayOfMapsValid        // isOneOfArrayOfMapsSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson: empty object {} => map-of-maps
+    rootMap.fromJson("{}"_L1);
+    QTest::newRow("Set empty object {} via ::fromJson() => map-of-maps")
+        // rootMap                        // expectedJson
+        << rootMap                        << QString("{}"_L1)
+        // expectedJsonValue
+        << rootMap.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("[]"_L1)
+        // isOneOfMapOfMapsValid          // isOneOfMapOfMapsSet
+        << true                           << true
+        // isOneOfArrayOfMapsValid        // isOneOfArrayOfMapsSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson: empty array [] => array-of-maps
+    rootMap.fromJson("[]"_L1);
+    QTest::newRow("Set empty array [] via ::fromJson() => empty array-of-maps")
+        // rootMap                        // expectedJson
+        << rootMap                        << QString("[]"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonArray())
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("[]"_L1)
+        // isOneOfMapOfMapsValid          // isOneOfMapOfMapsSet
+        << false                          << false
+        // isOneOfArrayOfMapsValid        // isOneOfArrayOfMapsSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson: array of ints [1,2,3] => each element is int, not a map
+    // => QList<QMap<QString, qint32>> parse fails => reset
+    rootMap.fromJson("[1,2,3]"_L1);
+    QTest::newRow("Set [1,2,3] via ::fromJson() => fails array-of-maps")
+        // rootMap                        // expectedJson
+        << rootMap                        << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("[]"_L1)
+        // isOneOfMapOfMapsValid          // isOneOfMapOfMapsSet
+        << false                          << false
+        // isOneOfArrayOfMapsValid        // isOneOfArrayOfMapsSet
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // fromJson: integer value => no integer alternative => reset
+    rootMap.fromJson("42"_L1);
+    QTest::newRow("Set integer via ::fromJson() => no integer alternative")
+        // rootMap                        // expectedJson
+        << rootMap                        << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("[]"_L1)
+        // isOneOfMapOfMapsValid          // isOneOfMapOfMapsSet
+        << false                          << false
+        // isOneOfArrayOfMapsValid        // isOneOfArrayOfMapsSet
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // fromJson: bool value => no bool alternative => reset
+    rootMap.fromJson("true"_L1);
+    QTest::newRow("Set bool 'true' via ::fromJson() => no bool alternative")
+        // rootMap                        // expectedJson
+        << rootMap                        << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("[]"_L1)
+        // isOneOfMapOfMapsValid          // isOneOfMapOfMapsSet
+        << false                          << false
+        // isOneOfArrayOfMapsValid        // isOneOfArrayOfMapsSet
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // fromJson: string value => no string alternative => reset
+    rootMap.fromJson("\"hello\""_L1);
+    QTest::newRow("Set string via ::fromJson() => no string alternative")
+        // rootMap                        // expectedJson
+        << rootMap                        << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("[]"_L1)
+        // isOneOfMapOfMapsValid          // isOneOfMapOfMapsSet
+        << false                          << false
+        // isOneOfArrayOfMapsValid        // isOneOfArrayOfMapsSet
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // fromJson: invalid JSON => reset
+    rootMap.fromJson("{invalid json}"_L1);
+    QTest::newRow("Set invalid JSON via ::fromJson() => reset")
+        // rootMap                        // expectedJson
+        << rootMap                        << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("[]"_L1)
+        // isOneOfMapOfMapsValid          // isOneOfMapOfMapsSet
+        << false                          << false
+        // isOneOfArrayOfMapsValid        // isOneOfArrayOfMapsSet
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // fromJson: null => reset
+    rootMap.fromJson("null"_L1);
+    QTest::newRow("Set null via ::fromJson() => reset")
+        // rootMap                        // expectedJson
+        << rootMap                        << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("[]"_L1)
+        // isOneOfMapOfMapsValid          // isOneOfMapOfMapsSet
+        << false                          << false
+        // isOneOfArrayOfMapsValid        // isOneOfArrayOfMapsSet
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // fromJsonValue: valid map-of-maps object
+    rootMap.fromJsonValue(QJsonValue::fromJson(mapOfMapsJson.toUtf8()));
+    QTest::newRow("Set valid map-of-maps via ::fromJsonValue()")
+        // rootMap                        // expectedJson
+        << rootMap                        << mapOfMapsJson
+        // expectedJsonValue
+        << rootMap.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << mapOfMapsJson                  << QString("[]"_L1)
+        // isOneOfMapOfMapsValid          // isOneOfMapOfMapsSet
+        << true                           << true
+        // isOneOfArrayOfMapsValid        // isOneOfArrayOfMapsSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJsonValue: valid array-of-maps
+    rootMap.fromJsonValue(QJsonValue::fromJson(arrayOfMapsJson.toUtf8()));
+    QTest::newRow("Set valid array-of-maps via ::fromJsonValue()")
+        // rootMap                        // expectedJson
+        << rootMap                        << arrayOfMapsJson
+        // expectedJsonValue
+        << rootMap.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << arrayOfMapsJson
+        // isOneOfMapOfMapsValid          // isOneOfMapOfMapsSet
+        << false                          << false
+        // isOneOfArrayOfMapsValid        // isOneOfArrayOfMapsSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJsonValue: empty QJsonObject => map-of-maps
+    rootMap.fromJsonValue(QJsonValue(QJsonObject()));
+    QTest::newRow("Set empty QJsonObject via ::fromJsonValue() => map-of-maps")
+        // rootMap                        // expectedJson
+        << rootMap                        << QString("{}"_L1)
+        // expectedJsonValue
+        << rootMap.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("[]"_L1)
+        // isOneOfMapOfMapsValid          // isOneOfMapOfMapsSet
+        << true                           << true
+        // isOneOfArrayOfMapsValid        // isOneOfArrayOfMapsSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJsonValue: empty QJsonArray => array-of-maps
+    rootMap.fromJsonValue(QJsonValue(QJsonArray()));
+    QTest::newRow("Set empty QJsonArray via ::fromJsonValue() => array-of-maps")
+        // rootMap                        // expectedJson
+        << rootMap                        << QString("[]"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonArray())
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("[]"_L1)
+        // isOneOfMapOfMapsValid          // isOneOfMapOfMapsSet
+        << false                          << false
+        // isOneOfArrayOfMapsValid        // isOneOfArrayOfMapsSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Implicit construction from QMap<QString, QMap<QString, qint32>>
+    SchemasModelsOneOf::RootMap rootFromMap(mapOfMaps);
+    QTest::newRow("Implicitly construct RootMap from map-of-maps")
+        // rootFromMap                    // expectedJson
+        << rootFromMap                    << mapOfMapsJson
+        // expectedJsonValue
+        << rootFromMap.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << mapOfMapsJson                  << QString("[]"_L1)
+        // isOneOfMapOfMapsValid          // isOneOfMapOfMapsSet
+        << true                           << true
+        // isOneOfArrayOfMapsValid        // isOneOfArrayOfMapsSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Implicit construction from QList<QMap<QString, qint32>>
+    SchemasModelsOneOf::RootMap rootFromList(arrayOfMaps);
+    QTest::newRow("Implicitly construct RootMap from array-of-maps")
+        // rootFromList                   // expectedJson
+        << rootFromList                   << arrayOfMapsJson
+        // expectedJsonValue
+        << rootFromList.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << arrayOfMapsJson
+        // isOneOfMapOfMapsValid          // isOneOfMapOfMapsSet
+        << false                          << false
+        // isOneOfArrayOfMapsValid        // isOneOfArrayOfMapsSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Override map-of-maps with array-of-maps via setter
+    rootMap.setOneOfQMapQStringQMapQStringqint32(mapOfMaps);
+    rootMap.setOneOfQListQMapQStringqint32(arrayOfMaps);
+    QTest::newRow("Override map-of-maps with array-of-maps via setter")
+        // rootMap                        // expectedJson
+        << rootMap                        << arrayOfMapsJson
+        // expectedJsonValue
+        << rootMap.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << arrayOfMapsJson
+        // isOneOfMapOfMapsValid          // isOneOfMapOfMapsSet
+        << false                          << false
+        // isOneOfArrayOfMapsValid        // isOneOfArrayOfMapsSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Override array-of-maps with map-of-maps via setter
+    rootMap.setOneOfQListQMapQStringqint32(arrayOfMaps);
+    rootMap.setOneOfQMapQStringQMapQStringqint32(mapOfMaps);
+    QTest::newRow("Override array-of-maps with map-of-maps via setter")
+        // rootMap                        // expectedJson
+        << rootMap                        << mapOfMapsJson
+        // expectedJsonValue
+        << rootMap.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << mapOfMapsJson                  << QString("[]"_L1)
+        // isOneOfMapOfMapsValid          // isOneOfMapOfMapsSet
+        << true                           << true
+        // isOneOfArrayOfMapsValid        // isOneOfArrayOfMapsSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson: map-of-maps with negative values
+    const QString negMapJson("{\"neg\":{\"val\":-5}}"_L1);
+    rootMap.fromJson(negMapJson);
+    QTest::newRow("Set map-of-maps with negative values via ::fromJson()")
+        // rootMap                        // expectedJson
+        << rootMap                        << negMapJson
+        // expectedJsonValue
+        << rootMap.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << negMapJson                     << QString("[]"_L1)
+        // isOneOfMapOfMapsValid          // isOneOfMapOfMapsSet
+        << true                           << true
+        // isOneOfArrayOfMapsValid        // isOneOfArrayOfMapsSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson: array-of-maps with empty inner maps
+    const QString emptyInnerJson("[{},{}]"_L1);
+    rootMap.fromJson(emptyInnerJson);
+    QTest::newRow("Set array-of-maps with empty inner maps via ::fromJson()")
+        // rootMap                        // expectedJson
+        << rootMap                        << emptyInnerJson
+        // expectedJsonValue
+        << rootMap.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << emptyInnerJson
+        // isOneOfMapOfMapsValid          // isOneOfMapOfMapsSet
+        << false                          << false
+        // isOneOfArrayOfMapsValid        // isOneOfArrayOfMapsSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+}
+
+void OneOfTest::testRootMapJsonConversionMethods()
+{
+    QFETCH(SchemasModelsOneOf::RootMap, rootMap);
+    QFETCH(QString, expectedJson);
+    QFETCH(QJsonValue, expectedJsonValue);
+    QFETCH(QString, oneOf0ExpectedJson);
+    QFETCH(QString, oneOf1ExpectedJson);
+    QFETCH(bool, isOneOfMapOfMapsValid);
+    QFETCH(bool, isOneOfMapOfMapsSet);
+    QFETCH(bool, isOneOfArrayOfMapsValid);
+    QFETCH(bool, isOneOfArrayOfMapsSet);
+    QFETCH(bool, isValid);
+    QFETCH(bool, isSet);
+
+    QCOMPARE(rootMap.asJson(), expectedJson);
+    QCOMPARE(rootMap.asJsonValue(), expectedJsonValue);
+    QCOMPARE(mapMapInt32AsJson(rootMap.getOneOfQMapQStringQMapQStringqint32()),
+             oneOf0ExpectedJson);
+    QCOMPARE(rootMap.isOneOfQMapQStringQMapQStringqint32Valid(),
+             isOneOfMapOfMapsValid);
+    QCOMPARE(rootMap.isOneOfQMapQStringQMapQStringqint32Set(),
+             isOneOfMapOfMapsSet);
+    QCOMPARE(listMapInt32AsJson(rootMap.getOneOfQListQMapQStringqint32()),
+             oneOf1ExpectedJson);
+    QCOMPARE(rootMap.isOneOfQListQMapQStringqint32Valid(),
+             isOneOfArrayOfMapsValid);
+    QCOMPARE(rootMap.isOneOfQListQMapQStringqint32Set(),
+             isOneOfArrayOfMapsSet);
+    QCOMPARE(rootMap.isValid(), isValid);
+    QCOMPARE(rootMap.isSet(), isSet);
+}
+
+// Helper: serialize QMap<QString, Dog> to compact JSON string
+static QString mapDogAsJson(const QMap<QString, SchemasModelsOneOf::Dog> &v)
+{
+    QJsonObject outer;
+    for (const auto &[key, dog] : v.asKeyValueRange())
+        outer.insert(key, dog.asJsonValue());
+    return QString::fromUtf8(QJsonDocument(outer).toJson(QJsonDocument::Compact));
+}
+
+// Helper: serialize QList<QMap<QString, Duck>> to compact JSON string
+static QString listMapDuckAsJson(const QList<QMap<QString, SchemasModelsOneOf::Duck>> &v)
+{
+    QJsonArray arr;
+    for (const auto &map : v) {
+        QJsonObject obj;
+        for (const auto &[key, duck] : map.asKeyValueRange())
+            obj.insert(key, duck.asJsonValue());
+        arr.append(obj);
+    }
+    return QString::fromUtf8(QJsonDocument(arr).toJson(QJsonDocument::Compact));
+}
+
+void OneOfTest::testRootMapModelsJsonConversionMethods_data()
+{
+    QTest::addColumn<SchemasModelsOneOf::RootMapModels>("rootMapModels");
+    QTest::addColumn<QString>("expectedJson");
+    QTest::addColumn<QJsonValue>("expectedJsonValue");
+    QTest::addColumn<QString>("oneOf0ExpectedJson");
+    QTest::addColumn<QString>("oneOf1ExpectedJson");
+    QTest::addColumn<bool>("isOneOfMapOfDogsValid");
+    QTest::addColumn<bool>("isOneOfMapOfDogsSet");
+    QTest::addColumn<bool>("isOneOfArrayOfMapDucksValid");
+    QTest::addColumn<bool>("isOneOfArrayOfMapDucksSet");
+    QTest::addColumn<bool>("isValid");
+    QTest::addColumn<bool>("isSet");
+
+    // RootMapModels has two oneOf alternatives:
+    // oneOf0: QMap<QString, Dog>         - map of Dog models
+    // oneOf1: QList<QMap<QString, Duck>> - array of maps of Duck models
+    SchemasModelsOneOf::RootMapModels rootMapModels;
+    QTest::newRow("Empty RootMapModels object")
+        // rootMapModels                  // expectedJson
+        << rootMapModels                  << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("[]"_L1)
+        // isOneOfMapOfDogsValid          // isOneOfMapOfDogsSet
+        << false                          << false
+        // isOneOfArrayOfMapDucksValid    // isOneOfArrayOfMapDucksSet
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // Set a valid map-of-Dogs via setter
+    SchemasModelsOneOf::Dog dog1;
+    dog1.setBark(true);
+    dog1.setBreed("Husky"_L1);
+    SchemasModelsOneOf::Dog dog2;
+    dog2.setBark(false);
+    dog2.setBreed("Dingo"_L1);
+    QMap<QString, SchemasModelsOneOf::Dog> mapOfDogs;
+    mapOfDogs.insert("rex"_L1, dog1);
+    mapOfDogs.insert("fido"_L1, dog2);
+    rootMapModels.setOneOfQMapQStringDog(mapOfDogs);
+    const QString mapOfDogsJson = mapDogAsJson(mapOfDogs);
+    QTest::newRow("Set valid map-of-Dogs via setter")
+        // rootMapModels                  // expectedJson
+        << rootMapModels                  << mapOfDogsJson
+        // expectedJsonValue
+        << rootMapModels.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << mapOfDogsJson                  << QString("[]"_L1)
+        // isOneOfMapOfDogsValid          // isOneOfMapOfDogsSet
+        << true                           << true
+        // isOneOfArrayOfMapDucksValid    // isOneOfArrayOfMapDucksSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set an empty map-of-Dogs via setter (empty map is still valid)
+    const QMap<QString, SchemasModelsOneOf::Dog> emptyMapOfDogs;
+    rootMapModels.setOneOfQMapQStringDog(emptyMapOfDogs);
+    QTest::newRow("Set empty map-of-Dogs via setter")
+        // rootMapModels                  // expectedJson
+        << rootMapModels                  << QString("{}"_L1)
+        // expectedJsonValue
+        << rootMapModels.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("[]"_L1)
+        // isOneOfMapOfDogsValid          // isOneOfMapOfDogsSet
+        << true                           << true
+        // isOneOfArrayOfMapDucksValid    // isOneOfArrayOfMapDucksSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set a valid array-of-maps-of-Ducks via setter
+    SchemasModelsOneOf::Duck duck1;
+    duck1.setHunts(true);
+    duck1.setAge(3);
+    SchemasModelsOneOf::Duck duck2;
+    duck2.setHunts(false);
+    duck2.setAge(5);
+    QList<QMap<QString, SchemasModelsOneOf::Duck>> arrayOfMapDucks;
+    arrayOfMapDucks.append({{"donald"_L1, duck1}, {"daisy"_L1, duck2}});
+    arrayOfMapDucks.append({{"scrooge"_L1, duck1}});
+    rootMapModels.setOneOfQListQMapQStringDuck(arrayOfMapDucks);
+    const QString arrayOfMapDucksJson = listMapDuckAsJson(arrayOfMapDucks);
+    QTest::newRow("Set valid array-of-map-Ducks via setter")
+        // rootMapModels                  // expectedJson
+        << rootMapModels                  << arrayOfMapDucksJson
+        // expectedJsonValue
+        << rootMapModels.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << arrayOfMapDucksJson
+        // isOneOfMapOfDogsValid          // isOneOfMapOfDogsSet
+        << false                          << false
+        // isOneOfArrayOfMapDucksValid    // isOneOfArrayOfMapDucksSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set an empty array-of-maps-of-Ducks via setter (empty list is still valid)
+    const QList<QMap<QString, SchemasModelsOneOf::Duck>> emptyArrayOfMapDucks;
+    rootMapModels.setOneOfQListQMapQStringDuck(emptyArrayOfMapDucks);
+    QTest::newRow("Set empty array-of-map-Ducks via setter")
+        // rootMapModels                  // expectedJson
+        << rootMapModels                  << QString("[]"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonArray())
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("[]"_L1)
+        // isOneOfMapOfDogsValid          // isOneOfMapOfDogsSet
+        << false                          << false
+        // isOneOfArrayOfMapDucksValid    // isOneOfArrayOfMapDucksSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set single-entry map-of-Dogs via setter
+    QMap<QString, SchemasModelsOneOf::Dog> singleMapOfDogs;
+    singleMapOfDogs.insert("buddy"_L1, dog1);
+    rootMapModels.setOneOfQMapQStringDog(singleMapOfDogs);
+    const QString singleMapOfDogsJson = mapDogAsJson(singleMapOfDogs);
+    QTest::newRow("Set single-entry map-of-Dogs via setter")
+        // rootMapModels                  // expectedJson
+        << rootMapModels                  << singleMapOfDogsJson
+        // expectedJsonValue
+        << rootMapModels.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << singleMapOfDogsJson            << QString("[]"_L1)
+        // isOneOfMapOfDogsValid          // isOneOfMapOfDogsSet
+        << true                           << true
+        // isOneOfArrayOfMapDucksValid    // isOneOfArrayOfMapDucksSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Set single-entry array-of-maps-of-Ducks via setter
+    QList<QMap<QString, SchemasModelsOneOf::Duck>> singleArrayOfMapDucks;
+    singleArrayOfMapDucks.append({{"quack"_L1, duck2}});
+    rootMapModels.setOneOfQListQMapQStringDuck(singleArrayOfMapDucks);
+    const QString singleArrayOfMapDucksJson = listMapDuckAsJson(singleArrayOfMapDucks);
+    QTest::newRow("Set single-entry array-of-map-Ducks via setter")
+        // rootMapModels                  // expectedJson
+        << rootMapModels                  << singleArrayOfMapDucksJson
+        // expectedJsonValue
+        << rootMapModels.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << singleArrayOfMapDucksJson
+        // isOneOfMapOfDogsValid          // isOneOfMapOfDogsSet
+        << false                          << false
+        // isOneOfArrayOfMapDucksValid    // isOneOfArrayOfMapDucksSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson: valid map-of-Dogs JSON
+    rootMapModels.fromJson(mapOfDogsJson);
+    QTest::newRow("Set valid map-of-Dogs via ::fromJson()")
+        // rootMapModels                  // expectedJson
+        << rootMapModels                  << mapOfDogsJson
+        // expectedJsonValue
+        << rootMapModels.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << mapOfDogsJson                  << QString("[]"_L1)
+        // isOneOfMapOfDogsValid          // isOneOfMapOfDogsSet
+        << true                           << true
+        // isOneOfArrayOfMapDucksValid    // isOneOfArrayOfMapDucksSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson: valid array-of-maps-of-Ducks JSON
+    rootMapModels.fromJson(arrayOfMapDucksJson);
+    QTest::newRow("Set valid array-of-map-Ducks via ::fromJson()")
+        // rootMapModels                  // expectedJson
+        << rootMapModels                  << arrayOfMapDucksJson
+        // expectedJsonValue
+        << rootMapModels.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << arrayOfMapDucksJson
+        // isOneOfMapOfDogsValid          // isOneOfMapOfDogsSet
+        << false                          << false
+        // isOneOfArrayOfMapDucksValid    // isOneOfArrayOfMapDucksSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson: empty object {}
+    rootMapModels.fromJson("{}"_L1);
+    QTest::newRow("Set empty object {} via ::fromJson()")
+        // rootMapModels                  // expectedJson
+        << rootMapModels                  << QString("{}"_L1)
+        // expectedJsonValue
+        << rootMapModels.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("[]"_L1)
+        // isOneOfMapOfDogsValid          // isOneOfMapOfDogsSet
+        << true                           << true
+        // isOneOfArrayOfMapDucksValid    // isOneOfArrayOfMapDucksSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson: empty array [] => array-of-maps-of-Ducks
+    rootMapModels.fromJson("[]"_L1);
+    QTest::newRow("Set empty array [] via ::fromJson() => empty array-of-map-Ducks")
+        // rootMapModels                  // expectedJson
+        << rootMapModels                  << QString("[]"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonArray())
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("[]"_L1)
+        // isOneOfMapOfDogsValid          // isOneOfMapOfDogsSet
+        << false                          << false
+        // isOneOfArrayOfMapDucksValid    // isOneOfArrayOfMapDucksSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson: array of ints [1,2,3] => each element is int, not a map
+    rootMapModels.fromJson("[1,2,3]"_L1);
+    QTest::newRow("Set [1,2,3] via ::fromJson() => fails array-of-map-Ducks")
+        // rootMapModels                  // expectedJson
+        << rootMapModels                  << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("[]"_L1)
+        // isOneOfMapOfDogsValid          // isOneOfMapOfDogsSet
+        << false                          << false
+        // isOneOfArrayOfMapDucksValid    // isOneOfArrayOfMapDucksSet
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // fromJson: integer value => no integer alternative => reset
+    rootMapModels.fromJson("42"_L1);
+    QTest::newRow("Set integer via ::fromJson() => no integer alternative")
+        // rootMapModels                  // expectedJson
+        << rootMapModels                  << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("[]"_L1)
+        // isOneOfMapOfDogsValid          // isOneOfMapOfDogsSet
+        << false                          << false
+        // isOneOfArrayOfMapDucksValid    // isOneOfArrayOfMapDucksSet
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // fromJson: bool value => no bool alternative => reset
+    rootMapModels.fromJson("true"_L1);
+    QTest::newRow("Set bool 'true' via ::fromJson() => no bool alternative")
+        // rootMapModels                  // expectedJson
+        << rootMapModels                  << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("[]"_L1)
+        // isOneOfMapOfDogsValid          // isOneOfMapOfDogsSet
+        << false                          << false
+        // isOneOfArrayOfMapDucksValid    // isOneOfArrayOfMapDucksSet
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // fromJson: string value => no string alternative => reset
+    rootMapModels.fromJson("\"hello\""_L1);
+    QTest::newRow("Set string via ::fromJson() => no string alternative")
+        // rootMapModels                  // expectedJson
+        << rootMapModels                  << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("[]"_L1)
+        // isOneOfMapOfDogsValid          // isOneOfMapOfDogsSet
+        << false                          << false
+        // isOneOfArrayOfMapDucksValid    // isOneOfArrayOfMapDucksSet
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // fromJson: invalid JSON => reset
+    rootMapModels.fromJson("{invalid json}"_L1);
+    QTest::newRow("Set invalid JSON via ::fromJson() => reset")
+        // rootMapModels                  // expectedJson
+        << rootMapModels                  << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("[]"_L1)
+        // isOneOfMapOfDogsValid          // isOneOfMapOfDogsSet
+        << false                          << false
+        // isOneOfArrayOfMapDucksValid    // isOneOfArrayOfMapDucksSet
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // fromJson: null => reset
+    rootMapModels.fromJson("null"_L1);
+    QTest::newRow("Set null via ::fromJson() => reset")
+        // rootMapModels                  // expectedJson
+        << rootMapModels                  << QString("{}"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonObject())
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("[]"_L1)
+        // isOneOfMapOfDogsValid          // isOneOfMapOfDogsSet
+        << false                          << false
+        // isOneOfArrayOfMapDucksValid    // isOneOfArrayOfMapDucksSet
+        << false                          << false
+        // isValid                        // isSet
+        << false                          << false;
+
+    // fromJsonValue: valid map-of-Dogs object
+    rootMapModels.fromJsonValue(QJsonValue::fromJson(mapOfDogsJson.toUtf8()));
+    QTest::newRow("Set valid map-of-Dogs via ::fromJsonValue()")
+        // rootMapModels                  // expectedJson
+        << rootMapModels                  << mapOfDogsJson
+        // expectedJsonValue
+        << rootMapModels.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << mapOfDogsJson                  << QString("[]"_L1)
+        // isOneOfMapOfDogsValid          // isOneOfMapOfDogsSet
+        << true                           << true
+        // isOneOfArrayOfMapDucksValid    // isOneOfArrayOfMapDucksSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJsonValue: valid array-of-maps-of-Ducks
+    rootMapModels.fromJsonValue(QJsonValue::fromJson(arrayOfMapDucksJson.toUtf8()));
+    // !!! ERROR: map-of-Dogs valid/set flags are not reset when array-of-Ducks wins
+    QTest::newRow("Set valid array-of-map-Ducks via ::fromJsonValue()")
+        // rootMapModels                  // expectedJson
+        << rootMapModels                  << arrayOfMapDucksJson
+        // expectedJsonValue
+        << rootMapModels.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << arrayOfMapDucksJson
+        // isOneOfMapOfDogsValid          // isOneOfMapOfDogsSet
+        << false                          << false
+        // isOneOfArrayOfMapDucksValid    // isOneOfArrayOfMapDucksSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJsonValue: empty QJsonObject => map-of-Dogs wins
+    rootMapModels.fromJsonValue(QJsonValue(QJsonObject()));
+    QTest::newRow("Set empty QJsonObject via ::fromJsonValue()")
+        // rootMapModels                  // expectedJson
+        << rootMapModels                  << QString("{}"_L1)
+        // expectedJsonValue
+        << rootMapModels.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("[]"_L1)
+        // isOneOfMapOfDogsValid          // isOneOfMapOfDogsSet
+        << true                           << true
+        // isOneOfArrayOfMapDucksValid    // isOneOfArrayOfMapDucksSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJsonValue: empty QJsonArray => array-of-maps-of-Ducks
+    rootMapModels.fromJsonValue(QJsonValue(QJsonArray()));
+    QTest::newRow("Set empty QJsonArray via ::fromJsonValue() => array-of-map-Ducks")
+        // rootMapModels                  // expectedJson
+        << rootMapModels                  << QString("[]"_L1)
+        // expectedJsonValue
+        << QJsonValue(QJsonArray())
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << QString("[]"_L1)
+        // isOneOfMapOfDogsValid          // isOneOfMapOfDogsSet
+        << false                          << false
+        // isOneOfArrayOfMapDucksValid    // isOneOfArrayOfMapDucksSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Implicit construction from QMap<QString, Dog>
+    SchemasModelsOneOf::RootMapModels rootFromMap(mapOfDogs);
+    QTest::newRow("Implicitly construct RootMapModels from map-of-Dogs")
+        // rootFromMap                    // expectedJson
+        << rootFromMap                    << mapOfDogsJson
+        // expectedJsonValue
+        << rootFromMap.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << mapOfDogsJson                  << QString("[]"_L1)
+        // isOneOfMapOfDogsValid          // isOneOfMapOfDogsSet
+        << true                           << true
+        // isOneOfArrayOfMapDucksValid    // isOneOfArrayOfMapDucksSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Implicit construction from QList<QMap<QString, Duck>>
+    SchemasModelsOneOf::RootMapModels rootFromList(arrayOfMapDucks);
+    QTest::newRow("Implicitly construct RootMapModels from array-of-map-Ducks")
+        // rootFromList                   // expectedJson
+        << rootFromList                   << arrayOfMapDucksJson
+        // expectedJsonValue
+        << rootFromList.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << arrayOfMapDucksJson
+        // isOneOfMapOfDogsValid          // isOneOfMapOfDogsSet
+        << false                          << false
+        // isOneOfArrayOfMapDucksValid    // isOneOfArrayOfMapDucksSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Override map-of-Dogs with array-of-maps-of-Ducks via setter
+    rootMapModels.setOneOfQMapQStringDog(mapOfDogs);
+    rootMapModels.setOneOfQListQMapQStringDuck(arrayOfMapDucks);
+    QTest::newRow("Override map-of-Dogs with array-of-map-Ducks via setter")
+        // rootMapModels                  // expectedJson
+        << rootMapModels                  << arrayOfMapDucksJson
+        // expectedJsonValue
+        << rootMapModels.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << arrayOfMapDucksJson
+        // isOneOfMapOfDogsValid          // isOneOfMapOfDogsSet
+        << false                          << false
+        // isOneOfArrayOfMapDucksValid    // isOneOfArrayOfMapDucksSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+
+    // Override array-of-maps-of-Ducks with map-of-Dogs via setter
+    rootMapModels.setOneOfQListQMapQStringDuck(arrayOfMapDucks);
+    rootMapModels.setOneOfQMapQStringDog(mapOfDogs);
+    QTest::newRow("Override array-of-map-Ducks with map-of-Dogs via setter")
+        // rootMapModels                  // expectedJson
+        << rootMapModels                  << mapOfDogsJson
+        // expectedJsonValue
+        << rootMapModels.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << mapOfDogsJson                  << QString("[]"_L1)
+        // isOneOfMapOfDogsValid          // isOneOfMapOfDogsSet
+        << true                           << true
+        // isOneOfArrayOfMapDucksValid    // isOneOfArrayOfMapDucksSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson: map with Dog that has only required field (bark)
+    const QString minimalDogMapJson("{\"spot\":{\"bark\":true}}"_L1);
+    rootMapModels.fromJson(minimalDogMapJson);
+    QTest::newRow("Set map-of-Dogs with minimal Dog (bark only) via ::fromJson()")
+        // rootMapModels                  // expectedJson
+        << rootMapModels                  << minimalDogMapJson
+        // expectedJsonValue
+        << rootMapModels.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << minimalDogMapJson              << QString("[]"_L1)
+        // isOneOfMapOfDogsValid          // isOneOfMapOfDogsSet
+        << true                           << true
+        // isOneOfArrayOfMapDucksValid    // isOneOfArrayOfMapDucksSet
+        << false                          << false
+        // isValid                        // isSet
+        << true                           << true;
+
+    // fromJson: array with maps of Ducks with empty inner maps
+    const QString emptyInnerDucksJson("[{},{}]"_L1);
+    rootMapModels.fromJson(emptyInnerDucksJson);
+    QTest::newRow("Set array-of-map-Ducks with empty inner maps via ::fromJson()")
+        // rootMapModels                  // expectedJson
+        << rootMapModels                  << emptyInnerDucksJson
+        // expectedJsonValue
+        << rootMapModels.asJsonValue()
+        // oneOf0ExpectedJson             // oneOf1ExpectedJson
+        << QString("{}"_L1)               << emptyInnerDucksJson
+        // isOneOfMapOfDogsValid          // isOneOfMapOfDogsSet
+        << false                          << false
+        // isOneOfArrayOfMapDucksValid    // isOneOfArrayOfMapDucksSet
+        << true                           << true
+        // isValid                        // isSet
+        << true                           << true;
+}
+
+void OneOfTest::testRootMapModelsJsonConversionMethods()
+{
+    QFETCH(SchemasModelsOneOf::RootMapModels, rootMapModels);
+    QFETCH(QString, expectedJson);
+    QFETCH(QJsonValue, expectedJsonValue);
+    QFETCH(QString, oneOf0ExpectedJson);
+    QFETCH(QString, oneOf1ExpectedJson);
+    QFETCH(bool, isOneOfMapOfDogsValid);
+    QFETCH(bool, isOneOfMapOfDogsSet);
+    QFETCH(bool, isOneOfArrayOfMapDucksValid);
+    QFETCH(bool, isOneOfArrayOfMapDucksSet);
+    QFETCH(bool, isValid);
+    QFETCH(bool, isSet);
+
+    QCOMPARE(rootMapModels.asJson(), expectedJson);
+    QCOMPARE(rootMapModels.asJsonValue(), expectedJsonValue);
+    QCOMPARE(mapDogAsJson(rootMapModels.getOneOfQMapQStringDog()),
+             oneOf0ExpectedJson);
+    QCOMPARE(rootMapModels.isOneOfQMapQStringDogValid(),
+             isOneOfMapOfDogsValid);
+    QCOMPARE(rootMapModels.isOneOfQMapQStringDogSet(),
+             isOneOfMapOfDogsSet);
+    QCOMPARE(listMapDuckAsJson(rootMapModels.getOneOfQListQMapQStringDuck()),
+             oneOf1ExpectedJson);
+    QCOMPARE(rootMapModels.isOneOfQListQMapQStringDuckValid(),
+             isOneOfArrayOfMapDucksValid);
+    QCOMPARE(rootMapModels.isOneOfQListQMapQStringDuckSet(),
+             isOneOfArrayOfMapDucksSet);
+    QCOMPARE(rootMapModels.isValid(), isValid);
+    QCOMPARE(rootMapModels.isSet(), isSet);
 }
 
 QTEST_MAIN(OneOfTest)

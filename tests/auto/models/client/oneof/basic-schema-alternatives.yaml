@@ -185,6 +185,42 @@ paths:
       responses:
         "200":
           description: Updated
+  /testyTest:
+    post:
+      operationId: postTest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Root'
+      responses:
+              '200':
+                description: OK
+  /testyTestMap:
+    post:
+      operationId: postTestMap
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RootMap'
+      responses:
+              '200':
+                description: OK
+  /testyTestMapModels:
+    post:
+      operationId: postTestMapModels
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RootMapModels'
+      responses:
+              '200':
+                description: OK
 components:
   schemas:
     Pet:
@@ -254,3 +290,43 @@ components:
       type: object
       oneOf:
         - {}
+    Root:
+      oneOf:
+        - type: integer
+        - type: array
+          items:
+            type: array
+            items:
+              type: integer
+        - $ref: '#/components/schemas/Container'
+    RootMap:
+      oneOf:
+        - type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: integer
+        - type: array
+          items:
+            type: object
+            additionalProperties:
+              type: integer
+    Container:
+      oneOf:
+        - type: object
+          properties:
+            value:
+              $ref: '#/components/schemas/Duck'
+        - type: array
+          items:
+            $ref: '#/components/schemas/Dog'
+    RootMapModels:
+      oneOf:
+        - type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Dog'
+        - type: array
+          items:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/Duck'
