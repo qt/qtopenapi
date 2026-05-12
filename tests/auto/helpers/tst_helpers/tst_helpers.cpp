@@ -7,6 +7,7 @@
 
 #include <QtCore/qobject.h>
 #include <QtCore/qscopeguard.h>
+#include <QtCore/qtemporaryfile.h>
 #include <QtTest/qtest.h>
 
 #include <limits>
@@ -43,6 +44,7 @@ private Q_SLOTS:
     void fromByteArray_enum();
     void fromByteArray_object_data();
     void fromByteArray_object();
+    void fromByteArray_httpFileElement();
 };
 
 void tst_Helpers::fromByteArray_QString_data()
@@ -429,6 +431,37 @@ void tst_Helpers::fromByteArray_object()
     QCOMPARE(ok, expectedOk);
     QCOMPARE(result.isSet(), expectedIsSet);
     QCOMPARE(result.asJson(), expectedJson);
+}
+
+// bool fromByteArray(const QByteArray &input, QOAIHttpFileElement &value)
+// This overload delegates directly to QOAIHttpFileElement::saveToLocalFile(),
+// so testing it here is equivalent to testing that method directly.
+void tst_Helpers::fromByteArray_httpFileElement()
+{
+    bool ok = false;
+    QByteArray input = "file content"_ba;
+
+    // Default-constructed file element has no path: writing fails
+    QOAIHttpFileElement noFile;
+    QVERIFY(!noFile.isSet()); // isSet checks the filename not the content.
+    ok = fromByteArray(input, noFile);
+    QCOMPARE(ok, false);
+    QCOMPARE(noFile.asJson(), ""_L1);
+
+    // File element with a valid file
+    QTemporaryFile tmpFile;
+    QVERIFY(tmpFile.open());
+    tmpFile.write("content of temporary file :)");
+    tmpFile.close();
+    const QString tmpFilePath = tmpFile.fileName();
+
+    QOAIHttpFileElement result(tmpFilePath);
+    QVERIFY(result.isSet());
+    QCOMPARE(result.asJson(), "content of temporary file :)"_L1);
+
+    ok = fromByteArray(input, result);
+    QCOMPARE(ok, true);
+    QCOMPARE(result.asJson(), input);
 }
 
 } // QtOpenAPI
