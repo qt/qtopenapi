@@ -1,6 +1,8 @@
 // Copyright (C) 2026 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
+#include "../client/testenum.h"
+
 #include <QtOpenApiCommon/qoaihelpers.h>
 
 #include <QtCore/qobject.h>
@@ -11,6 +13,8 @@
 
 using namespace Qt::StringLiterals;
 using namespace QtOpenApiCommon;
+
+namespace QtOpenAPI {
 
 class tst_Helpers : public QObject
 {
@@ -35,6 +39,8 @@ private Q_SLOTS:
     void fromByteArray_float();
     void fromByteArray_double_data();
     void fromByteArray_double();
+    void fromByteArray_enum_data();
+    void fromByteArray_enum();
 };
 
 void tst_Helpers::fromByteArray_QString_data()
@@ -357,5 +363,37 @@ void tst_Helpers::fromByteArray_double()
     QCOMPARE(result, expectedResult);
 }
 
-QTEST_MAIN(tst_Helpers)
+void tst_Helpers::fromByteArray_enum_data()
+{
+    QTest::addColumn<QByteArray>("input");
+    QTest::addColumn<bool>("expectedOk");
+    QTest::addColumn<TestEnum::eTestEnum>("expectedResultValue");
+    QTest::addColumn<bool>("expectedResultValidity");
+
+    QTest::newRow("valid VALUE_A") << "VALUE_A"_ba << true << TestEnum::eTestEnum::VALUE_A
+                                   << true;
+    QTest::newRow("valid VALUE_B") << "VALUE_B"_ba << true << TestEnum::eTestEnum::VALUE_B
+                                   << true;
+    QTest::newRow("UNKNOWN") << "UNKNOWN"_ba << false
+                             << TestEnum::eTestEnum::INVALID_VALUE_OPENAPI_GENERATED << false;
+}
+
+void tst_Helpers::fromByteArray_enum()
+{
+    QFETCH(QByteArray, input);
+    QFETCH(bool, expectedOk);
+    QFETCH(TestEnum::eTestEnum, expectedResultValue);
+    QFETCH(bool, expectedResultValidity);
+
+    TestEnum result;
+
+    const bool ok = fromByteArray(input, result);
+    QCOMPARE(ok, expectedOk);
+    QCOMPARE(result.isValid(), expectedResultValidity);
+    QCOMPARE(result.getValue(), expectedResultValue);
+}
+
+} // QtOpenAPI
+
+QTEST_MAIN(QtOpenAPI::tst_Helpers)
 #include "tst_helpers.moc"
