@@ -53,7 +53,7 @@ void StoreApiTests::placeOrderTest() {
     order.setShipDate(QDateTime::currentDateTimeUtc());
     api.placeOrder(order, this, [&](const QRestReply &reply, const Order &respval) {
         if ((orderPlaced = reply.isSuccess())) {
-            QCOMPARE(respval.getShipDateValue(), TestDate);
+            QCOMPARE(respval.getShipDate(), TestDate);
         } else {
             qDebug() << "Error happened while issuing request : " << reply.errorString();
         }
@@ -67,8 +67,8 @@ void StoreApiTests::getOrderByIdTest() {
     bool orderFetched = false;
     api.getOrderById(500, nullptr, [&](const QRestReply &reply, const Order &respval) {
         if ((orderFetched = reply.isSuccess())) {
-            QVERIFY(respval.getPetIdValue() == 10000);
-            QVERIFY(respval.getIdValue() == 500);
+            QVERIFY(respval.getPetId() == 10000);
+            QVERIFY(respval.getId() == 500);
         } else {
             qDebug() << "Error happened while issuing request : " << reply.errorString();
         }
@@ -106,7 +106,7 @@ void StoreApiTests::deleteOrderTest()
     order.setShipDate(QDateTime::currentDateTimeUtc());
     api.placeOrder(order, this, [&](const QRestReply &reply, const Order &respval) {
         if ((orderPlaced = reply.isSuccess())) {
-            QCOMPARE(respval.getShipDateValue(), TestDate);
+            QCOMPARE(respval.getShipDate(), TestDate);
         } else {
             qDebug() << "Error happened while issuing request : " << reply.errorString();
         }
@@ -115,7 +115,7 @@ void StoreApiTests::deleteOrderTest()
 
     bool orderDeleted = false;
     // delete existing order
-    api.deleteOrder(QString::number(order.getIdValue()), this, [&](const QRestReply &reply) {
+    api.deleteOrder(QString::number(order.getId()), this, [&](const QRestReply &reply) {
         if (!(orderDeleted = reply.isSuccess())) {
             qDebug() << "Error happened while issuing request : " << reply.errorString();
         }
@@ -169,7 +169,7 @@ void StoreApiTests::timeoutTest()
     // to response in time (the server sleeps for 1 sec before sending the response)
     api.setTimeOut(100ms);
     // delete existing order
-    api.deleteOrder(QString::number(order.getIdValue()), this, [&](const QRestReply &reply) {
+    api.deleteOrder(QString::number(order.getId()), this, [&](const QRestReply &reply) {
         if (!(orderDeleted = reply.isSuccess())) {
             qDebug() << "Error happened while issuing request : " << reply.errorString();
             netError = reply.error();

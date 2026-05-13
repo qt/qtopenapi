@@ -39,19 +39,19 @@ Rectangle {
         target: ColorsApi
 
         function onGetColorsFinished(summary) {
-            for (let i = 0; i < summary.getDataValue.length; i++) {
+            for (let i = 0; i < summary.data.length; i++) {
                 colorListModel.append({
-                    id: summary.getDataValue[i].getIdValue,
-                    name: summary.getDataValue[i].getNameValue,
-                    color: summary.getDataValue[i].getColorValue,
-                    pantone_value: summary.getDataValue[i].getPantoneValueValue
+                    id: summary.data[i].id,
+                    name: summary.data[i].name,
+                    color: summary.data[i].color,
+                    pantone_value: summary.data[i].pantoneValue
                 });
             }
 
-            if (summary.getDataValue.length > 0) {
-                root.currentColorPage = summary.getPageValue
-                root.totalColorPages = summary.getTotalPagesValue
-            } else if (root.totalColorPages > 0) { // summary.getDataValue.length == 0
+            if (summary.data.length > 0) {
+                root.currentColorPage = summary.page
+                root.totalColorPages = summary.totalPages
+            } else if (root.totalColorPages > 0) { // summary.data.length == 0
                 root.totalColorPages--;
                 root.currentColorPage = root.totalColorPages;
             }
@@ -93,11 +93,11 @@ Rectangle {
 
         function onGetUserByIdFinished(summary) {
             // Check if the user id from the response matches the currently logged-in user id:
-            if (summary.getIdValue === root.userId) {
-                root.currentUserAvatar = summary.getAvatarValue
+            if (summary.id === root.userId) {
+                root.currentUserAvatar = summary.avatar
             } else {
                 // This means an old request completed after a new login/logout.
-                console.log("Ignored old user data for id: ", summary.getIdValue, " Current ID: ",
+                console.log("Ignored old user data for id: ", summary.id, " Current ID: ",
                             root.userId)
             }
         }
@@ -107,13 +107,13 @@ Rectangle {
         }
 
         function onLoginUserFinished(summary) {
-            root.userId = summary.getIdValue
+            root.userId = summary.id
             UsersApi.getUserById(root.userId)
 
             root.loggedIn = true
 
-            UsersApi.setApiKey("token", summary.getTokenValue)
-            ColorsApi.setApiKey("token", summary.getTokenValue)
+            UsersApi.setApiKey("token", summary.token)
+            ColorsApi.setApiKey("token", summary.token)
         }
 
         function onLoginUserErrorOccurred(errorType, errorStr) {

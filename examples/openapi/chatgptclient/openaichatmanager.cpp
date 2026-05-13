@@ -159,13 +159,13 @@ void OpenAIChatManager::sendUserRequest()
             // we need to track returning ResponseId of the last model's message.
             // Context becomes irrelevant after switching to  the other model. If the model
             // doesn't know the context id, it will response like if the ResponseId is empty.
-            m_responseId = summary.getIdValue();
-            const QList<OutputMessage> outputMessage = summary.getOutputValue();
+            m_responseId = summary.getId();
+            const QList<OutputMessage> outputMessage = summary.getOutput();
             for (qsizetype msgIndex = 0; msgIndex < outputMessage.size(); msgIndex++) {
                 const QList<OutputTextContent> messages
-                    = outputMessage.at(msgIndex).getContentValue();
+                    = outputMessage.at(msgIndex).getContent();
                 for (qsizetype contentIndex = 0; contentIndex < messages.size(); contentIndex++)
-                    emit responseReady(messages.at(contentIndex).getTextValue());
+                    emit responseReady(messages.at(contentIndex).getText());
             }
         }
     });
@@ -180,8 +180,8 @@ void OpenAIChatManager::requestModelList()
             qWarning() << "listModels:" << reply.errorString() << reply.error();
             m_modelList.clear();
         } else {
-            for (qsizetype modelIndex = 0; modelIndex < summary.getDataValue().size(); modelIndex++) {
-                const QString modelName = summary.getDataValue().at(modelIndex).getIdValue();
+            for (qsizetype modelIndex = 0; modelIndex < summary.getData().size(); modelIndex++) {
+                const QString modelName = summary.getData().at(modelIndex).getId();
                 // Note, the list of available models contains unrelated stuff,
                 // like image generating models or search models. We canot use them
                 // for text mode interactions. So, removing them here.

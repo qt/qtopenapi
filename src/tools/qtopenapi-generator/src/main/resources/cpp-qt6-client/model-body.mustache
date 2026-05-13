@@ -499,7 +499,7 @@ QJsonValue {{classname}}::asJsonValue() const
 {{^isEnum}}
 {{^composedSchemas}}
 {{#vars}}
-{{{dataType}}} {{classname}}::{{getter}}Value() const
+{{{dataType}}} {{classname}}::{{getter}}() const
 {
     return m_{{name}};
 }
@@ -532,12 +532,12 @@ void {{classname}}::{{setter}}(const {{{dataType}}} &{{name}})
 {{/complexType}}
 }
 
-bool {{classname}}::is{{#camelcase}}{{name}}{{/camelcase}}Set() const
+bool {{classname}}::is{{#camelcase}}{{name}}{{/camelcase}}ValueSet() const
 {
     return m_{{name}}IsSet;
 }
 
-bool {{classname}}::is{{#camelcase}}{{name}}{{/camelcase}}Valid() const
+bool {{classname}}::is{{#camelcase}}{{name}}{{/camelcase}}ValueValid() const
 {
     return m_{{name}}IsValid;
 }

@@ -465,6 +465,7 @@ components:
           type: string
         statusSet:
           description: Test status flag # checking a collision is not happening: bug QTBUG-143168
+                                        # QTBUG-146650: now fixed by isStatusValueSet() infix instead.
           type: boolean
     EmptyObject:
       type: object

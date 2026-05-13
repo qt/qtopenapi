@@ -44,7 +44,7 @@ class {{packageNameUpperCase}}_EXPORT {{classname}} : public {{cppCommonNamespac
 {{^isEnum}}
 {{^composedSchemas}}
 {{#vars}}
-    Q_PROPERTY({{{dataType}}} {{getter}}Value READ {{getter}}Value WRITE {{setter}})
+    Q_PROPERTY({{{dataType}}} {{name}} READ {{getter}} WRITE {{setter}})
 {{/vars}}
 {{/composedSchemas}}
 {{#composedSchemas.oneOf}}
@@ -69,10 +69,10 @@ public:
 {{^isEnum}}
 {{^composedSchemas}}
 {{#vars}}
-    {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}{{{dataType}}} {{getter}}Value() const;
+    {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}{{{dataType}}} {{getter}}() const;
     {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}void {{setter}}(const {{{dataType}}} &{{name}});
-    {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}bool is{{#camelcase}}{{name}}{{/camelcase}}Set() const;
-    {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}bool is{{#camelcase}}{{name}}{{/camelcase}}Valid() const;
+    {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}bool is{{#camelcase}}{{name}}{{/camelcase}}ValueSet() const;
+    {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}bool is{{#camelcase}}{{name}}{{/camelcase}}ValueValid() const;
 
 {{/vars}}
 {{/composedSchemas}}

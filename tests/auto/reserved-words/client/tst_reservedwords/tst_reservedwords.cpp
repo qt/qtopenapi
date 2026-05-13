@@ -37,21 +37,21 @@ void tst_ReservedWords::qtReservedWordsAsModelProperties()
     // Qt keywords: signals, slots, emit, foreach, forever
     QObjectLike obj;
     obj.setRSignals("test"_L1);
-    QCOMPARE(obj.getRSignalsValue(), "test"_L1);
+    QCOMPARE(obj.getRSignals(), "test"_L1);
     obj.setRSlots("test"_L1);
-    QCOMPARE(obj.getRSlotsValue(), "test"_L1);
+    QCOMPARE(obj.getRSlots(), "test"_L1);
     obj.setREmit(true);
-    QCOMPARE(obj.isREmitValue(), true);
+    QCOMPARE(obj.isREmit(), true);
     obj.setRForeach("test"_L1);
-    QCOMPARE(obj.getRForeachValue(), "test"_L1);
+    QCOMPARE(obj.getRForeach(), "test"_L1);
     obj.setRForever(false);
-    QCOMPARE(obj.isRForeverValue(), false);
+    QCOMPARE(obj.isRForever(), false);
 
     // QObject methods: connect, disconnect
     obj.setRConnect("test"_L1);
-    QCOMPARE(obj.getRConnectValue(), "test"_L1);
+    QCOMPARE(obj.getRConnect(), "test"_L1);
     obj.setRDisconnect("test"_L1);
-    QCOMPARE(obj.getRDisconnectValue(), "test"_L1);
+    QCOMPARE(obj.getRDisconnect(), "test"_L1);
 }
 
 void tst_ReservedWords::cppKeywordsAsModelProperties()
@@ -59,9 +59,9 @@ void tst_ReservedWords::cppKeywordsAsModelProperties()
     // class and struct: C++ keywords (handled by the upstream AbstractCppCodegen)
     QObjectLike obj;
     obj.setRClass("test"_L1);
-    QCOMPARE(obj.getRClassValue(), "test"_L1);
+    QCOMPARE(obj.getRClass(), "test"_L1);
     obj.setRStruct("test"_L1);
-    QCOMPARE(obj.getRStructValue(), "test"_L1);
+    QCOMPARE(obj.getRStruct(), "test"_L1);
 }
 
 void tst_ReservedWords::qtReservedWordsAsOperationName()

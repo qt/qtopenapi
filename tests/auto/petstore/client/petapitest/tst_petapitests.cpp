@@ -115,8 +115,8 @@ void PetApiTests::findPetsByStatusTest() {
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
         for (const Pet &pet: pets) {
-            const QString statusString = pet.getStatusValue().asJson();
-            qDebug() << "Pet id = " << pet.getIdValue() << "status = " << statusString;
+            const QString statusString = pet.getStatus().asJson();
+            qDebug() << "Pet id = " << pet.getId() << "status = " << statusString;
             QVERIFY(statusString == "available"_L1 || statusString == "sold"_L1);
         }
 QT_WARNING_POP
@@ -153,7 +153,7 @@ void PetApiTests::createAndGetPetTest() {
 
     const QString petName("Exclusive name");
     Pet pet = createRandomPet("available", petName);
-    qint64 id = pet.getIdValue();
+    qint64 id = pet.getId();
 
     connect(&api, &PetApi::addPetFinished, this, [&](const Pet &summary) {
         // pet created
@@ -173,7 +173,7 @@ void PetApiTests::createAndGetPetTest() {
     api.getPetById(id);
 
     QTRY_COMPARE_EQ_WITH_TIMEOUT(petFetched, true, 14000);
-    QVERIFY2(petToCheck.getNameValue().compare(petName) == 0, "pet isn't found.");
+    QVERIFY2(petToCheck.getName().compare(petName) == 0, "pet isn't found.");
 }
 
 void PetApiTests::updatePetTest() {
@@ -182,7 +182,7 @@ void PetApiTests::updatePetTest() {
     api.setPassword(password);
     Pet pet = createRandomPet();
     Pet petToCheck;
-    const qint64 id = pet.getIdValue();
+    const qint64 id = pet.getId();
     bool petAdded = false;
 
     connect(&api, &PetApi::addPetFinished, this, [&](const Pet &summary) {
@@ -227,10 +227,10 @@ QT_WARNING_POP
     petFetched = false;
     api.getPetById(id);
     QTRY_COMPARE_EQ_WITH_TIMEOUT(petFetched, true, 5000);
-    QVERIFY2(pet.getIdValue() == petToCheck.getIdValue(), "pet isn't found");
+    QVERIFY2(pet.getId() == petToCheck.getId(), "pet isn't found");
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
-    QCOMPARE_EQ(pet.getStatusValue().asJson(), petToCheck.getStatusValue().asJson());
+    QCOMPARE_EQ(pet.getStatus().asJson(), petToCheck.getStatus().asJson());
 QT_WARNING_POP
 }
 
@@ -240,7 +240,7 @@ void PetApiTests::updatePetWithFormTest() {
     api.setPassword(password);
     Pet pet = createRandomPet();
     Pet petToCheck;
-    const qint64 id = pet.getIdValue();
+    const qint64 id = pet.getId();
 
     // create pet
     bool petAdded = false;
@@ -291,7 +291,7 @@ void PetApiTests::deleteCreatedPetByBearerTest()
     api.setPassword(password);
     api.setBearerToken("BEARER-TOKEN");
     Pet pet = createRandomPet();
-    const qint64 id = pet.getIdValue();
+    const qint64 id = pet.getId();
 
     // create pet
     bool petAdded = false;
@@ -351,7 +351,7 @@ void PetApiTests::uploadPetFileTest()
     api.setUsername(user);
     api.setPassword(password);
     Pet pet = createRandomPet();
-    const qint64 id = pet.getIdValue();
+    const qint64 id = pet.getId();
 
     // create pet
     bool petAdded = false;
@@ -373,9 +373,9 @@ void PetApiTests::uploadPetFileTest()
     qint32 code = -100;
     connect(&api, &PetApi::uploadFileFinished, this, [&](const ApiResponse &response) {
         petFileUploaded = true;
-        type = response.getTypeValue();
-        code = response.getCodeValue();
-        message = response.getMessageValue();
+        type = response.getType();
+        code = response.getCode();
+        message = response.getMessage();
         qWarning() << type << code << message;
     });
     connect(&api, &PetApi::uploadFileErrorOccurred,
@@ -473,7 +473,7 @@ void PetApiTests::getFilesFromServerTest()
     api.setUsername(user);
     api.setPassword(password);
     Pet pet = createRandomPet();
-    const qint64 id = pet.getIdValue();
+    const qint64 id = pet.getId();
 
     // create pet
     bool petAdded = false;
@@ -600,10 +600,10 @@ void PetApiTests::getPatientPetsTest()
 
     // found pets with same data
     QList<qint32> petData;
-    petData.append(pet1.getAgeValue());
-    petData.append(pet1.getPatienceValue());
-    petData.append(pet2.getAgeValue());
-    petData.append(pet2.getPatienceValue());
+    petData.append(pet1.getAge());
+    petData.append(pet1.getPatience());
+    petData.append(pet2.getAge());
+    petData.append(pet2.getPatience());
     operationStatus = false;
     api.findPetsByAgeAndPatience(petData, this, [&](const QRestReply &reply, const QList<Pet> &summary) {
         if (!(operationStatus = reply.isSuccess()))

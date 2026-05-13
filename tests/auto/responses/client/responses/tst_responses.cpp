@@ -112,10 +112,10 @@ void Responses::jsonResponse()
             qWarning() << "Error happened while issuing request : " << reply.error()
                        << reply.errorString();
         }
-        QCOMPARE(summary[0].getNameValue(), user1.getNameValue());
-        QCOMPARE(summary[0].getIdValue(), user1.getIdValue());
-        QCOMPARE(summary[1].getNameValue(), user2.getNameValue());
-        QCOMPARE(summary[1].getIdValue(), user2.getIdValue());
+        QCOMPARE(summary[0].getName(), user1.getName());
+        QCOMPARE(summary[0].getId(), user1.getId());
+        QCOMPARE(summary[1].getName(), user2.getName());
+        QCOMPARE(summary[1].getId(), user2.getId());
     });
     QTRY_COMPARE_EQ(done, true);
 
@@ -127,10 +127,10 @@ void Responses::jsonResponse()
                        << reply.errorString();
         }
         QVERIFY(summary.size() == 2);
-        QCOMPARE(summary["first"].getNameValue(), user1.getNameValue());
-        QCOMPARE(summary["first"].getIdValue(), user1.getIdValue());
-        QCOMPARE(summary["second"].getNameValue(), user2.getNameValue());
-        QCOMPARE(summary["second"].getIdValue(), user2.getIdValue());
+        QCOMPARE(summary["first"].getName(), user1.getName());
+        QCOMPARE(summary["first"].getId(), user1.getId());
+        QCOMPARE(summary["second"].getName(), user2.getName());
+        QCOMPARE(summary["second"].getId(), user2.getId());
     });
     QTRY_COMPARE_EQ(done, true);
 
@@ -142,8 +142,8 @@ void Responses::jsonResponse()
             qWarning() << "Error happened while issuing request : " << reply.error()
                        << reply.errorString();
         }
-        QCOMPARE(summary.getStatusValue(), "OK"_L1);
-        QCOMPARE(summary.getValueValue(), 22);
+        QCOMPARE(summary.getStatus(), "OK"_L1);
+        QCOMPARE(summary.getValue(), 22);
     });
     QTRY_COMPARE_EQ(done, true);
 }
