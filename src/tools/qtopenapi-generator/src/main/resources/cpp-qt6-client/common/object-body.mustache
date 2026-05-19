@@ -65,7 +65,7 @@ void {{prefix}}Object::fromJsonValue(const QJsonValue &json)
 
 bool {{prefix}}Object::isSet() const
 {
-    return d->m_jsonObj.empty();
+    return !d->m_jsonObj.empty();
 }
 
 bool {{prefix}}Object::isValid() const
