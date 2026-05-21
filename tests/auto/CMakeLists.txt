@@ -12,6 +12,7 @@ if(TARGET ${QT_CMAKE_EXPORT_NAMESPACE}::QtOpenAPIGeneratorJar
     add_subdirectory(cmake)
     add_subdirectory(compression)
     add_subdirectory(generator-additional-properties)
+    add_subdirectory(helpers)
     add_subdirectory(linking_several_clients)
     if(TARGET Qt::Gui)
         add_subdirectory(mediatype)
