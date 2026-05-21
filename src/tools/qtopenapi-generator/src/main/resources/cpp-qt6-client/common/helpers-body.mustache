@@ -240,7 +240,7 @@ QJsonValue toJsonValue(const QJsonValue &value)
 bool fromByteArray(const QByteArray &input, QString &value)
 {
     value = QString::fromUtf8(input);
-    return !input.isEmpty();
+    return true;
 }
 
 
@@ -253,7 +253,7 @@ bool fromByteArray(const QByteArray &input, QDateTime &value)
 bool fromByteArray(const QByteArray &input, QByteArray &value)
 {
     value = input;
-    return !input.isEmpty();
+    return true;
 }
 
 bool fromByteArray(const QByteArray &input, QDate &value)
@@ -265,41 +265,55 @@ bool fromByteArray(const QByteArray &input, QDate &value)
 bool fromByteArray(const QByteArray &input, qint32 &value)
 {
     bool ok = false;
-    value = input.toInt(&ok);
+    const qint32 parsed = input.toInt(&ok);
+    if (ok)
+        value = parsed;
     return ok;
 }
 
 bool fromByteArray(const QByteArray &input, qint64 &value)
 {
     bool ok = false;
-    value = input.toLongLong(&ok);
+    const qint64 parsed = input.toLongLong(&ok);
+    if (ok)
+        value = parsed;
     return ok;
 }
 
 bool fromByteArray(const QByteArray &input, bool &value)
 {
-    bool ok = false;
     if (input == "true") {
         value = true;
-        ok = true;
-    } else if (input == "false") {
-        value = false;
-        ok = true;
+        return true;
     }
-    return ok;
+    if (input == "false") {
+        value = false;
+        return true;
+    }
+    return false;
 }
 
 bool fromByteArray(const QByteArray &input, float &value)
 {
     bool ok = false;
-    value = input.toFloat(&ok);
+    const float parsed = input.toFloat(&ok);
+    // JSON spec does not allow NaN or Infinity as numeric values.
+    if (ok && !qIsNaN(parsed) && !qIsInf(parsed))
+        value = parsed;
+    else
+        ok = false;
     return ok;
 }
 
 bool fromByteArray(const QByteArray &input, double &value)
 {
     bool ok = false;
-    value = input.toDouble(&ok);
+    const double parsed = input.toDouble(&ok);
+    // JSON spec does not allow NaN or Infinity as numeric values.
+    if (ok && !qIsNaN(parsed) && !qIsInf(parsed))
+        value = parsed;
+    else
+        ok = false;
     return ok;
 }
 
