@@ -45,6 +45,12 @@ private Q_SLOTS:
     void fromByteArray_object_data();
     void fromByteArray_object();
     void fromByteArray_httpFileElement();
+    void fromJsonValue_QDateTime_data();
+    void fromJsonValue_QDateTime();
+    void fromJsonValue_QDateTime_nonStringInput();
+    void fromJsonValue_QDate_data();
+    void fromJsonValue_QDate();
+    void fromJsonValue_QDate_nonStringInput();
 };
 
 void tst_Helpers::fromByteArray_QString_data()
@@ -462,6 +468,77 @@ void tst_Helpers::fromByteArray_httpFileElement()
     ok = fromByteArray(input, result);
     QCOMPARE(ok, true);
     QCOMPARE(result.asJson(), input);
+}
+
+void tst_Helpers::fromJsonValue_QDateTime_data()
+{
+    fromByteArray_QDateTime_data();
+}
+
+void tst_Helpers::fromJsonValue_QDateTime()
+{
+    QFETCH(QString, format);
+    QFETCH(QByteArray, input);
+    QFETCH(bool, expectedOk);
+    QFETCH(QDateTime, initialResult);
+    QFETCH(QDateTime, expectedResult);
+
+    if (format.isEmpty())
+        QVERIFY(setDateTimeFormat(Qt::ISODate));
+    else if (format == "TextDate"_L1)
+        QVERIFY(setDateTimeFormat(Qt::TextDate));
+    else
+        QVERIFY(setDateTimeFormat(format));
+    const auto restoreFormat = qScopeGuard([] { setDateTimeFormat(Qt::ISODate); });
+
+    QDateTime result = initialResult;
+    const QJsonValue jsonVal(QString::fromUtf8(input));
+    const bool ok = fromJsonValue(result, jsonVal);
+    QCOMPARE(ok, expectedOk);
+    QCOMPARE_EQ(result, expectedResult);
+}
+
+void tst_Helpers::fromJsonValue_QDateTime_nonStringInput()
+{
+    QDateTime result;
+    QVERIFY(!fromJsonValue(result, QJsonValue()));
+    QVERIFY(!fromJsonValue(result, QJsonValue(QJsonValue::Null)));
+
+    const QDateTime initialValue(QDate(2026, 4, 27), QTime(12, 0, 0));
+    result = initialValue;
+    QVERIFY(!fromJsonValue(result, QJsonValue(42))); // not a string
+    QCOMPARE_EQ(result, initialValue); // value left intact
+}
+
+void tst_Helpers::fromJsonValue_QDate_data()
+{
+    fromByteArray_QDate_data();
+}
+
+void tst_Helpers::fromJsonValue_QDate()
+{
+    QFETCH(QByteArray, input);
+    QFETCH(bool, expectedOk);
+    QFETCH(QDate, initialResult);
+    QFETCH(QDate, expectedResult);
+
+    QDate result = initialResult;
+    const QJsonValue jsonVal(QString::fromUtf8(input));
+    const bool ok = fromJsonValue(result, jsonVal);
+    QCOMPARE(ok, expectedOk);
+    QCOMPARE_EQ(result, expectedResult);
+}
+
+void tst_Helpers::fromJsonValue_QDate_nonStringInput()
+{
+    QDate result;
+    QVERIFY(!fromJsonValue(result, QJsonValue()));
+    QVERIFY(!fromJsonValue(result, QJsonValue(QJsonValue::Null)));
+
+    const QDate initialValue(2026, 4, 27);
+    result = initialValue;
+    QVERIFY(!fromJsonValue(result, QJsonValue(42)));
+    QCOMPARE_EQ(result, initialValue); // value left intact
 }
 
 } // QtOpenAPI
