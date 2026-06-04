@@ -35,8 +35,8 @@ is loaded with:
         [ADDITIONAL_PROPERTIES property1=value1 property2=value2 ...]
         [GENERATE_OPTIONS generate_option1 generate_option2 ...]
         [JAVA_OPTIONS jvm_option1 jvm_option2 ...]
-        [GENERATE_DOCUMENTATION]
-        [DOCUMENTATION_OUTPUT_DIRECTORY <dir>]
+        [GENERATE_DOCUMENTATION] # since Qt 6.12
+        [DOCUMENTATION_OUTPUT_DIRECTORY <dir>] # since Qt 6.12
         [OUTPUT_PUBLIC_HEADERS_DIR <dir>]
         [OUTPUT_PRIVATE_HEADERS_DIR <dir>]
     )
@@ -81,10 +81,10 @@ or \c qt_add_executable functions.
         specifies additional options passed to the JVM when invoking the
         OpenAPI Generator. Use this to configure JVM behavior.
         The options are passed as-is without validation.
-    \li \c {GENERATE_DOCUMENTATION}
+    \li \c {GENERATE_DOCUMENTATION} (since Qt 6.12)
         enables generation of \c doxygen documentation for generated
         classes.
-    \li \c {DOCUMENTATION_OUTPUT_DIRECTORY}
+    \li \c {DOCUMENTATION_OUTPUT_DIRECTORY} (since Qt 6.12)
         specifies a directory that will store the \c doxygen documentation.
         The option can only be used together with \c {GENERATE_DOCUMENTATION}.
     \li \c {OUTPUT_PUBLIC_HEADERS_DIR}
