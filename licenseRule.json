@@ -29,6 +29,16 @@
                 "comment": "Example takes precedence",
                 "file type": "examples and snippets",
                 "spdx": ["LicenseRef-Qt-Commercial OR BSD-3-Clause"]
+            },
+            "tests/auto/qtopenapigen/client/openapigen/data/cmake_generated/clienttest/client": {
+                "comment": "Default",
+                "file type": "test",
+                "spdx": ["LicenseRef-Qt-Commercial OR GPL-3.0-only"]
+            },
+            "tests/auto/qtopenapigen/client/openapigen/data/cmake_generated/commonlibtest/common": {
+                "comment": "Default",
+                "file type": "test",
+                "spdx": ["LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only"]
             }
         }
     },
@@ -95,6 +105,11 @@
                 "comment": "Default",
                 "file type": "test",
                 "spdx": ["LicenseRef-Qt-Commercial OR GPL-3.0-only"]
+            },
+            "tests/auto/qtopenapigen/client/openapigen/data/cmake_generated/commonlibtest/common": {
+                "comment": "Default",
+                "file type": "test",
+                "spdx": ["LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only"]
             },
             "(.*)(examples/|snippets/)": {
                 "comment": "Default",

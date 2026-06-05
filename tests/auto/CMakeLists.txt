@@ -21,6 +21,7 @@ if(TARGET ${QT_CMAKE_EXPORT_NAMESPACE}::QtOpenAPIGeneratorJar
     add_subdirectory(openapi2.0)
     add_subdirectory(operation-parameters)
     add_subdirectory(petstore)
+    add_subdirectory(qtopenapigen)
     add_subdirectory(reserved-words)
     add_subdirectory(responses)
     add_subdirectory(server_configuration)
