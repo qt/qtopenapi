@@ -46,6 +46,8 @@ qt6_add_openapi_client(cmakeCommonLibGeneratedClient
     __QT_INTERNAL_GENERATE_COMMON_LIBRARY_TARGET
 )
 qt_autogen_tools_initial_setup(cmakeCommonLibGeneratedClient)
+target_compile_definitions(cmakeCommonLibGeneratedClient
+    PRIVATE QT_OPENAPI_GENERATOR_VERSION=\"${QT_OPENAPI_GENERATOR_VERSION}\")
 target_link_libraries(cmakeCommonLibGeneratedClient PRIVATE Qt::Core Qt::Network)
 target_link_libraries(qt-openapi-generator PRIVATE cmakeCommonLibGeneratedClient)
 list(APPEND cmake_generator_tests commonlibtest)
