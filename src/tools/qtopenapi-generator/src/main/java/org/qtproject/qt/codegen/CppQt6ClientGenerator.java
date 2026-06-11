@@ -199,8 +199,6 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
          * Additional Properties.  These values can be passed to the templates and
          * are available in models, apis, and supporting files
          */
-        final String pluginVersion = CppQt6ClientGenerator.class.getPackage().getImplementationVersion();
-        additionalProperties.put("pluginVersion", pluginVersion);
         additionalProperties.put("prefix", namePrefix);
         additionalProperties.put("camelcase", new CamelCaseAndSanitizeLambda(false).generator(this));
         additionalProperties.put("cppCommonNamespace", cppCommonNamespace);

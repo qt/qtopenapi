@@ -273,8 +273,12 @@ QNetworkRequest getNetworkRequest(QOAIHttpRequestInput &input, QByteArray &reque
         }
     }
     QNetworkRequest request = factory.createRequest(inputPriv->m_urlStr);
-    if (request.header(QNetworkRequest::UserAgentHeader).isNull())
-        request.setHeader(QNetworkRequest::UserAgentHeader, QString::fromUtf8("OpenAPI-Generator/6.13.0/cpp-qt"));
+    if (request.header(QNetworkRequest::UserAgentHeader).isNull()) {
+        request.setHeader(QNetworkRequest::UserAgentHeader,
+                          QString::fromUtf8(
+                              "OpenAPI-Generator/%1/cpp-qt")
+                              .arg(QT_OPENAPI_GENERATOR_VERSION));
+    }
 
     for (int i = 0; i < inputPriv->m_headers.size(); i++) {
         const auto name = inputPriv->m_headers.nameAt(i);

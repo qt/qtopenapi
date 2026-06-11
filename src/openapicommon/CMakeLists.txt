@@ -34,3 +34,6 @@ qt6_add_openapi_client(OpenApiCommon
         ${CMAKE_CURRENT_SOURCE_DIR}/qtopenapi-common.yaml
     __QT_INTERNAL_GENERATE_COMMON_LIBRARY_TARGET
 )
+
+target_compile_definitions(OpenApiCommon
+    PUBLIC QT_OPENAPI_GENERATOR_VERSION=\"${QT_OPENAPI_GENERATOR_VERSION}\")

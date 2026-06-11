@@ -87,6 +87,7 @@ class QtOpenAPIGenerator : public QObject {
 
 private Q_SLOTS:
     void initTestCase();
+    void checkVersionIsNotEmpty();
     void cmakeGeneratedLibraries_data();
     void cmakeGeneratedLibraries();
 
@@ -132,6 +133,11 @@ void QtOpenAPIGenerator::initTestCase()
     m_expectedResultPath = QFINDTESTDATA("data");
     m_cmakeGeneratedPath = BinaryDir + '/'_L1 + CMakeGeneratedDir;
     m_cmakeExpectedResultPath = m_expectedResultPath + '/'_L1 + CMakeGeneratedDir;
+}
+
+void QtOpenAPIGenerator::checkVersionIsNotEmpty()
+{
+    QCOMPARE_NE(QT_OPENAPI_GENERATOR_VERSION, "");
 }
 
 void QtOpenAPIGenerator::cmakeGeneratedLibraries_data()
