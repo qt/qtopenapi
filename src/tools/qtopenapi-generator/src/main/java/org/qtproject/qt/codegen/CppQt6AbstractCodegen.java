@@ -349,6 +349,18 @@ public abstract class CppQt6AbstractCodegen extends AbstractCppCodegen implement
             }
         }
         for (CodegenOperation operation : operations) {
+            // Sanitize operation path to prevent C++ code injection via {{{path}}}
+            if (operation.path != null) {
+                operation.path = escapeUnsafeCharacters(operation.path);
+            }
+            // Sanitize media type values to prevent C++ code injection via {{{mediaType}}}
+            if (operation.consumes != null) {
+                for (Map<String, String> consume : operation.consumes) {
+                    if (consume.containsKey("mediaType")) {
+                        consume.put("mediaType", escapeUnsafeCharacters(consume.get("mediaType")));
+                    }
+                }
+            }
             if (operation.returnType != null) {
                 if (codegenModels.containsKey(operation.returnType)) {
                     operation.vendorExtensions.put("x-returns-enum", true);
