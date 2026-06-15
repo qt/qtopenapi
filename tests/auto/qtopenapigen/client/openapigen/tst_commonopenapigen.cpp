@@ -5,13 +5,12 @@
 
 using namespace Qt::StringLiterals;
 namespace QtOpenAPI {
-
-#ifndef CMAKE_GENERATOR_TESTS_CLIENT
-#  define CMAKE_GENERATOR_TESTS_CLIENT
+#ifndef CMAKE_GENERATOR_TESTS_COMMON
+#  define CMAKE_GENERATOR_TESTS_COMMON
 #endif
-constexpr QLatin1StringView CMakeGeneratorTestsClient(CMAKE_GENERATOR_TESTS_CLIENT);
+constexpr QLatin1StringView CMakeGeneratorTestsCommon(CMAKE_GENERATOR_TESTS_COMMON);
 
-class QtOpenAPIGenerator : public QObject {
+class QtOpenAPIGeneratorCommonLib : public QObject {
     Q_OBJECT
 
 private Q_SLOTS:
@@ -26,24 +25,24 @@ private:
     QString m_cmakeGeneratedPath;
 };
 
-void QtOpenAPIGenerator::initTestCase()
+void QtOpenAPIGeneratorCommonLib::initTestCase()
 {
     m_expectedResultPath = QFINDTESTDATA("data");
     m_cmakeGeneratedPath = BinaryDir + '/'_L1 + CMakeGeneratedDir;
     m_cmakeExpectedResultPath = m_expectedResultPath + '/'_L1 + CMakeGeneratedDir;
 }
 
-void QtOpenAPIGenerator::checkVersionIsNotEmpty()
+void QtOpenAPIGeneratorCommonLib::checkVersionIsNotEmpty()
 {
     QCOMPARE_NE(QT_OPENAPI_GENERATOR_VERSION, "");
 }
 
-void QtOpenAPIGenerator::cmakeGeneratedLibraries_data()
+void QtOpenAPIGeneratorCommonLib::cmakeGeneratedLibraries_data()
 {
     QTest::addColumn<QString>("testFolder");
     QTest::addColumn<QString>("filePath");
 
-    const QStringList tests = QString(CMakeGeneratorTestsClient).split(','_L1, Qt::SkipEmptyParts);
+    const QStringList tests = QString(CMakeGeneratorTestsCommon).split(','_L1, Qt::SkipEmptyParts);
     for (const auto &testName : tests) {
         QDir testDir(m_cmakeExpectedResultPath + '/'_L1 + testName);
         const auto testFiles = scanDirectoryRecursively(testDir);
@@ -56,7 +55,7 @@ void QtOpenAPIGenerator::cmakeGeneratedLibraries_data()
     }
 }
 
-void QtOpenAPIGenerator::cmakeGeneratedLibraries()
+void QtOpenAPIGeneratorCommonLib::cmakeGeneratedLibraries()
 {
     QFETCH(QString, testFolder);
     QFETCH(QString, filePath);
@@ -66,5 +65,5 @@ void QtOpenAPIGenerator::cmakeGeneratedLibraries()
 
 } // QtOpenAPI
 
-QTEST_MAIN(QtOpenAPI::QtOpenAPIGenerator)
-#include "tst_openapigen.moc"
+QTEST_MAIN(QtOpenAPI::QtOpenAPIGeneratorCommonLib)
+#include "tst_commonopenapigen.moc"
