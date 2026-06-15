@@ -7,6 +7,8 @@ package org.qtproject.qt.codegen;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.servers.Server;
 import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.*;
@@ -16,14 +18,13 @@ import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.templating.mustache.CamelCaseAndSanitizeLambda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import io.swagger.v3.oas.models.info.License;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
-import java.util.*;
 import java.io.File;
-
 import java.nio.file.*;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements CodegenConfig {
     public static final String DEFAULT_PACKAGE_NAME = "Qt6OpenAPIClient";
@@ -229,7 +230,59 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
                 licenseName = license.getName();
             }
         }
+        // licenseName is emitted via {{{licenseName}}} triple-mustache braces in
+        // licenseInfo.mustache — should be sanitized.
+        licenseName = escapeUnsafeCharacters(licenseName);
         additionalProperties.put(CodegenConstants.LICENSE_NAME, licenseName);
+
+        // Sanitize a global server list populated by AbstractCppCodegen.preprocessOpenAPI().
+        // The upstream code sets server URLs, variable names, defaults, and enum values
+        // without passing them through escapeText()/escapeUnsafeCharacters(), so they
+        // would be emitted raw into C++ string literals via triple-mustache templates.
+        List<CodegenServer> globalServers = (List<CodegenServer>)
+                this.vendorExtensions.get("x-cpp-global-server-list");
+        if (globalServers != null) {
+            sanitizeServerList(globalServers);
+        }
+    }
+
+    /**
+     * Override fromServers to sanitize per-operation server URLs and variables.
+     * The upstream DefaultCodegen.fromServers() does not escape the URL field,
+     * variable names, default values, or enum values — they are inserted into
+     * C++ string literals via triple-mustache braces ({{{url}}}, {{{name}}}, etc.).
+     */
+    @Override
+    public List<CodegenServer> fromServers(List<Server> servers) {
+        List<CodegenServer> result = super.fromServers(servers);
+        sanitizeServerList(result);
+        return result;
+    }
+
+    /**
+     * Escape all string fields in a server configuration list that will be
+     * emitted into C++ string literals by the Mustache templates.
+     */
+    private void sanitizeServerList(List<CodegenServer> servers) {
+        for (CodegenServer server : servers) {
+            server.url = escapeUnsafeCharacters(server.url);
+            if (server.description != null) {
+                server.description = escapeUnsafeCharacters(server.description);
+            }
+            if (server.variables != null) {
+                for (CodegenServerVariable var : server.variables) {
+                    var.name = escapeUnsafeCharacters(var.name);
+                    if (var.defaultValue != null) {
+                        var.defaultValue = escapeUnsafeCharacters(var.defaultValue);
+                    }
+                    if (var.enumValues != null) {
+                        var.enumValues = var.enumValues.stream()
+                                .map(this::escapeUnsafeCharacters)
+                                .collect(Collectors.toList());
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -431,8 +484,27 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
      */
     @Override
     public String escapeUnsafeCharacters(String input) {
-        //TODO: check that this logic is safe to escape unsafe characters to avoid code injection
-        return input;
+        // Prevent C++ code injection via spec-derived strings.
+        // These strings may appear in:
+        //   1. String literals: u"..."_s  — must escape backslash, quotes, newlines
+        //   2. Block comments: /* ... */  — must prevent closing the comment
+        //
+        // Escape backslashes first (before introducing new ones), then quotes,
+        // then control characters that could break string literals or inject
+        // line continuations.
+        String result = input;
+        // Escape double quotes (breaks out of C++ string literals)
+        result = result.replace("\"", "\\\"");
+        // Escape newlines and carriage returns (breaks string literals, enables
+        // line continuation tricks)
+        result = result.replace("\n", "\\n");
+        result = result.replace("\r", "\\r");
+        // Prevent closing C-style block comments (used in license headers,
+        // model descriptions, enum docs)
+        result = result.replace("*/", "* /");
+        // Escape null bytes
+        result = result.replace("\0", "");
+        return result;
     }
 
     /**
@@ -442,7 +514,8 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
      * @return string with quotation mark removed or escaped
      */
     public String escapeQuotationMark(String input) {
-        //TODO: check that this logic is safe to escape quotation mark to avoid code injection
+        // Escape backslash first to avoid double-escaping the backslash
+        // introduced by quote escaping.
         return input.replace("\"", "\\\"");
     }
 
