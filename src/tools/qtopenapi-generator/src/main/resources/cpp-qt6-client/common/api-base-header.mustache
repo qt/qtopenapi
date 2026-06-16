@@ -173,6 +173,8 @@ public:
     using ServerError = {{prefix}}ServerVariable::ServerError;
     Q_ENUM(ServerError)
 
+    using FileConflictPolicy = {{prefix}}FileConflictPolicy;
+
     {{prefix}}BaseApi() : {{prefix}}BaseApi(nullptr) {}
     explicit {{prefix}}BaseApi(QObject *parent);
     ~{{prefix}}BaseApi() override;
@@ -217,6 +219,9 @@ public Q_SLOTS:
     bool requestCompressionEnabled() const;
     void setResponseCompressionEnabled(bool enabled);
     bool responseCompressionEnabled() const;
+
+    void setFileConflictPolicy(FileConflictPolicy policy);
+    FileConflictPolicy fileConflictPolicy() const;
 
     QString errorString(ServerError error) const;
 

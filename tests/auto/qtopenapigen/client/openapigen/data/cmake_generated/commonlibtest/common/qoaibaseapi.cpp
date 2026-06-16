@@ -49,6 +49,7 @@ public:
     QNetworkRequestFactory m_networkFactory;
     bool m_isResponseCompressionEnabled = false;
     bool m_isRequestCompressionEnabled = false;
+    QOAIFileConflictPolicy m_fileConflictPolicy = QOAIFileConflictPolicy::Rename;
 };
 
 QOAIBaseApi::QOAIBaseApi(QObject *parent)
@@ -257,6 +258,16 @@ void QOAIBaseApi::setResponseCompressionEnabled(bool enabled)
 bool QOAIBaseApi::responseCompressionEnabled() const
 {
     return d->m_isResponseCompressionEnabled;
+}
+
+void QOAIBaseApi::setFileConflictPolicy(FileConflictPolicy policy)
+{
+    d->m_fileConflictPolicy = policy;
+}
+
+QOAIBaseApi::FileConflictPolicy QOAIBaseApi::fileConflictPolicy() const
+{
+    return d->m_fileConflictPolicy;
 }
 
 QString QOAIBaseApi::errorString(ServerError error) const

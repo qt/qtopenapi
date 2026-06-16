@@ -3,6 +3,8 @@
 
 #include "../client/testapi.h"
 
+#include <QtCore/qdir.h>
+#include <QtCore/qfile.h>
 #include <QtCore/qobject.h>
 #include <QtCore/qprocess.h>
 #include <QtTest/qtest.h>
@@ -13,7 +15,7 @@ using namespace QtOpenApiCommon;
 #define CALL_TEST_FILE_OPERATION(OPERATION, PARAM, EXPECTED_CONTENT, EXPECTED_FILENAME)         \
 {                                                                                               \
     bool done = false;                                                                          \
-    OPERATION(PARAM, this, [&](const QRestReply &reply, const QOAIHttpFileElement &summary) {  \
+    OPERATION(PARAM, this, [&](const QRestReply &reply, const QOAIHttpFileElement &summary) {   \
         if (!(done = reply.isSuccess())) {                                                      \
             qWarning() << "Error happened while issuing request:" << reply.error()              \
                        << reply.errorString();                                                  \
@@ -83,6 +85,9 @@ private Q_SLOTS:
     void emptyResponseBody();
     void contentDispositionChecks_data();
     void contentDispositionChecks();
+    void fileConflictPolicyOverwrite();
+    void fileConflictPolicyRename();
+    void fileConflictPolicyError();
     void cleanupTestCase();
 };
 
@@ -166,7 +171,14 @@ void Responses::textResponse()
 void Responses::pdfResponse()
 {
     QByteArray expectedPdfContent = readFile("test.pdf"_L1);
-
+    const QString dirPath = workingDirectory() + QDir::separator();
+    // clean up
+    auto cleanup = qScopeGuard([&] {
+        QFile::remove(dirPath + "compressed_example1.pdf"_L1);
+        QFile::remove(dirPath + "unnamed"_L1);
+        QFile::remove(dirPath + "example1.pdf"_L1);
+    });
+    Q_UNUSED(cleanup);
     CALL_TEST_FILE_OPERATION(applicationPdfInlineResponse, "test.pdf"_L1, expectedPdfContent,
                             "unnamed"_L1);
     CALL_TEST_FILE_OPERATION(applicationPdfSaveResponse, "test.pdf"_L1, expectedPdfContent,
@@ -179,6 +191,15 @@ void Responses::pdfResponse()
 void Responses::imageResponse()
 {
     QByteArray expectedImage = readFile("testImage.jpg"_L1);
+    const QString dirPath = workingDirectory() + QDir::separator();
+    // clean up
+    auto cleanup = qScopeGuard([&] {
+        QFile::remove(dirPath + "testImage.jpg"_L1);
+        QFile::remove(dirPath + "example2.jpg"_L1);
+        QFile::remove(dirPath + "unnamed"_L1);
+        QFile::remove(dirPath + "example3.png"_L1);
+    });
+    Q_UNUSED(cleanup);
     CALL_TEST_FILE_OPERATION(inlineImageResponse, "jpegImage"_L1, expectedImage, "unnamed"_L1);
     CALL_TEST_FILE_OPERATION(saveImageResponse, "jpegImage"_L1, expectedImage, "example2.jpg"_L1);
 
@@ -190,6 +211,12 @@ void Responses::imageResponse()
 void Responses::octetStreamResponse()
 {
     QByteArray expectedBinData = readFile("test.bin"_L1);;
+    const QString dirPath = workingDirectory() + QDir::separator();
+    // clean up
+    auto cleanup = qScopeGuard([&] {
+        QFile::remove(dirPath + "example.bin"_L1);
+    });
+    Q_UNUSED(cleanup);
     CALL_TEST_FILE_OPERATION(applicationOctetStreamResponse, "test.bin"_L1, expectedBinData,
                              "example.bin"_L1);
 }
@@ -306,6 +333,11 @@ void Responses::contentDispositionChecks()
     QFETCH(const QString, expectedFilename);
 
     const QString dirPath = workingDirectory() + QDir::separator();
+    // clean up
+    auto cleanup = qScopeGuard([&] {
+        QFile::remove(dirPath + expectedFilename);
+    });
+    Q_UNUSED(cleanup);
     bool done = false;
     contentDispositionCheck(
         OptionalParameter<QString>{filename}, OptionalParameter<QString>{extFilename}, this,
@@ -318,6 +350,136 @@ void Responses::contentDispositionChecks()
             QCOMPARE(summary.filename(), dirPath + expectedFilename);
         });
     QTRY_COMPARE_EQ(done, true);
+}
+
+void Responses::fileConflictPolicyOverwrite()
+{
+    // Default policy: Overwrite. Downloading the same file twice should
+    // overwrite the first download.
+    setFileConflictPolicy(FileConflictPolicy::Overwrite);
+    const QByteArray expectedContent = readFile("test.pdf"_L1);
+    const QString dirPath = workingDirectory() + QDir::separator();
+    const QString expectedFile = dirPath + u"example1.pdf"_s;
+    // Clean up
+    auto cleanup = qScopeGuard([&] {
+        QFile::remove(expectedFile);
+        setFileConflictPolicy(FileConflictPolicy::Rename);
+    });
+    Q_UNUSED(cleanup);
+
+    // First download
+    CALL_TEST_FILE_OPERATION(applicationPdfSaveResponse, "test.pdf"_L1,
+                             expectedContent, "example1.pdf"_L1);
+    QVERIFY(QFile::exists(expectedFile));
+
+    // Second download — should overwrite, same filename
+    CALL_TEST_FILE_OPERATION(applicationPdfSaveResponse, "test.pdf"_L1,
+                             expectedContent, "example1.pdf"_L1);
+    QVERIFY(QFile::exists(expectedFile));
+}
+
+void Responses::fileConflictPolicyRename()
+{
+    // Rename policy: second download of the same filename should create
+    // a new file with a numeric suffix.
+    setFileConflictPolicy(FileConflictPolicy::Rename);
+    const QByteArray expectedContent = readFile("test.pdf"_L1);
+    const QString dirPath = workingDirectory() + QDir::separator();
+    const QString originalFile = dirPath + u"example1.pdf"_s;
+    const QString renamedFile = dirPath + u"example1(1).pdf"_s;
+
+    const QString originalArchFile("file.tar.gz"_L1);
+    const QString renamedArchFile("file(1).tar.gz"_L1);
+    // Clean up
+    auto cleanup = qScopeGuard([&] {
+        QFile::remove(originalFile);
+        QFile::remove(renamedFile);
+        QFile::remove(dirPath + originalArchFile);
+        QFile::remove(dirPath + renamedArchFile);
+    });
+    Q_UNUSED(cleanup);
+
+    // First download — creates example1.pdf
+    CALL_TEST_FILE_OPERATION(applicationPdfSaveResponse, "test.pdf"_L1,
+                             expectedContent, "example1.pdf"_L1);
+    QVERIFY(QFile::exists(originalFile));
+    QVERIFY(!QFile::exists(renamedFile));
+
+    // Second download — should create example1 (1).pdf
+    CALL_TEST_FILE_OPERATION(applicationPdfSaveResponse, "test.pdf"_L1,
+                             expectedContent, "example1(1).pdf"_L1);
+    QVERIFY(QFile::exists(originalFile));
+    QVERIFY(QFile::exists(renamedFile));
+
+    // test renaming a file with multiple extension - '.tar.gz'
+    bool done = false;
+    // After this call file.tar.gz is created
+    contentDispositionCheck(
+        OptionalParameter<QString>{originalArchFile}, OptionalParameter<QString>{}, this,
+        [&](const QRestReply &reply, const QOAIHttpFileElement &summary) {
+            if (!(done = reply.isSuccess())) {
+                qWarning() << "Error happened while issuing request:"
+                           << reply.error() << reply.errorString();
+            }
+            QCOMPARE(reply.httpStatus(), 200);
+            QCOMPARE(summary.filename(), dirPath + originalArchFile);
+        });
+    QTRY_COMPARE_EQ(done, true);
+    QVERIFY(QFile::exists(dirPath + originalArchFile));
+
+    done = false;
+    // After this call file(1).tar.gz is created
+    contentDispositionCheck(
+        OptionalParameter<QString>{renamedArchFile}, OptionalParameter<QString>{}, this,
+        [&](const QRestReply &reply, const QOAIHttpFileElement &summary) {
+            if (!(done = reply.isSuccess())) {
+                qWarning() << "Error happened while issuing request:"
+                           << reply.error() << reply.errorString();
+            }
+            QCOMPARE(reply.httpStatus(), 200);
+            QCOMPARE(summary.filename(), dirPath + renamedArchFile);
+        });
+    QTRY_COMPARE_EQ(done, true);
+    QVERIFY(QFile::exists(dirPath + renamedArchFile));
+}
+
+void Responses::fileConflictPolicyError()
+{
+    // Error policy: if the file already exists, the download should be skipped
+    // and the existing file should remain untouched.
+    setFileConflictPolicy(FileConflictPolicy::Error);
+    const QString dirPath = workingDirectory() + QDir::separator();
+    const QString targetFile = dirPath + u"example1.pdf"_s;
+    auto cleanup = qScopeGuard([&] {
+        // Clean up
+        QFile::remove(targetFile);
+        setFileConflictPolicy(FileConflictPolicy::Rename);
+    });
+    Q_UNUSED(cleanup);
+
+    // Pre-create a file with known content
+    const QByteArray originalContent = "original content that must not be overwritten";
+    {
+        QFile f(targetFile);
+        QVERIFY(f.open(QIODevice::WriteOnly));
+        f.write(originalContent);
+    }
+    QVERIFY(QFile::exists(targetFile));
+
+    // Attempt download — should skip file writing due to conflict policy
+    bool done = false;
+    applicationPdfSaveResponse(u"test.pdf"_s, this,
+        [&](const QRestReply &reply, const QOAIHttpFileElement &summary) {
+            done = reply.isSuccess();
+            // The HTTP request succeeds, but no file element is produced
+            QVERIFY(!summary.isSet());
+        });
+    QTRY_COMPARE_EQ(done, true);
+
+    // Verify original file content is preserved
+    QFile f(targetFile);
+    QVERIFY(f.open(QIODevice::ReadOnly));
+    QCOMPARE(f.readAll(), originalContent);
 }
 
 void Responses::cleanupTestCase()

@@ -177,6 +177,8 @@ public:
     using ServerError = QOAIServerVariable::ServerError;
     Q_ENUM(ServerError)
 
+    using FileConflictPolicy = QOAIFileConflictPolicy;
+
     QOAIBaseApi() : QOAIBaseApi(nullptr) {}
     explicit QOAIBaseApi(QObject *parent);
     ~QOAIBaseApi() override;
@@ -216,6 +218,9 @@ public Q_SLOTS:
     bool requestCompressionEnabled() const;
     void setResponseCompressionEnabled(bool enabled);
     bool responseCompressionEnabled() const;
+
+    void setFileConflictPolicy(FileConflictPolicy policy);
+    FileConflictPolicy fileConflictPolicy() const;
 
     QString errorString(ServerError error) const;
 

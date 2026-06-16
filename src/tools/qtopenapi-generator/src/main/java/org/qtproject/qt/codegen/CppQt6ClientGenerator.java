@@ -69,7 +69,8 @@ public class CppQt6ClientGenerator extends CppQt6AbstractCodegen implements Code
         "setWorkingDirectory", "workingDirectory", "setRestAccessManager", "restAccessManager",
         "setNetworkRequestFactory", "networkRequestFactory", "setHeader",
         "setRequestCompressionEnabled", "requestCompressionEnabled",
-        "setResponseCompressionEnabled", "responseCompressionEnabled", "errorString",
+        "setResponseCompressionEnabled", "responseCompressionEnabled",
+        "setFileConflictPolicy", "fileConflictPolicy", "errorString",
         "execute", "setServersForOperation", "setBaseServerUrl", "setCallerInfo", "takeCallerInfo"
     ));
     @Setter protected boolean addDownloadProgress = false;
