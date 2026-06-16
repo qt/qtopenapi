@@ -495,7 +495,7 @@ static QString parseFilenameParameter(QByteArrayView value, FilenameParameter ty
     return filename;
 };
 
-QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<QString, QOAIHttpFileElement> *files)
+QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<QString, QOAIHttpFileElement> *files, QOAIFileConflictPolicy fileConflictPolicy)
 {
     QByteArray result;
     QByteArray contentDispositionHdr;
@@ -571,7 +571,39 @@ QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<Q
             }
         }
 
-        QOAIHttpFileElement felement(workDir + QDir::separator() + filename);
+        QString filePath = workDir + QDir::separator() + filename;
+
+        // Apply file conflict policy
+        if (fileConflictPolicy != QOAIFileConflictPolicy::Overwrite
+            && QFileInfo::exists(filePath)) {
+            if (fileConflictPolicy == QOAIFileConflictPolicy::Error) {
+                qWarning("File already exists and FileConflictPolicy::Error is set: %ls\n"
+                         "The file will not be overwritten.",
+                         qUtf16Printable(filePath));
+                reply.networkReply()->deleteLater();
+                return result;
+            }
+            // FileConflictPolicy::Rename — find a non-conflicting name
+            const QFileInfo fi(filePath);
+            const QString baseName = fi.baseName();
+            const QString suffix = fi.completeSuffix();
+            const QString dir = fi.path();
+            int counter = 1;
+            do {
+                if (suffix.isEmpty()) {
+                    filePath = dir + QDir::separator() + baseName
+                               + u"("_s + QString::number(counter) + u")"_s;
+                } else {
+                    filePath = dir + QDir::separator() + baseName
+                               + u"("_s + QString::number(counter) + u")."_s + suffix;
+                }
+                ++counter;
+            } while (QFileInfo::exists(filePath));
+            // Update filename for the files map
+            filename = QFileInfo(filePath).fileName();
+        }
+
+        QOAIHttpFileElement felement(filePath);
         felement.setMimeType(QString::fromUtf8(contentType));
         felement.setTemporary(!isAttachment);
 

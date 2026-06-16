@@ -36,6 +36,12 @@ namespace QtOpenApiCommon {
 
 class QOAIHttpFileElement;
 
+enum class QOAIFileConflictPolicy {
+    Rename,     //!< Default: append numeric suffix: file.txt -> file (1).txt
+    Overwrite,  //!< Silently overwrite existing file
+    Error       //!< Fail the operation if file already exists
+};
+
 class QOAIHttpRequestInputPrivate;
 
 class QOAIHttpRequestInput
@@ -96,7 +102,7 @@ private:
 namespace QOAIHttpRequestWorker {
     CMAKECOMMONLIBGENERATEDCLIENT_COMMON_EXPORT QOAIHttpFileElement getHttpFileElement(const QMap<QString, QOAIHttpFileElement> &files, const QString &fieldname = {});
     CMAKECOMMONLIBGENERATEDCLIENT_COMMON_EXPORT QNetworkRequest getNetworkRequest(QOAIHttpRequestInput &input, QByteArray &requestContent, QNetworkRequestFactory factory, bool responseCompressionEnabled, bool requestCompressionEnabled);
-    CMAKECOMMONLIBGENERATEDCLIENT_COMMON_EXPORT QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<QString, QOAIHttpFileElement> *files = nullptr);
+    CMAKECOMMONLIBGENERATEDCLIENT_COMMON_EXPORT QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<QString, QOAIHttpFileElement> *files = nullptr, QOAIFileConflictPolicy fileConflictPolicy = QOAIFileConflictPolicy::Rename);
 
     enum class CompressionType {
         Deflate,
