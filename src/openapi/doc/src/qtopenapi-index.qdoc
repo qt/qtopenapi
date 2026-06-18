@@ -139,6 +139,13 @@
     \note You can find more information about the generator usage in the
     \l{https://openapi-generator.tech/docs/usage}{OpenAPI generator documentation}.
 
+    \section1 Security Considerations
+    When using Qt OpenAPI, consider the following security-related aspects:
+    \list
+    \li \l {Handling OpenAPI Specifications from External Sources}
+    \li \l {Network communication}
+    \endlist
+
     \section1 Examples
 
     \list

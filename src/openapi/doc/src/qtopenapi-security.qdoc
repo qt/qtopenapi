@@ -1,0 +1,48 @@
+// Copyright (C) 2026 The Qt Company Ltd.
+// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GFDL-1.3-no-invariants-only
+
+/*!
+    \page qtopenapi-security.html
+    \title Qt OpenAPI Security Considerations
+    \ingroup security-considerations
+    \brief Security considerations and recommended network setups for Qt OpenAPI.
+
+    \section1 Handling OpenAPI Specifications from External Sources
+
+    The OpenAPI specification file is the primary input to the code generation
+    pipeline. It defines the entire surface of the generated client: API
+    endpoints, data models, server URLs, authentication schemes, and
+    operational parameters. Because the generator translates spec content
+    directly into C++ source code, it should be used with trusted input only.
+
+    \b{Users are responsible for vetting any OpenAPI specification obtained
+    from an external source before generating code from it.} A specification
+    downloaded from a third-party service or public repository may contain
+    values that, once compiled, behave in unexpected or harmful ways. Before
+    using an external specification, review it for:
+
+    \list
+    \li Unexpected or suspiciously complex server URL patterns and variable
+        definitions.
+    \li Description fields or extension attributes containing content that
+        should not appear in generated source code.
+    \li Overly deep or circular model references that could affect runtime
+        stability.
+    \li Server variable enum values or defaults that could alter the
+        intended request targets.
+    \endlist
+
+    While the generator applies escaping to prevent direct code injection
+    through spec-derived strings, a malicious specification still controls
+    the structure and behavior of the generated client — including class
+    names, endpoint URLs, data flow, and operational semantics. No amount
+    of escaping can make a fundamentally untrusted specification safe to
+    use without prior review.
+
+    \section1 Network communication
+
+    Generated clients perform HTTP requests using \l{QNetworkAccessManager}.
+    Credentials (API keys, bearer tokens, Basic Auth) are attached to outgoing
+    requests. The library does not enforce HTTPS; applications must ensure
+    that credentials are transmitted only over secure connections.
+*/
