@@ -39,6 +39,9 @@ QByteArray doCompare(const QByteArrayList &actual, const QByteArrayList &expecte
 
     for (int i = 0, n = expected.size(); i != n; ++i) {
         const QByteArray expectedLine = expected.at(i);
+        // The version depends on the local setup, so skip it
+        if (expectedLine.startsWith("#define OPENAPI_GENERATOR_VERSION"))
+            continue;
         if (expectedLine != actual.at(i)) {
             ba.append("\n<<<<<< ACTUAL\n" + actual.at(i) + "\n======\n" + expectedLine
                       + "\n>>>>>> EXPECTED\n");
@@ -99,6 +102,12 @@ void compareTwoFiles(const QString &expectedFileName,
     if (hash(expectedData).toHex() != hash(generatedData).toHex()) {
         const QByteArray diff = doCompare(splitToLines(generatedData),
                                           splitToLines(expectedData));
+        // The difference is only in the generator version, simply return early
+        // here, because all the checks will fail, but that's expected.
+        if (expectedFileName.contains(QLatin1StringView("qoaicommonglobal.h"))
+            && diff.isEmpty()) {
+            return;
+        }
         QCOMPARE_GT(diff.size(), 0);
         QFAIL(qPrintable(diff));
     }
