@@ -185,7 +185,7 @@ function(qt6_add_openapi_client target)
         set(openapi_cli_entrypoint_class "org.openapitools.codegen.OpenAPIGenerator")
         set(run_client_cmd
             "${generator_jar_path}${path_separator}${openapi_generator_cli_jar_file}")
-        set(generation_command java ${arg_JAVA_OPTIONS} -cp "${run_client_cmd}" "${openapi_cli_entrypoint_class}")
+        set(generation_command ${Java_JAVA_EXECUTABLE} ${arg_JAVA_OPTIONS} -cp "${run_client_cmd}" "${openapi_cli_entrypoint_class}")
         list(APPEND extra_dependencies "${openapi_generator_cli_jar_file}")
     elseif(openapi_generator_cli_exec_file)
         # When using the jar, logback.xml is included in it and picked up automatically.
