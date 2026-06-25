@@ -177,7 +177,7 @@ void Order::setId(const qint64 &id)
 {
     m_id = id;
     m_idIsValid = true;
-    m_idIsSet = m_idIsValid;
+    m_idIsSet = true;
 }
 
 bool Order::isIdValueSet() const
@@ -199,7 +199,7 @@ void Order::setPetId(const qint64 &petId)
 {
     m_petId = petId;
     m_petIdIsValid = true;
-    m_petIdIsSet = m_petIdIsValid;
+    m_petIdIsSet = true;
 }
 
 bool Order::isPetIdValueSet() const
@@ -221,7 +221,7 @@ void Order::setQuantity(const qint32 &quantity)
 {
     m_quantity = quantity;
     m_quantityIsValid = true;
-    m_quantityIsSet = m_quantityIsValid;
+    m_quantityIsSet = true;
 }
 
 bool Order::isQuantityValueSet() const
@@ -243,7 +243,7 @@ void Order::setShipDate(const QDateTime &shipDate)
 {
     m_shipDate = shipDate;
     m_shipDateIsValid = true;
-    m_shipDateIsSet = m_shipDateIsValid;
+    m_shipDateIsSet = true;
 }
 
 bool Order::isShipDateValueSet() const
@@ -265,7 +265,7 @@ void Order::setStatus(const QString &status)
 {
     m_status = status;
     m_statusIsValid = true;
-    m_statusIsSet = m_statusIsValid;
+    m_statusIsSet = true;
 }
 
 bool Order::isStatusValueSet() const
@@ -287,7 +287,7 @@ void Order::setComplete(const bool &complete)
 {
     m_complete = complete;
     m_completeIsValid = true;
-    m_completeIsSet = m_completeIsValid;
+    m_completeIsSet = true;
 }
 
 bool Order::isCompleteValueSet() const

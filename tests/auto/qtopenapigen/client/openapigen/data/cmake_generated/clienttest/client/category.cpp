@@ -105,7 +105,7 @@ void Category::setId(const qint64 &id)
 {
     m_id = id;
     m_idIsValid = true;
-    m_idIsSet = m_idIsValid;
+    m_idIsSet = true;
 }
 
 bool Category::isIdValueSet() const
@@ -127,7 +127,7 @@ void Category::setName(const QString &name)
 {
     m_name = name;
     m_nameIsValid = true;
-    m_nameIsSet = m_nameIsValid;
+    m_nameIsSet = true;
 }
 
 bool Category::isNameValueSet() const

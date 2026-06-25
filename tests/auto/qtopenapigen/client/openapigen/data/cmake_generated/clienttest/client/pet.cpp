@@ -40,8 +40,8 @@ void Pet::initializeModel()
     m_idIsValid = !false;
 
     m_category = {};
-    m_categoryIsValid = m_category.isValid();
     m_categoryIsSet = false;
+    m_categoryIsValid = m_category.isValid();
 
     m_name = {};
     m_nameIsSet = false;
@@ -60,8 +60,8 @@ void Pet::initializeModel()
     m_tagsIsValid = !false;
 
     m_status = {};
-    m_statusIsValid = m_status.isValid();
     m_statusIsSet = false;
+    m_statusIsValid = m_status.isValid();
 
     m_age = {};
     m_ageIsSet = false;
@@ -213,7 +213,7 @@ void Pet::setId(const qint64 &id)
 {
     m_id = id;
     m_idIsValid = true;
-    m_idIsSet = m_idIsValid;
+    m_idIsSet = true;
 }
 
 bool Pet::isIdValueSet() const
@@ -260,7 +260,7 @@ void Pet::setName(const QString &name)
 {
     m_name = name;
     m_nameIsValid = true;
-    m_nameIsSet = m_nameIsValid;
+    m_nameIsSet = true;
 }
 
 bool Pet::isNameValueSet() const
@@ -282,7 +282,7 @@ void Pet::setPhotoUrls(const QList<QString> &photoUrls)
 {
     m_photoUrls = photoUrls;
     m_photoUrlsIsValid = true;
-    m_photoUrlsIsSet = m_photoUrlsIsValid;
+    m_photoUrlsIsSet = true;
 }
 
 bool Pet::isPhotoUrlsValueSet() const
@@ -348,7 +348,7 @@ void Pet::setAge(const qint32 &age)
 {
     m_age = age;
     m_ageIsValid = true;
-    m_ageIsSet = m_ageIsValid;
+    m_ageIsSet = true;
 }
 
 bool Pet::isAgeValueSet() const
@@ -370,7 +370,7 @@ void Pet::setPatience(const qint32 &patience)
 {
     m_patience = patience;
     m_patienceIsValid = true;
-    m_patienceIsSet = m_patienceIsValid;
+    m_patienceIsSet = true;
 }
 
 bool Pet::isPatienceValueSet() const

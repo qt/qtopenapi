@@ -105,7 +105,7 @@ void Tag::setId(const qint64 &id)
 {
     m_id = id;
     m_idIsValid = true;
-    m_idIsSet = m_idIsValid;
+    m_idIsSet = true;
 }
 
 bool Tag::isIdValueSet() const
@@ -127,7 +127,7 @@ void Tag::setName(const QString &name)
 {
     m_name = name;
     m_nameIsValid = true;
-    m_nameIsSet = m_nameIsValid;
+    m_nameIsSet = true;
 }
 
 bool Tag::isNameValueSet() const
