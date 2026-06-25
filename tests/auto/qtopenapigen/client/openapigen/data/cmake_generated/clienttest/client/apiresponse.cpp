@@ -123,7 +123,7 @@ void ApiResponse::setCode(const qint32 &code)
 {
     m_code = code;
     m_codeIsValid = true;
-    m_codeIsSet = m_codeIsValid;
+    m_codeIsSet = true;
 }
 
 bool ApiResponse::isCodeValueSet() const
@@ -145,7 +145,7 @@ void ApiResponse::setType(const QString &type)
 {
     m_type = type;
     m_typeIsValid = true;
-    m_typeIsSet = m_typeIsValid;
+    m_typeIsSet = true;
 }
 
 bool ApiResponse::isTypeValueSet() const
@@ -167,7 +167,7 @@ void ApiResponse::setMessage(const QString &message)
 {
     m_message = message;
     m_messageIsValid = true;
-    m_messageIsSet = m_messageIsValid;
+    m_messageIsSet = true;
 }
 
 bool ApiResponse::isMessageValueSet() const

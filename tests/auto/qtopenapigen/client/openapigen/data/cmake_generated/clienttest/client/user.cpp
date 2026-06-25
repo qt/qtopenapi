@@ -213,7 +213,7 @@ void User::setId(const qint64 &id)
 {
     m_id = id;
     m_idIsValid = true;
-    m_idIsSet = m_idIsValid;
+    m_idIsSet = true;
 }
 
 bool User::isIdValueSet() const
@@ -235,7 +235,7 @@ void User::setUsername(const QString &username)
 {
     m_username = username;
     m_usernameIsValid = true;
-    m_usernameIsSet = m_usernameIsValid;
+    m_usernameIsSet = true;
 }
 
 bool User::isUsernameValueSet() const
@@ -257,7 +257,7 @@ void User::setFirstName(const QString &firstName)
 {
     m_firstName = firstName;
     m_firstNameIsValid = true;
-    m_firstNameIsSet = m_firstNameIsValid;
+    m_firstNameIsSet = true;
 }
 
 bool User::isFirstNameValueSet() const
@@ -279,7 +279,7 @@ void User::setLastName(const QString &lastName)
 {
     m_lastName = lastName;
     m_lastNameIsValid = true;
-    m_lastNameIsSet = m_lastNameIsValid;
+    m_lastNameIsSet = true;
 }
 
 bool User::isLastNameValueSet() const
@@ -301,7 +301,7 @@ void User::setEmail(const QString &email)
 {
     m_email = email;
     m_emailIsValid = true;
-    m_emailIsSet = m_emailIsValid;
+    m_emailIsSet = true;
 }
 
 bool User::isEmailValueSet() const
@@ -323,7 +323,7 @@ void User::setPassword(const QString &password)
 {
     m_password = password;
     m_passwordIsValid = true;
-    m_passwordIsSet = m_passwordIsValid;
+    m_passwordIsSet = true;
 }
 
 bool User::isPasswordValueSet() const
@@ -345,7 +345,7 @@ void User::setPhone(const QString &phone)
 {
     m_phone = phone;
     m_phoneIsValid = true;
-    m_phoneIsSet = m_phoneIsValid;
+    m_phoneIsSet = true;
 }
 
 bool User::isPhoneValueSet() const
@@ -367,7 +367,7 @@ void User::setUserStatus(const qint32 &userStatus)
 {
     m_userStatus = userStatus;
     m_userStatusIsValid = true;
-    m_userStatusIsSet = m_userStatusIsValid;
+    m_userStatusIsSet = true;
 }
 
 bool User::isUserStatusValueSet() const
