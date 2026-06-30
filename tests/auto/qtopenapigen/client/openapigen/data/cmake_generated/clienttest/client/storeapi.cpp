@@ -268,14 +268,9 @@ void StoreApi::getInventoryCallback(const QRestReply &reply)
     QMap<QString, qint32> output;
     const QJsonDocument doc = QJsonDocument::fromJson(response);
     if (!doc.isNull() && doc.isObject()) {
-        const QJsonObject obj = doc.object();
-        for (const QString &key : obj.keys()) {
-            qint32 val;
-            const bool ok = ::QtOpenApiCommon::fromJsonValue(val, obj[key]);
-            if (!ok)
-                qWarning("%s: Failed to convert QJsonValue to qint32.", Q_FUNC_INFO);
-            output.insert(key, val);
-        }
+        const bool ok = ::QtOpenApiCommon::fromJsonValue(output, doc.object());
+        if (!ok)
+            qWarning("%s: Failed to convert QJsonValue to QMap<QString, qint32>.", Q_FUNC_INFO);
     } else {
         qWarning("%s: Failed to parse the response as a JSON object.", Q_FUNC_INFO);
     }

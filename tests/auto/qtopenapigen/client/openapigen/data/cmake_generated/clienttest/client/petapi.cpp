@@ -444,14 +444,9 @@ void PetApi::findPetsByAgeAndPatienceCallback(const QRestReply &reply)
     QList<Pet> output;
     const QJsonDocument doc = QJsonDocument::fromJson(response);
     if (!doc.isNull() && doc.isArray()) {
-        const QJsonArray jsonArray = doc.array();
-        for (const QJsonValue &obj : jsonArray) {
-            Pet val;
-            const bool ok = ::QtOpenApiCommon::fromJsonValue(val, obj);
-            if (!ok)
-                qWarning("%s: Failed to convert QJsonValue to Pet.", Q_FUNC_INFO);
-            output.append(val);
-        }
+        const bool ok = ::QtOpenApiCommon::fromJsonValue(output, doc.array());
+        if (!ok)
+            qWarning("%s: Failed to convert QJsonValue to QList<Pet>.", Q_FUNC_INFO);
     } else {
         qWarning("%s: Failed to parse the response as a JSON array.", Q_FUNC_INFO);
     }
@@ -577,14 +572,9 @@ void PetApi::findPetsByStatusCallback(const QRestReply &reply)
     QList<Pet> output;
     const QJsonDocument doc = QJsonDocument::fromJson(response);
     if (!doc.isNull() && doc.isArray()) {
-        const QJsonArray jsonArray = doc.array();
-        for (const QJsonValue &obj : jsonArray) {
-            Pet val;
-            const bool ok = ::QtOpenApiCommon::fromJsonValue(val, obj);
-            if (!ok)
-                qWarning("%s: Failed to convert QJsonValue to Pet.", Q_FUNC_INFO);
-            output.append(val);
-        }
+        const bool ok = ::QtOpenApiCommon::fromJsonValue(output, doc.array());
+        if (!ok)
+            qWarning("%s: Failed to convert QJsonValue to QList<Pet>.", Q_FUNC_INFO);
     } else {
         qWarning("%s: Failed to parse the response as a JSON array.", Q_FUNC_INFO);
     }
@@ -710,14 +700,9 @@ void PetApi::findPetsByTagsCallback(const QRestReply &reply)
     QList<Pet> output;
     const QJsonDocument doc = QJsonDocument::fromJson(response);
     if (!doc.isNull() && doc.isArray()) {
-        const QJsonArray jsonArray = doc.array();
-        for (const QJsonValue &obj : jsonArray) {
-            Pet val;
-            const bool ok = ::QtOpenApiCommon::fromJsonValue(val, obj);
-            if (!ok)
-                qWarning("%s: Failed to convert QJsonValue to Pet.", Q_FUNC_INFO);
-            output.append(val);
-        }
+        const bool ok = ::QtOpenApiCommon::fromJsonValue(output, doc.array());
+        if (!ok)
+            qWarning("%s: Failed to convert QJsonValue to QList<Pet>.", Q_FUNC_INFO);
     } else {
         qWarning("%s: Failed to parse the response as a JSON array.", Q_FUNC_INFO);
     }
