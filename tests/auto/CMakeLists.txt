@@ -18,6 +18,7 @@ if(TARGET ${QT_CMAKE_EXPORT_NAMESPACE}::QtOpenAPIGeneratorJar
         add_subdirectory(mediatype)
     endif()
     add_subdirectory(models)
+    add_subdirectory(nested_structures)
     add_subdirectory(openapi2.0)
     add_subdirectory(operation-parameters)
     add_subdirectory(petstore)
