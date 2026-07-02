@@ -47,7 +47,7 @@ selection view.
 
 The \c CMakeLists.txt file invokes the Qt OpenAPI generator to generate
 client code from the \c colorpalette.yaml specification by calling the
-\l qt6_add_openapi_client function.
+\l qt_add_openapi_client() function.
 
 \snippet colorpalette/CMakeLists.txt 0
 

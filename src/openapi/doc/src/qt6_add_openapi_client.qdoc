@@ -20,8 +20,7 @@ is loaded with:
 
 \ingroup cmake-commands-qtopenapi
 \title qt_add_openapi_client
-\target qt_add_openapi_client
-\keyword qt6_add_openapi_client
+\keyword qt_add_openapi_client()
 \summary {Generates an HTTP client using a provided OpenAPI specification.}
 \include cmake-find-package-qtopenapi.qdocinc
 \cmakecommandsince 6.11
