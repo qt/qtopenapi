@@ -211,7 +211,9 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
     int queryParamCounter = 0;{{/hasQueryParams}}
 {{#queryParams}}
     {
+{{^isArray}}
         [[maybe_unused]] QString paramString;
+{{/isArray}}
 {{#vendorExtensions.x-warningMessage}}
         qWarning("{{{vendorExtensions.x-warningMessage}}}");
 {{/vendorExtensions.x-warningMessage}}
