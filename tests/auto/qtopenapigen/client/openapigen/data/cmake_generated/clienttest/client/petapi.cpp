@@ -507,7 +507,6 @@ void PetApi::findPetsByStatusWithDataImpl(const QList<QString> &status, const QO
     QString fullPath = u"/pet/findByStatus"_s;
     int queryParamCounter = 0;
     {
-        [[maybe_unused]] QString paramString;
 
         SerializationFlags flags;
         flags.setFlag(SerializationFlag::Object, false || false);
@@ -635,7 +634,6 @@ void PetApi::findPetsByTagsWithDataImpl(const QList<QString> &tags, const QObjec
     QString fullPath = u"/pet/findByTags"_s;
     int queryParamCounter = 0;
     {
-        [[maybe_unused]] QString paramString;
 
         SerializationFlags flags;
         flags.setFlag(SerializationFlag::Object, false || false);
