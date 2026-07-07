@@ -173,6 +173,15 @@ class QOAIBaseApiPrivate;
 
 class CMAKECOMMONLIBGENERATEDCLIENT_COMMON_EXPORT QOAIBaseApi : public QObject {
     Q_OBJECT
+
+    Q_PROPERTY(QList<QString> operations READ operations)
+    Q_PROPERTY(QString bearerToken READ bearerToken WRITE setBearerToken)
+    Q_PROPERTY(QString username READ username WRITE setUsername)
+    Q_PROPERTY(QString password READ password WRITE setPassword)
+    Q_PROPERTY(QString workingDirectory READ workingDirectory WRITE setWorkingDirectory)
+    Q_PROPERTY(bool requestCompressionEnabled READ requestCompressionEnabled  WRITE setRequestCompressionEnabled)
+    Q_PROPERTY(bool responseCompressionEnabled READ responseCompressionEnabled  WRITE setResponseCompressionEnabled)
+
 public:
     using ServerError = QOAIServerVariable::ServerError;
     Q_ENUM(ServerError)
@@ -182,7 +191,8 @@ public:
     QOAIBaseApi() : QOAIBaseApi(nullptr) {}
     explicit QOAIBaseApi(QObject *parent);
     ~QOAIBaseApi() override;
-public Q_SLOTS:
+
+public:
     QList<QString> operations() const;
     QList<QOAIServerConfiguration> serverConfigurations(const QString &operation) const;
 
@@ -191,7 +201,7 @@ public Q_SLOTS:
     ServerError setServer(const QString &operation, qsizetype serverIndex);
     std::optional<qsizetype> activeServer(const QString &operation) const;
 
-    void setApiKey(const QString &apiKeyName, const QString &apiKey);
+    Q_INVOKABLE void setApiKey(const QString &apiKeyName, const QString &apiKey);
     std::optional<QString> apiKey(const QString &name) const;
     void setBearerToken(const QString &token);
     QString bearerToken() const;
@@ -199,7 +209,7 @@ public Q_SLOTS:
     QString username() const;
     void setPassword(const QString &password);
     QString password() const;
-    void setTimeOut(std::chrono::milliseconds timeOut);
+    Q_INVOKABLE void setTimeOut(std::chrono::milliseconds timeOut);
 #if QT_CONFIG(ssl)
     void setSslConfiguration(QSslConfiguration config);
     QSslConfiguration sslConfiguration() const;
@@ -212,7 +222,7 @@ public Q_SLOTS:
     QNetworkRequestFactory networkRequestFactory() const;
 
     void setHeader(QHttpHeaders::WellKnownHeader key, QAnyStringView value);
-    void setHeader(QAnyStringView key, QAnyStringView value);
+    Q_INVOKABLE void setHeader(QAnyStringView key, QAnyStringView value);
 
     void setRequestCompressionEnabled(bool enabled);
     bool requestCompressionEnabled() const;
