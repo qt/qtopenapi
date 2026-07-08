@@ -559,7 +559,7 @@ void {{classname}}::{{nickname}}Callback(const QRestReply &reply)
     QMap<QString, {{prefix}}HttpFileElement> responseFiles;
 {{/isResponseFile}}
 {{/returnTypeIsPrimitive}}
-    const QByteArray response = {{prefix}}HttpRequestWorker::parseResponse(reply, workingDirectory(){{^returnTypeIsPrimitive}}{{#isResponseFile}}, &responseFiles, fileConflictPolicy(){{/isResponseFile}}{{/returnTypeIsPrimitive}});
+    {{^isResponseFile}}const QByteArray response = {{/isResponseFile}}{{prefix}}HttpRequestWorker::parseResponse(reply, workingDirectory(){{^returnTypeIsPrimitive}}{{#isResponseFile}}, &responseFiles, fileConflictPolicy(){{/isResponseFile}}{{/returnTypeIsPrimitive}});
 {{#isArray}}
     {{{returnType}}} output;
     const QJsonDocument doc = QJsonDocument::fromJson(response);
