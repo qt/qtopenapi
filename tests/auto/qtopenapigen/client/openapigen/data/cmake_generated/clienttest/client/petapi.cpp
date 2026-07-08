@@ -947,7 +947,7 @@ void PetApi::getJsonFileCallback(const QRestReply &reply)
         return;
 
     QMap<QString, QOAIHttpFileElement> responseFiles;
-    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory(), &responseFiles, fileConflictPolicy());
+    QOAIHttpRequestWorker::parseResponse(reply, workingDirectory(), &responseFiles, fileConflictPolicy());
     QOAIHttpFileElement output = QOAIHttpRequestWorker::getHttpFileElement(responseFiles);
     // Check if callback is provided
     QOAICallerInfo callerInfo = takeCallerInfo(netReply);
