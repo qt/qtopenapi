@@ -51,8 +51,8 @@ QT_END_NAMESPACE
 * @param[in] DEPRECATED - sets Q_DECL_DEPRECATED if operation is deprecated.
 **/
 #define QOAI_ADD_EMPTY_OPERATION_IMPL(OPERATION, DEPRECATED)                      \
-public Q_SLOTS:                                                                         \
-DEPRECATED void OPERATION()                                                             \
+public:                                                                                 \
+Q_INVOKABLE DEPRECATED void OPERATION()                                                 \
 {                                                                                       \
     OPERATION##WithDataImpl(nullptr, nullptr);                                          \
 }                                                                                       \
@@ -78,8 +78,8 @@ DEPRECATED void OPERATION(const ContextTypeForFunctor<Functor> *context, Functor
 * @param[in] DEPRECATED - sets Q_DECL_DEPRECATED if operation is deprecated.
 **/
 #define QOAI_ADD_NO_PARAMS_OPERATION_WITH_RESPONSE_IMPL(OPERATION, RESPONSE, DEPRECATED)       \
-public Q_SLOTS:                                                                                      \
-DEPRECATED void OPERATION()                                                                          \
+public:                                                                                              \
+Q_INVOKABLE DEPRECATED void OPERATION()                                                              \
 {                                                                                                    \
     OPERATION##WithDataImpl(nullptr, nullptr);                                                       \
 }                                                                                                    \
@@ -112,8 +112,8 @@ DEPRECATED void OPERATION(const ContextTypeForFunctor<Functor> *context, Functor
 * @param[in] DEPRECATED - sets Q_DECL_DEPRECATED if operation is deprecated.
 **/
 #define QOAI_ADD_OPERATION_IMPL(OPERATION, PARAMS, ARGS, RESPONSE, DEPRECATED)      \
-public Q_SLOTS:                                                                           \
-DEPRECATED void OPERATION(QOAI_VA_LIST PARAMS)                                      \
+public:                                                                                   \
+Q_INVOKABLE DEPRECATED void OPERATION(QOAI_VA_LIST PARAMS)                          \
 {                                                                                         \
     OPERATION##WithDataImpl(QOAI_VA_LIST ARGS, nullptr, nullptr);                   \
 }                                                                                         \
@@ -147,8 +147,8 @@ DEPRECATED void OPERATION(QOAI_VA_LIST PARAMS, const ContextTypeForFunctor<Funct
 * @param[in] DEPRECATED - sets Q_DECL_DEPRECATED if operation is deprecated.
 **/
 #define QOAI_ADD_OPERATION_WITH_NO_RESPONSE_IMPL(OPERATION, PARAMS, ARGS, DEPRECATED)                      \
-public Q_SLOTS:                                                                                                  \
-DEPRECATED void OPERATION(QOAI_VA_LIST PARAMS)                                      \
+public:                                                                                                          \
+Q_INVOKABLE DEPRECATED void OPERATION(QOAI_VA_LIST PARAMS)                          \
 {                                                                                         \
     OPERATION##WithDataImpl(QOAI_VA_LIST ARGS, nullptr, nullptr);                   \
 }                                                                                         \
