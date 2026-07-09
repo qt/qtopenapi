@@ -232,6 +232,9 @@ public:
     void setFileConflictPolicy(FileConflictPolicy policy);
     FileConflictPolicy fileConflictPolicy() const;
 
+    void setDecompressedSafetyCheckThreshold(qint64 threshold);
+    qint64 decompressedSafetyCheckThreshold() const;
+
     QString errorString(ServerError error) const;
 
 protected:

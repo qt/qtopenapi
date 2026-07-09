@@ -264,7 +264,10 @@ void StoreApi::getInventoryCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory());
+    QOAIHttpResponseParseParameters responseData;
+    responseData.m_fileConflictPolicy = fileConflictPolicy();
+    responseData.m_safetyThresholdSize = decompressedSafetyCheckThreshold();
+    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory(), responseData);
     QMap<QString, qint32> output;
     const QJsonDocument doc = QJsonDocument::fromJson(response);
     if (!doc.isNull() && doc.isObject()) {
@@ -392,7 +395,10 @@ void StoreApi::getOrderByIdCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory());
+    QOAIHttpResponseParseParameters responseData;
+    responseData.m_fileConflictPolicy = fileConflictPolicy();
+    responseData.m_safetyThresholdSize = decompressedSafetyCheckThreshold();
+    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory(), responseData);
     Order output(response);
     // Check if callback is provided
     QOAICallerInfo callerInfo = takeCallerInfo(netReply);
@@ -493,7 +499,10 @@ void StoreApi::placeOrderCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory());
+    QOAIHttpResponseParseParameters responseData;
+    responseData.m_fileConflictPolicy = fileConflictPolicy();
+    responseData.m_safetyThresholdSize = decompressedSafetyCheckThreshold();
+    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory(), responseData);
     Order output(response);
     // Check if callback is provided
     QOAICallerInfo callerInfo = takeCallerInfo(netReply);

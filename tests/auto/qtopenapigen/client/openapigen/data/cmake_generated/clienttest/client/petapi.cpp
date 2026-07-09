@@ -178,7 +178,10 @@ void PetApi::addPetCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory());
+    QOAIHttpResponseParseParameters responseData;
+    responseData.m_fileConflictPolicy = fileConflictPolicy();
+    responseData.m_safetyThresholdSize = decompressedSafetyCheckThreshold();
+    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory(), responseData);
     Pet output(response);
     // Check if callback is provided
     QOAICallerInfo callerInfo = takeCallerInfo(netReply);
@@ -440,7 +443,10 @@ void PetApi::findPetsByAgeAndPatienceCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory());
+    QOAIHttpResponseParseParameters responseData;
+    responseData.m_fileConflictPolicy = fileConflictPolicy();
+    responseData.m_safetyThresholdSize = decompressedSafetyCheckThreshold();
+    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory(), responseData);
     QList<Pet> output;
     const QJsonDocument doc = QJsonDocument::fromJson(response);
     if (!doc.isNull() && doc.isArray()) {
@@ -567,7 +573,10 @@ void PetApi::findPetsByStatusCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory());
+    QOAIHttpResponseParseParameters responseData;
+    responseData.m_fileConflictPolicy = fileConflictPolicy();
+    responseData.m_safetyThresholdSize = decompressedSafetyCheckThreshold();
+    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory(), responseData);
     QList<Pet> output;
     const QJsonDocument doc = QJsonDocument::fromJson(response);
     if (!doc.isNull() && doc.isArray()) {
@@ -694,7 +703,10 @@ void PetApi::findPetsByTagsCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory());
+    QOAIHttpResponseParseParameters responseData;
+    responseData.m_fileConflictPolicy = fileConflictPolicy();
+    responseData.m_safetyThresholdSize = decompressedSafetyCheckThreshold();
+    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory(), responseData);
     QList<Pet> output;
     const QJsonDocument doc = QJsonDocument::fromJson(response);
     if (!doc.isNull() && doc.isArray()) {
@@ -823,7 +835,10 @@ void PetApi::findPetsImageByIdCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory());
+    QOAIHttpResponseParseParameters responseData;
+    responseData.m_fileConflictPolicy = fileConflictPolicy();
+    responseData.m_safetyThresholdSize = decompressedSafetyCheckThreshold();
+    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory(), responseData);
     QString output;
     const bool ok = ::QtOpenApiCommon::fromByteArray(response, output);
     if (!ok)
@@ -946,8 +961,12 @@ void PetApi::getJsonFileCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
+    QOAIHttpResponseParseParameters responseData;
     QMap<QString, QOAIHttpFileElement> responseFiles;
-    QOAIHttpRequestWorker::parseResponse(reply, workingDirectory(), &responseFiles, fileConflictPolicy());
+    responseData.m_files = &responseFiles;
+    responseData.m_fileConflictPolicy = fileConflictPolicy();
+    responseData.m_safetyThresholdSize = decompressedSafetyCheckThreshold();
+    QOAIHttpRequestWorker::parseResponse(reply, workingDirectory(), responseData);
     QOAIHttpFileElement output = QOAIHttpRequestWorker::getHttpFileElement(responseFiles);
     // Check if callback is provided
     QOAICallerInfo callerInfo = takeCallerInfo(netReply);
@@ -1070,7 +1089,10 @@ void PetApi::getPetByIdCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory());
+    QOAIHttpResponseParseParameters responseData;
+    responseData.m_fileConflictPolicy = fileConflictPolicy();
+    responseData.m_safetyThresholdSize = decompressedSafetyCheckThreshold();
+    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory(), responseData);
     Pet output(response);
     // Check if callback is provided
     QOAICallerInfo callerInfo = takeCallerInfo(netReply);
@@ -1178,7 +1200,10 @@ void PetApi::updatePetCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory());
+    QOAIHttpResponseParseParameters responseData;
+    responseData.m_fileConflictPolicy = fileConflictPolicy();
+    responseData.m_safetyThresholdSize = decompressedSafetyCheckThreshold();
+    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory(), responseData);
     Pet output(response);
     // Check if callback is provided
     QOAICallerInfo callerInfo = takeCallerInfo(netReply);
@@ -1457,7 +1482,10 @@ void PetApi::uploadFileCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory());
+    QOAIHttpResponseParseParameters responseData;
+    responseData.m_fileConflictPolicy = fileConflictPolicy();
+    responseData.m_safetyThresholdSize = decompressedSafetyCheckThreshold();
+    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory(), responseData);
     ApiResponse output(response);
     // Check if callback is provided
     QOAICallerInfo callerInfo = takeCallerInfo(netReply);

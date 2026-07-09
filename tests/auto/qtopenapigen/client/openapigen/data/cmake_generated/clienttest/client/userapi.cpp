@@ -742,7 +742,10 @@ void UserApi::getUserByNameCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory());
+    QOAIHttpResponseParseParameters responseData;
+    responseData.m_fileConflictPolicy = fileConflictPolicy();
+    responseData.m_safetyThresholdSize = decompressedSafetyCheckThreshold();
+    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory(), responseData);
     User output(response);
     // Check if callback is provided
     QOAICallerInfo callerInfo = takeCallerInfo(netReply);
@@ -913,7 +916,10 @@ void UserApi::loginUserCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory());
+    QOAIHttpResponseParseParameters responseData;
+    responseData.m_fileConflictPolicy = fileConflictPolicy();
+    responseData.m_safetyThresholdSize = decompressedSafetyCheckThreshold();
+    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory(), responseData);
     QString output;
     const bool ok = ::QtOpenApiCommon::fromByteArray(response, output);
     if (!ok)
@@ -1208,7 +1214,10 @@ void UserApi::updateUserCallback(const QRestReply &reply)
     if (!reply.isSuccess())
         return;
 
-    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory());
+    QOAIHttpResponseParseParameters responseData;
+    responseData.m_fileConflictPolicy = fileConflictPolicy();
+    responseData.m_safetyThresholdSize = decompressedSafetyCheckThreshold();
+    const QByteArray response = QOAIHttpRequestWorker::parseResponse(reply, workingDirectory(), responseData);
     User output(response);
     // Check if callback is provided
     QOAICallerInfo callerInfo = takeCallerInfo(netReply);
