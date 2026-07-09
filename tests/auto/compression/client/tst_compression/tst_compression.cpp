@@ -8,6 +8,7 @@
 
 #include <QtCore/qobject.h>
 #include <QtCore/qprocess.h>
+#include <QtCore/qregularexpression.h>
 #include <QtNetwork/qnetworkaccessmanager.h>
 #include <QtNetwork/qrestaccessmanager.h>
 #include <QtTest/qtest.h>
@@ -70,9 +71,45 @@ void tst_Compression::localCompressionRoundtrip()
     const QByteArray compressed = compressData(originalData, 9, compressionType);
     QCOMPARE_LE(compressed.size(), originalData.size());
 
+    // By default, limit = 0, which means no limit.
     const QByteArray decompressed = decompressData(compressed, compressionType);
-
     QCOMPARE(decompressed, originalData);
+
+    // Let's test decompression with ratio > 40
+    // Create highly repetitive data exceeding the 10 MB safety threshold.
+    // When compressed, the ratio will far exceed 40:1, triggering the bomb check.
+    static constexpr qsizetype bombDataSize = 11 * 1024 * 1024; // 11 MB
+    QByteArray bombData(bombDataSize, '\0');
+    const QByteArray bombCompressed = compressData(bombData, 9, compressionType);
+    // Verify the compression ratio would indeed exceed 40:1
+    QVERIFY(bombData.size() / bombCompressed.size() > 40);
+    // Don't use the entire message here, because of different ratio for deflate and gzip
+    // in the message body.
+    // The ratio value itself is not important here, important that ratio > 40.
+    QTest::ignoreMessage(QtWarningMsg,
+                         QRegularExpression(u"Decompression ratio exceeds safety threshold"_s));
+    const QByteArray bombResult = decompressData(bombCompressed, compressionType);
+    QCOMPARE(bombResult.size(), 0);
+
+    // Let's test decompression with the threshold < 10 MB.
+    // Create highly repetitive data LESS then the 10 MB safety threshold.
+    // Unfortunately, bomb won't be detected.
+    static constexpr qsizetype smallerBombDataSize = 9 * 1024 * 1024;
+    QByteArray sBombData(smallerBombDataSize, '\0');
+    const QByteArray sBombCompressed = compressData(sBombData, 9, compressionType);
+    // Verify the compression ratio would indeed exceed 40:1
+    QVERIFY(sBombData.size() / sBombCompressed.size() > 40);
+    // Default 10Mb threshold is used
+    const QByteArray sBombResult = decompressData(sBombCompressed, compressionType);
+    QCOMPARE(sBombResult.size(), 9437184);
+
+    // Let's test decompression with a new threshold = 8 MB
+    // Fortunately, previously created bomb will be detected.
+    QTest::ignoreMessage(QtWarningMsg,
+                         QRegularExpression(u"Decompression ratio exceeds safety threshold"_s));
+    const QByteArray nextResult
+        = decompressData(sBombCompressed, compressionType, 8 * 1024 * 1024);
+    QCOMPARE(nextResult.size(), 0);
 }
 
 void tst_Compression::generatorVersionCheck()
@@ -126,6 +163,7 @@ void tst_Compression::toggleCompressionParameters_data()
     QTest::newRow("compressed_response") << false << true << false;
     QTest::newRow("all_compressed") << true << true << false;
     QTest::newRow("all_uncompressed_force_compressed_response") << false << false << true;
+    QTest::newRow("all_compressed_force_compressed_response") << true << true << true;
 }
 
 void tst_Compression::toggleCompressionParameters()

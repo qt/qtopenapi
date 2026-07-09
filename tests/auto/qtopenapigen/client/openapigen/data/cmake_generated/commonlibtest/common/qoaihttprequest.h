@@ -99,17 +99,24 @@ private:
     std::unique_ptr<QOAIHttpRequestInputPrivate> d_ptr;
 };
 
+struct CMAKECOMMONLIBGENERATEDCLIENT_COMMON_EXPORT QOAIHttpResponseParseParameters
+{
+    QMap<QString, QOAIHttpFileElement> *m_files = nullptr;
+    QOAIFileConflictPolicy m_fileConflictPolicy = QOAIFileConflictPolicy::Rename;
+    qint64 m_safetyThresholdSize = -1;
+};
+
 namespace QOAIHttpRequestWorker {
     CMAKECOMMONLIBGENERATEDCLIENT_COMMON_EXPORT QOAIHttpFileElement getHttpFileElement(const QMap<QString, QOAIHttpFileElement> &files, const QString &fieldname = {});
     CMAKECOMMONLIBGENERATEDCLIENT_COMMON_EXPORT QNetworkRequest getNetworkRequest(QOAIHttpRequestInput &input, QByteArray &requestContent, QNetworkRequestFactory factory, bool responseCompressionEnabled, bool requestCompressionEnabled);
-    CMAKECOMMONLIBGENERATEDCLIENT_COMMON_EXPORT QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<QString, QOAIHttpFileElement> *files = nullptr, QOAIFileConflictPolicy fileConflictPolicy = QOAIFileConflictPolicy::Rename);
+    CMAKECOMMONLIBGENERATEDCLIENT_COMMON_EXPORT QByteArray parseResponse(const QRestReply &reply, const QString &workDir, const QOAIHttpResponseParseParameters &data);
 
     enum class CompressionType {
         Deflate,
         Gzip,
         None,
     };
-    CMAKECOMMONLIBGENERATEDCLIENT_COMMON_EXPORT QByteArray decompressData(const QByteArray &data, CompressionType compressionType);
+    CMAKECOMMONLIBGENERATEDCLIENT_COMMON_EXPORT QByteArray decompressData(const QByteArray &data, CompressionType compressionType, qint64 safetyThresholdSize = -1);
     CMAKECOMMONLIBGENERATEDCLIENT_COMMON_EXPORT QByteArray compressData(const QByteArray &input, int level, CompressionType compressionType);
 } // namespace QOAIHttpRequestWorker
 

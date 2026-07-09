@@ -38,6 +38,11 @@ namespace QtOpenApiCommon {
 
 using namespace Qt::StringLiterals;
 
+// Decompressed size threshold below which no ratio check is performed.
+// Above this, a ratio > 40:1 is considered a potential archive bomb.
+// Aligned with QNetworkRequest::decompressedSafetyCheckThreshold() default.
+constexpr qint64 DecompressedSafetyCheckThreshold = 10ll * 1024ll * 1024ll;
+
 // Internal url encoding helper function
 QString toFormUrlEncoding(const QString &input)
 {
@@ -495,7 +500,7 @@ static QString parseFilenameParameter(QByteArrayView value, FilenameParameter ty
     return filename;
 };
 
-QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<QString, QOAIHttpFileElement> *files, QOAIFileConflictPolicy fileConflictPolicy)
+QByteArray parseResponse(const QRestReply &reply, const QString &workDir, const QOAIHttpResponseParseParameters &data)
 {
     QByteArray result;
     QByteArray contentDispositionHdr;
@@ -530,7 +535,7 @@ QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<Q
             const QByteArray encoding = it->trimmed();
             if (encoding.compare("identity", Qt::CaseInsensitive) == 0)
                 continue;
-            result = decompressData(result, encodingFormatToCompressionType(encoding));
+            result = decompressData(result, encodingFormatToCompressionType(encoding), data.m_safetyThresholdSize);
         }
     }
 
@@ -540,7 +545,7 @@ QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<Q
 
     if (contentType == "multipart/form-data") {
         // TODO: Handle multipart responses
-    } else if (files) {
+    } else if (data.m_files) {
         QString filename = QUuid::createUuid().toString(QUuid::WithoutBraces);
         const auto contentDisposition = contentDispositionHdr.split(';');
         bool isAttachment = false;
@@ -574,9 +579,9 @@ QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<Q
         QString filePath = workDir + QDir::separator() + filename;
 
         // Apply file conflict policy
-        if (fileConflictPolicy != QOAIFileConflictPolicy::Overwrite
+        if (data.m_fileConflictPolicy != QOAIFileConflictPolicy::Overwrite
             && QFileInfo::exists(filePath)) {
-            if (fileConflictPolicy == QOAIFileConflictPolicy::Error) {
+            if (data.m_fileConflictPolicy == QOAIFileConflictPolicy::Error) {
                 qWarning("File already exists and FileConflictPolicy::Error is set: %ls\n"
                          "The file will not be overwritten.",
                          qUtf16Printable(filePath));
@@ -608,25 +613,42 @@ QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<Q
         felement.setTemporary(!isAttachment);
 
         felement.saveToLocalFile(result);
-        files->insert(filename, felement);
+        data.m_files->insert(filename, felement);
     }
 
     reply.networkReply()->deleteLater();
     return result;
 }
 
-static QByteArray decompressGzipOrDeflate(const QByteArray &data)
+// Ratio-based archive bomb detection, aligned with Qt Network's QDecompressHelper.
+// Once decompressed output exceeds the safety threshold, we check the ratio of
+// decompressed-to-compressed bytes. For gzip/deflate a ratio above 40:1 indicates
+// a potential zip bomb (Qt Network uses the same ratio).
+static bool isPotentialArchiveBomb(qint64 compressedBytes, qint64 decompressedBytes,
+                                   qint64 safetyCheckThreshold)
+{
+    if (compressedBytes == 0)
+        return false;
+    if (decompressedBytes <= safetyCheckThreshold)
+        return false;
+    // For gzip/deflate: ratio > 40 is suspicious
+    double ratio = double(decompressedBytes) / double(compressedBytes);
+    return (ratio > 40.0);
+}
+
+static QByteArray decompressGzipOrDeflate(const QByteArray &data, qint64 checkThreshold)
 {
     static constexpr uInt MaxUInt = std::numeric_limits<uInt>::max();
     static constexpr int CHUNK_SIZE = 8*1024;
 
-    qsizetype inputLeft = data.size();
-    if (inputLeft <= 4)
+    const qsizetype compressedSize = data.size();
+    if (compressedSize <= 4)
         return {};
 
     QByteArray result;
     bool success = false;
 
+    qsizetype inputLeft = compressedSize;
     qsizetype offset = 0;
     while (inputLeft > 0) {
         // expand to quint64 to do the proper comparison
@@ -643,12 +665,37 @@ static QByteArray decompressGzipOrDeflate(const QByteArray &data)
             break;
 
         char out[CHUNK_SIZE];
+        const qint64 activeCheckThreshold
+            = checkThreshold >= 0 ? checkThreshold : DecompressedSafetyCheckThreshold;
         do {
             strm.avail_out = CHUNK_SIZE;
             strm.next_out = (Bytef*)(out);
             success = inflate(&strm, Z_NO_FLUSH) >= Z_OK; // can return Z_STREAM_END
-            if (success)
-                result.append(out, CHUNK_SIZE - (int)strm.avail_out);
+            if (success) {
+                const int bytesProduced = CHUNK_SIZE - (int)strm.avail_out;
+                const qsizetype newDecompressedSize = result.size() + bytesProduced;
+                // Ratio-based archive bomb check (always active, aligned with
+                // Qt Network's approach: threshold = 10 MB, max ratio = 40:1
+                // for gzip/deflate). This allows legitimate large responses
+                // with normal compression ratios to pass through.
+                // But user can set own threshold by BaseApi::setDecompressedSafetyCheckThreshold(),
+                // then we take into considiration that value.
+                // By default, decompressedSafetyCheckThreshold() == -1, which means
+                // DecompressedSafetyCheckThreshold should be used instead.
+                if (isPotentialArchiveBomb(compressedSize, newDecompressedSize,
+                                           activeCheckThreshold)) {
+                    qWarning("Decompression ratio exceeds safety threshold "
+                             "(compressed: %lld bytes, decompressed: %lld bytes, "
+                             "ratio: %.1f). Aborting decompression to prevent "
+                             "potential zip-bomb denial of service.",
+                             static_cast<long long>(compressedSize),
+                             static_cast<long long>(newDecompressedSize),
+                             double(newDecompressedSize) / double(compressedSize));
+                    inflateEnd(&strm);
+                    return {};
+                }
+                result.append(out, bytesProduced);
+            }
         } while (strm.avail_out == 0);
         if (success)
             success = inflateEnd(&strm) == Z_OK;
@@ -662,12 +709,12 @@ static QByteArray decompressGzipOrDeflate(const QByteArray &data)
     return success ? result : QByteArray();
 }
 
-QByteArray decompressData(const QByteArray &data, CompressionType compressionType)
+QByteArray decompressData(const QByteArray &data, CompressionType compressionType, qint64 safetyThresholdSize)
 {
     switch (compressionType) {
     case CompressionType::Gzip:
     case CompressionType::Deflate:
-        return decompressGzipOrDeflate(data);
+        return decompressGzipOrDeflate(data, safetyThresholdSize);
     case CompressionType::None:
     default:
         return data;

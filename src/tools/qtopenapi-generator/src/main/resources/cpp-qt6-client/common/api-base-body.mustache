@@ -44,6 +44,7 @@ public:
     bool m_isResponseCompressionEnabled = false;
     bool m_isRequestCompressionEnabled = false;
     {{prefix}}FileConflictPolicy m_fileConflictPolicy = {{prefix}}FileConflictPolicy::Rename;
+    qint64 m_decompressedSafetyCheckThreshold = -1; // -1 means no user's limit set, default will be used instead
 };
 
 {{prefix}}BaseApi::{{prefix}}BaseApi(QObject *parent)
@@ -278,6 +279,16 @@ void {{prefix}}BaseApi::setFileConflictPolicy(FileConflictPolicy policy)
 {{prefix}}BaseApi::FileConflictPolicy {{prefix}}BaseApi::fileConflictPolicy() const
 {
     return d->m_fileConflictPolicy;
+}
+
+void {{prefix}}BaseApi::setDecompressedSafetyCheckThreshold(qint64 threshold)
+{
+    d->m_decompressedSafetyCheckThreshold = threshold;
+}
+
+qsizetype {{prefix}}BaseApi::decompressedSafetyCheckThreshold() const
+{
+    return d->m_decompressedSafetyCheckThreshold;
 }
 
 QString {{prefix}}BaseApi::errorString(ServerError error) const

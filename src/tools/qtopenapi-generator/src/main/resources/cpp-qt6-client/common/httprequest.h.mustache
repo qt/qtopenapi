@@ -93,17 +93,24 @@ private:
     std::unique_ptr<{{prefix}}HttpRequestInputPrivate> d_ptr;
 };
 
+struct {{packageNameUpperCase}}_COMMON_EXPORT {{prefix}}HttpResponseParseParameters
+{
+    QMap<QString, {{prefix}}HttpFileElement> *m_files = nullptr;
+    {{prefix}}FileConflictPolicy m_fileConflictPolicy = {{prefix}}FileConflictPolicy::Rename;
+    qint64 m_safetyThresholdSize = -1;
+};
+
 namespace {{prefix}}HttpRequestWorker {
     {{packageNameUpperCase}}_COMMON_EXPORT {{prefix}}HttpFileElement getHttpFileElement(const QMap<QString, {{prefix}}HttpFileElement> &files, const QString &fieldname = {});
     {{packageNameUpperCase}}_COMMON_EXPORT QNetworkRequest getNetworkRequest({{prefix}}HttpRequestInput &input, QByteArray &requestContent, QNetworkRequestFactory factory, bool responseCompressionEnabled, bool requestCompressionEnabled);
-    {{packageNameUpperCase}}_COMMON_EXPORT QByteArray parseResponse(const QRestReply &reply, const QString &workDir, QMap<QString, {{prefix}}HttpFileElement> *files = nullptr, {{prefix}}FileConflictPolicy fileConflictPolicy = {{prefix}}FileConflictPolicy::Rename);
+    {{packageNameUpperCase}}_COMMON_EXPORT QByteArray parseResponse(const QRestReply &reply, const QString &workDir, const {{prefix}}HttpResponseParseParameters &data);
 
     enum class CompressionType {
         Deflate,
         Gzip,
         None,
     };
-    {{packageNameUpperCase}}_COMMON_EXPORT QByteArray decompressData(const QByteArray &data, CompressionType compressionType);
+    {{packageNameUpperCase}}_COMMON_EXPORT QByteArray decompressData(const QByteArray &data, CompressionType compressionType, qint64 safetyThresholdSize = -1);
     {{packageNameUpperCase}}_COMMON_EXPORT QByteArray compressData(const QByteArray &input, int level, CompressionType compressionType);
 } // namespace {{prefix}}HttpRequestWorker
 
