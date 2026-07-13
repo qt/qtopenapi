@@ -3,6 +3,7 @@
 #include "{{prefixLowerCase}}httprequest.h"
 
 #include <QtCore/qdir.h>
+#include <QtCore/qhash.h>
 #include <QtCore/qjsonarray.h>
 #include <QtCore/qjsondocument.h>
 #include <QtCore/qlist.h>
@@ -33,7 +34,7 @@ public:
     QMap<QString, qsizetype> m_serverIndices;
     QMap<QString, QList<{{prefix}}ServerConfiguration>> m_serverConfigs;
     QMap<QString, QString> m_apiKeys;
-    QMap<QNetworkReply *, {{prefix}}BaseApi::{{prefix}}CallerInfo> m_callerData;
+    QHash<QNetworkReply *, {{prefix}}BaseApi::{{prefix}}CallerInfo> m_callerData;
     QString m_bearerToken;
     QString m_username;
     QString m_password;
