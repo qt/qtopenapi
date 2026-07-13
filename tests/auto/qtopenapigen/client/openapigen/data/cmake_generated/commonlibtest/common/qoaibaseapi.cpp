@@ -13,6 +13,7 @@
 #include "qoaihttprequest.h"
 
 #include <QtCore/qdir.h>
+#include <QtCore/qhash.h>
 #include <QtCore/qjsonarray.h>
 #include <QtCore/qjsondocument.h>
 #include <QtCore/qlist.h>
@@ -39,7 +40,7 @@ public:
     QMap<QString, qsizetype> m_serverIndices;
     QMap<QString, QList<QOAIServerConfiguration>> m_serverConfigs;
     QMap<QString, QString> m_apiKeys;
-    QMap<QNetworkReply *, QOAIBaseApi::QOAICallerInfo> m_callerData;
+    QHash<QNetworkReply *, QOAIBaseApi::QOAICallerInfo> m_callerData;
     QString m_bearerToken;
     QString m_username;
     QString m_password;
