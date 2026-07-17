@@ -143,6 +143,7 @@
     When using Qt OpenAPI, consider the following security-related aspects:
     \list
     \li \l {Handling OpenAPI Specifications from External Sources}
+    \li \l {Protecting Against Resource Exhaustion}
     \li \l {Network communication}
     \endlist
 
