@@ -564,43 +564,45 @@ void {{classname}}::{{nickname}}Callback(const QRestReply &reply)
     responseData.m_fileConflictPolicy = fileConflictPolicy();
     responseData.m_safetyThresholdSize = decompressedSafetyCheckThreshold();
     {{^isResponseFile}}const QByteArray response = {{/isResponseFile}}{{prefix}}HttpRequestWorker::parseResponse(reply, workingDirectory(), responseData);
-{{#isArray}}
+{{#isResponseFile}}
+    {{{returnType}}} output = {{prefix}}HttpRequestWorker::getHttpFileElement(responseFiles);
+{{/isResponseFile}}
+{{^isResponseFile}}
+{{^returnTypeIsPrimitive}}
+{{^returnContainer}}
+    {{{returnType}}} output(response);
+{{/returnContainer}}
+{{#returnContainer}}
     {{{returnType}}} output;
     const QJsonDocument doc = QJsonDocument::fromJson(response);
-    if (!doc.isNull() && doc.isArray()) {
-        const bool ok = ::{{cppCommonNamespace}}::fromJsonValue(output, doc.array());
+    if (!doc.isNull() && doc.{{#isArray}}isArray(){{/isArray}}{{^isArray}}isObject(){{/isArray}}) {
+        const bool ok = ::{{cppCommonNamespace}}::fromJsonValue(output, doc.{{#isArray}}array(){{/isArray}}{{^isArray}}object(){{/isArray}});
         if (!ok)
             qWarning("%s: Failed to convert QJsonValue to {{{returnType}}}.", Q_FUNC_INFO);
     } else {
-        qWarning("%s: Failed to parse the response as a JSON array.", Q_FUNC_INFO);
+        qWarning("%s: Failed to parse the response as a JSON {{#isArray}}array{{/isArray}}{{^isArray}}object{{/isArray}}.", Q_FUNC_INFO);
     }
-{{/isArray}}
-{{^isArray}}
-{{^isMap}}
+{{/returnContainer}}
+{{/returnTypeIsPrimitive}}
 {{#returnTypeIsPrimitive}}
     {{{returnType}}} output;
+{{#returnContainer}}
+    const QJsonDocument doc = QJsonDocument::fromJson(response);
+    if (!doc.isNull() && doc.{{#isArray}}isArray(){{/isArray}}{{^isArray}}isObject(){{/isArray}}) {
+        const bool ok = ::{{cppCommonNamespace}}::fromJsonValue(output, doc.{{#isArray}}array(){{/isArray}}{{^isArray}}object(){{/isArray}});
+        if (!ok)
+            qWarning("%s: Failed to convert QJsonValue to {{{returnType}}}.", Q_FUNC_INFO);
+    } else {
+        qWarning("%s: Failed to parse the response as a JSON {{#isArray}}array{{/isArray}}{{^isArray}}object{{/isArray}}.", Q_FUNC_INFO);
+    }
+{{/returnContainer}}
+{{^returnContainer}}
     const bool ok = ::{{cppCommonNamespace}}::fromByteArray(response, output);
     if (!ok)
         qWarning("%s: Failed to convert the response to {{returnType}}.", Q_FUNC_INFO);
+{{/returnContainer}}
 {{/returnTypeIsPrimitive}}
-{{/isMap}}
-{{#isMap}}
-    {{{returnType}}} output;
-    const QJsonDocument doc = QJsonDocument::fromJson(response);
-    if (!doc.isNull() && doc.isObject()) {
-        const bool ok = ::{{cppCommonNamespace}}::fromJsonValue(output, doc.object());
-        if (!ok)
-            qWarning("%s: Failed to convert QJsonValue to {{{returnType}}}.", Q_FUNC_INFO);
-    } else {
-        qWarning("%s: Failed to parse the response as a JSON object.", Q_FUNC_INFO);
-    }
-{{/isMap}}
-{{^isMap}}
-{{^returnTypeIsPrimitive}}
-    {{{returnType}}} output{{^isResponseFile}}(response){{/isResponseFile}}{{#isResponseFile}} = {{prefix}}HttpRequestWorker::getHttpFileElement(responseFiles){{/isResponseFile}};
-{{/returnTypeIsPrimitive}}
-{{/isMap}}
-{{/isArray}}
+{{/isResponseFile}}
 {{/returnType}}
     // Check if callback is provided
     {{prefix}}CallerInfo callerInfo = takeCallerInfo(netReply);

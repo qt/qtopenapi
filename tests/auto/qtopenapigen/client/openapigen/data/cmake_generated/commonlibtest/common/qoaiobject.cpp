@@ -28,6 +28,12 @@ QOAIObject::QOAIObject()
 {
 }
 
+QOAIObject::QOAIObject(const QString &json)
+    : d(new QOAIObjectPrivate)
+{
+    fromJson(json);
+}
+
 QOAIObject::QOAIObject(const QOAIObject &other)
     : d(std::make_unique<QOAIObjectPrivate>(*other.d))
 {

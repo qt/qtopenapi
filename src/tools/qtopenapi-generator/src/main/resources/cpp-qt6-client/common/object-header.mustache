@@ -22,6 +22,7 @@ class {{prefix}}ObjectPrivate;
 class {{packageNameUpperCase}}_COMMON_EXPORT {{prefix}}Object {
 public:
     {{prefix}}Object();
+    {{prefix}}Object(const QString &json);
     {{prefix}}Object(const {{prefix}}Object &other);
     {{prefix}}Object &operator=(const {{prefix}}Object &other);
     {{prefix}}Object({{prefix}}Object &&) noexcept;
