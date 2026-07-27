@@ -88,7 +88,7 @@ void UserApi::initializeServerConfigs()
 */
 
 /**
-* \fn template < Functor, > void UserApi::createInQueryMap(const QMap<QString, QString> &username, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* \fn template < Functor, > void UserApi::createInQueryMap(const QMap<QString, QString> &username, const ContextTypeForFunctor< Functor > *_qt_context = nullptr, Functor &&_qt_callback = (){})
 * 'createInQueryMap' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
@@ -98,8 +98,8 @@ void UserApi::initializeServerConfigs()
 * \endcode
 
 * @param[in] username QMap<QString, QString> [required]
-* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
-* @param[in] callback Functor && [optional]
+* @param[in] _qt_context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] _qt_callback Functor && [optional]
 */
 
 /**
@@ -111,16 +111,16 @@ void UserApi::initializeServerConfigs()
 */
 
 /**
-* \fn void UserApi::createInQueryMapWithDataImpl(const QMap<QString, QString> &username, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn void UserApi::createInQueryMapWithDataImpl(const QMap<QString, QString> &username, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 * Implements the createInQueryMap() operation request.
 
 * @param[in] username QMap<QString, QString> [required]
-* @param[in] context const QObject * [optional]
-* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+* @param[in] _qt_context const QObject * [optional]
+* @param[in] _qt_slot QtPrivate::QSlotObjectBase * [optional]
 */
-void UserApi::createInQueryMapWithDataImpl(const QMap<QString, QString> &username, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void UserApi::createInQueryMapWithDataImpl(const QMap<QString, QString> &username, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 {
-    QtPrivate::SlotObjUniquePtr slotPtr(slot);
+    QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"createInQueryMap"_s);
     QString fullPath = u"/user/createInQueryMap"_s;
     int queryParamCounter = 0;
@@ -172,7 +172,7 @@ void UserApi::createInQueryMapWithDataImpl(const QMap<QString, QString> &usernam
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
-        setCallerInfo(reply, QOAICallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
+        setCallerInfo(reply, QOAICallerInfo{_qt_context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
             createInQueryMapCallback(QRestReply(reply));
         });
@@ -219,7 +219,7 @@ void UserApi::createInQueryMapCallback(const QRestReply &reply)
 */
 
 /**
-* \fn template < Functor, > void UserApi::createUser(const User &user, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* \fn template < Functor, > void UserApi::createUser(const User &user, const ContextTypeForFunctor< Functor > *_qt_context = nullptr, Functor &&_qt_callback = (){})
 * 'createUser' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
@@ -229,8 +229,8 @@ void UserApi::createInQueryMapCallback(const QRestReply &reply)
 * \endcode
 
 * @param[in] user User [required]
-* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
-* @param[in] callback Functor && [optional]
+* @param[in] _qt_context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] _qt_callback Functor && [optional]
 */
 
 /**
@@ -242,16 +242,16 @@ void UserApi::createInQueryMapCallback(const QRestReply &reply)
 */
 
 /**
-* \fn void UserApi::createUserWithDataImpl(const User &user, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn void UserApi::createUserWithDataImpl(const User &user, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 * Implements the createUser() operation request.
 
 * @param[in] user User [required]
-* @param[in] context const QObject * [optional]
-* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+* @param[in] _qt_context const QObject * [optional]
+* @param[in] _qt_slot QtPrivate::QSlotObjectBase * [optional]
 */
-void UserApi::createUserWithDataImpl(const User &user, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void UserApi::createUserWithDataImpl(const User &user, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 {
-    QtPrivate::SlotObjUniquePtr slotPtr(slot);
+    QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"createUser"_s);
     QString fullPath = u"/user"_s;
     if (const auto key = apiKey("api_key"_L1); key.has_value()) {
@@ -273,7 +273,7 @@ void UserApi::createUserWithDataImpl(const User &user, const QObject *context, Q
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
-        setCallerInfo(reply, QOAICallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
+        setCallerInfo(reply, QOAICallerInfo{_qt_context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
             createUserCallback(QRestReply(reply));
         });
@@ -320,7 +320,7 @@ void UserApi::createUserCallback(const QRestReply &reply)
 */
 
 /**
-* \fn template < Functor, > void UserApi::createUsersWithArrayInput(const QList<User> &user, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* \fn template < Functor, > void UserApi::createUsersWithArrayInput(const QList<User> &user, const ContextTypeForFunctor< Functor > *_qt_context = nullptr, Functor &&_qt_callback = (){})
 * 'createUsersWithArrayInput' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
@@ -330,8 +330,8 @@ void UserApi::createUserCallback(const QRestReply &reply)
 * \endcode
 
 * @param[in] user QList<User> [required]
-* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
-* @param[in] callback Functor && [optional]
+* @param[in] _qt_context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] _qt_callback Functor && [optional]
 */
 
 /**
@@ -343,16 +343,16 @@ void UserApi::createUserCallback(const QRestReply &reply)
 */
 
 /**
-* \fn void UserApi::createUsersWithArrayInputWithDataImpl(const QList<User> &user, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn void UserApi::createUsersWithArrayInputWithDataImpl(const QList<User> &user, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 * Implements the createUsersWithArrayInput() operation request.
 
 * @param[in] user QList<User> [required]
-* @param[in] context const QObject * [optional]
-* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+* @param[in] _qt_context const QObject * [optional]
+* @param[in] _qt_slot QtPrivate::QSlotObjectBase * [optional]
 */
-void UserApi::createUsersWithArrayInputWithDataImpl(const QList<User> &user, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void UserApi::createUsersWithArrayInputWithDataImpl(const QList<User> &user, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 {
-    QtPrivate::SlotObjUniquePtr slotPtr(slot);
+    QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"createUsersWithArrayInput"_s);
     QString fullPath = u"/user/createWithArray"_s;
     if (const auto key = apiKey("api_key"_L1); key.has_value()) {
@@ -375,7 +375,7 @@ void UserApi::createUsersWithArrayInputWithDataImpl(const QList<User> &user, con
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
-        setCallerInfo(reply, QOAICallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
+        setCallerInfo(reply, QOAICallerInfo{_qt_context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
             createUsersWithArrayInputCallback(QRestReply(reply));
         });
@@ -422,7 +422,7 @@ void UserApi::createUsersWithArrayInputCallback(const QRestReply &reply)
 */
 
 /**
-* \fn template < Functor, > void UserApi::createUsersWithListInput(const QList<User> &user, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* \fn template < Functor, > void UserApi::createUsersWithListInput(const QList<User> &user, const ContextTypeForFunctor< Functor > *_qt_context = nullptr, Functor &&_qt_callback = (){})
 * 'createUsersWithListInput' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
@@ -432,8 +432,8 @@ void UserApi::createUsersWithArrayInputCallback(const QRestReply &reply)
 * \endcode
 
 * @param[in] user QList<User> [required]
-* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
-* @param[in] callback Functor && [optional]
+* @param[in] _qt_context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] _qt_callback Functor && [optional]
 */
 
 /**
@@ -445,16 +445,16 @@ void UserApi::createUsersWithArrayInputCallback(const QRestReply &reply)
 */
 
 /**
-* \fn void UserApi::createUsersWithListInputWithDataImpl(const QList<User> &user, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn void UserApi::createUsersWithListInputWithDataImpl(const QList<User> &user, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 * Implements the createUsersWithListInput() operation request.
 
 * @param[in] user QList<User> [required]
-* @param[in] context const QObject * [optional]
-* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+* @param[in] _qt_context const QObject * [optional]
+* @param[in] _qt_slot QtPrivate::QSlotObjectBase * [optional]
 */
-void UserApi::createUsersWithListInputWithDataImpl(const QList<User> &user, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void UserApi::createUsersWithListInputWithDataImpl(const QList<User> &user, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 {
-    QtPrivate::SlotObjUniquePtr slotPtr(slot);
+    QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"createUsersWithListInput"_s);
     QString fullPath = u"/user/createWithList"_s;
     if (const auto key = apiKey("api_key"_L1); key.has_value()) {
@@ -477,7 +477,7 @@ void UserApi::createUsersWithListInputWithDataImpl(const QList<User> &user, cons
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
-        setCallerInfo(reply, QOAICallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
+        setCallerInfo(reply, QOAICallerInfo{_qt_context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
             createUsersWithListInputCallback(QRestReply(reply));
         });
@@ -524,7 +524,7 @@ void UserApi::createUsersWithListInputCallback(const QRestReply &reply)
 */
 
 /**
-* \fn template < Functor, > void UserApi::deleteUser(const User &username, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* \fn template < Functor, > void UserApi::deleteUser(const User &username, const ContextTypeForFunctor< Functor > *_qt_context = nullptr, Functor &&_qt_callback = (){})
 * 'deleteUser' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
@@ -534,8 +534,8 @@ void UserApi::createUsersWithListInputCallback(const QRestReply &reply)
 * \endcode
 
 * @param[in] username User [required]
-* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
-* @param[in] callback Functor && [optional]
+* @param[in] _qt_context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] _qt_callback Functor && [optional]
 */
 
 /**
@@ -547,16 +547,16 @@ void UserApi::createUsersWithListInputCallback(const QRestReply &reply)
 */
 
 /**
-* \fn void UserApi::deleteUserWithDataImpl(const User &username, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn void UserApi::deleteUserWithDataImpl(const User &username, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 * Implements the deleteUser() operation request.
 
 * @param[in] username User [required]
-* @param[in] context const QObject * [optional]
-* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+* @param[in] _qt_context const QObject * [optional]
+* @param[in] _qt_slot QtPrivate::QSlotObjectBase * [optional]
 */
-void UserApi::deleteUserWithDataImpl(const User &username, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void UserApi::deleteUserWithDataImpl(const User &username, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 {
-    QtPrivate::SlotObjUniquePtr slotPtr(slot);
+    QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"deleteUser"_s);
     QString fullPath = u"/user/{username}"_s;
     if (const auto key = apiKey("api_key"_L1); key.has_value()) {
@@ -597,7 +597,7 @@ void UserApi::deleteUserWithDataImpl(const User &username, const QObject *contex
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
-        setCallerInfo(reply, QOAICallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
+        setCallerInfo(reply, QOAICallerInfo{_qt_context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
             deleteUserCallback(QRestReply(reply));
         });
@@ -644,7 +644,7 @@ void UserApi::deleteUserCallback(const QRestReply &reply)
 */
 
 /**
-* \fn template < Functor, > void UserApi::getUserByName(const QMap<QString, qint32> &username, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* \fn template < Functor, > void UserApi::getUserByName(const QMap<QString, qint32> &username, const ContextTypeForFunctor< Functor > *_qt_context = nullptr, Functor &&_qt_callback = (){})
 * 'getUserByName' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
@@ -654,8 +654,8 @@ void UserApi::deleteUserCallback(const QRestReply &reply)
 * \endcode
 
 * @param[in] username QMap<QString, qint32> [required]
-* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
-* @param[in] callback Functor && [optional]
+* @param[in] _qt_context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] _qt_callback Functor && [optional]
 */
 
 /**
@@ -667,16 +667,16 @@ void UserApi::deleteUserCallback(const QRestReply &reply)
 */
 
 /**
-* \fn void UserApi::getUserByNameWithDataImpl(const QMap<QString, qint32> &username, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn void UserApi::getUserByNameWithDataImpl(const QMap<QString, qint32> &username, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 * Implements the getUserByName() operation request.
 
 * @param[in] username QMap<QString, qint32> [required]
-* @param[in] context const QObject * [optional]
-* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+* @param[in] _qt_context const QObject * [optional]
+* @param[in] _qt_slot QtPrivate::QSlotObjectBase * [optional]
 */
-void UserApi::getUserByNameWithDataImpl(const QMap<QString, qint32> &username, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void UserApi::getUserByNameWithDataImpl(const QMap<QString, qint32> &username, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 {
-    QtPrivate::SlotObjUniquePtr slotPtr(slot);
+    QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"getUserByName"_s);
     QString fullPath = u"/user/{username}"_s;
     {
@@ -714,7 +714,7 @@ void UserApi::getUserByNameWithDataImpl(const QMap<QString, qint32> &username, c
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
-        setCallerInfo(reply, QOAICallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
+        setCallerInfo(reply, QOAICallerInfo{_qt_context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
             getUserByNameCallback(QRestReply(reply));
         });
@@ -768,7 +768,7 @@ void UserApi::getUserByNameCallback(const QRestReply &reply)
 */
 
 /**
-* \fn template < Functor, > void UserApi::loginUser(const QtOpenApiCommon::OptionalParameter<QString> &username = QtOpenApiCommon::OptionalParameter<QString>(), const QtOpenApiCommon::OptionalParameter<QString> &password = QtOpenApiCommon::OptionalParameter<QString>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* \fn template < Functor, > void UserApi::loginUser(const QtOpenApiCommon::OptionalParameter<QString> &username = QtOpenApiCommon::OptionalParameter<QString>(), const QtOpenApiCommon::OptionalParameter<QString> &password = QtOpenApiCommon::OptionalParameter<QString>(), const ContextTypeForFunctor< Functor > *_qt_context = nullptr, Functor &&_qt_callback = (){})
 * 'loginUser' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
@@ -779,8 +779,8 @@ void UserApi::getUserByNameCallback(const QRestReply &reply)
 
 * @param[in] username QString [optional]
 * @param[in] password QString [optional]
-* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
-* @param[in] callback Functor && [optional]
+* @param[in] _qt_context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] _qt_callback Functor && [optional]
 */
 
 /**
@@ -792,17 +792,17 @@ void UserApi::getUserByNameCallback(const QRestReply &reply)
 */
 
 /**
-* \fn void UserApi::loginUserWithDataImpl(const QtOpenApiCommon::OptionalParameter<QString> &username, const QtOpenApiCommon::OptionalParameter<QString> &password, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn void UserApi::loginUserWithDataImpl(const QtOpenApiCommon::OptionalParameter<QString> &username, const QtOpenApiCommon::OptionalParameter<QString> &password, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 * Implements the loginUser() operation request.
 
 * @param[in] username QString [optional]
 * @param[in] password QString [optional]
-* @param[in] context const QObject * [optional]
-* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+* @param[in] _qt_context const QObject * [optional]
+* @param[in] _qt_slot QtPrivate::QSlotObjectBase * [optional]
 */
-void UserApi::loginUserWithDataImpl(const QtOpenApiCommon::OptionalParameter<QString> &username, const QtOpenApiCommon::OptionalParameter<QString> &password, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void UserApi::loginUserWithDataImpl(const QtOpenApiCommon::OptionalParameter<QString> &username, const QtOpenApiCommon::OptionalParameter<QString> &password, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 {
-    QtPrivate::SlotObjUniquePtr slotPtr(slot);
+    QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"loginUser"_s);
     QString fullPath = u"/user/login"_s;
     int queryParamCounter = 0;
@@ -888,7 +888,7 @@ void UserApi::loginUserWithDataImpl(const QtOpenApiCommon::OptionalParameter<QSt
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
-        setCallerInfo(reply, QOAICallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
+        setCallerInfo(reply, QOAICallerInfo{_qt_context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
             loginUserCallback(QRestReply(reply));
         });
@@ -944,7 +944,7 @@ void UserApi::loginUserCallback(const QRestReply &reply)
 */
 
 /**
-* \fn template < Functor, > void UserApi::logoutUser(const QJsonValue &username, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* \fn template < Functor, > void UserApi::logoutUser(const QJsonValue &username, const ContextTypeForFunctor< Functor > *_qt_context = nullptr, Functor &&_qt_callback = (){})
 * 'logoutUser' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
@@ -954,8 +954,8 @@ void UserApi::loginUserCallback(const QRestReply &reply)
 * \endcode
 
 * @param[in] username QJsonValue [required]
-* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
-* @param[in] callback Functor && [optional]
+* @param[in] _qt_context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] _qt_callback Functor && [optional]
 */
 
 /**
@@ -967,16 +967,16 @@ void UserApi::loginUserCallback(const QRestReply &reply)
 */
 
 /**
-* \fn void UserApi::logoutUserWithDataImpl(const QJsonValue &username, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn void UserApi::logoutUserWithDataImpl(const QJsonValue &username, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 * Implements the logoutUser() operation request.
 
 * @param[in] username QJsonValue [required]
-* @param[in] context const QObject * [optional]
-* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+* @param[in] _qt_context const QObject * [optional]
+* @param[in] _qt_slot QtPrivate::QSlotObjectBase * [optional]
 */
-void UserApi::logoutUserWithDataImpl(const QJsonValue &username, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void UserApi::logoutUserWithDataImpl(const QJsonValue &username, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 {
-    QtPrivate::SlotObjUniquePtr slotPtr(slot);
+    QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"logoutUser"_s);
     QString fullPath = u"/user/logout"_s;
     if (const auto key = apiKey("api_key"_L1); key.has_value()) {
@@ -1032,7 +1032,7 @@ void UserApi::logoutUserWithDataImpl(const QJsonValue &username, const QObject *
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
-        setCallerInfo(reply, QOAICallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
+        setCallerInfo(reply, QOAICallerInfo{_qt_context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
             logoutUserCallback(QRestReply(reply));
         });
@@ -1080,7 +1080,7 @@ void UserApi::logoutUserCallback(const QRestReply &reply)
 */
 
 /**
-* \fn template < Functor, > void UserApi::updateUser(const QString &username, const User &body, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* \fn template < Functor, > void UserApi::updateUser(const QString &username, const User &body, const ContextTypeForFunctor< Functor > *_qt_context = nullptr, Functor &&_qt_callback = (){})
 * 'updateUser' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
@@ -1091,8 +1091,8 @@ void UserApi::logoutUserCallback(const QRestReply &reply)
 
 * @param[in] username QString [required]
 * @param[in] body User [required]
-* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
-* @param[in] callback Functor && [optional]
+* @param[in] _qt_context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] _qt_callback Functor && [optional]
 */
 
 /**
@@ -1104,17 +1104,17 @@ void UserApi::logoutUserCallback(const QRestReply &reply)
 */
 
 /**
-* \fn void UserApi::updateUserWithDataImpl(const QString &username, const User &body, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn void UserApi::updateUserWithDataImpl(const QString &username, const User &body, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 * Implements the updateUser() operation request.
 
 * @param[in] username QString [required]
 * @param[in] body User [required]
-* @param[in] context const QObject * [optional]
-* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+* @param[in] _qt_context const QObject * [optional]
+* @param[in] _qt_slot QtPrivate::QSlotObjectBase * [optional]
 */
-void UserApi::updateUserWithDataImpl(const QString &username, const User &body, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void UserApi::updateUserWithDataImpl(const QString &username, const User &body, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 {
-    QtPrivate::SlotObjUniquePtr slotPtr(slot);
+    QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"updateUser"_s);
     QString fullPath = u"/user/{username}"_s;
     if (const auto key = apiKey("api_key"_L1); key.has_value()) {
@@ -1186,7 +1186,7 @@ void UserApi::updateUserWithDataImpl(const QString &username, const User &body, 
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
-        setCallerInfo(reply, QOAICallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
+        setCallerInfo(reply, QOAICallerInfo{_qt_context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
             updateUserCallback(QRestReply(reply));
         });

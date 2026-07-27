@@ -89,7 +89,7 @@ void {{classname}}::initializeServerConfigs()
 */
 
 /**
-* \fn template < Functor, > void {{classname}}::{{nickname}}({{#allParams}}const {{#required}}{{{dataType}}} &{{/required}}{{^required}}{{cppCommonNamespace}}::OptionalParameter<{{{dataType}}}> &{{/required}}{{paramName}}{{^required}} = {{cppCommonNamespace}}::OptionalParameter<{{{dataType}}}>(){{/required}}, {{/allParams}}const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* \fn template < Functor, > void {{classname}}::{{nickname}}({{#allParams}}const {{#required}}{{{dataType}}} &{{/required}}{{^required}}{{cppCommonNamespace}}::OptionalParameter<{{{dataType}}}> &{{/required}}{{paramName}}{{^required}} = {{cppCommonNamespace}}::OptionalParameter<{{{dataType}}}>(){{/required}}, {{/allParams}}const ContextTypeForFunctor< Functor > *_qt_context = nullptr, Functor &&_qt_callback = (){})
 * {{#isDeprecated}}\deprecated {{/isDeprecated}}'{{nickname}}' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
@@ -100,8 +100,8 @@ void {{classname}}::initializeServerConfigs()
 {{#hasParams}}{{#allParams}}{{#required}}
 * @param[in] {{paramName}} {{{dataType}}} [required]{{/required}}{{^required}}
 * @param[in] {{paramName}} {{{dataType}}} [optional]{{/required}}{{/allParams}}{{/hasParams}}
-* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
-* @param[in] callback Functor && [optional]
+* @param[in] _qt_context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] _qt_callback Functor && [optional]
 */
 
 /**
@@ -113,17 +113,17 @@ void {{classname}}::initializeServerConfigs()
 */
 
 /**
-* \fn void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{{dataType}}} &{{/required}}{{^required}}{{cppCommonNamespace}}::OptionalParameter<{{{dataType}}}> &{{/required}}{{paramName}}, {{/allParams}}const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{{dataType}}} &{{/required}}{{^required}}{{cppCommonNamespace}}::OptionalParameter<{{{dataType}}}> &{{/required}}{{paramName}}, {{/allParams}}const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 * Implements the {{nickname}}() operation request.
 {{#hasParams}}{{#allParams}}{{#required}}
 * @param[in] {{paramName}} {{{dataType}}} [required]{{/required}}{{^required}}
 * @param[in] {{paramName}} {{{dataType}}} [optional]{{/required}}{{/allParams}}{{/hasParams}}
-* @param[in] context const QObject * [optional]
-* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+* @param[in] _qt_context const QObject * [optional]
+* @param[in] _qt_slot QtPrivate::QSlotObjectBase * [optional]
 */
-void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{{dataType}}} &{{/required}}{{^required}}{{cppCommonNamespace}}::OptionalParameter<{{{dataType}}}> &{{/required}}{{paramName}}, {{/allParams}}const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{{dataType}}} &{{/required}}{{^required}}{{cppCommonNamespace}}::OptionalParameter<{{{dataType}}}> &{{/required}}{{paramName}}, {{/allParams}}const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 {
-    QtPrivate::SlotObjUniquePtr slotPtr(slot);
+    QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"{{nickname}}"_s);
     QString fullPath = u"{{{path}}}"_s;
 {{#authMethods}}
@@ -524,7 +524,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
-        setCallerInfo(reply, {{prefix}}CallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});{{#addDownloadProgress}}
+        setCallerInfo(reply, {{prefix}}CallerInfo{_qt_context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});{{#addDownloadProgress}}
         connect(reply, &QNetworkReply::downloadProgress, this, &{{classname}}::{{nickname}}Progress);{{/addDownloadProgress}}
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
             {{nickname}}Callback(QRestReply(reply));

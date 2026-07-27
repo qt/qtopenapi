@@ -44,6 +44,14 @@ paths:
           in: query
           schema:
             type: string
+        - name: context
+          in: query
+          schema:
+            type: string
+        - name: slot
+          in: query
+          schema:
+            type: string
       responses:
         "200":
           description: OK
@@ -101,6 +109,10 @@ components:
         All of them must be escaped in the generated code.
       type: object
       properties:
+        context:
+          type: string
+        slot:
+          type: string
         signals:
           type: string
         slots:
