@@ -57,14 +57,14 @@ Q_INVOKABLE DEPRECATED void OPERATION()                                         
     OPERATION##WithDataImpl(nullptr, nullptr);                                          \
 }                                                                                       \
 protected:                                                                              \
-void OPERATION##WithDataImpl(const QObject *context, QtPrivate::QSlotObjectBase *slot); \
-void OPERATION##Callback(const QRestReply &reply);                                      \
+void OPERATION##WithDataImpl(const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot); \
+void OPERATION##Callback(const QRestReply &_qt_reply);                                      \
 public:                                                                                 \
 template <typename Functor, if_compatible_callback<Functor> = true>                     \
-DEPRECATED void OPERATION(const ContextTypeForFunctor<Functor> *context, Functor &&callback)       \
+DEPRECATED void OPERATION(const ContextTypeForFunctor<Functor> *_qt_context, Functor &&_qt_callback)       \
 {                                                                                                  \
-    OPERATION##WithDataImpl(context,                                                               \
-    QtPrivate::makeCallableObject<QOAIEmptyCallbackReply>(std::forward<Functor>(callback))); \
+    OPERATION##WithDataImpl(_qt_context,                                                               \
+    QtPrivate::makeCallableObject<QOAIEmptyCallbackReply>(std::forward<Functor>(_qt_callback))); \
 }                                                                                                  \
 
 /**
@@ -88,14 +88,14 @@ using OPERATION##CallbackReply = void(*)(const QRestReply &, QOAI_VA_LIST RESPON
 template <typename Functor>                                                                          \
 using OPERATION##_compatible_callback =                                                              \
 std::enable_if_t<QtPrivate::AreFunctionsCompatible<OPERATION##CallbackReply, Functor>::value, bool>; \
-void OPERATION##WithDataImpl(const QObject *context, QtPrivate::QSlotObjectBase *slot);        \
-void OPERATION##Callback(const QRestReply &reply);                                             \
+void OPERATION##WithDataImpl(const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot);        \
+void OPERATION##Callback(const QRestReply &_qt_reply);                                             \
 public:                                                                                        \
 template <typename Functor, OPERATION##_compatible_callback<Functor> = true>                   \
-DEPRECATED void OPERATION(const ContextTypeForFunctor<Functor> *context, Functor &&callback)   \
+DEPRECATED void OPERATION(const ContextTypeForFunctor<Functor> *_qt_context, Functor &&_qt_callback)   \
 {                                                                                              \
-    OPERATION##WithDataImpl(context,                                                           \
-    QtPrivate::makeCallableObject<OPERATION##CallbackReply>(std::forward<Functor>(callback))); \
+    OPERATION##WithDataImpl(_qt_context,                                                           \
+    QtPrivate::makeCallableObject<OPERATION##CallbackReply>(std::forward<Functor>(_qt_callback))); \
 }                                                                                              \
 
 /**
@@ -118,20 +118,20 @@ Q_INVOKABLE DEPRECATED void OPERATION(QOAI_VA_LIST PARAMS)                      
     OPERATION##WithDataImpl(QOAI_VA_LIST ARGS, nullptr, nullptr);                   \
 }                                                                                         \
 protected:                                                                                \
-void OPERATION##WithDataImpl(QOAI_VA_LIST PARAMS, const QObject *context = nullptr, \
-                            QtPrivate::QSlotObjectBase *slot = nullptr);                  \
-void OPERATION##Callback(const QRestReply &reply);                                        \
+void OPERATION##WithDataImpl(QOAI_VA_LIST PARAMS, const QObject *_qt_context = nullptr, \
+                            QtPrivate::QSlotObjectBase *_qt_slot = nullptr);                  \
+void OPERATION##Callback(const QRestReply &_qt_reply);                                        \
 using OPERATION##CallbackReply = void(*)(const QRestReply &, QOAI_VA_LIST RESPONSE);           \
 template <typename Functor>                                                                          \
 using OPERATION##_compatible_callback =                                                              \
 std::enable_if_t<QtPrivate::AreFunctionsCompatible<OPERATION##CallbackReply, Functor>::value, bool>; \
 public:                                                                                              \
 template <typename Functor, OPERATION##_compatible_callback<Functor> = true>                         \
-DEPRECATED void OPERATION(QOAI_VA_LIST PARAMS, const ContextTypeForFunctor<Functor> *context = nullptr,   \
-                    Functor &&callback = [](const QRestReply &, QOAI_VA_LIST RESPONSE){})      \
+DEPRECATED void OPERATION(QOAI_VA_LIST PARAMS, const ContextTypeForFunctor<Functor> *_qt_context = nullptr,   \
+                    Functor &&_qt_callback = [](const QRestReply &, QOAI_VA_LIST RESPONSE){})      \
 {                                                                                                    \
-    OPERATION##WithDataImpl(QOAI_VA_LIST ARGS, context,                                        \
-    QtPrivate::makeCallableObject<OPERATION##CallbackReply>(std::forward<Functor>(callback)));       \
+    OPERATION##WithDataImpl(QOAI_VA_LIST ARGS, _qt_context,                                        \
+    QtPrivate::makeCallableObject<OPERATION##CallbackReply>(std::forward<Functor>(_qt_callback)));       \
 }                                                                                                    \
 
 /**
@@ -153,16 +153,16 @@ Q_INVOKABLE DEPRECATED void OPERATION(QOAI_VA_LIST PARAMS)                      
     OPERATION##WithDataImpl(QOAI_VA_LIST ARGS, nullptr, nullptr);                   \
 }                                                                                         \
 protected:                                                                                \
-void OPERATION##WithDataImpl(QOAI_VA_LIST PARAMS, const QObject *context = nullptr, \
-                            QtPrivate::QSlotObjectBase *slot = nullptr);                  \
-void OPERATION##Callback(const QRestReply &reply);                                        \
+void OPERATION##WithDataImpl(QOAI_VA_LIST PARAMS, const QObject *_qt_context = nullptr, \
+                            QtPrivate::QSlotObjectBase *_qt_slot = nullptr);                  \
+void OPERATION##Callback(const QRestReply &_qt_reply);                                        \
 public:                                                                                   \
 template <typename Functor, if_compatible_callback<Functor> = true>                       \
-DEPRECATED void OPERATION(QOAI_VA_LIST PARAMS, const ContextTypeForFunctor<Functor> *context = nullptr, \
-                    Functor &&callback = [](const QRestReply &){})                              \
+DEPRECATED void OPERATION(QOAI_VA_LIST PARAMS, const ContextTypeForFunctor<Functor> *_qt_context = nullptr, \
+                    Functor &&_qt_callback = [](const QRestReply &){})                              \
 {                                                                                         \
-    OPERATION##WithDataImpl(QOAI_VA_LIST ARGS, context,                             \
-    QtPrivate::makeCallableObject<QOAIEmptyCallbackReply>(std::forward<Functor>(callback))); \
+    OPERATION##WithDataImpl(QOAI_VA_LIST ARGS, _qt_context,                             \
+    QtPrivate::makeCallableObject<QOAIEmptyCallbackReply>(std::forward<Functor>(_qt_callback))); \
 }                                                                                                  \
 
 QT_BEGIN_NAMESPACE

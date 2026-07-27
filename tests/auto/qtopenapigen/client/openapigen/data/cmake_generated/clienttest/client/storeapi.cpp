@@ -73,7 +73,7 @@ void StoreApi::initializeServerConfigs()
 */
 
 /**
-* \fn template < Functor, > void StoreApi::deleteOrder(const QString &orderId, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* \fn template < Functor, > void StoreApi::deleteOrder(const QString &orderId, const ContextTypeForFunctor< Functor > *_qt_context = nullptr, Functor &&_qt_callback = (){})
 * 'deleteOrder' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
@@ -83,8 +83,8 @@ void StoreApi::initializeServerConfigs()
 * \endcode
 
 * @param[in] orderId QString [required]
-* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
-* @param[in] callback Functor && [optional]
+* @param[in] _qt_context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] _qt_callback Functor && [optional]
 */
 
 /**
@@ -96,16 +96,16 @@ void StoreApi::initializeServerConfigs()
 */
 
 /**
-* \fn void StoreApi::deleteOrderWithDataImpl(const QString &orderId, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn void StoreApi::deleteOrderWithDataImpl(const QString &orderId, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 * Implements the deleteOrder() operation request.
 
 * @param[in] orderId QString [required]
-* @param[in] context const QObject * [optional]
-* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+* @param[in] _qt_context const QObject * [optional]
+* @param[in] _qt_slot QtPrivate::QSlotObjectBase * [optional]
 */
-void StoreApi::deleteOrderWithDataImpl(const QString &orderId, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void StoreApi::deleteOrderWithDataImpl(const QString &orderId, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 {
-    QtPrivate::SlotObjUniquePtr slotPtr(slot);
+    QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"deleteOrder"_s);
     QString fullPath = u"/store/order/{orderId}"_s;
     {
@@ -143,7 +143,7 @@ void StoreApi::deleteOrderWithDataImpl(const QString &orderId, const QObject *co
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
-        setCallerInfo(reply, QOAICallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
+        setCallerInfo(reply, QOAICallerInfo{_qt_context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
             deleteOrderCallback(QRestReply(reply));
         });
@@ -189,7 +189,7 @@ void StoreApi::deleteOrderCallback(const QRestReply &reply)
 */
 
 /**
-* \fn template < Functor, > void StoreApi::getInventory(const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* \fn template < Functor, > void StoreApi::getInventory(const ContextTypeForFunctor< Functor > *_qt_context = nullptr, Functor &&_qt_callback = (){})
 * 'getInventory' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
@@ -198,8 +198,8 @@ void StoreApi::deleteOrderCallback(const QRestReply &reply)
 *    getInventory(this, [&](const QRestReply &reply, const QMap<QString, qint32> &summary) { if (reply.isSuccess()) ... });
 * \endcode
 
-* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
-* @param[in] callback Functor && [optional]
+* @param[in] _qt_context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] _qt_callback Functor && [optional]
 */
 
 /**
@@ -211,15 +211,15 @@ void StoreApi::deleteOrderCallback(const QRestReply &reply)
 */
 
 /**
-* \fn void StoreApi::getInventoryWithDataImpl(const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn void StoreApi::getInventoryWithDataImpl(const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 * Implements the getInventory() operation request.
 
-* @param[in] context const QObject * [optional]
-* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+* @param[in] _qt_context const QObject * [optional]
+* @param[in] _qt_slot QtPrivate::QSlotObjectBase * [optional]
 */
-void StoreApi::getInventoryWithDataImpl(const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void StoreApi::getInventoryWithDataImpl(const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 {
-    QtPrivate::SlotObjUniquePtr slotPtr(slot);
+    QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"getInventory"_s);
     QString fullPath = u"/store/inventory"_s;
     if (const auto key = apiKey("api_key"_L1); key.has_value()) {
@@ -236,7 +236,7 @@ void StoreApi::getInventoryWithDataImpl(const QObject *context, QtPrivate::QSlot
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
-        setCallerInfo(reply, QOAICallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
+        setCallerInfo(reply, QOAICallerInfo{_qt_context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
             getInventoryCallback(QRestReply(reply));
         });
@@ -297,7 +297,7 @@ void StoreApi::getInventoryCallback(const QRestReply &reply)
 */
 
 /**
-* \fn template < Functor, > void StoreApi::getOrderById(const qint64 &orderId, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* \fn template < Functor, > void StoreApi::getOrderById(const qint64 &orderId, const ContextTypeForFunctor< Functor > *_qt_context = nullptr, Functor &&_qt_callback = (){})
 * 'getOrderById' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
@@ -307,8 +307,8 @@ void StoreApi::getInventoryCallback(const QRestReply &reply)
 * \endcode
 
 * @param[in] orderId qint64 [required]
-* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
-* @param[in] callback Functor && [optional]
+* @param[in] _qt_context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] _qt_callback Functor && [optional]
 */
 
 /**
@@ -320,16 +320,16 @@ void StoreApi::getInventoryCallback(const QRestReply &reply)
 */
 
 /**
-* \fn void StoreApi::getOrderByIdWithDataImpl(const qint64 &orderId, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn void StoreApi::getOrderByIdWithDataImpl(const qint64 &orderId, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 * Implements the getOrderById() operation request.
 
 * @param[in] orderId qint64 [required]
-* @param[in] context const QObject * [optional]
-* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+* @param[in] _qt_context const QObject * [optional]
+* @param[in] _qt_slot QtPrivate::QSlotObjectBase * [optional]
 */
-void StoreApi::getOrderByIdWithDataImpl(const qint64 &orderId, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void StoreApi::getOrderByIdWithDataImpl(const qint64 &orderId, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 {
-    QtPrivate::SlotObjUniquePtr slotPtr(slot);
+    QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"getOrderById"_s);
     QString fullPath = u"/store/order/{orderId}"_s;
     {
@@ -367,7 +367,7 @@ void StoreApi::getOrderByIdWithDataImpl(const qint64 &orderId, const QObject *co
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
-        setCallerInfo(reply, QOAICallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
+        setCallerInfo(reply, QOAICallerInfo{_qt_context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
             getOrderByIdCallback(QRestReply(reply));
         });
@@ -420,7 +420,7 @@ void StoreApi::getOrderByIdCallback(const QRestReply &reply)
 */
 
 /**
-* \fn template < Functor, > void StoreApi::placeOrder(const Order &order, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* \fn template < Functor, > void StoreApi::placeOrder(const Order &order, const ContextTypeForFunctor< Functor > *_qt_context = nullptr, Functor &&_qt_callback = (){})
 * 'placeOrder' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
@@ -430,8 +430,8 @@ void StoreApi::getOrderByIdCallback(const QRestReply &reply)
 * \endcode
 
 * @param[in] order Order [required]
-* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
-* @param[in] callback Functor && [optional]
+* @param[in] _qt_context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] _qt_callback Functor && [optional]
 */
 
 /**
@@ -443,16 +443,16 @@ void StoreApi::getOrderByIdCallback(const QRestReply &reply)
 */
 
 /**
-* \fn void StoreApi::placeOrderWithDataImpl(const Order &order, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn void StoreApi::placeOrderWithDataImpl(const Order &order, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 * Implements the placeOrder() operation request.
 
 * @param[in] order Order [required]
-* @param[in] context const QObject * [optional]
-* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+* @param[in] _qt_context const QObject * [optional]
+* @param[in] _qt_slot QtPrivate::QSlotObjectBase * [optional]
 */
-void StoreApi::placeOrderWithDataImpl(const Order &order, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void StoreApi::placeOrderWithDataImpl(const Order &order, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 {
-    QtPrivate::SlotObjUniquePtr slotPtr(slot);
+    QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"placeOrder"_s);
     QString fullPath = u"/store/order"_s;
 
@@ -471,7 +471,7 @@ void StoreApi::placeOrderWithDataImpl(const Order &order, const QObject *context
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
-        setCallerInfo(reply, QOAICallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
+        setCallerInfo(reply, QOAICallerInfo{_qt_context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
             placeOrderCallback(QRestReply(reply));
         });

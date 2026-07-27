@@ -94,7 +94,7 @@ void PetApi::initializeServerConfigs()
 */
 
 /**
-* \fn template < Functor, > void PetApi::addPet(const Pet &pet, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* \fn template < Functor, > void PetApi::addPet(const Pet &pet, const ContextTypeForFunctor< Functor > *_qt_context = nullptr, Functor &&_qt_callback = (){})
 * 'addPet' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
@@ -104,8 +104,8 @@ void PetApi::initializeServerConfigs()
 * \endcode
 
 * @param[in] pet Pet [required]
-* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
-* @param[in] callback Functor && [optional]
+* @param[in] _qt_context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] _qt_callback Functor && [optional]
 */
 
 /**
@@ -117,16 +117,16 @@ void PetApi::initializeServerConfigs()
 */
 
 /**
-* \fn void PetApi::addPetWithDataImpl(const Pet &pet, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn void PetApi::addPetWithDataImpl(const Pet &pet, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 * Implements the addPet() operation request.
 
 * @param[in] pet Pet [required]
-* @param[in] context const QObject * [optional]
-* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+* @param[in] _qt_context const QObject * [optional]
+* @param[in] _qt_slot QtPrivate::QSlotObjectBase * [optional]
 */
-void PetApi::addPetWithDataImpl(const Pet &pet, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void PetApi::addPetWithDataImpl(const Pet &pet, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 {
-    QtPrivate::SlotObjUniquePtr slotPtr(slot);
+    QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"addPet"_s);
     QString fullPath = u"/pet"_s;
     if (const QString un = username(), p = password(); !un.isEmpty() && !p.isEmpty()) {
@@ -150,7 +150,7 @@ void PetApi::addPetWithDataImpl(const Pet &pet, const QObject *context, QtPrivat
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
-        setCallerInfo(reply, QOAICallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
+        setCallerInfo(reply, QOAICallerInfo{_qt_context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
             addPetCallback(QRestReply(reply));
         });
@@ -204,7 +204,7 @@ void PetApi::addPetCallback(const QRestReply &reply)
 */
 
 /**
-* \fn template < Functor, > void PetApi::deletePet(const qint64 &petId, const QtOpenApiCommon::OptionalParameter<QString> &apiKey = QtOpenApiCommon::OptionalParameter<QString>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* \fn template < Functor, > void PetApi::deletePet(const qint64 &petId, const QtOpenApiCommon::OptionalParameter<QString> &apiKey = QtOpenApiCommon::OptionalParameter<QString>(), const ContextTypeForFunctor< Functor > *_qt_context = nullptr, Functor &&_qt_callback = (){})
 * 'deletePet' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
@@ -215,8 +215,8 @@ void PetApi::addPetCallback(const QRestReply &reply)
 
 * @param[in] petId qint64 [required]
 * @param[in] apiKey QString [optional]
-* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
-* @param[in] callback Functor && [optional]
+* @param[in] _qt_context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] _qt_callback Functor && [optional]
 */
 
 /**
@@ -228,17 +228,17 @@ void PetApi::addPetCallback(const QRestReply &reply)
 */
 
 /**
-* \fn void PetApi::deletePetWithDataImpl(const qint64 &petId, const QtOpenApiCommon::OptionalParameter<QString> &apiKey, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn void PetApi::deletePetWithDataImpl(const qint64 &petId, const QtOpenApiCommon::OptionalParameter<QString> &apiKey, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 * Implements the deletePet() operation request.
 
 * @param[in] petId qint64 [required]
 * @param[in] apiKey QString [optional]
-* @param[in] context const QObject * [optional]
-* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+* @param[in] _qt_context const QObject * [optional]
+* @param[in] _qt_slot QtPrivate::QSlotObjectBase * [optional]
 */
-void PetApi::deletePetWithDataImpl(const qint64 &petId, const QtOpenApiCommon::OptionalParameter<QString> &apiKey, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void PetApi::deletePetWithDataImpl(const qint64 &petId, const QtOpenApiCommon::OptionalParameter<QString> &apiKey, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 {
-    QtPrivate::SlotObjUniquePtr slotPtr(slot);
+    QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"deletePet"_s);
     QString fullPath = u"/pet/{petId}"_s;
     if (const auto token = bearerToken(); !token.isEmpty())
@@ -298,7 +298,7 @@ void PetApi::deletePetWithDataImpl(const qint64 &petId, const QtOpenApiCommon::O
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
-        setCallerInfo(reply, QOAICallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
+        setCallerInfo(reply, QOAICallerInfo{_qt_context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
             deletePetCallback(QRestReply(reply));
         });
@@ -345,7 +345,7 @@ void PetApi::deletePetCallback(const QRestReply &reply)
 */
 
 /**
-* \fn template < Functor, > void PetApi::findPetsByAgeAndPatience(const QList<qint32> &petData, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* \fn template < Functor, > void PetApi::findPetsByAgeAndPatience(const QList<qint32> &petData, const ContextTypeForFunctor< Functor > *_qt_context = nullptr, Functor &&_qt_callback = (){})
 * 'findPetsByAgeAndPatience' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
@@ -355,8 +355,8 @@ void PetApi::deletePetCallback(const QRestReply &reply)
 * \endcode
 
 * @param[in] petData QList<qint32> [required]
-* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
-* @param[in] callback Functor && [optional]
+* @param[in] _qt_context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] _qt_callback Functor && [optional]
 */
 
 /**
@@ -368,16 +368,16 @@ void PetApi::deletePetCallback(const QRestReply &reply)
 */
 
 /**
-* \fn void PetApi::findPetsByAgeAndPatienceWithDataImpl(const QList<qint32> &petData, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn void PetApi::findPetsByAgeAndPatienceWithDataImpl(const QList<qint32> &petData, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 * Implements the findPetsByAgeAndPatience() operation request.
 
 * @param[in] petData QList<qint32> [required]
-* @param[in] context const QObject * [optional]
-* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+* @param[in] _qt_context const QObject * [optional]
+* @param[in] _qt_slot QtPrivate::QSlotObjectBase * [optional]
 */
-void PetApi::findPetsByAgeAndPatienceWithDataImpl(const QList<qint32> &petData, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void PetApi::findPetsByAgeAndPatienceWithDataImpl(const QList<qint32> &petData, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 {
-    QtPrivate::SlotObjUniquePtr slotPtr(slot);
+    QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"findPetsByAgeAndPatience"_s);
     QString fullPath = u"/pet/findPetsByAgeAndPatience/{petData}"_s;
     {
@@ -415,7 +415,7 @@ void PetApi::findPetsByAgeAndPatienceWithDataImpl(const QList<qint32> &petData, 
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
-        setCallerInfo(reply, QOAICallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
+        setCallerInfo(reply, QOAICallerInfo{_qt_context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
             findPetsByAgeAndPatienceCallback(QRestReply(reply));
         });
@@ -476,7 +476,7 @@ void PetApi::findPetsByAgeAndPatienceCallback(const QRestReply &reply)
 */
 
 /**
-* \fn template < Functor, > void PetApi::findPetsByStatus(const QList<QString> &status, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* \fn template < Functor, > void PetApi::findPetsByStatus(const QList<QString> &status, const ContextTypeForFunctor< Functor > *_qt_context = nullptr, Functor &&_qt_callback = (){})
 * 'findPetsByStatus' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
@@ -486,8 +486,8 @@ void PetApi::findPetsByAgeAndPatienceCallback(const QRestReply &reply)
 * \endcode
 
 * @param[in] status QList<QString> [required]
-* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
-* @param[in] callback Functor && [optional]
+* @param[in] _qt_context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] _qt_callback Functor && [optional]
 */
 
 /**
@@ -499,16 +499,16 @@ void PetApi::findPetsByAgeAndPatienceCallback(const QRestReply &reply)
 */
 
 /**
-* \fn void PetApi::findPetsByStatusWithDataImpl(const QList<QString> &status, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn void PetApi::findPetsByStatusWithDataImpl(const QList<QString> &status, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 * Implements the findPetsByStatus() operation request.
 
 * @param[in] status QList<QString> [required]
-* @param[in] context const QObject * [optional]
-* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+* @param[in] _qt_context const QObject * [optional]
+* @param[in] _qt_slot QtPrivate::QSlotObjectBase * [optional]
 */
-void PetApi::findPetsByStatusWithDataImpl(const QList<QString> &status, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void PetApi::findPetsByStatusWithDataImpl(const QList<QString> &status, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 {
-    QtPrivate::SlotObjUniquePtr slotPtr(slot);
+    QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"findPetsByStatus"_s);
     QString fullPath = u"/pet/findByStatus"_s;
     int queryParamCounter = 0;
@@ -545,7 +545,7 @@ void PetApi::findPetsByStatusWithDataImpl(const QList<QString> &status, const QO
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
-        setCallerInfo(reply, QOAICallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
+        setCallerInfo(reply, QOAICallerInfo{_qt_context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
             findPetsByStatusCallback(QRestReply(reply));
         });
@@ -606,7 +606,7 @@ void PetApi::findPetsByStatusCallback(const QRestReply &reply)
 */
 
 /**
-* \fn template < Functor, > void PetApi::findPetsByTags(const QList<QString> &tags, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* \fn template < Functor, > void PetApi::findPetsByTags(const QList<QString> &tags, const ContextTypeForFunctor< Functor > *_qt_context = nullptr, Functor &&_qt_callback = (){})
 * \deprecated 'findPetsByTags' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
@@ -616,8 +616,8 @@ void PetApi::findPetsByStatusCallback(const QRestReply &reply)
 * \endcode
 
 * @param[in] tags QList<QString> [required]
-* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
-* @param[in] callback Functor && [optional]
+* @param[in] _qt_context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] _qt_callback Functor && [optional]
 */
 
 /**
@@ -629,16 +629,16 @@ void PetApi::findPetsByStatusCallback(const QRestReply &reply)
 */
 
 /**
-* \fn void PetApi::findPetsByTagsWithDataImpl(const QList<QString> &tags, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn void PetApi::findPetsByTagsWithDataImpl(const QList<QString> &tags, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 * Implements the findPetsByTags() operation request.
 
 * @param[in] tags QList<QString> [required]
-* @param[in] context const QObject * [optional]
-* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+* @param[in] _qt_context const QObject * [optional]
+* @param[in] _qt_slot QtPrivate::QSlotObjectBase * [optional]
 */
-void PetApi::findPetsByTagsWithDataImpl(const QList<QString> &tags, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void PetApi::findPetsByTagsWithDataImpl(const QList<QString> &tags, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 {
-    QtPrivate::SlotObjUniquePtr slotPtr(slot);
+    QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"findPetsByTags"_s);
     QString fullPath = u"/pet/findByTags"_s;
     int queryParamCounter = 0;
@@ -675,7 +675,7 @@ void PetApi::findPetsByTagsWithDataImpl(const QList<QString> &tags, const QObjec
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
-        setCallerInfo(reply, QOAICallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
+        setCallerInfo(reply, QOAICallerInfo{_qt_context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
             findPetsByTagsCallback(QRestReply(reply));
         });
@@ -736,7 +736,7 @@ void PetApi::findPetsByTagsCallback(const QRestReply &reply)
 */
 
 /**
-* \fn template < Functor, > void PetApi::findPetsImageById(const qint64 &petId, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* \fn template < Functor, > void PetApi::findPetsImageById(const qint64 &petId, const ContextTypeForFunctor< Functor > *_qt_context = nullptr, Functor &&_qt_callback = (){})
 * 'findPetsImageById' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
@@ -746,8 +746,8 @@ void PetApi::findPetsByTagsCallback(const QRestReply &reply)
 * \endcode
 
 * @param[in] petId qint64 [required]
-* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
-* @param[in] callback Functor && [optional]
+* @param[in] _qt_context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] _qt_callback Functor && [optional]
 */
 
 /**
@@ -759,16 +759,16 @@ void PetApi::findPetsByTagsCallback(const QRestReply &reply)
 */
 
 /**
-* \fn void PetApi::findPetsImageByIdWithDataImpl(const qint64 &petId, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn void PetApi::findPetsImageByIdWithDataImpl(const qint64 &petId, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 * Implements the findPetsImageById() operation request.
 
 * @param[in] petId qint64 [required]
-* @param[in] context const QObject * [optional]
-* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+* @param[in] _qt_context const QObject * [optional]
+* @param[in] _qt_slot QtPrivate::QSlotObjectBase * [optional]
 */
-void PetApi::findPetsImageByIdWithDataImpl(const qint64 &petId, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void PetApi::findPetsImageByIdWithDataImpl(const qint64 &petId, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 {
-    QtPrivate::SlotObjUniquePtr slotPtr(slot);
+    QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"findPetsImageById"_s);
     QString fullPath = u"/pet/findPetsImageById"_s;
     int queryParamCounter = 0;
@@ -807,7 +807,7 @@ void PetApi::findPetsImageByIdWithDataImpl(const qint64 &petId, const QObject *c
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
-        setCallerInfo(reply, QOAICallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
+        setCallerInfo(reply, QOAICallerInfo{_qt_context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
             findPetsImageByIdCallback(QRestReply(reply));
         });
@@ -863,7 +863,7 @@ void PetApi::findPetsImageByIdCallback(const QRestReply &reply)
 */
 
 /**
-* \fn template < Functor, > void PetApi::getJsonFile(const qint64 &petId, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* \fn template < Functor, > void PetApi::getJsonFile(const qint64 &petId, const ContextTypeForFunctor< Functor > *_qt_context = nullptr, Functor &&_qt_callback = (){})
 * 'getJsonFile' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
@@ -873,8 +873,8 @@ void PetApi::findPetsImageByIdCallback(const QRestReply &reply)
 * \endcode
 
 * @param[in] petId qint64 [required]
-* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
-* @param[in] callback Functor && [optional]
+* @param[in] _qt_context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] _qt_callback Functor && [optional]
 */
 
 /**
@@ -886,16 +886,16 @@ void PetApi::findPetsImageByIdCallback(const QRestReply &reply)
 */
 
 /**
-* \fn void PetApi::getJsonFileWithDataImpl(const qint64 &petId, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn void PetApi::getJsonFileWithDataImpl(const qint64 &petId, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 * Implements the getJsonFile() operation request.
 
 * @param[in] petId qint64 [required]
-* @param[in] context const QObject * [optional]
-* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+* @param[in] _qt_context const QObject * [optional]
+* @param[in] _qt_slot QtPrivate::QSlotObjectBase * [optional]
 */
-void PetApi::getJsonFileWithDataImpl(const qint64 &petId, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void PetApi::getJsonFileWithDataImpl(const qint64 &petId, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 {
-    QtPrivate::SlotObjUniquePtr slotPtr(slot);
+    QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"getJsonFile"_s);
     QString fullPath = u"/pet/{petId}/uploadImage"_s;
     {
@@ -933,7 +933,7 @@ void PetApi::getJsonFileWithDataImpl(const qint64 &petId, const QObject *context
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
-        setCallerInfo(reply, QOAICallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
+        setCallerInfo(reply, QOAICallerInfo{_qt_context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
             getJsonFileCallback(QRestReply(reply));
         });
@@ -988,7 +988,7 @@ void PetApi::getJsonFileCallback(const QRestReply &reply)
 */
 
 /**
-* \fn template < Functor, > void PetApi::getPetById(const qint64 &petId, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* \fn template < Functor, > void PetApi::getPetById(const qint64 &petId, const ContextTypeForFunctor< Functor > *_qt_context = nullptr, Functor &&_qt_callback = (){})
 * 'getPetById' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
@@ -998,8 +998,8 @@ void PetApi::getJsonFileCallback(const QRestReply &reply)
 * \endcode
 
 * @param[in] petId qint64 [required]
-* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
-* @param[in] callback Functor && [optional]
+* @param[in] _qt_context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] _qt_callback Functor && [optional]
 */
 
 /**
@@ -1011,16 +1011,16 @@ void PetApi::getJsonFileCallback(const QRestReply &reply)
 */
 
 /**
-* \fn void PetApi::getPetByIdWithDataImpl(const qint64 &petId, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn void PetApi::getPetByIdWithDataImpl(const qint64 &petId, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 * Implements the getPetById() operation request.
 
 * @param[in] petId qint64 [required]
-* @param[in] context const QObject * [optional]
-* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+* @param[in] _qt_context const QObject * [optional]
+* @param[in] _qt_slot QtPrivate::QSlotObjectBase * [optional]
 */
-void PetApi::getPetByIdWithDataImpl(const qint64 &petId, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void PetApi::getPetByIdWithDataImpl(const qint64 &petId, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 {
-    QtPrivate::SlotObjUniquePtr slotPtr(slot);
+    QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"getPetById"_s);
     QString fullPath = u"/pet/{petId}"_s;
     if (const auto key = apiKey("api_key"_L1); key.has_value()) {
@@ -1061,7 +1061,7 @@ void PetApi::getPetByIdWithDataImpl(const qint64 &petId, const QObject *context,
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
-        setCallerInfo(reply, QOAICallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
+        setCallerInfo(reply, QOAICallerInfo{_qt_context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
             getPetByIdCallback(QRestReply(reply));
         });
@@ -1114,7 +1114,7 @@ void PetApi::getPetByIdCallback(const QRestReply &reply)
 */
 
 /**
-* \fn template < Functor, > void PetApi::updatePet(const Pet &pet, const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* \fn template < Functor, > void PetApi::updatePet(const Pet &pet, const ContextTypeForFunctor< Functor > *_qt_context = nullptr, Functor &&_qt_callback = (){})
 * 'updatePet' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
@@ -1124,8 +1124,8 @@ void PetApi::getPetByIdCallback(const QRestReply &reply)
 * \endcode
 
 * @param[in] pet Pet [required]
-* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
-* @param[in] callback Functor && [optional]
+* @param[in] _qt_context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] _qt_callback Functor && [optional]
 */
 
 /**
@@ -1137,16 +1137,16 @@ void PetApi::getPetByIdCallback(const QRestReply &reply)
 */
 
 /**
-* \fn void PetApi::updatePetWithDataImpl(const Pet &pet, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn void PetApi::updatePetWithDataImpl(const Pet &pet, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 * Implements the updatePet() operation request.
 
 * @param[in] pet Pet [required]
-* @param[in] context const QObject * [optional]
-* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+* @param[in] _qt_context const QObject * [optional]
+* @param[in] _qt_slot QtPrivate::QSlotObjectBase * [optional]
 */
-void PetApi::updatePetWithDataImpl(const Pet &pet, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void PetApi::updatePetWithDataImpl(const Pet &pet, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 {
-    QtPrivate::SlotObjUniquePtr slotPtr(slot);
+    QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"updatePet"_s);
     QString fullPath = u"/pet"_s;
     if (const auto key = apiKey(u"api_key_query"_s); key.has_value()) {
@@ -1172,7 +1172,7 @@ void PetApi::updatePetWithDataImpl(const Pet &pet, const QObject *context, QtPri
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
-        setCallerInfo(reply, QOAICallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
+        setCallerInfo(reply, QOAICallerInfo{_qt_context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
             updatePetCallback(QRestReply(reply));
         });
@@ -1227,7 +1227,7 @@ void PetApi::updatePetCallback(const QRestReply &reply)
 */
 
 /**
-* \fn template < Functor, > void PetApi::updatePetWithForm(const qint64 &petId, const QtOpenApiCommon::OptionalParameter<QString> &name = QtOpenApiCommon::OptionalParameter<QString>(), const QtOpenApiCommon::OptionalParameter<QString> &status = QtOpenApiCommon::OptionalParameter<QString>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* \fn template < Functor, > void PetApi::updatePetWithForm(const qint64 &petId, const QtOpenApiCommon::OptionalParameter<QString> &name = QtOpenApiCommon::OptionalParameter<QString>(), const QtOpenApiCommon::OptionalParameter<QString> &status = QtOpenApiCommon::OptionalParameter<QString>(), const ContextTypeForFunctor< Functor > *_qt_context = nullptr, Functor &&_qt_callback = (){})
 * 'updatePetWithForm' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
@@ -1239,8 +1239,8 @@ void PetApi::updatePetCallback(const QRestReply &reply)
 * @param[in] petId qint64 [required]
 * @param[in] name QString [optional]
 * @param[in] status QString [optional]
-* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
-* @param[in] callback Functor && [optional]
+* @param[in] _qt_context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] _qt_callback Functor && [optional]
 */
 
 /**
@@ -1252,18 +1252,18 @@ void PetApi::updatePetCallback(const QRestReply &reply)
 */
 
 /**
-* \fn void PetApi::updatePetWithFormWithDataImpl(const qint64 &petId, const QtOpenApiCommon::OptionalParameter<QString> &name, const QtOpenApiCommon::OptionalParameter<QString> &status, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn void PetApi::updatePetWithFormWithDataImpl(const qint64 &petId, const QtOpenApiCommon::OptionalParameter<QString> &name, const QtOpenApiCommon::OptionalParameter<QString> &status, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 * Implements the updatePetWithForm() operation request.
 
 * @param[in] petId qint64 [required]
 * @param[in] name QString [optional]
 * @param[in] status QString [optional]
-* @param[in] context const QObject * [optional]
-* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+* @param[in] _qt_context const QObject * [optional]
+* @param[in] _qt_slot QtPrivate::QSlotObjectBase * [optional]
 */
-void PetApi::updatePetWithFormWithDataImpl(const qint64 &petId, const QtOpenApiCommon::OptionalParameter<QString> &name, const QtOpenApiCommon::OptionalParameter<QString> &status, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void PetApi::updatePetWithFormWithDataImpl(const qint64 &petId, const QtOpenApiCommon::OptionalParameter<QString> &name, const QtOpenApiCommon::OptionalParameter<QString> &status, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 {
-    QtPrivate::SlotObjUniquePtr slotPtr(slot);
+    QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"updatePetWithForm"_s);
     QString fullPath = u"/pet/{petId}"_s;
     {
@@ -1318,7 +1318,7 @@ void PetApi::updatePetWithFormWithDataImpl(const qint64 &petId, const QtOpenApiC
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
-        setCallerInfo(reply, QOAICallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
+        setCallerInfo(reply, QOAICallerInfo{_qt_context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
             updatePetWithFormCallback(QRestReply(reply));
         });
@@ -1367,7 +1367,7 @@ void PetApi::updatePetWithFormCallback(const QRestReply &reply)
 */
 
 /**
-* \fn template < Functor, > void PetApi::uploadFile(const qint64 &petId, const QtOpenApiCommon::OptionalParameter<QString> &additionalMetadata = QtOpenApiCommon::OptionalParameter<QString>(), const QtOpenApiCommon::OptionalParameter<QOAIHttpFileElement> &file = QtOpenApiCommon::OptionalParameter<QOAIHttpFileElement>(), const ContextTypeForFunctor< Functor > *context = nullptr, Functor &&callback = (){})
+* \fn template < Functor, > void PetApi::uploadFile(const qint64 &petId, const QtOpenApiCommon::OptionalParameter<QString> &additionalMetadata = QtOpenApiCommon::OptionalParameter<QString>(), const QtOpenApiCommon::OptionalParameter<QOAIHttpFileElement> &file = QtOpenApiCommon::OptionalParameter<QOAIHttpFileElement>(), const ContextTypeForFunctor< Functor > *_qt_context = nullptr, Functor &&_qt_callback = (){})
 * 'uploadFile' operation sends the request to a server.
 * The request parameters are defined by a specification file.
 *
@@ -1379,8 +1379,8 @@ void PetApi::updatePetWithFormCallback(const QRestReply &reply)
 * @param[in] petId qint64 [required]
 * @param[in] additionalMetadata QString [optional]
 * @param[in] file QOAIHttpFileElement [optional]
-* @param[in] context const ContextTypeForFunctor< Functor > * [optional]
-* @param[in] callback Functor && [optional]
+* @param[in] _qt_context const ContextTypeForFunctor< Functor > * [optional]
+* @param[in] _qt_callback Functor && [optional]
 */
 
 /**
@@ -1392,18 +1392,18 @@ void PetApi::updatePetWithFormCallback(const QRestReply &reply)
 */
 
 /**
-* \fn void PetApi::uploadFileWithDataImpl(const qint64 &petId, const QtOpenApiCommon::OptionalParameter<QString> &additionalMetadata, const QtOpenApiCommon::OptionalParameter<QOAIHttpFileElement> &file, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+* \fn void PetApi::uploadFileWithDataImpl(const qint64 &petId, const QtOpenApiCommon::OptionalParameter<QString> &additionalMetadata, const QtOpenApiCommon::OptionalParameter<QOAIHttpFileElement> &file, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 * Implements the uploadFile() operation request.
 
 * @param[in] petId qint64 [required]
 * @param[in] additionalMetadata QString [optional]
 * @param[in] file QOAIHttpFileElement [optional]
-* @param[in] context const QObject * [optional]
-* @param[in] slot QtPrivate::QSlotObjectBase * [optional]
+* @param[in] _qt_context const QObject * [optional]
+* @param[in] _qt_slot QtPrivate::QSlotObjectBase * [optional]
 */
-void PetApi::uploadFileWithDataImpl(const qint64 &petId, const QtOpenApiCommon::OptionalParameter<QString> &additionalMetadata, const QtOpenApiCommon::OptionalParameter<QOAIHttpFileElement> &file, const QObject *context, QtPrivate::QSlotObjectBase *slot)
+void PetApi::uploadFileWithDataImpl(const qint64 &petId, const QtOpenApiCommon::OptionalParameter<QString> &additionalMetadata, const QtOpenApiCommon::OptionalParameter<QOAIHttpFileElement> &file, const QObject *_qt_context, QtPrivate::QSlotObjectBase *_qt_slot)
 {
-    QtPrivate::SlotObjUniquePtr slotPtr(slot);
+    QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"uploadFile"_s);
     QString fullPath = u"/pet/{petId}/uploadImage"_s;
     {
@@ -1454,7 +1454,7 @@ void PetApi::uploadFileWithDataImpl(const qint64 &petId, const QtOpenApiCommon::
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
-        setCallerInfo(reply, QOAICallerInfo{context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
+        setCallerInfo(reply, QOAICallerInfo{_qt_context, QtPrivate::SlotObjSharedPtr(std::move(slotPtr))});
         connect(reply, &QNetworkReply::finished, this, [this, reply] {
             uploadFileCallback(QRestReply(reply));
         });
