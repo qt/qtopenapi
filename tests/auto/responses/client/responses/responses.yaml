@@ -54,6 +54,19 @@ paths:
                 type: object
                 additionalProperties:
                     $ref: '#/components/schemas/User'
+  /response/application/json/baseobject:
+    get:
+      tags: [test]
+      summary: Check response type application-json baseobject class
+      operationId: applicationJsonBaseObjectResponse
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
   /response/application/json/object:
     get:
       tags: [test]

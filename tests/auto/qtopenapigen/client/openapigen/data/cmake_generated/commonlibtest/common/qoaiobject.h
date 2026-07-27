@@ -28,6 +28,7 @@ class QOAIObjectPrivate;
 class CMAKECOMMONLIBGENERATEDCLIENT_COMMON_EXPORT QOAIObject {
 public:
     QOAIObject();
+    QOAIObject(const QString &json);
     QOAIObject(const QOAIObject &other);
     QOAIObject &operator=(const QOAIObject &other);
     QOAIObject(QOAIObject &&) noexcept;

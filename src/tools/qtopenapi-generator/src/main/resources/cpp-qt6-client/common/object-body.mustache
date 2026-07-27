@@ -22,6 +22,12 @@ public:
 {
 }
 
+{{prefix}}Object::{{prefix}}Object(const QString &json)
+    : d(new {{prefix}}ObjectPrivate)
+{
+    fromJson(json);
+}
+
 {{prefix}}Object::{{prefix}}Object(const {{prefix}}Object &other)
     : d(std::make_unique<{{prefix}}ObjectPrivate>(*other.d))
 {
