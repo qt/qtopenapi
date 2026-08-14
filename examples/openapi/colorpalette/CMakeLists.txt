@@ -69,7 +69,7 @@ target_link_libraries(colorpaletteApp PRIVATE
     ColorpaletteClientExample
 )
 
-install(TARGETS colorpaletteApp
+install(TARGETS colorpaletteApp ColorpaletteClientExample
     BUNDLE  DESTINATION "${INSTALL_EXAMPLEDIR}"
     RUNTIME DESTINATION "${INSTALL_EXAMPLEDIR}"
     LIBRARY DESTINATION "${INSTALL_EXAMPLEDIR}"
