@@ -12,7 +12,7 @@
 #ifndef QOAI_OBJECT_H
 #define QOAI_OBJECT_H
 
-#include "qoaicmakecommonlibgeneratedclientcommonexports.h"
+#include <QtOpenApiCommon/qoaicmakecommonlibgeneratedclientcommonexports.h>
 
 #include <QtCore/qjsonvalue.h>
 #include <QtCore/qstring.h>

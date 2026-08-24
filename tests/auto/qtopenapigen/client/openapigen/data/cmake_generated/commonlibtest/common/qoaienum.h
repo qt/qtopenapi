@@ -12,7 +12,7 @@
 #ifndef QOAI_ENUM_H
 #define QOAI_ENUM_H
 
-#include "qoaicmakecommonlibgeneratedclientcommonexports.h"
+#include <QtOpenApiCommon/qoaicmakecommonlibgeneratedclientcommonexports.h>
 
 #include <QtCore/qjsonvalue.h>
 #include <QtCore/qstring.h>

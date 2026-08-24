@@ -2,7 +2,12 @@
 #ifndef {{prefix}}_OBJECT_H
 #define {{prefix}}_OBJECT_H
 
+{{#buildingQtSources}}
+#include <QtOpenApiCommon/{{prefixLowerCase}}{{packageNameLowerCase}}commonexports.h>
+{{/buildingQtSources}}
+{{^buildingQtSources}}
 #include "{{prefixLowerCase}}{{packageNameLowerCase}}commonexports.h"
+{{/buildingQtSources}}
 
 #include <QtCore/qjsonvalue.h>
 #include <QtCore/qstring.h>

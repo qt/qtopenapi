@@ -61,10 +61,18 @@ qt6_add_openapi_client(cmakeCommonLibGeneratedClient
     __QT_INTERNAL_GENERATE_COMMON_LIBRARY_TARGET
 )
 qt_autogen_tools_initial_setup(cmakeCommonLibGeneratedClient)
-target_compile_definitions(cmakeCommonLibGeneratedClient
+target_compile_definitions(qt-openapi-generator-common
     PUBLIC QT_OPENAPI_GENERATOR_VERSION=\"${QT_OPENAPI_GENERATOR_VERSION}\")
 target_link_libraries(cmakeCommonLibGeneratedClient PRIVATE Qt::Core Qt::Network)
-target_link_libraries(qt-openapi-generator-common PRIVATE cmakeCommonLibGeneratedClient)
+
+# The common library code is generated at configure time, so the test only needs
+# the generated files on disk to compare them with the expected ones. The library
+# itself is intentionally not built: the code generated with
+# __QT_INTERNAL_GENERATE_COMMON_LIBRARY_TARGET uses the Qt module include style
+# (<QtOpenApiCommon/...>), which is only resolvable for a real Qt module, where
+# syncqt creates the forwarding headers. Compiling this code is covered by the
+# Qt::OpenApiCommon module build itself.
+set_target_properties(cmakeCommonLibGeneratedClient PROPERTIES EXCLUDE_FROM_ALL TRUE)
 list(APPEND cmake_generator_tests_common commonlibtest)
 
 # Handle the conditional finding of either system zlib or qt zlib.
@@ -83,11 +91,6 @@ if(WIN32)
     add_custom_command(TARGET qt-openapi-generator-client POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             $<TARGET_FILE:cmakeGeneratedClient>
-            ${CMAKE_CURRENT_BINARY_DIR}
-        VERBATIM)
-    add_custom_command(TARGET qt-openapi-generator-common POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            $<TARGET_FILE:cmakeCommonLibGeneratedClient>
             ${CMAKE_CURRENT_BINARY_DIR}
         VERBATIM)
 endif()

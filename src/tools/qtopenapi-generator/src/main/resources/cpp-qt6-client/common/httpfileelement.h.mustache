@@ -2,7 +2,12 @@
 #ifndef {{prefix}}_HTTP_FILE_ELEMENT_H
 #define {{prefix}}_HTTP_FILE_ELEMENT_H
 
+{{#buildingQtSources}}
+#include "QtOpenApiCommon/{{prefixLowerCase}}{{packageNameLowerCase}}commonexports.h"
+{{/buildingQtSources}}
+{{^buildingQtSources}}
 #include "{{prefixLowerCase}}{{packageNameLowerCase}}commonexports.h"
+{{/buildingQtSources}}
 
 #include <QtCore/qcontainerfwd.h>
 #include <QtCore/qmetatype.h>
