@@ -5,8 +5,14 @@
 #ifndef {{prefix}}_SERVERVCONFIGURATION_H
 #define {{prefix}}_SERVERVCONFIGURATION_H
 
+{{#buildingQtSources}}
+#include <QtOpenApiCommon/{{prefixLowerCase}}{{packageNameLowerCase}}commonexports.h>
+#include <QtOpenApiCommon/{{prefixLowerCase}}servervariable.h>
+{{/buildingQtSources}}
+{{^buildingQtSources}}
 #include "{{prefixLowerCase}}{{packageNameLowerCase}}commonexports.h"
 #include "{{prefixLowerCase}}servervariable.h"
+{{/buildingQtSources}}
 
 #include <QtCore/qcontainerfwd.h>
 #include <QtCore/qshareddata.h>

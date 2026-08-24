@@ -3,7 +3,12 @@
 #ifndef {{prefix}}_HTTPREQUESTWORKER_H
 #define {{prefix}}_HTTPREQUESTWORKER_H
 
+{{#buildingQtSources}}
+#include <QtOpenApiCommon/{{prefixLowerCase}}{{packageNameLowerCase}}commonexports.h>
+{{/buildingQtSources}}
+{{^buildingQtSources}}
 #include "{{prefixLowerCase}}{{packageNameLowerCase}}commonexports.h"
+{{/buildingQtSources}}
 
 #include <QtCore/qcontainerfwd.h>
 #include <QtCore/qstring.h> // for argument default value initialization
