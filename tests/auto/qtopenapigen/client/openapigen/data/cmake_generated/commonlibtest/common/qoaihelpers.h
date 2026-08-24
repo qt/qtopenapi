@@ -12,10 +12,10 @@
 #ifndef QOAI_HELPERS_H
 #define QOAI_HELPERS_H
 
-#include "qoaicmakecommonlibgeneratedclientcommonexports.h"
-#include "qoaienum.h"
-#include "qoaihttpfileelement.h"
-#include "qoaiobject.h"
+#include <QtOpenApiCommon/qoaicmakecommonlibgeneratedclientcommonexports.h>
+#include <QtOpenApiCommon/qoaienum.h>
+#include <QtOpenApiCommon/qoaihttpfileelement.h>
+#include <QtOpenApiCommon/qoaiobject.h>
 
 #include <QtCore/qbytearray.h>
 #include <QtCore/qdatetime.h>

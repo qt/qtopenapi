@@ -2,11 +2,20 @@
 #ifndef {{prefix}}_BASEAPI_H
 #define {{prefix}}_BASEAPI_H
 
+{{#buildingQtSources}}
+#include <QtOpenApiCommon/{{prefixLowerCase}}{{packageNameLowerCase}}commonexports.h>
+#include <QtOpenApiCommon/{{prefixLowerCase}}helpers.h>
+#include <QtOpenApiCommon/{{prefixLowerCase}}httprequest.h>
+#include <QtOpenApiCommon/{{prefixLowerCase}}serverconfiguration.h>
+#include <QtOpenApiCommon/{{prefixLowerCase}}servervariable.h>
+{{/buildingQtSources}}
+{{^buildingQtSources}}
 #include "{{prefixLowerCase}}{{packageNameLowerCase}}commonexports.h"
 #include "{{prefixLowerCase}}helpers.h"
 #include "{{prefixLowerCase}}httprequest.h"
 #include "{{prefixLowerCase}}serverconfiguration.h"
 #include "{{prefixLowerCase}}servervariable.h"
+{{/buildingQtSources}}
 
 #include <QtCore/qanystringview.h>
 #include <QtCore/qcontainerfwd.h>

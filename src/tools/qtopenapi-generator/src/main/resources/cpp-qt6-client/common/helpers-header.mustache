@@ -2,10 +2,18 @@
 #ifndef {{prefix}}_HELPERS_H
 #define {{prefix}}_HELPERS_H
 
+{{#buildingQtSources}}
+#include <QtOpenApiCommon/{{prefixLowerCase}}{{packageNameLowerCase}}commonexports.h>
+#include <QtOpenApiCommon/{{prefixLowerCase}}enum.h>
+#include <QtOpenApiCommon/{{prefixLowerCase}}httpfileelement.h>
+#include <QtOpenApiCommon/{{prefixLowerCase}}object.h>
+{{/buildingQtSources}}
+{{^buildingQtSources}}
 #include "{{prefixLowerCase}}{{packageNameLowerCase}}commonexports.h"
 #include "{{prefixLowerCase}}enum.h"
 #include "{{prefixLowerCase}}httpfileelement.h"
 #include "{{prefixLowerCase}}object.h"
+{{/buildingQtSources}}
 
 #include <QtCore/qbytearray.h>
 #include <QtCore/qdatetime.h>

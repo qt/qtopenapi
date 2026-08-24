@@ -12,11 +12,11 @@
 #ifndef QOAI_BASEAPI_H
 #define QOAI_BASEAPI_H
 
-#include "qoaicmakecommonlibgeneratedclientcommonexports.h"
-#include "qoaihelpers.h"
-#include "qoaihttprequest.h"
-#include "qoaiserverconfiguration.h"
-#include "qoaiservervariable.h"
+#include <QtOpenApiCommon/qoaicmakecommonlibgeneratedclientcommonexports.h>
+#include <QtOpenApiCommon/qoaihelpers.h>
+#include <QtOpenApiCommon/qoaihttprequest.h>
+#include <QtOpenApiCommon/qoaiserverconfiguration.h>
+#include <QtOpenApiCommon/qoaiservervariable.h>
 
 #include <QtCore/qanystringview.h>
 #include <QtCore/qcontainerfwd.h>

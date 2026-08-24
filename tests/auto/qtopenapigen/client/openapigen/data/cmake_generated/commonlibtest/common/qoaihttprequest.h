@@ -13,7 +13,7 @@
 #ifndef QOAI_HTTPREQUESTWORKER_H
 #define QOAI_HTTPREQUESTWORKER_H
 
-#include "qoaicmakecommonlibgeneratedclientcommonexports.h"
+#include <QtOpenApiCommon/qoaicmakecommonlibgeneratedclientcommonexports.h>
 
 #include <QtCore/qcontainerfwd.h>
 #include <QtCore/qstring.h> // for argument default value initialization

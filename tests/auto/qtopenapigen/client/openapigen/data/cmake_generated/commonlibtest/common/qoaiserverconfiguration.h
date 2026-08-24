@@ -15,8 +15,8 @@
 #ifndef QOAI_SERVERVCONFIGURATION_H
 #define QOAI_SERVERVCONFIGURATION_H
 
-#include "qoaicmakecommonlibgeneratedclientcommonexports.h"
-#include "qoaiservervariable.h"
+#include <QtOpenApiCommon/qoaicmakecommonlibgeneratedclientcommonexports.h>
+#include <QtOpenApiCommon/qoaiservervariable.h>
 
 #include <QtCore/qcontainerfwd.h>
 #include <QtCore/qshareddata.h>

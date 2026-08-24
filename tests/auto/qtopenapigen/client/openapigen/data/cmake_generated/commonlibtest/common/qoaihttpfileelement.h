@@ -12,7 +12,7 @@
 #ifndef QOAI_HTTP_FILE_ELEMENT_H
 #define QOAI_HTTP_FILE_ELEMENT_H
 
-#include "qoaicmakecommonlibgeneratedclientcommonexports.h"
+#include "QtOpenApiCommon/qoaicmakecommonlibgeneratedclientcommonexports.h"
 
 #include <QtCore/qcontainerfwd.h>
 #include <QtCore/qmetatype.h>
