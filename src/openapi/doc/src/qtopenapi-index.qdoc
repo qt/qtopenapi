@@ -75,7 +75,7 @@
             SPEC_FILE
                 ${CMAKE_CURRENT_SOURCE_DIR}/spec.yaml
         )
-        target_link_libraries(openapiApplication Qt6::Core generatedLibrary)
+        target_link_libraries(openapiApplication PRIVATE Qt6::Core generatedLibrary)
 
         include(GNUInstallDirs)
         install(TARGETS openapiApplication
