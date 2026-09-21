@@ -166,6 +166,57 @@
 
     Generated clients perform HTTP requests using \l{QNetworkAccessManager}.
     Credentials (API keys, bearer tokens, Basic Auth) are attached to outgoing
-    requests. The library does not enforce HTTPS; applications must ensure
-    that credentials are transmitted only over secure connections.
+    requests. The library does not enforce HTTPS, so the application must make
+    sure the credentials are sent only over secure connections.
+
+    \section2 What the application must handle
+
+    \list
+    \li \b{Check the URL scheme.} The client does not do it. If a server URL
+        uses \c http, the credentials are sent in plaintext and anyone who
+        watches the traffic can read them. Basic Auth is only Base64-encoded,
+        which is not encryption. Server variables can also change the URL at
+        runtime.
+    \li \b{Limit redirects.} Qt resends the headers when it follows a
+        redirect. The default \l{QNetworkRequest::}{NoLessSafeRedirectPolicy}
+        blocks \c https to \c http, but not a redirect to another \c https
+        host, which then receives the credentials.
+    \endlist
+
+    \section2 Protecting credentials
+
+    A bearer token or a password is as good as the account itself. Make the
+    connection safe first, and hand the credentials over only at the end:
+
+    \code
+    PetApi api; // use one API object per server
+
+    // The client does not check the scheme, so check it yourself.
+    for (const QString &op : api.operations()) {
+        for (const QOAIServerConfiguration &server : api.serverConfigurations(op)) {
+            if (server.url().scheme() != "https"_L1)
+                qFatal("refusing to send credentials over %s",
+                       qPrintable(server.url().scheme()));
+        }
+    }
+
+    // Require a modern TLS version and verify the certificate.
+    QSslConfiguration tls = QSslConfiguration::defaultConfiguration();
+    tls.setProtocol(QSsl::TlsV1_2OrLater);
+    tls.setPeerVerifyMode(QSslSocket::VerifyPeer);
+    api.setSslConfiguration(tls);
+
+    // Follow redirects only within the same host, so credentials stay there.
+    auto factory = api.networkRequestFactory();
+    factory.setAttribute(QNetworkRequest::RedirectPolicyAttribute,
+                         QVariant::fromValue(QNetworkRequest::SameOriginRedirectPolicy));
+    api.setNetworkRequestFactory(factory);
+    api.setBearerToken(token);
+    \endcode
+
+    \l{QNetworkRequest::}{SameOriginRedirectPolicy} requires the same
+    protocol, host and port. If you need to allow some redirects, use
+    \l{QNetworkRequest::}{UserVerifiedRedirectPolicy}, handle the
+    \l{QNetworkReply::}{redirected()} signal, and approve each redirect
+    manually by emitting \l{QNetworkReply::}{redirectAllowed()}.
 */
