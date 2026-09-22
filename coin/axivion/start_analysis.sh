@@ -39,6 +39,11 @@ done < <(
     done
 )
 
+if [ -z "$INCLUDE_FILES" ]; then
+    echo "No Security Critical files found; running analysis with an explicit fallback sentinel."
+    INCLUDE_FILES="__NO_FILES_FOUND__"
+fi
+
 export INCLUDE_FILES
 
 for MODULE in qtopenapi qtopenapi_generator-common qtopenapi_generator-client; do
