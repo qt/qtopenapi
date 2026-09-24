@@ -12,11 +12,20 @@ qhp.QtOpenAPI.virtualFolder    = qtopenapi
 qhp.QtOpenAPI.indexTitle       = Qt OpenAPI
 qhp.QtOpenAPI.indexRoot        =
 
-qhp.QtOpenAPI.subprojects                       =  examples
+qhp.QtOpenAPI.subprojects                       =  security cmake examples
 qhp.QtOpenAPI.subprojects.examples.title        = Examples
 qhp.QtOpenAPI.subprojects.examples.indexTitle   = Qt OpenAPI Examples
-qhp.QtOpenAPI.subprojects.examples.selectors    = doc:example
+qhp.QtOpenAPI.subprojects.examples.selectors    = example
 qhp.QtOpenAPI.subprojects.examples.sortPages    = true
+
+qhp.QtOpenAPI.subprojects.cmake.title        = CMake: Qt OpenAPI
+qhp.QtOpenAPI.subprojects.cmake.indexTitle   = CMake Commands in Qt6 OpenApi
+qhp.QtOpenAPI.subprojects.cmake.selectors    = group:cmake-commands-qtopenapi
+qhp.QtOpenAPI.subprojects.cmake.sortPages    = true
+
+qhp.QtOpenAPI.subprojects.security.title        = Security considerations
+qhp.QtOpenAPI.subprojects.security.indexTitle   = Qt OpenAPI Security Considerations
+qhp.QtOpenAPI.subprojects.security.selectors    = none
 
 exampledirs += \
                 ../../../examples/openapi
