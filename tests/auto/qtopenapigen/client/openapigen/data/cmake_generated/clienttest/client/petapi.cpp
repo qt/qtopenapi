@@ -129,11 +129,6 @@ void PetApi::addPetWithDataImpl(const Pet &pet, const QObject *_qt_context, QtPr
     QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"addPet"_s);
     QString fullPath = u"/pet"_s;
-    if (const QString un = username(), p = password(); !un.isEmpty() && !p.isEmpty()) {
-        QByteArray b64;
-        b64.append(un.toUtf8() + ":" + p.toUtf8());
-        setHeader(QHttpHeaders::WellKnownHeader::Authorization, "Basic "_L1 + b64.toBase64());
-    }
 
     QOAIHttpRequestInput input(fullPath, "POST"_L1);
     input.headers().replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
@@ -147,6 +142,10 @@ void PetApi::addPetWithDataImpl(const Pet &pet, const QObject *_qt_context, QtPr
                                                          networkRequestFactory(),
                                                          responseCompressionEnabled(),
                                                          requestCompressionEnabled());
+    if (const QString un = username(), p = password(); !un.isEmpty() && !p.isEmpty()) {
+        const QByteArray credentials = un.toUtf8() + ':' + p.toUtf8();
+        request.setRawHeader("Authorization"_ba, "Basic "_ba + credentials.toBase64());
+    }
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
@@ -241,8 +240,6 @@ void PetApi::deletePetWithDataImpl(const qint64 &petId, const QtOpenApiCommon::O
     QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"deletePet"_s);
     QString fullPath = u"/pet/{petId}"_s;
-    if (const auto token = bearerToken(); !token.isEmpty())
-        setHeader(QHttpHeaders::WellKnownHeader::Authorization, "Bearer "_L1 + token);
     {
         QString petIdPathParam = u"{%1}"_s.arg(u"petId"_s);
 
@@ -295,6 +292,8 @@ void PetApi::deletePetWithDataImpl(const qint64 &petId, const QtOpenApiCommon::O
                                                          networkRequestFactory(),
                                                          responseCompressionEnabled(),
                                                          requestCompressionEnabled());
+    if (const auto token = bearerToken(); !token.isEmpty())
+        request.setRawHeader("Authorization"_ba, "Bearer "_ba + token.toUtf8());
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
@@ -1023,9 +1022,6 @@ void PetApi::getPetByIdWithDataImpl(const qint64 &petId, const QObject *_qt_cont
     QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"getPetById"_s);
     QString fullPath = u"/pet/{petId}"_s;
-    if (const auto key = apiKey("api_key"_L1); key.has_value()) {
-        setHeader("api_key"_L1, *key);
-    }
     {
         QString petIdPathParam = u"{%1}"_s.arg(u"petId"_s);
 
@@ -1058,6 +1054,8 @@ void PetApi::getPetByIdWithDataImpl(const qint64 &petId, const QObject *_qt_cont
                                                          networkRequestFactory(),
                                                          responseCompressionEnabled(),
                                                          requestCompressionEnabled());
+    if (const auto key = apiKey(u"api_key"_s); key.has_value())
+        request.setRawHeader("api_key"_ba, key->toUtf8());
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);

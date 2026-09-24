@@ -49,6 +49,7 @@ private Q_SLOTS:
     void updatePetWithFormTest();
     void deleteCreatedPetByBearerTest();
     void deleteCreatedPetNoBearerTest();
+    void clearedBearerTokenIsNotSentTest();
     void uploadPetFileTest();
     void mixedApiCallsTest();
     void getFilesFromServerTest();
@@ -343,6 +344,37 @@ void PetApiTests::deleteCreatedPetNoBearerTest()
     QTRY_COMPARE_EQ_WITH_TIMEOUT(petNotDeleted, true, 5000);
     // The slot is called only once, no duplication anymore
     QTRY_COMPARE_EQ_WITH_TIMEOUT(errorOccurredCounter, 1, 5000);
+}
+
+// The bearer token is added to each request of the operation, not to the shared request
+// factory. A cleared token must not be sent with the next request.
+void PetApiTests::clearedBearerTokenIsNotSentTest()
+{
+    PetApi api;
+    api.setUsername(user);
+    api.setPassword(password);
+    api.setBearerToken("BEARER-TOKEN");
+    Pet pet = createRandomPet();
+    const qint64 id = pet.getId();
+
+    bool petAdded = false;
+    connect(&api, &PetApi::addPetFinished, this, [&](const Pet &) { petAdded = true; });
+    api.addPet(pet);
+    QTRY_COMPARE_EQ_WITH_TIMEOUT(petAdded, true, 5000);
+
+    bool petDeleted = false;
+    connect(&api, &PetApi::deletePetFinished, this, [&]() { petDeleted = true; });
+    api.deletePet(id);
+    QTRY_COMPARE_EQ_WITH_TIMEOUT(petDeleted, true, 5000);
+
+    // The server answers 401 only if the Authorization header is missing or wrong.
+    api.setBearerToken({});
+    std::optional<QNetworkReply::NetworkError> error;
+    connect(&api, &PetApi::deletePetErrorOccurred,
+            this, [&](QNetworkReply::NetworkError e, const QString &) { error = e; });
+    api.deletePet(id);
+    QTRY_VERIFY_WITH_TIMEOUT(error.has_value(), 5000);
+    QCOMPARE_EQ(*error, QNetworkReply::AuthenticationRequiredError);
 }
 
 void PetApiTests::uploadPetFileTest()
