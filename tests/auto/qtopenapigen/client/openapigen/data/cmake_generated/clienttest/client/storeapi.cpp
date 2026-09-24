@@ -222,9 +222,6 @@ void StoreApi::getInventoryWithDataImpl(const QObject *_qt_context, QtPrivate::Q
     QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"getInventory"_s);
     QString fullPath = u"/store/inventory"_s;
-    if (const auto key = apiKey("api_key"_L1); key.has_value()) {
-        setHeader("api_key"_L1, *key);
-    }
 
     QOAIHttpRequestInput input(fullPath, "GET"_L1);
     QByteArray requestContent;
@@ -233,6 +230,8 @@ void StoreApi::getInventoryWithDataImpl(const QObject *_qt_context, QtPrivate::Q
                                                          networkRequestFactory(),
                                                          responseCompressionEnabled(),
                                                          requestCompressionEnabled());
+    if (const auto key = apiKey(u"api_key"_s); key.has_value())
+        request.setRawHeader("api_key"_ba, key->toUtf8());
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);

@@ -126,35 +126,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
     QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"{{nickname}}"_s);
     QString fullPath = u"{{{path}}}"_s;
-{{#authMethods}}
-{{#isApiKey}}
-{{#isKeyInHeader}}
-    if (const auto key = apiKey("{{name}}"_L1); key.has_value()) {
-        setHeader("{{name}}"_L1, *key);
-    }
-{{/isKeyInHeader}}
-{{#isKeyInQuery}}
-    if (const auto key = apiKey(u"{{name}}"_s); key.has_value()) {
-        if (fullPath.indexOf(u'?') > 0)
-            fullPath.append(u'&');
-        else
-            fullPath.append(u'?');
-        fullPath.append(u"{{{name}}}="_s).append(*key);
-    }
-{{/isKeyInQuery}}
-{{/isApiKey}}
-{{#isBasicBearer}}
-    if (const auto token = bearerToken(); !token.isEmpty())
-        setHeader(QHttpHeaders::WellKnownHeader::Authorization, "Bearer "_L1 + token);
-{{/isBasicBearer}}
-{{#isBasicBasic}}
-    if (const QString un = username(), p = password(); !un.isEmpty() && !p.isEmpty()) {
-        QByteArray b64;
-        b64.append(un.toUtf8() + ":" + p.toUtf8());
-        setHeader(QHttpHeaders::WellKnownHeader::Authorization, "Basic "_L1 + b64.toBase64());
-    }
-{{/isBasicBasic}}
-{{/authMethods}}
+{{>set-auth-query}}
 {{#pathParams}}
     {
         QString {{paramName}}PathParam = u"{%1}"_s.arg(u"{{baseName}}"_s);
@@ -521,6 +493,7 @@ void {{classname}}::{{nickname}}WithDataImpl({{#allParams}}const {{#required}}{{
                                                          networkRequestFactory(),
                                                          responseCompressionEnabled(),
                                                          requestCompressionEnabled());
+{{>set-auth-headers}}
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);

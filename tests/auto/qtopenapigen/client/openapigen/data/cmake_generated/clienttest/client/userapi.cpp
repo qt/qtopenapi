@@ -254,9 +254,6 @@ void UserApi::createUserWithDataImpl(const User &user, const QObject *_qt_contex
     QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"createUser"_s);
     QString fullPath = u"/user"_s;
-    if (const auto key = apiKey("api_key"_L1); key.has_value()) {
-        setHeader("api_key"_L1, *key);
-    }
 
     QOAIHttpRequestInput input(fullPath, "POST"_L1);
     input.headers().replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
@@ -270,6 +267,8 @@ void UserApi::createUserWithDataImpl(const User &user, const QObject *_qt_contex
                                                          networkRequestFactory(),
                                                          responseCompressionEnabled(),
                                                          requestCompressionEnabled());
+    if (const auto key = apiKey(u"api_key"_s); key.has_value())
+        request.setRawHeader("api_key"_ba, key->toUtf8());
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
@@ -355,9 +354,6 @@ void UserApi::createUsersWithArrayInputWithDataImpl(const QList<User> &user, con
     QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"createUsersWithArrayInput"_s);
     QString fullPath = u"/user/createWithArray"_s;
-    if (const auto key = apiKey("api_key"_L1); key.has_value()) {
-        setHeader("api_key"_L1, *key);
-    }
 
     QOAIHttpRequestInput input(fullPath, "POST"_L1);
     input.headers().replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
@@ -372,6 +368,8 @@ void UserApi::createUsersWithArrayInputWithDataImpl(const QList<User> &user, con
                                                          networkRequestFactory(),
                                                          responseCompressionEnabled(),
                                                          requestCompressionEnabled());
+    if (const auto key = apiKey(u"api_key"_s); key.has_value())
+        request.setRawHeader("api_key"_ba, key->toUtf8());
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
@@ -457,9 +455,6 @@ void UserApi::createUsersWithListInputWithDataImpl(const QList<User> &user, cons
     QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"createUsersWithListInput"_s);
     QString fullPath = u"/user/createWithList"_s;
-    if (const auto key = apiKey("api_key"_L1); key.has_value()) {
-        setHeader("api_key"_L1, *key);
-    }
 
     QOAIHttpRequestInput input(fullPath, "POST"_L1);
     input.headers().replaceOrAppend(QHttpHeaders::WellKnownHeader::ContentType, "application/json"_L1);
@@ -474,6 +469,8 @@ void UserApi::createUsersWithListInputWithDataImpl(const QList<User> &user, cons
                                                          networkRequestFactory(),
                                                          responseCompressionEnabled(),
                                                          requestCompressionEnabled());
+    if (const auto key = apiKey(u"api_key"_s); key.has_value())
+        request.setRawHeader("api_key"_ba, key->toUtf8());
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
@@ -559,9 +556,6 @@ void UserApi::deleteUserWithDataImpl(const User &username, const QObject *_qt_co
     QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"deleteUser"_s);
     QString fullPath = u"/user/{username}"_s;
-    if (const auto key = apiKey("api_key"_L1); key.has_value()) {
-        setHeader("api_key"_L1, *key);
-    }
     {
         QString usernamePathParam = u"{%1}"_s.arg(u"username"_s);
 
@@ -594,6 +588,8 @@ void UserApi::deleteUserWithDataImpl(const User &username, const QObject *_qt_co
                                                          networkRequestFactory(),
                                                          responseCompressionEnabled(),
                                                          requestCompressionEnabled());
+    if (const auto key = apiKey(u"api_key"_s); key.has_value())
+        request.setRawHeader("api_key"_ba, key->toUtf8());
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
@@ -979,9 +975,6 @@ void UserApi::logoutUserWithDataImpl(const QJsonValue &username, const QObject *
     QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"logoutUser"_s);
     QString fullPath = u"/user/logout"_s;
-    if (const auto key = apiKey("api_key"_L1); key.has_value()) {
-        setHeader("api_key"_L1, *key);
-    }
     int queryParamCounter = 0;
     {
         [[maybe_unused]] QString paramString;
@@ -1029,6 +1022,8 @@ void UserApi::logoutUserWithDataImpl(const QJsonValue &username, const QObject *
                                                          networkRequestFactory(),
                                                          responseCompressionEnabled(),
                                                          requestCompressionEnabled());
+    if (const auto key = apiKey(u"api_key"_s); key.has_value())
+        request.setRawHeader("api_key"_ba, key->toUtf8());
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);
@@ -1117,9 +1112,6 @@ void UserApi::updateUserWithDataImpl(const QString &username, const User &body, 
     QtPrivate::SlotObjUniquePtr slotPtr(_qt_slot);
     setBaseServerUrl(u"updateUser"_s);
     QString fullPath = u"/user/{username}"_s;
-    if (const auto key = apiKey("api_key"_L1); key.has_value()) {
-        setHeader("api_key"_L1, *key);
-    }
     {
         QString usernamePathParam = u"{%1}"_s.arg(u"username"_s);
 
@@ -1183,6 +1175,8 @@ void UserApi::updateUserWithDataImpl(const QString &username, const User &body, 
                                                          networkRequestFactory(),
                                                          responseCompressionEnabled(),
                                                          requestCompressionEnabled());
+    if (const auto key = apiKey(u"api_key"_s); key.has_value())
+        request.setRawHeader("api_key"_ba, key->toUtf8());
     QNetworkReply *reply = execute(input, request, requestContent);
     if (reply != nullptr) {
         reply->setParent(this);

@@ -55,6 +55,8 @@ set(source_files
     src/main/resources/cpp-qt6-client/licenseInfo.mustache
     src/main/resources/cpp-qt6-client/model-body.mustache
     src/main/resources/cpp-qt6-client/model-header.mustache
+    src/main/resources/cpp-qt6-client/set-auth-headers.mustache
+    src/main/resources/cpp-qt6-client/set-auth-query.mustache
     src/test/java/org/qtproject/qt/codegen/CppQt6ClientGeneratorTest.java
     pom.xml
 )

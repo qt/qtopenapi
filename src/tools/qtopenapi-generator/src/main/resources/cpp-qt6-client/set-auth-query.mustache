@@ -1,0 +1,13 @@
+{{#authMethods}}
+{{#isApiKey}}
+{{#isKeyInQuery}}
+    if (const auto key = apiKey(u"{{name}}"_s); key.has_value()) {
+        if (fullPath.indexOf(u'?') > 0)
+            fullPath.append(u'&');
+        else
+            fullPath.append(u'?');
+        fullPath.append(u"{{{name}}}="_s).append(*key);
+    }
+{{/isKeyInQuery}}
+{{/isApiKey}}
+{{/authMethods}}

@@ -1,0 +1,18 @@
+{{#authMethods}}
+{{#isApiKey}}
+{{#isKeyInHeader}}
+    if (const auto key = apiKey(u"{{name}}"_s); key.has_value())
+        request.setRawHeader("{{name}}"_ba, key->toUtf8());
+{{/isKeyInHeader}}
+{{/isApiKey}}
+{{#isBasicBearer}}
+    if (const auto token = bearerToken(); !token.isEmpty())
+        request.setRawHeader("Authorization"_ba, "Bearer "_ba + token.toUtf8());
+{{/isBasicBearer}}
+{{#isBasicBasic}}
+    if (const QString un = username(), p = password(); !un.isEmpty() && !p.isEmpty()) {
+        const QByteArray credentials = un.toUtf8() + ':' + p.toUtf8();
+        request.setRawHeader("Authorization"_ba, "Basic "_ba + credentials.toBase64());
+    }
+{{/isBasicBasic}}
+{{/authMethods}}
