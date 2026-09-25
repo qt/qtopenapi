@@ -3,7 +3,7 @@
 #define {{prefix}}_HTTP_FILE_ELEMENT_H
 
 {{#buildingQtSources}}
-#include "QtOpenApiCommon/{{prefixLowerCase}}{{packageNameLowerCase}}commonexports.h"
+#include <QtOpenApiCommon/{{prefixLowerCase}}{{packageNameLowerCase}}commonexports.h>
 {{/buildingQtSources}}
 {{^buildingQtSources}}
 #include "{{prefixLowerCase}}{{packageNameLowerCase}}commonexports.h"
