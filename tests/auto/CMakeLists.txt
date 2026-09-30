@@ -26,6 +26,7 @@ if(TARGET ${QT_CMAKE_EXPORT_NAMESPACE}::QtOpenAPIGeneratorJar
     add_subdirectory(reserved-words)
     add_subdirectory(responses)
     add_subdirectory(server_configuration)
+    add_subdirectory(unique_items)
     add_subdirectory(unsafe_characters_test)
 else()
     set(missing_text "")

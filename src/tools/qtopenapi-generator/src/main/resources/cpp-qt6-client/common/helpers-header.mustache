@@ -335,6 +335,12 @@ QString serializeArrayValue(const QList<T> &value, const SerializationOptions &o
 }
 
 template <typename T>
+QString serializeArrayValue(const QSet<T> &value, const SerializationOptions &opts)
+{
+    return serializeArrayValue(QList<T>(value.cbegin(), value.cend()), opts);
+}
+
+template <typename T>
 QString serializeMapValue(const QMap<QString, T> &val, const SerializationOptions &opts) {
     const bool percentEncode = opts.flags.testFlag(SerializationFlag::NeedPercentEncoding);
     QString strMap;
