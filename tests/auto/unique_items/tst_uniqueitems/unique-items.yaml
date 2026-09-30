@@ -1,0 +1,103 @@
+# Copyright (C) 2026 The Qt Company Ltd.
+# SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
+
+openapi: 3.1.1
+servers:
+  - url: 'http://127.0.0.1:10206/v2'
+info:
+  title: Unique items specification
+  description: >
+    This specification is intended for testing array parameters
+    with "uniqueItems: true", which are generated as QSet.
+  version: 1.0.0
+tags:
+  - name: uniqueItems
+    description: Operations with uniqueItems array parameters.
+
+paths:
+  /query:
+    get:
+      tags: [uniqueItems]
+      operationId: queryUniqueEnums
+      parameters:
+        - name: colors
+          in: query
+          required: true
+          style: form
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/components/schemas/Color'
+        - name: names
+          in: query
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+      responses:
+        '200':
+          description: OK
+  /path/{colors}:
+    get:
+      tags: [uniqueItems]
+      operationId: pathUniqueEnums
+      parameters:
+        - name: colors
+          in: path
+          required: true
+          style: simple
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/components/schemas/Color'
+      responses:
+        '200':
+          description: OK
+  /header:
+    get:
+      tags: [uniqueItems]
+      operationId: headerUniqueEnums
+      parameters:
+        - name: X-Colors
+          in: header
+          required: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/components/schemas/Color'
+      responses:
+        '200':
+          description: OK
+  /cookie:
+    get:
+      tags: [uniqueItems]
+      operationId: cookieUniqueEnums
+      parameters:
+        - name: colors
+          in: cookie
+          required: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/components/schemas/Color'
+      responses:
+        '200':
+          description: OK
+
+components:
+  schemas:
+    Color:
+      type: string
+      enum:
+        - red
+        - green
+        - blue
