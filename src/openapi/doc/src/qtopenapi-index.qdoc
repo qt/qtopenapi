@@ -35,7 +35,7 @@
         \li \l {https://openjdk.org/projects/jdk/}{Java JDK}
             (version 17 or later is recommended).
     \endlist
-    /note The code produced by the Qt OpenAPI generator can vary across
+    \note The code produced by the Qt OpenAPI generator can vary across
     versions, as it depends on the version of the upstream OpenAPI
     generator currently in use. Older generator versions might not support
     some of the features.
