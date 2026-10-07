@@ -178,7 +178,7 @@ void UserApi::createInQueryMapWithDataImpl(const QMap<QString, QString> &usernam
         });
         connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
             if (reply) {
-                emit createInQueryMapErrorOccurred(reply->error(), reply->errorString());
+                Q_EMIT createInQueryMapErrorOccurred(reply->error(), reply->errorString());
                 QOAICallerInfo callerInfo = takeCallerInfo(reply);
                 if (callerInfo.slot) {
                     QRestReply restRepl(reply);
@@ -207,7 +207,7 @@ void UserApi::createInQueryMapCallback(const QRestReply &reply)
                         ? const_cast<QObject*>(callerInfo.contextObject.get()) : nullptr;
         callerInfo.slot->call(context, argv);
     }
-    emit createInQueryMapFinished();
+    Q_EMIT createInQueryMapFinished();
 }
 
 /**
@@ -279,7 +279,7 @@ void UserApi::createUserWithDataImpl(const User &user, const QObject *_qt_contex
         });
         connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
             if (reply) {
-                emit createUserErrorOccurred(reply->error(), reply->errorString());
+                Q_EMIT createUserErrorOccurred(reply->error(), reply->errorString());
                 QOAICallerInfo callerInfo = takeCallerInfo(reply);
                 if (callerInfo.slot) {
                     QRestReply restRepl(reply);
@@ -308,7 +308,7 @@ void UserApi::createUserCallback(const QRestReply &reply)
                         ? const_cast<QObject*>(callerInfo.contextObject.get()) : nullptr;
         callerInfo.slot->call(context, argv);
     }
-    emit createUserFinished();
+    Q_EMIT createUserFinished();
 }
 
 /**
@@ -381,7 +381,7 @@ void UserApi::createUsersWithArrayInputWithDataImpl(const QList<User> &user, con
         });
         connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
             if (reply) {
-                emit createUsersWithArrayInputErrorOccurred(reply->error(), reply->errorString());
+                Q_EMIT createUsersWithArrayInputErrorOccurred(reply->error(), reply->errorString());
                 QOAICallerInfo callerInfo = takeCallerInfo(reply);
                 if (callerInfo.slot) {
                     QRestReply restRepl(reply);
@@ -410,7 +410,7 @@ void UserApi::createUsersWithArrayInputCallback(const QRestReply &reply)
                         ? const_cast<QObject*>(callerInfo.contextObject.get()) : nullptr;
         callerInfo.slot->call(context, argv);
     }
-    emit createUsersWithArrayInputFinished();
+    Q_EMIT createUsersWithArrayInputFinished();
 }
 
 /**
@@ -483,7 +483,7 @@ void UserApi::createUsersWithListInputWithDataImpl(const QList<User> &user, cons
         });
         connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
             if (reply) {
-                emit createUsersWithListInputErrorOccurred(reply->error(), reply->errorString());
+                Q_EMIT createUsersWithListInputErrorOccurred(reply->error(), reply->errorString());
                 QOAICallerInfo callerInfo = takeCallerInfo(reply);
                 if (callerInfo.slot) {
                     QRestReply restRepl(reply);
@@ -512,7 +512,7 @@ void UserApi::createUsersWithListInputCallback(const QRestReply &reply)
                         ? const_cast<QObject*>(callerInfo.contextObject.get()) : nullptr;
         callerInfo.slot->call(context, argv);
     }
-    emit createUsersWithListInputFinished();
+    Q_EMIT createUsersWithListInputFinished();
 }
 
 /**
@@ -603,7 +603,7 @@ void UserApi::deleteUserWithDataImpl(const User &username, const QObject *_qt_co
         });
         connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
             if (reply) {
-                emit deleteUserErrorOccurred(reply->error(), reply->errorString());
+                Q_EMIT deleteUserErrorOccurred(reply->error(), reply->errorString());
                 QOAICallerInfo callerInfo = takeCallerInfo(reply);
                 if (callerInfo.slot) {
                     QRestReply restRepl(reply);
@@ -632,7 +632,7 @@ void UserApi::deleteUserCallback(const QRestReply &reply)
                         ? const_cast<QObject*>(callerInfo.contextObject.get()) : nullptr;
         callerInfo.slot->call(context, argv);
     }
-    emit deleteUserFinished();
+    Q_EMIT deleteUserFinished();
 }
 
 /**
@@ -720,7 +720,7 @@ void UserApi::getUserByNameWithDataImpl(const QMap<QString, qint32> &username, c
         });
         connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
             if (reply) {
-                emit getUserByNameErrorOccurred(reply->error(), reply->errorString());
+                Q_EMIT getUserByNameErrorOccurred(reply->error(), reply->errorString());
                 QOAICallerInfo callerInfo = takeCallerInfo(reply);
                 if (callerInfo.slot) {
                     User empty;
@@ -755,7 +755,7 @@ void UserApi::getUserByNameCallback(const QRestReply &reply)
                         ? const_cast<QObject*>(callerInfo.contextObject.get()) : nullptr;
         callerInfo.slot->call(context, argv);
     }
-    emit getUserByNameFinished(output);
+    Q_EMIT getUserByNameFinished(output);
 }
 
 /**
@@ -894,7 +894,7 @@ void UserApi::loginUserWithDataImpl(const QtOpenApiCommon::OptionalParameter<QSt
         });
         connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
             if (reply) {
-                emit loginUserErrorOccurred(reply->error(), reply->errorString());
+                Q_EMIT loginUserErrorOccurred(reply->error(), reply->errorString());
                 QOAICallerInfo callerInfo = takeCallerInfo(reply);
                 if (callerInfo.slot) {
                     QString empty;
@@ -932,7 +932,7 @@ void UserApi::loginUserCallback(const QRestReply &reply)
                         ? const_cast<QObject*>(callerInfo.contextObject.get()) : nullptr;
         callerInfo.slot->call(context, argv);
     }
-    emit loginUserFinished(output);
+    Q_EMIT loginUserFinished(output);
 }
 
 /**
@@ -1038,7 +1038,7 @@ void UserApi::logoutUserWithDataImpl(const QJsonValue &username, const QObject *
         });
         connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
             if (reply) {
-                emit logoutUserErrorOccurred(reply->error(), reply->errorString());
+                Q_EMIT logoutUserErrorOccurred(reply->error(), reply->errorString());
                 QOAICallerInfo callerInfo = takeCallerInfo(reply);
                 if (callerInfo.slot) {
                     QRestReply restRepl(reply);
@@ -1067,7 +1067,7 @@ void UserApi::logoutUserCallback(const QRestReply &reply)
                         ? const_cast<QObject*>(callerInfo.contextObject.get()) : nullptr;
         callerInfo.slot->call(context, argv);
     }
-    emit logoutUserFinished();
+    Q_EMIT logoutUserFinished();
 }
 
 /**
@@ -1192,7 +1192,7 @@ void UserApi::updateUserWithDataImpl(const QString &username, const User &body, 
         });
         connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
             if (reply) {
-                emit updateUserErrorOccurred(reply->error(), reply->errorString());
+                Q_EMIT updateUserErrorOccurred(reply->error(), reply->errorString());
                 QOAICallerInfo callerInfo = takeCallerInfo(reply);
                 if (callerInfo.slot) {
                     User empty;
@@ -1227,7 +1227,7 @@ void UserApi::updateUserCallback(const QRestReply &reply)
                         ? const_cast<QObject*>(callerInfo.contextObject.get()) : nullptr;
         callerInfo.slot->call(context, argv);
     }
-    emit updateUserFinished(output);
+    Q_EMIT updateUserFinished(output);
 }
 
 } // namespace QtOpenAPI
