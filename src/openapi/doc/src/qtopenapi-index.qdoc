@@ -35,6 +35,12 @@
         \li \l {https://openjdk.org/projects/jdk/}{Java JDK}
             (version 17 or later is recommended).
     \endlist
+
+    \note Make sure that the OpenAPI Generator binary is available in your
+    \c PATH. Installing OpenAPI Generator does not necessarily add it
+    to \c PATH. The Qt OpenAPI CMake APIs search for the generator in
+    \c PATH. This applies to both Unix and Windows.
+
     \note The code produced by the Qt OpenAPI generator can vary across
     versions, as it depends on the version of the upstream OpenAPI
     generator currently in use. Older generator versions might not support

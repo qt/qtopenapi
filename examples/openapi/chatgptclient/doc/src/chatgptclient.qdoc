@@ -26,6 +26,12 @@ In particular, the example is limited to two operations described in the
 \endlist
 
 \include examples-run.qdocinc
+
+\note Before building the example, make sure that the OpenAPI Generator
+      is available in your \c PATH.
+      See \l{Qt OpenAPI#Using the module}{Using the module} for information
+      about installing the required tools.
+
 \note The example requires a private OpenAI key in order to interact with the
       models. Use the \c CHAT_OPENAI_KEY environment variable to specify
       the key. If you run the example from \c {Qt Creator}, it can be done

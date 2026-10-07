@@ -21,6 +21,11 @@ networking and integration approach are easy to identify.
 
 \include examples-run.qdocinc
 
+\note Before building the example, make sure that the OpenAPI Generator
+      is available in your \c PATH.
+      See \l{Qt OpenAPI#Using the module}{Using the module} for information
+      about installing the required tools.
+
 \section1 Application functionality
 
 The example provides the same basic functionalities as
