@@ -149,7 +149,7 @@ void StoreApi::deleteOrderWithDataImpl(const QString &orderId, const QObject *_q
         });
         connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
             if (reply) {
-                emit deleteOrderErrorOccurred(reply->error(), reply->errorString());
+                Q_EMIT deleteOrderErrorOccurred(reply->error(), reply->errorString());
                 QOAICallerInfo callerInfo = takeCallerInfo(reply);
                 if (callerInfo.slot) {
                     QRestReply restRepl(reply);
@@ -178,7 +178,7 @@ void StoreApi::deleteOrderCallback(const QRestReply &reply)
                         ? const_cast<QObject*>(callerInfo.contextObject.get()) : nullptr;
         callerInfo.slot->call(context, argv);
     }
-    emit deleteOrderFinished();
+    Q_EMIT deleteOrderFinished();
 }
 
 /**
@@ -242,7 +242,7 @@ void StoreApi::getInventoryWithDataImpl(const QObject *_qt_context, QtPrivate::Q
         });
         connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
             if (reply) {
-                emit getInventoryErrorOccurred(reply->error(), reply->errorString());
+                Q_EMIT getInventoryErrorOccurred(reply->error(), reply->errorString());
                 QOAICallerInfo callerInfo = takeCallerInfo(reply);
                 if (callerInfo.slot) {
                     QMap<QString, qint32> empty;
@@ -285,7 +285,7 @@ void StoreApi::getInventoryCallback(const QRestReply &reply)
                         ? const_cast<QObject*>(callerInfo.contextObject.get()) : nullptr;
         callerInfo.slot->call(context, argv);
     }
-    emit getInventoryFinished(output);
+    Q_EMIT getInventoryFinished(output);
 }
 
 /**
@@ -373,7 +373,7 @@ void StoreApi::getOrderByIdWithDataImpl(const qint64 &orderId, const QObject *_q
         });
         connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
             if (reply) {
-                emit getOrderByIdErrorOccurred(reply->error(), reply->errorString());
+                Q_EMIT getOrderByIdErrorOccurred(reply->error(), reply->errorString());
                 QOAICallerInfo callerInfo = takeCallerInfo(reply);
                 if (callerInfo.slot) {
                     Order empty;
@@ -408,7 +408,7 @@ void StoreApi::getOrderByIdCallback(const QRestReply &reply)
                         ? const_cast<QObject*>(callerInfo.contextObject.get()) : nullptr;
         callerInfo.slot->call(context, argv);
     }
-    emit getOrderByIdFinished(output);
+    Q_EMIT getOrderByIdFinished(output);
 }
 
 /**
@@ -477,7 +477,7 @@ void StoreApi::placeOrderWithDataImpl(const Order &order, const QObject *_qt_con
         });
         connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
             if (reply) {
-                emit placeOrderErrorOccurred(reply->error(), reply->errorString());
+                Q_EMIT placeOrderErrorOccurred(reply->error(), reply->errorString());
                 QOAICallerInfo callerInfo = takeCallerInfo(reply);
                 if (callerInfo.slot) {
                     Order empty;
@@ -512,7 +512,7 @@ void StoreApi::placeOrderCallback(const QRestReply &reply)
                         ? const_cast<QObject*>(callerInfo.contextObject.get()) : nullptr;
         callerInfo.slot->call(context, argv);
     }
-    emit placeOrderFinished(output);
+    Q_EMIT placeOrderFinished(output);
 }
 
 } // namespace QtOpenAPI

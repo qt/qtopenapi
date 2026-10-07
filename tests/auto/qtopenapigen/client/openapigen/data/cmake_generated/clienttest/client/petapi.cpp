@@ -156,7 +156,7 @@ void PetApi::addPetWithDataImpl(const Pet &pet, const QObject *_qt_context, QtPr
         });
         connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
             if (reply) {
-                emit addPetErrorOccurred(reply->error(), reply->errorString());
+                Q_EMIT addPetErrorOccurred(reply->error(), reply->errorString());
                 QOAICallerInfo callerInfo = takeCallerInfo(reply);
                 if (callerInfo.slot) {
                     Pet empty;
@@ -191,7 +191,7 @@ void PetApi::addPetCallback(const QRestReply &reply)
                         ? const_cast<QObject*>(callerInfo.contextObject.get()) : nullptr;
         callerInfo.slot->call(context, argv);
     }
-    emit addPetFinished(output);
+    Q_EMIT addPetFinished(output);
 }
 
 /**
@@ -304,7 +304,7 @@ void PetApi::deletePetWithDataImpl(const qint64 &petId, const QtOpenApiCommon::O
         });
         connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
             if (reply) {
-                emit deletePetErrorOccurred(reply->error(), reply->errorString());
+                Q_EMIT deletePetErrorOccurred(reply->error(), reply->errorString());
                 QOAICallerInfo callerInfo = takeCallerInfo(reply);
                 if (callerInfo.slot) {
                     QRestReply restRepl(reply);
@@ -333,7 +333,7 @@ void PetApi::deletePetCallback(const QRestReply &reply)
                         ? const_cast<QObject*>(callerInfo.contextObject.get()) : nullptr;
         callerInfo.slot->call(context, argv);
     }
-    emit deletePetFinished();
+    Q_EMIT deletePetFinished();
 }
 
 /**
@@ -421,7 +421,7 @@ void PetApi::findPetsByAgeAndPatienceWithDataImpl(const QList<qint32> &petData, 
         });
         connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
             if (reply) {
-                emit findPetsByAgeAndPatienceErrorOccurred(reply->error(), reply->errorString());
+                Q_EMIT findPetsByAgeAndPatienceErrorOccurred(reply->error(), reply->errorString());
                 QOAICallerInfo callerInfo = takeCallerInfo(reply);
                 if (callerInfo.slot) {
                     QList<Pet> empty;
@@ -464,7 +464,7 @@ void PetApi::findPetsByAgeAndPatienceCallback(const QRestReply &reply)
                         ? const_cast<QObject*>(callerInfo.contextObject.get()) : nullptr;
         callerInfo.slot->call(context, argv);
     }
-    emit findPetsByAgeAndPatienceFinished(output);
+    Q_EMIT findPetsByAgeAndPatienceFinished(output);
 }
 
 /**
@@ -551,7 +551,7 @@ void PetApi::findPetsByStatusWithDataImpl(const QList<QString> &status, const QO
         });
         connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
             if (reply) {
-                emit findPetsByStatusErrorOccurred(reply->error(), reply->errorString());
+                Q_EMIT findPetsByStatusErrorOccurred(reply->error(), reply->errorString());
                 QOAICallerInfo callerInfo = takeCallerInfo(reply);
                 if (callerInfo.slot) {
                     QList<Pet> empty;
@@ -594,7 +594,7 @@ void PetApi::findPetsByStatusCallback(const QRestReply &reply)
                         ? const_cast<QObject*>(callerInfo.contextObject.get()) : nullptr;
         callerInfo.slot->call(context, argv);
     }
-    emit findPetsByStatusFinished(output);
+    Q_EMIT findPetsByStatusFinished(output);
 }
 
 /**
@@ -681,7 +681,7 @@ void PetApi::findPetsByTagsWithDataImpl(const QList<QString> &tags, const QObjec
         });
         connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
             if (reply) {
-                emit findPetsByTagsErrorOccurred(reply->error(), reply->errorString());
+                Q_EMIT findPetsByTagsErrorOccurred(reply->error(), reply->errorString());
                 QOAICallerInfo callerInfo = takeCallerInfo(reply);
                 if (callerInfo.slot) {
                     QList<Pet> empty;
@@ -724,7 +724,7 @@ void PetApi::findPetsByTagsCallback(const QRestReply &reply)
                         ? const_cast<QObject*>(callerInfo.contextObject.get()) : nullptr;
         callerInfo.slot->call(context, argv);
     }
-    emit findPetsByTagsFinished(output);
+    Q_EMIT findPetsByTagsFinished(output);
 }
 
 /**
@@ -813,7 +813,7 @@ void PetApi::findPetsImageByIdWithDataImpl(const qint64 &petId, const QObject *_
         });
         connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
             if (reply) {
-                emit findPetsImageByIdErrorOccurred(reply->error(), reply->errorString());
+                Q_EMIT findPetsImageByIdErrorOccurred(reply->error(), reply->errorString());
                 QOAICallerInfo callerInfo = takeCallerInfo(reply);
                 if (callerInfo.slot) {
                     QString empty;
@@ -851,7 +851,7 @@ void PetApi::findPetsImageByIdCallback(const QRestReply &reply)
                         ? const_cast<QObject*>(callerInfo.contextObject.get()) : nullptr;
         callerInfo.slot->call(context, argv);
     }
-    emit findPetsImageByIdFinished(output);
+    Q_EMIT findPetsImageByIdFinished(output);
 }
 
 /**
@@ -939,7 +939,7 @@ void PetApi::getJsonFileWithDataImpl(const qint64 &petId, const QObject *_qt_con
         });
         connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
             if (reply) {
-                emit getJsonFileErrorOccurred(reply->error(), reply->errorString());
+                Q_EMIT getJsonFileErrorOccurred(reply->error(), reply->errorString());
                 QOAICallerInfo callerInfo = takeCallerInfo(reply);
                 if (callerInfo.slot) {
                     QOAIHttpFileElement empty;
@@ -976,7 +976,7 @@ void PetApi::getJsonFileCallback(const QRestReply &reply)
                         ? const_cast<QObject*>(callerInfo.contextObject.get()) : nullptr;
         callerInfo.slot->call(context, argv);
     }
-    emit getJsonFileFinished(output);
+    Q_EMIT getJsonFileFinished(output);
 }
 
 /**
@@ -1067,7 +1067,7 @@ void PetApi::getPetByIdWithDataImpl(const qint64 &petId, const QObject *_qt_cont
         });
         connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
             if (reply) {
-                emit getPetByIdErrorOccurred(reply->error(), reply->errorString());
+                Q_EMIT getPetByIdErrorOccurred(reply->error(), reply->errorString());
                 QOAICallerInfo callerInfo = takeCallerInfo(reply);
                 if (callerInfo.slot) {
                     Pet empty;
@@ -1102,7 +1102,7 @@ void PetApi::getPetByIdCallback(const QRestReply &reply)
                         ? const_cast<QObject*>(callerInfo.contextObject.get()) : nullptr;
         callerInfo.slot->call(context, argv);
     }
-    emit getPetByIdFinished(output);
+    Q_EMIT getPetByIdFinished(output);
 }
 
 /**
@@ -1178,7 +1178,7 @@ void PetApi::updatePetWithDataImpl(const Pet &pet, const QObject *_qt_context, Q
         });
         connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
             if (reply) {
-                emit updatePetErrorOccurred(reply->error(), reply->errorString());
+                Q_EMIT updatePetErrorOccurred(reply->error(), reply->errorString());
                 QOAICallerInfo callerInfo = takeCallerInfo(reply);
                 if (callerInfo.slot) {
                     Pet empty;
@@ -1213,7 +1213,7 @@ void PetApi::updatePetCallback(const QRestReply &reply)
                         ? const_cast<QObject*>(callerInfo.contextObject.get()) : nullptr;
         callerInfo.slot->call(context, argv);
     }
-    emit updatePetFinished(output);
+    Q_EMIT updatePetFinished(output);
 }
 
 /**
@@ -1324,7 +1324,7 @@ void PetApi::updatePetWithFormWithDataImpl(const qint64 &petId, const QtOpenApiC
         });
         connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
             if (reply) {
-                emit updatePetWithFormErrorOccurred(reply->error(), reply->errorString());
+                Q_EMIT updatePetWithFormErrorOccurred(reply->error(), reply->errorString());
                 QOAICallerInfo callerInfo = takeCallerInfo(reply);
                 if (callerInfo.slot) {
                     QRestReply restRepl(reply);
@@ -1353,7 +1353,7 @@ void PetApi::updatePetWithFormCallback(const QRestReply &reply)
                         ? const_cast<QObject*>(callerInfo.contextObject.get()) : nullptr;
         callerInfo.slot->call(context, argv);
     }
-    emit updatePetWithFormFinished();
+    Q_EMIT updatePetWithFormFinished();
 }
 
 /**
@@ -1460,7 +1460,7 @@ void PetApi::uploadFileWithDataImpl(const qint64 &petId, const QtOpenApiCommon::
         });
         connect(reply, &QNetworkReply::errorOccurred, this, [this, reply] {
             if (reply) {
-                emit uploadFileErrorOccurred(reply->error(), reply->errorString());
+                Q_EMIT uploadFileErrorOccurred(reply->error(), reply->errorString());
                 QOAICallerInfo callerInfo = takeCallerInfo(reply);
                 if (callerInfo.slot) {
                     ApiResponse empty;
@@ -1495,7 +1495,7 @@ void PetApi::uploadFileCallback(const QRestReply &reply)
                         ? const_cast<QObject*>(callerInfo.contextObject.get()) : nullptr;
         callerInfo.slot->call(context, argv);
     }
-    emit uploadFileFinished(output);
+    Q_EMIT uploadFileFinished(output);
 }
 
 } // namespace QtOpenAPI

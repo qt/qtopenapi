@@ -27,6 +27,10 @@ qt_add_openapi_client(TestClient1
         ${CMAKE_CURRENT_BINARY_DIR}/client1
 )
 
+# Make sure the generated code and the tests don't use the Qt keywords
+# (emit, signals, slots, foreach).
+target_compile_definitions(TestClient1 PUBLIC QT_NO_KEYWORDS)
+
 # client2 generation
 qt_add_library(TestClient2)
 qt_add_openapi_client(TestClient2
