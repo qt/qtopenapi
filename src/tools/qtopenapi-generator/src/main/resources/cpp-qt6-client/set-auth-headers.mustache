@@ -9,6 +9,13 @@
     if (const auto token = bearerToken(); !token.isEmpty())
         request.setRawHeader("Authorization"_ba, "Bearer "_ba + token.toUtf8());
 {{/isBasicBearer}}
+{{#isOAuth}}
+    // The OAuth 2.0 flow itself is not part of the generated code. The access
+    // token obtained by the application, for example with Qt Network
+    // Authorization, is sent as a Bearer token.
+    if (const auto token = bearerToken(); !token.isEmpty())
+        request.setRawHeader("Authorization"_ba, "Bearer "_ba + token.toUtf8());
+{{/isOAuth}}
 {{#isBasicBasic}}
     if (const QString un = username(), p = password(); !un.isEmpty() && !p.isEmpty()) {
         const QByteArray credentials = un.toUtf8() + ':' + p.toUtf8();
