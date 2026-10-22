@@ -151,6 +151,7 @@
     \li \l {Handling OpenAPI Specifications from External Sources}
     \li \l {Protecting Against Resource Exhaustion}
     \li \l {Network communication}
+    \li \l {Obtaining Tokens with OAuth 2.0}
     \endlist
 
     \section1 Examples

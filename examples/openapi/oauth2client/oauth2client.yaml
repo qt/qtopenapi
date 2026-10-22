@@ -1,0 +1,72 @@
+# Copyright (C) 2026 The Qt Company Ltd.
+# SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
+
+openapi: 3.0.3
+info:
+  title: Qt OpenAPI OAuth 2.0 demo - user profile
+  description:
+    A minimal API that is protected by the OAuth 2.0 authorization code flow.
+    The Qt OpenAPI oauth2client example ships a small demo authorization and
+    resource server for it, so the example runs without any registration.
+  version: 1.0.0
+
+servers:
+  - url: http://127.0.0.1:20500/api
+    description: Demo resource server started by the example
+
+security:
+  - demo_auth:
+      - profile:read
+      - email:read
+
+tags:
+  - name: users
+    description: Information about the current user
+
+paths:
+  /me:
+    get:
+      tags:
+        - users
+      operationId: getCurrentUserProfile
+      summary: Get the profile of the user who authorized the application.
+      responses:
+        '200':
+          description: The profile of the current user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '401':
+          description: Missing, bad or expired access token
+        '403':
+          description: The access token does not cover the required scope
+
+components:
+  securitySchemes:
+    demo_auth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: http://127.0.0.1:20500/oauth/authorize
+          tokenUrl: http://127.0.0.1:20500/oauth/token
+          refreshUrl: http://127.0.0.1:20500/oauth/token
+          scopes:
+            profile:read: Read the display name and the country of the user
+            email:read: Read the email address of the user
+  schemas:
+    UserProfile:
+      type: object
+      properties:
+        id:
+          description: The unique ID of the user
+          type: string
+        display_name:
+          description: The name shown on the profile of the user
+          type: string
+        email:
+          description: The email address of the user, only with the email:read scope
+          type: string
+        country:
+          description: The country of the user, as an ISO 3166-1 alpha-2 code
+          type: string

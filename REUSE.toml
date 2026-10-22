@@ -19,6 +19,13 @@ SPDX-FileCopyrightText = "Copyright (C) The Qt Company Ltd."
 SPDX-License-Identifier = "LicenseRef-Qt-Commercial OR GPL-3.0-only"
 
 [[annotations]]
+path = ["examples/**go.mod", "examples/**go.sum"]
+precedence = "closest"
+comment = "Go module files of example servers, they cannot carry a license header"
+SPDX-FileCopyrightText = "Copyright (C) The Qt Company Ltd."
+SPDX-License-Identifier = "LicenseRef-Qt-Commercial OR BSD-3-Clause"
+
+[[annotations]]
 path = ["**.in", "**.pro", "**CMakeLists.txt",
         ".cmake.conf", "dependencies.yaml",
         ".tag", "coin/**"]

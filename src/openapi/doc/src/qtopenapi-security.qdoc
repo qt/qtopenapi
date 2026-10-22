@@ -219,4 +219,31 @@
     \l{QNetworkRequest::}{UserVerifiedRedirectPolicy}, handle the
     \l{QNetworkReply::}{redirected()} signal, and approve each redirect
     manually by emitting \l{QNetworkReply::}{redirectAllowed()}.
+
+    \section1 Obtaining Tokens with OAuth 2.0
+
+    Generated clients do not implement any OAuth 2.0 authorization flow.
+    When the specification declares a security scheme of \c{type: oauth2},
+    the generated API only accepts the resulting access token via
+    \c setBearerToken() and sends it as a \c Bearer token. The application
+    must obtain that token itself, for example with the
+    \l{Qt Network Authorization} module, and refresh it when it expires.
+
+    The \l{OAuth 2.0 Authorization Code Flow Client} example shows how
+    to obtain the token with \l QOAuth2AuthorizationCodeFlow.
+
+    Points to keep in mind:
+
+    \list
+    \li Use \c https for \c authorizationUrl, \c tokenUrl and the API
+        server URL. The authorization code and the tokens are just as
+        sensitive as the credentials described above.
+    \li The refresh token can be used to renew expired access tokens
+        without user interaction. Treat it as a sensitive credential
+        and ensure it cannot be leaked: keep it in memory, or store
+        it only in protected storage.
+    \endlist
+
+    See \l{OAuth 2.0 Overview} for the complete description of the flow,
+    including PKCE, which \l QOAuth2AuthorizationCodeFlow enables by default.
 */
