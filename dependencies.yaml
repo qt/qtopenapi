@@ -5,3 +5,6 @@ dependencies:
   ../qtdeclarative:
     ref: b89c121ca9ebb51e208cd3420571c75857ae87c7
     required: false
+  ../qtnetworkauth:
+    ref: 9f402db1c2f87a764f044ec3fe46c13fb237bb09
+    required: false
