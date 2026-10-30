@@ -22,7 +22,7 @@ INCLUDE_FILES=""
 
 EXTRA_DIRS=(
     "build/tests/auto/qtopenapigen/client/openapigen/cmake_generated/clienttest/client"
-    "build/tests/auto/qtopenapigen/client/openapigen/cmake_generated/commonlibtest/common"
+    "build/src/openapicommon/common"
 )
 
 while IFS= read -r file; do
@@ -46,22 +46,18 @@ fi
 
 export INCLUDE_FILES
 
-for MODULE in qtopenapi qtopenapi_generator-common qtopenapi_generator-client; do
+for MODULE in qtopenapi_generator-common qtopenapi_generator-client; do
     export MODULE
     export EXCLUDE_FILES=""
     export PLUGINS=""
     export IRNAME=build/$MODULE.ir
-    if [ "$MODULE" == "qtopenapi" ]
+    if [ "$MODULE" == "qtopenapi_generator-common" ]
     then
         export TARGET_NAME="build/lib/libQt6OpenApiCommon.so.*.ir"
         export PACKAGE="Add-ons"
-    elif [ "$MODULE" == "qtopenapi_generator-common" ]
-    then
-        export TARGET_NAME="build/tests/auto/qtopenapigen/client/openapigen/libcmakeCommonLibGeneratedClient.so*.ir"
-        export PACKAGE="Add-ons"
     elif [ "$MODULE" == "qtopenapi_generator-client" ]
     then
-        export EXCLUDE_FILES="build/tests/auto/qtopenapigen/client/openapigen/cmake_generated/commonlibtest/common/*"
+        export EXCLUDE_FILES="build/src/openapicommon/common/*"
         export TARGET_NAME="build/tests/auto/qtopenapigen/client/openapigen/libcmakeGeneratedClient.so*.ir"
         export PACKAGE="Add-ons"
     fi

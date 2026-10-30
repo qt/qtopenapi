@@ -53,7 +53,7 @@ qt_internal_add_test(qt-openapi-generator-common
 
 set(cmake_generator_tests_common "")
 qt_add_library(cmakeCommonLibGeneratedClient)
-qt6_add_openapi_client(cmakeCommonLibGeneratedClient
+qt_add_openapi_client(cmakeCommonLibGeneratedClient
     SPEC_FILE
         # want to reuse existing one YAML file for commonlib
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../../../src/openapicommon/qtopenapi-common.yaml
@@ -63,7 +63,7 @@ qt6_add_openapi_client(cmakeCommonLibGeneratedClient
 qt_autogen_tools_initial_setup(cmakeCommonLibGeneratedClient)
 target_compile_definitions(qt-openapi-generator-common
     PUBLIC QT_OPENAPI_GENERATOR_VERSION=\"${QT_OPENAPI_GENERATOR_VERSION}\")
-target_link_libraries(cmakeCommonLibGeneratedClient PRIVATE Qt::Core Qt::Network)
+target_link_libraries(qt-openapi-generator-common PRIVATE Qt::OpenApiCommon)
 
 # The common library code is generated at configure time, so the test only needs
 # the generated files on disk to compare them with the expected ones. The library
@@ -74,18 +74,6 @@ target_link_libraries(cmakeCommonLibGeneratedClient PRIVATE Qt::Core Qt::Network
 # Qt::OpenApiCommon module build itself.
 set_target_properties(cmakeCommonLibGeneratedClient PROPERTIES EXCLUDE_FROM_ALL TRUE)
 list(APPEND cmake_generator_tests_common commonlibtest)
-
-# Handle the conditional finding of either system zlib or qt zlib.
-if(NOT QT_FEATURE_system_zlib)
-    find_package(Qt6 COMPONENTS ZlibPrivate)
-    qt_internal_extend_target(cmakeCommonLibGeneratedClient LIBRARIES Qt::ZlibPrivate)
-elseif(NOT TARGET WrapZLIB::WrapZLIB)
-    qt_find_package(WrapZLIB PROVIDED_TARGETS WrapZLIB::WrapZLIB)
-endif()
-
-if(TARGET WrapZLIB::WrapZLIB)
-    qt_internal_extend_target(cmakeCommonLibGeneratedClient LIBRARIES WrapZLIB::WrapZLIB)
-endif()
 
 if(WIN32)
     add_custom_command(TARGET qt-openapi-generator-client POST_BUILD
