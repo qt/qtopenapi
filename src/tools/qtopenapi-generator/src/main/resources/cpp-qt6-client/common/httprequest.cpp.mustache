@@ -763,6 +763,7 @@ QByteArray compressData(const QByteArray &input, int level, CompressionType comp
     qsizetype input_data_left = input.size();
     int flush = 0;
     bool hasError = false;
+    char out[CHUNK_SIZE];
     do {
         qsizetype chunk_size = qMin((qsizetype)CHUNK_SIZE, input_data_left);
         strm.next_in = (unsigned char*)input_data;
@@ -772,7 +773,6 @@ QByteArray compressData(const QByteArray &input, int level, CompressionType comp
         input_data_left -= chunk_size;
         flush = (input_data_left <= 0 ? Z_FINISH : Z_NO_FLUSH);
         do {
-            char out[CHUNK_SIZE];
             strm.next_out = (unsigned char*)out;
             strm.avail_out = (uInt)CHUNK_SIZE;
             hasError = deflate(&strm, flush) < Z_OK; // can return Z_STREAM_END
