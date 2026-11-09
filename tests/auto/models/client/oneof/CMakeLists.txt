@@ -22,6 +22,8 @@ qt_add_openapi_client(basicSchemaAlternatives
         ${CMAKE_CURRENT_SOURCE_DIR}/basic-schema-alternatives.yaml
     ADDITIONAL_PROPERTIES
         cppNamespace=SchemasModelsOneOf
+    GENERATE_OPTIONS
+        --openapi-normalizer SIMPLIFY_ONEOF_ANYOF=false
     OUTPUT_DIRECTORY
         ${CMAKE_CURRENT_BINARY_DIR}/basicSchemaAlternatives
 )

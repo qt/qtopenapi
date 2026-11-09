@@ -42,11 +42,11 @@ class {{packageNameUpperCase}}_EXPORT {{classname}} : public {{cppCommonNamespac
     QML_VALUE_TYPE(data{{classname}}){{/enableQmlCode}}
 
 {{^isEnum}}
-{{^composedSchemas}}
+{{^composedSchemas.oneOf}}
 {{#vars}}
     Q_PROPERTY({{{dataType}}} {{name}} READ {{getter}} WRITE {{setter}})
 {{/vars}}
-{{/composedSchemas}}
+{{/composedSchemas.oneOf}}
 {{#composedSchemas.oneOf}}
     Q_PROPERTY({{{dataType}}} {{name}} READ {{getter}} WRITE {{setter}})
 {{/composedSchemas.oneOf}}
@@ -56,9 +56,9 @@ public:
     Q_IMPLICIT {{classname}}({{#complexType}}const {{/complexType}}{{{dataType}}} {{#complexType}}&{{/complexType}}value);
 {{/composedSchemas.oneOf}}
     {{classname}}();
-{{^composedSchemas}}
+{{^composedSchemas.oneOf}}
     Q_IMPLICIT {{classname}}(const QString &json);
-{{/composedSchemas}}
+{{/composedSchemas.oneOf}}
     ~{{classname}}() override;
 
     QString asJson() const override;
@@ -67,7 +67,7 @@ public:
     void fromJson(const QString &jsonString) override;
 
 {{^isEnum}}
-{{^composedSchemas}}
+{{^composedSchemas.oneOf}}
 {{#vars}}
     {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}{{{dataType}}} {{getter}}() const;
     {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}void {{setter}}(const {{{dataType}}} &{{name}});
@@ -75,7 +75,7 @@ public:
     {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}bool is{{#camelcase}}{{name}}{{/camelcase}}ValueValid() const;
 
 {{/vars}}
-{{/composedSchemas}}
+{{/composedSchemas.oneOf}}
 {{#composedSchemas.oneOf}}
     {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}{{{dataType}}} {{getter}}() const;
     {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}void {{setter}}(const {{{dataType}}} &{{name}});
@@ -106,13 +106,13 @@ public:
 private:
     void initializeModel();
 {{^isEnum}}
-{{^composedSchemas}}
+{{^composedSchemas.oneOf}}
 {{#vars}}
     {{{dataType}}} m_{{name}};
     bool m_{{name}}IsSet;
     bool m_{{name}}IsValid;
 {{/vars}}
-{{/composedSchemas}}
+{{/composedSchemas.oneOf}}
 {{#composedSchemas.oneOf}}
     bool m_{{name}}IsSet;
     bool m_{{name}}IsValid;
