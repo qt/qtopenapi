@@ -70,6 +70,7 @@ http://127.0.0.1:19080/v2
 |*Order* | An order for a pets from the pet store|
 |*Pet* | A pet for sale in the pet store|
 |*PetStatus* | |
+|*Priority* | |
 |*Tag* | A tag for a pet|
 |*User* | A User who is purchasing from the pet store|
 
