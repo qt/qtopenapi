@@ -404,7 +404,13 @@ void {{classname}}::fromJsonValue(const QJsonValue &json)
     fromJson(json.toString());
 {{/isString}}
 {{^isString}}
-    m_value = static_cast<e{{classname}}>(json.toInt());
+    if (json.isDouble()) {
+        m_value = static_cast<e{{classname}}>(json.toInt());
+        m_valueIsSet = m_valueIsValid = true;
+    } else {
+        m_value = e{{classname}}::INVALID_VALUE_OPENAPI_GENERATED;
+        m_valueIsSet = m_valueIsValid = false;
+    }
 {{/isString}}
 {{/-first}}
 {{/enumVars}}
